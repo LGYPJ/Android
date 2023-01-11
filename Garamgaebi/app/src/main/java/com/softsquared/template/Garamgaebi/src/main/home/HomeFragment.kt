@@ -47,8 +47,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onPostSignUpSuccess(response: SignUpResponse) {
         dismissLoadingDialog()
-        binding.homeBtnTryPostHttpMethod.text = response.message
-        response.message?.let { showCustomToast(it) }
     }
 
     override fun onPostSignUpFailure(message: String) {
