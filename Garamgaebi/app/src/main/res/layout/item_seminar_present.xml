@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="378dp"
+    android:layout_height="100dp"
+    android:paddingStart="11dp"
+    android:background="@drawable/btn_seminar_present">
+
+    <TextView
+        android:id="@+id/activity_seminar_free_present_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="docker에 대해 알아보자"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/activity_seminar_free_present_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="네온"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_present_title_tv"/>
+
+    <TextView
+        android:id="@+id/activity_seminar_free_present_job_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="재학생"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="3dp"
+        app:layout_constraintStart_toEndOf="@+id/activity_seminar_free_present_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_present_title_tv"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_go"
+        android:layout_marginEnd="16.01dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
