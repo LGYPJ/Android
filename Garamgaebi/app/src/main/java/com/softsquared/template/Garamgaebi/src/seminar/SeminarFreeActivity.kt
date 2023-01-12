@@ -57,7 +57,13 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
         } )
 
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            startActivity(Intent(this@SeminarFreeActivity,SeminarFreeApplyActivity::class.java ))
+            val pay = binding.activitySeminarFreePayDetailTv.text
+            if(pay == "무료") {
+                startActivity(Intent(this@SeminarFreeActivity,SeminarFreeApplyActivity::class.java ))
+            }
+            else {
+                startActivity(Intent(this@SeminarFreeActivity,SeminarChargedApplyActivity::class.java ))
+            }
         }
 
 
