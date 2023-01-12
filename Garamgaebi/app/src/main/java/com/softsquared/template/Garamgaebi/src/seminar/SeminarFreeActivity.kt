@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.seminar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
@@ -22,7 +23,7 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
 
     private var presentList: ArrayList<SeminarPresent> = arrayListOf(
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생"),
-        SeminarPresent("docker에 대해 알아보자", "네온", "재학생"),
+        SeminarPresent("docker에 대해 알아보자dnkdjfsldfldjbfljsdbljdsbfldbfljsbdfldfsffffsfsfss", "네온", "재학생"),
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생"),
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생"),
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생"),
@@ -54,6 +55,10 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
                 )
             }
         } )
+
+        binding.activitySeminarFreeApplyBtn.setOnClickListener {
+            startActivity(Intent(this@SeminarFreeActivity,SeminarFreeApplyActivity::class.java ))
+        }
 
 
     }

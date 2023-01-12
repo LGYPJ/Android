@@ -18,5 +18,6 @@
     <color name="seminar_blue">#2294FF</color>
     <color name="seminar_background">#0D2294FF</color>
     <color name="seminar_sky_blue">#1A2294FF</color>
+    <color name="seminar_red">#FF0000</color>
 
 </resources>

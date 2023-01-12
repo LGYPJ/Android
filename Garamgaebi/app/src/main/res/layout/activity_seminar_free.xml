@@ -142,7 +142,7 @@
             android:id="@+id/activity_seminar_free_pay_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10000원"
+            android:text="무료"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -281,7 +281,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_seminar_free_present_rv"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
+            android:layout_height="230dp"
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_seminar_present"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
