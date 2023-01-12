@@ -197,8 +197,8 @@
     <View
         android:id="@+id/activity_seminar_free_info_bottom"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/seminar_background"
+        android:layout_height="1dp"
+        android:background="@color/seminar_light_gray"
         app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_info"
         />
     
@@ -253,8 +253,8 @@
     <View
         android:id="@+id/activity_seminar_free_participant_bottom"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/seminar_background"
+        android:layout_height="1dp"
+        android:background="@color/seminar_light_gray"
         app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_participant"
         />
     
