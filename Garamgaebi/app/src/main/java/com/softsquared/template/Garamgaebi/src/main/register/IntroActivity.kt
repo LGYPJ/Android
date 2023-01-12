@@ -1,11 +1,14 @@
 package com.softsquared.template.Garamgaebi.src.main.register
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityIntroBinding
+import com.softsquared.template.Garamgaebi.src.main.MainActivity
 
 class IntroActivity : BaseActivity<ActivityIntroBinding>(ActivityIntroBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,11 +21,19 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(ActivityIntroBinding::i
             setViewPager(binding.activityIntroVp)
             createIndicators(2, 0)
         }
+        binding.activityIntroBtn.setOnClickListener(){
+            if(binding.activityIntroBtn.text == "다음") {
+                binding.activityIntroVp.currentItem = 1
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
     }
     inner class IntroViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = 2
 
         override fun createFragment(position: Int): Fragment {
+            Log.d("vpAdapter","$position")
             return when(position) {
                 0 -> {
                     binding.activityIntroBtn.text = "다음"

@@ -1,6 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/activity_education_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="교육"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="68dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가장 최근에 소속되었던\n교육기관을 알려주세요"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_education_title" />
+
+    <TextView
+        android:id="@+id/activity_education_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="교육기관"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/activity_education_et_company"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <EditText
+        android:id="@+id/activity_education_et_company"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="교육기관을 입력주세요"
+        android:textColorHint="#D9D9D9"
+        android:paddingStart="16dp"
+        android:background="@drawable/activity_authentication_et_border"
+        app:layout_constraintTop_toBottomOf="@id/activity_education_company"/>
+
+    <TextView
+        android:id="@+id/activity_education_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="전공/과정"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/activity_education_et_rank"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_education_et_company" />
+    <EditText
+        android:id="@+id/activity_education_et_rank"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="전공/과정을 입력해주세요 (예: 웹 개발 과정)"
+        android:textColorHint="#D9D9D9"
+        android:paddingStart="16dp"
+        android:background="@drawable/activity_authentication_et_border"
+        app:layout_constraintTop_toBottomOf="@id/activity_education_rank"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_education_et_rank" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="재학 중"
+        android:textColor="#8A8A8A"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+    <TextView
+        android:id="@+id/activity_education_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="경력이 있으신가요?"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_education_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/activity_education_tv_education"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="경력 입력하기"
+        android:textSize="16sp"
+        android:textColor="#2294FF"
+        app:layout_constraintBottom_toTopOf="@+id/activity_education_btn"
+        app:layout_constraintStart_toEndOf="@id/activity_education_tv" />
+
+    <Button
+        android:id="@+id/activity_education_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/activity_intro_btn_color"
+        android:stateListAnimator="@null"
+        android:text="프로필 저장"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
