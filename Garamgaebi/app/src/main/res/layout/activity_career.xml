@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
-        android:id="@+id/activity_career_title"
+        android:id="@+id/activity_career_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="경력"
@@ -17,16 +17,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/activity_career_desc"
+        android:id="@+id/activity_career_tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="재직 중이 아니라면\n가장 최근에 일한 곳을 알려주세요"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_career_title" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_title" />
 
     <TextView
-        android:id="@+id/activity_career_company"
+        android:id="@+id/activity_career_tv_company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,7 +37,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/activity_career_et_company"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_career_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_desc" />
     <EditText
         android:id="@+id/activity_career_et_company"
         android:inputType="textEmailAddress"
@@ -49,11 +49,11 @@
         android:hint="회사명을 입력주세요"
         android:textColorHint="#D9D9D9"
         android:paddingStart="16dp"
-        android:background="@drawable/activity_authentication_et_border"
-        app:layout_constraintTop_toBottomOf="@id/activity_career_company"/>
+        android:background="@drawable/register_et_border"
+        app:layout_constraintTop_toBottomOf="@id/activity_career_tv_company"/>
 
     <TextView
-        android:id="@+id/activity_career_rank"
+        android:id="@+id/activity_career_tv_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -76,11 +76,11 @@
         android:hint="직함을 입력주세요(예: 백엔드 개발자)"
         android:textColorHint="#D9D9D9"
         android:paddingStart="16dp"
-        android:background="@drawable/activity_authentication_et_border"
-        app:layout_constraintTop_toBottomOf="@id/activity_career_rank"/>
+        android:background="@drawable/register_et_border"
+        app:layout_constraintTop_toBottomOf="@id/activity_career_tv_rank"/>
 
     <TextView
-        android:id="@+id/activity_career_period"
+        android:id="@+id/activity_career_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="재직 기간"
@@ -92,7 +92,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_career_et_rank" />
     <EditText
-        android:id="@+id/activity_career_et_start_period"
+        android:id="@+id/activity_career_et_start_date"
         android:inputType="textEmailAddress"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -102,56 +102,57 @@
         android:hint="시작년월"
         android:textColorHint="#D9D9D9"
         android:paddingStart="16dp"
-        android:background="@drawable/activity_authentication_et_border"
-        app:layout_constraintTop_toBottomOf="@id/activity_career_period"
+        android:background="@drawable/register_et_border"
+        app:layout_constraintTop_toBottomOf="@id/activity_career_tv_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/activity_career_wave"/>
+        app:layout_constraintEnd_toStartOf="@id/activity_career_tv_wave"/>
 
     <TextView
-        android:id="@+id/activity_career_wave"
+        android:id="@+id/activity_career_tv_wave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="~"
         android:textColor="#D9D9D9"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/activity_career_et_start_period"
-        app:layout_constraintEnd_toStartOf="@id/activity_career_et_end_period"
-        app:layout_constraintStart_toEndOf="@id/activity_career_et_start_period"
-        app:layout_constraintTop_toTopOf="@id/activity_career_et_start_period" />
+        app:layout_constraintBottom_toBottomOf="@id/activity_career_et_start_date"
+        app:layout_constraintEnd_toStartOf="@id/activity_career_et_end_date"
+        app:layout_constraintStart_toEndOf="@id/activity_career_et_start_date"
+        app:layout_constraintTop_toTopOf="@id/activity_career_et_start_date" />
 
     <EditText
-        android:id="@+id/activity_career_et_end_period"
+        android:id="@+id/activity_career_et_end_date"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/activity_authentication_et_border"
+        android:background="@drawable/register_et_border"
         android:hint="종료년월"
         android:inputType="textEmailAddress"
         android:paddingStart="16dp"
         android:textColorHint="#D9D9D9"
-        app:layout_constraintBottom_toBottomOf="@id/activity_career_et_start_period"
+        app:layout_constraintBottom_toBottomOf="@id/activity_career_et_start_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/activity_career_wave"
-        app:layout_constraintTop_toTopOf="@id/activity_career_et_start_period" />
+        app:layout_constraintStart_toEndOf="@id/activity_career_tv_wave"
+        app:layout_constraintTop_toTopOf="@id/activity_career_et_start_date" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/activity_career_cb_isWorking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_career_et_start_period" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_career_et_start_date" />
 
     <TextView
+        android:id="@+id/activity_career_tv_isWorking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="재직 중"
         android:textColor="#8A8A8A"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_career_cb_isWorking"
+        app:layout_constraintStart_toEndOf="@+id/activity_career_cb_isWorking"
+        app:layout_constraintTop_toTopOf="@+id/activity_career_cb_isWorking" />
 
     <TextView
         android:id="@+id/activity_career_tv"
@@ -160,7 +161,7 @@
         android:layout_margin="16dp"
         android:text="아직 경력이 없으신가요?"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_career_btn"
+        app:layout_constraintBottom_toTopOf="@+id/activity_career_btn_next"
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/activity_career_tv_education"
@@ -170,15 +171,15 @@
         android:text="교육 입력하기"
         android:textSize="16sp"
         android:textColor="#2294FF"
-        app:layout_constraintBottom_toTopOf="@+id/activity_career_btn"
+        app:layout_constraintBottom_toTopOf="@+id/activity_career_btn_next"
         app:layout_constraintStart_toEndOf="@id/activity_career_tv" />
 
     <Button
-        android:id="@+id/activity_career_btn"
+        android:id="@+id/activity_career_btn_next"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:background="@drawable/activity_intro_btn_color"
+        android:background="@drawable/register_btn_color_enable"
         android:stateListAnimator="@null"
         android:text="프로필 저장"
         android:textColor="@color/white"

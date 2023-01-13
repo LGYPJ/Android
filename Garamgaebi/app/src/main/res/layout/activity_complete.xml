@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/activity_complete_title"
+        android:id="@+id/activity_complete_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="가입이\n완료되었습니다"
@@ -17,6 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/activity_complete_tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자님, 환영합니다"
+        android:layout_margin="16dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_complete_tv_title" />
     <CheckBox
         android:id="@+id/activity_complete_cb_whole"
         android:layout_width="wrap_content"
@@ -31,6 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="전체 동의하기"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/activity_complete_cb_whole"
         app:layout_constraintStart_toEndOf="@+id/activity_complete_cb_whole"
@@ -61,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_education_btn"
+        app:layout_constraintBottom_toTopOf="@+id/activity_complete_btn_next"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -74,13 +86,14 @@
         app:layout_constraintStart_toEndOf="@+id/activity_complete_cb_personal"
         app:layout_constraintTop_toTopOf="@id/activity_complete_cb_personal" />
     <Button
-        android:id="@+id/activity_education_btn"
+        android:id="@+id/activity_complete_btn_next"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:background="@drawable/activity_intro_btn_color"
+        android:background="@drawable/register_btn_color"
         android:stateListAnimator="@null"
         android:text="시작하기"
+        android:enabled="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

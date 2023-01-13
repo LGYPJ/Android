@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,12 +9,12 @@
         android:id="@+id/activity_authentication_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="68dp"
         android:text="가천대생 인증"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginTop="68dp"
-        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,69 +22,88 @@
         android:id="@+id/activity_authentication_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="가람개비 사용을위해서는 가천대생 인증이 필요해요\n가천대학교 이메일 인증을 진행해주세요"
         android:textSize="18sp"
-        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_authentication_title" />
+
     <EditText
         android:id="@+id/activity_authentication_et_email"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/register_et_border"
         android:hint="example"
-        android:textColorHint="#D9D9D9"
         android:paddingStart="16dp"
-        android:background="@drawable/activity_authentication_et_border"
-        app:layout_constraintTop_toBottomOf="@id/activity_authentication_desc"/>
+        android:textColorHint="#D9D9D9"
+        app:layout_constraintTop_toBottomOf="@id/activity_authentication_desc" />
+
     <TextView
         android:id="@+id/activity_authentication_domain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\@gachon.ac.kr"
-        android:textSize="16sp"
-        android:textColor="#D9D9D9"
         android:layout_marginEnd="16dp"
+        android:text="\@gachon.ac.kr"
+        android:textColor="#D9D9D9"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/activity_authentication_et_email"
         app:layout_constraintEnd_toEndOf="@id/activity_authentication_et_email"
-        app:layout_constraintTop_toTopOf="@id/activity_authentication_et_email"
-        app:layout_constraintBottom_toBottomOf="@id/activity_authentication_et_email"/>
+        app:layout_constraintTop_toTopOf="@id/activity_authentication_et_email" />
+
     <Button
         android:id="@+id/activity_authentication_btn_email"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:text="이메일 발송하기"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:background="@drawable/activity_authentication_btn_border"
+        android:background="@drawable/register_btn_color"
         android:stateListAnimator="@null"
-        app:layout_constraintTop_toBottomOf="@id/activity_authentication_et_email"/>
+        android:enabled="false"
+        android:text="이메일 발송하기"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/activity_authentication_et_email" />
+
+    <TextView
+        android:id="@+id/activity_authentication_tv_ann"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메일을 받지 못하신 경우, 스팸 메일함을 확인해주세요."
+        android:textColor="@color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_authentication_btn_email" />
+
     <EditText
         android:id="@+id/activity_authentication_et_num"
-        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="48dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
+        android:inputType="number"
+        android:background="@drawable/register_et_border"
         android:hint="인증번호 6자리"
-        android:textColorHint="#D9D9D9"
         android:paddingStart="16dp"
-        android:background="@drawable/activity_authentication_et_border"
-        app:layout_constraintTop_toBottomOf="@id/activity_authentication_btn_email"/>
+        android:textColorHint="#D9D9D9"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/activity_authentication_tv_ann" />
+
     <Button
         android:id="@+id/activity_authentication_btn_num"
-        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:text="인증번호 확인"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:background="@drawable/activity_authentication_btn_border"
+        android:background="@drawable/register_btn_color"
         android:stateListAnimator="@null"
-        app:layout_constraintTop_toBottomOf="@id/activity_authentication_et_num"/>
+        android:text="인증번호 확인"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/activity_authentication_et_num" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

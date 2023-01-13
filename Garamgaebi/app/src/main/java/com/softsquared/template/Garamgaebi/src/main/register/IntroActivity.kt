@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityIntroBinding
 import com.softsquared.template.Garamgaebi.src.main.MainActivity
@@ -21,7 +22,18 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(ActivityIntroBinding::i
             setViewPager(binding.activityIntroVp)
             createIndicators(2, 0)
         }
-        binding.activityIntroBtn.setOnClickListener(){
+
+        // 뷰페이저 리스너
+        binding.activityIntroVp.registerOnPageChangeCallback( object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when(position) {
+                    0 -> binding.activityIntroBtn.text = "다음"
+                    1 -> binding.activityIntroBtn.text = "시작하기"
+                }
+            }
+        })
+        // 버튼 클릭 리스너
+        binding.activityIntroBtn.setOnClickListener {
             if(binding.activityIntroBtn.text == "다음") {
                 binding.activityIntroVp.currentItem = 1
             } else {
@@ -46,5 +58,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(ActivityIntroBinding::i
                 else -> IntroFirstFragment()
             }
         }
+
     }
 }
