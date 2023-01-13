@@ -1,9 +1,12 @@
 package com.softsquared.template.Garamgaebi.src.main.register
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityCompleteBinding
+import com.softsquared.template.Garamgaebi.src.main.MainActivity
 
 class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +28,8 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
             checkAgree()
         }
         binding.activityCompleteBtnNext.setOnClickListener {
-            //TODO
+            startActivity(Intent(this, MainActivity::class.java))
+            ActivityCompat.finishAffinity(this)
         }
 
     }
