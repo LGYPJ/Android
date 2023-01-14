@@ -18,6 +18,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemNetworkProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -27,6 +28,8 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
     override fun getItemCount(): Int {
         return dataList.size
     }
+
+
 
 
 }
