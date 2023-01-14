@@ -1,10 +1,9 @@
-package com.softsquared.template.Garamgaebi.src.main.home
+/*package com.softsquared.template.Garamgaebi.src.main.home
 
 import com.softsquared.template.Garamgaebi.config.ApplicationClass
 import com.softsquared.template.Garamgaebi.src.main.home.models.PostSignUpRequest
 import com.softsquared.template.Garamgaebi.src.main.home.models.SignUpResponse
 import com.softsquared.template.Garamgaebi.src.main.home.models.UserResponse
-import com.softsquared.template.Garamgaebi.src.main.home.HomeRetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,4 +36,4 @@ class HomeService(val homeFragmentInterface: HomeFragmentInterface) {
         })
     }
 
-}
+}*/
