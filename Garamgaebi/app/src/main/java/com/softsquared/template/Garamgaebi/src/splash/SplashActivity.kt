@@ -6,14 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySplashBinding
-import com.softsquared.template.Garamgaebi.src.main.MainActivity
+import com.softsquared.template.Garamgaebi.src.main.register.IntroActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this,  IntroActivity::class.java))
             finish()
         }, 1500)
     }

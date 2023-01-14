@@ -13,7 +13,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         supportFragmentManager.beginTransaction().replace(R.id.activity_main_frm, HomeFragment()).commitAllowingStateLoss()
         setBottomNavi()
     }
@@ -37,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 else -> false
             }
         }
+
     }
     private fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.activity_main_frm, fragment).commit()
