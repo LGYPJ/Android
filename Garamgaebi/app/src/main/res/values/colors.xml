@@ -16,4 +16,13 @@
     <color name="grayD9">#D9D9D9</color>
     <color name="gray8A">#8A8A8A</color>
 
+
+    <!-- 세미나 -->
+    <color name="seminar_light_gray">#D9D9D9</color>
+    <color name="seminar_blue">#2294FF</color>
+    <color name="seminar_background">#0D2294FF</color>
+    <color name="seminar_sky_blue">#1A2294FF</color>
+    <color name="seminar_red">#FF0000</color>
+    <color name="seminar_charged_light_gray">#F5F5F5</color>
+
 </resources>
