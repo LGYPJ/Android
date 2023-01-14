@@ -1,0 +1,25 @@
+
+    <!-- drawable/arrow_forwa.xml -->
+<vector
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:aapt="http://schemas.android.com/aapt"
+android:width="7.99dp"
+android:height="13.81dp"
+android:viewportWidth="7.99"
+android:viewportHeight="13.81"
+    >
+
+<group>
+
+  <clip-path
+      android:pathData="M0 0H7.98682V13.8056H0V0Z"
+      />
+
+  <path
+      android:pathData="M0 0V13.8056H7.98682V0"
+      android:fillColor="#CC000000"
+      />
+
+</group>
+
+</vector>

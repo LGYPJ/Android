@@ -17,7 +17,15 @@
     <string name="home_et_pw">비밀번호를 입력하세요.</string>
 
     <!-- MyPage -->
-    <string name="my_page_tv_counter">%1d 번 눌렀습니다.</string>
-    <string name="my_page_btn_counting_number">숫자 세기</string>
+    <string name="some_id">로건</string>
+    <string name="sns_desc">유저들과 소통을 위해서 SNS 주소를 남겨주세요! </string>
+    <string name="career_desc">지금 하고 있거나\n이전에 한 일을 알려주세요</string>
+    <string name="edu_desc">지금 다니고 있거나 이전에 다녔던\n학교,부트캠프 등 교육기관을 입력해주세요</string>
 
+    <string name="myemail">답변받을 이메일주소</string>
+
+    <string name="cs_info">휴일을 제외한 평일에는 하루 이내에 답변을 드릴게요.\n혹시 하루가 지나도 답변이 오지 않으면, 스팸 메일함을 확인해주세요.</string>
+
+    <string name="회원탈퇴"><u>회원탈퇴</u></string>
+    <string name="withdrawal_note_desc">탈퇴 시 회원 정보 및 모든 서비스의 이용 내역이 삭제됩니다.\n삭제된 데이터는 복구가 불가능합니다.</string>
 </resources>
