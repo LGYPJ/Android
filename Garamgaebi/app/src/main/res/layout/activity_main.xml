@@ -7,21 +7,18 @@
     tools:context=".src.main.MainActivity">
 
     <FrameLayout
-        android:id="@+id/main_frm"
+        android:id="@+id/activity_main_frm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize" />
-
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/activity_main_bottomNavi"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_btm_nav"
+        android:id="@+id/activity_main_bottomNavi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:itemBackground="@color/white"
-        app:itemIconTint="@drawable/main_btm_nav_item_color"
-        app:itemTextColor="@drawable/main_btm_nav_item_color"
-        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_main_bottom_nav" />
+        app:menu="@menu/activity_main_btm_nav"
+        app:itemIconTint="@drawable/selector_btm_nav_color"
+        app:itemTextColor="@drawable/selector_btm_nav_color"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
