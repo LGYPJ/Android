@@ -1,6 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.home
 
-import com.softsquared.template.Garamgaebi.src.main.home.models.SignUpResponse
+
 import com.softsquared.template.Garamgaebi.src.main.home.models.UserResponse
 
 interface HomeFragmentInterface {
@@ -9,7 +9,6 @@ interface HomeFragmentInterface {
 
     fun onGetUserFailure(message: String)
 
-    fun onPostSignUpSuccess(response: SignUpResponse)
 
     fun onPostSignUpFailure(message: String)
 }

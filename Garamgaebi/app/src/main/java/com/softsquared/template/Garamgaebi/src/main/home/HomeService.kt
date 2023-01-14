@@ -2,7 +2,6 @@ package com.softsquared.template.Garamgaebi.src.main.home
 
 import com.softsquared.template.Garamgaebi.config.ApplicationClass
 import com.softsquared.template.Garamgaebi.src.main.home.models.PostSignUpRequest
-import com.softsquared.template.Garamgaebi.src.main.home.models.SignUpResponse
 import com.softsquared.template.Garamgaebi.src.main.home.models.UserResponse
 import com.softsquared.template.Garamgaebi.src.main.home.HomeRetrofitInterface
 import retrofit2.Call
@@ -24,7 +23,7 @@ class HomeService(val homeFragmentInterface: HomeFragmentInterface) {
         })
     }
 
-    fun tryPostSignUp(postSignUpRequest: PostSignUpRequest){
+    /*fun tryPostSignUp(postSignUpRequest: PostSignUpRequest){
         val homeRetrofitInterface = ApplicationClass.sRetrofit.create(HomeRetrofitInterface::class.java)
         homeRetrofitInterface.postSignUp(postSignUpRequest).enqueue(object : Callback<SignUpResponse>{
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
@@ -35,6 +34,6 @@ class HomeService(val homeFragmentInterface: HomeFragmentInterface) {
                 homeFragmentInterface.onPostSignUpFailure(t.message ?: "통신 오류")
             }
         })
-    }
+    }*/
 
 }

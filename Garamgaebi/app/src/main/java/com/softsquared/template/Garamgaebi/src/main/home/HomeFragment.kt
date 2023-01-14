@@ -7,10 +7,9 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentHomeBinding
 import com.softsquared.template.Garamgaebi.src.main.home.models.PostSignUpRequest
-import com.softsquared.template.Garamgaebi.src.main.home.models.SignUpResponse
 import com.softsquared.template.Garamgaebi.src.main.home.models.UserResponse
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home),
+abstract class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home),
         HomeFragmentInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +44,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         showCustomToast("오류 : $message")
     }
 
-    override fun onPostSignUpSuccess(response: SignUpResponse) {
+    /*override fun onPostSignUpSuccess(response: SignUpResponse) {
         dismissLoadingDialog()
-    }
+    }*/
 
     override fun onPostSignUpFailure(message: String) {
         dismissLoadingDialog()
