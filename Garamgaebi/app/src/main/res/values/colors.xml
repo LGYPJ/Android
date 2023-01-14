@@ -19,6 +19,9 @@
     <color name="grayD9">#D9D9D9</color>
     <color name="gray8a">#8A8A8A</color>
 
+    <!--홈-->
+    <color name="home_seminar_this_month_blue">#CC356EFF</color>
+    <color name="home_seminar_scheduled_blue">#1A0047FF</color>
 
     <!-- 세미나 -->
     <color name="seminar_light_gray">#D9D9D9</color>
