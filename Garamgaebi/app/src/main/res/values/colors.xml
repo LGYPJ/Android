@@ -10,6 +10,9 @@
 
     <color name="whiteForBackground">#FFFFFF</color>
     <color name="blackForText">#4a4a4a</color>
+    <color name="grayAe">#AEAEAE</color>
+    <color name="blue80">#CC2294FF</color>
+    <color name="blue5">#0D2294FF</color>
     <color name="redForText">#FF0000</color>
     <color name="blueForBtn">#2294FF</color>
     <color name="blueTransparent">#0D2294FF</color>
