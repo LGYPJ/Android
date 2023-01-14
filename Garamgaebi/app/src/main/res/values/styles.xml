@@ -9,4 +9,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="dialog_fullscreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimAmount">0.0</item>
+    </style>
 </resources>
