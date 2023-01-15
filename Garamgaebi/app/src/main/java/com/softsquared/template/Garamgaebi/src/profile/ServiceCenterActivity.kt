@@ -1,4 +1,4 @@
-package com.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.profile
 
 import android.os.Bundle
 import android.util.Log
