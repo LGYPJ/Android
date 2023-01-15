@@ -78,6 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/item_home_seminar_tv_d_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="D day"

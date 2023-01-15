@@ -1,6 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.home
 
-data class HomeSeminarItemData(
+data class HomeNetworkingItemData(
     val type : Int,
     val pay : Boolean,
     val name : String,

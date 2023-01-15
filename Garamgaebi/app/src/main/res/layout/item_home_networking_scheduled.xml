@@ -3,14 +3,14 @@
     android:layout_width="334dp"
     android:layout_height="140dp"
     android:background="@drawable/home_seminar_item_border"
-    android:backgroundTint="@color/home_seminar_scheduled_blue"
+    android:backgroundTint="@color/home_networking_scheduled_blue"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/item_home_seminar_tv_name"
+        android:id="@+id/item_home_networking_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="세미나 이름"
+        android:text="네트워킹 이름"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/item_home_seminar_tv_date"
+        android:id="@+id/item_home_networking_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="날짜"
@@ -26,21 +26,21 @@
         android:textStyle="bold"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/item_home_seminar_tv_place"
+        app:layout_constraintBottom_toTopOf="@id/item_home_networking_tv_place"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/item_home_seminar_tv_date_data"
+        android:id="@+id/item_home_networking_tv_date_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="날짜날짜"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/item_home_seminar_tv_place_data"
-        app:layout_constraintStart_toEndOf="@+id/item_home_seminar_tv_date" />
+        app:layout_constraintBottom_toTopOf="@+id/item_home_networking_tv_place_data"
+        app:layout_constraintStart_toEndOf="@+id/item_home_networking_tv_date" />
     <TextView
-        android:id="@+id/item_home_seminar_tv_place"
+        android:id="@+id/item_home_networking_tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -51,18 +51,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
-        android:id="@+id/item_home_seminar_tv_place_data"
+        android:id="@+id/item_home_networking_tv_place_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="장소장소"
         android:textSize="14sp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/item_home_seminar_tv_place"
+        app:layout_constraintStart_toEndOf="@id/item_home_networking_tv_place"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/item_home_seminar_tv_d_day"
+        android:id="@+id/item_home_networking_tv_d_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="D day"
