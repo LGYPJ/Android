@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="question_option">
+    <item>이용문의</item>
+    <item>오류신고</item>
+    <item>서비스 제안</item>
+    <item>기타</item>
+</string-array>
+</resources>
