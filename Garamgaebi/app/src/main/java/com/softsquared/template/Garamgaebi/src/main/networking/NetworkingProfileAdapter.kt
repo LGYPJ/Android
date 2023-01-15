@@ -28,8 +28,4 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
     override fun getItemCount(): Int {
         return dataList.size
     }
-
-
-
-
 }
