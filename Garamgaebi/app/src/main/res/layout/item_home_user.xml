@@ -7,7 +7,7 @@
         android:id="@+id/item_home_user_profile_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="ic_"
+        android:src="@drawable/ic_launcher_background"
         android:background="@drawable/fragment_home_user_profile_border"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/item_home_user_cl_info"/>

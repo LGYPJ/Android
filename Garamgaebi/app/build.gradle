@@ -7,9 +7,6 @@ android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
-    viewBinding {
-        enabled = true
-    }
 
     defaultConfig {
         applicationId "com.softsquared.template.Garamgaebi"
@@ -34,11 +31,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.google.android.material:material:1.4.0'
+
+    implementation 'me.relex:circleindicator:2.1.6'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
