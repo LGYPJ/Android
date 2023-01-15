@@ -16,7 +16,6 @@
             android:id="@+id/item_network_game_profile_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:src="@drawable/activity_item_network_game_profile_border" />
 
         <androidx.cardview.widget.CardView
@@ -24,6 +23,7 @@
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
             android:layout_margin="1dp"
+            android:layout_gravity="center"
             app:cardCornerRadius="50dp">
 
             <androidx.appcompat.widget.AppCompatImageView
