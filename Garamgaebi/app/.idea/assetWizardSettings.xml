@@ -14,8 +14,13 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+<<<<<<< HEAD
+                            <entry key="outputName" value="frame_710" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\Frame 710.svg" />
+=======
                             <entry key="outputName" value="frame_716" />
                             <entry key="sourceFile" value="C:\Users\User\Downloads\Frame 716.svg" />
+>>>>>>> dev
                           </map>
                         </option>
                       </PersistentState>
