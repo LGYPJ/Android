@@ -3,11 +3,9 @@ package com.softsquared.template.Garamgaebi.src.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View.inflate
 import android.widget.EditText
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
-import com.softsquared.template.Garamgaebi.databinding.ActivityCareerBinding
 import com.softsquared.template.Garamgaebi.databinding.ActivityProfileCareerBinding
 
 class CareerActivity  : BaseActivity<ActivityProfileCareerBinding>(ActivityProfileCareerBinding::inflate) {

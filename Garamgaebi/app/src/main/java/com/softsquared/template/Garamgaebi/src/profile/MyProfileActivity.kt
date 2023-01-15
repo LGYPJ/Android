@@ -2,15 +2,10 @@ package com.softsquared.template.Garamgaebi.src.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.core.content.ContextCompat
-import com.Garamgaebi.src.profile.ServiceCenterActivity
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityMyprofileBinding
-import com.softsquared.template.Garamgaebi.src.main.register.LoginActivity
 
 class MyProfileActivity : BaseActivity<ActivityMyprofileBinding>(ActivityMyprofileBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
