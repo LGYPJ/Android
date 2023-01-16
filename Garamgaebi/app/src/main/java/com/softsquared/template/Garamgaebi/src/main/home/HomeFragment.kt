@@ -1,11 +1,13 @@
 package com.softsquared.template.Garamgaebi.src.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentHomeBinding
+import com.softsquared.template.Garamgaebi.src.main.notification.NotificationActivity
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
@@ -54,5 +56,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // TODO("Not yet implemented")
             }
         })
+
+        binding.fragmentHomeIvNotification.setOnClickListener {
+            startActivity(Intent(activity, NotificationActivity::class.java))
+        }
     }
 }
