@@ -39,6 +39,8 @@
     <!-- 네트워킹 게임 -->
     <color name="game_light_gray">#D9D9D9</color>
     <color name="game_sky_blue">#1A2294FF</color>
+    <color name="game_blue">#2294FF</color>
+    <color name="game_card_white">#79FFFFFF</color>
 
     <!-- 프로필 -->
     <color name="whiteForBackgroundF5">#F5F5F5</color>
