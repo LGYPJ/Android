@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="프로필"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="@color/black80"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -47,6 +47,7 @@
         android:id="@+id/activity_someoneProfile_sv_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         app:layout_constraintTop_toBottomOf="@id/top_someoneProfile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="가천대 소프트웨어학과"
-                android:textColor="@color/black"
+                android:textColor="@color/black80"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_someoneProfile_tvUsername" />
@@ -110,10 +111,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:padding="12dp"
                 android:text="자기소개입니다."
-                android:textColor="@color/black"
+                android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:visibility="visible"
+                android:background="@drawable/basic_gray_border_layout"
                 app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_tvEmail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +140,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="SNS"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -159,30 +162,57 @@
                 app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_cl_snsTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_cl_careerTitle"
                 >
                 <TextView
-                    android:id="@+id/activity_someoneProfile_tv_snsDesc"
+                    android:id="@+id/activity_myProfile_tv_snsDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text=""
+                    android:paddingTop="12dp"
+                    android:text="@string/sns_desc"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
                 <ListView
                     android:id="@+id/activity_someoneProfile_lv_sns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_tv_snsDesc"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_snsDesc"
+                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
                 </ListView>
-
+                <View
+                    android:id="@+id/activity_myprofile_sns_v_listEndline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayForBtn"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_sns"
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/activity_myProfile_btn_snsAdd"
+                    android:layout_width="134dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:paddingStart="16.5dp"
+                    android:paddingEnd="26.5dp"
+                    android:text="SNS 추가"
+                    android:textSize="16sp"
+                    android:textColor="@color/blueForBtn"
+                    android:outlineProvider="none"
+                    android:drawableLeft="@drawable/ic_add_border_round_24dp"
+                    android:background="@drawable/basic_blue_white_btn_layout"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_sns_v_listEndline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    ></androidx.appcompat.widget.AppCompatButton>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activity_someoneProfile_cl_careerTitle"
@@ -201,7 +231,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="경력"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -219,33 +249,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/basic_gray_container_desc"
                 app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_cl_careerTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_cl_eduTitle"
                 >
-                <TextView
-                    android:id="@+id/activity_someoneProfile_tv_careerDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text=""
-                    android:textStyle="normal"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="parent"
-                    ></TextView>
                 <ListView
                     android:id="@+id/activity_someoneProfile_lv_career"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_tv_careerDesc"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_career_v_listEndline">
 
                 </ListView>
+                <View
+                android:id="@+id/activity_someoneProfile_career_v_listEndline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayForBtn"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_career"
+
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -254,7 +283,6 @@
                 android:layout_height="47dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/basic_gray_container_title"
-                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_cl_careerDesc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_cl_eduDesc"
@@ -265,7 +293,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="교육"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -281,36 +309,31 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activity_someoneProfile_cl_eduDesc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/basic_gray_container_desc"
-                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_cl_eduTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 >
-                <TextView
-                    android:id="@+id/activity_someoneProfile_tv_eduDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text=""
-                    android:textStyle="normal"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="parent"
-                    ></TextView>
                 <ListView
                     android:id="@+id/activity_someoneProfile_lv_edu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_tv_eduDesc"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_edu_v_listEndline">
 
                 </ListView>
-
+                <View
+                    android:id="@+id/activity_someoneProfile_edu_v_listEndline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayForBtn"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_edu"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

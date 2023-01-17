@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.databinding.ActivityMyprofileSnsListItemBinding
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileSnsListItemBinding
 
 class SnsSomeoneListViewAdapter(private val context: Context, private val items: MutableList<SnsListViewItem>): BaseAdapter() {
@@ -21,6 +20,7 @@ class SnsSomeoneListViewAdapter(private val context: Context, private val items:
 
             val show = items[position]
             binding.activitySomeoneprofileSnsListItemTvName.text = show.snsAddress
+
             return binding.root
         }
 }

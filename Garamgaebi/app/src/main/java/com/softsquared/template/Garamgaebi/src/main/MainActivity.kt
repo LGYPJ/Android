@@ -2,13 +2,11 @@ package com.softsquared.template.Garamgaebi.src.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
 import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
-import com.softsquared.template.Garamgaebi.src.main.myPage.MyPageFragment
-import com.softsquared.template.Garamgaebi.src.profile.MyProfileActivity
+import com.softsquared.template.Garamgaebi.src.profile.MyProfileFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -30,10 +28,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 //    setFragment(GatheringFragment())
                 //    return@setOnItemSelectedListener true
                 //}
-                //R.id.activity_main_btm_nav_profile -> {
-                //    setFragment(MyProfileFragment())
-                //    return@setOnItemSelectedListener true
-                //}
+                R.id.activity_main_btm_nav_profile -> {
+                    setFragment(MyProfileFragment())
+                    return@setOnItemSelectedListener true
+                }
                 else -> false
             }
         }
