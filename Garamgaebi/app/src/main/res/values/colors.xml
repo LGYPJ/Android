@@ -6,8 +6,10 @@
 
     <!-- 기본 -->
     <color name="white">#FFFFFF</color>
-    <color name="black">#CC000000</color>
+    <color name="black80">#CC000000</color>
+    <color name="black00">#000000</color>
 
+    <color name="black">#CC000000</color>
     <color name="whiteForBackground">#FFFFFF</color>
     <color name="blackForText">#4a4a4a</color>
     <color name="grayAe">#AEAEAE</color>
@@ -57,7 +59,6 @@
     <color name="grayForText">#8A8A8A</color>
 <!--    <color name="redForText">#FF0909</color>-->
     <color name="skyBlueForBtn">#E3F2FF</color>
-
     <color name="grayText">#B8B8B8</color>
 
     <color name="grayForSeminarBackground">#F1F1F1</color>

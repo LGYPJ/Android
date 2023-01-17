@@ -1,22 +1,27 @@
 package com.softsquared.template.Garamgaebi.src.profile
 
-import android.content.Intent
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.View.VISIBLE
+import android.widget.AdapterView
+import android.widget.ListView
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBinding
-import com.softsquared.template.Garamgaebi.src.main.MainActivity
 
 
 class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(ActivitySomeoneprofileBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.activitySomeoneProfileTvUsername.text = "로건"
-        binding.activitySomeoneProfileTvIntro.text = "자기소개"
+        binding.activitySomeoneProfileTvUsername.text = "찹도"
+        binding.activitySomeoneProfileTvIntro.text = "내가 여기 짱 찹도다"
         binding.activitySomeoneProfileTvSchool.text = "가천대학교 소프트웨어학과"
-        binding.activitySomeoneProfileTvEmail.text = "umc@naver.com"
+        binding.activitySomeoneProfileTvEmail.text = "chapdo@naver.com"
 
 
         if(binding.activitySomeoneProfileTvIntro.text.length > 0){
@@ -28,23 +33,84 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
             onBackPressed()
         }
 
+
+
+
         //sns 리스트뷰 연결
         val snsItems = mutableListOf<SnsListViewItem>()
         val snsAdapter = SnsSomeoneListViewAdapter(this, snsItems)
         binding.activitySomeoneProfileLvSns.adapter = snsAdapter
+       // setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
 
         //career 리스트뷰 연결
         val careerItems = mutableListOf<CareerListViewItem>()
         val careerAdapter = CareerListViewAdapter(this, careerItems)
         binding.activitySomeoneProfileLvCareer.adapter = careerAdapter
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvCareer)
 
         //edu 리스트뷰 연결
         val eduItems = mutableListOf<EduListViewItem>()
         val eduAdapter = EduListViewAdapter(this, eduItems)
         binding.activitySomeoneProfileLvEdu.adapter = eduAdapter
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
 
+        //test
+        binding.activitySomeoneProfileLvSns.visibility = View.VISIBLE
+        binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
+        binding.activityMyProfileTvSnsDesc.visibility = View.GONE
+        snsItems.add(SnsListViewItem("chapdoinstagram.com"))
+        snsItems.add(SnsListViewItem("chapdoinstagram.com"))
+
+
+        careerItems.add(CareerListViewItem("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
+        careerItems.add(CareerListViewItem("UMC 2기","챌린저","2022.03","2022.09"))
+        careerItems.add(CareerListViewItem("UMC 3기","챌린저/PM","2022.09","2023.02"))
+        eduItems.add(EduListViewItem("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
+        eduItems.add(EduListViewItem("가천대학교 4학년","누나 복학 화이팅","2023.03","현재"))
+
+
+        snsAdapter?.notifyDataSetChanged()
+        careerAdapter?.notifyDataSetChanged()
+        eduAdapter?.notifyDataSetChanged()
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvCareer)
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
+
+        binding.activitySomeoneProfileLvSns.setOnItemClickListener(AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            snsItems[i]
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+            // 새로운 ClipData 객체로 데이터 복사하기
+            val clip: ClipData =
+                ClipData.newPlainText("sns_address", snsItems[i].snsAddress)
+
+            // 새로운 클립 객체를 클립보드에 배치합니다.
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "복사 완료", Toast.LENGTH_SHORT).show()
+            false
+        })
     }
 
+    // 자동 높이 조절
+    private fun setListViewHeightBasedOnChildren(listView: ListView) {
+        val listAdapter = listView.adapter
+            ?: // pre-condition
+            return
+        var totalHeight = 0
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+        for (i in 0 until listAdapter.count) {
+            val listItem = listAdapter.getView(i, null, listView)
+            //listItem.measure(0, 0);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += listItem.measuredHeight
+        }
+        var totaldividers = listView.dividerHeight * (listAdapter.count-1)
+
+        val params = listView.layoutParams
+        params.height = totalHeight +totaldividers
+        listView.layoutParams = params
+        listView.requestLayout()
+    }
     //뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
         super.onBackPressed()
@@ -56,4 +122,6 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
 //        startActivity(intent) //인텐트 이동
         finish() //현재 액티비티 종료
     }
+
+
 }
