@@ -33,6 +33,9 @@
     <color name="seminar_sky_blue">#1A2294FF</color>
     <color name="seminar_red">#FF0000</color>
     <color name="seminar_charged_light_gray">#F5F5F5</color>
+    <color name="seminar_name_gray">#AEAEAE</color>
+    <color name="seminar_dialog_sky_blue">#E3F2FF</color>
+    <color name="seminar_dialog_back_darker">#6D000000</color>
 
 <!-- 네트워킹 -->
     <color name="network_light_gray">#D9D9D9</color>

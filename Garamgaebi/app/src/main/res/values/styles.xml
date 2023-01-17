@@ -12,9 +12,9 @@
 
 
 
-    <style name="dialog_fullscreen" parent="Theme.AppCompat.Dialog">
+    <!--<style name="dialog_fullscreen" parent="Theme.AppCompat.Dialog">
         <item name="android:backgroundDimAmount">0.0</item>
-    </style>
+    </style>-->
 
     <!--로건 추가-->
     <style name="some_id">
