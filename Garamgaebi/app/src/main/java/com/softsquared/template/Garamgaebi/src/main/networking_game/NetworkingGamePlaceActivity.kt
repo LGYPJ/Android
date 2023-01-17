@@ -3,6 +3,7 @@ package com.softsquared.template.Garamgaebi.src.main.networking_game
 
 import android.animation.*
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -57,6 +58,14 @@ class NetworkingGamePlaceActivity : BaseActivity<ActivityNetworkingGamePlaceBind
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //화면전환 & 게임장소 데이터 받아오기
+        binding.activityGamePlaceTopTv.text = intent.getStringExtra("game_place")
+        binding.activityGamePlaceBackBtn.setOnClickListener {
+            val intent = Intent(this@NetworkingGamePlaceActivity, NetworkingGameSelectActivity::class.java)
+            startActivity(intent)
+        }
+
         //프로필 관련
         var index:Int = 0;
 
@@ -128,7 +137,6 @@ class NetworkingGamePlaceActivity : BaseActivity<ActivityNetworkingGamePlaceBind
             }
 
         }
-
         //뷰페이저에 elevation 효과 넣기
 
 
