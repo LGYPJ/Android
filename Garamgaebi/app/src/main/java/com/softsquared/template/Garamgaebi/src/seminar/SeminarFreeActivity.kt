@@ -12,7 +12,6 @@ import com.softsquared.template.Garamgaebi.databinding.ActivitySeminarFreeBindin
 
 class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySeminarFreeBinding::inflate) {
 
-
     private var profileList: ArrayList<SeminarProfile> = arrayListOf(
         SeminarProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
         SeminarProfile(R.drawable.ic_seminar_profile2, "짱구", multi_type1),
