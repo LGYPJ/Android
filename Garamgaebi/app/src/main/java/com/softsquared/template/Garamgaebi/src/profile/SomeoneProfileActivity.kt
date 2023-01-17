@@ -3,18 +3,28 @@ package com.softsquared.template.Garamgaebi.src.profile
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Bundle
+import android.os.*
+import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBinding
 
 
 class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(ActivitySomeoneprofileBinding::inflate) {
+    val handler: Handler = object : Handler(Looper.getMainLooper()) {
+        @RequiresApi(Build.VERSION_CODES.N)
+        override fun handleMessage(msg: Message) {
+            if (msg.what == 1) {
+
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,44 +47,58 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
 
 
         //sns 리스트뷰 연결
-        val snsItems = mutableListOf<SnsListViewItem>()
+        var snsItems: ArrayList<SnsListViewItem> = arrayListOf()
+        snsItems.apply {
+            add(SnsListViewItem("chapdoinstagram.com"))
+            add(SnsListViewItem("chapdoinstagram.com"))
+            add(SnsListViewItem("chapdoinstagram.com"))
+        }
         val snsAdapter = SnsSomeoneListViewAdapter(this, snsItems)
         binding.activitySomeoneProfileLvSns.adapter = snsAdapter
-       // setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
+        snsAdapter?.notifyDataSetChanged()
+        Log.d("리스트1",snsItems.size.toString())
+
+        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
+
+        binding.activityMyProfileBtnSnsAdd.setOnClickListener {
+            snsItems.add(SnsListViewItem("chapdoinstagram.com"))
+            snsAdapter?.notifyDataSetChanged()
+            setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
+        }
+
 
         //career 리스트뷰 연결
-        val careerItems = mutableListOf<CareerListViewItem>()
-        val careerAdapter = CareerListViewAdapter(this, careerItems)
+        var careerItems: ArrayList<CareerListViewItem> = arrayListOf()
+        val careerAdapter = CareerSomeoneListViewAdapter(this, careerItems)
         binding.activitySomeoneProfileLvCareer.adapter = careerAdapter
+
+        careerItems.add(CareerListViewItem("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
+        careerItems.add(CareerListViewItem("UMC 2기","챌린저","2022.03","2022.09"))
+        careerItems.add(CareerListViewItem("UMC 3기","챌린저/PM","2022.09","2023.02"))
         setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvCareer)
 
         //edu 리스트뷰 연결
-        val eduItems = mutableListOf<EduListViewItem>()
-        val eduAdapter = EduListViewAdapter(this, eduItems)
+        var eduItems: ArrayList<EduListViewItem> = arrayListOf()
+        val eduAdapter = EduSomeoneListViewAdapter(this, eduItems)
         binding.activitySomeoneProfileLvEdu.adapter = eduAdapter
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
+        //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
 
         //test
         binding.activitySomeoneProfileLvSns.visibility = View.VISIBLE
         binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
         binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-        snsItems.add(SnsListViewItem("chapdoinstagram.com"))
-        snsItems.add(SnsListViewItem("chapdoinstagram.com"))
 
 
-        careerItems.add(CareerListViewItem("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
-        careerItems.add(CareerListViewItem("UMC 2기","챌린저","2022.03","2022.09"))
-        careerItems.add(CareerListViewItem("UMC 3기","챌린저/PM","2022.09","2023.02"))
+
+
         eduItems.add(EduListViewItem("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
+        //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
         eduItems.add(EduListViewItem("가천대학교 4학년","누나 복학 화이팅","2023.03","현재"))
+        //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
 
-
-        snsAdapter?.notifyDataSetChanged()
         careerAdapter?.notifyDataSetChanged()
         eduAdapter?.notifyDataSetChanged()
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvCareer)
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
+
 
         binding.activitySomeoneProfileLvSns.setOnItemClickListener(AdapterView.OnItemClickListener { adapterView, view, i, l ->
             snsItems[i]
@@ -100,9 +124,10 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
         val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
         for (i in 0 until listAdapter.count) {
             val listItem = listAdapter.getView(i, null, listView)
-            //listItem.measure(0, 0);
+            listItem.measure(0, 0);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
             totalHeight += listItem.measuredHeight
+            Log.d("리스트",totalHeight.toString())
         }
         var totaldividers = listView.dividerHeight * (listAdapter.count-1)
 
