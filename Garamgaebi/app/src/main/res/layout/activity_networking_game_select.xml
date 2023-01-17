@@ -49,12 +49,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_network_game_rv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="570dp"
         android:nestedScrollingEnabled="false"
+        android:layout_marginStart="25dp"
         tools:listitem="@layout/item_network_game_select"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_game"
