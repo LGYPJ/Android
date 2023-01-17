@@ -15,7 +15,7 @@ class SeminarPreviewDialog: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.dialog_fullscreen)
+        //setStyle(STYLE_NO_TITLE, R.style.dialog_fullscreen)
         //false로 설정해 주면 화면밖 혹은 뒤로가기 버튼시 다이얼로그라 dismiss 되지 않는다.
         isCancelable = true
     }
@@ -43,9 +43,9 @@ class SeminarPreviewDialog: DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        val width = resources.getDimensionPixelSize(R.dimen.seminar_dialog_width)
-        val height = resources.getDimensionPixelSize(R.dimen.seminar_dialog_height)
-        dialog?.window?.setLayout(width, height)
+        //val width = resources.getDimensionPixelSize(R.dimen.seminar_dialog_width)
+        //val height = resources.getDimensionPixelSize(R.dimen.seminar_dialog_height)
+        //dialog?.window?.setLayout(width, height)
 
     }
 
