@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="프로필"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="@color/black80"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="가천대 소프트웨어학과"
-                android:textColor="@color/black"
+                android:textColor="@color/black80"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_someoneProfile_tvUsername" />
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="자기소개입니다."
-                android:textColor="@color/black"
+                android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_tvEmail"
@@ -137,7 +137,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="SNS"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -169,7 +169,7 @@
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
                 <ListView
@@ -201,7 +201,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="경력"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -233,7 +233,7 @@
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
                 <ListView
@@ -265,7 +265,7 @@
                     android:layout_height="47dp"
                     android:padding="12dp"
                     android:text="교육"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
@@ -297,7 +297,7 @@
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
                 <ListView

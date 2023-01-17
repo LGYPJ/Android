@@ -2,7 +2,6 @@ package com.softsquared.template.Garamgaebi.src.main.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityOrganizationBinding
@@ -16,7 +15,7 @@ class OrganizationActivity : BaseActivity<ActivityOrganizationBinding>(ActivityO
             // career
             binding.activityOrganizationBtnCareer.setBackgroundResource(R.drawable.activity_organization_btn_selected)
             binding.activityOrganizationIvCareer.setImageResource(R.drawable.ic_activity_organization_career)
-            binding.activityOrganizationTvCareer.setTextColor(getColor(R.color.black))
+            binding.activityOrganizationTvCareer.setTextColor(getColor(R.color.black80))
             // edu
             binding.activityOrganizationBtnEdu.setBackgroundResource(R.drawable.register_et_border)
             binding.activityOrganizationIvEdu.setImageResource(R.drawable.ic_activity_organization_edu_unselected)
@@ -31,7 +30,7 @@ class OrganizationActivity : BaseActivity<ActivityOrganizationBinding>(ActivityO
             // edu
             binding.activityOrganizationBtnEdu.setBackgroundResource(R.drawable.activity_organization_btn_selected)
             binding.activityOrganizationIvEdu.setImageResource(R.drawable.ic_activity_organization_edu)
-            binding.activityOrganizationTvEdu.setTextColor(getColor(R.color.black))
+            binding.activityOrganizationTvEdu.setTextColor(getColor(R.color.black80))
             // career
             binding.activityOrganizationBtnCareer.setBackgroundResource(R.drawable.register_et_border)
             binding.activityOrganizationIvCareer.setImageResource(R.drawable.ic_activity_organization_edu_unselected)

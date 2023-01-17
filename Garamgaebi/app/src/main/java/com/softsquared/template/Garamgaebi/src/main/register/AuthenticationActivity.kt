@@ -36,7 +36,7 @@ class AuthenticationActivity : BaseActivity<ActivityAuthenticationBinding>(
         binding.activityAuthenticationEtEmail.onFocusChangeListener = OnFocusChangeListener { view, hasFocus ->
             if(hasFocus) {
                 view.setBackgroundResource(R.drawable.register_et_border_selected)
-                binding.activityAuthenticationDomain.setTextColor(getColor(R.color.black))
+                binding.activityAuthenticationDomain.setTextColor(getColor(R.color.black80))
             } else {
                 view.setBackgroundResource(R.drawable.register_et_border)
             }
