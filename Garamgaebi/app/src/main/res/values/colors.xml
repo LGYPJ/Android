@@ -6,7 +6,7 @@
 
     <!-- 기본 -->
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="black">#CC000000</color>
 
     <color name="whiteForBackground">#FFFFFF</color>
     <color name="blackForText">#4a4a4a</color>
@@ -45,6 +45,8 @@
     <!-- 네트워킹 게임 -->
     <color name="game_light_gray">#D9D9D9</color>
     <color name="game_sky_blue">#1A2294FF</color>
+    <color name="game_blue">#2294FF</color>
+    <color name="game_card_white">#79FFFFFF</color>
 
     <!-- 프로필 -->
     <color name="whiteForBackgroundF5">#F5F5F5</color>
