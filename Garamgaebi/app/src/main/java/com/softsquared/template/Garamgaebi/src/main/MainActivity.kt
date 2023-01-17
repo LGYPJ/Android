@@ -6,6 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
+import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringFragment
 import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
 import com.softsquared.template.Garamgaebi.src.main.myPage.MyPageFragment
 import com.softsquared.template.Garamgaebi.src.profile.MyProfileActivity
@@ -26,10 +27,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     setFragment(HomeFragment())
                     return@setOnItemSelectedListener true
                 }
-                //R.id.activity_main_btm_nav_gathering -> {
-                //    setFragment(GatheringFragment())
-                //    return@setOnItemSelectedListener true
-                //}
+                R.id.activity_main_btm_nav_gathering -> {
+                    setFragment(GatheringFragment())
+                    return@setOnItemSelectedListener true
+                }
                 //R.id.activity_main_btm_nav_profile -> {
                 //    setFragment(MyProfileFragment())
                 //    return@setOnItemSelectedListener true
