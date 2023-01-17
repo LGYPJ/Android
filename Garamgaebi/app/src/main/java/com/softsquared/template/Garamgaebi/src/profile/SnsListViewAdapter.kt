@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.databinding.ActivityMyprofileSnsListItemBinding
+import com.softsquared.template.Garamgaebi.databinding.FragmentMyprofileSnsListItemBinding
 
 class SnsListViewAdapter(private val context: Context, private val items: MutableList<SnsListViewItem>): BaseAdapter() {
         override fun getCount(): Int = items.size
@@ -16,7 +15,7 @@ class SnsListViewAdapter(private val context: Context, private val items: Mutabl
         override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val binding = ActivityMyprofileSnsListItemBinding.inflate(LayoutInflater.from(context))
+            val binding = FragmentMyprofileSnsListItemBinding.inflate(LayoutInflater.from(context))
 
             val show = items[position]
             binding.activityMyprofileSnsListItemTvName.text = show.snsAddress

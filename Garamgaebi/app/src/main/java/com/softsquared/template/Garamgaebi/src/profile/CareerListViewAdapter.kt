@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.databinding.ActivityMyprofileCareerListItemBinding
-import com.softsquared.template.Garamgaebi.databinding.ActivityMyprofileSnsListItemBinding
+import com.softsquared.template.Garamgaebi.databinding.FragmentMyprofileCareerListItemBinding
 
 class CareerListViewAdapter(private val context: Context, private val items: MutableList<CareerListViewItem>): BaseAdapter() {
     override fun getCount(): Int = items.size
@@ -17,7 +16,7 @@ class CareerListViewAdapter(private val context: Context, private val items: Mut
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val binding = ActivityMyprofileCareerListItemBinding.inflate(LayoutInflater.from(context))
+        val binding = FragmentMyprofileCareerListItemBinding.inflate(LayoutInflater.from(context))
 
         val show = items[position]
         binding.activityMyprofileCareerListItemTvName.text = show.title
