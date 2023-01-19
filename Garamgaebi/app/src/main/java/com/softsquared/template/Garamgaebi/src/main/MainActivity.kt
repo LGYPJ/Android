@@ -6,7 +6,7 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
 import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
-import com.softsquared.template.Garamgaebi.src.profile.MyProfileFragment
+import com.softsquared.template.Garamgaebi.src.main.profile.MyProfileFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 

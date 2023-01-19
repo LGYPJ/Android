@@ -89,32 +89,32 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.ProfileEditActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.ProfileEditActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.CareerActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.CareerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.EduActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.EduActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.SomeoneProfileActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.SomeoneProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.WithdrawalActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.WithdrawalActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.profile.ServiceCenterActivity"
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.ServiceCenterActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -140,7 +140,11 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name="com.softsquared.template.Garamgaebi.src.main.profile.SnsProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

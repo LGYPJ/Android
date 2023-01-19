@@ -1,11 +1,10 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.FragmentMyprofileCareerListItemBinding
 
 class CareerListViewAdapter(private val context: Context, private val items: MutableList<CareerListViewItem>): BaseAdapter() {

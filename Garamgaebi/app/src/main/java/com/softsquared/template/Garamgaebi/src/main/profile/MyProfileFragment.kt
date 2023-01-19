@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
 import android.content.Context
 import android.content.Intent
@@ -58,6 +58,7 @@ class MyProfileFragment :
             snsAdapter?.notifyDataSetChanged()
             setListViewHeightBasedOnChildren(binding.activityMyProfileLvSns)
             Log.d("plus_sns",snsItems.size.toString())
+            startActivity(Intent(activity, SnsProfileActivity::class.java))
         }
 
         //career 리스트뷰 연결

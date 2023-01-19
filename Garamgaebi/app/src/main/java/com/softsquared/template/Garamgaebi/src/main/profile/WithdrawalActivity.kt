@@ -1,12 +1,9 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity

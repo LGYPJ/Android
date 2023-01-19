@@ -1,6 +1,6 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
-data class CareerListViewItem(
+data class EduListViewItem(
     val title: String,
     val position: String,
     val start: String,

@@ -1,14 +1,11 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityProfileCareerBinding
@@ -47,12 +44,12 @@ class CareerActivity  : BaseActivity<ActivityProfileCareerBinding>(ActivityProfi
 
         //재직 정보 date picker
         binding.activityCareerEtStartPeriod.setOnClickListener {
-            val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
-                val arr = it.split(".")
-                binding.activityCareerEtStartPeriod.setText(arr[0]+"."+arr[1])
-                checkDpInput(binding.activityCareerEtStartPeriod)
-            }
-            orderBottomDialogFragment.show(supportFragmentManager, orderBottomDialogFragment.tag)
+                val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
+                    val arr = it.split(".")
+                    binding.activityCareerEtStartPeriod.setText(arr[0]+"."+arr[1])
+                    checkDpInput(binding.activityCareerEtStartPeriod)
+                }
+                orderBottomDialogFragment.show(supportFragmentManager, orderBottomDialogFragment.tag)
         }
         binding.activityCareerEtEndPeriod.setOnClickListener {
             val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
