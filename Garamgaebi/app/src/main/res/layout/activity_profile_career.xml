@@ -37,7 +37,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -134,14 +134,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_et_position" />
 
-        <EditText
+        <TextView
             android:id="@+id/activity_career_et_startPeriod"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
             android:hint="시작년월"
-            android:padding="11dp"
+            android:padding="14dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
@@ -150,19 +150,16 @@
             app:layout_constraintEnd_toStartOf="@id/activity_career_tv_period"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
-        <DatePicker
-            android:id="@+id/activity_career_dp_start"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:visibility="invisible"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
             android:clickable="false"
-            app:layout_constraintStart_toStartOf="@id/activity_career_et_startPeriod"
+            android:src="@drawable/ic_calendar_20dp"
             app:layout_constraintEnd_toEndOf="@id/activity_career_et_startPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"
             app:layout_constraintBottom_toBottomOf="@id/activity_career_et_startPeriod"
-            ></DatePicker>
+            ></ImageView>
         <TextView
             android:id="@+id/activity_career_tv_period"
             android:layout_width="wrap_content"
@@ -176,7 +173,7 @@
             app:layout_constraintStart_toEndOf="@id/activity_career_et_startPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"></TextView>
 
-        <EditText
+        <TextView
             android:id="@+id/activity_career_et_endPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -191,19 +188,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
-        <DatePicker
-            android:id="@+id/activity_career_dp_end"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:visibility="invisible"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
             android:clickable="false"
-            app:layout_constraintStart_toStartOf="@id/activity_career_et_endPeriod"
+            android:src="@drawable/ic_calendar_20dp"
             app:layout_constraintEnd_toEndOf="@id/activity_career_et_endPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_career_et_endPeriod"
             app:layout_constraintBottom_toBottomOf="@id/activity_career_et_endPeriod"
-            ></DatePicker>
+            ></ImageView>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_career_checkbox_rl"
             android:layout_width="16dp"
@@ -239,11 +233,12 @@
             android:id="@+id/activity_career_save_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="48dp"
-            android:background="@drawable/basic_blue_btn_layout"
+            android:layout_marginBottom="68dp"
+            android:background="@drawable/basic_gray_btn_layout"
             android:text="저장하기"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:outlineProvider="none"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>

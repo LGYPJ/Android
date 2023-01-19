@@ -48,7 +48,7 @@
             />
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -121,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:padding="12dp"
-                android:gravity="top"
                 android:text="자기소개입니다."
                 android:textColor="@color/black80"
                 android:textSize="14sp"
@@ -187,6 +186,7 @@
                 app:layout_constraintTop_toBottomOf="@id/activity_myProfile_cl_snsTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/activity_myProfile_cl_careerTitle"
                 >
                 <TextView
                     android:id="@+id/activity_myProfile_tv_snsDesc"
@@ -204,12 +204,21 @@
                     android:id="@+id/activity_myProfile_lv_sns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_snsDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_snsAdd">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
 
                 </ListView>
+                <View
+                    android:id="@+id/activity_myprofile_sns_v_listEndline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayForBtn"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_sns"
+                    />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_snsAdd"
                     android:layout_width="134dp"
@@ -221,9 +230,10 @@
                     android:text="SNS 추가"
                     android:textSize="16sp"
                     android:textColor="@color/blueForBtn"
+                    android:outlineProvider="none"
                     android:drawableLeft="@drawable/ic_add_border_round_24dp"
                     android:background="@drawable/basic_blue_white_btn_layout"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_sns"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_sns_v_listEndline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -288,8 +298,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_careerDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_careerAdd">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_career_v_listEndline">
                 </ListView>
+                <View
+                    android:id="@+id/activity_myprofile_career_v_listEndline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayForBtn"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_career"
+                    />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_careerAdd"
                     android:layout_width="134dp"
@@ -303,7 +321,8 @@
                     android:textColor="@color/blueForBtn"
                     android:drawableLeft="@drawable/ic_add_border_round_24dp"
                     android:background="@drawable/basic_blue_white_btn_layout"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_career"
+                    android:outlineProvider="none"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_career_v_listEndline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -368,8 +387,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_eduDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_eduAdd">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_edu_v_listEndline">
                 </ListView>
+                <View
+                    android:id="@+id/activity_myprofile_edu_v_listEndline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayForBtn"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_edu"
+                    />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_eduAdd"
                     android:layout_width="134dp"
@@ -383,10 +410,11 @@
                     android:textColor="@color/blueForBtn"
                     android:drawableLeft="@drawable/ic_add_border_round_24dp"
                     android:background="@drawable/basic_blue_white_btn_layout"
+                    android:outlineProvider="none"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_edu"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_v_listEndline"
                     ></androidx.appcompat.widget.AppCompatButton>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

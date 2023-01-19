@@ -1,7 +1,9 @@
 package com.softsquared.template.Garamgaebi.src.main.networking_game
 
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityNetworkingGameSelectBinding
@@ -26,10 +28,19 @@ class NetworkingGameSelectActivity : BaseActivity<ActivityNetworkingGameSelectBi
         val networkingGameSelectAdapter = NetworkingGameSelectAdapter(networkGameSelectList)
         binding.activityNetworkGameRv.apply {
             adapter = networkingGameSelectAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(context, 2)
             addItemDecoration(NetworkingGameSelectVerticalItemDecoration())
-
         }
+
+        networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
+                val intent = Intent(this@NetworkingGameSelectActivity, NetworkingGamePlaceActivity::class.java)
+                val temp = networkGameSelectList[position].place
+                intent.putExtra("game_place", temp)
+                startActivity(intent)
+            }
+            
+        })
 
     }
 }

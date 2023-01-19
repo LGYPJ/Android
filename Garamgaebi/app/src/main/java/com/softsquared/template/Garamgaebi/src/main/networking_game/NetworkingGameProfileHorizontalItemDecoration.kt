@@ -12,8 +12,9 @@ class NetworkingGameProfileHorizontalItemDecoration: RecyclerView.ItemDecoration
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 72
+        val offset = 31
         outRect.right = offset
+        outRect.left = offset
 
     }
 }

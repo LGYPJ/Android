@@ -16,6 +16,7 @@ class SeminarPresentAdapter(private val dataList: ArrayList<SeminarPresent>): Re
             binding.activitySeminarFreePresentTitleTv.text = data.title
             binding.activitySeminarFreePresentNameTv.text = data.name
             binding.activitySeminarFreePresentJobTv.text = data.job
+            binding.activitySeminarPresentPreviewProfileImg.setImageResource(data.img)
         }
     }
 

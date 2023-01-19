@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/activity_withdrawal_top_tv"
+            android:id="@+id/activity_servicecenter_top_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="고객센터"
@@ -36,7 +36,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/activity_myprofile_career_content"
+            android:id="@+id/activity_servicecenter_tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cs_info"
@@ -70,7 +70,7 @@
 
 
     <EditText
-        android:id="@+id/activity_withdrawal_email_tv"
+        android:id="@+id/activity_sevicecenter_tv_email"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -91,31 +91,34 @@
 
 
 
-    <Spinner
-        android:id="@+id/activity_servicecenter_spinner"
+    <TextView
+        android:id="@+id/activity_servicecenter_et_option"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/black80"
         android:paddingStart="12dp"
-        android:textColorHint="@color/black80"
+        android:textColorHint="@color/grayForBtn"
+        android:hint="질문 유행을 선택해주세요"
         android:background="@drawable/basic_gray_border_layout"
         android:layout_marginTop="21dp"
-        app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_email_tv"
-        app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_email_tv"
-        app:layout_constraintStart_toStartOf="@id/activity_withdrawal_email_tv" />
+        android:gravity="center_vertical"
+        android:clickable="false"
+        app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
+        app:layout_constraintTop_toBottomOf="@+id/activity_sevicecenter_tv_email"
+        app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email" />
 
     <ImageView
-        android:id="@+id/activity_servicecenter_spinner_iv"
+        android:id="@+id/activity_servicecenter_iv_option"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19.51dp"
         android:src="@drawable/ic_arrow_bottom_14dp"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_servicecenter_spinner"
-        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_spinner"
-        app:layout_constraintTop_toTopOf="@id/activity_servicecenter_spinner"></ImageView>
+        app:layout_constraintBottom_toBottomOf="@+id/activity_servicecenter_et_option"
+        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_option"
+        app:layout_constraintTop_toTopOf="@id/activity_servicecenter_et_option"></ImageView>
     <EditText
-        android:id="@+id/activity_servicecenter_content_tv"
+        android:id="@+id/activity_servicecenter_et_content"
         android:layout_width="0dp"
         android:layout_height="152dp"
         android:padding="11dp"
@@ -127,9 +130,9 @@
         android:paddingStart="12dp"
         android:background="@drawable/basic_gray_border_layout"
         android:layout_marginTop="14dp"
-        app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_email_tv"
-        app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_spinner"
-        app:layout_constraintStart_toStartOf="@id/activity_withdrawal_email_tv"/>
+        app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
+        app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_et_option"
+        app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email"/>
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/activity_servicecenter_checkbox_rl"
@@ -160,7 +163,7 @@
         android:text="이메일 정보 제공 동의\n답변을 보내드리기 위해 필요해요"
         android:textColor="#8A8A8A"
         app:layout_constraintStart_toEndOf="@id/activity_servicecenter_checkbox_rl"
-        app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_content_tv"
+        app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content"
         ></TextView>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/activity_servicecenter_send_btn"
@@ -170,19 +173,41 @@
         android:text="보내기"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:background="@drawable/basic_blue_btn_layout"
+        android:background="@drawable/basic_gray_btn_layout"
         android:outlineProvider="none"
         app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_checkbox_desc"
-        app:layout_constraintStart_toStartOf="@id/activity_servicecenter_content_tv"
-        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_content_tv"
+        app:layout_constraintStart_toStartOf="@id/activity_servicecenter_et_content"
+        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_content"
         ></androidx.appcompat.widget.AppCompatButton>
+    <TextView
+        android:id="@+id/activity_servicecenter_tv_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#AEAEAE"
+        android:text="로그아웃"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_between"
+        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_between"
+        app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_between"
+        />
+    <TextView
+        android:id="@+id/activity_servicecenter_tv_between"
+        android:layout_width="8dp"
+        android:layout_height="1dp"
+        android:background="@color/grayForBtn"
+        android:backgroundTint="#AEAEAE"
+        app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_withdrawal"
+        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_withdrawal"
+        app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_withdrawal"
+        />
     <TextView
         android:id="@+id/activity_servicecenter_tv_withdrawal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:textColor="#AEAEAE"
-        android:text="@string/회원탈퇴"
+        android:text="회원탈퇴"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

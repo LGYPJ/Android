@@ -37,7 +37,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -134,7 +134,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_et_majorDesc" />
 
-        <EditText
+        <TextView
             android:id="@+id/activity_education_et_startPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -149,7 +149,16 @@
             app:layout_constraintEnd_toStartOf="@id/activity_education_tv_period"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
-
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
+            android:clickable="false"
+            android:src="@drawable/ic_calendar_20dp"
+            app:layout_constraintEnd_toEndOf="@id/activity_education_et_startPeriod"
+            app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"
+            app:layout_constraintBottom_toBottomOf="@id/activity_education_et_startPeriod"
+            ></ImageView>
         <TextView
             android:id="@+id/activity_education_tv_period"
             android:layout_width="wrap_content"
@@ -163,7 +172,7 @@
             app:layout_constraintStart_toEndOf="@id/activity_education_et_startPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"></TextView>
 
-        <EditText
+        <TextView
             android:id="@+id/activity_education_et_endPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -178,7 +187,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_education_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
-
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
+            android:clickable="false"
+            android:src="@drawable/ic_calendar_20dp"
+            app:layout_constraintEnd_toEndOf="@id/activity_education_et_endPeriod"
+            app:layout_constraintTop_toTopOf="@id/activity_education_et_endPeriod"
+            app:layout_constraintBottom_toBottomOf="@id/activity_education_et_endPeriod"
+            ></ImageView>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_education_checkbox_rl"
             android:layout_width="16dp"
@@ -214,8 +232,8 @@
             android:id="@+id/activity_education_save_btn"
             android:layout_width="379dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="48dp"
-            android:background="@drawable/basic_blue_btn_layout"
+            android:layout_marginBottom="68dp"
+            android:background="@drawable/basic_gray_btn_layout"
             android:outlineProvider="none"
             android:text="저장하기"
             android:textColor="@color/white"

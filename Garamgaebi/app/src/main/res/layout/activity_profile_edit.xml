@@ -36,7 +36,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -64,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_add_circle_22dp"
-            android:background="@color/blueForBtn"
             app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_ivProfile"
             app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_ivProfile"
             />
@@ -227,9 +226,9 @@
         android:id="@+id/activity_education_save_btn"
         android:layout_width="379dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="68dp"
         android:outlineProvider="none"
-        android:background="@drawable/basic_blue_btn_layout"
+        android:background="@drawable/basic_gray_btn_layout"
         android:text="저장하기"
         android:textColor="@color/white"
         android:textSize="16sp"

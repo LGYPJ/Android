@@ -15,7 +15,7 @@
             android:id="@+id/activity_withdrawal_top_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="경력"
+            android:text="탈퇴"
             android:textSize="20sp"
             android:textColor="@color/black80"
             android:textStyle="bold"
@@ -36,7 +36,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grayForBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             />
@@ -123,29 +123,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_titleDesc" />
 
-        <Spinner
-            android:id="@+id/activity_withdrawal_spinner"
+        <TextView
+            android:id="@+id/activity_withdrawal_et_option"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@drawable/basic_gray_border_layout"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
-            android:textColorHint="@color/black80"
-            android:textSize="16sp"
+            android:textColorHint="@color/grayForBtn"
+            android:textSize="14sp"
+            android:hint="탈퇴 사유를 선택해주세요"
             android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_periodTitle" />
 
         <ImageView
-            android:id="@+id/activity_withdrawal_spinner_iv"
+            android:id="@+id/activity_withdrawal_iv_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="19.51dp"
             android:src="@drawable/ic_arrow_bottom_14dp"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_withdrawal_spinner"
-            app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_spinner"
-            app:layout_constraintTop_toTopOf="@id/activity_withdrawal_spinner"></ImageView>
+            app:layout_constraintBottom_toBottomOf="@+id/activity_withdrawal_et_option"
+            app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_et_option"
+            app:layout_constraintTop_toTopOf="@id/activity_withdrawal_et_option"></ImageView>
         <EditText
             android:id="@+id/activity_withdrawal_et_content"
             android:layout_width="0dp"
@@ -160,7 +161,7 @@
             android:background="@drawable/basic_gray_border_layout"
             android:layout_marginTop="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_et_option"
             app:layout_constraintStart_toStartOf="parent"/>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_withdrawal_checkbox_rl"
@@ -196,15 +197,16 @@
             android:id="@+id/activity_withdrawal_send_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginTop="113dp"
+            android:layout_marginBottom="68dp"
             android:outlineProvider="none"
-            android:background="@drawable/basic_blue_btn_layout"
+            android:background="@drawable/basic_gray_btn_layout"
             android:text="탈퇴하기"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_withdrawal_tv_checkboxDesc"></androidx.appcompat.widget.AppCompatButton>
+            app:layout_constraintBottom_toBottomOf="parent">
+        </androidx.appcompat.widget.AppCompatButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
