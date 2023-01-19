@@ -13,7 +13,7 @@ class NetworkingGameSelectVerticalItemDecoration: RecyclerView.ItemDecoration() 
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 55
+        val offset = 50
         outRect.bottom = offset
 
     }

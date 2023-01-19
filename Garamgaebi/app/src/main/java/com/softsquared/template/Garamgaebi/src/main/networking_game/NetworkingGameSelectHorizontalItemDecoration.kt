@@ -1,10 +1,10 @@
-package com.softsquared.template.Garamgaebi.src.main.networking
+package com.softsquared.template.Garamgaebi.src.main.networking_game
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class NetworkingHorizontalItemDecoration: RecyclerView.ItemDecoration() {
+class NetworkingGameSelectHorizontalItemDecoration :RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -13,8 +13,7 @@ class NetworkingHorizontalItemDecoration: RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 72
-        val offset = 60
+        val offset = 32
         outRect.right = offset
 
     }
