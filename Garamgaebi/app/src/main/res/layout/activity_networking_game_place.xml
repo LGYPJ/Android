@@ -74,7 +74,7 @@
         android:id="@+id/activity_game_card_back_img"
         android:layout_width="match_parent"
         android:layout_height="445dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_game_line">
@@ -110,7 +110,7 @@
         android:id="@+id/activity_game_card_front_img"
         android:layout_width="306dp"
         android:layout_height="430dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="10dp"
