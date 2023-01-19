@@ -4,40 +4,36 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityCancelBinding
 import com.softsquared.template.Garamgaebi.databinding.ActivityNetworkingBinding
+import com.softsquared.template.Garamgaebi.src.profile.DatePickerDialogFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
 
 class CancelActivity : BaseActivity<ActivityCancelBinding>(ActivityCancelBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val bankName = intent.getStringExtra("bank")
-        binding.activityCancelBankTv.text = "은행"
+
+        // et selected 여부에 따라 drawable 결정
+        binding.activityCancelPay.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
+            } else {
+                view.setBackgroundResource(R.drawable.et_seminat_apply)
+            }
+        }
 
         binding.activityCancelBankTv.setOnClickListener {
-            CancelBankBottomDialogFragment().show(
-                supportFragmentManager, "CancelBankBottomDialog"
-            )
-            CancelBankBottomDialogFragment().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            /*val bankName = intent.getStringExtra("bank")
-            binding.activityCancelBankTv.text = bankName
-            binding.activityCancelBankTv.setTextColor(getColor(R.color.black))*/
+            val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
+                binding.activityCancelBankTv.text = it
+                binding.activityCancelBankTv.setTextColor(getColor(R.color.black))
+            }
+            orderBottomDialogFragment.show(supportFragmentManager, orderBottomDialogFragment.tag)
         }
 
-        }
-
-    override fun onRestart() {
-        super.onRestart()
-        val bankName = intent.getStringExtra("bank")
-        binding.activityCancelBankTv.text = bankName
-        binding.activityCancelBankTv.setTextColor(getColor(R.color.black))
     }
-
-
-
 
 }

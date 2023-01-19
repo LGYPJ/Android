@@ -11,7 +11,7 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.FragmentCancelBankBottomDialogBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentServicecenterOrderBottomDialogBinding
 
-class CancelBankBottomDialogFragment(): BottomSheetDialogFragment(){
+class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomSheetDialogFragment(){
 
     lateinit var binding: FragmentCancelBankBottomDialogBinding
 
@@ -54,7 +54,10 @@ class CancelBankBottomDialogFragment(): BottomSheetDialogFragment(){
         binding.fragmentCancelRv.apply {
             adapter = cancelAdapter
             layoutManager = GridLayoutManager(context, 3)
+            addItemDecoration(CancelHorizontalItemDecoration())
         }
+
+
 
         cancelAdapter.setOnItemClickListener(object : CancelAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
@@ -62,7 +65,10 @@ class CancelBankBottomDialogFragment(): BottomSheetDialogFragment(){
                 val intent = Intent(context, CancelActivity::class.java)
                 val temp = cancelList[position].bank
                 intent.putExtra("bank", temp)
-                startActivity(intent)
+
+
+                itemClick(temp)
+                dialog?.dismiss()
             }
         })
     }
