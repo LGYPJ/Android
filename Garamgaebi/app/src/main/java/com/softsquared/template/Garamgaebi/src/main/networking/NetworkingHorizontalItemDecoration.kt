@@ -13,6 +13,7 @@ class NetworkingHorizontalItemDecoration: RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
+        val offset = 72
         val offset = 60
         outRect.right = offset
 

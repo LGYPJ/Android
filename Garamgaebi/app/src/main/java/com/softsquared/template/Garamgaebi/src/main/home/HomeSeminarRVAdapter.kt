@@ -7,7 +7,7 @@ import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarScheduledB
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarThismonthBinding
 
 class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var itemClickListener:  OnItemClickListener
+    private lateinit var itemClickListener:  HomeSeminarRVAdapter.OnItemClickListener
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarItemData) {
             binding.itemHomeSeminarTvName.text = data.name
