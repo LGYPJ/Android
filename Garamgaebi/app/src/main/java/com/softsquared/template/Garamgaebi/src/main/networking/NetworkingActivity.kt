@@ -15,14 +15,6 @@ import com.softsquared.template.Garamgaebi.src.seminar.multi_type3
 class NetworkingActivity : BaseActivity<ActivityNetworkingBinding>(ActivityNetworkingBinding::inflate) {
 
     private var networkProfileList: ArrayList<NetworkingProfile> = arrayListOf(
-        NetworkingProfile(R.drawable.ic_network_profile1, "신디"),
-        NetworkingProfile(R.drawable.ic_network_profile2, "짱구"),
-        NetworkingProfile(R.drawable.ic_network_profile3, "로건"),
-        NetworkingProfile(R.drawable.ic_network_profile1, "찹도"),
-        NetworkingProfile(R.drawable.ic_network_profile2, "네온"),
-        NetworkingProfile(R.drawable.ic_network_profile3, "코코아"),
-        NetworkingProfile(R.drawable.ic_network_profile1, "연현"),
-        NetworkingProfile(R.drawable.ic_network_profile2, "승콩"),
         NetworkingProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
         NetworkingProfile(R.drawable.ic_network_profile2, "짱구", multi_type1),
         NetworkingProfile(R.drawable.ic_network_profile3, "로건", multi_type1),

@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.gathering
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +9,9 @@ import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
 import com.softsquared.template.Garamgaebi.src.main.home.HomeSeminarItemData
+import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeActivity
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyActivity
 
 class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(FragmentGatheringSeminarBinding::bind, R.layout.fragment_gathering_seminar){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,6 +38,9 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         binding.fragmentGatheringSeminarRvScheduled.addItemDecoration(GatheringItemDecoration())
         binding.fragmentGatheringSeminarRvDeadline.addItemDecoration(GatheringItemDecoration())
 
+        binding.fragmentGatheringSeminarTvThisMonth.setOnClickListener {
+            startActivity(Intent(activity, SeminarFreeActivity::class.java))
+        }
         seminarThisMonthAdapter.setOnItemClickListener(object : GatheringSeminarThisMonthRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 //TODO("Not yet implemented")

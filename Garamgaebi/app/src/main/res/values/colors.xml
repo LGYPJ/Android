@@ -9,7 +9,7 @@
     <color name="black80">#CC000000</color>
     <color name="black50">#80000000</color>
     <color name="black">#CC000000</color>
-
+    <color name="black00">#000000</color>
     <color name="whiteForBackground">#FFFFFF</color>
     <color name="blackForText">#4a4a4a</color>
     <color name="grayAe">#AEAEAE</color>

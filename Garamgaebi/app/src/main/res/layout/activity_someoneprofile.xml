@@ -26,7 +26,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/activity_someoneProfile_back_btn"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_arrow_back_35dp"
             android:layout_marginStart="16dp"
@@ -108,7 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_someoneProfile_tvSchool" />
             <TextView
                 android:id="@+id/activity_someoneProfile_tv_intro"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:padding="12dp"
