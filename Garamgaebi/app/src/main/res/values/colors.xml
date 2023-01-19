@@ -68,5 +68,10 @@
     <color name="grayForSeminarTitleText">#80000000</color>
     <color name="lightGrayForInput">#AEAEAE</color>
 
+    <!--신청 취소-->
+    <color name = "cancel_gray_tv">#AEAEAE</color>
+    <color name = "cancel_light_gray_tv">#D9D9D9</color>
+    <color name="cancel_bank_white">#F9F9F9</color>
+
 
 </resources>
