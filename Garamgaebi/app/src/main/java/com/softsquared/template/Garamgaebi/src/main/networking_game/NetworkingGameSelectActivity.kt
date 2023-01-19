@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityNetworkingGameSelectBinding
+import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
 
 class NetworkingGameSelectActivity : BaseActivity<ActivityNetworkingGameSelectBinding>(ActivityNetworkingGameSelectBinding::inflate) {
 
@@ -41,6 +42,12 @@ class NetworkingGameSelectActivity : BaseActivity<ActivityNetworkingGameSelectBi
             }
             
         })
+
+        //뒤로가기 버튼 누르면 네트워킹 메인 화면으로
+        binding.activityGameBackBtn.setOnClickListener {
+            val intent = Intent(this@NetworkingGameSelectActivity, NetworkingActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

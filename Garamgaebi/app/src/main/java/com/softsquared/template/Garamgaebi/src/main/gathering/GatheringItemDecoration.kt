@@ -1,11 +1,10 @@
-package com.softsquared.template.Garamgaebi.src.main.networking_game
+package com.softsquared.template.Garamgaebi.src.main.home
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class NetworkingGameSelectVerticalItemDecoration: RecyclerView.ItemDecoration() {
-
+class GatheringItemDecoration : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -13,9 +12,14 @@ class NetworkingGameSelectVerticalItemDecoration: RecyclerView.ItemDecoration() 
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 50
+        val offset = 20
+        val position = parent.getChildAdapterPosition(view)
+
+        if(position == 0) {
+            outRect.top = 0
+        } else {
+            outRect.top = offset
+        }
         outRect.bottom = offset
-
     }
-
 }

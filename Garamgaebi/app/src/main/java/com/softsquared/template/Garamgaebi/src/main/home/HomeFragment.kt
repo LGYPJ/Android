@@ -45,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeRvSeminar.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.fragmentHomeRvNetworking.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.fragmentHomeRvUser.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding.fragmentHomeRvMyMeeting.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
         binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
@@ -52,6 +53,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
 
         seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
+            override fun onClick(position: Int) {
+                // TODO("Not yet implemented")
+            }
+        })
+        networkingRVAdapter.setOnItemClickListener(object : HomeNetworkingRVAdapter.OnItemClickListener{
+            override fun onClick(position: Int) {
+                // TODO("Not yet implemented")
+            }
+        })
+        userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
+            override fun onClick(position: Int) {
+                // TODO("Not yet implemented")
+            }
+        })
+        myMeetingRVAdapter.setOnItemClickListener(object : HomeMyMeetingRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 // TODO("Not yet implemented")
             }
