@@ -1,22 +1,23 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.softsquared.template.Garamgaebi.databinding.FragmentServicecenterOrderBottomDialogBinding
+import com.softsquared.template.Garamgaebi.databinding.FragmentWithdrawalOrderBottomDialogBinding
 
-class ServiceCenterOrderBottomdialogFragment (val itemClick: (Int) -> Unit) :
+
+class WithdrawalOrderBottomDialogFragment (val itemClick: (Int) -> Unit) :
     BottomSheetDialogFragment() {
-    lateinit var binding: FragmentServicecenterOrderBottomDialogBinding
+    lateinit var binding: FragmentWithdrawalOrderBottomDialogBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentServicecenterOrderBottomDialogBinding.inflate(inflater, container, false)
+        binding = FragmentWithdrawalOrderBottomDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

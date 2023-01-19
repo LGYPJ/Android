@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.profile
+package com.softsquared.template.Garamgaebi.src.main.profile
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.getSystemService
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBinding
 
