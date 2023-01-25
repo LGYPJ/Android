@@ -77,7 +77,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <ImageView
-                    android:id="@+id/fragment_home_iv_seminar_tooltip"
+                    android:id="@+id/fragment_home_iv_seminar_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -86,7 +86,24 @@
                     app:layout_constraintStart_toEndOf="@id/fragment_home_tv_seminar"
                     app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_seminar" />
 
+                <TextView
+                    android:id="@+id/fragment_home_tv_seminar_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fragment_home_seminar_help"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:layout_marginStart="-13dp"
+                    android:layout_marginTop="8dp"
+                    android:text="세미나는 발표 위주로 진행되는 행사입니다."
+                    android:textAlignment="center"
+                    android:textColor="@color/blueForBtn"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_seminar"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_home_iv_seminar_help" />
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fragment_home_cl_gathering_seminar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -111,18 +128,12 @@
                         app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_gathering_seminar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fragment_home_rv_seminar"
-                    android:layout_width="0dp"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/fragment_home_vp_seminar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_home_tv_seminar"
-                    tools:listitem="@layout/item_home_seminar_thismonth"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    app:layout_constraintTop_toBottomOf="@id/fragment_home_tv_seminar" />
 
                 <!-- 네트워킹 -->
                 <TextView
@@ -136,9 +147,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_home_rv_seminar"/>
+                    app:layout_constraintTop_toBottomOf="@id/fragment_home_vp_seminar"/>
                 <ImageView
-                    android:id="@+id/fragment_home_iv_networking_tooltip"
+                    android:id="@+id/fragment_home_iv_networking_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -146,7 +157,23 @@
                     app:layout_constraintBottom_toBottomOf="@+id/fragment_home_tv_networking"
                     app:layout_constraintStart_toEndOf="@id/fragment_home_tv_networking"
                     app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_networking" />
+                <TextView
+                    android:id="@+id/fragment_home_tv_networking_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fragment_home_networking_help"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:layout_marginStart="-13dp"
+                    android:layout_marginTop="8dp"
+                    android:text="네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다"
+                    android:textColor="@color/blueForBtn"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_networking"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_home_iv_networking_help" />
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fragment_home_cl_gathering_networking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -173,20 +200,14 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_gathering_networking" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fragment_home_rv_networking"
-                    android:layout_width="0dp"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/fragment_home_vp_networking"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_home_tv_networking"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:listitem="@layout/item_home_networking_thismonth"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--유저-->
             <androidx.constraintlayout.widget.ConstraintLayout
