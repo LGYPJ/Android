@@ -27,7 +27,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/activity_education_back_btn"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_arrow_back_35dp"
             android:layout_marginStart="16dp"
@@ -72,10 +72,8 @@
 
         <EditText
             android:id="@+id/activity_education_et_institutionDesc"
-            android:layout_width="375dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
@@ -104,10 +102,8 @@
 
         <EditText
             android:id="@+id/activity_education_et_majorDesc"
-            android:layout_width="375dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
