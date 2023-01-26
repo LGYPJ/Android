@@ -97,11 +97,11 @@ class SeminarFreeApplyActivity : BaseActivity<ActivitySeminarFreeApplyBinding>(A
         })
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달
-        binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            val intent = Intent(this@SeminarFreeApplyActivity, SeminarFreeActivity::class.java)
+        /*binding.activitySeminarFreeApplyBtn.setOnClickListener {
+            val intent = Intent(this@SeminarFreeApplyActivity, SeminarFragment::class.java)
             intent.putExtra("apply", true)
             startActivity(intent)
-        }
+        }*/
 
 
 

@@ -47,8 +47,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeRvUser.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.fragmentHomeRvMyMeeting.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
-        binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
+        //binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
+        //binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
         binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration())
         binding.fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
 
