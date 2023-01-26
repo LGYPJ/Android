@@ -12,7 +12,7 @@ import com.softsquared.template.Garamgaebi.databinding.ActivitySeminarFreeBindin
 
 class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySeminarFreeBinding::inflate) {
 
-    /*private var profileList: ArrayList<SeminarProfile> = arrayListOf(
+    private var profileList: ArrayList<SeminarProfile> = arrayListOf(
         SeminarProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
         SeminarProfile(R.drawable.ic_seminar_profile2, "짱구", multi_type1),
         SeminarProfile(R.drawable.ic_seminar_profile1, "로건", multi_type1),
@@ -27,21 +27,21 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile1_img),
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile2_img),
         SeminarPresent("docker에 대해 알아보자docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile3_img)
-    )*/
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //세미나 상세보기 화면 프래그먼트 액티비티에 나타내기
-        val fragmentManager = supportFragmentManager
+        /*val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = SeminarFragment()
         fragmentTransaction.add(R.id.activity_seminar_frame, fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
 
 
 
 
-        /*val seminarProfile = SeminarProfileAdapter(profileList)
+        val seminarProfile = SeminarProfileAdapter(profileList)
         binding.activitySeminarFreeProfileRv.apply {
             adapter = seminarProfile
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -75,13 +75,13 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
             else {
                 startActivity(Intent(this@SeminarFreeActivity,SeminarChargedApplyActivity::class.java ))
             }
-        }*/
+        }
 
 
 
     }
     //신청하기 누르면 버튼 바꾸는!!
-    /*override fun onStart() {
+    override fun onStart() {
         super.onStart()
         var apply = intent.getBooleanExtra("apply", false)
         if(apply){
@@ -90,6 +90,6 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
             binding.activitySeminarFreeApplyBtn.setTextColor(getColor(R.color.seminar_blue))
             binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
         }
-    }*/
+    }
 }
 
