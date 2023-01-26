@@ -1,10 +1,10 @@
-package com.softsquared.template.Garamgaebi.src.main.home
+package com.softsquared.template.Garamgaebi.src.main.cancel
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeNetworkingItemDecoration : RecyclerView.ItemDecoration() {
+class CancelHorizontalItemDecoration: RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -12,15 +12,9 @@ class HomeNetworkingItemDecoration : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 20
-        val position = parent.getChildAdapterPosition(view)
-
-        if(position == 0) {
-            outRect.left = 0
-        } else {
-            outRect.left = offset
-        }
+        val offset = 60
         outRect.right = offset
 
     }
+
 }

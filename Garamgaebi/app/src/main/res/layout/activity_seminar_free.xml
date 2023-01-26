@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-        
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/activity_seminar_free_back_btn"
             android:layout_height="wrap_content"
@@ -46,10 +46,10 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_seminar_free_info"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="141dp"
         android:paddingStart="16dp"
         android:layout_marginTop="16dp"
@@ -71,7 +71,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="12dp"
 
-            
+
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -200,7 +200,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_seminar_free_participant"
         android:layout_width="match_parent"
@@ -255,7 +255,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="360dp"
