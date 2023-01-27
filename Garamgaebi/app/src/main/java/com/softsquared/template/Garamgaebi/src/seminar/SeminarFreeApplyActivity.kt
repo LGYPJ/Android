@@ -39,7 +39,7 @@ class SeminarFreeApplyActivity : BaseActivity<ActivitySeminarFreeApplyBinding>(A
             }
         }
 
-        // et에 따라 tv 변경 & drawable 변경 & 신청하기버튼 활성화
+        // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
         binding.activitySeminarFreeApplyNicknameTv.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -105,7 +105,7 @@ class SeminarFreeApplyActivity : BaseActivity<ActivitySeminarFreeApplyBinding>(A
 
 
 
-
+        //뒤로가기 버튼 누르면 세미나 메인 페이지로
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             startActivity(Intent(this@SeminarFreeApplyActivity, SeminarFreeActivity::class.java ))
         }

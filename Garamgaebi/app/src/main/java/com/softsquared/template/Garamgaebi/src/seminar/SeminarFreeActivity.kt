@@ -55,7 +55,7 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
             addItemDecoration(SeminarVerticalItemDecoration())
         }
 
-
+        //발표미리보기 다이얼로그
         presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 SeminarPreviewDialog().show(

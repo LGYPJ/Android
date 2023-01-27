@@ -12,7 +12,7 @@ import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind, R.layout.fragment_seminar) {
 
-    private var profileList: ArrayList<SeminarProfile> = arrayListOf(
+    /*private var profileList: ArrayList<SeminarProfile> = arrayListOf(
         SeminarProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
         SeminarProfile(R.drawable.ic_seminar_profile2, "짱구", multi_type1),
         SeminarProfile(R.drawable.ic_seminar_profile1, "로건", multi_type1),
@@ -27,12 +27,12 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile1_img),
         SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile2_img),
         SeminarPresent("docker에 대해 알아보자docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile3_img)
-    )
+    )*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val seminarProfile = SeminarProfileAdapter(profileList)
+        /*val seminarProfile = SeminarProfileAdapter(profileList)
         binding.activitySeminarFreeProfileRv.apply {
             adapter = seminarProfile
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -68,7 +68,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             else {
                 startActivity(Intent(activity,SeminarChargedApplyActivity::class.java ))
             }
-        }
+        }*/
 
 
 

@@ -251,7 +251,7 @@
         app:layout_constraintTop_toTopOf="@+id/activity_cancel_bank_tv"/>
     
     <EditText
-        android:id="@+id/activity_cancel_pay"
+        android:id="@+id/activity_cancel_pay_et"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:background="@drawable/activity_cancel_background_white"
