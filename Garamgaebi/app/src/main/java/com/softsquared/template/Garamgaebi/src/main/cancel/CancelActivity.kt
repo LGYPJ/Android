@@ -9,10 +9,7 @@ import android.view.View
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityCancelBinding
-
-
-
-
+git
 class CancelActivity : BaseActivity<ActivityCancelBinding>(ActivityCancelBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

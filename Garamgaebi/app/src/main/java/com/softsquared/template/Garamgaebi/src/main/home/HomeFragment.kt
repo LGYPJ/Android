@@ -96,9 +96,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
         }
 
-
         //binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
         //binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
+
         binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration())
         binding.fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
 
