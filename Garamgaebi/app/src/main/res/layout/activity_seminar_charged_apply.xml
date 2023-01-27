@@ -411,14 +411,15 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_scroll"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/activity_seminar_charged_apply_cancel_btn"
+            android:id="@+id/activity_seminar_charged_apply_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@drawable/btn_seminar_apply_free"
-            android:text="취소하기"
+            android:text="신청하기"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginStart="16dp"

@@ -84,7 +84,14 @@ class SeminarFreeActivity : BaseActivity<ActivitySeminarFreeBinding>(ActivitySem
     override fun onStart() {
         super.onStart()
         var apply = intent.getBooleanExtra("apply", false)
+        var apply_charged = intent.getBooleanExtra("apply_charged", false)
         if(apply){
+            val apply_tv = "신청완료"
+            binding.activitySeminarFreeApplyBtn.setText(apply_tv)
+            binding.activitySeminarFreeApplyBtn.setTextColor(getColor(R.color.seminar_blue))
+            binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+        }
+        if(apply_charged){
             val apply_tv = "신청완료"
             binding.activitySeminarFreeApplyBtn.setText(apply_tv)
             binding.activitySeminarFreeApplyBtn.setTextColor(getColor(R.color.seminar_blue))
