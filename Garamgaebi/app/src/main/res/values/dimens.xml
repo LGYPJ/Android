@@ -10,4 +10,6 @@
     <dimen name="offsetBetweenPages">0dp</dimen>
     <!--  각 페이지의 양 옆 margin  -->
     <dimen name="pageMargin">50dp</dimen>
+    <dimen name="homeItemPageMargin">46dp</dimen>
+    <dimen name="homeItemPagerWidth">300dp</dimen>
 </resources>

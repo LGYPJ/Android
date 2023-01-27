@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeSeminarItemDecoration(val context: Context, val size : Int) : RecyclerView.ItemDecoration() {
+class HomeVPItemDecoration(val context: Context, val size : Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,

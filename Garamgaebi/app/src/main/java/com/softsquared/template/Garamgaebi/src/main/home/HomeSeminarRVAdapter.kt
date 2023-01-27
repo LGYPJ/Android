@@ -3,6 +3,8 @@ package com.softsquared.template.Garamgaebi.src.main.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.softsquared.template.Garamgaebi.R
+import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarClosedBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarScheduledBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarThismonthBinding
 
@@ -10,6 +12,11 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>
     private lateinit var itemClickListener:  HomeSeminarRVAdapter.OnItemClickListener
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarItemData) {
+            if(data.pay){
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            } else {
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            }
             binding.itemHomeSeminarTvName.text = data.name
             binding.itemHomeSeminarTvDateData.text = data.date
             binding.itemHomeSeminarTvPlaceData.text = data.place
@@ -22,17 +29,28 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>
     }
     inner class ScheduledViewHolder(val binding: ItemHomeSeminarScheduledBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarItemData) {
+            if(data.pay){
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            } else {
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            }
             binding.itemHomeSeminarTvName.text = data.name
             binding.itemHomeSeminarTvDateData.text = data.date
             binding.itemHomeSeminarTvPlaceData.text = data.place
-            if(data.dDay == 0) {
-                binding.itemHomeSeminarTvDDay.text = "D-day"
-            } else {
-                binding.itemHomeSeminarTvDDay.text = "D-"+data.dDay
-            }
         }
     }
-
+    inner class ClosedViewHolder(val binding: ItemHomeSeminarClosedBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: HomeSeminarItemData) {
+            if(data.pay){
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            } else {
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            }
+            binding.itemHomeSeminarTvName.text = data.name
+            binding.itemHomeSeminarTvDateData.text = data.date
+            binding.itemHomeSeminarTvPlaceData.text = data.place
+        }
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
             1 -> {
@@ -42,6 +60,10 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>
             2 -> {
                 val binding = ItemHomeSeminarScheduledBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ScheduledViewHolder(binding)
+            }
+            3-> {
+                val binding = ItemHomeSeminarClosedBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                ClosedViewHolder(binding)
             }
             else -> {
                 val binding = ItemHomeSeminarThismonthBinding.inflate(LayoutInflater.from(parent.context), parent, false)
