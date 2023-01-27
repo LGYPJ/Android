@@ -97,6 +97,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
 
+        //binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
+        //binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
+        binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration())
+        binding.fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
+
+
         seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 // TODO("Not yet implemented")
