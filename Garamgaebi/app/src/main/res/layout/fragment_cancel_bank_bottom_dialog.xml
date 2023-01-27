@@ -8,28 +8,27 @@
     app:behavior_peekHeight="56dp"
     android:paddingStart="10dp"
     android:paddingEnd="10dp"
-    android:paddingBottom="34dp"
+
     android:background="@android:color/transparent"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp"
         android:paddingBottom="45dp"
         android:background="@drawable/activity_cancel_bottom_sheet"
         app:layout_constraintTop_toTopOf="parent">
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/fragment_dialog_tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="40dp"
             android:text="은행을 선책해주세요"
             android:textColor="@color/black80"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="25dp"
+            app:layout_constraintStart_toStartOf="@+id/fragment_cancel"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -40,6 +39,8 @@
             tools:listitem="@layout/item_cancel_bank"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dialog_tv_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

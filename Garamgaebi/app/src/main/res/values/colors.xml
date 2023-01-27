@@ -74,6 +74,8 @@
     <color name = "cancel_gray_tv">#AEAEAE</color>
     <color name = "cancel_light_gray_tv">#D9D9D9</color>
     <color name="cancel_bank_white">#F9F9F9</color>
+    <color name="cancel_dialog_tv_black">#001E2F</color>
+    <color name="cancel_dialog_tv_blue">#1B72C0</color>
 
 
 </resources>
