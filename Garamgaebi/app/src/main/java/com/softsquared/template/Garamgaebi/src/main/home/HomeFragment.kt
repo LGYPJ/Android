@@ -2,12 +2,16 @@ package com.softsquared.template.Garamgaebi.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentHomeBinding
+import com.softsquared.template.Garamgaebi.src.main.MainActivity
+import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringFragment
+import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringSeminarFragment
 import com.softsquared.template.Garamgaebi.src.main.notification.NotificationActivity
 
 
@@ -81,11 +85,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(HomeUserItemDecoration())
         }
-        binding.fragmentHomeRvMyMeeting.apply {
-            adapter = myMeetingRVAdapter
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(HomeMyMeetingItemDecoration())
+        if(myMeetingDataList.isEmpty()) {
+            binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+        } else {
+            binding.fragmentHomeRvMyMeeting.apply {
+                adapter = myMeetingRVAdapter
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(HomeMyMeetingItemDecoration())
+            }
+            binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
         }
+
 
         seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
@@ -113,11 +123,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
+            parentFragmentManager.beginTransaction().replace(R.id.activity_main_frm, GatheringFragment()).commit()
 
         }
-        binding.fragmentHomeClGatheringSeminar.setOnClickListener {
+        binding.fragmentHomeClGatheringNetworking.setOnClickListener {
 
         }
+
+
     }
-
 }
