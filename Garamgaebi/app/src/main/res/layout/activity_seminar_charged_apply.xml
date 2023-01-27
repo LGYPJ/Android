@@ -269,7 +269,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_not_correct_nickname_tv"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -300,7 +300,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="번호형식이 올바르지 않습니다"
-        android:layout_marginStart="23dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:textColor="@color/seminar_red"
         android:textSize="12sp"
@@ -405,7 +405,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_seminar_charged_apply_cancel"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

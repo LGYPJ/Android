@@ -51,7 +51,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_seminar_free_apply_info"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="137dp"
         android:background="@drawable/btn_seminar_present"
         android:layout_marginTop="16dp"
@@ -190,7 +190,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
     <EditText
         android:id="@+id/activity_seminar_free_apply_name_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="이름을 입력해주세요"
         android:textSize="16sp"
@@ -221,7 +221,7 @@
 
     <EditText
         android:id="@+id/activity_seminar_free_apply_nickname_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="닉네임을 입력해주세요"
         android:textSize="16sp"
@@ -230,6 +230,8 @@
         android:textColorHint="@color/seminar_light_gray"
         android:background="@drawable/et_seminat_apply"
         android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_nickname"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -255,7 +257,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_not_correct_nickname_tv"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -263,7 +265,7 @@
 
     <EditText
         android:id="@+id/activity_seminar_free_apply_phone_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="전화번호를 입력해주세요"
         android:textSize="16sp"
@@ -284,7 +286,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="번호형식이 올바르지 않습니다"
-        android:layout_marginStart="23dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:textColor="@color/seminar_red"
         android:textSize="12sp"

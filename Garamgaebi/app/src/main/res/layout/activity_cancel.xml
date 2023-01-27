@@ -51,7 +51,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_cancel_apply_info"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="137dp"
         android:background="@drawable/btn_seminar_present"
         android:layout_marginTop="16dp"
@@ -174,7 +174,7 @@
     
     <TextView
         android:id="@+id/activity_cancel_name_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:text="이채원"
         android:textSize="16sp"
@@ -192,7 +192,7 @@
 
     <TextView
         android:id="@+id/activity_cancel_nickname_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:text="신디"
         android:textSize="16sp"
@@ -210,7 +210,7 @@
 
     <TextView
         android:id="@+id/activity_cancel_phone_tv"
-        android:layout_width="358dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:text="010-1234-5678"
         android:textSize="16sp"
@@ -252,7 +252,7 @@
     
     <EditText
         android:id="@+id/activity_cancel_pay"
-        android:layout_width="232dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:background="@drawable/activity_cancel_background_white"
         android:hint="계좌번호를 입력해주세요"
@@ -260,8 +260,10 @@
         android:textSize="16sp"
         android:layout_marginTop="12dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:paddingStart="12dp"
         android:textColorHint="@color/cancel_light_gray_tv"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_cancel_phone_tv"
         app:layout_constraintStart_toEndOf="@+id/activity_cancel_bank_tv"/>
 
@@ -271,7 +273,7 @@
 
     <TextView
         android:id="@+id/activity_cancel_apply_btn"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:background="@drawable/btn_seminar_apply_free"
         android:text="취소하기"
@@ -280,6 +282,8 @@
         android:textAlignment="center"
         android:paddingVertical="12dp"
         android:layout_marginBottom="14dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
