@@ -16,14 +16,6 @@ import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBin
 
 
 class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(ActivitySomeoneprofileBinding::inflate) {
-    val handler: Handler = object : Handler(Looper.getMainLooper()) {
-        @RequiresApi(Build.VERSION_CODES.N)
-        override fun handleMessage(msg: Message) {
-            if (msg.what == 1) {
-
-            }
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -116,24 +108,27 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
 
     // 자동 높이 조절
     private fun setListViewHeightBasedOnChildren(listView: ListView) {
-        val listAdapter = listView.adapter
-            ?: // pre-condition
-            return
-        var totalHeight = 0
-        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
-        for (i in 0 until listAdapter.count) {
-            val listItem = listAdapter.getView(i, null, listView)
-            listItem.measure(0, 0);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
-            totalHeight += listItem.measuredHeight
-            Log.d("리스트",totalHeight.toString())
-        }
-        var totaldividers = listView.dividerHeight * (listAdapter.count-1)
+        binding.root.post {
+            val listAdapter = listView.adapter
+                ?: // pre-condition
+                return@post
+            var totalHeight = 0
+            val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
+            for (i in 0 until listAdapter.count) {
+                val listItem = listAdapter.getView(i, null, listView)
+                listItem.measure(0, 0);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+                totalHeight += listItem.measuredHeight
+                Log.d("리스트",totalHeight.toString())
+            }
+            var totaldividers = listView.dividerHeight * (listAdapter.count-1)
 
-        val params = listView.layoutParams
-        params.height = totalHeight +totaldividers
-        listView.layoutParams = params
-        listView.requestLayout()
+            val params = listView.layoutParams
+            params.height = totalHeight +totaldividers
+            listView.layoutParams = params
+            listView.requestLayout()
+        }
+
     }
     //뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
