@@ -9,7 +9,7 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityCancelBinding
 import com.softsquared.template.Garamgaebi.databinding.ActivityNetworkingBinding
-import com.softsquared.template.Garamgaebi.src.profile.DatePickerDialogFragment
+import com.softsquared.template.Garamgaebi.src.main.profile.DatePickerDialogFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
 
 class CancelActivity : BaseActivity<ActivityCancelBinding>(ActivityCancelBinding::inflate) {

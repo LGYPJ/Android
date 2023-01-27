@@ -200,24 +200,25 @@
                     android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
-                <ListView
-                    android:id="@+id/activity_myProfile_lv_sns"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_myProfile_RV_sns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_snsDesc"
                     app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
 
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:id="@+id/activity_myprofile_sns_v_listEndline"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/grayForBtn"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_sns"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_sns"
                     />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_snsAdd"
@@ -291,22 +292,23 @@
                     android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
-                <ListView
-                    android:id="@+id/activity_myProfile_lv_career"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_myProfile_RV_career"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_careerDesc"
                     app:layout_constraintBottom_toTopOf="@id/activity_myprofile_career_v_listEndline">
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:id="@+id/activity_myprofile_career_v_listEndline"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/grayForBtn"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_career"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_career"
                     />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_careerAdd"
@@ -380,22 +382,23 @@
                     android:textColor="@color/black80"
                     app:layout_constraintTop_toTopOf="parent"
                     ></TextView>
-                <ListView
-                    android:id="@+id/activity_myProfile_lv_edu"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_myProfile_RV_edu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_eduDesc"
                     app:layout_constraintBottom_toTopOf="@id/activity_myprofile_edu_v_listEndline">
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:id="@+id/activity_myprofile_edu_v_listEndline"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/grayForBtn"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_lv_edu"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_edu"
                     />
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_eduAdd"

@@ -7,10 +7,8 @@ import android.os.*
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
-import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBinding
 
@@ -38,71 +36,57 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
 
 
         //sns 리스트뷰 연결
-        var snsItems: ArrayList<SnsListViewItem> = arrayListOf()
+        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
         snsItems.apply {
-            add(SnsListViewItem("chapdoinstagram.com"))
-            add(SnsListViewItem("chapdoinstagram.com"))
-            add(SnsListViewItem("chapdoinstagram.com"))
+            add(SnsRVItemData("chapdoinstagram.com"))
+            add(SnsRVItemData("chapdoinstagram.com"))
+            add(SnsRVItemData("chapdoinstagram.com"))
         }
-        val snsAdapter = SnsSomeoneListViewAdapter(this, snsItems)
+        val snsAdapter = SnsSomeoneRVAdapter(snsItems)
         binding.activitySomeoneProfileLvSns.adapter = snsAdapter
         snsAdapter?.notifyDataSetChanged()
         Log.d("리스트1",snsItems.size.toString())
 
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
-
-        binding.activityMyProfileBtnSnsAdd.setOnClickListener {
-            snsItems.add(SnsListViewItem("chapdoinstagram.com"))
-            snsAdapter?.notifyDataSetChanged()
-            setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvSns)
-        }
-
 
         //career 리스트뷰 연결
-        var careerItems: ArrayList<CareerListViewItem> = arrayListOf()
-        val careerAdapter = CareerSomeoneListViewAdapter(this, careerItems)
-        binding.activitySomeoneProfileLvCareer.adapter = careerAdapter
+        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
+        val careerAdapter = CareerSomeoneRVAdapter(careerItems)
+        binding.activitySomeoneProfileRVCareer.adapter = careerAdapter
 
-        careerItems.add(CareerListViewItem("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
-        careerItems.add(CareerListViewItem("UMC 2기","챌린저","2022.03","2022.09"))
-        careerItems.add(CareerListViewItem("UMC 3기","챌린저/PM","2022.09","2023.02"))
-        setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvCareer)
+        careerItems.add(CareerRVItemData("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
+        careerItems.add(CareerRVItemData("UMC 2기","챌린저","2022.03","2022.09"))
+        careerItems.add(CareerRVItemData("UMC 3기","챌린저/PM","2022.09","2023.02"))
 
         //edu 리스트뷰 연결
-        var eduItems: ArrayList<EduListViewItem> = arrayListOf()
-        val eduAdapter = EduSomeoneListViewAdapter(this, eduItems)
-        binding.activitySomeoneProfileLvEdu.adapter = eduAdapter
+        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
+        val eduAdapter = EduSomeoneRVAdapter(eduItems)
+        binding.activitySomeoneProfileRVEdu.adapter = eduAdapter
         //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
 
-        //test
-        binding.activitySomeoneProfileLvSns.visibility = View.VISIBLE
-        binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
-        binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-
-
-
-
-        eduItems.add(EduListViewItem("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
+        eduItems.add(EduRVItemData("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
         //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
-        eduItems.add(EduListViewItem("가천대학교 4학년","누나 복학 화이팅","2023.03","현재"))
+        eduItems.add(EduRVItemData("가천대학교 4학년","누나 복학 화이팅","2023.03","현재"))
         //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
 
         careerAdapter?.notifyDataSetChanged()
         eduAdapter?.notifyDataSetChanged()
 
+        snsAdapter.setMyItemClickListener(object : SnsSomeoneRVAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-        binding.activitySomeoneProfileLvSns.setOnItemClickListener(AdapterView.OnItemClickListener { adapterView, view, i, l ->
-            snsItems[i]
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                // 새로운 ClipData 객체로 데이터 복사하기
+                val clip: ClipData =
+                    ClipData.newPlainText("sns_address", snsItems[position].snsAddress)
 
-            // 새로운 ClipData 객체로 데이터 복사하기
-            val clip: ClipData =
-                ClipData.newPlainText("sns_address", snsItems[i].snsAddress)
+                // 새로운 클립 객체를 클립보드에 배치합니다.
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
 
-            // 새로운 클립 객체를 클립보드에 배치합니다.
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "복사 완료", Toast.LENGTH_SHORT).show()
-            false
+            }override fun onLongClick(position: Int) {
+
+
+            }
         })
     }
 

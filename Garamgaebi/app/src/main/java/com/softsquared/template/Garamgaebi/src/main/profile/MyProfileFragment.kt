@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
@@ -44,55 +46,55 @@ class MyProfileFragment :
         }
 
         //sns 리스트뷰 연결
-        var snsItems: ArrayList<SnsListViewItem> = arrayListOf()
-        val snsAdapter = context?.let { SnsListViewAdapter(it, snsItems) }
-        binding.activityMyProfileLvSns.adapter = snsAdapter
-        setListViewHeightBasedOnChildren(binding.activityMyProfileLvSns)
+        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
+        val snsAdapter = SnsMYRVAdapter(snsItems)
+        var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
+        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+        binding.activityMyProfileRVSns.adapter = snsAdapter
 
         //sns 추가 버튼
         binding.activityMyProfileBtnSnsAdd.setOnClickListener {
-            binding.activityMyProfileLvSns.visibility = View.VISIBLE
+            binding.activityMyProfileRVSns.visibility = View.VISIBLE
             binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-            snsItems.add(SnsListViewItem("neoninstagram.com"))
+            snsItems.add(SnsRVItemData("neoninstagram.com"))
             snsAdapter?.notifyDataSetChanged()
-            setListViewHeightBasedOnChildren(binding.activityMyProfileLvSns)
             Log.d("plus_sns",snsItems.size.toString())
             startActivity(Intent(activity, SnsProfileActivity::class.java))
         }
 
         //career 리스트뷰 연결
-        var careerItems: ArrayList<CareerListViewItem> = arrayListOf()
-        val careerAdapter = context?.let { CareerListViewAdapter(it, careerItems) }
-        binding.activityMyProfileLvCareer.adapter = careerAdapter
-        setListViewHeightBasedOnChildren(binding.activityMyProfileLvCareer)
+        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
+        val careerAdapter = CareerMyRVAdapter(careerItems)
+        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
+        binding.activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+        binding.activityMyProfileRVCareer.adapter = careerAdapter
 
         //career 추가 버튼
         binding.activityMyProfileBtnCareerAdd.setOnClickListener {
-            binding.activityMyProfileLvCareer.visibility = View.VISIBLE
+            binding.activityMyProfileRVCareer.visibility = View.VISIBLE
             binding.activityMyprofileCareerVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvCareerDesc.visibility = View.GONE
-            careerItems.add(CareerListViewItem("우아한 형제들","프론트엔드 개발자","2020.04","2021.09"))
+            careerItems.add(CareerRVItemData("우아한 형제들","프론트엔드 개발자","2020.04","2021.09"))
             careerAdapter?.notifyDataSetChanged()
-            setListViewHeightBasedOnChildren(binding.activityMyProfileLvCareer)
             Log.d("plus_career",careerItems.size.toString())
             startActivity(Intent(activity, CareerActivity::class.java))
         }
 
         //edu 리스트뷰 연결
-        var eduItems: ArrayList<EduListViewItem> = arrayListOf()
-        val eduAdapter = context?.let { EduListViewAdapter(it, eduItems) }
-        binding.activityMyProfileLvEdu.adapter = eduAdapter
-        setListViewHeightBasedOnChildren(binding.activityMyProfileLvEdu)
+        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
+        val eduAdapter = EduMyRVAdapter(eduItems)
+        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
+        binding.activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
+        binding.activityMyProfileRVEdu.adapter = eduAdapter
 
         //edu 추가 버튼
         binding.activityMyProfileBtnEduAdd.setOnClickListener {
-            binding.activityMyProfileLvEdu.visibility = View.VISIBLE
+            binding.activityMyProfileRVEdu.visibility = View.VISIBLE
             binding.activityMyprofileEduVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvEduDesc.visibility = View.GONE
-            eduItems.add(EduListViewItem("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
+            eduItems.add(EduRVItemData("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
             eduAdapter?.notifyDataSetChanged()
-            setListViewHeightBasedOnChildren(binding.activityMyProfileLvEdu)
             startActivity(Intent(activity, EduActivity::class.java))
         }
 
