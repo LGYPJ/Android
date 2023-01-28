@@ -41,4 +41,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.activity_main_frm, fragment).commit()
     }
+    fun goGathering() {
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+    }
+
 }

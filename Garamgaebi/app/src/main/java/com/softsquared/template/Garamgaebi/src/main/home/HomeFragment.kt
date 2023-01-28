@@ -96,9 +96,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
         }
 
-        //binding.fragmentHomeRvSeminar.addItemDecoration(HomeSeminarItemDecoration())
-        //binding.fragmentHomeRvNetworking.addItemDecoration(HomeNetworkingItemDecoration())
-
         binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration())
         binding.fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
 
@@ -130,10 +127,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
             parentFragmentManager.beginTransaction().replace(R.id.activity_main_frm, GatheringFragment()).commit()
+            (activity as MainActivity).goGathering()
 
         }
         binding.fragmentHomeClGatheringNetworking.setOnClickListener {
-
+            parentFragmentManager.beginTransaction().replace(R.id.activity_main_frm, GatheringFragment()).commit()
+            (activity as MainActivity).goGathering()
         }
 
 
