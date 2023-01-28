@@ -3,6 +3,8 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
@@ -21,47 +23,57 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var seminarDataList : ArrayList<GatheringSeminarItemData> = arrayListOf(
+        // 데이터
+        val seminarThisMonthData = GatheringSeminarItemData("로건 세미나","xxxx-xx-xx", "pp", 1)
+        val seminarScheduledData = GatheringSeminarItemData("신디 세미나","xxxx-xx-xx", "pp", 2)
+        val seminarDataList : ArrayList<GatheringSeminarItemData> = arrayListOf(
             GatheringSeminarItemData("로건 세미나","xxxx-xx-xx", "pp", 1),
-            GatheringSeminarItemData("신디 세미나", "xxxx-xx-xx", "pp", 2),
+            GatheringSeminarItemData("신디 세미나","xxxx-xx-xx", "pp", 2)
         )
+        // 이번 달
+        if (seminarThisMonthData == null) {
+            binding.fragmentGatheringSeminarClBlank.visibility = View.VISIBLE
+            binding.fragmentGatheringSeminarClThisMonth.visibility = View.GONE
+        } else {
+            binding.fragmentGatheringSeminarClBlank.visibility = View.GONE
+            binding.fragmentGatheringSeminarClThisMonth.visibility = View.VISIBLE
+            binding.fragmentGatheringSeminarThisMonthTvName.text = seminarThisMonthData.name
+            binding.fragmentGatheringSeminarThisMonthTvDate.text = seminarThisMonthData.date
+            binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = seminarThisMonthData.place
+            if(seminarThisMonthData.dDay == 0)
+                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
+            else
+                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-"+seminarThisMonthData.dDay
+        }
 
-        //TODO : 날짜에 따라 data 나누기
-        val seminarThisMonthAdapter = GatheringSeminarThisMonthRVAdapter(seminarDataList)
-        val seminarScheduledAdapter = GatheringSeminarScheduledRVAdapter(seminarDataList)
+
+        // 예정된
+        binding.fragmentGatheringSeminarScheduledTvName.text = seminarScheduledData.name
+        binding.fragmentGatheringSeminarScheduledTvDate.text = seminarScheduledData.date
+        binding.fragmentGatheringSeminarScheduledTvPlaceData.text = seminarScheduledData.place
+        if(seminarThisMonthData.dDay == 0) {
+            binding.fragmentGatheringSeminarScheduledTvDDay.text = "D-day"
+        } else {
+            binding.fragmentGatheringSeminarScheduledTvDDay.text = "D-"+seminarScheduledData.dDay
+        }
+
+        // 마감된
         val seminarDeadlineAdapter = GatheringSeminarDeadlineRVAdapter(seminarDataList)
-
-        binding.fragmentGatheringSeminarRvThisMonth.adapter = seminarThisMonthAdapter
-        binding.fragmentGatheringSeminarRvScheduled.adapter = seminarScheduledAdapter
-        binding.fragmentGatheringSeminarRvDeadline.adapter = seminarDeadlineAdapter
-
-        binding.fragmentGatheringSeminarRvThisMonth.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.fragmentGatheringSeminarRvScheduled.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.fragmentGatheringSeminarRvDeadline.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
-        binding.fragmentGatheringSeminarRvThisMonth.addItemDecoration(GatheringItemDecoration())
-        binding.fragmentGatheringSeminarRvScheduled.addItemDecoration(GatheringItemDecoration())
-        binding.fragmentGatheringSeminarRvDeadline.addItemDecoration(GatheringItemDecoration())
-
+        binding.fragmentGatheringSeminarRvClosed.adapter = seminarDeadlineAdapter
+        binding.fragmentGatheringSeminarRvClosed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.fragmentGatheringSeminarRvClosed.addItemDecoration(GatheringItemDecoration())
         binding.fragmentGatheringSeminarTvThisMonth.setOnClickListener {
             startActivity(Intent(activity, SeminarFreeActivity::class.java))
         }
-        seminarThisMonthAdapter.setOnItemClickListener(object : GatheringSeminarThisMonthRVAdapter.OnItemClickListener{
-            override fun onClick(position: Int) {
-                //세미나 메인 프래그먼트로!
-                /*val intent = Intent(context, SeminarFragment::class.java)
-                val tmp = "gathering_seminar"
-                intent.putExtra("gathering_seminar",tmp )
-                startActivity(intent)*/
 
 
-            }
-        })
-        seminarScheduledAdapter.setOnItemClickListener(object : GatheringSeminarScheduledRVAdapter.OnItemClickListener{
-            override fun onClick(position: Int) {
-                //TODO("Not yet implemented")
-            }
-        })
+        binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
+            //세미나 메인 프래그먼트로!
+            /*val intent = Intent(context, SeminarFragment::class.java)
+            val tmp = "gathering_seminar"
+            intent.putExtra("gathering_seminar",tmp )
+            startActivity(intent)*/
+        }
         seminarDeadlineAdapter.setOnItemClickListener(object :GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 //TODO("Not yet implemented")
