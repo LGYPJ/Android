@@ -4,11 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityContainerBinding
 import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
@@ -20,22 +24,39 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         setSupportActionBar(toolbar)
         val ab = supportActionBar!!
         ab.setDisplayShowTitleEnabled(false)
-        ab.setDisplayHomeAsUpEnabled(false)
+        // 툴바 백버튼
+        /*ab.setDisplayHomeAsUpEnabled(false)
+        ab.setDisplayShowCustomEnabled(true)
+        ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         //홈 액티비티에서
-        /*val fragmentManager = supportFragmentManager
+        val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        //gatheringseminarfragment에서 리사이클러뷰 클릭해서 putExtra로 글자 보내고 그 글자면 프래그먼트가 무엇이다 라는 if문으로 해결하려고 했는데 굳이라는 의문이 든다..
-        //코드가 너무 복잡해지고,,,,,,,,,,,,,,,,
-        if(intent.getStringExtra("gathering_seminar")){
-
+        //컨테이너 액티비티에서 세미나 프래그먼트로
+        if(intent.getBooleanExtra("gathering_seminar", false)){
+            val fragment = SeminarFragment()
+            fragmentTransaction.replace(R.id.activity_seminar_frame, fragment)
         }
-        val fragment = SeminarFragment()
-        fragmentTransaction.add(R.id.activity_seminar_frame, fragment)
-        fragmentTransaction.commit()*/
+        fragmentTransaction.commit()
+
+        binding.activitySeminarFreeBackBtn.setOnClickListener {
+            onBackPressed()
+        }
+
 
 
     }
+
+    fun openFragmentOnFrameLayout(int: Int){
+        val transaction = supportFragmentManager.beginTransaction()
+        when(int){
+            1 -> transaction.replace(R.id.activity_seminar_frame, SeminarFragment())
+            2 -> transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
+            3 -> transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
+        }
+        transaction.commit()
+    }
+
 
 }
