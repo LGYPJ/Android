@@ -13,7 +13,7 @@ import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarChargedApp
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import java.util.regex.Pattern
 
-class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBinding>(FragmentSeminarChargedApplyBinding::bind, R.layout.fragment_seminar) {
+class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBinding>(FragmentSeminarChargedApplyBinding::bind, R.layout.fragment_seminar_charged_apply) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
@@ -112,7 +112,8 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
             bundle.putBoolean("apply",true)
             val seminarFragment = SeminarFragment()
             seminarFragment.arguments = bundle
-            containerActivity!!.openFragmentOnFrameLayout(1)
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()
         }
 
     }
@@ -155,4 +156,5 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
+
 }
