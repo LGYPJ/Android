@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.cancel
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.Window
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentCancelBinding
@@ -18,6 +20,7 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    //private val completeDialog = context?.let { Dialog(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +50,11 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
         }
 
         //신청취소 버튼 누르면 다이얼로그 띄우기
+        /*completeDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        completeDialog?.setContentView(R.layout.dialog_cancel_complete)*/
+
         binding.activityCancelApplyBtn.setOnClickListener {
+            //showDialog()
             activity?.let {
                 CancelCompleteDialog().show(
                     it.supportFragmentManager, "CancelCompleteDialog"
@@ -101,5 +108,19 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
+
+    // 신청완료 다이얼 로그
+    /*private fun showDialog(){
+        completeDialog?.show()
+        completeDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val complete = completeDialog?.findViewById<View>(R.id.dialog_cancel_complete_btn)
+        complete?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+    }*/
+
+
 
 }

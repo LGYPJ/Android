@@ -19,6 +19,8 @@ import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 
 class CancelCompleteDialog: DialogFragment() {
 
+    //화면전환
+    var containerActivity: ContainerActivity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,8 @@ class CancelCompleteDialog: DialogFragment() {
         isCancelable = true
     }
     private lateinit var binding: DialogCancelCompleteBinding
+    //private var completeDialogInterface : CompleteDialogInterface? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,17 +48,23 @@ class CancelCompleteDialog: DialogFragment() {
         //신청취소 완료 다이얼로그에서 닫기 버튼 누르면 다이얼로그 없어짐
         // 내모임으로 화면전환 추가하기
         binding.dialogCancelCompleteBtn.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("cancel-gathering", true)
-            startActivity(intent)
-            /*val bundle = Bundle()
-            bundle.putBoolean("apply",true)
-            val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
+
+            containerActivity!!.openFragmentOnFrameLayout(0)
+            //this.completeDialogInterface?.onYesButtonClick()
+
         }
 
     }
+
+    /*interface CompleteDialogInterface {
+        fun onYesButtonClick()
+    }*/
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        containerActivity = context as ContainerActivity
+    }
+
+
 
 }
