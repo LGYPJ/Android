@@ -2,9 +2,11 @@ package com.softsquared.template.Garamgaebi.src.seminar
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
@@ -19,7 +21,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
     //화면전환
     var containerActivity: ContainerActivity? = null
     //뷰모델
-    lateinit var seminarButtonViewModel: SeminarButtonViewModel
+    //lateinit var seminarButtonViewModel: SeminarButtonViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,13 +107,23 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            /*val bundle = Bundle()
+            val bundle = Bundle()
             bundle.putBoolean("apply",true)
             val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle*/
-            seminarButtonViewModel = ViewModelProvider(this).get(SeminarButtonViewModel::class.java)
-            seminarButtonViewModel.updateValue(true)
-            containerActivity!!.openFragmentOnFrameLayout(1)
+            seminarFragment.arguments = bundle
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()
+            /*seminarButtonViewModel = ViewModelProvider(this)[SeminarButtonViewModel::class.java]
+            seminarButtonViewModel.updateValue("신청완료")*/
+            //containerActivity!!.openFragmentOnFrameLayout(1)
+            /*val sharedPreferences = this.activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+            sharedPreferences?.edit()?.run {
+                putBoolean("true", true)
+                containerActivity!!.openFragmentOnFrameLayout(1)
+                apply()
+            }*/
+
+
         }
 
 

@@ -6,14 +6,11 @@ import androidx.lifecycle.ViewModel
 
 class SeminarButtonViewModel: ViewModel() {
 
-    private val _button = MutableLiveData<Boolean>()
-    val button: LiveData<Boolean>
+    private val _button = MutableLiveData<String>()
+    val button: LiveData<String>
     get() = _button
 
-    init {
-        _button.value = false
-    }
-    fun updateValue(button : Boolean){
-        _button.value = button
+    fun updateValue(button: String){
+        _button.value = "신청완료"
     }
 }

@@ -53,7 +53,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
             override fun onClick(position: Int) {
                 //세미나 메인 프래그먼트로!
                 val intent = Intent(activity, ContainerActivity::class.java)
-                intent.putExtra("gathering_seminar", true)
+                //intent.putExtra("gathering_seminar", true)
                 startActivity(intent)
             }
         })

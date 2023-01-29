@@ -5,9 +5,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
@@ -34,6 +37,8 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     )
     //화면전환
     var containerActivity: ContainerActivity? = null
+    //뷰모델
+    //lateinit var seminarButtonViewModel: SeminarButtonViewModel
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,14 +82,27 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             }
         }
 
+        /*val sharedPreferences = this.activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        val data = sharedPreferences?.getBoolean("true", false)
+        if(data == true){
+            val apply_tv = "신청완료"
+            binding.activitySeminarFreeApplyBtn.text = apply_tv
+            binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+            binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+        }*/
 
-
+        //seminarButtonViewModel = ViewModelProvider(this)[SeminarButtonViewModel::class.java]
+        /*seminarButtonViewModel.button.observe(viewLifecycleOwner) {
+                binding.activitySeminarFreeApplyBtn.text = it
+                binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+        }*/
 
 
     }
     //신청하기 누르면 버튼 바꾸는!! bundle로 바꾸기
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         var apply = arguments?.getBoolean("apply")
         if(apply == true){
             val apply_tv = "신청완료"
@@ -97,7 +115,11 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-
     }
+
+    /*override fun onBackPressed() {
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        //requireActivity().supportFragmentManager.popBackStack()
+    }*/
 
 }
