@@ -10,9 +10,9 @@ class GatheringSeminarDeadlineRVAdapter(private val dataList: ArrayList<Gatherin
     inner class ViewHolder( val binding: ItemGatheringSeminarDeadlineBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringSeminarItemData){
-            binding.itemGatheringSeminarScheduledTvName.text = data.name
-            binding.itemGatheringSeminarScheduledTvDateData.text = data.date
-            binding.itemGatheringSeminarScheduledTvPlaceData.text = data.place
+            binding.itemGatheringSeminarDeadlineTvName.text = data.name
+            binding.itemGatheringSeminarDeadlineTvDateData.text = data.date
+            binding.itemGatheringSeminarDeadlineTvPlaceData.text = data.place
         }
     }
 

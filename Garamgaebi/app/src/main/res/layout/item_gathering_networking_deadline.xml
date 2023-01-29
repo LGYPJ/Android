@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/item_gathering_networking_scheduled_tv_name"
+        android:id="@+id/item_gathering_networking_deadline_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="네트워킹 이름"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/item_gathering_networking_scheduled_tv_date"
+        android:id="@+id/item_gathering_networking_deadline_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="날짜"
@@ -27,21 +27,21 @@
         android:textStyle="bold"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/item_gathering_networking_scheduled_tv_place"
+        app:layout_constraintBottom_toTopOf="@id/item_gathering_networking_deadline_tv_place"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/item_gathering_networking_scheduled_tv_date_data"
+        android:id="@+id/item_gathering_networking_deadline_tv_date_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="날짜날짜"
         android:textColor="@color/black50"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/item_gathering_networking_scheduled_tv_place_data"
-        app:layout_constraintStart_toEndOf="@+id/item_gathering_networking_scheduled_tv_date" />
+        app:layout_constraintBottom_toTopOf="@+id/item_gathering_networking_deadline_tv_place_data"
+        app:layout_constraintStart_toEndOf="@+id/item_gathering_networking_deadline_tv_date" />
     <TextView
-        android:id="@+id/item_gathering_networking_scheduled_tv_place"
+        android:id="@+id/item_gathering_networking_deadline_tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -52,13 +52,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
-        android:id="@+id/item_gathering_networking_scheduled_tv_place_data"
+        android:id="@+id/item_gathering_networking_deadline_tv_place_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="장소장소"
         android:textSize="14sp"
         android:textColor="@color/black50"
-        app:layout_constraintStart_toEndOf="@id/item_gathering_networking_scheduled_tv_place"
+        app:layout_constraintStart_toEndOf="@id/item_gathering_networking_deadline_tv_place"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

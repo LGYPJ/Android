@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.cancel
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,12 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.DialogCancelCompleteBinding
 import com.softsquared.template.Garamgaebi.databinding.DialogSeminarPreviewBinding
+import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.MainActivity
 import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringMyMeetingFragment
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 
 class CancelCompleteDialog: DialogFragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setStyle(STYLE_NO_TITLE, R.style.dialog_fullscreen)
@@ -38,8 +44,17 @@ class CancelCompleteDialog: DialogFragment() {
         //신청취소 완료 다이얼로그에서 닫기 버튼 누르면 다이얼로그 없어짐
         // 내모임으로 화면전환 추가하기
         binding.dialogCancelCompleteBtn.setOnClickListener {
-            dismiss()
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("cancel-gathering", true)
+            startActivity(intent)
+            /*val bundle = Bundle()
+            bundle.putBoolean("apply",true)
+            val seminarFragment = SeminarFragment()
+            seminarFragment.arguments = bundle
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
         }
 
     }
+
 }

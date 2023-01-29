@@ -1,17 +1,13 @@
 package com.softsquared.template.Garamgaebi.src.seminar
 
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarFreeApplyBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import java.util.regex.Pattern
@@ -21,7 +17,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
     //화면전환
     var containerActivity: ContainerActivity? = null
     //뷰모델
-    //lateinit var seminarButtonViewModel: SeminarButtonViewModel
+    lateinit var seminarButtonViewModel: SeminarButtonViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,14 +103,17 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            val bundle = Bundle()
+            /*val bundle = Bundle()
             bundle.putBoolean("apply",true)
             val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()
-            /*seminarButtonViewModel = ViewModelProvider(this)[SeminarButtonViewModel::class.java]
-            seminarButtonViewModel.updateValue("신청완료")*/
+            seminarFragment.arguments = bundle*/
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+            /*val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, SeminarFragment()).commit()*/
+            seminarButtonViewModel = ViewModelProvider(this)[SeminarButtonViewModel::class.java]
+            seminarButtonViewModel.button2.value
+            //seminarButtonViewModel.updateValue(Button(true, "신청완료", R.color.seminar_blue, R.drawable.activity_seminar_apply_done_btn_border))
             //containerActivity!!.openFragmentOnFrameLayout(1)
             /*val sharedPreferences = this.activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
             sharedPreferences?.edit()?.run {

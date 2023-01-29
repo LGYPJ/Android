@@ -15,40 +15,49 @@ import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyActivity
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val networkingThisMonthData = GatheringSeminarItemData("로건 네트워킹","xxxx-xx-xx", "pp", 1)
+        val networkingScheduledData = GatheringSeminarItemData("신디 네트워킹","xxxx-xx-xx", "pp", 2)
         var networkingDataList : ArrayList<GatheringNetworkingItemData> = arrayListOf(
             GatheringNetworkingItemData("로건 세미나","xxxx-xx-xx", "pp", 1),
             GatheringNetworkingItemData("신디 세미나", "xxxx-xx-xx", "pp", 2),
         )
-        val networkingThisMonthAdapter = GatheringNetworkingThisMonthRVAdapter(networkingDataList)
-        val networkingScheduledAdapter = GatheringNetworkingScheduledRVAdapter(networkingDataList)
+        // 이번 달
+        if (networkingThisMonthData == null) {
+            binding.fragmentGatheringNetworkingClBlank.visibility = View.VISIBLE
+            binding.fragmentGatheringNetworkingClThisMonth.visibility = View.GONE
+        } else {
+            binding.fragmentGatheringNetworkingClBlank.visibility = View.GONE
+            binding.fragmentGatheringNetworkingClThisMonth.visibility = View.VISIBLE
+            binding.fragmentGatheringNetworkingThisMonthTvName.text = networkingThisMonthData.name
+            binding.fragmentGatheringNetworkingThisMonthTvDateData.text = networkingThisMonthData.date
+            binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = networkingThisMonthData.place
+            if(networkingThisMonthData.dDay == 0) {
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-day"
+            } else {
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-"+networkingThisMonthData.dDay
+            }
+        }
+
+        // 예정된
+        binding.fragmentGatheringNetworkingScheduledTvName.text = networkingScheduledData.name
+        binding.fragmentGatheringNetworkingScheduledTvDate.text = networkingScheduledData.date
+        binding.fragmentGatheringNetworkingScheduledTvPlaceData.text = networkingScheduledData.place
+        if(networkingScheduledData.dDay == 0) {
+            binding.fragmentGatheringNetworkingScheduledTvDDay.text = "D-day"
+        } else {
+            binding.fragmentGatheringNetworkingScheduledTvDDay.text = "D-"+networkingScheduledData.dDay
+        }
+
+        // 마감된
         val networkingDeadlineAdapter = GatheringNetworkingDeadlineRVAdapter(networkingDataList)
-
-        binding.fragmentGatheringNetworkingRvThisMonth.adapter = networkingThisMonthAdapter
-        binding.fragmentGatheringNetworkingRvScheduled.adapter = networkingScheduledAdapter
         binding.fragmentGatheringNetworkingRvDeadline.adapter = networkingDeadlineAdapter
-
-        binding.fragmentGatheringNetworkingRvThisMonth.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.fragmentGatheringNetworkingRvScheduled.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.fragmentGatheringNetworkingRvDeadline.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
-        binding.fragmentGatheringNetworkingRvThisMonth.addItemDecoration(GatheringItemDecoration())
-        binding.fragmentGatheringNetworkingRvScheduled.addItemDecoration(GatheringItemDecoration())
         binding.fragmentGatheringNetworkingRvDeadline.addItemDecoration(GatheringItemDecoration())
 
         binding.fragmentGatheringNetworkingTvThisMonth.setOnClickListener {
             startActivity(Intent(activity, NetworkingActivity::class.java))
         }
 
-        networkingThisMonthAdapter.setOnItemClickListener(object : GatheringNetworkingThisMonthRVAdapter.OnItemClickListener{
-            override fun onClick(position: Int) {
-                //TODO("Not yet implemented")
-            }
-        })
-        networkingScheduledAdapter.setOnItemClickListener(object : GatheringNetworkingScheduledRVAdapter.OnItemClickListener{
-            override fun onClick(position: Int) {
-                //TODO("Not yet implemented")
-            }
-        })
         networkingDeadlineAdapter.setOnItemClickListener(object :GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 //TODO("Not yet implemented")

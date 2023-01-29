@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.gathering
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringSeminarBinding
+import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting){
@@ -32,7 +34,10 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
 
         myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
-                //TODO("Not yet implemented")
+                //신청 취소 프래그먼트로!
+                val intent = Intent(context, ContainerActivity::class.java)
+                intent.putExtra("cancel", true)
+                startActivity(intent)
             }
         })
 
