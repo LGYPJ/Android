@@ -61,6 +61,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     super.onPageSelected(position)
                 }
             })
+            offscreenPageLimit = 1
             setPageTransformer { page, position ->
                 page.translationX = position * -offsetPx
             }
@@ -74,6 +75,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     super.onPageSelected(position)
                 }
             })
+            offscreenPageLimit = 1
             setPageTransformer { page, position ->
                 page.translationX = position * -offsetPx
             }
@@ -126,15 +128,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.activity_main_frm, GatheringFragment()).commit()
-            (activity as MainActivity).goGathering()
-
+            (activity as MainActivity).goGatheringSeminar()
+            goGathering()
         }
         binding.fragmentHomeClGatheringNetworking.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.activity_main_frm, GatheringFragment()).commit()
-            (activity as MainActivity).goGathering()
+            (activity as MainActivity).goGatheringNetworking()
+            goGathering()
         }
 
-
+    }
+    private fun goGathering() {
+        val findFragment = parentFragmentManager.findFragmentByTag("gathering")
+        parentFragmentManager.fragments.forEach { fm ->
+            parentFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
+        }
+        findFragment?.let {
+            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
+            parentFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        }
     }
 }
