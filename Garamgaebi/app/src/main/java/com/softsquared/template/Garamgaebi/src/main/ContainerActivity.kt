@@ -17,7 +17,7 @@ import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragme
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
 
-class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate), CancelCompleteDialog.CompleteDialogInterface {
+class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
     /*private var seminarFragment : SeminarFragment? = null
     private var seminarFreeApplyFragment : SeminarFreeApplyFragment? = null
@@ -40,19 +40,18 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            onBackPressed()
+            if(isBackSeminar()) {
+                finish()
+            }
+            else {
+                onBackPressed()
+            }
         }
 
         /*seminarFragment = SeminarFragment()
         seminarFreeApplyFragment = SeminarFreeApplyFragment()
         seminarChargedApplyFragment = SeminarChargedApplyFragment()
         cancelFragment = CancelFragment()*/
-
-
-        //컨테이너 액티비티 시작할때 처음 보이는게 세미나 프래그먼트 고정
-        //supportFragmentManager.beginTransaction().replace(R.id.activity_seminar_frame, CancelFragment()).commitAllowingStateLoss()
-
-
 
     }
 
@@ -63,7 +62,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             1 -> transaction.replace(R.id.activity_seminar_frame, SeminarFragment())
             2 -> transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
             3 -> transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
-            4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment()).addToBackStack(null)
+            4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment())
         }
         transaction.commit()
     }
@@ -73,11 +72,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("seminar", false)){
             openFragmentOnFrameLayout(1)
+            binding.activityContainerToolbarTv.text = "세미나"
         }
         if(intent.getBooleanExtra("cancel", false)){
             openFragmentOnFrameLayout(4)
+            binding.activityContainerToolbarTv.text = "신청 취소"
         }
-        val fragmentList = supportFragmentManager.fragments
+        /*val fragmentList = supportFragmentManager.fragments
 
         for (fragment in fragmentList) {
             if(fragment is SeminarFragment){
@@ -93,12 +94,19 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = "신청 취소"
             }
 
-        }
+        }*/
 
     }
 
-    override fun onYesButtonClick() {
-        finish()
+    fun isBackSeminar ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is SeminarFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
     }
 
 
