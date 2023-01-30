@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/details"
+        android:icon="@drawable/ic_fragment_home_my_meeting_popup_details"
+        android:title="상세보기"/>
+    <item
+        android:id="@+id/cancel"
+        android:icon="@drawable/ic_fragment_home_my_meeting_popup_cancel"
+        android:title="신청취소"/>
+</menu>
