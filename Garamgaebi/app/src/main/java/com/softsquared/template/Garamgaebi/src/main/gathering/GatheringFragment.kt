@@ -9,7 +9,6 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringBinding
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
-import com.softsquared.template.Garamgaebi.src.main.profile.SnsProfileActivity
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 
 
