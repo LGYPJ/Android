@@ -155,11 +155,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onBackPressed() {
         super.onBackPressed()
         if(isIceBreaking()){
-            onBackPressed()
             binding.activityContainerToolbarTv.text ="아이스브레이킹"
         }
         else {
-            onBackPressed()
             if(isNetworking()){
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }
