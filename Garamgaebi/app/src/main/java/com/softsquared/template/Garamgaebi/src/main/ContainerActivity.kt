@@ -38,6 +38,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     private var networkingGamePlaceFragment: NetworkingGamePlaceFragment? =null*/
     //private lateinit var viewModel: ItemViewModel
 
+    lateinit var previousFramgent : Fragment
+    lateinit var currentFramgent : Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +58,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
-            if(isBackSeminar()) {
-                finish()
-            }
-            if(isBackNetwork()) {
-                finish()
-            }
             if(isIceBreaking()){
                 onBackPressed()
                 binding.activityContainerToolbarTv.text ="아이스브레이킹"
@@ -81,52 +77,93 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val transaction = supportFragmentManager.beginTransaction()
         when(int){
             0 -> finish()
-            1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment())
+            1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment(), "seminar")
                 }
-            2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
+            2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment() ,"seminarFree").addToBackStack(null)
             }
-            3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
+            3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment(),"seminarCharged").addToBackStack(null)
             }
 
-            4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment())
+            4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment(),"cancel")
             }
-            5 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
+            5 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFragment(),"networking")
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }
-            6 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
+            6 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment(),"networkingFree").addToBackStack(null)
                  binding.activityContainerToolbarTv.text = "네트워킹"
             }
-            7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment()).addToBackStack(null)
+            7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment(),"networkingGameSelect").addToBackStack(null)
                    binding.activityContainerToolbarTv.text = "아이스브레이킹"
             }
-            8 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
+            8 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment(),"networkingGamePlace").addToBackStack(null)
             }
 
 
             //승민 부분
             9 -> {
-                transaction.replace(R.id.activity_seminar_frame, SnsFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, SnsFragment(),"sns")
             }
             10 -> {
-                transaction.replace(R.id.activity_seminar_frame, CareerFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, CareerFragment(),"career")
             }
             11 -> {
-                transaction.replace(R.id.activity_seminar_frame, EduFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, EduFragment(),"edu")
             }
-            12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment()).addToBackStack(null)
+            12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
             }
             14 -> {
-                transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
             }
             15 -> {
-                transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment()).addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 binding.activityContainerToolbarTv.text = "회원탈퇴"
             }
         }
         transaction.commit()
+        for(fragment: Fragment in supportFragmentManager.fragments) {
+            if (fragment.isVisible) {
+                val tag = fragment.tag
+                lateinit var frag: Fragment
+                var fragmentTitle: String = ""
+                when (tag) {
+                    "seminar" -> fragmentTitle = "세미나"
+                    "seminarFree" -> fragmentTitle = "세미나"
+                    "seminarCharged" -> fragmentTitle = "세미나"
+                    "cancel" -> fragmentTitle = "신청 취소"
+                    "networking" -> fragmentTitle = "네트워킹"
+                    "networkingFree" -> fragmentTitle = "네트워킹"
+                    "networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
+                    "networkingGamePlace" -> fragmentTitle = binding.activityContainerToolbarTv.text.toString()
+                    "sns" -> fragmentTitle = "SNS"
+                    "career" -> fragmentTitle = "경력"
+                    "edu" -> fragmentTitle = "교육"
+                    "profileEdit" -> fragmentTitle = "프로필 편집"
+                    "someoneProfile" -> fragmentTitle = "프로필"
+                    "servicecenter" -> fragmentTitle = "고객 센터"
+                    "withdrawal" -> fragmentTitle = "회원 탈퇴"
+                }
+
+                binding.activityContainerToolbarTv.text = fragmentTitle
+                Log.d("title",fragmentTitle)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(isIceBreaking()){
+            onBackPressed()
+            binding.activityContainerToolbarTv.text ="아이스브레이킹"
+        }
+        else {
+            onBackPressed()
+            if(isNetworking()){
+                binding.activityContainerToolbarTv.text = "네트워킹"
+            }
+        }
     }
 
     fun networkingPlace(place: String){
@@ -135,6 +172,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     
     override fun onStart() {
         super.onStart()
+        Log.d("title_onstart","됨")
 
         if(intent.getBooleanExtra("seminar", false)){
             openFragmentOnFrameLayout(1)
