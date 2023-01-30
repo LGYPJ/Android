@@ -55,7 +55,7 @@ class MyProfileFragment :
         //sns 추가 버튼
         binding.activityMyProfileBtnSnsAdd.setOnClickListener {
             binding.activityMyProfileRVSns.visibility = View.VISIBLE
-            binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
+            //binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvSnsDesc.visibility = View.GONE
             snsItems.add(SnsRVItemData("neoninstagram.com"))
             snsAdapter?.notifyDataSetChanged()
@@ -73,7 +73,6 @@ class MyProfileFragment :
         //career 추가 버튼
         binding.activityMyProfileBtnCareerAdd.setOnClickListener {
             binding.activityMyProfileRVCareer.visibility = View.VISIBLE
-            binding.activityMyprofileCareerVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvCareerDesc.visibility = View.GONE
             careerItems.add(CareerRVItemData("우아한 형제들","프론트엔드 개발자","2020.04","2021.09"))
             careerAdapter?.notifyDataSetChanged()
@@ -91,7 +90,6 @@ class MyProfileFragment :
         //edu 추가 버튼
         binding.activityMyProfileBtnEduAdd.setOnClickListener {
             binding.activityMyProfileRVEdu.visibility = View.VISIBLE
-            binding.activityMyprofileEduVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvEduDesc.visibility = View.GONE
             eduItems.add(EduRVItemData("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
             eduAdapter?.notifyDataSetChanged()

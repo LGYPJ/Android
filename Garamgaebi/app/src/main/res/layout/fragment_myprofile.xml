@@ -209,17 +209,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_snsDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_snsAdd">
 
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:id="@+id/activity_myprofile_sns_v_listEndline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grayForBtn"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_sns"
-                    />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_snsAdd"
                     android:layout_width="134dp"
@@ -234,7 +227,7 @@
                     android:outlineProvider="none"
                     android:drawableLeft="@drawable/ic_add_border_round_24dp"
                     android:background="@drawable/basic_blue_white_btn_layout"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_sns_v_listEndline"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_sns"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -300,16 +293,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_careerDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_career_v_listEndline">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_careerAdd">
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:id="@+id/activity_myprofile_career_v_listEndline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grayForBtn"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_career"
-                    />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_careerAdd"
                     android:layout_width="134dp"
@@ -324,7 +310,7 @@
                     android:drawableLeft="@drawable/ic_add_border_round_24dp"
                     android:background="@drawable/basic_blue_white_btn_layout"
                     android:outlineProvider="none"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_career_v_listEndline"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_career"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -390,16 +376,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_eduDesc"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_edu_v_listEndline">
+                    app:layout_constraintBottom_toTopOf="@id/activity_myProfile_btn_eduAdd">
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:id="@+id/activity_myprofile_edu_v_listEndline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grayForBtn"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_edu"
-                    />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/activity_myProfile_btn_eduAdd"
                     android:layout_width="134dp"
@@ -417,7 +396,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_v_listEndline"
+                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_edu"
                     ></androidx.appcompat.widget.AppCompatButton>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

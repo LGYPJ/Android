@@ -3,6 +3,7 @@ package com.softsquared.template.Garamgaebi.src.main.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Patterns
 import android.view.View
 import android.widget.EditText
 import com.softsquared.template.Garamgaebi.R
@@ -28,7 +29,7 @@ class ProfileEditActivity: BaseActivity<ActivityProfileEditBinding>(ActivityProf
         }
 
         //닉네임 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activityEditProfileEtNick)
+        checkNickname(binding.activityEditProfileEtNick)
 
         //소속 입력 시 레이아웃 테두리 변경
         checkEtInput(binding.activityEditProfileEtTeam)
@@ -63,29 +64,92 @@ class ProfileEditActivity: BaseActivity<ActivityProfileEditBinding>(ActivityProf
             }
         })
     }
+
+    fun checkNickname(view: EditText) : Boolean{
+        var  checkResult: Boolean = false
+        view.hasFocus()
+        var nick = binding.activityEditProfileEtNick.text.toString()
+
+        view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+
+                if(nick.length > 8) {
+                    binding.activityNicknameState.apply {
+                        visibility = View.VISIBLE
+                        text = "사용 불가능한 닉네임입니다"
+                        setTextColor(getColor(R.color.redForText))
+                    }
+                    binding.activityEditProfileEtNick.setBackgroundResource(R.drawable.basic_red_border_layout)
+                    checkResult = false
+                } else if(nick.isNotEmpty()) {
+                    binding.activityNicknameState.apply {
+                        visibility = View.VISIBLE
+                        text = "사용 가능한 닉네임입니다"
+                        setTextColor(getColor(R.color.blueForBtn))
+                    }
+                    checkResult = true
+
+                } else {
+                    binding.activityNicknameState.visibility = View.GONE
+
+                    binding.activityEditProfileEtNick.setBackgroundResource(R.drawable.basic_gray_border_layout)
+                    if(hasFocus)
+                    binding.activityEditProfileEtNick.setBackgroundResource(R.drawable.basic_black_border_layout)
+
+                    checkResult = false
+                }
+        }
+        return checkResult
+    }
+
     fun checkInfo() : Boolean{
-       var  checkResult = true
+        var  checkResult: Boolean
         var nick = binding.activityEditProfileEtNick.text.toString()
         var team = binding.activityEditProfileEtTeam.text.toString()
         var email = binding.activityEditProfileEtEmail.text.toString()
         var intro = binding.activityEditProfileEtIntro.text.toString()
 
         //닉네임 조건 확인 기능
-        if(nick.length < 8) checkResult = false
+        checkResult = checkNickname(binding.activityEditProfileEtNick)
 
         //소속 조건 확인 기능
         if(team.isEmpty()) {
             checkResult = false
         }
-        //이메일 조건 확인 기능
-        if(email.isEmpty()) checkResult = false
 
+        //이메일 조건 확인 기능
+        if(checkEmail()) {
+            binding.activityEmailState.apply {
+                visibility = View.VISIBLE
+                text = "사용 가능한 이메일입니다"
+                setTextColor(getColor(R.color.blueForBtn))
+            }
+            binding.activityEditProfileEtEmail.setBackgroundResource(R.drawable.basic_black_border_layout)
+                checkResult = true
+        } else if(email.isNotEmpty()){
+            binding.activityEmailState.apply {
+                visibility = View.VISIBLE
+                text = "이메일 형식이 올바르지 않습니다"
+                setTextColor(getColor(R.color.redForText))
+            }
+            binding.activityEditProfileEtEmail.setBackgroundResource(R.drawable.basic_red_border_layout)
+            checkResult = false
+        } else {
+            binding.activityEmailState.visibility = View.GONE
+            binding.activityEditProfileEtEmail.setBackgroundResource(R.drawable.basic_black_border_layout)
+            checkResult = false
+        }
         //자기소개 조건 확인 기능
         //if(intro.isEmpty()) checkResult = false
 
 
         return checkResult
     }
+
+        fun checkEmail() : Boolean{
+            val email = binding.activityEditProfileEtEmail.text.toString()
+            return Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.isNotEmpty()
+        }
+
     //뒤로가기 버튼 눌렀을 때
     override fun onBackPressed() {
         super.onBackPressed()
