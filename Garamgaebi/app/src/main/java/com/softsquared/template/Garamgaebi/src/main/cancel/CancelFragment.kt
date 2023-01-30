@@ -24,6 +24,7 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.activityCancelApplyBtn.isEnabled = false
 
 
         // et selected 여부에 따라 drawable 결정

@@ -25,6 +25,7 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
         /*binding.activitySeminarChargedBackBtn.setOnClickListener {
 
         }*/
+        binding.activitySeminarChargedApplyBtn.isEnabled = false
 
         // et selected 여부에 따라 drawable 결정
         binding.activitySeminarChargedApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->

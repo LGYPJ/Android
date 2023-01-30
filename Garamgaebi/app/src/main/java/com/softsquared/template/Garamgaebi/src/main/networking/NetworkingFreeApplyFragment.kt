@@ -23,6 +23,7 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.activityNetworkFreeApplyBtn.isEnabled = false
 
 
         // et selected 여부에 따라 drawable 결정
