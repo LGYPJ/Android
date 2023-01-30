@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.FragmentCancelBankBottomDialogBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentServicecenterOrderBottomDialogBinding
+import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 
 class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomSheetDialogFragment(){
 
@@ -75,7 +76,7 @@ class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomShe
         cancelAdapter.setOnItemClickListener(object : CancelAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 // 클릭하면 캔슬액티비티에 은행 글자 데이터 보내는
-                val intent = Intent(context, CancelActivity::class.java)
+
                 val temp = cancelList[position].bank
                 //intent.putExtra("bank", temp)
                 //intent.putExtra("bank", true)

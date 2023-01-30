@@ -1,17 +1,13 @@
 package com.softsquared.template.Garamgaebi.src.main.networking_game
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
-import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingGameSelectBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
 
 class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBinding>(FragmentNetworkingGameSelectBinding::bind, R.layout.fragment_networking_game_select) {
 

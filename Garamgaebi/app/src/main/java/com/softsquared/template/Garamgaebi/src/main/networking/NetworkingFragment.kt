@@ -1,20 +1,14 @@
 package com.softsquared.template.Garamgaebi.src.main.networking
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingBinding
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.main.networking_game.ItemViewModel
-import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectActivity
 import com.softsquared.template.Garamgaebi.src.seminar.multi_type1
 import com.softsquared.template.Garamgaebi.src.seminar.multi_type2
 import com.softsquared.template.Garamgaebi.src.seminar.multi_type3

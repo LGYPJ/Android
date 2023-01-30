@@ -1,16 +1,11 @@
 package com.softsquared.template.Garamgaebi.src.main.gathering
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringBinding
-import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
-import com.softsquared.template.Garamgaebi.src.main.profile.SnsProfileActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 
 
 class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheringBinding::bind, R.layout.fragment_gathering) {
