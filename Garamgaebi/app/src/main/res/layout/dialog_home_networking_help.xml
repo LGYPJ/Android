@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/fragment_home_tv_networking_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fragment_home_networking_help"
+        android:paddingTop="8dp"
+        android:paddingStart="24dp"
+        android:backgroundTint="@color/black80"
+        android:text="네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다"
+        android:textColor="@color/blueForBtn"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:elevation="8dp"/>
+</LinearLayout>
