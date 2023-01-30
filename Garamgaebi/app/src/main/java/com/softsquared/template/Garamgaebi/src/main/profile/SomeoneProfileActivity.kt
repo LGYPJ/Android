@@ -9,6 +9,8 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.widget.ListView
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivitySomeoneprofileBinding
 
@@ -43,7 +45,11 @@ class SomeoneProfileActivity : BaseActivity<ActivitySomeoneprofileBinding>(Activ
             add(SnsRVItemData("chapdoinstagram.com"))
         }
         val snsAdapter = SnsSomeoneRVAdapter(snsItems)
-        binding.activitySomeoneProfileLvSns.adapter = snsAdapter
+        binding.activitySomeoneProfileRVSns.adapter = snsAdapter
+
+        //var dividerItemDecoration = DividerItemDecoration(binding.activitySomeoneProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
+        //binding.activitySomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
+
         snsAdapter?.notifyDataSetChanged()
         Log.d("리스트1",snsItems.size.toString())
 

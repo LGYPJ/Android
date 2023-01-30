@@ -1,7 +1,7 @@
 package com.softsquared.template.Garamgaebi.config
 
-import com.softsquared.template.Garamgaebi.config.ApplicationClass.Companion.X_ACCESS_TOKEN
-import com.softsquared.template.Garamgaebi.config.ApplicationClass.Companion.sSharedPreferences
+import com.softsquared.template.Garamgaebi.config.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
+import com.softsquared.template.Garamgaebi.config.GaramgaebiApplication.Companion.sSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
