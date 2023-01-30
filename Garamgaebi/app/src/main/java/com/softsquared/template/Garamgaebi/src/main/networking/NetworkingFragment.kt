@@ -21,7 +21,7 @@ import com.softsquared.template.Garamgaebi.src.seminar.multi_type3
 
 class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind, R.layout.fragment_networking) {
 
-    private lateinit var viewModel: ItemViewModel
+    //private lateinit var viewModel: ItemViewModel
 
     private var networkProfileList: ArrayList<NetworkingProfile> = arrayListOf(
         NetworkingProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
@@ -52,10 +52,10 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             containerActivity!!.openFragmentOnFrameLayout(6)
         }
 
-        viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
+        //viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
         //참가하기 버튼 누르면 네트워킹 게임 화면으로
         binding.activityNetworkParticipateBtn.setOnClickListener {
-            viewModel.selectItem("아이스브레이킹")
+            //viewModel.selectItem("아이스브레이킹")
             containerActivity!!.openFragmentOnFrameLayout(7)
         }
 

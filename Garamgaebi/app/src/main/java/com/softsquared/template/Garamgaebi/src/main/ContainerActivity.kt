@@ -31,6 +31,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     private var seminarFreeApplyFragment : SeminarFreeApplyFragment? = null
     private var seminarChargedApplyFragment: SeminarChargedApplyFragment? =null
     private var cancelFragment: CancelFragment? =null*/
+    private var networkingGamePlaceFragment: NetworkingGamePlaceFragment? =null
     private lateinit var viewModel: ItemViewModel
 
 
@@ -50,11 +51,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
+            networkingGamePlaceFragment = NetworkingGamePlaceFragment()
+            val transaction = supportFragmentManager.beginTransaction()
             if(isBackSeminar()) {
                 finish()
             }
             if(isBackNetwork()) {
                 finish()
+            }
+            if(isIceBreaking()){
+                transaction.remove(networkingGamePlaceFragment!!).commit()
+                supportFragmentManager.popBackStack()
             }
             else {
                 onBackPressed()
@@ -84,10 +91,22 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment())
             5 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
             6 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
-            7 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment()).addToBackStack(null)
+            7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment()).addToBackStack(null)
+                   binding.activityContainerToolbarTv.text = "아이스브레이킹"
+            }
             8 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
+
+
+
         }
         transaction.commit()
+    }
+
+    //if문 넣어줏기
+    fun networkingPlace(place: String){
+        if(isIceBreaking()){
+            binding.activityContainerToolbarTv.text = place
+        }
     }
     
     override fun onStart() {

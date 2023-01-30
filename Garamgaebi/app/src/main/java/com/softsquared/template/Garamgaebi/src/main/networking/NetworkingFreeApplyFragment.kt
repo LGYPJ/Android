@@ -38,6 +38,7 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
                 view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
             } else {
                 view.setBackgroundResource(R.drawable.et_seminat_apply)
+
             }
         }
         binding.activityNetworkFreeApplyPhoneTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
