@@ -24,9 +24,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         gatheringFragment = GatheringFragment()
         myProfileFragment = MyProfileFragment()
 
-        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, homeFragment!!).commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, gatheringFragment!!).commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, myProfileFragment!!).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, homeFragment!!, "home").commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, gatheringFragment!!, "gathering").commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, myProfileFragment!!, "myProfile").commitAllowingStateLoss()
 
         supportFragmentManager.beginTransaction().show(homeFragment!!).commitAllowingStateLoss()
         supportFragmentManager.beginTransaction().hide(gatheringFragment!!).commitAllowingStateLoss()
