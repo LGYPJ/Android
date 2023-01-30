@@ -18,7 +18,6 @@ class CareerFragment  : BaseFragment<FragmentProfileCareerBinding>(FragmentProfi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         //편집 정보 저장하기 버튼 클릭이벤트
         binding.activityCareerSaveBtn.setOnClickListener {
             if (checkInfo() == true){

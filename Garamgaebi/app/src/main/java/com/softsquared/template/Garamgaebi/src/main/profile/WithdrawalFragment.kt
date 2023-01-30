@@ -1,5 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ class WithdrawalFragment :
     BaseFragment<FragmentWithdrawalBinding>(FragmentWithdrawalBinding::bind, R.layout.fragment_withdrawal) {
     var containerActivity: ContainerActivity? = null
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //탈퇴기 버튼 클릭이벤트

@@ -13,16 +13,15 @@ import com.softsquared.template.Garamgaebi.databinding.FragmentProfileEducationB
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class EduFragment :
-    BaseFragment<FragmentProfileEducationBinding>(FragmentProfileEducationBinding::bind, R.layout.fragment_profile_education) {    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+class EduFragment  : BaseFragment<FragmentProfileEducationBinding>(FragmentProfileEducationBinding::bind, R.layout.fragment_profile_education) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         //편집 정보 저장하기 버튼 클릭이벤트
         binding.activityEducationSaveBtn.setOnClickListener {
-            if (checkInfo() == true){
+            if (checkInfo() == true) {
                 //교육 저장 기능 추가
-            }else{
+            } else {
                 //저장 불가 및 이유
             }
         }
@@ -41,11 +40,11 @@ class EduFragment :
         checkDpInput(binding.activityEducationEtEndPeriod)
 
 //재직 정보 date picker
-        binding.activityEducationEtStartPeriod .setOnClickListener {
+        binding.activityEducationEtStartPeriod.setOnClickListener {
             val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
                 val arr = it.split(".")
 
-                binding.activityEducationEtStartPeriod.setText(arr[0]+"."+arr[1])
+                binding.activityEducationEtStartPeriod.setText(arr[0] + "." + arr[1])
 
                 checkDpInput(binding.activityEducationEtEndPeriod)
             }
@@ -55,19 +54,20 @@ class EduFragment :
         binding.activityEducationEtEndPeriod.setOnClickListener {
             val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
                 val arr = it.split(".")
-                if(checkNow(it)){
+                if (checkNow(it)) {
                     binding.activityEducationCheckbox.isChecked = true
                     binding.activityEducationEtEndPeriod.setText("현재")
-                }else{
+                } else {
                     binding.activityEducationCheckbox.isChecked = false
-                    binding.activityEducationEtEndPeriod.setText(arr[0]+"."+arr[1])
+                    binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
                 }
                 checkDpInput(binding.activityEducationEtEndPeriod)
             }
             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
     }
-    private fun checkDpInput(view: TextView){
+
+     fun checkDpInput(view: TextView){
         if (checkInfo()){
             binding.activityEducationSaveBtn.isClickable = true
             binding.activityEducationSaveBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
@@ -98,14 +98,14 @@ class EduFragment :
             }
         })
     }
-    private fun checkNow(inputDate :String) : Boolean {
+     fun checkNow(inputDate :String) : Boolean {
         //현재 교육 중일 때
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         var formatted = current.format(formatter)
         return inputDate >= formatted
     }
-    private fun checkInfo() : Boolean{
+     fun checkInfo() : Boolean{
         var  checkResult = true
         var institution = binding.activityEducationEtInstitutionDesc.text.toString()
         var major = binding.activityEducationEtMajorDesc.text.toString()
@@ -124,7 +124,6 @@ class EduFragment :
 
         //종료년월 조건 확인 기능
         if(end.isEmpty()) checkResult = false
-
 
         return checkResult
     }

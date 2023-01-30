@@ -7,13 +7,11 @@ import android.os.*
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
-import android.widget.ListView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSomeoneprofileBinding
 
@@ -46,9 +44,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         val snsAdapter = SnsSomeoneRVAdapter(snsItems)
         binding.activitySomeoneProfileRVSns.adapter = snsAdapter
 
-        var dividerItemDecoration = DividerItemDecoration(binding.activitySomeoneProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activitySomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
-
+        var dividerItemDecoration =
+            context?.let {
+                ContextCompat.getDrawable(it, R.drawable.divider)
+                    ?.let { DividerItemDecoratorForLastItem(it) }
+            };
+        if (dividerItemDecoration != null) {
+            binding.activitySomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
+        }
         snsAdapter?.notifyDataSetChanged()
         Log.d("리스트1",snsItems.size.toString())
 
@@ -61,9 +64,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         careerItems.add(CareerRVItemData("가천대학교 입학","신입생 새내기","2020.01","2020.12"))
         careerItems.add(CareerRVItemData("UMC 2기","챌린저","2022.03","2022.09"))
         careerItems.add(CareerRVItemData("UMC 3기","챌린저/PM","2022.09","2023.02"))
-        dividerItemDecoration = DividerItemDecoration(binding.activitySomeoneProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activitySomeoneProfileRVCareer.addItemDecoration(dividerItemDecoration)
-
+         dividerItemDecoration =
+            context?.let {
+                ContextCompat.getDrawable(it, R.drawable.divider)
+                    ?.let { DividerItemDecoratorForLastItem(it) }
+            };
+        if (dividerItemDecoration != null) {
+            binding.activitySomeoneProfileRVCareer.addItemDecoration(dividerItemDecoration)
+        }
         //edu 리스트뷰 연결
         var eduItems: ArrayList<EduRVItemData> = arrayListOf()
         val eduAdapter = EduSomeoneRVAdapter(eduItems)
@@ -74,9 +82,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
         eduItems.add(EduRVItemData("가천대학교 4학년","누나 복학 화이팅","2023.03","현재"))
         //setListViewHeightBasedOnChildren(binding.activitySomeoneProfileLvEdu)
-        dividerItemDecoration = DividerItemDecoration(binding.activitySomeoneProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activitySomeoneProfileRVCareer.addItemDecoration(dividerItemDecoration)
-
+        dividerItemDecoration =
+            context?.let {
+                ContextCompat.getDrawable(it, R.drawable.divider)
+                    ?.let { DividerItemDecoratorForLastItem(it) }
+            };
+        if (dividerItemDecoration != null) {
+            binding.activitySomeoneProfileRVEdu.addItemDecoration(dividerItemDecoration)
+        }
         careerAdapter?.notifyDataSetChanged()
         eduAdapter?.notifyDataSetChanged()
 

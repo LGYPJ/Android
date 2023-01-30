@@ -54,8 +54,8 @@
 
             <TextView
                 android:id="@+id/activity_someoneProfile_tvEmail"
-                android:layout_width="125dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
 
                 android:autoLink="email"
@@ -134,16 +134,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
+                    app:layout_constraintBottom_toBottomOf="parent">
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:id="@+id/activity_myprofile_sns_v_listEndline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grayForBtn"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_RV_sns"
-                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activity_someoneProfile_cl_careerTitle"
@@ -194,17 +187,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_career_v_listEndline">
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                android:id="@+id/activity_someoneProfile_career_v_listEndline"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayForBtn"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_RV_career"
-                    />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -254,17 +240,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_edu_v_listEndline">
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:id="@+id/activity_someoneProfile_edu_v_listEndline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grayForBtn"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_RV_edu"
-                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
