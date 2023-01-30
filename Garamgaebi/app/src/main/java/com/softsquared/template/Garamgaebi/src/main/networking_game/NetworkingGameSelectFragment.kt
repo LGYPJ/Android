@@ -47,9 +47,6 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
                 containerActivity!!.openFragmentOnFrameLayout(8)
                 val temp = networkGameSelectList[position].place
                 containerActivity!!.networkingPlace(temp)
-                //viewModel.selectItem(temp)
-
-                //intent.putExtra("game_place", temp)
 
             }
 
