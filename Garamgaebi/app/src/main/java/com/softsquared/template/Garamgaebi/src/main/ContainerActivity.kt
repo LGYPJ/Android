@@ -52,15 +52,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
 
-
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
-            if(isBackSeminar()) {
-                finish()
-            }
-            if(isBackNetwork()) {
-                finish()
-            }
             if(isIceBreaking()){
                 onBackPressed()
                 binding.activityContainerToolbarTv.text ="아이스브레이킹"
@@ -74,7 +66,20 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
 
 
+
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(isIceBreaking()){
+            binding.activityContainerToolbarTv.text = "아이스브레이킹"
+        }
+        if(isNetworking()){
+            binding.activityContainerToolbarTv.text ="네트워킹"
+        }
+    }
+
+
 
     fun openFragmentOnFrameLayout(int: Int){
         val transaction = supportFragmentManager.beginTransaction()
@@ -108,7 +113,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
 
     fun networkingPlace(place: String){
+        if(isIceBreaking()){
             binding.activityContainerToolbarTv.text = place
+        }
     }
     
     override fun onStart() {
@@ -126,6 +133,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             openFragmentOnFrameLayout(5)
             binding.activityContainerToolbarTv.text = "네트워킹"
         }
+
 
 
 
@@ -148,8 +156,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }*/
 
     }
+     //안드로이드 뒤로가기 버튼 눌렀을때
+
+
+
     //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
-    fun isBackSeminar ():Boolean {
+    /*fun isBackSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
@@ -169,13 +181,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
         }
         return returnValue
-    }
+    }*/
 
     fun isIceBreaking ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
-            if(fragment is NetworkingGamePlaceFragment){
+            if(fragment is NetworkingGameSelectFragment){
                 returnValue = true
             }
         }
@@ -191,6 +203,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+
 
 
 

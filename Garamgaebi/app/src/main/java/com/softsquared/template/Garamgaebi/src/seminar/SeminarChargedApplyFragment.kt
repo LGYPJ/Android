@@ -109,12 +109,14 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
         binding.activitySeminarChargedApplyBtn.setOnClickListener {
-            val bundle = Bundle()
+            /*val bundle = Bundle()
             bundle.putBoolean("apply",true)
             val seminarFragment = SeminarFragment()
             seminarFragment.arguments = bundle
             val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
     }

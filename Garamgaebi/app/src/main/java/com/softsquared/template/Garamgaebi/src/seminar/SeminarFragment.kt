@@ -85,13 +85,12 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     //신청하기 누르면 버튼 바꾸는!!
     override fun onStart() {
         super.onStart()
-        val apply = arguments?.getBoolean("apply", false)
-        if(apply == true) {
-            val apply_tv = "신청완료"
+        //버튼 누르면 변하는 거
+            /*val apply_tv = "신청완료"
             binding.activitySeminarFreeApplyBtn.text = apply_tv
             binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-            binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-        }
+            binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)*/
+
 
     }
     //화면전환

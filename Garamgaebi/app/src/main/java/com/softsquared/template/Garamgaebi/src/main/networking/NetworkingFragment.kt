@@ -64,14 +64,11 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
     //신청하기 누르면 버튼 바꾸는!!
     override fun onStart() {
         super.onStart()
-        val apply = arguments?.getBoolean("networking", false)
-        Log.d("networking", apply.toString())
-        if(apply !== null) {
+        //버튼 눌렀을때 바뀌는 거
             val apply_tv = "신청완료"
             binding.activityNetworkApplyBtn.text = apply_tv
             binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
             binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-        }
 
     }
 }
