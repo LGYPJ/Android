@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
@@ -16,6 +17,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    private lateinit var viewModel: ItemViewModel
 
     private var networkGameSelectList: ArrayList<NetworkingGameSelect> = arrayListOf(
         NetworkingGameSelect("가천관"),
@@ -39,15 +41,19 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
             addItemDecoration(NetworkingGameSelectVerticalItemDecoration())
         }
 
+        viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
         networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 containerActivity!!.openFragmentOnFrameLayout(8)
                 val temp = networkGameSelectList[position].place
+                viewModel.selectItem(temp)
+
                 //intent.putExtra("game_place", temp)
 
             }
 
         })
+
 
     }
 
@@ -58,4 +64,5 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
 
     }
+
 }

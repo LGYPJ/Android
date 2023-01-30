@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityContainerBinding
@@ -16,6 +18,7 @@ import com.softsquared.template.Garamgaebi.src.main.cancel.CancelFragment
 import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFragment
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFreeApplyFragment
+import com.softsquared.template.Garamgaebi.src.main.networking_game.ItemViewModel
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragment
@@ -28,6 +31,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     private var seminarFreeApplyFragment : SeminarFreeApplyFragment? = null
     private var seminarChargedApplyFragment: SeminarChargedApplyFragment? =null
     private var cancelFragment: CancelFragment? =null*/
+    private lateinit var viewModel: ItemViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +60,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 onBackPressed()
             }
         }
+        //아이스 브레이킹과 게임관 툴바 이름 바뀌는 거,,,,,,, 라이브데이터 적용이 안됨...
+        viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
+        viewModel._ice.observe(this, Observer {
+            binding.activityContainerToolbarTv.text = it.toString()
+            Log.d("bbb", it)
+        })
 
         /*seminarFragment = SeminarFragment()
         seminarFreeApplyFragment = SeminarFreeApplyFragment()
@@ -74,7 +84,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment())
             5 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
             6 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
-            7 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment())
+            7 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment()).addToBackStack(null)
             8 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
         }
         transaction.commit()
@@ -95,6 +105,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             openFragmentOnFrameLayout(5)
             binding.activityContainerToolbarTv.text = "네트워킹"
         }
+
+
         /*val fragmentList = supportFragmentManager.fragments
 
         for (fragment in fragmentList) {
@@ -131,6 +143,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if(fragment is NetworkingFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isIceBreaking ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is NetworkingGameSelectFragment){
                 returnValue = true
             }
         }
