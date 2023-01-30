@@ -110,26 +110,9 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             seminarFragment.arguments = bundle
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()
-            /*requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-            requireActivity().supportFragmentManager.popBackStack()*/
-            /*seminarButtonViewModel = ViewModelProvider(this)[SeminarButtonViewModel::class.java]
-            seminarButtonViewModel.button2.value*/
-            //seminarButtonViewModel.updateValue(Button(true, "신청완료", R.color.seminar_blue, R.drawable.activity_seminar_apply_done_btn_border))
-            //containerActivity!!.openFragmentOnFrameLayout(1)
-            /*val sharedPreferences = this.activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
-            sharedPreferences?.edit()?.run {
-                putBoolean("true", true)
-                containerActivity!!.openFragmentOnFrameLayout(1)
-                apply()
-            }*/
         }
 
 
-
-        //뒤로가기 버튼 누르면 세미나 메인 페이지로 ==> 툴바 적용
-        /*binding.activitySeminarFreeBackBtn.setOnClickListener {
-
-        }*/
     }
 
     //전화번호 형식 맞나

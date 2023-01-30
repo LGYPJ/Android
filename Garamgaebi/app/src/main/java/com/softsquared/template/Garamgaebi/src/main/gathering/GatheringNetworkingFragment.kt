@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringNetworkingBinding
+import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeActivity
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyActivity
 
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val networkingThisMonthData = GatheringSeminarItemData("로건 네트워킹","xxxx-xx-xx", "pp", 1)
@@ -54,13 +56,17 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
         binding.fragmentGatheringNetworkingRvDeadline.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.fragmentGatheringNetworkingRvDeadline.addItemDecoration(GatheringItemDecoration())
 
-        binding.fragmentGatheringNetworkingTvThisMonth.setOnClickListener {
-            startActivity(Intent(activity, NetworkingActivity::class.java))
+        binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
+            //네트워킹 프래그먼트로!
+            val intent = Intent(context, ContainerActivity::class.java)
+            intent.putExtra("networking", true)
+            startActivity(intent)
         }
 
         networkingDeadlineAdapter.setOnItemClickListener(object :GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
-                //TODO("Not yet implemented")
+
+
             }
 
         })

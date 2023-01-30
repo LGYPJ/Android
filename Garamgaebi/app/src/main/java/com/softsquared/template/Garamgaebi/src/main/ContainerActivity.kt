@@ -3,6 +3,7 @@ package com.softsquared.template.Garamgaebi.src.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -13,6 +14,10 @@ import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
 import com.softsquared.template.Garamgaebi.src.main.cancel.CancelCompleteDialog
 import com.softsquared.template.Garamgaebi.src.main.cancel.CancelFragment
 import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
+import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFragment
+import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFreeApplyFragment
+import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
+import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
@@ -40,7 +45,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
+            //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
             if(isBackSeminar()) {
+                finish()
+            }
+            if(isBackNetwork()) {
                 finish()
             }
             else {
@@ -63,6 +72,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             2 -> transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
             3 -> transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
             4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment())
+            5 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
+            6 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
+            7 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment())
+            8 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
         }
         transaction.commit()
     }
@@ -77,6 +90,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(intent.getBooleanExtra("cancel", false)){
             openFragmentOnFrameLayout(4)
             binding.activityContainerToolbarTv.text = "신청 취소"
+        }
+        if(intent.getBooleanExtra("networking", false)){
+            openFragmentOnFrameLayout(5)
+            binding.activityContainerToolbarTv.text = "네트워킹"
         }
         /*val fragmentList = supportFragmentManager.fragments
 
@@ -97,7 +114,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }*/
 
     }
-
+    //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
     fun isBackSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -108,6 +125,18 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+    fun isBackNetwork ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is NetworkingFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
 
 
 }

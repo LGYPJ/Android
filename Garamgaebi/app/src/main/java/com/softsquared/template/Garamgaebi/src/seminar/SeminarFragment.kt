@@ -82,11 +82,10 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         }
 
     }
-    //신청하기 누르면 버튼 바꾸는!! bundle로 바꾸기
+    //신청하기 누르면 버튼 바꾸는!!
     override fun onStart() {
         super.onStart()
         val apply = arguments?.getBoolean("apply", false)
-        Log.d("apply", apply.toString())
         if(apply == true) {
             val apply_tv = "신청완료"
             binding.activitySeminarFreeApplyBtn.text = apply_tv
