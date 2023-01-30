@@ -23,6 +23,7 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.activityNetworkFreeApplyBtn.isEnabled = false
 
 
         // et selected 여부에 따라 drawable 결정
@@ -108,12 +109,14 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달
         binding.activityNetworkFreeApplyBtn.setOnClickListener {
-            val bundle = Bundle()
+            /*val bundle = Bundle()
             bundle.putBoolean("networking",true)
             val networkingFragment = NetworkingFragment()
             networkingFragment.arguments = bundle
             val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, networkingFragment).commit()
+            transaction.replace(R.id.activity_seminar_frame, networkingFragment).commit()*/
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
 
