@@ -27,16 +27,6 @@ import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
-    /*private var networkingGameSelectFragment : NetworkingGameSelectFragment? = null
-    private var networkingFragment : NetworkingFragment? = null
-    private var networkingFreeApplyFragment : NetworkingFreeApplyFragment? = null
-    private var seminarFragment : SeminarFragment? = null
-    private var seminarFreeApplyFragment : SeminarFreeApplyFragment? = null
-    private var seminarChargedApplyFragment: SeminarChargedApplyFragment? =null
-    private var cancelFragment: CancelFragment? =null
-    private var networkingGamePlaceFragment: NetworkingGamePlaceFragment? =null*/
-    //private lateinit var viewModel: ItemViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +54,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 }
             }
         }
-
-
 
     }
 
@@ -158,30 +146,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
      //안드로이드 뒤로가기 버튼 눌렀을때
 
-
-
-    //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
-    /*fun isBackSeminar ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if(fragment is SeminarFragment){
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
-    fun isBackNetwork ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if(fragment is NetworkingFragment){
-                returnValue = true
-            }
-        }
-        return returnValue
-    }*/
 
     fun isIceBreaking ():Boolean {
         var returnValue = false
