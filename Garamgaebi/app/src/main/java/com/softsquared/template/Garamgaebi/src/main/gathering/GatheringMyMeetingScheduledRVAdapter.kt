@@ -1,6 +1,7 @@
 package com.softsquared.template.Garamgaebi.src.main.gathering
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
@@ -23,15 +24,15 @@ class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<Gathe
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.root.setOnClickListener {
-            itemClickListener.onClick(position)
+        holder.binding.itemGatheringMyMeetingScheduledIvMore.setOnClickListener {
+            itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingScheduledIvMore)
         }
     }
 
     override fun getItemCount(): Int = dataList.size
 
     interface OnItemClickListener {
-        fun onClick(position: Int)
+        fun onMoreClick(position: Int, v : View)
     }
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         itemClickListener = onItemClickListener
