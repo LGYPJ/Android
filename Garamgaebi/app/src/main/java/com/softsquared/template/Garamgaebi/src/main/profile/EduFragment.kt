@@ -8,12 +8,13 @@ import android.widget.EditText
 import android.widget.TextView
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
-import com.softsquared.template.Garamgaebi.databinding.ActivityProfileEducationBinding
+import com.softsquared.template.Garamgaebi.config.BaseFragment
+import com.softsquared.template.Garamgaebi.databinding.FragmentProfileEducationBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class EduActivity  : BaseActivity<ActivityProfileEducationBinding>(ActivityProfileEducationBinding::inflate) {
-    override fun onCreate(savedInstanceState: Bundle?) {
+class EduFragment :
+    BaseFragment<FragmentProfileEducationBinding>(FragmentProfileEducationBinding::bind, R.layout.fragment_profile_education) {    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
@@ -25,10 +26,7 @@ class EduActivity  : BaseActivity<ActivityProfileEducationBinding>(ActivityProfi
                 //저장 불가 및 이유
             }
         }
-        //뒤로가기
-        binding.activityEducationBackBtn.setOnClickListener {
-            onBackPressed()
-        }
+
 
         //교육기관 입력 시 레이아웃 테두리 변경
         checkEtInput(binding.activityEducationEtInstitutionDesc)
@@ -51,7 +49,7 @@ class EduActivity  : BaseActivity<ActivityProfileEducationBinding>(ActivityProfi
 
                 checkDpInput(binding.activityEducationEtEndPeriod)
             }
-            orderBottomDialogFragment.show(supportFragmentManager, orderBottomDialogFragment.tag)
+            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
         //종료년월
         binding.activityEducationEtEndPeriod.setOnClickListener {
@@ -66,7 +64,7 @@ class EduActivity  : BaseActivity<ActivityProfileEducationBinding>(ActivityProfi
                 }
                 checkDpInput(binding.activityEducationEtEndPeriod)
             }
-            orderBottomDialogFragment.show(supportFragmentManager, orderBottomDialogFragment.tag)
+            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
     }
     private fun checkDpInput(view: TextView){
@@ -129,16 +127,5 @@ class EduActivity  : BaseActivity<ActivityProfileEducationBinding>(ActivityProfi
 
 
         return checkResult
-    }
-    //뒤로가기 버튼 눌렀을 때
-    override fun onBackPressed() {
-        super.onBackPressed()
-//        stopPlay() //이 액티비티에서 종료되어야 하는 활동 종료시켜주는 함수
-//        Toast.makeText(this@WebViewPlayer, "방송 시청이 종료되었습니다.", Toast.LENGTH_SHORT).show() //토스트 메시지
-//        val intent =
-//            Intent(this@WebViewPlayer, MainActivity::class.java) //지금 액티비티에서 다른 액티비티로 이동하는 인텐트 설정
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //인텐트 플래그 설정
-//        startActivity(intent) //인텐트 이동
-        finish() //현재 액티비티 종료
     }
 }

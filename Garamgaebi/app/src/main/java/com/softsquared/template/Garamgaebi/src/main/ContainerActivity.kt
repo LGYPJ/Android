@@ -21,6 +21,7 @@ import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFreeApp
 import com.softsquared.template.Garamgaebi.src.main.networking_game.ItemViewModel
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
+import com.softsquared.template.Garamgaebi.src.main.profile.*
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
@@ -102,7 +103,28 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
 
 
+            //승민 부분
+            9 -> {
+                transaction.replace(R.id.activity_seminar_frame, SnsFragment()).addToBackStack(null)
+            }
+            10 -> {
+                transaction.replace(R.id.activity_seminar_frame, CareerFragment()).addToBackStack(null)
+            }
+            11 -> {
+                transaction.replace(R.id.activity_seminar_frame, EduFragment()).addToBackStack(null)
+            }
+            12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment()).addToBackStack(null)
 
+            13 -> {
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment()).addToBackStack(null)
+            }
+            14 -> {
+                transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment()).addToBackStack(null)
+            }
+            15 -> {
+                transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment()).addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "회원탈퇴"
+            }
         }
         transaction.commit()
     }
@@ -126,6 +148,36 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             openFragmentOnFrameLayout(5)
             binding.activityContainerToolbarTv.text = "네트워킹"
         }
+
+        if(intent.getBooleanExtra("sns", false)){
+            openFragmentOnFrameLayout(9)
+            binding.activityContainerToolbarTv.text = "SNS"
+        }
+        if(intent.getBooleanExtra("career", false)){
+            openFragmentOnFrameLayout(10)
+            binding.activityContainerToolbarTv.text = "경력"
+        }
+        if(intent.getBooleanExtra("edu", false)){
+            openFragmentOnFrameLayout(11)
+            binding.activityContainerToolbarTv.text = "교육"
+        }
+        if(intent.getBooleanExtra("edit", false)){
+            openFragmentOnFrameLayout(12)
+            binding.activityContainerToolbarTv.text = "프로필 편집"
+        }
+        if(intent.getBooleanExtra("someoneprofile", false)){
+            openFragmentOnFrameLayout(13)
+            binding.activityContainerToolbarTv.text = "프로필"
+        }
+        if(intent.getBooleanExtra("servicecenter", false)){
+            openFragmentOnFrameLayout(14)
+            binding.activityContainerToolbarTv.text = "고객 센터"
+        }
+        if(intent.getBooleanExtra("withdrawal", false)){
+            openFragmentOnFrameLayout(15)
+            binding.activityContainerToolbarTv.text = "회원 탈퇴"
+        }
+
 
 
 

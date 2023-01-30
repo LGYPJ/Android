@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
-import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentMyprofileBinding
-import com.softsquared.template.Garamgaebi.src.main.MainActivity
-import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
+import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 
 class MyProfileFragment :
     BaseFragment<FragmentMyprofileBinding>(FragmentMyprofileBinding::bind, R.layout.fragment_myprofile) {
     private lateinit var callback: OnBackPressedCallback
+    var containerActivity: ContainerActivity? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activityMyProfileTvUsername.text = "로건"
@@ -33,16 +33,21 @@ class MyProfileFragment :
 
         //내 프로필 편집 화면으로 이동
         binding.activityMyProfileBtnEditProfile.setOnClickListener {
-            startActivity(Intent(activity, ProfileEditActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("edit",true) //데이터 넣기
+            startActivity(intent)
         }
-
         //고객센터 화면으로 이동
         binding.activityMyProfileIvCs.setOnClickListener {
-            startActivity(Intent(activity, ServiceCenterActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("servicecenter",true) //데이터 넣기
+            startActivity(intent)
         }
         //탈퇴 화면으로 이동
         binding.activityMyProfileIvWd.setOnClickListener {
-            startActivity(Intent(activity, WithdrawalActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("withdrawal",true) //데이터 넣기
+            startActivity(intent)
         }
 
         //sns 리스트뷰 연결
@@ -60,7 +65,9 @@ class MyProfileFragment :
             snsItems.add(SnsRVItemData("neoninstagram.com"))
             snsAdapter?.notifyDataSetChanged()
             Log.d("plus_sns",snsItems.size.toString())
-            startActivity(Intent(activity, SnsProfileActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("sns",true) //데이터 넣기
+            startActivity(intent)
         }
 
         //career 리스트뷰 연결
@@ -77,7 +84,9 @@ class MyProfileFragment :
             careerItems.add(CareerRVItemData("우아한 형제들","프론트엔드 개발자","2020.04","2021.09"))
             careerAdapter?.notifyDataSetChanged()
             Log.d("plus_career",careerItems.size.toString())
-            startActivity(Intent(activity, CareerActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("career",true) //데이터 넣기
+            startActivity(intent)
         }
 
         //edu 리스트뷰 연결
@@ -93,12 +102,16 @@ class MyProfileFragment :
             binding.activityMyProfileTvEduDesc.visibility = View.GONE
             eduItems.add(EduRVItemData("우아한 형제들","프론트엔드 개발 교육","2020.04","2021.09"))
             eduAdapter?.notifyDataSetChanged()
-            startActivity(Intent(activity, EduActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("edu",true) //데이터 넣기
+            startActivity(intent)
         }
 
-        //test
+        //test 상대 프로필
         binding.activityMyProfileIvProfile.setOnClickListener {
-            startActivity(Intent(activity, SomeoneProfileActivity::class.java))
+            val intent = Intent(activity,ContainerActivity::class.java)
+            intent.putExtra("someoneprofile",true) //데이터 넣기
+            startActivity(intent)
         }
     }
 
@@ -122,21 +135,13 @@ class MyProfileFragment :
         listView.layoutParams = params
         listView.requestLayout()
     }
+
+    //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                    (activity as MainActivity?)
-                        ?.supportFragmentManager
-                        ?.beginTransaction()
-                        ?.replace(ActivityMainBinding.inflate(layoutInflater).activityMainFrm.id,
-                            HomeFragment()
-                        )
-                        ?.commitAllowingStateLoss()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+       // containerActivity = context as ContainerActivity
     }
+
     override fun onDetach() {
         super.onDetach()
         callback.remove()

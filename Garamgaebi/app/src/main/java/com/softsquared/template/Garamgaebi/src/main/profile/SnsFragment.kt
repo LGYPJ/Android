@@ -6,15 +6,15 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.config.BaseActivity
-import com.softsquared.template.Garamgaebi.databinding.ActivityProfileSnsBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.softsquared.template.Garamgaebi.config.BaseFragment
+import com.softsquared.template.Garamgaebi.databinding.FragmentProfileSnsBinding
 
-class SnsProfileActivity  : BaseActivity<ActivityProfileSnsBinding>(ActivityProfileSnsBinding::inflate) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class SnsFragment  : BaseFragment<FragmentProfileSnsBinding>(FragmentProfileSnsBinding::bind, R.layout.fragment_profile_sns) {
+    private lateinit var callback: OnBackPressedCallback
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
 
         //편집 정보 저장하기 버튼 클릭이벤트
@@ -24,10 +24,6 @@ class SnsProfileActivity  : BaseActivity<ActivityProfileSnsBinding>(ActivityProf
             }else{
                 //저장 불가 및 이유
             }
-        }
-        //뒤로가기
-        binding.activitySnsBackBtn.setOnClickListener {
-            onBackPressed()
         }
 
         //회사 입력 시 레이아웃 테두리 변경
@@ -83,18 +79,5 @@ class SnsProfileActivity  : BaseActivity<ActivityProfileSnsBinding>(ActivityProf
             checkResult = false
         }
         return checkResult
-    }
-
-
-    //뒤로가기 버튼 눌렀을 때
-    override fun onBackPressed() {
-        super.onBackPressed()
-//        stopPlay() //이 액티비티에서 종료되어야 하는 활동 종료시켜주는 함수
-//        Toast.makeText(this@WebViewPlayer, "방송 시청이 종료되었습니다.", Toast.LENGTH_SHORT).show() //토스트 메시지
-//        val intent =
-//            Intent(this@WebViewPlayer, MainActivity::class.java) //지금 액티비티에서 다른 액티비티로 이동하는 인텐트 설정
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //인텐트 플래그 설정
-//        startActivity(intent) //인텐트 이동
-        finish() //현재 액티비티 종료
     }
 }
