@@ -28,4 +28,11 @@ class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheri
 
 
     }
+    fun setVPSeminar() {
+        binding.fragmentGatheringVp.currentItem = 0
+    }
+    fun setVPNetworking() {
+        binding.fragmentGatheringVp.currentItem = 1
+    }
+
 }

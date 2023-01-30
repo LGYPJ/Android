@@ -1,6 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.profile
 
-data class EduListViewItem(
+data class EduRVItemData(
     val title: String,
     val position: String,
     val start: String,

@@ -10,35 +10,64 @@ import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
 import com.softsquared.template.Garamgaebi.src.main.profile.MyProfileFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
-
+    private var homeFragment : HomeFragment? = null
+    private var gatheringFragment : GatheringFragment? = null
+    private var myProfileFragment : MyProfileFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction().replace(R.id.activity_main_frm, HomeFragment()).commitAllowingStateLoss()
         setBottomNavi()
     }
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
     private fun setBottomNavi() {
+        homeFragment = HomeFragment()
+        gatheringFragment = GatheringFragment()
+        myProfileFragment = MyProfileFragment()
+
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, homeFragment!!).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, gatheringFragment!!).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.activity_main_frm, myProfileFragment!!).commitAllowingStateLoss()
+
+        supportFragmentManager.beginTransaction().show(homeFragment!!).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().hide(gatheringFragment!!).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().hide(myProfileFragment!!).commitAllowingStateLoss()
+        binding.activityMainBottomNavi.selectedItemId = R.id.home
+
         binding.activityMainBottomNavi.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.activity_main_btm_nav_home -> {
-                    setFragment(HomeFragment())
+                    supportFragmentManager.beginTransaction().show(homeFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().hide(gatheringFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().hide(myProfileFragment!!).commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {
-                    setFragment(GatheringFragment())
+                    supportFragmentManager.beginTransaction().hide(homeFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().show(gatheringFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().hide(myProfileFragment!!).commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_profile -> {
-                    setFragment(MyProfileFragment())
+                    supportFragmentManager.beginTransaction().hide(homeFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().hide(gatheringFragment!!).commitAllowingStateLoss()
+                    supportFragmentManager.beginTransaction().show(myProfileFragment!!).commitAllowingStateLoss()
+
                     return@setOnItemSelectedListener true
                 }
                 else -> false
             }
         }
+
+
+    }
+    fun goGatheringSeminar() {
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+        gatheringFragment!!.setVPSeminar()
+    }
+    fun goGatheringNetworking() {
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+        gatheringFragment!!.setVPNetworking()
     }
 
-    private fun setFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.activity_main_frm, fragment).commit()
-    }
+
 }

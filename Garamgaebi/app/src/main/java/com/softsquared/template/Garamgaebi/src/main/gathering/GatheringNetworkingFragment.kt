@@ -3,6 +3,7 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment

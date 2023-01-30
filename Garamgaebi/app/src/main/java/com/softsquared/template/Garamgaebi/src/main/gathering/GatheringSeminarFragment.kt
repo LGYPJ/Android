@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
@@ -68,9 +70,11 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 
         binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
             //세미나 메인 프래그먼트로!
+
             val intent = Intent(context, ContainerActivity::class.java)
             intent.putExtra("seminar", true)
             startActivity(intent)
+
         }
         seminarDeadlineAdapter.setOnItemClickListener(object :GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
             override fun onClick(position: Int) {

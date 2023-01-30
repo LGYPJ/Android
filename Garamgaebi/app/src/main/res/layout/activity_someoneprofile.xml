@@ -164,28 +164,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_cl_careerTitle"
                 >
-                <TextView
-                    android:id="@+id/activity_myProfile_tv_snsDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:text="@string/sns_desc"
-                    android:textStyle="normal"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black80"
-                    app:layout_constraintTop_toTopOf="parent"
-                    ></TextView>
-                <ListView
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_someoneProfile_lv_sns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_snsDesc"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_myprofile_sns_v_listEndline">
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:id="@+id/activity_myprofile_sns_v_listEndline"
                     android:layout_width="match_parent"
@@ -194,25 +184,6 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_sns"
                     />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/activity_myProfile_btn_snsAdd"
-                    android:layout_width="134dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:paddingStart="16.5dp"
-                    android:paddingEnd="26.5dp"
-                    android:text="SNS 추가"
-                    android:textSize="16sp"
-                    android:textColor="@color/blueForBtn"
-                    android:outlineProvider="none"
-                    android:drawableLeft="@drawable/ic_add_border_round_24dp"
-                    android:background="@drawable/basic_blue_white_btn_layout"
-                    app:layout_constraintTop_toBottomOf="@id/activity_myprofile_sns_v_listEndline"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    ></androidx.appcompat.widget.AppCompatButton>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activity_someoneProfile_cl_careerTitle"
@@ -255,24 +226,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_cl_eduTitle"
                 >
-                <ListView
-                    android:id="@+id/activity_someoneProfile_lv_career"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_someoneProfile_RV_career"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_career_v_listEndline">
 
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                 android:id="@+id/activity_someoneProfile_career_v_listEndline"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grayForBtn"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_career"
-
+                app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_RV_career"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -315,23 +286,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 >
-                <ListView
-                    android:id="@+id/activity_someoneProfile_lv_edu"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_someoneProfile_RV_edu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_someoneProfile_edu_v_listEndline">
 
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:id="@+id/activity_someoneProfile_edu_v_listEndline"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/grayForBtn"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_lv_edu"
+                    app:layout_constraintTop_toBottomOf="@id/activity_someoneProfile_RV_edu"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
