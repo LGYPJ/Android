@@ -3,16 +3,12 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
-import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyActivity
 
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
 

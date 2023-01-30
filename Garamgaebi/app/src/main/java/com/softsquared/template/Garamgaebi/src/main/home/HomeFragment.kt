@@ -1,6 +1,9 @@
 package com.softsquared.template.Garamgaebi.src.main.home
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +16,9 @@ import com.softsquared.template.Garamgaebi.src.main.MainActivity
 import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringFragment
 import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringSeminarFragment
 import com.softsquared.template.Garamgaebi.src.main.notification.NotificationActivity
+import com.softsquared.template.Garamgaebi.src.seminar.HomeNetworkingHelpDialog
+import com.softsquared.template.Garamgaebi.src.seminar.HomeSeminarHelpDialog
+import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
@@ -126,16 +132,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeIvNotification.setOnClickListener {
             startActivity(Intent(activity, NotificationActivity::class.java))
         }
-
+        // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
             (activity as MainActivity).goGatheringSeminar()
             goGathering()
         }
+        // 모아보기 네트워킹 이동
         binding.fragmentHomeClGatheringNetworking.setOnClickListener {
             (activity as MainActivity).goGatheringNetworking()
             goGathering()
         }
 
+        // 세미나 도움말
+        binding.fragmentHomeIvSeminarHelpBtn.setOnClickListener { v ->
+            Log.d("test", "${v.x.toInt()}, ${v.y.toInt()}")
+            activity?.let {
+                HomeSeminarHelpDialog(v.x.toInt(), v.y.toInt()).show(
+                    it.supportFragmentManager, "HomeSeminarHelpDialog"
+                )
+            }
+            true
+        }
+        binding.fragmentHomeIvNetworkingHelpBtn.setOnClickListener { v ->
+            Log.d("test", "${v.x.toInt()}, ${v.y.toInt()}")
+            activity?.let {
+                HomeNetworkingHelpDialog(v.x.toInt(), v.y.toInt()).show(
+                    it.supportFragmentManager, "HomeSeminarHelpDialog"
+                )
+            }
+            true
+        }
     }
     private fun goGathering() {
         val findFragment = parentFragmentManager.findFragmentByTag("gathering")

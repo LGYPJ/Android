@@ -1,23 +1,14 @@
 package com.softsquared.template.Garamgaebi.src.main.gathering
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringSeminarBinding
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
-import com.softsquared.template.Garamgaebi.src.main.home.HomeSeminarItemData
-import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyActivity
 
 class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(FragmentGatheringSeminarBinding::bind, R.layout.fragment_gathering_seminar){
 
@@ -64,7 +55,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         binding.fragmentGatheringSeminarRvClosed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.fragmentGatheringSeminarRvClosed.addItemDecoration(GatheringItemDecoration())
         binding.fragmentGatheringSeminarTvThisMonth.setOnClickListener {
-            startActivity(Intent(activity, SeminarFreeActivity::class.java))
+
         }
 
 

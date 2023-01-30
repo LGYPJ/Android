@@ -28,12 +28,15 @@ import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
-    /*private var seminarFragment : SeminarFragment? = null
+    /*private var networkingGameSelectFragment : NetworkingGameSelectFragment? = null
+    private var networkingFragment : NetworkingFragment? = null
+    private var networkingFreeApplyFragment : NetworkingFreeApplyFragment? = null
+    private var seminarFragment : SeminarFragment? = null
     private var seminarFreeApplyFragment : SeminarFreeApplyFragment? = null
     private var seminarChargedApplyFragment: SeminarChargedApplyFragment? =null
-    private var cancelFragment: CancelFragment? =null*/
-    private var networkingGamePlaceFragment: NetworkingGamePlaceFragment? =null
-    private lateinit var viewModel: ItemViewModel
+    private var cancelFragment: CancelFragment? =null
+    private var networkingGamePlaceFragment: NetworkingGamePlaceFragment? =null*/
+    //private lateinit var viewModel: ItemViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +53,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
 
+
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             //메인 세미나 프래그먼트일때 백버튼 누르면 컨테이너 액티비티 종료되게
-            networkingGamePlaceFragment = NetworkingGamePlaceFragment()
-            val transaction = supportFragmentManager.beginTransaction()
             if(isBackSeminar()) {
                 finish()
             }
@@ -61,24 +63,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 finish()
             }
             if(isIceBreaking()){
-                transaction.remove(networkingGamePlaceFragment!!).commit()
-                supportFragmentManager.popBackStack()
+                onBackPressed()
+                binding.activityContainerToolbarTv.text ="아이스브레이킹"
             }
             else {
                 onBackPressed()
+                if(isNetworking()){
+                    binding.activityContainerToolbarTv.text = "네트워킹"
+                }
             }
         }
-        //아이스 브레이킹과 게임관 툴바 이름 바뀌는 거,,,,,,, 라이브데이터 적용이 안됨...
-        viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
-        viewModel._ice.observe(this, Observer {
-            binding.activityContainerToolbarTv.text = it.toString()
-            Log.d("bbb", it)
-        })
 
-        /*seminarFragment = SeminarFragment()
-        seminarFreeApplyFragment = SeminarFreeApplyFragment()
-        seminarChargedApplyFragment = SeminarChargedApplyFragment()
-        cancelFragment = CancelFragment()*/
 
     }
 
@@ -86,16 +81,26 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val transaction = supportFragmentManager.beginTransaction()
         when(int){
             0 -> finish()
-            1 -> transaction.replace(R.id.activity_seminar_frame, SeminarFragment())
-            2 -> transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
-            3 -> transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
-            4 -> transaction.replace(R.id.activity_seminar_frame, CancelFragment())
-            5 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
-            6 -> transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
+            1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment())
+                }
+            2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment()).addToBackStack(null)
+            }
+            3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment()).addToBackStack(null)
+            }
+
+            4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment())
+            }
+            5 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFragment())
+                binding.activityContainerToolbarTv.text = "네트워킹"
+            }
+            6 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment()).addToBackStack(null)
+                 binding.activityContainerToolbarTv.text = "네트워킹"
+            }
             7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment()).addToBackStack(null)
                    binding.activityContainerToolbarTv.text = "아이스브레이킹"
             }
-            8 -> transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
+            8 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment()).addToBackStack(null)
+            }
 
 
             //승민 부분
@@ -124,11 +129,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         transaction.commit()
     }
 
-    //if문 넣어줏기
     fun networkingPlace(place: String){
-        if(isIceBreaking()){
             binding.activityContainerToolbarTv.text = place
-        }
     }
     
     override fun onStart() {
@@ -178,6 +180,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
 
+
         /*val fragmentList = supportFragmentManager.fragments
 
         for (fragment in fragmentList) {
@@ -224,7 +227,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
-            if(fragment is NetworkingGameSelectFragment){
+            if(fragment is NetworkingGamePlaceFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+    fun isNetworking ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is NetworkingFragment){
                 returnValue = true
             }
         }
