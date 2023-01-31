@@ -13,14 +13,26 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentMyprofileBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.gson.GsonBuilder
 
 class MyProfileFragment :
     BaseFragment<FragmentMyprofileBinding>(FragmentMyprofileBinding::bind, R.layout.fragment_myprofile) {
     private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
         binding.activityMyProfileTvUsername.text = "로건"
         binding.activityMyProfileTvIntro.text = "자기소개"
         binding.activityMyProfileTvSchool.text = "가천대학교 소프트웨어학과"
