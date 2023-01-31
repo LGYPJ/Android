@@ -17,6 +17,8 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
+import com.softsquared.template.Garamgaebi.src.seminar.data.PresentationResult
+import com.softsquared.template.Garamgaebi.src.seminar.viewmodel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind, R.layout.fragment_seminar) {
 
@@ -31,11 +33,11 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         SeminarProfile(R.drawable.ic_seminar_profile1, "승콩", multi_type1)
     )
 
-    private var presentList: ArrayList<SeminarPresent> = arrayListOf(
-        SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile1_img),
-        SeminarPresent("docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile2_img),
-        SeminarPresent("docker에 대해 알아보자docker에 대해 알아보자", "네온", "재학생",R.drawable.activity_seminar_present_profile3_img)
-    )
+    /*private var presentList: ArrayList<PresentationResult> = arrayListOf(
+        PresentationResult("docker에 대해 알아보자", "네온", "재학생", "R.drawable.activity_seminar_present_profile1_img"),
+        PresentationResult("docker에 대해 알아보자", "네온", "재학생","R.drawable.activity_seminar_present_profile2_img"),
+        PresentationResult("docker에 대해 알아보자docker에 대해 알아보자", "네온", "재학생", "R.drawable.activity_seminar_present_profile3_img")
+    )*/
     //화면전환
     var containerActivity: ContainerActivity? = null
 
@@ -50,15 +52,32 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             addItemDecoration(SeminarHorizontalItemDecoration())
         }
 
-        val presentAdapter = SeminarPresentAdapter(presentList)
-        binding.activitySeminarFreePresentRv.apply {
-            adapter = presentAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(SeminarVerticalItemDecoration())
-        }
+        //발표 어댑터 연결
+        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
+        viewModel.getSeminarsInfo(1)
+        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+            val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
+            binding.activitySeminarFreePresentRv.apply {
+                adapter = presentAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(SeminarVerticalItemDecoration())
+            }
+            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
+            presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    activity?.let {
+                        SeminarPreviewDialog().show(
+                            it.supportFragmentManager, "SeminarPreviewDialog"
+                        )
+                    }
+                    SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                }
+            } )
+        })
+
 
          //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-        presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
+        /*presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
                 activity?.let {
                     SeminarPreviewDialog().show(
@@ -67,7 +86,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                 }
                 SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
-        } )
+        } )*/
 
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
 
