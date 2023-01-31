@@ -1,7 +1,6 @@
-package com.softsquared.template.Garamgaebi.src.seminar.data
+package com.softsquared.template.Garamgaebi.model
 
 import com.softsquared.template.Garamgaebi.config.GaramgaebiApplication
-import retrofit2.create
 
 class SeminarRepository {
     private val seminarClient = GaramgaebiApplication.sRetrofit.create(SeminarInterface::class.java)

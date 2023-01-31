@@ -1,13 +1,12 @@
-package com.softsquared.template.Garamgaebi.src.seminar.viewmodel
+package com.softsquared.template.Garamgaebi.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softsquared.template.Garamgaebi.src.seminar.data.PresentationResult
-import com.softsquared.template.Garamgaebi.src.seminar.data.SeminarPresentResponse
-import com.softsquared.template.Garamgaebi.src.seminar.data.SeminarRepository
+import com.softsquared.template.Garamgaebi.model.SeminarPresentResponse
+import com.softsquared.template.Garamgaebi.model.SeminarRepository
 import kotlinx.coroutines.launch
 
 class SeminarViewModel : ViewModel(){

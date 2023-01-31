@@ -1,14 +1,11 @@
-package com.softsquared.template.Garamgaebi.src.seminar.data
+package com.softsquared.template.Garamgaebi.model
 
 import com.google.gson.annotations.SerializedName
 import com.softsquared.template.Garamgaebi.config.BaseResponse
 
 data class SeminarPresentResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean,
-    @SerializedName("code") val code: Int,
-    @SerializedName("message") val message: String,
     @SerializedName("result") val result : List<PresentationResult>
-)
+):BaseResponse()
 
 data class PresentationResult(
     @SerializedName("presentationIdx") val presentationIdx : Int,
