@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemCancelBankBinding
-import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectAdapter
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarPresentAdapter
+import com.softsquared.template.Garamgaebi.src.main.seminar.SeminarPresentAdapter
 
 class CancelAdapter(private val dataList: ArrayList<Cancel>): RecyclerView.Adapter<CancelAdapter.ViewHolder>() {
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.*
-import com.softsquared.template.Garamgaebi.src.seminar.*
+import com.softsquared.template.Garamgaebi.src.main.seminar.*
 
 class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

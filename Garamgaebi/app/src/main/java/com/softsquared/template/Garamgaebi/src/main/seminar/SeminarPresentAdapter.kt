@@ -1,13 +1,12 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.softsquared.template.Garamgaebi.databinding.ItemSeminarPresentBinding
-import com.softsquared.template.Garamgaebi.src.seminar.data.PresentationResult
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.PresentationResult
 
 class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>): RecyclerView.Adapter<SeminarPresentAdapter.ViewHolder>() {
 

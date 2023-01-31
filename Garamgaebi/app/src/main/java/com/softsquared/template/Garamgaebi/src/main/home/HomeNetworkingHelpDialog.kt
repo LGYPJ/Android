@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.softsquared.template.Garamgaebi.databinding.DialogHomeNetworkingHelpBinding
-import com.softsquared.template.Garamgaebi.databinding.DialogHomeSeminarHelpBinding
 
 class HomeNetworkingHelpDialog(x : Int,  y : Int): DialogFragment() {
     private val coX = x

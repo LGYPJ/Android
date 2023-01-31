@@ -1,18 +1,14 @@
 package com.softsquared.template.Garamgaebi.src.main.networking
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
-import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingFreeApplyBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 import java.util.regex.Pattern
 
 class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBinding>(FragmentNetworkingFreeApplyBinding::bind, R.layout.fragment_networking_free_apply) {

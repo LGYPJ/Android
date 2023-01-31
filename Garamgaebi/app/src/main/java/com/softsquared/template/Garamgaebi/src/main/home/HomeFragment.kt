@@ -1,9 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.home
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,12 +10,9 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentHomeBinding
 import com.softsquared.template.Garamgaebi.src.main.MainActivity
-import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringFragment
-import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringSeminarFragment
 import com.softsquared.template.Garamgaebi.src.main.notification.NotificationActivity
-import com.softsquared.template.Garamgaebi.src.seminar.HomeNetworkingHelpDialog
-import com.softsquared.template.Garamgaebi.src.seminar.HomeSeminarHelpDialog
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
+import com.softsquared.template.Garamgaebi.src.main.seminar.HomeNetworkingHelpDialog
+import com.softsquared.template.Garamgaebi.src.main.seminar.HomeSeminarHelpDialog
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {

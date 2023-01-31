@@ -1,14 +1,12 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import java.util.regex.Pattern

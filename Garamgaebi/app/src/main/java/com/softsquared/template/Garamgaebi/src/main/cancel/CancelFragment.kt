@@ -1,6 +1,5 @@
 package com.softsquared.template.Garamgaebi.src.main.cancel
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,13 +7,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.Window
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentCancelBinding
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
 
 class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding::bind, R.layout.fragment_cancel) {
 

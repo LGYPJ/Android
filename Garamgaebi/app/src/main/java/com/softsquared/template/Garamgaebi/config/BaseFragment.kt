@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide.init
 import com.softsquared.template.Garamgaebi.util.LoadingDialog
 
 // Fragment의 기본을 작성, 뷰 바인딩 활용
 abstract class BaseFragment<B : ViewBinding>(
     private val bind: (View) -> B,
-    @LayoutRes layoutResId: Int
+    @LayoutRes val layoutResId: Int
 ) : Fragment(layoutResId) {
     private var _binding: B? = null
+    //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
 
     protected val binding get() = _binding!!
@@ -26,6 +29,7 @@ abstract class BaseFragment<B : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //_binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
         return binding.root
     }

@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 data class SeminarProfile(
     val img: Int,

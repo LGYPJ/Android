@@ -2,16 +2,15 @@ package com.softsquared.template.Garamgaebi.src.main.networking
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentNetworkingBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.seminar.multi_type1
-import com.softsquared.template.Garamgaebi.src.seminar.multi_type2
-import com.softsquared.template.Garamgaebi.src.seminar.multi_type3
+import com.softsquared.template.Garamgaebi.src.main.seminar.multi_type1
+import com.softsquared.template.Garamgaebi.src.main.seminar.multi_type2
+import com.softsquared.template.Garamgaebi.src.main.seminar.multi_type3
 
 class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind, R.layout.fragment_networking) {
 

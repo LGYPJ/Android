@@ -1,30 +1,20 @@
 package com.softsquared.template.Garamgaebi.src.main
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseActivity
 import com.softsquared.template.Garamgaebi.databinding.ActivityContainerBinding
-import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding
-import com.softsquared.template.Garamgaebi.src.main.cancel.CancelCompleteDialog
 import com.softsquared.template.Garamgaebi.src.main.cancel.CancelFragment
-import com.softsquared.template.Garamgaebi.src.main.home.HomeFragment
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFragment
 import com.softsquared.template.Garamgaebi.src.main.networking.NetworkingFreeApplyFragment
-import com.softsquared.template.Garamgaebi.src.main.networking_game.ItemViewModel
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.softsquared.template.Garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.softsquared.template.Garamgaebi.src.main.profile.*
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarChargedApplyFragment
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFreeApplyFragment
+import com.softsquared.template.Garamgaebi.src.main.seminar.SeminarChargedApplyFragment
+import com.softsquared.template.Garamgaebi.src.main.seminar.SeminarFragment
+import com.softsquared.template.Garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 

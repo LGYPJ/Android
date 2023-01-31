@@ -1,12 +1,10 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarFreeApplyBinding

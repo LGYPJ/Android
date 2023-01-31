@@ -1,13 +1,11 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileGrayBinding
-import com.softsquared.template.Garamgaebi.src.main.MainActivity
 
 class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
