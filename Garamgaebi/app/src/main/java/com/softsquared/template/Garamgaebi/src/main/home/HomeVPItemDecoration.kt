@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeVPItemDecoration(val context: Context, val size : Int) : RecyclerView.ItemDecoration() {
+class HomeVPItemDecoration(val context: Context) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -18,8 +18,6 @@ class HomeVPItemDecoration(val context: Context, val size : Int) : RecyclerView.
 
         outRect.right = dpToPx(40)
         outRect.left = dpToPx(16)
-
-
 
     }
     private fun dpToPx(dp : Int) : Int{

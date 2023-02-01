@@ -7,49 +7,50 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeNetworkingClosedBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeNetworkingScheduledBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeNetworkingThismonthBinding
-import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarClosedBinding
+import com.softsquared.template.Garamgaebi.model.HomeNetworkingResult
 
-class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var itemClickListener: HomeNetworkingRVAdapter.OnItemClickListener
     inner class ThisMonthViewHolder(val binding: ItemHomeNetworkingThismonthBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeNetworkingItemData) {
-            if(data.pay){
+        fun bind(data: HomeNetworkingResult) {
+            if(data.payment == "PREMIUM"){
                 binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
             } else {
                 binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
             }
-            binding.itemHomeNetworkingTvName.text = data.name
+            binding.itemHomeNetworkingTvName.text = data.title
             binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.place
-            if(data.dDay == 0) {
-                binding.itemHomeNetworkingTvDDay.text = "D-day"
-            } else {
-                binding.itemHomeNetworkingTvDDay.text = "D-"+data.dDay
-            }
+            binding.itemHomeNetworkingTvPlaceData.text = data.location
+
+            //TODO 날짜에 따라 D-day 바뀌게
+            binding.itemHomeNetworkingTvDDay.text = "D-day"
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeNetworkingScheduledBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeNetworkingItemData) {
-            binding.itemHomeNetworkingTvName.text = data.name
-            binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.place
-            if(data.dDay == 0) {
-                binding.itemHomeNetworkingTvDDay.text = "D-day"
-            } else {
-                binding.itemHomeNetworkingTvDDay.text = "D-"+data.dDay
-            }
-        }
-    }
-    inner class ClosedViewHolder(val binding: ItemHomeNetworkingClosedBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeSeminarItemData) {
-            if(data.pay){
+        fun bind(data: HomeNetworkingResult) {
+            if(data.payment == "PREMIUM"){
                 binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
             } else {
                 binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
             }
-            binding.itemHomeNetworkingTvName.text = data.name
+            binding.itemHomeNetworkingTvName.text = data.title
             binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.place
+            binding.itemHomeNetworkingTvPlaceData.text = data.location
+
+            //TODO 날짜에 따라 D-day 바뀌게
+            binding.itemHomeNetworkingTvDDay.text = "D-day"
+        }
+    }
+    inner class ClosedViewHolder(val binding: ItemHomeNetworkingClosedBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: HomeNetworkingResult) {
+            if(data.payment == "PREMIUM"){
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            } else {
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            }
+            binding.itemHomeNetworkingTvName.text = data.title
+            binding.itemHomeNetworkingTvDateData.text = data.date
+            binding.itemHomeNetworkingTvPlaceData.text = data.location
         }
     }
 
@@ -75,22 +76,36 @@ class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingIte
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is ThisMonthViewHolder) {
-            holder.bind(dataList[position])
-            holder.binding.root.setOnClickListener {
-                itemClickListener.onClick(position)
+        when(holder) {
+            is ThisMonthViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
             }
-        } else if(holder is ScheduledViewHolder) {
-            holder.bind(dataList[position])
-            holder.binding.root.setOnClickListener {
-                itemClickListener.onClick(position)
+            is ScheduledViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
+            }
+            is ClosedViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
             }
         }
     }
     override fun getItemCount(): Int = dataList.size
-    override fun getItemViewType(position: Int): Int {
-        return dataList[position].type
-    }
+        override fun getItemViewType(position: Int): Int {
+            return when(dataList[position].status) {
+                "THIS_MONTH" -> 1
+                "READY" -> 2
+                "CLOSED" -> 3
+                else -> 1
+            }
+        }
     interface OnItemClickListener {
         fun onClick(position: Int)
     }

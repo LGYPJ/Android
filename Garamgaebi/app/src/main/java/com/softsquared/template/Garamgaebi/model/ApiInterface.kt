@@ -23,7 +23,8 @@ interface ApiInterface {
     //@GET("/seminars/next-month")
 
     //홈 화면 세미나 조회
-    //@GET("/seminars/main")
+    @GET("/seminars/main")
+    suspend fun getHomeSeminar() : Response<HomeSeminarResponse>
 
     //세미나 상세정보 조회
     //@GET("/seminars/info")
@@ -43,7 +44,8 @@ interface ApiInterface {
     //@GET("/networkings/next-month")
 
     //홈 화면 네트워킹 조회
-    //@GET("/networkings/main")
+    @GET("/networkings/main")
+    suspend fun getHomeNetworking() : Response<HomeNetworkingResponse>
 
     //네트워킹 상세정보 조회
     //@GET("/networkings/info")
@@ -54,7 +56,9 @@ interface ApiInterface {
     //ProgramController 프로그램 컨트롤러
 
     //예정된 내 모임 조회
-    //@GET("/programs/{member-idx}/ready")
+    @GET("/programs/{member-idx}/ready")
+    suspend fun getHomeProgram(@Path("member-idx") memberidx: Int) : Response<HomeProgramResponse>
+    suspend fun getProgramThisMonth()
 
     //지난 내 모임 조회
     //@GET("/programs/{member-idx}/close")
@@ -82,8 +86,9 @@ interface ApiInterface {
     //SNS 정보 조회
     //@GET("/profile/sns/{memberIdx}")
 
-    //프로필 11명 추천 조회
-    //@GET("/profile/profiles")
+    //프로필 10명 추천 조회
+    @GET("/profile/profiles")
+    suspend fun getHomeUser() : Response<HomeUserResponse>
 
     //프로필 교육 조회
     //@GET("/profile/education/{memberIdx}")
