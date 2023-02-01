@@ -13,44 +13,64 @@ import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.PresentationResult
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.softsquared.template.Garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind, R.layout.fragment_seminar) {
 
-    private var profileList: ArrayList<SeminarProfile> = arrayListOf(
-        SeminarProfile(R.drawable.activity_seminar_profile_img_blue, "신디", multi_type2),
-        SeminarProfile(R.drawable.ic_seminar_profile2, "짱구", multi_type1),
-        SeminarProfile(R.drawable.ic_seminar_profile1, "로건", multi_type1),
-        SeminarProfile(R.drawable.activity_seminar_profile_gray, "알수없음", multi_type3),
-        SeminarProfile(R.drawable.ic_seminar_profile1, "네온", multi_type1),
-        SeminarProfile(R.drawable.ic_seminar_profile3, "코코아", multi_type1),
-        SeminarProfile(R.drawable.ic_seminar_profile2, "연현", multi_type1),
-        SeminarProfile(R.drawable.ic_seminar_profile1, "승콩", multi_type1)
-    )
+    private var profileList: ArrayList<SeminarParticipantsResult> = arrayListOf(
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
+        SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
 
-    /*private var presentList: ArrayList<PresentationResult> = arrayListOf(
-        PresentationResult("docker에 대해 알아보자", "네온", "재학생", "R.drawable.activity_seminar_present_profile1_img"),
-        PresentationResult("docker에 대해 알아보자", "네온", "재학생","R.drawable.activity_seminar_present_profile2_img"),
-        PresentationResult("docker에 대해 알아보자docker에 대해 알아보자", "네온", "재학생", "R.drawable.activity_seminar_present_profile3_img")
-    )*/
+    )
+    private var presentList: ArrayList<PresentationResult> = arrayListOf(
+        PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580"),
+        PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580"),
+        PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580")
+    )
     //화면전환
     var containerActivity: ContainerActivity? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //뷰모델
+        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
 
-        val seminarProfile = SeminarProfileAdapter(profileList)
-        binding.activitySeminarFreeProfileRv.apply {
-            adapter = seminarProfile
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(SeminarHorizontalItemDecoration())
-        }
+        //프로필 어댑터 연결
+        viewModel.getSeminarParticipants(1)
+        viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
+            val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
+            binding.activitySeminarFreeProfileRv.apply {
+                adapter = seminarProfile
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                addItemDecoration(SeminarHorizontalItemDecoration())
+            }
+            /*val seminarProfile = SeminarProfileAdapter(profileList)
+            binding.activitySeminarFreeProfileRv.apply {
+                adapter = seminarProfile
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                addItemDecoration(SeminarHorizontalItemDecoration())
+        }*/
+        })
 
         //발표 어댑터 연결
-        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
         viewModel.getSeminarsInfo(1)
         viewModel.presentation.observe(viewLifecycleOwner, Observer {
+            /*val presentAdapter = SeminarPresentAdapter(presentList)
+            binding.activitySeminarFreePresentRv.apply {
+                adapter = presentAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(SeminarVerticalItemDecoration())
+            }*/
+            //서버 데이터 채워지면 이걸로 바꾸기
             val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter

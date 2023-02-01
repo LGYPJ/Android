@@ -1,23 +1,28 @@
 package com.softsquared.template.Garamgaebi.src.main.seminar
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileBinding
-import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileBlueBinding
-import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileGrayBinding
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 
-class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class OriginViewHolder(private val binding: ItemSeminarProfileBinding):
             RecyclerView.ViewHolder(binding.root) {
-                fun bind(data: SeminarProfile){
-                    binding.itemProfileImg.setImageResource(data.img)
-                    binding.itemProfileNameTv.text = data.name
+                @SuppressLint("SetTextI18n")
+                fun bind(data: SeminarParticipantsResult){
+                    //binding.itemProfileImg.setImageResource(data.)
+                    binding.itemProfileNameTv.text = data.nickname
+                    Glide.with(binding.itemProfileImg.context)
+                        .load(data.profileImg)
+                        .into(binding.itemProfileImg)
                 }
             }
 
-    inner class BlueViewHolder(private val binding: ItemSeminarProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
+    /*inner class BlueViewHolder(private val binding: ItemSeminarProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SeminarProfile){
             binding.itemProfileImg.setImageResource(data.img)
             binding.itemProfileNameTv.text = data.name
@@ -29,10 +34,10 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): Re
             binding.itemProfileImg.setImageResource(data.img)
             binding.itemProfileNameTv.text = data.name
         }
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
+        /*return when(viewType){
             multi_type1 -> {
                 val binding = ItemSeminarProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 OriginViewHolder(binding)
@@ -49,13 +54,15 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): Re
                 val binding = ItemSeminarProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 OriginViewHolder(binding)
             }
-        }
+        }*/
+        val binding = ItemSeminarProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return OriginViewHolder(binding)
 
 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(dataList[position].type){
+        /*when(dataList[position].type){
             multi_type1 -> {
                 (holder as OriginViewHolder).bind(dataList[position])
                 holder.setIsRecyclable(false)
@@ -68,7 +75,9 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): Re
                 (holder as GrayViewHolder).bind(dataList[position])
                 holder.setIsRecyclable(false)
             }
-        }
+        }*/
+        (holder as OriginViewHolder).bind(dataList[position])
+
     }
 
     override fun getItemCount(): Int {
@@ -76,7 +85,8 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarProfile>): Re
     }
 
     override fun getItemViewType(position: Int): Int {
-        return dataList[position].type
+        //return dataList[position].type
+        return dataList.size
     }
 
 

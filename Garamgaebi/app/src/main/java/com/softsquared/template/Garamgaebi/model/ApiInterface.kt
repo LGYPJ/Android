@@ -42,7 +42,7 @@ interface ApiInterface {
 
     //네트워킹 신청자 리스트 조회
     @GET("/networkings/{networking-idx}/participants")
-    suspend fun getNetworkingParticipants(@Query("networking-idx")networkingIdx : Int) : Response<NetworkingParticipantsResponse>
+    suspend fun getNetworkingParticipants(@Path("networking-idx")networkingIdx : Int) : Response<NetworkingParticipantsResponse>
 
     //이번 달 네트워킹 조회
     //@GET("/networkings/this-month")
