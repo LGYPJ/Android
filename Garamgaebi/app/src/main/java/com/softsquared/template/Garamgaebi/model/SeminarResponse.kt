@@ -33,6 +33,10 @@ data class SeminarDetailInfoResult(
     @SerializedName("userButtonStatus")val userButtonStatus: String
 )
 
+data class SeminarDetailRequest (
+    @SerializedName("memberIdx") val memberIdx : Int,
+    @SerializedName("programIdx") val programIdx: Int)
+
 //세미나 신청자 리스트 조회
 data class SeminarParticipantsResponse(
     @SerializedName("result")val result : List<SeminarParticipantsResult>

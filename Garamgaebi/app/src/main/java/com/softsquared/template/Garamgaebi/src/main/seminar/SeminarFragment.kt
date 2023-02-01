@@ -13,12 +13,13 @@ import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.PresentationResult
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarDetailRequest
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.softsquared.template.Garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind, R.layout.fragment_seminar) {
 
-    private var profileList: ArrayList<SeminarParticipantsResult> = arrayListOf(
+    /*private var profileList: ArrayList<SeminarParticipantsResult> = arrayListOf(
         SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
         SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
         SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
@@ -34,7 +35,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580"),
         PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580"),
         PresentationResult(1,"docker에 대해 알아보자", "네온","http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png","재학생", "ㄴㄴㄴㄴㄴㄴㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", "https://news.samsungdisplay.com/15580")
-    )
+    )*/
     //화면전환
     var containerActivity: ContainerActivity? = null
 
@@ -70,7 +71,6 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(SeminarVerticalItemDecoration())
             }*/
-            //서버 데이터 채워지면 이걸로 바꾸기
             val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
@@ -94,9 +94,26 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             } )
         })
 
+        //세미나 상세 정보
+        /*viewModel.getSeminarDetail(0,0)
+        viewModel.info.observe(viewLifecycleOwner, Observer {
+                val item = it.result
+                binding.activitySeminarFreeTitleTv.text = item.title
+                binding.activitySeminarFreeDateDetailTv.text = item.date
+                binding.activitySeminarFreePlaceDetailTv.text = item.location
+                binding.activitySeminarFreePayDetailTv.text = item.fee.toString()
+                binding.activitySeminarFreeDeadlineDetailTv.text = item.endDate
+
+                //버튼 상태 추가하기
+                if (item.userButtonStatus == "ApplyComplete") {
+                    binding.activitySeminarFreeApplyBtn.text = "신청완료"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+            }
+        })*/
+
 
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
-
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
             val pay = binding.activitySeminarFreePayDetailTv.text
             if(pay == "무료") {
@@ -116,14 +133,19 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             binding.activitySeminarFreeApplyBtn.text = apply_tv
             binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
             binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)*/
-
-
     }
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
+
+    /*private fun setUpSeminarDetailParameter() : HashMap<String, Int> {
+        return hashMapOf(
+            "memberIdx" to 0,
+            "programIdx" to 0
+        )
+    }*/
 
 
 }

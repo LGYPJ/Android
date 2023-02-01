@@ -51,6 +51,23 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             }
         })
 
+        //네트워킹 상세정보
+        /*viewModel.getNetworkingInfo(0,0)
+        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
+            val item = it.result
+            binding.activityNetworkTitleTv.text = item.title
+            binding.activityNetworkDateDetailTv.text = item.date
+            binding.activityNetworkPlaceDetailTv.text = item.location
+            binding.activityNetworkPayDetailTv.text = item.fee.toString()
+            binding.activityNetworkDeadlineDetailTv.text = item.endDate
+            //버튼 상태 추가
+            if (item.userButtonStatus == "ApplyComplete") {
+                binding.activityNetworkApplyBtn.text = "신청완료"
+                binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+            }
+        })*/
+
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
         binding.activityNetworkApplyBtn.setOnClickListener {
             containerActivity!!.openFragmentOnFrameLayout(6)

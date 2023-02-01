@@ -1,14 +1,11 @@
 package com.softsquared.template.Garamgaebi.model
 
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarDetailRequest
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiInterface {
 
