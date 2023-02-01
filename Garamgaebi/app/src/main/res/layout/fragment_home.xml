@@ -244,7 +244,8 @@
                     android:id="@+id/fragment_home_cl_my_meetings_blank"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
+                    android:layout_margin="16dp"
                     android:background="@drawable/fragment_home_my_meetings_blank_border"
                     app:layout_constraintTop_toBottomOf="@id/fragment_home_tv_my_meeting"
                     app:layout_constraintBottom_toBottomOf="parent">

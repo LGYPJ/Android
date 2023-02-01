@@ -3,17 +3,19 @@ package com.softsquared.template.Garamgaebi.src.main.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeUserBinding
+import com.softsquared.template.Garamgaebi.model.HomeUserResult
 
-class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserItemData>): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
+class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: HomeUserItemRVAdapter.OnItemClickListener
     inner class ViewHolder( val binding: ItemHomeUserBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeUserItemData){
-            binding.itemHomeUserProfileImg.setImageResource(data.profileImg)
-            binding.itemHomeUserTvNickname.text = data.nickname
-            binding.itemHomeUserTvOrg.text = data.org
-            binding.itemHomeUserTvMajor.text = data.major
+        fun bind(data: HomeUserResult){
+            //binding.itemHomeUserProfileImg.setImageResource()
+            binding.itemHomeUserTvNickname.text = data.nickName
+            binding.itemHomeUserTvOrg.text = data.belong
+            //binding.itemHomeUserTvMajor.text = data.major
         }
     }
 

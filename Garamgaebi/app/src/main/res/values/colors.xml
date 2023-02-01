@@ -27,6 +27,7 @@
     <!--홈-->
     <color name="home_seminar_this_month_blue">#CC356EFF</color>
     <color name="home_seminar_scheduled_blue">#1A0047FF</color>
+    <color name="home_networking_this_month_blue">#CC2294FF</color>
     <color name="home_networking_scheduled_blue">#1A2294FF</color>
     <color name="home_my_meeting_gray">#F5F5F5</color>
 

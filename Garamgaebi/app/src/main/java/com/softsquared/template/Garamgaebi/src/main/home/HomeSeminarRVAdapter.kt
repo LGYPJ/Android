@@ -7,48 +7,50 @@ import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarClosedBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarScheduledBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemHomeSeminarThismonthBinding
+import com.softsquared.template.Garamgaebi.model.HomeSeminarResult
 
-class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var itemClickListener:  HomeSeminarRVAdapter.OnItemClickListener
+
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeSeminarItemData) {
-            if(data.pay){
+        fun bind(data: HomeSeminarResult) {
+            if(data.payment == "PREMIUM"){
                 binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
             } else {
                 binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
             }
-            binding.itemHomeSeminarTvName.text = data.name
+            binding.itemHomeSeminarTvName.text = data.title
             binding.itemHomeSeminarTvDateData.text = data.date
-            binding.itemHomeSeminarTvPlaceData.text = data.place
-            if(data.dDay == 0) {
-                binding.itemHomeSeminarTvDDay.text = "D-day"
-            } else {
-                binding.itemHomeSeminarTvDDay.text = "D-"+data.dDay
-            }
+            binding.itemHomeSeminarTvPlaceData.text = data.location
+
+            //TODO 날짜에 따라 D-day 바뀌게
+            binding.itemHomeSeminarTvDDay.text = "D-day"
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeSeminarScheduledBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeSeminarItemData) {
-            if(data.pay){
+        fun bind(data: HomeSeminarResult) {
+            if(data.payment == "PREMIUM"){
                 binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
             } else {
                 binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
             }
-            binding.itemHomeSeminarTvName.text = data.name
+            binding.itemHomeSeminarTvName.text = data.title
             binding.itemHomeSeminarTvDateData.text = data.date
-            binding.itemHomeSeminarTvPlaceData.text = data.place
+            binding.itemHomeSeminarTvPlaceData.text = data.location
+            //TODO 날짜에 따라 D-day 바뀌게
+            binding.itemHomeSeminarTvDDay.text = "D-day"
         }
     }
     inner class ClosedViewHolder(val binding: ItemHomeSeminarClosedBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: HomeSeminarItemData) {
-            if(data.pay){
+        fun bind(data: HomeSeminarResult) {
+            if(data.payment == "PREMIUM"){
                 binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
             } else {
                 binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
             }
-            binding.itemHomeSeminarTvName.text = data.name
+            binding.itemHomeSeminarTvName.text = data.title
             binding.itemHomeSeminarTvDateData.text = data.date
-            binding.itemHomeSeminarTvPlaceData.text = data.place
+            binding.itemHomeSeminarTvPlaceData.text = data.location
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -73,21 +75,35 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarItemData>
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is ThisMonthViewHolder) {
-            holder.bind(dataList[position])
-            holder.binding.root.setOnClickListener {
-                itemClickListener.onClick(position)
+        when(holder) {
+            is ThisMonthViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
             }
-        } else if(holder is ScheduledViewHolder) {
-            holder.bind(dataList[position])
-            holder.binding.root.setOnClickListener {
-                itemClickListener.onClick(position)
+            is ScheduledViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
+            }
+            is ClosedViewHolder -> {
+                holder.bind(dataList[position])
+                holder.binding.root.setOnClickListener {
+                    itemClickListener.onClick(position)
+                }
             }
         }
     }
     override fun getItemCount(): Int = dataList.size
     override fun getItemViewType(position: Int): Int {
-        return dataList[position].type
+        return when(dataList[position].status) {
+            "THIS_MONTH" -> 1
+            "READY" -> 2
+            "CLOSED" -> 3
+            else -> 1
+        }
     }
     interface OnItemClickListener {
         fun onClick(position: Int)
