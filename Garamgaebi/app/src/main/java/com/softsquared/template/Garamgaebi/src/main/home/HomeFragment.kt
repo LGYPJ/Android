@@ -36,7 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.getHomeSeminar()
         viewModel.getHomeNetworking()
         viewModel.getHomeUser()
-        viewModel.getHomeProgram()
+        viewModel.getHomeProgram(1)
 
         // 세미나
         viewModel.seminar.observe(viewLifecycleOwner, Observer {

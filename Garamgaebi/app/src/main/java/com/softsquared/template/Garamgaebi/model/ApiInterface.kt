@@ -1,9 +1,8 @@
 package com.softsquared.template.Garamgaebi.model
 
-
-import SeminarDetailInfoResponse
-import SeminarParticipantsResponse
-import SeminarPresentResponse
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
+import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,10 +19,13 @@ interface ApiInterface {
     suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int) : Response<SeminarParticipantsResponse>
 
     //이번 달 세미나 조회
-    //@GET("/seminars/this-month")
+    @GET("/seminars/this-month")
+    suspend fun getGatheringSeminarThisMonth() : Response<GatheringSeminarResponse>
 
     //예정된 세미나 조희
-    //@GET("/seminars/next-month")
+    @GET("/seminars/next-month")
+    suspend fun getGatheringSeminarNextMonth() : Response<GatheringSeminarResponse>
+
 
     //홈 화면 세미나 조회
     @GET("/seminars/main")
@@ -38,7 +40,8 @@ interface ApiInterface {
 
 
     //마감된 세미나 조회
-    //@GET("/seminars/closed")
+    @GET("/seminars/closed")
+    suspend fun getGatheringSeminarClosed() : Response<GatheringSeminarClosedResponse>
 
     //NetworkingController 네트워킹 컨트롤러
 
@@ -47,10 +50,12 @@ interface ApiInterface {
     suspend fun getNetworkingParticipants(@Path("networking-idx")networkingIdx : Int) : Response<NetworkingParticipantsResponse>
 
     //이번 달 네트워킹 조회
-    //@GET("/networkings/this-month")
+    @GET("/networkings/this-month")
+    suspend fun getGatheringNetworkingThisMonth() : Response<GatheringNetworkingResponse>
 
     //예정된 네트워킹 조회
-    //@GET("/networkings/next-month")
+    @GET("/networkings/next-month")
+    suspend fun getGatheringNetworkingNextMonth() : Response<GatheringNetworkingResponse>
 
     //홈 화면 네트워킹 조회
     @GET("/networkings/main")
@@ -61,18 +66,21 @@ interface ApiInterface {
     suspend fun getNetworkingInfo(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int) : Response<NetworkingInfoResponse>
 
     //마감된 네트워킹 리스트 조회
-    //@GET("/networkings/closed")
+    @GET("/networkings/closed")
+    suspend fun getGatheringNetworkingClosed() : Response<GatheringNetworkingClosedResponse>
 
     //ProgramController 프로그램 컨트롤러
 
     //예정된 내 모임 조회
     @GET("/programs/{member-idx}/ready")
-    suspend fun getHomeProgram(@Path("member-idx") memberidx: Int) : Response<HomeProgramResponse>
-
-    //@GET("/programs/{member-idx}/ready")
+    suspend fun getHomeProgram(@Path("member-idx") memberIdx: Int) : Response<HomeProgramResponse>
+    @GET("/programs/{member-idx}/ready")
+    suspend fun getGatheringProgramReady(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
 
     //지난 내 모임 조회
-    //@GET("/programs/{member-idx}/close")
+    @GET("/programs/{member-idx}/close")
+    suspend fun getGatheringProgramClosed(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
+
 
     //ProfileController 프로필 컨트롤라
 

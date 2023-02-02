@@ -65,9 +65,9 @@ class HomeViewModel : ViewModel(){
         }
     }
     
-    fun getHomeProgram() {
+    fun getHomeProgram(memberIdx : Int) {
         viewModelScope.launch {
-            val response = homeRepository.getHomeProgram(1)
+            val response = homeRepository.getHomeProgram(memberIdx)
             Log.d("home", response.body().toString())
 
             if(response.isSuccessful) {
