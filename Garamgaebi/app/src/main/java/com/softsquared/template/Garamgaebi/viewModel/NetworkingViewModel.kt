@@ -26,7 +26,7 @@ class NetworkingViewModel : ViewModel(){
         viewModelScope.launch{
             val response = networkingRepository.getNetworkingParticipants(1)
             Log.d("networking", response.body().toString())
-            if(!response.isSuccessful){
+            if(response.isSuccessful){
                 _networkingParticipants.postValue(response.body())
             }
             else {

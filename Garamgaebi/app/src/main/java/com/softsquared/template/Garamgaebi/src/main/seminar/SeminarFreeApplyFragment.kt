@@ -120,7 +120,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()
             viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess){
+                if(!it.isSuccess){
                     //세미나 메인 화면으로
                     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
                     requireActivity().supportFragmentManager.popBackStack()

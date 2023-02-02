@@ -23,11 +23,11 @@ class ApplyViewModel : ViewModel() {
         viewModelScope.launch {
             val response = applyRepository.postCancel(cancelRequest)
             Log.d("cancel", response.body().toString())
-            if(!response.isSuccessful){
+            if(!response.body()?.isSuccess!!){
                 _cancel.postValue(response.body())
             }
             else {
-                Log.d("error", response.message())
+                response.body()?.message?.let { Log.d("error", it) }
             }
         }
     }
@@ -36,11 +36,11 @@ class ApplyViewModel : ViewModel() {
         viewModelScope.launch {
             val response = applyRepository.postEnroll(enrollRequest)
             Log.d("enroll", response.body().toString())
-            if(!response.isSuccessful){
+            if(!response.body()?.isSuccess!!){
                 _enroll.postValue(response.body())
             }
             else{
-                Log.d("error", response.message())
+                response.body()?.message?.let { Log.d("error", it) }
             }
         }
     }

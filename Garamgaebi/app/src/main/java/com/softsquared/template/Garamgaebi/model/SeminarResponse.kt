@@ -18,8 +18,11 @@ data class PresentationResult(
 )
 //세미나 상세정보 조회
 data class SeminarDetailInfoResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean = false,
+    @SerializedName("code") val code: Int = 0,
+    @SerializedName("message") val message: String? = null,
     @SerializedName("result")val result : SeminarDetailInfoResult
-): BaseResponse()
+)
 
 
 data class SeminarDetailInfoResult(
@@ -39,8 +42,11 @@ data class SeminarDetailRequest (
 
 //세미나 신청자 리스트 조회
 data class SeminarParticipantsResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean = false,
+    @SerializedName("code") val code: Int = 0,
+    @SerializedName("message") val message: String? = null,
     @SerializedName("result")val result : List<SeminarParticipantsResult>
-): BaseResponse()
+)
 
 data class SeminarParticipantsResult (
     @SerializedName("memberIdx") val memberIdx : Int,

@@ -61,7 +61,7 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
             val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
             viewModel.postCancel(CancelRequest(0,0,"국민", "11111111111"))
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess){
+                if(!it.isSuccess){
                     //showDialog()
                     activity?.let {
                         CancelCompleteDialog().show(

@@ -12,8 +12,11 @@ data class CancelRequest(
 )
 
 data class CancelResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean = false,
+    @SerializedName("code") val code: Int = 0,
+    @SerializedName("message") val message: String? = null,
     @SerializedName("result")val result : Int
-):BaseResponse()
+)
 
 //신청 등록
 data class EnrollRequest(

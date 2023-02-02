@@ -22,7 +22,7 @@ data class NetworkingInfoReult(
 //네트워킹 신청자 리스트 조회
 data class NetworkingParticipantsResponse(
     @SerializedName("result")val result : List<NetworkingParticipantsResult>
-)
+):BaseResponse()
 
 data class NetworkingParticipantsResult(
     @SerializedName("memberIdx") val memberIdx : Int,
