@@ -5,15 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
+import com.softsquared.template.Garamgaebi.model.GatheringProgramResult
 
-class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<GatheringMyMeetingItemData>): RecyclerView.Adapter<GatheringMyMeetingScheduledRVAdapter.ViewHolder>() {
+class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<GatheringProgramResult>): RecyclerView.Adapter<GatheringMyMeetingScheduledRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: GatheringMyMeetingScheduledRVAdapter.OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringMyMeetingScheduledBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GatheringMyMeetingItemData){
-            binding.itemGatheringMyMeetingScheduledTvName.text = data.name
+        fun bind(data: GatheringProgramResult){
+            binding.itemGatheringMyMeetingScheduledTvName.text = data.title
             binding.itemGatheringMyMeetingScheduledTvDate.text = data.date
-            binding.itemGatheringMyMeetingScheduledTvPlace.text = data.place
+            binding.itemGatheringMyMeetingScheduledTvPlace.text = data.location
         }
     }
 

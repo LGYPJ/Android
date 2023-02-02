@@ -8,5 +8,5 @@ class HomeRepository {
     suspend fun getHomeSeminar() = homeClient.getHomeSeminar()
     suspend fun getHomeNetworking() = homeClient.getHomeNetworking()
     suspend fun getHomeUser() = homeClient.getHomeUser()
-    suspend fun getHomeProgram(memberIdx : Int) = homeClient.getHomeProgram(1)
+    suspend fun getHomeProgram(memberIdx : Int) = homeClient.getHomeProgram(memberIdx)
 }

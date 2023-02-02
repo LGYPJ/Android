@@ -57,11 +57,13 @@ interface ApiInterface {
 
     //예정된 내 모임 조회
     @GET("/programs/{member-idx}/ready")
-    suspend fun getHomeProgram(@Path("member-idx") memberidx: Int) : Response<HomeProgramResponse>
-    suspend fun getProgramThisMonth()
+    suspend fun getHomeProgram(@Path("member-idx") memberIdx: Int) : Response<HomeProgramResponse>
+    @GET("/programs/{member-idx}/ready")
+    suspend fun getGatheringProgramReady(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
 
     //지난 내 모임 조회
-    //@GET("/programs/{member-idx}/close")
+    @GET("/programs/{member-idx}/close")
+    suspend fun getGatheringProgramClosed(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
 
     //ProfileController 프로필 컨트롤라
 
