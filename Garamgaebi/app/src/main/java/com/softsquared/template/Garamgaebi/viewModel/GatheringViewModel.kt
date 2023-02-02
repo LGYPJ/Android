@@ -39,16 +39,16 @@ class GatheringViewModel: ViewModel() {
     // 내 모임
     private val _programReady = MutableLiveData<GatheringProgramResponse>()
     val programReady : LiveData<GatheringProgramResponse>
-        get() = _programReady
+    get() = _programReady
 
     private val _programClosed = MutableLiveData<GatheringProgramResponse>()
     val programClosed : LiveData<GatheringProgramResponse>
-        get() = _programClosed
+    get() = _programClosed
 
     fun getGatheringSeminarThisMonth() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarThisMonth()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringSeminarThisMonth", response.body().toString())
             if (response.isSuccessful) {
                 _seminarThisMonth.postValue(response.body())
             }
@@ -60,7 +60,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringSeminarNextMonth() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarNextMonth()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringSeminarNextMonth", response.body().toString())
 
             if (response.isSuccessful) {
                 _seminarNextMonth.postValue(response.body())
@@ -73,7 +73,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringSeminarClosed() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarClosed()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringSeminarClosed", response.body().toString())
             if (response.isSuccessful) {
                 _seminarClosed.postValue(response.body())
             }
@@ -87,7 +87,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringNetworkingThisMonth() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingThisMonth()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringNetworkingThisMonth", response.body().toString())
             if (response.isSuccessful) {
                 _networkingThisMonth.postValue(response.body())
             }
@@ -99,7 +99,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringNetworkingNextMonth() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingNextMonth()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringNetworkingNextMonth", response.body().toString())
             if (response.isSuccessful) {
                 _networkingNextMonth.postValue(response.body())
             }
@@ -111,7 +111,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringNetworkingClosed() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingClosed()
-            Log.d("gathering", response.body().toString())
+            Log.d("getGatheringNetworkingClosed", response.body().toString())
             if (response.isSuccessful) {
                 _networkingClosed.postValue(response.body())
             }
@@ -121,23 +121,24 @@ class GatheringViewModel: ViewModel() {
         }
     }
 
-    fun getGatheringProgramClosed(memberIdx : Int) {
+
+    fun getGatheringProgramReady(memberIdx : Int) {
         viewModelScope.launch {
-            val response = gatheringRepository.getGatheringProgramClosed(memberIdx)
-            Log.d("gathering", response.body().toString())
+            val response = gatheringRepository.getGatheringProgramReady(memberIdx)
+            Log.d("getGatheringProgramReady", response.body().toString())
 
             if (response.isSuccessful) {
                 _programReady.postValue(response.body())
             }
         }
     }
-    fun getGatheringProgramReady(memberIdx : Int) {
+    fun getGatheringProgramClosed(memberIdx : Int) {
         viewModelScope.launch {
-            val response = gatheringRepository.getGatheringProgramReady(memberIdx)
-            Log.d("gathering", response.body().toString())
+            val response = gatheringRepository.getGatheringProgramClosed(memberIdx)
+            Log.d("getGatheringProgramClosed", response.body().toString())
 
             if (response.isSuccessful) {
-                _programReady.postValue(response.body())
+                _programClosed.postValue(response.body())
             }
         }
     }

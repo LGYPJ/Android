@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemGatheringNetworkingDeadlineBinding
 import com.softsquared.template.Garamgaebi.databinding.ItemGatheringSeminarDeadlineBinding
+import com.softsquared.template.Garamgaebi.model.GatheringNetworkingClosedResult
 
-class GatheringNetworkingDeadlineRVAdapter(private val dataList: ArrayList<GatheringNetworkingItemData>): RecyclerView.Adapter<GatheringNetworkingDeadlineRVAdapter.ViewHolder>() {
+class GatheringNetworkingDeadlineRVAdapter(private val dataList: ArrayList<GatheringNetworkingClosedResult>): RecyclerView.Adapter<GatheringNetworkingDeadlineRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: GatheringNetworkingDeadlineRVAdapter.OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringNetworkingDeadlineBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GatheringNetworkingItemData){
-            binding.itemGatheringNetworkingDeadlineTvName.text = data.name
+        fun bind(data: GatheringNetworkingClosedResult){
+            binding.itemGatheringNetworkingDeadlineTvName.text = data.title
             binding.itemGatheringNetworkingDeadlineTvDateData.text = data.date
-            binding.itemGatheringNetworkingDeadlineTvPlaceData.text = data.place
+            binding.itemGatheringNetworkingDeadlineTvPlaceData.text = data.location
         }
     }
 

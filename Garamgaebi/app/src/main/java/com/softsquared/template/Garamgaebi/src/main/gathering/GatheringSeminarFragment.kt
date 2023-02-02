@@ -2,6 +2,7 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider

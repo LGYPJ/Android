@@ -2,6 +2,7 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -14,6 +15,7 @@ import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringMyMeetin
 import com.softsquared.template.Garamgaebi.model.GatheringProgramResult
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
+import com.softsquared.template.Garamgaebi.src.main.home.HomeMyMeetingItemDecoration
 import com.softsquared.template.Garamgaebi.viewModel.GatheringViewModel
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener{
@@ -25,31 +27,43 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.getGatheringProgramClosed(1)
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
-            val myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(it.result as ArrayList<GatheringProgramResult>)
-            binding.fragmentGatheringMyMeetingRvScheduled.apply {
-                adapter = myMeetingScheduledAdapter
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(GatheringItemDecoration())
-                myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
-                    override fun onMoreClick(position: Int, v: View) {
-                        showPopup(v)
-                    }
-                })
+            val result = it.result as ArrayList<GatheringProgramResult>
+            val myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(result)
+            if(result.isEmpty()) {
+                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
+            } else {
+                binding.fragmentGatheringMyMeetingRvScheduled.apply {
+                    adapter = myMeetingScheduledAdapter
+                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                    addItemDecoration(GatheringItemDecoration())
+                }
+                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.GONE
             }
+            myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
+                override fun onMoreClick(position: Int, v: View) {
+                    showPopup(v)
+                }
+            })
         })
-
         viewModel.programClosed.observe(viewLifecycleOwner, Observer {
-            val myMeetingLastAdapter = GatheringMyMeetingLastRVAdapter(it.result as ArrayList<GatheringProgramResult>)
-            binding.fragmentGatheringMyMeetingRvScheduled.apply {
-                adapter = myMeetingLastAdapter
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(GatheringItemDecoration())
-                myMeetingLastAdapter.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
-                    override fun onClick(position: Int) {
-                        //TODO("Not yet implemented")
-                    }
-                })
+            val result = it.result as ArrayList<GatheringProgramResult>
+            val myMeetingLastAdapter = GatheringMyMeetingLastRVAdapter(result)
+            if(result.isEmpty()) {
+                binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
             }
+            else {
+                binding.fragmentGatheringMyMeetingRvLast.apply {
+                    adapter = myMeetingLastAdapter
+                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                    addItemDecoration(GatheringItemDecoration())
+                }
+                binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.GONE
+            }
+            myMeetingLastAdapter.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    //TODO("Not yet implemented")
+                }
+            })
         })
 
 

@@ -26,7 +26,6 @@ interface ApiInterface {
     @GET("/seminars/next-month")
     suspend fun getGatheringSeminarNextMonth() : Response<GatheringSeminarResponse>
 
-
     //홈 화면 세미나 조회
     @GET("/seminars/main")
     suspend fun getHomeSeminar() : Response<HomeSeminarResponse>

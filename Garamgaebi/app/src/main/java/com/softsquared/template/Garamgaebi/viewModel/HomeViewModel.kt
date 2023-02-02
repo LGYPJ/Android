@@ -30,7 +30,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeSeminar() {
         viewModelScope.launch {
             val response = homeRepository.getHomeSeminar()
-            Log.d("home", response.body().toString())
+            Log.d("getHomeSeminar", response.body().toString())
 
             if (response.isSuccessful) {
                 _seminar.postValue(response.body())
@@ -43,7 +43,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeNetworking() {
         viewModelScope.launch {
             val response = homeRepository.getHomeNetworking()
-            Log.d("home", response.body().toString())
+            Log.d("getHomeNetworking", response.body().toString())
 
             if(response.isSuccessful) {
                 _networking.postValue(response.body())
@@ -55,7 +55,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeUser() {
         viewModelScope.launch {
             val response = homeRepository.getHomeUser()
-            Log.d("home", response.body().toString())
+            Log.d("getHomeUser", response.body().toString())
 
             if(response.isSuccessful) {
                 _user.postValue(response.body())
@@ -68,7 +68,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeProgram(memberIdx : Int) {
         viewModelScope.launch {
             val response = homeRepository.getHomeProgram(memberIdx)
-            Log.d("home", response.body().toString())
+            Log.d("getHomeProgram", response.body().toString())
 
             if(response.isSuccessful) {
                 _program.postValue(response.body())
