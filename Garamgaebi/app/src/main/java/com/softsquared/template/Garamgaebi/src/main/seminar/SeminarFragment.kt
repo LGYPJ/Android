@@ -13,7 +13,6 @@ import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.PresentationResult
-import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarDetailRequest
 import com.softsquared.template.Garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.softsquared.template.Garamgaebi.viewModel.SeminarViewModel
 
