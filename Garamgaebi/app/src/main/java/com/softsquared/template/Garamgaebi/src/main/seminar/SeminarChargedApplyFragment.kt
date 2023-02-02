@@ -5,16 +5,22 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarChargedApplyBinding
+import com.softsquared.template.Garamgaebi.model.EnrollRequest
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
+import com.softsquared.template.Garamgaebi.viewModel.ApplyViewModel
 import java.util.regex.Pattern
 
 class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBinding>(FragmentSeminarChargedApplyBinding::bind, R.layout.fragment_seminar_charged_apply) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    //뷰모델
+    val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -113,8 +119,19 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
             seminarFragment.arguments = bundle
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-            requireActivity().supportFragmentManager.popBackStack()
+
+            val name = binding.activitySeminarChargedApplyNameTv.text.toString()
+            val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
+            val phone = binding.activitySeminarChargedApplyPhoneTv.text.toString()
+            //신청 등록 api
+            viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                if(it.isSuccess){
+                    //세미나 메인 화면으로
+                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+            })
         }
 
     }
