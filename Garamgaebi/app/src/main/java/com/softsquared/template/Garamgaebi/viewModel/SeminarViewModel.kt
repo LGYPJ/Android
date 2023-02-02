@@ -30,9 +30,9 @@ class SeminarViewModel : ViewModel(){
 
     fun getSeminarsInfo(seminaridx : Int) {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarsInfo(1)
+            val response = seminarRepository.getSeminarsInfo(6)
             Log.d("seminarPresent", response.body().toString())
-            if (!response.isSuccessful) {
+            if (response.isSuccessful) {
                 _presentation.postValue(response.body())
             }
             else {
@@ -48,9 +48,9 @@ class SeminarViewModel : ViewModel(){
     }
     fun getSeminarParticipants(seminaridx : Int) {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarParticipants(1)
+            val response = seminarRepository.getSeminarParticipants(6)
             Log.d("seminarParticipants", response.body().toString())
-            if (!response.isSuccessful) {
+            if (response.isSuccessful) {
                 _seminarParticipants.postValue(response.body())
             }
             else {
