@@ -4,15 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemGatheringSeminarDeadlineBinding
+import com.softsquared.template.Garamgaebi.model.GatheringSeminarClosedResult
+import com.softsquared.template.Garamgaebi.model.GatheringSeminarResult
 
-class GatheringSeminarDeadlineRVAdapter(private val dataList: ArrayList<GatheringSeminarItemData>): RecyclerView.Adapter<GatheringSeminarDeadlineRVAdapter.ViewHolder>() {
+class GatheringSeminarDeadlineRVAdapter(private val dataList: ArrayList<GatheringSeminarClosedResult>): RecyclerView.Adapter<GatheringSeminarDeadlineRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: GatheringSeminarDeadlineRVAdapter.OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringSeminarDeadlineBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GatheringSeminarItemData){
-            binding.itemGatheringSeminarDeadlineTvName.text = data.name
+        fun bind(data: GatheringSeminarClosedResult){
+            binding.itemGatheringSeminarDeadlineTvName.text = data.title
             binding.itemGatheringSeminarDeadlineTvDateData.text = data.date
-            binding.itemGatheringSeminarDeadlineTvPlaceData.text = data.place
+            binding.itemGatheringSeminarDeadlineTvPlaceData.text = data.location
         }
     }
 

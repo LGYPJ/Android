@@ -17,10 +17,13 @@ interface ApiInterface {
     //suspend fun getSeminarsInfo(@Path("seminar-idx") seminaridx: Int) : Response<SeminarPresentResponse>
 
     //이번 달 세미나 조회
-    //@GET("/seminars/this-month")
+    @GET("/seminars/this-month")
+    suspend fun getGatheringSeminarThisMonth() : Response<GatheringSeminarResponse>
 
     //예정된 세미나 조희
-    //@GET("/seminars/next-month")
+    @GET("/seminars/next-month")
+    suspend fun getGatheringSeminarNextMonth() : Response<GatheringSeminarResponse>
+
 
     //홈 화면 세미나 조회
     @GET("/seminars/main")
@@ -30,7 +33,8 @@ interface ApiInterface {
     //@GET("/seminars/info")
 
     //마감된 세미나 조회
-    //@GET("/seminars/closed")
+    @GET("/seminars/closed")
+    suspend fun getGatheringSeminarClosed() : Response<GatheringSeminarClosedResponse>
 
     //NetworkingController 네트워킹 컨트롤러
 
@@ -38,10 +42,12 @@ interface ApiInterface {
     //@GET("/networkings/{networking-idx}/participants")
 
     //이번 달 네트워킹 조회
-    //@GET("/networkings/this-month")
+    @GET("/networkings/this-month")
+    suspend fun getGatheringNetworkingThisMonth() : Response<GatheringNetworkingResponse>
 
     //예정된 네트워킹 조회
-    //@GET("/networkings/next-month")
+    @GET("/networkings/next-month")
+    suspend fun getGatheringNetworkingNextMonth() : Response<GatheringNetworkingResponse>
 
     //홈 화면 네트워킹 조회
     @GET("/networkings/main")
@@ -51,7 +57,8 @@ interface ApiInterface {
     //@GET("/networkings/info")
 
     //마감된 네트워킹 리스트 조회
-    //@GET("/networkings/closed")
+    @GET("/networkings/closed")
+    suspend fun getGatheringNetworkingClosed() : Response<GatheringNetworkingClosedResponse>
 
     //ProgramController 프로그램 컨트롤러
 
@@ -64,6 +71,7 @@ interface ApiInterface {
     //지난 내 모임 조회
     @GET("/programs/{member-idx}/close")
     suspend fun getGatheringProgramClosed(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
+
 
     //ProfileController 프로필 컨트롤라
 

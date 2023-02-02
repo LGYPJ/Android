@@ -3,12 +3,14 @@ package com.softsquared.template.Garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
 import com.softsquared.template.Garamgaebi.src.main.home.GatheringItemDecoration
+import com.softsquared.template.Garamgaebi.viewModel.GatheringViewModel
 
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
 
@@ -21,6 +23,10 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
             GatheringNetworkingItemData("신디 세미나", "xxxx-xx-xx", "pp", 2),
         )
         // 이번 달
+        val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        viewModel.getGatheringNetworkingThisMonth()
+        viewModel.getGatheringNetworkingNextMonth()
+        viewModel.getGatheringNetworkingClosed()
         if (networkingThisMonthData == null) {
             binding.fragmentGatheringNetworkingClBlank.visibility = View.VISIBLE
             binding.fragmentGatheringNetworkingClThisMonth.visibility = View.GONE
