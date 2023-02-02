@@ -17,8 +17,9 @@ import com.softsquared.template.Garamgaebi.model.HomeSeminarResult
 import com.softsquared.template.Garamgaebi.model.HomeUserResult
 import com.softsquared.template.Garamgaebi.src.main.MainActivity
 import com.softsquared.template.Garamgaebi.src.main.notification.NotificationActivity
-import com.softsquared.template.Garamgaebi.src.seminar.HomeNetworkingHelpDialog
-import com.softsquared.template.Garamgaebi.src.seminar.HomeSeminarHelpDialog
+import com.softsquared.template.Garamgaebi.src.main.seminar.HomeNetworkingHelpDialog
+import com.softsquared.template.Garamgaebi.src.main.seminar.HomeSeminarHelpDialog
+
 import com.softsquared.template.Garamgaebi.viewModel.HomeViewModel
 
 
