@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.softsquared.template.Garamgaebi.databinding.ItemNetworkGameSelectBinding
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarPresentAdapter
+import com.softsquared.template.Garamgaebi.src.main.seminar.SeminarPresentAdapter
 
 class NetworkingGameSelectAdapter(private val dataList: ArrayList<NetworkingGameSelect>): RecyclerView.Adapter<NetworkingGameSelectAdapter.ViewHolder>() {
 

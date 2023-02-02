@@ -1,6 +1,5 @@
 package com.softsquared.template.Garamgaebi.src.main.cancel
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,13 +7,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.Window
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.config.BaseFragment
 import com.softsquared.template.Garamgaebi.databinding.FragmentCancelBinding
-import com.softsquared.template.Garamgaebi.databinding.FragmentSeminarBinding
+import com.softsquared.template.Garamgaebi.model.CancelRequest
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarPreviewDialog
+import com.softsquared.template.Garamgaebi.viewModel.ApplyViewModel
 
 class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding::bind, R.layout.fragment_cancel) {
 
@@ -42,12 +42,14 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
                 isBank()
             }
-            activity?.let {
-                orderBottomDialogFragment.show(
-                    it.supportFragmentManager, "orderBottomDialogFragment"
-                )
-            }
-            orderBottomDialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    activity?.let {
+                        orderBottomDialogFragment.show(
+                            it.supportFragmentManager, "orderBottomDialogFragment"
+                        )
+                    }
+                    orderBottomDialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
         }
 
         //신청취소 버튼 누르면 다이얼로그 띄우기
@@ -55,19 +57,28 @@ class CancelFragment: BaseFragment<FragmentCancelBinding>(FragmentCancelBinding:
         completeDialog?.setContentView(R.layout.dialog_cancel_complete)*/
 
         binding.activityCancelApplyBtn.setOnClickListener {
-            //showDialog()
-            activity?.let {
-                CancelCompleteDialog().show(
-                    it.supportFragmentManager, "CancelCompleteDialog"
-                )
-            }
-            CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //신청 완료 api
+            val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+            viewModel.postCancel(CancelRequest(0,0,"국민", "11111111111"))
+            viewModel.cancel.observe(viewLifecycleOwner, Observer {
+                if(!it.isSuccess){
+                    //showDialog()
+                    activity?.let {
+                        CancelCompleteDialog().show(
+                            it.supportFragmentManager, "CancelCompleteDialog"
+                        )
+                    }
+                    CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                }
+            })
+
+
         }
 
         //은행 선택하고 계좌번호 쓰면 버튼 활성화 됨
         binding.activityCancelPayEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(isButton()){

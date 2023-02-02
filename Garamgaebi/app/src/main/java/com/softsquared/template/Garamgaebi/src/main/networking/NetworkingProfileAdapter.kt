@@ -1,22 +1,29 @@
 package com.softsquared.template.Garamgaebi.src.main.networking
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.softsquared.template.Garamgaebi.databinding.*
-import com.softsquared.template.Garamgaebi.src.seminar.*
+import com.bumptech.glide.Glide
+import com.softsquared.template.Garamgaebi.databinding.ItemNetworkProfileBinding
+import com.softsquared.template.Garamgaebi.databinding.ItemSeminarProfileBinding
+import com.softsquared.template.Garamgaebi.model.NetworkingParticipantsResult
+import com.softsquared.template.Garamgaebi.src.main.seminar.*
 
-class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class OriginViewHolder(private val binding: ItemNetworkProfileBinding):
             RecyclerView.ViewHolder(binding.root) {
-                fun bind(data: NetworkingProfile){
-                    binding.itemProfileImg.setImageResource(data.img)
-                    binding.itemProfileNameTv.text = data.name
+                @SuppressLint("SetTextI18n")
+                fun bind(data: NetworkingParticipantsResult){
+                    binding.itemProfileNameTv.text = data.nickname
+                    Glide.with(binding.itemProfileImg.context)
+                        .load(data.profileImg)
+                        .into(binding.itemProfileImg)
                 }
             }
 
-    inner class BlueViewHolder(private val binding: ItemNetworkProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
+    /*inner class BlueViewHolder(private val binding: ItemNetworkProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: NetworkingProfile){
             binding.itemProfileImg.setImageResource(data.img)
             binding.itemProfileNameTv.text = data.name
@@ -28,10 +35,10 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
             binding.itemProfileImg.setImageResource(data.img)
             binding.itemProfileNameTv.text = data.name
         }
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
+        /*return when(viewType){
             multi_type1 -> {
                 val binding = ItemNetworkProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 OriginViewHolder(binding)
@@ -48,7 +55,9 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
                 val binding = ItemNetworkProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 OriginViewHolder(binding)
             }
-        }
+        }*/
+        val binding = ItemNetworkProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return OriginViewHolder(binding)
 
     }
 
@@ -58,7 +67,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(dataList[position].type){
+        /*when(dataList[position].type){
             multi_type1 -> {
                 (holder as OriginViewHolder).bind(dataList[position])
                 holder.setIsRecyclable(false)
@@ -71,9 +80,11 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingProfile
                 (holder as GrayViewHolder).bind(dataList[position])
                 holder.setIsRecyclable(false)
             }
-        }
+        }*/
+        (holder as OriginViewHolder).bind(dataList[position])
     }
     override fun getItemViewType(position: Int): Int {
-        return dataList[position].type
+        //return dataList[position].type
+        return dataList.size
     }
 }

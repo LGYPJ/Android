@@ -1,8 +1,11 @@
 package com.softsquared.template.Garamgaebi.model
 
+
+import SeminarDetailInfoResponse
+import SeminarParticipantsResponse
+import SeminarPresentResponse
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -13,8 +16,8 @@ interface ApiInterface {
     suspend fun getSeminarsInfo(@Path("seminar-idx") seminaridx: Int): Response<SeminarPresentResponse>
 
     //세미나 신청자 리스트 조희
-    //@GET("/seminars/{seminar-idx}/participants")
-    //suspend fun getSeminarsInfo(@Path("seminar-idx") seminaridx: Int) : Response<SeminarPresentResponse>
+    @GET("/seminars/{seminar-idx}/participants")
+    suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int) : Response<SeminarParticipantsResponse>
 
     //이번 달 세미나 조회
     //@GET("/seminars/this-month")
@@ -29,13 +32,19 @@ interface ApiInterface {
     //세미나 상세정보 조회
     //@GET("/seminars/info")
 
+    //세미나 상세정보 조회
+    @GET("/seminars/info")
+    suspend fun getSeminarDetail(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int): Response<SeminarDetailInfoResponse>
+
+
     //마감된 세미나 조회
     //@GET("/seminars/closed")
 
     //NetworkingController 네트워킹 컨트롤러
 
     //네트워킹 신청자 리스트 조회
-    //@GET("/networkings/{networking-idx}/participants")
+    @GET("/networkings/{networking-idx}/participants")
+    suspend fun getNetworkingParticipants(@Path("networking-idx")networkingIdx : Int) : Response<NetworkingParticipantsResponse>
 
     //이번 달 네트워킹 조회
     //@GET("/networkings/this-month")
@@ -48,7 +57,8 @@ interface ApiInterface {
     suspend fun getHomeNetworking() : Response<HomeNetworkingResponse>
 
     //네트워킹 상세정보 조회
-    //@GET("/networkings/info")
+    @GET("/networkings/info")
+    suspend fun getNetworkingInfo(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int) : Response<NetworkingInfoResponse>
 
     //마감된 네트워킹 리스트 조회
     //@GET("/networkings/closed")
@@ -58,7 +68,8 @@ interface ApiInterface {
     //예정된 내 모임 조회
     @GET("/programs/{member-idx}/ready")
     suspend fun getHomeProgram(@Path("member-idx") memberidx: Int) : Response<HomeProgramResponse>
-    suspend fun getProgramThisMonth()
+
+    //@GET("/programs/{member-idx}/ready")
 
     //지난 내 모임 조회
     //@GET("/programs/{member-idx}/close")
@@ -112,10 +123,12 @@ interface ApiInterface {
     //ApplyController
 
     //신청 취소 post
-    //@POST("/applies/programs/{id}/leave")
+    @POST("/applies/programs/{id}/leave")
+    suspend fun postCancel(@Body cancelRequest : CancelRequest) : Response<CancelResponse>
 
     //신청 등록 post
-    //@POST("/applies/programs/{id}/leave")
+    @POST("/applies/programs/{id}/enroll")
+    suspend fun postEnroll(@Body enrollRequest : EnrollRequest) : Response<EnrollResponse>
 
     //SocialLoginController 소셜 로그인 컨트롤러
 

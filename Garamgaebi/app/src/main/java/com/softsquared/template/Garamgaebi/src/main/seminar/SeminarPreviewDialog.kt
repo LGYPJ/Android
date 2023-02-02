@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.softsquared.template.Garamgaebi.R
-import com.softsquared.template.Garamgaebi.databinding.ActivityMainBinding.inflate
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.softsquared.template.Garamgaebi.databinding.DialogSeminarPreviewBinding
+import com.softsquared.template.Garamgaebi.viewModel.SeminarViewModel
 
 class SeminarPreviewDialog: DialogFragment() {
 
@@ -34,6 +36,22 @@ class SeminarPreviewDialog: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
+        viewModel.getSeminarsInfo(1)
+        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+            val position = arguments?.getInt("presentationDialog", 0)
+            val data = it.result[position!!]
+            binding.dialogFragmentSeminarNameTv.text = data.nickname
+            binding.dialogFragmentSeminarJobTv.text = data.organization
+            binding.dialogFragmentSeminarTitleTv.text = data.title
+            binding.dialogFragmentSeminarContentTv.text = data.content
+            binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
+            Glide.with(binding.dialogSeminarProfileImg.context)
+                .load(data.profileImgUrl)
+                .into(binding.dialogSeminarProfileImg)
+
+        })
 
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {
            dismiss()

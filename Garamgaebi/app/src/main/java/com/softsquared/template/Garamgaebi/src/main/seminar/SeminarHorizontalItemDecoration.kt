@@ -1,4 +1,4 @@
-package com.softsquared.template.Garamgaebi.src.seminar
+package com.softsquared.template.Garamgaebi.src.main.seminar
 
 import android.graphics.Rect
 import android.view.View

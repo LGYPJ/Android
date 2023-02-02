@@ -1,7 +1,6 @@
 package com.softsquared.template.Garamgaebi.src.main.cancel
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,13 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.softsquared.template.Garamgaebi.R
 import com.softsquared.template.Garamgaebi.databinding.DialogCancelCompleteBinding
-import com.softsquared.template.Garamgaebi.databinding.DialogSeminarPreviewBinding
 import com.softsquared.template.Garamgaebi.src.main.ContainerActivity
-import com.softsquared.template.Garamgaebi.src.main.MainActivity
-import com.softsquared.template.Garamgaebi.src.main.gathering.GatheringMyMeetingFragment
-import com.softsquared.template.Garamgaebi.src.seminar.SeminarFragment
 
 class CancelCompleteDialog: DialogFragment() {
 
