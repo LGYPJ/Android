@@ -98,27 +98,29 @@
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/fragment_gathering_seminar_cl_blank"
+                android:id="@+id/fragment_gathering_seminar_this_month_cl_blank"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/fragment_home_my_meetings_blank_border"
                 app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
                 <ImageView
-                    android:id="@+id/fragment_gathering_seminar_iv_blank"
+                    android:id="@+id/fragment_gathering_seminar_this_month_iv_blank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:src="@drawable/ic_fragment_home_my_meetings_blank"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_tv_blank"/>
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_this_month_tv_blank"/>
                 <TextView
-                    android:id="@+id/fragment_gathering_seminar_tv_blank"
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_blank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="이번 달은 세미나가 없습니다"
                     android:textAlignment="center"
                     android:textColor="@color/grayD9"
@@ -126,7 +128,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_iv_blank"/>
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_this_month_iv_blank"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:id="@+id/fragment_gathering_seminar_tv_scheduled"
@@ -169,7 +171,6 @@
                     android:layout_marginStart="16dp"
                     app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_place"
                     app:layout_constraintStart_toStartOf="parent"/>
-
                 <TextView
                     android:id="@+id/fragment_gathering_seminar_scheduled_tv_date_data"
                     android:layout_width="wrap_content"
@@ -214,6 +215,39 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_gathering_seminar_scheduled_cl_blank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/fragment_home_my_meetings_blank_border"
+                app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
+                <ImageView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_iv_blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_fragment_home_my_meetings_blank"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_blank"/>
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="예정된 세미나가 없습니다"
+                    android:textAlignment="center"
+                    android:textColor="@color/grayD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_scheduled_iv_blank"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/fragment_gathering_seminar_tv_closed"
@@ -234,6 +268,38 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:overScrollMode="never"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_gathering_seminar_closed_cl_blank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_margin="16dp"
+                android:background="@drawable/fragment_home_my_meetings_blank_border"
+                app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
+                <ImageView
+                    android:id="@+id/fragment_gathering_seminar_closed_iv_blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_fragment_home_my_meetings_blank"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_closed_tv_blank"/>
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_closed_tv_blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="마감된 세미나가 없습니다"
+                    android:textAlignment="center"
+                    android:textColor="@color/grayD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_closed_iv_blank"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
