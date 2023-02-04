@@ -9,7 +9,7 @@
         android:id="@+id/item_cancel_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bankicon"
+        android:src="@drawable/bankicon"
         android:layout_marginTop="18.66dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
