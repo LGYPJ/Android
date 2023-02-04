@@ -31,7 +31,7 @@ class GaramgaebiApplication : Application() {
         lateinit var sSharedPreferences: SharedPreferences
 
         // JWT Token Header 키 값
-        val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
+        val X_ACCESS_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGR3bHNkbHdrZDIyQGdhY2hvbi5hYy5rciIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzU0OTczNTB9.D9swvgBggUYfDdkD6XFLy8GzsonF4NpqIxUViBLvJ68"
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit

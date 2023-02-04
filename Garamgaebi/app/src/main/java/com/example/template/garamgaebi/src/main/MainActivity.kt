@@ -1,14 +1,21 @@
 package com.example.template.garamgaebi.src.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import com.example.template.garamgaebi.R
-
 import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.config.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.ActivityMainBinding
+import com.example.template.garamgaebi.model.ApiInterface
+import com.example.template.garamgaebi.model.LoginRequest
+import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -17,6 +24,34 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var myProfileFragment : MyProfileFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lateinit var sSharedPreferences: SharedPreferences
+
+        val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
+        client.postlogin(LoginRequest("zzangu@gachon.ac.kr","1234"))
+            .enqueue(object : Callback<LoginResponse>{
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>
+                ) {
+                    if(response.isSuccessful){
+                        response.body()?.result?.accessToken
+                        GaramgaebiApplication.sSharedPreferences =
+                            applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
+                        val editor = GaramgaebiApplication.sSharedPreferences.edit() //sharedPreferences를 제어할 editor를 선언
+                        editor.putString(
+                            "login",
+                            response.body()?.result?.accessToken
+                        ) // key,value 형식으로 저장
+                        editor.commit()
+
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    Log.e("login", "Error", t)
+                }
+            })
 
         setBottomNavi()
     }

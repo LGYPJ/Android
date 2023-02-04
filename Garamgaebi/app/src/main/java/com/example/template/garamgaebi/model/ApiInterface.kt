@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.model
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -142,4 +143,8 @@ interface ApiInterface {
 
     //카카오 로그인 완료 조회
     //@GET("/member/kakao/callback")
+
+    @POST("/member/login")
+    fun postlogin(@Body user : LoginRequest): Call<LoginResponse>
+
 }
