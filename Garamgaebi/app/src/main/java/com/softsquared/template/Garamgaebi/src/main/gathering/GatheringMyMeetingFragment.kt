@@ -21,6 +21,10 @@ import com.softsquared.template.Garamgaebi.viewModel.GatheringViewModel
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
+        binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
+        binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
+        binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
         viewModel.getGatheringProgramReady(1)
@@ -29,15 +33,18 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(result)
-            if(result.isEmpty()) {
+            if(result.isEmpty() || !it.isSuccess || it == null) {
                 binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
+                binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
             } else {
+                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.GONE
+                binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvScheduled.apply {
                     adapter = myMeetingScheduledAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
-                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.GONE
+
             }
             myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
                 override fun onMoreClick(position: Int, v: View) {
@@ -48,16 +55,18 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.programClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingLastAdapter = GatheringMyMeetingLastRVAdapter(result)
-            if(result.isEmpty()) {
+            if(result.isEmpty() || !it.isSuccess || it == null) {
                 binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
+                binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
             }
             else {
+                binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.GONE
+                binding.fragmentGatheringMyMeetingRvLast.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvLast.apply {
                     adapter = myMeetingLastAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
-                binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.GONE
             }
             myMeetingLastAdapter.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
