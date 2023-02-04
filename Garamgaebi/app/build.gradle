@@ -10,7 +10,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.softsquared.template.Garamgaebi"
+        applicationId "com.example.template.garamgaebi"
         minSdkVersion 27
         targetSdkVersion 31
         versionCode 1

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.softsquared.template.Garamgaebi">
+    package="com.example.template.garamgaebi">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".config.GaramgaebiApplication"
+        android:name="com.example.template.garamgaebi.config.GaramgaebiApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,18 +16,18 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name=".src.main.notification.NotificationActivity"
+            android:name="com.example.template.garamgaebi.src.main.notification.NotificationActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".src.splash.SplashActivity"
+            android:name="com.example.template.garamgaebi.src.splash.SplashActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
-            android:name=".src.main.MainActivity"
+            android:name="com.example.template.garamgaebi.src.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -39,53 +39,53 @@
 
         </activity>
         <activity
-            android:name=".src.main.register.AuthenticationActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.AuthenticationActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.CareerActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.CareerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.CompleteActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.CompleteActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.EducationActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.EducationActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.IntroActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.LoginActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.NicknameActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.NicknameActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.EmailActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.EmailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".src.main.register.OrganizationActivity"
+            android:name="com.example.template.garamgaebi.src.main.register.OrganizationActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".src.main.ContainerActivity"
+            android:name="com.example.template.garamgaebi.src.main.ContainerActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
