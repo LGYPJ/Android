@@ -5,18 +5,19 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
+import com.example.template.garamgaebi.model.PresentationResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
-import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
-class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind, R.layout.fragment_seminar) {
+class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
 
     /*private var profileList: ArrayList<SeminarParticipantsResult> = arrayListOf(
         SeminarParticipantsResult(1, "cindy", "https://post-phinf.pstatic.net/MjAxOTA2MjRfMTcg/MDAxNTYxMzUzMjkyNjIx.oP-m6lCS0OfZtmZr3EggV6SXr8lZclr0NamrgZx1AIEg.RhB9HljEXJLXfDTBC23pXcEhKDrcSyS0p9GLAEeXWosg.JPEG/IMG_3231.jpg?type=w1200"),
@@ -37,15 +38,17 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     )*/
     //화면전환
     var containerActivity: ContainerActivity? = null
+    private val items = MutableLiveData<ArrayList<PresentationResult>>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //뷰모델
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
+        val recyclerViewItems : ArrayList<PresentationResult> = ArrayList()
 
         //프로필 어댑터 연결
-        viewModel.getSeminarParticipants(1)
+        viewModel.getSeminarParticipants(6)
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
             val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
             binding.activitySeminarFreeProfileRv.apply {
@@ -62,16 +65,20 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         })
 
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(1)
-        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+        viewModel.getSeminarsInfo(6)
+        val presentAdapter = SeminarPresentAdapter(viewModel.present)
+        viewModel.present.observe(viewLifecycleOwner, Observer {
             /*val presentAdapter = SeminarPresentAdapter(presentList)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(SeminarVerticalItemDecoration())
             }*/
-            val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
+            //val presentAdapter = SeminarPresentAdapter(viewModel.present)
             binding.activitySeminarFreePresentRv.apply {
+                items.value = it
+                val presentAdapter = SeminarPresentAdapter(items)
+               // adapter = presentAdapter
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(SeminarVerticalItemDecoration())

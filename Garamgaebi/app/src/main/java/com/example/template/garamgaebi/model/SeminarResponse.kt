@@ -2,12 +2,14 @@ package com.example.template.garamgaebi.src.main.seminar.data
 
 import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.model.PresentationResult
+
 //세미나 발표 리스트 조회
 data class SeminarPresentResponse(
     @SerializedName("result") val result : List<PresentationResult>
 ): BaseResponse()
 
-data class PresentationResult(
+/*data class PresentationResult(
     @SerializedName("presentationIdx") val presentationIdx : Int,
     @SerializedName("title") val title: String,
     @SerializedName("nickname")val nickname : String,
@@ -15,7 +17,7 @@ data class PresentationResult(
     @SerializedName("organization") val organization : String,
     @SerializedName("content") val content : String,
     @SerializedName("presentationUrl") val presentationUrl : String
-)
+)*/
 //세미나 상세정보 조회
 data class SeminarDetailInfoResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean = false,
