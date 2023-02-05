@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentHomeBinding
 import com.example.template.garamgaebi.model.HomeNetworkingResult
 import com.example.template.garamgaebi.model.HomeProgramResult
@@ -23,7 +23,7 @@ import com.example.template.garamgaebi.src.main.seminar.HomeSeminarHelpDialog
 import com.example.template.garamgaebi.viewModel.HomeViewModel
 
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
+class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰

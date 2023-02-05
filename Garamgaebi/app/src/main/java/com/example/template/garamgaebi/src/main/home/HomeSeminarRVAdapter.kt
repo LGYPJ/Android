@@ -14,17 +14,18 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarResult>):
 
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarResult) {
-            if(data.payment == "PREMIUM"){
-                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
-            } else {
-                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
-            }
-            binding.itemHomeSeminarTvName.text = data.title
-            binding.itemHomeSeminarTvDateData.text = data.date
-            binding.itemHomeSeminarTvPlaceData.text = data.location
+            //if(data.payment == "PREMIUM"){
+            //    binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            //} else {
+            //    binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            //}
+            //binding.itemHomeSeminarTvName.text = data.title
+            //binding.itemHomeSeminarTvDateData.text = data.date
+            //binding.itemHomeSeminarTvPlaceData.text = data.location
 
-            //TODO 날짜에 따라 D-day 바뀌게
-            binding.itemHomeSeminarTvDDay.text = "D-day"
+            ////TODO 날짜에 따라 D-day 바뀌게
+            //binding.itemHomeSeminarTvDDay.text = "D-day"
+            binding.model = data
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeSeminarScheduledBinding): RecyclerView.ViewHolder(binding.root) {
