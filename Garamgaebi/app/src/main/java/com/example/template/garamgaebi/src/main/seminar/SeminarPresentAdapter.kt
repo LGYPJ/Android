@@ -12,22 +12,22 @@ import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemSeminarPresentBinding
 import com.example.template.garamgaebi.model.PresentationResult
 
-class SeminarPresentAdapter(private val dataList: LiveData<ArrayList<PresentationResult>>): RecyclerView.Adapter<SeminarPresentAdapter.ViewHolder>() {
+class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>): RecyclerView.Adapter<SeminarPresentAdapter.ViewHolder>() {
 
     private lateinit var itemClickListener: OnItemClickListener
-    var recyclerViewItems = ArrayList<PresentationResult>()
 
     inner class ViewHolder(private val binding: ItemSeminarPresentBinding):
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(data: PresentationResult) = with(binding){
+        fun bind(data: PresentationResult) {
             /*binding.activitySeminarFreePresentTitleTv.text = data.title
             binding.activitySeminarFreePresentNameTv.text = data.nickname
             binding.activitySeminarFreePresentJobTv.text = data.organization
             Glide.with(binding.activitySeminarPresentPreviewProfileImg.context)
                 .load(data.profileImgUrl)
                 .into(binding.activitySeminarPresentPreviewProfileImg)*/
-            item = data
+            binding.item = data
+
         }
     }
 
@@ -41,16 +41,15 @@ class SeminarPresentAdapter(private val dataList: LiveData<ArrayList<Presentatio
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        dataList.value?.get(position)?.let {
-            holder.bind(it)
-            holder.itemView.setOnClickListener {
-                itemClickListener.onClick(position)
-            }
+        holder.bind(dataList[position])
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return dataList.value?.size!!
+        return dataList.size
     }
 
 
@@ -58,7 +57,7 @@ class SeminarPresentAdapter(private val dataList: LiveData<ArrayList<Presentatio
         itemClickListener = onItemClickListener
     }
 
-    fun setData(newRecylerViewItems : ArrayList<PresentationResult>){
+    /*fun setData(newRecylerViewItems : ArrayList<PresentationResult>){
         val diffCallback = DiffCallback(recyclerViewItems, newRecylerViewItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         recyclerViewItems.clear()
@@ -80,8 +79,7 @@ class SeminarPresentAdapter(private val dataList: LiveData<ArrayList<Presentatio
         }
 
 
-    }
-
+    }*/
     companion object {
         @JvmStatic
         @BindingAdapter("profileImgUrl")

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -13,11 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.config.BaseDialog
 import com.example.template.garamgaebi.databinding.DialogSeminarPreviewBinding
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
-class SeminarPreviewDialog: DialogFragment() {
+class SeminarPreviewDialog: BaseDialog<DialogSeminarPreviewBinding>(R.layout.dialog_seminar_preview){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,42 +28,30 @@ class SeminarPreviewDialog: DialogFragment() {
         //false로 설정해 주면 화면밖 혹은 뒤로가기 버튼시 다이얼로그라 dismiss 되지 않는다.
         isCancelable = true
     }
-    private lateinit var binding: DialogSeminarPreviewBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogSeminarPreviewBinding.inflate(inflater, container, false)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-        viewModel.getSeminarsInfo(1)
-        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+        viewModel.getSeminarsInfo(8)
+        viewModel.present.observe(viewLifecycleOwner, Observer {
             val position = arguments?.getInt("presentationDialog", 0)
-            val data = it.result[position!!]
-            binding.dialogFragmentSeminarNameTv.text = data.nickname
-            binding.dialogFragmentSeminarJobTv.text = data.organization
-            binding.dialogFragmentSeminarTitleTv.text = data.title
-            binding.dialogFragmentSeminarContentTv.text = data.content
-            binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
-            Glide.with(binding.dialogSeminarProfileImg.context)
-                .load(data.profileImgUrl)
-                .into(binding.dialogSeminarProfileImg)
+            val data = it[position!!]
+            binding.item = data
 
         })
-
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {
            dismiss()
         }
-
+    }
+    companion object {
+        @JvmStatic
+        @BindingAdapter("profileImg")
+        fun loadImage(imageView: ImageView, imageURL:String){
+            Glide.with(imageView.context)
+                .load(imageURL)
+                .into(imageView)
+        }
     }
 
 

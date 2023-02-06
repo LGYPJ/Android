@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.example.template.garamgaebi.viewModel.NetworkingViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +28,7 @@
             android:id="@+id/activity_network_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2차 세미나"
+            android:text="@{item.networkingInfo.result.title}"
             android:textStyle="bold"
 
             android:textSize="20sp"
@@ -60,7 +66,7 @@
             android:id="@+id/activity_network_date_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2023-02-10 오후 6시"
+            android:text="@{item.networkingInfo.result.date}"
             android:textSize="14sp"
             android:textColor="@color/black80"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_title_tv"
@@ -84,7 +90,7 @@
             android:id="@+id/activity_network_place_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가천대학교 비전타워 B201"
+            android:text="@{item.networkingInfo.result.location}"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -108,7 +114,7 @@
             android:id="@+id/activity_network_pay_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10000만원"
+            android:text="@{Integer.toString(item.networkingInfo.result.fee)}"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -132,7 +138,7 @@
             android:id="@+id/activity_network_deadline_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2023-01-09 오후 6시"
+            android:text="@{item.networkingInfo.result.endDate}"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -294,3 +300,4 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

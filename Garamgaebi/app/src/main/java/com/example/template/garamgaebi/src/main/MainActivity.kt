@@ -6,6 +6,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.config.BaseActivity
 import com.example.template.garamgaebi.config.GaramgaebiApplication
 import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
+import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.example.template.garamgaebi.model.ApiInterface
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     if(response.isSuccessful){
                         val editor = GaramgaebiApplication.sSharedPreferences.edit()
                         editor.putString(X_ACCESS_TOKEN, response.body()?.result?.accessToken)
+                        editor.putString(X_REFRESH_TOKEN, response.body()?.result?.refreshToken)
                         editor.apply()
                     }
                 }

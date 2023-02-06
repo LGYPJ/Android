@@ -13,11 +13,11 @@ interface ApiInterface {
 
     //세미나 발표 리스트 조회
     @GET("/seminars/{seminar-idx}/presentations")
-    suspend fun getSeminarsInfo(@Path("seminar-idx") seminaridx: Int): Response<SeminarPresentResponse>
+    suspend fun getSeminarsInfo(@Path("seminar-idx") seminarIdx: Int): Response<SeminarPresentResponse>
 
     //세미나 신청자 리스트 조희
     @GET("/seminars/{seminar-idx}/participants")
-    suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int) : Response<SeminarParticipantsResponse>
+    suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int, @Query("member-idx") memberIdx: Int) : Response<SeminarParticipantsResponse>
 
     //이번 달 세미나 조회
     @GET("/seminars/this-month")
@@ -35,8 +35,8 @@ interface ApiInterface {
     //@GET("/seminars/info")
 
     //세미나 상세정보 조회
-    @GET("/seminars/info")
-    suspend fun getSeminarDetail(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int): Response<SeminarDetailInfoResponse>
+    @GET("/seminars/{seminar-idx}/info")
+    suspend fun getSeminarDetail(@Path("seminar-idx") seminarIdx: Int, @Query("member-idx")memberIdx: Int): Response<SeminarDetailInfoResponse>
 
 
     //마감된 세미나 조회
@@ -47,7 +47,7 @@ interface ApiInterface {
 
     //네트워킹 신청자 리스트 조회
     @GET("/networkings/{networking-idx}/participants")
-    suspend fun getNetworkingParticipants(@Path("networking-idx")networkingIdx : Int) : Response<NetworkingParticipantsResponse>
+    suspend fun getNetworkingParticipants(@Path("networking-idx")networkingIdx : Int, @Query("member-idx") memberIdx: Int) : Response<NetworkingParticipantsResponse>
 
     //이번 달 네트워킹 조회
     @GET("/networkings/this-month")
@@ -62,8 +62,8 @@ interface ApiInterface {
     suspend fun getHomeNetworking() : Response<HomeNetworkingResponse>
 
     //네트워킹 상세정보 조회
-    @GET("/networkings/info")
-    suspend fun getNetworkingInfo(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int) : Response<NetworkingInfoResponse>
+    @GET("/networkings/{networking-idx}/info")
+    suspend fun getNetworkingInfo(@Path("networking-idx")networkingIdx: Int, @Query("member-idx")memberIdx: Int) : Response<NetworkingInfoResponse>
 
     //마감된 네트워킹 리스트 조회
     @GET("/networkings/closed")
