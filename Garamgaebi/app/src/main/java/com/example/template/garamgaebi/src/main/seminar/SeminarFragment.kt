@@ -5,16 +5,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
-import com.example.template.garamgaebi.model.PresentationResult
+import com.example.template.garamgaebi.model.SeminarParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
@@ -48,7 +46,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
         //val recyclerViewItems : ArrayList<PresentationResult> = ArrayList()
 
         //프로필 어댑터 연결
-        viewModel.getSeminarParticipants(6)
+        viewModel.getSeminarParticipants(8,1)
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
             val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
             binding.activitySeminarFreeProfileRv.apply {
@@ -65,7 +63,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
         })
 
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(6)
+        viewModel.getSeminarsInfo(8)
         //val presentAdapter = SeminarPresentAdapter(viewModel.present)
         viewModel.present.observe(viewLifecycleOwner, Observer { it ->
             val presentAdapter = SeminarPresentAdapter(it)
