@@ -7,6 +7,9 @@
             name="thisMonthModel"
             type="com.example.template.garamgaebi.model.GatheringSeminarResult"/>
         <variable
+            name="nextMonthModel"
+            type="com.example.template.garamgaebi.model.GatheringSeminarResult"/>
+        <variable
             name="viewModel"
             type="com.example.template.garamgaebi.viewModel.GatheringViewModel" />
     </data>
@@ -74,7 +77,7 @@
                         android:id="@+id/fragment_gathering_seminar_this_month_tv_date_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.getDay(thisMonthModel.date)}"
+                        android:text="@{thisMonthModel.date}"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:layout_marginStart="16dp"
@@ -178,7 +181,7 @@
                         android:id="@+id/fragment_gathering_seminar_scheduled_tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="세미나 이름"
+                        android:text="@{nextMonthModel.title}"
                         android:textColor="@color/black50"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -202,7 +205,7 @@
                         android:id="@+id/fragment_gathering_seminar_scheduled_tv_date_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="날짜날짜"
+                        android:text="@{nextMonthModel.date}"
                         android:textColor="@color/black50"
                         android:textSize="14sp"
                         android:layout_marginStart="16dp"
@@ -226,7 +229,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        android:text="장소장소"
+                        android:text="@{nextMonthModel.location}"
                         android:textSize="14sp"
                         android:textColor="@color/black50"
                         app:layout_constraintStart_toEndOf="@id/fragment_gathering_seminar_scheduled_tv_place"

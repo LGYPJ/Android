@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.config.BaseBindingFragment
+
 import com.example.template.garamgaebi.databinding.FragmentGatheringBinding
 
 
-class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheringBinding::bind, R.layout.fragment_gathering) {
+class GatheringFragment : BaseBindingFragment<FragmentGatheringBinding>(R.layout.fragment_gathering) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

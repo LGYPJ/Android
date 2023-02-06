@@ -51,8 +51,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
-            Log.d("getHomeSeminarResult", "$result")
-
             if(result.isEmpty() || result == null) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                 constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)

@@ -34,7 +34,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _seminar.postValue(response.body())
                 Log.d("getHomeSeminar", "${response.body()}")
             }
@@ -48,7 +48,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _networking.postValue(response.body())
                 Log.d("getHomeNetworking", "${response.body()}")
             } else {
@@ -61,7 +61,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeUser()
             Log.d("getHomeUser", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _user.postValue(response.body())
                 Log.d("getHomeUser", "${response.body()}")
             } else {
@@ -75,7 +75,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeProgram(memberIdx)
             Log.d("getHomeProgram", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _program.postValue(response.body())
                 Log.d("getHomeProgram", "${response.body()}")
             } else {
