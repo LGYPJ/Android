@@ -7,15 +7,18 @@ import android.util.Log
 import android.view.View
 import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.BR
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import com.example.template.garamgaebi.viewModel.ProfileViewModel
 
 class MyProfileFragment :
-    BaseFragment<FragmentMyprofileBinding>(FragmentMyprofileBinding::bind, R.layout.fragment_myprofile) {
+    BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
@@ -28,11 +31,16 @@ class MyProfileFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        binding.activityMyProfileTvUsername.text = "로건"
-        binding.activityMyProfileTvIntro.text = "자기소개"
-        binding.activityMyProfileTvSchool.text = "가천대학교 소프트웨어학과"
-        binding.activityMyProfileTvEmail.text = "umc@naver.com"
+        val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        binding.setVariable(BR.profileViewModel,viewModel)
+
+        viewModel.getProfileInfo(1)
+
+
+//        binding.activityMyProfileTvUsername.text = "로건"
+//        binding.activityMyProfileTvIntro.text = "자기소개"
+//        binding.activityMyProfileTvSchool.text = "가천대학교 소프트웨어학과"
+//        binding.activityMyProfileTvEmail.text = "umc@naver.com"
 
 
         if(binding.activityMyProfileTvIntro.text.isNotEmpty()){
@@ -123,37 +131,16 @@ class MyProfileFragment :
         }
     }
 
-    // 자동 높이 조절
-     fun setListViewHeightBasedOnChildren(listView: ListView) {
-        val listAdapter = listView.adapter
-            ?: // pre-condition
-            return
-        var totalHeight = 0
-        val desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.width, View.MeasureSpec.AT_MOST)
-        for (i in 0 until listAdapter.count) {
-            val listItem = listAdapter.getView(i, null, listView)
-            //listItem.measure(0, 0);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
-            totalHeight += listItem.measuredHeight
-        }
-        var totaldividers = listView.dividerHeight * (listAdapter.count-1)
-
-        val params = listView.layoutParams
-        params.height = totalHeight +totaldividers
-        listView.layoutParams = params
-        listView.requestLayout()
-    }
-
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)
-       // containerActivity = context as ContainerActivity
+        // containerActivity = context as ContainerActivity
     }
 
     override fun onDetach() {
         super.onDetach()
         callback.remove()
     }
-    }
+}
 
 
