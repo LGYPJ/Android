@@ -31,6 +31,8 @@ class SeminarViewModel : ViewModel(){
     val info : LiveData<SeminarDetailInfoResponse>
     get() = _info
 
+    val pay : MutableLiveData<String> = MutableLiveData("무료")
+
     fun getSeminarsInfo(seminarIdx : Int) {
         viewModelScope.launch {
             val response = seminarRepository.getSeminarsInfo(6)
@@ -68,5 +70,13 @@ class SeminarViewModel : ViewModel(){
                 Log.d("error", response.message())
             }
         }
+    }
+
+    fun feeFree(money : String): String {
+        return pay.value.toString()
+    }
+
+    fun convertFee(money : String):String{
+        return "$money 원"
     }
 }

@@ -33,7 +33,7 @@ class ApplyViewModel : ViewModel() {
         viewModelScope.launch {
             val response = applyRepository.postCancel(cancelRequest)
             Log.d("cancel", response.body().toString())
-            if(response.body()?.isSuccess!!){
+            if(response.isSuccessful){
                 _cancel.postValue(response.body())
             }
             else {
