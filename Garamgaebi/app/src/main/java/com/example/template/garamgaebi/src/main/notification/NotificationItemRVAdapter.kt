@@ -4,15 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemNotificationBinding
+import com.example.template.garamgaebi.model.NotificationResult
 
-class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationItemData>) : RecyclerView.Adapter<NotificationItemRVAdapter.ViewHolder>() {
+class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationResult>) : RecyclerView.Adapter<NotificationItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: NotificationItemRVAdapter.OnItemClickListener
     inner class ViewHolder( val binding: ItemNotificationBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: NotificationItemData){
-            binding.itemActivityNotificationIv.setImageResource(data.img)
-            binding.itemActivityNotificationTvTitle.text = data.title
-            binding.itemActivityNotificationTvDesc.text = data.desc
+        fun bind(data: NotificationResult){
+            binding.model = data
         }
     }
 

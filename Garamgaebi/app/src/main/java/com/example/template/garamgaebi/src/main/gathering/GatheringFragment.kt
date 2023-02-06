@@ -19,7 +19,6 @@ class GatheringFragment : BaseBindingFragment<FragmentGatheringBinding>(R.layout
         val tabArray = arrayOf("세미나", "네트워킹", "내 모임")
         TabLayoutMediator(binding.fragmentGatheringTl, binding.fragmentGatheringVp) { tab, position ->
             tab.text = tabArray[position]
-
         }.attach()
 
 

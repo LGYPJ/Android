@@ -16,7 +16,7 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="com.example.template.garamgaebi.src.main.notification.NotificationActivity"
+            android:name="com.example.template.garamgaebi.src.main.notification.NotificationFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>

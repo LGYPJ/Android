@@ -9,6 +9,10 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
+    //NotificationController 알림 컨트롤러
+    @GET("/notification/{member-idx}")
+    suspend fun getNotification(@Path("member-idx") memberIdx: Int) : Response<NotificationResponse>
+
     //SeminarController 세미나 컨트롤러
 
     //세미나 발표 리스트 조회
