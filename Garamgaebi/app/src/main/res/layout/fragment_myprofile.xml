@@ -3,6 +3,9 @@
     <data>
         <import type="com.example.template.garamgaebi.src.main.seminar.SeminarFragment"/>
         <variable
+            name="profileFragment"
+            type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment" />
+        <variable
             name="profileViewModel"
             type="com.example.template.garamgaebi.viewModel.ProfileViewModel" />
     </data>
@@ -40,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_service_center_24dp"
                 android:layout_marginEnd="16dp"
+                android:onClick="@{()->profileFragment.goServiceCenterFragment()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/activity_myProfile_ivWd"
@@ -50,6 +54,7 @@
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_logout_24dp"
                 android:layout_marginEnd="16dp"
+                android:onClick="@{()->profileFragment.goWithdrawalFragment()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +96,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="16dp"
-                    android:text="@{profileViewModel.myData.nickName}"
+                    android:text=""
                     android:textStyle="bold"
                     android:textAppearance="@style/some_id"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_ivProfile"
@@ -103,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@{profileViewModel.myData.belong}"
+                    android:text=""
                     android:textColor="@color/black80"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -114,9 +119,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-
                     android:autoLink="email"
-                    android:text="@{profileViewModel.myData.profileEmail}"
+                    android:text=""
                     android:textColor="@color/blueForBtn"
                     android:textSize="16sp"
 
@@ -129,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:padding="12dp"
-                    android:text="@{profileViewModel.myData.content}"
+                    android:text=""
                     android:textColor="@color/black80"
                     android:textSize="14sp"
                     android:visibility="visible"
@@ -151,6 +155,7 @@
                     android:textColor="@color/blueForBtn"
                     android:outlineProvider="none"
                     android:background="@drawable/basic_sky_btn_layout"
+                    android:onClick="@{()->profileFragment.goEditFragment()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_intro"

@@ -137,25 +137,26 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // 내 모임
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
-            val myMeetingRVAdapter : HomeMyMeetingRVAdapter
-            if(result.isEmpty() || result == null) {
+            val myMeetingRVAdapter: HomeMyMeetingRVAdapter
+            if (result.isEmpty() || result == null) {
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             } else {
                 myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
                 binding.fragmentHomeRvMyMeeting.apply {
                     adapter = myMeetingRVAdapter
-                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                    layoutManager =
+                        LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(HomeMyMeetingItemDecoration())
                 }
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
                 // 리사이클러뷰 클릭 리스너
-                myMeetingRVAdapter.setOnItemClickListener(object : HomeMyMeetingRVAdapter.OnItemClickListener{
+                myMeetingRVAdapter.setOnItemClickListener(object :
+                    HomeMyMeetingRVAdapter.OnItemClickListener {
                     override fun onClick(position: Int) {
                         // TODO("Not yet implemented")
                     }
                 })
             }
-
         })
         // 알림 이동
         binding.fragmentHomeIvNotification.setOnClickListener {

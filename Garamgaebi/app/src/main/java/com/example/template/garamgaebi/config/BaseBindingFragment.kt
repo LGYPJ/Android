@@ -34,5 +34,4 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     protected open fun initViewModel() {}
     protected open fun initListener() {}
     protected open fun afterViewCreated() {}
-
 }
