@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.model
 
+import androidx.databinding.ObservableField
 import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.config.BaseResponse
 
@@ -20,11 +21,11 @@ data class CancelResponse(
 
 //신청 등록
 data class EnrollRequest(
-    @SerializedName("memberIdx")val memberIdx: Int,
-    @SerializedName("programIdx")val programIdx : Int,
-    @SerializedName("name")val name : String,
-    @SerializedName("nickname")val nickname : String,
-    @SerializedName("phone")val phone : String
+    @SerializedName("memberIdx") val memberIdx: Int,
+    @SerializedName("programIdx") val programIdx: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("phone") val phone: String
 )
 
 data class EnrollResponse(

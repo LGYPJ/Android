@@ -1,6 +1,8 @@
 package com.example.template.garamgaebi.viewModel
 
 import android.util.Log
+import androidx.databinding.InverseMethod
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +21,14 @@ class ApplyViewModel : ViewModel() {
     val enroll : LiveData<EnrollResponse>
     get() = _enroll
 
+    //신청하기 request
+    //이름
+    val inputName : MutableLiveData<String> = MutableLiveData("")
+    //닉네임
+    val inputNickName : MutableLiveData<String> = MutableLiveData("")
+    //전화번호
+    val inputPhone : MutableLiveData<String> = MutableLiveData("")
+
     fun postCancel(cancelRequest: CancelRequest) {
         viewModelScope.launch {
             val response = applyRepository.postCancel(cancelRequest)
@@ -32,11 +42,11 @@ class ApplyViewModel : ViewModel() {
         }
     }
 
-    fun postEnroll(enrollRequest: EnrollRequest){
+    fun postEnroll(){
         viewModelScope.launch {
-            val response = applyRepository.postEnroll(enrollRequest)
-            Log.d("enroll", response.body().toString())
-            if(response.body()?.isSuccess!!){
+            val response = applyRepository.postEnroll(EnrollRequest(1,6, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
+            Log.d("enroll", EnrollRequest(1,6, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
+            if(response.isSuccessful){
                 _enroll.postValue(response.body())
             }
             else{
@@ -44,5 +54,9 @@ class ApplyViewModel : ViewModel() {
             }
         }
     }
+
+    fun getNameText() : MutableLiveData<String> = inputName
+    fun getNickNameText() : MutableLiveData<String> = inputNickName
+    fun getPhoneText() : MutableLiveData<String> = inputPhone
 
 }

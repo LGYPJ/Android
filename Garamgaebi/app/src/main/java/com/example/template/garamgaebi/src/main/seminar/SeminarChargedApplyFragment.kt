@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +30,7 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         super.onViewCreated(view, savedInstanceState)
         //뷰모델
         val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+        binding.setVariable(BR.item, viewModel)
 
         //처음에 버튼 비활성화
         binding.activitySeminarChargedApplyBtn.isEnabled = false
@@ -114,19 +117,12 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
         binding.activitySeminarChargedApplyBtn.setOnClickListener {
-            /*val bundle = Bundle()
-            bundle.putBoolean("apply",true)
-            val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
-
-            val name = binding.activitySeminarChargedApplyNameTv.text.toString()
-            val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
-            val phone = binding.activitySeminarChargedApplyPhoneTv.text.toString()
             //신청 등록 api
-            viewModel.postEnroll(EnrollRequest(1,6,name,nickname,phone))
+            viewModel.postEnroll()
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                binding.item = viewModel
+                //viewModel.postEnroll(EnrollRequest(1,6,name,nickname,phone))
+                Log.d("apply", it.toString())
                 if(it.isSuccess){
                     //세미나 메인 화면으로
                     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()

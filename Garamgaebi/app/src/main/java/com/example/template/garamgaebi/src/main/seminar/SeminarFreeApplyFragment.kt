@@ -116,10 +116,10 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
 
             //신청 등록 api
-            val name = binding.activitySeminarFreeApplyNameTv.text.toString()
+            /*val name = binding.activitySeminarFreeApplyNameTv.text.toString()
             val nickname = binding.activitySeminarFreeApplyNicknameTv.text.toString()
-            val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()
-            viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()*/
+            //viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
                 if(!it.isSuccess){
                     //세미나 메인 화면으로

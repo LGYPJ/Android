@@ -117,11 +117,11 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
             networkingFragment.arguments = bundle
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.activity_seminar_frame, networkingFragment).commit()*/
-            val name = binding.activityNetworkFreeApplyNameTv.text.toString()
+            /*val name = binding.activityNetworkFreeApplyNameTv.text.toString()
             val nickname = binding.activityNetworkFreeApplyNicknameTv.text.toString()
-            val phone = binding.activityNetworkFreeApplyPhoneTv.text.toString()
+            val phone = binding.activityNetworkFreeApplyPhoneTv.text.toString()*/
             //신청 등록 api
-            viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            //viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
                 if(it.isSuccess){
                     //네트워킹 메인 화면으로
