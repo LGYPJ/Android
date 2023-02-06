@@ -48,116 +48,96 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.getHomeProgram(1)
 
         // 세미나
-        viewModel.seminar.observe(viewLifecycleOwner, Observer {
-            val result = it.result as ArrayList<HomeSeminarResult>
-            val seminarRVAdapter : HomeSeminarRVAdapter
-            Log.d("getHomeSeminarResult", "$result")
-
-            if(result.isEmpty() || result == null) {
-                binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-                constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-            } else {
-                seminarRVAdapter = HomeSeminarRVAdapter(result)
-                binding.fragmentHomeVpSeminar.apply {
-                    adapter = seminarRVAdapter
-                    orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            super.onPageSelected(position)
-                        }
-                    })
-                    offscreenPageLimit = 1
-                    // 간격 조절
-                    setPageTransformer { page, position ->
-                        page.translationX = position * -offsetPx
-                    }
-                    addItemDecoration(HomeVPItemDecoration(requireContext()))
-                }
-                constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeVpSeminar)
-                binding.fragmentHomeClSeminarBlank.visibility = View.GONE
-                // 리사이클러뷰 클릭 리스너
-                seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
-                    override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
-                    }
-                })
-            }
-        })
+//        viewModel.seminar.observe(viewLifecycleOwner, Observer {
+//            val result = it.result as ArrayList<HomeSeminarResult>
+//            val seminarRVAdapter : HomeSeminarRVAdapter
+//            Log.d("getHomeSeminarResult", "$result")
+//
+//            if(result.isEmpty() || result == null) {
+//                binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
+//                constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
+//            } else {
+//                seminarRVAdapter = HomeSeminarRVAdapter(result)
+//                binding.fragmentHomeVpSeminar.apply {
+//                    adapter = seminarRVAdapter
+//                    orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//                        override fun onPageSelected(position: Int) {
+//                            super.onPageSelected(position)
+//                        }
+//                    })
+//                    offscreenPageLimit = 1
+//                    // 간격 조절
+//                    setPageTransformer { page, position ->
+//                        page.translationX = position * -offsetPx
+//                    }
+//                    addItemDecoration(HomeVPItemDecoration(requireContext()))
+//                }
+//                constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeVpSeminar)
+//                binding.fragmentHomeClSeminarBlank.visibility = View.GONE
+//                // 리사이클러뷰 클릭 리스너
+//                seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
+//                    override fun onClick(position: Int) {
+//                        // TODO("Not yet implemented")
+//                    }
+//                })
+//            }
+//        })
         // 네트워킹
-        viewModel.networking.observe(viewLifecycleOwner, Observer {
-            val result = it.result as ArrayList<HomeNetworkingResult>
-            val networkingRVAdapter : HomeNetworkingRVAdapter
-            if(result.isEmpty() || result == null) {
-                binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-            } else {
-                networkingRVAdapter = HomeNetworkingRVAdapter(result)
-                binding.fragmentHomeVpNetworking.apply {
-                    adapter = networkingRVAdapter
-                    orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            super.onPageSelected(position)
-                        }
-                    })
-                    offscreenPageLimit = 1
-                    setPageTransformer { page, position ->
-                        page.translationX = position * -offsetPx
-                    }
-                    addItemDecoration(HomeVPItemDecoration(requireContext()))
-                }
-                binding.fragmentHomeClNetworkingBlank.visibility = View.GONE
-                // 리사이클러뷰 클릭 리스너
-                networkingRVAdapter.setOnItemClickListener(object : HomeNetworkingRVAdapter.OnItemClickListener{
-                    override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
-                    }
-                })
-            }
-        })
-        // 유저 프로필 11명
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            val result = it.result as ArrayList<HomeUserResult>
-            val userRVAdapter = HomeUserItemRVAdapter(result)
-            if(result.isEmpty() || result == null) {
-                binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-            } else {
-                binding.fragmentHomeRvUser.apply {
-                    adapter = userRVAdapter
-                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    addItemDecoration(HomeUserItemDecoration())
-                }
-                binding.fragmentHomeClUserBlank.visibility = View.GONE
-            }
-            // 리사이클러뷰 클릭 리스너
-            userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // TODO("Not yet implemented")
-                }
-            })
-        })
-        // 내 모임
-        viewModel.program.observe(viewLifecycleOwner, Observer {
-            val result = it.result as ArrayList<HomeProgramResult>
-            val myMeetingRVAdapter : HomeMyMeetingRVAdapter
-            if(result.isEmpty() || result == null) {
-                binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-            } else {
-                myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
-                binding.fragmentHomeRvMyMeeting.apply {
-                    adapter = myMeetingRVAdapter
-                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-                    addItemDecoration(HomeMyMeetingItemDecoration())
-                }
-                binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
-                // 리사이클러뷰 클릭 리스너
-                myMeetingRVAdapter.setOnItemClickListener(object : HomeMyMeetingRVAdapter.OnItemClickListener{
-                    override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
-                    }
-                })
-            }
+//        viewModel.networking.observe(viewLifecycleOwner, Observer {
+//            val result = it.result as ArrayList<HomeNetworkingResult>
+//            val networkingRVAdapter : HomeNetworkingRVAdapter
+//            if(result.isEmpty() || result == null) {
+//                binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
+//            } else {
+//                networkingRVAdapter = HomeNetworkingRVAdapter(result)
+//                binding.fragmentHomeVpNetworking.apply {
+//                    adapter = networkingRVAdapter
+//                    orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//                        override fun onPageSelected(position: Int) {
+//                            super.onPageSelected(position)
+//                        }
+//                    })
+//                    offscreenPageLimit = 1
+//                    setPageTransformer { page, position ->
+//                        page.translationX = position * -offsetPx
+//                    }
+//                    addItemDecoration(HomeVPItemDecoration(requireContext()))
+//                }
+//                binding.fragmentHomeClNetworkingBlank.visibility = View.GONE
+//                // 리사이클러뷰 클릭 리스너
+//                networkingRVAdapter.setOnItemClickListener(object : HomeNetworkingRVAdapter.OnItemClickListener{
+//                    override fun onClick(position: Int) {
+//                        // TODO("Not yet implemented")
+//                    }
+//                })
+//            }
+//        })
 
-        })
+        // 내 모임
+//        viewModel.program.observe(viewLifecycleOwner, Observer {
+//            val result = it.result as ArrayList<HomeProgramResult>
+//            val myMeetingRVAdapter : HomeMyMeetingRVAdapter
+//            if(result.isEmpty() || result == null) {
+//                binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+//            } else {
+//                myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
+//                binding.fragmentHomeRvMyMeeting.apply {
+//                    adapter = myMeetingRVAdapter
+//                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+//                    addItemDecoration(HomeMyMeetingItemDecoration())
+//                }
+//                binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
+//                // 리사이클러뷰 클릭 리스너
+//                myMeetingRVAdapter.setOnItemClickListener(object : HomeMyMeetingRVAdapter.OnItemClickListener{
+//                    override fun onClick(position: Int) {
+//                        // TODO("Not yet implemented")
+//                    }
+//                })
+//            }
+//
+//        })
 
         binding.fragmentHomeIvNotification.setOnClickListener {
             startActivity(Intent(activity, NotificationActivity::class.java))
