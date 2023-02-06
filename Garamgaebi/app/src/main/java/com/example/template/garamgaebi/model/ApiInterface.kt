@@ -81,39 +81,67 @@ interface ApiInterface {
     @GET("/programs/{member-idx}/close")
     suspend fun getGatheringProgramClosed(@Path("member-idx") memberIdx: Int) : Response<GatheringProgramResponse>
 
-
     //ProfileController 프로필 컨트롤라
 
     //SNS 추가
-    //@POST("/profile/sns")
+    @POST("/profile/sns")
+    suspend fun getCheckAddSNS(
+        //@Header("accessToken") accessToken : String,
+        @Body request: SNSData
+    ): Call<AddSNSDataResponse>
 
     //고객센터 문의 요청
-    //@POST("/profile/qna")
+    @POST("/profile/qna")
+    suspend fun getCheckQnA(
+        @Body request: QnAData
+    ): Call<QnADataResponse>
 
     //교육 추가
-    //@POST("/profile/edit/{memberIdx}")
+    @POST("/profile/edit/{memberIdx}")
+    suspend fun getCheckAddEducation(
+        @Body request: EducationData
+    ): Call<EducationDataResponse>
 
     //프로필 편집
-    //@POST("/profile/sns")
+    @POST("/profile/sns")
+    suspend fun getCheckEditProfile(
+        @Body request: ProfileData
+    ): Call<EditProfileDataResponse>
 
     //경력 추가
-    //@POST("/profile/career")
+    @POST("/profile/career")
+    suspend fun getCheckAddCareer(
+        @Body request: CareerData
+    ): Call<AddCareerDataResponse>
 
     //프로필 정보 조회
-    //@GET("/profile/{memberIdx}")
+    @GET("/profile/{memberIdx}")
+    suspend fun getProfileInfo(
+        @Path("memberIdx") memberIdx: Int
+    ): Response<ProfileDataResponse>
 
     //SNS 정보 조회
-    //@GET("/profile/sns/{memberIdx}")
+    @GET("/profile/sns/{memberIdx}")
+    suspend fun getSNSInfo(
+        @Path("memberIdx") memberIdx: Int
+    ): Response<SNSDataResponse>
 
     //프로필 10명 추천 조회
     @GET("/profile/profiles")
     suspend fun getHomeUser() : Response<HomeUserResponse>
 
     //프로필 교육 조회
-    //@GET("/profile/education/{memberIdx}")
+    @GET("/profile/education/{memberIdx}")
+    suspend fun getEducationInfo(
+        @Path("memberIdx") memberIdx: Int
+    ): Response<EducationDataResponse>
 
     //프로필 경력 조회
-    //@GET("/profile/career/{memberIdx}")
+    @GET("/profile/career/{memberIdx}")
+    suspend fun getCareerInfo(
+        @Path("memberIdx") memberIdx: Int
+    ): Response<CareerDataResponse>
+
 
     //MemberController 멤버 컨트롤러
 
