@@ -3,10 +3,13 @@ package com.example.template.garamgaebi.src.main.seminar
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBinding
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
+import com.example.template.garamgaebi.model.SeminarParticipantsResult
+
 
 class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -14,11 +17,11 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsR
             RecyclerView.ViewHolder(binding.root) {
                 @SuppressLint("SetTextI18n")
                 fun bind(data: SeminarParticipantsResult){
-                    //binding.itemProfileImg.setImageResource(data.)
-                    binding.itemProfileNameTv.text = data.nickname
+                    /*binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
-                        .into(binding.itemProfileImg)
+                        .into(binding.itemProfileImg)*/
+                    binding.item = data
                 }
             }
 
@@ -87,6 +90,16 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsR
     override fun getItemViewType(position: Int): Int {
         //return dataList[position].type
         return dataList.size
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("profileImg")
+        fun loadImage(imageView: ImageView, imageURL:String){
+            Glide.with(imageView.context)
+                .load(imageURL)
+                .into(imageView)
+        }
     }
 
 

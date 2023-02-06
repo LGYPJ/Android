@@ -17,7 +17,7 @@ interface ApiInterface {
 
     //세미나 신청자 리스트 조희
     @GET("/seminars/{seminar-idx}/participants")
-    suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int) : Response<SeminarParticipantsResponse>
+    suspend fun getSeminarParticipants(@Path("seminar-idx") seminaridx: Int, @Query("member-idx") memberIdx: Int) : Response<SeminarParticipantsResponse>
 
     //이번 달 세미나 조회
     @GET("/seminars/this-month")
