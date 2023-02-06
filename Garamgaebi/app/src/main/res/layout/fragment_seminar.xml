@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <import type="com.example.template.garamgaebi.src.main.seminar.SeminarFragment"/>
         <variable
             name="item"
             type="com.example.template.garamgaebi.viewModel.SeminarViewModel"/>

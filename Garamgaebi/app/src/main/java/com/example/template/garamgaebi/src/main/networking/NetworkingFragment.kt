@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.networking
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,10 +50,11 @@ class NetworkingFragment: BaseBindingFragment<FragmentNetworkingBinding>(R.layou
         })
 
         //네트워킹 상세정보
-        /*viewModel.getNetworkingInfo(0,0)
+        binding.setVariable(BR.item, viewModel)
+        viewModel.getNetworkingInfo(1,1)
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
-            val item = it.result
-            binding.activityNetworkTitleTv.text = item.title
+            //val item = it
+            /*binding.activityNetworkTitleTv.text = item.title
             binding.activityNetworkDateDetailTv.text = item.date
             binding.activityNetworkPlaceDetailTv.text = item.location
             binding.activityNetworkPayDetailTv.text = item.fee.toString()
@@ -62,8 +64,9 @@ class NetworkingFragment: BaseBindingFragment<FragmentNetworkingBinding>(R.layou
                 binding.activityNetworkApplyBtn.text = "신청완료"
                 binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
                 binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-            }
-        })*/
+            }*/
+            binding.item = viewModel
+        })
 
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
         binding.activityNetworkApplyBtn.setOnClickListener {
