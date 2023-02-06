@@ -11,6 +11,7 @@ import com.example.template.garamgaebi.src.main.networking.NetworkingFragment
 import com.example.template.garamgaebi.src.main.networking.NetworkingFreeApplyFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
+import com.example.template.garamgaebi.src.main.notification.NotificationFragment
 import com.example.template.garamgaebi.src.main.profile.*
 import com.example.template.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
@@ -107,6 +108,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 binding.activityContainerToolbarTv.text = "회원탈퇴"
             }
+
+            //동원 부분
+            16 -> {
+                transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification")
+            }
         }
         transaction.commit()
         for(fragment: Fragment in supportFragmentManager.fragments) {
@@ -130,6 +136,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "someoneProfile" -> fragmentTitle = "프로필"
                     "servicecenter" -> fragmentTitle = "고객 센터"
                     "withdrawal" -> fragmentTitle = "회원 탈퇴"
+                    "notification" -> fragmentTitle = "알림"
                 }
 
                 binding.activityContainerToolbarTv.text = fragmentTitle
@@ -189,6 +196,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(intent.getBooleanExtra("withdrawal", false)){
             openFragmentOnFrameLayout(15)
             binding.activityContainerToolbarTv.text = "회원 탈퇴"
+        }
+        if(intent.getBooleanExtra("notification", false)) {
+            openFragmentOnFrameLayout(16)
+            binding.activityContainerToolbarTv.text = "알림"
         }
 
 

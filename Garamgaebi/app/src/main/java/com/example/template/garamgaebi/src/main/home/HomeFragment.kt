@@ -16,8 +16,8 @@ import com.example.template.garamgaebi.model.HomeNetworkingResult
 import com.example.template.garamgaebi.model.HomeProgramResult
 import com.example.template.garamgaebi.model.HomeSeminarResult
 import com.example.template.garamgaebi.model.HomeUserResult
+import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.MainActivity
-import com.example.template.garamgaebi.src.main.notification.NotificationActivity
 import com.example.template.garamgaebi.src.main.seminar.HomeNetworkingHelpDialog
 import com.example.template.garamgaebi.src.main.seminar.HomeSeminarHelpDialog
 import com.example.template.garamgaebi.viewModel.HomeViewModel
@@ -157,9 +157,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             }
 
         })
-
+        // 알림 이동
         binding.fragmentHomeIvNotification.setOnClickListener {
-            startActivity(Intent(activity, NotificationActivity::class.java))
+            val intent = Intent(context, ContainerActivity::class.java)
+            intent.putExtra("notification", true)
+            startActivity(intent)
         }
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
