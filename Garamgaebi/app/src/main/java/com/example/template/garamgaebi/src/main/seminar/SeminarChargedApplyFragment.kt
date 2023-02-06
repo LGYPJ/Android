@@ -6,8 +6,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.config.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.example.template.garamgaebi.model.EnrollRequest
@@ -15,20 +18,18 @@ import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
 import java.util.regex.Pattern
 
-class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBinding>(FragmentSeminarChargedApplyBinding::bind, R.layout.fragment_seminar_charged_apply) {
+class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApplyBinding>(R.layout.fragment_seminar_charged_apply) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //뷰모델
-    val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //뷰모델
+        val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
 
-        //뒤로가기 버튼 누르면 세미나 메인 페이지로 ==> 툴바 적용
-        /*binding.activitySeminarChargedBackBtn.setOnClickListener {
-
-        }*/
+        //처음에 버튼 비활성화
         binding.activitySeminarChargedApplyBtn.isEnabled = false
 
         // et selected 여부에 따라 drawable 결정
@@ -124,9 +125,9 @@ class SeminarChargedApplyFragment: BaseFragment<FragmentSeminarChargedApplyBindi
             val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
             val phone = binding.activitySeminarChargedApplyPhoneTv.text.toString()
             //신청 등록 api
-            viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            viewModel.postEnroll(EnrollRequest(1,6,name,nickname,phone))
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                if(!it.isSuccess){
+                if(it.isSuccess){
                     //세미나 메인 화면으로
                     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
                     requireActivity().supportFragmentManager.popBackStack()

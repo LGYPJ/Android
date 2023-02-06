@@ -19,11 +19,12 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //뷰모델
-    val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //뷰모델
+        val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+        //처음에 버튼 비활성화
         binding.activitySeminarFreeApplyBtn.isEnabled = false
         // et selected 여부에 따라 drawable 결정
         binding.activitySeminarFreeApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
