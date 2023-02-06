@@ -35,6 +35,7 @@ class HomeViewModel : ViewModel(){
 
             if (response.isSuccessful) {
                 _seminar.postValue(response.body())
+                Log.d("getHomeSeminar", "${response.body()?.result}")
             }
             else {
                 Log.d("error", "getHomeSeminar : "+response.message())
@@ -48,6 +49,7 @@ class HomeViewModel : ViewModel(){
 
             if(response.isSuccessful) {
                 _networking.postValue(response.body())
+                Log.d("getHomeNetworking", "${response.body()?.result}")
             } else {
                 Log.d("error", "getHomeNetworking : "+response.message())
             }
@@ -60,6 +62,7 @@ class HomeViewModel : ViewModel(){
 
             if(response.isSuccessful) {
                 _user.postValue(response.body())
+                Log.d("getHomeUser", "${response.body()?.result}")
             } else {
                 Log.d("error", "getHomeUser : "+response.message())
             }
@@ -73,6 +76,7 @@ class HomeViewModel : ViewModel(){
 
             if(response.isSuccessful) {
                 _program.postValue(response.body())
+                Log.d("getHomeProgram", "${response.body()?.result}")
             } else {
                 Log.d("error", "getHomeProgram : "+response.message())
             }

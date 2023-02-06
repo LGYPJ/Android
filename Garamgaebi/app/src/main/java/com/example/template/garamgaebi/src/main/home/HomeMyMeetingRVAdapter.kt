@@ -11,9 +11,7 @@ class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>)
     inner class ViewHolder( val binding: ItemHomeMyMeetingBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeProgramResult){
-            binding.itemHomeMyMeetingTvName.text = data.title
-            binding.itemHomeMyMeetingTvDate.text = data.date
-            binding.itemHomeMyMeetingTvPlace.text = data.location
+            binding.model = data
         }
     }
 

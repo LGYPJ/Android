@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:src="@{model.payment == @string/home_payment ? @drawable/ic_item_home_charged : @drawable/ic_item_home_for_free}"
+                android:src="@{model.payment.equals(@string/home_payment) ? @drawable/ic_item_home_charged : @drawable/ic_item_home_for_free}"
                 app:layout_constraintStart_toEndOf="@+id/ic_this_month"
                 app:layout_constraintTop_toTopOf="parent" />
 
