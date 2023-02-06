@@ -62,8 +62,8 @@ interface ApiInterface {
     suspend fun getHomeNetworking() : Response<HomeNetworkingResponse>
 
     //네트워킹 상세정보 조회
-    @GET("/networkings/info")
-    suspend fun getNetworkingInfo(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int) : Response<NetworkingInfoResponse>
+    @GET("/networkings/{networking-idx}/info")
+    suspend fun getNetworkingInfo(@Path("networking-idx")networkingIdx: Int, @Query("member-idx")memberIdx: Int) : Response<NetworkingInfoResponse>
 
     //마감된 네트워킹 리스트 조회
     @GET("/networkings/closed")
