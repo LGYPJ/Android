@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.getHomeProgram(1)
 
         // 세미나
-        /*viewModel.seminar.observe(viewLifecycleOwner, Observer {
+        viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter = HomeSeminarRVAdapter(result)
             if(result.isEmpty() || !it.isSuccess || it == null) {
@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     // TODO("Not yet implemented")
                 }
             })
-        })*/
+        })
         // 네트워킹
         viewModel.networking.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeNetworkingResult>
