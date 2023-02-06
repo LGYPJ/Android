@@ -11,10 +11,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
     inner class ViewHolder( val binding: ItemHomeUserBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
-            //binding.itemHomeUserProfileImg.setImageResource()
-            binding.itemHomeUserTvNickname.text = data.nickName
-            binding.itemHomeUserTvOrg.text = data.belong
-            //binding.itemHomeUserTvMajor.text = data.major
+            binding.model = data
         }
     }
 

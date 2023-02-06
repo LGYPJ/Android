@@ -13,44 +13,17 @@ class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingRes
     private lateinit var itemClickListener: HomeNetworkingRVAdapter.OnItemClickListener
     inner class ThisMonthViewHolder(val binding: ItemHomeNetworkingThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            if(data.payment == "PREMIUM"){
-                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
-            } else {
-                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
-            }
-            binding.itemHomeNetworkingTvName.text = data.title
-            binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.location
-
-            //TODO 날짜에 따라 D-day 바뀌게
-            binding.itemHomeNetworkingTvDDay.text = "D-day"
+            binding.model = data
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeNetworkingScheduledBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            if(data.payment == "PREMIUM"){
-                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
-            } else {
-                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
-            }
-            binding.itemHomeNetworkingTvName.text = data.title
-            binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.location
-
-            //TODO 날짜에 따라 D-day 바뀌게
-            binding.itemHomeNetworkingTvDDay.text = "D-day"
+            binding.model = data
         }
     }
     inner class ClosedViewHolder(val binding: ItemHomeNetworkingClosedBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            if(data.payment == "PREMIUM"){
-                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
-            } else {
-                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
-            }
-            binding.itemHomeNetworkingTvName.text = data.title
-            binding.itemHomeNetworkingTvDateData.text = data.date
-            binding.itemHomeNetworkingTvPlaceData.text = data.location
+            binding.model = data
         }
     }
 
