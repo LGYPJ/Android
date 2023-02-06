@@ -7,14 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
-class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(FragmentGatheringSeminarBinding::bind, R.layout.fragment_gathering_seminar){
+class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBinding>(R.layout.fragment_gathering_seminar){
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,39 +30,35 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 
         // 이번 달
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        binding.viewModel = viewModel
         viewModel.getGatheringSeminarThisMonth()
         viewModel.getGatheringSeminarNextMonth()
         viewModel.getGatheringSeminarClosed()
         // 이번달
         viewModel.seminarThisMonth.observe(viewLifecycleOwner, Observer {
             val result = it.result
-            if (result == null || !it.isSuccess || it == null) {
+            if(result == null) {
                 binding.fragmentGatheringSeminarThisMonthClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.GONE
             } else {
                 binding.fragmentGatheringSeminarThisMonthClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.VISIBLE
-                binding.fragmentGatheringSeminarThisMonthTvName.text = result.title
-                binding.fragmentGatheringSeminarThisMonthTvDateData.text = result.date
-                binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
-                //TODO 날짜에 따라 D-day 바뀌게
-                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
+
+                binding.thisMonthModel = result
             }
         })
 
         // 예정된
         viewModel.seminarNextMonth.observe(viewLifecycleOwner, Observer {
             val result = it.result
-            if(result == null || !it.isSuccess || it == null) {
+            if(result == null) {
                 binding.fragmentGatheringSeminarScheduledClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarClScheduled.visibility = View.GONE
             } else {
                 binding.fragmentGatheringSeminarScheduledClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarClScheduled.visibility = View.VISIBLE
-                binding.fragmentGatheringSeminarScheduledTvName.text = result.title
-                binding.fragmentGatheringSeminarScheduledTvDateData.text = result.date
-                binding.fragmentGatheringSeminarScheduledTvPlaceData.text = result.location
-                binding.fragmentGatheringSeminarScheduledTvDDay.text = "오픈예정"
+
+                binding.nextMonthModel = result
             }
 
         })
@@ -70,11 +66,12 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         // 마감된
         viewModel.seminarClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringSeminarClosedResult>
-            val seminarDeadlineAdapter = GatheringSeminarDeadlineRVAdapter(result)
-            if(result.isEmpty() || !it.isSuccess || it == null) {
+            val seminarDeadlineAdapter : GatheringSeminarDeadlineRVAdapter
+            if(result.isEmpty()) {
                 binding.fragmentGatheringSeminarClosedClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarRvClosed.visibility = View.GONE
             } else {
+                seminarDeadlineAdapter = GatheringSeminarDeadlineRVAdapter(result)
                 binding.fragmentGatheringSeminarClosedClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarRvClosed.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarRvClosed.apply {
@@ -82,12 +79,12 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
+                seminarDeadlineAdapter.setOnItemClickListener(object :GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
+                    override fun onClick(position: Int) {
+                        //TODO("Not yet implemented")
+                    }
+                })
             }
-            seminarDeadlineAdapter.setOnItemClickListener(object :GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    //TODO("Not yet implemented")
-                }
-            })
         })
 
         binding.fragmentGatheringSeminarClScheduled.setOnClickListener {

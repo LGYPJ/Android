@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 class GatheringViewModel: ViewModel() {
     private val gatheringRepository = GatheringRepository()
@@ -49,8 +51,9 @@ class GatheringViewModel: ViewModel() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarThisMonth()
             Log.d("getGatheringSeminarThisMonth", "$response")
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _seminarThisMonth.postValue(response.body())
+                Log.d("getGatheringSeminarThisMonth", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -62,8 +65,9 @@ class GatheringViewModel: ViewModel() {
             val response = gatheringRepository.getGatheringSeminarNextMonth()
             Log.d("getGatheringSeminarNextMonth", "$response")
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _seminarNextMonth.postValue(response.body())
+                Log.d("getGatheringSeminarNextMonth", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -74,8 +78,9 @@ class GatheringViewModel: ViewModel() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarClosed()
             Log.d("getGatheringSeminarClosed", "$response")
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _seminarClosed.postValue(response.body())
+                Log.d("getGatheringSeminarClosed", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -88,8 +93,9 @@ class GatheringViewModel: ViewModel() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingThisMonth()
             Log.d("getGatheringNetworkingThisMonth", "$response")
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _networkingThisMonth.postValue(response.body())
+                Log.d("getGatheringNetworkingThisMonth", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -100,8 +106,9 @@ class GatheringViewModel: ViewModel() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingNextMonth()
             Log.d("getGatheringNetworkingNextMonth", "$response")
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _networkingNextMonth.postValue(response.body())
+                Log.d("getGatheringNetworkingNextMonth", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -112,8 +119,9 @@ class GatheringViewModel: ViewModel() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringNetworkingClosed()
             Log.d("getGatheringNetworkingClosed", "$response")
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _networkingClosed.postValue(response.body())
+                Log.d("getGatheringNetworkingClosed", "${response.body()}")
             }
             else {
                 Log.d("error", response.message())
@@ -127,8 +135,9 @@ class GatheringViewModel: ViewModel() {
             val response = gatheringRepository.getGatheringProgramReady(memberIdx)
             Log.d("getGatheringProgramReady", "$response")
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _programReady.postValue(response.body())
+                Log.d("getGatheringProgramReady", "${response.body()}")
             }
         }
     }
@@ -137,9 +146,16 @@ class GatheringViewModel: ViewModel() {
             val response = gatheringRepository.getGatheringProgramClosed(memberIdx)
             Log.d("getGatheringProgramClosed", "$response")
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body() != null) {
                 _programClosed.postValue(response.body())
+                Log.d("getGatheringProgramClosed", "${response.body()}")
             }
         }
+    }
+
+    fun getDay(date : String) : String{
+        val formatter = DateTimeFormatter.ISO_DATE_TIME
+        val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dataFormat.format(formatter.parse(date))
     }
 }
