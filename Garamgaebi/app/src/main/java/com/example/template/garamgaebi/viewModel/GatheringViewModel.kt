@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 class GatheringViewModel: ViewModel() {
     private val gatheringRepository = GatheringRepository()
@@ -73,7 +75,7 @@ class GatheringViewModel: ViewModel() {
     fun getGatheringSeminarClosed() {
         viewModelScope.launch {
             val response = gatheringRepository.getGatheringSeminarClosed()
-            Log.d("getGatheringSeminarClosed", "$response")
+            Log.d("getGatheringSeminarClosed", response.toString())
             if (response.isSuccessful) {
                 _seminarClosed.postValue(response.body())
             }
@@ -141,5 +143,12 @@ class GatheringViewModel: ViewModel() {
                 _programClosed.postValue(response.body())
             }
         }
+    }
+
+    fun getDay(date : String) : String{
+        val formatter = DateTimeFormatter.ISO_DATE_TIME
+        val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dataFormat.format(formatter.parse(date))
+
     }
 }

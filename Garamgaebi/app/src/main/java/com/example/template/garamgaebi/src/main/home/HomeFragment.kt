@@ -117,23 +117,24 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // 유저 프로필 11명
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeUserResult>
-            val userRVAdapter = HomeUserItemRVAdapter(result)
+            val userRVAdapter : HomeUserItemRVAdapter
             if(result.isEmpty() || result == null) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             } else {
+                userRVAdapter = HomeUserItemRVAdapter(result)
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                     addItemDecoration(HomeUserItemDecoration())
                 }
                 binding.fragmentHomeClUserBlank.visibility = View.GONE
+                // 리사이클러뷰 클릭 리스너
+                userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
+                    override fun onClick(position: Int) {
+                        // TODO("Not yet implemented")
+                    }
+                })
             }
-            // 리사이클러뷰 클릭 리스너
-            userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // TODO("Not yet implemented")
-                }
-            })
         })
         // 내 모임
         viewModel.program.observe(viewLifecycleOwner, Observer {

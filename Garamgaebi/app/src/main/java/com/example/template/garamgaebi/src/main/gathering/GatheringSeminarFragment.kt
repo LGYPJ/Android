@@ -30,23 +30,21 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 
         // 이번 달
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        binding.viewModel = viewModel
         viewModel.getGatheringSeminarThisMonth()
         viewModel.getGatheringSeminarNextMonth()
         viewModel.getGatheringSeminarClosed()
         // 이번달
         viewModel.seminarThisMonth.observe(viewLifecycleOwner, Observer {
             val result = it.result
-            if (result == null || !it.isSuccess || it == null) {
+            if(result == null) {
                 binding.fragmentGatheringSeminarThisMonthClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.GONE
             } else {
                 binding.fragmentGatheringSeminarThisMonthClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.VISIBLE
-                binding.fragmentGatheringSeminarThisMonthTvName.text = result.title
-                binding.fragmentGatheringSeminarThisMonthTvDateData.text = result.date
-                binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
-                //TODO 날짜에 따라 D-day 바뀌게
-                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
+
+                binding.thisMonthModel = result
             }
         })
 
