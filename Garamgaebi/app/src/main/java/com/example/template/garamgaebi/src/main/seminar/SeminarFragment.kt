@@ -38,14 +38,14 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
     )*/
     //화면전환
     var containerActivity: ContainerActivity? = null
-    private val items = MutableLiveData<ArrayList<PresentationResult>>()
+    //private val items = MutableLiveData<ArrayList<PresentationResult>>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //뷰모델
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-        val recyclerViewItems : ArrayList<PresentationResult> = ArrayList()
+        //val recyclerViewItems : ArrayList<PresentationResult> = ArrayList()
 
         //프로필 어댑터 연결
         viewModel.getSeminarParticipants(6)
@@ -66,15 +66,15 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
 
         //발표 어댑터 연결
         viewModel.getSeminarsInfo(6)
-        val presentAdapter = SeminarPresentAdapter(viewModel.present)
-        viewModel.present.observe(viewLifecycleOwner, Observer {
-            /*val presentAdapter = SeminarPresentAdapter(presentList)
+        //val presentAdapter = SeminarPresentAdapter(viewModel.present)
+        viewModel.present.observe(viewLifecycleOwner, Observer { it ->
+            val presentAdapter = SeminarPresentAdapter(it)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(SeminarVerticalItemDecoration())
-            }*/
-            //val presentAdapter = SeminarPresentAdapter(viewModel.present)
+            }
+            /*val presentAdapter = SeminarPresentAdapter(viewModel.present)
             binding.activitySeminarFreePresentRv.apply {
                 items.value = it
                 val presentAdapter = SeminarPresentAdapter(items)
@@ -82,7 +82,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(SeminarVerticalItemDecoration())
-            }
+            }*/
             //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
             presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
