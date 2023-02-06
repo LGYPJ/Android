@@ -7,13 +7,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.config.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
 
-class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind, R.layout.fragment_networking) {
+class NetworkingFragment: BaseBindingFragment<FragmentNetworkingBinding>(R.layout.fragment_networking) {
 
     //private lateinit var viewModel: ItemViewModel
 
@@ -38,7 +38,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         val viewModel = ViewModelProvider(this)[NetworkingViewModel::class.java]
 
         //프로필 어댑터 연결
-        viewModel.getNetworkingParticipants(1)
+        viewModel.getNetworkingParticipants(1,1)
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
             val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
             binding.activityNetworkProfileRv.apply {

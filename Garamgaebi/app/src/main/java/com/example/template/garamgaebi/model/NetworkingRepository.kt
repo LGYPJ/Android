@@ -8,5 +8,5 @@ class NetworkingRepository {
     //네트워킹 상세정보 조회
     suspend fun getNetworkingInfo(memberIdx: Int,programIdx: Int) = networkingClient.getNetworkingInfo(0,0)
     //네트워킹 신청자 리스트 조회
-    suspend fun getNetworkingParticipants(networkingIdx : Int) = networkingClient.getNetworkingParticipants(1)
+    suspend fun getNetworkingParticipants(networkingIdx : Int, memberIdx: Int) = networkingClient.getNetworkingParticipants(networkingIdx,memberIdx)
 }

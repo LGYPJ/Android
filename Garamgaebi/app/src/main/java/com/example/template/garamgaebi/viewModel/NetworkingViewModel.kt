@@ -22,9 +22,9 @@ class NetworkingViewModel : ViewModel(){
     get() = _networkingInfo
 
 
-    fun getNetworkingParticipants(networkingIdx : Int) {
+    fun getNetworkingParticipants(networkingIdx : Int, memberIdx: Int) {
         viewModelScope.launch{
-            val response = networkingRepository.getNetworkingParticipants(1)
+            val response = networkingRepository.getNetworkingParticipants(1,1)
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 _networkingParticipants.postValue(response.body())

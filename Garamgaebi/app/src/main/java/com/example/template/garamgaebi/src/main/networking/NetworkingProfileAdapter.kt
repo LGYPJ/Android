@@ -3,6 +3,8 @@ package com.example.template.garamgaebi.src.main.networking
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemNetworkProfileBinding
@@ -15,10 +17,11 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingPartici
             RecyclerView.ViewHolder(binding.root) {
                 @SuppressLint("SetTextI18n")
                 fun bind(data: NetworkingParticipantsResult){
-                    binding.itemProfileNameTv.text = data.nickname
+                    /*binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
-                        .into(binding.itemProfileImg)
+                        .into(binding.itemProfileImg)*/
+                    binding.item = data
                 }
             }
 
@@ -85,5 +88,15 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingPartici
     override fun getItemViewType(position: Int): Int {
         //return dataList[position].type
         return dataList.size
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("profileImg")
+        fun loadImage(imageView: ImageView, imageURL:String){
+            Glide.with(imageView.context)
+                .load(imageURL)
+                .into(imageView)
+        }
     }
 }

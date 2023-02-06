@@ -52,7 +52,7 @@ class SeminarViewModel : ViewModel(){
     }
     fun getSeminarParticipants(seminaridx : Int, memberIdx: Int) {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarParticipants(6,1)
+            val response = seminarRepository.getSeminarParticipants(8,1)
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
                 _seminarParticipants.postValue(response.body())
