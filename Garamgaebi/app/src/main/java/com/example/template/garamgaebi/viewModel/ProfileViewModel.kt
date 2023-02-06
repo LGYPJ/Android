@@ -10,21 +10,23 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
-    var myData : ProfileData = ProfileData(0,"테스트 로건","테스트 소속","테스트 이메일","테스트 자기소개","테스트 사진")
 
     //프로필 정보 조회
     private val _profileInfo = MutableLiveData<ProfileDataResponse>()
     val profileInfo : LiveData<ProfileDataResponse>
         get() = _profileInfo
 
+    private val _myContent = MutableLiveData<String>()
+    val myContent : LiveData<String>
+        get() = _myContent
+
     fun getProfileInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getProfileInfo(memberIdx)
-            Log.d("present", response.body().toString())
+            Log.d("present0", response.body().toString())
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful || response.body()?.result ?: null != null) {
                 _profileInfo.postValue(response.body())
-                //myData = profileInfo.value?.result!!
             }
             else {
                 Log.d("error", response.message())

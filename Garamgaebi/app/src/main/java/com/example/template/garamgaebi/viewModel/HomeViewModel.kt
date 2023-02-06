@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 
 class HomeViewModel : ViewModel(){
@@ -33,9 +34,9 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
 
-            if (response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _seminar.postValue(response.body())
-                Log.d("getHomeSeminar", "${response.body()?.result}")
+                Log.d("getHomeSeminar", "${response.body()}")
             }
             else {
                 Log.d("error", "getHomeSeminar : "+response.message())
@@ -47,9 +48,9 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _networking.postValue(response.body())
-                Log.d("getHomeNetworking", "${response.body()?.result}")
+                Log.d("getHomeNetworking", "${response.body()}")
             } else {
                 Log.d("error", "getHomeNetworking : "+response.message())
             }
@@ -60,9 +61,9 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeUser()
             Log.d("getHomeUser", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _user.postValue(response.body())
-                Log.d("getHomeUser", "${response.body()?.result}")
+                Log.d("getHomeUser", "${response.body()}")
             } else {
                 Log.d("error", "getHomeUser : "+response.message())
             }
@@ -74,17 +75,18 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeProgram(memberIdx)
             Log.d("getHomeProgram", "$response")
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 _program.postValue(response.body())
-                Log.d("getHomeProgram", "${response.body()?.result}")
+                Log.d("getHomeProgram", "${response.body()}")
             } else {
                 Log.d("error", "getHomeProgram : "+response.message())
             }
         }
     }
 
-    fun getDay(date : String) {
-        val temp = LocalDateTime.now()
+    fun getDay(date : String) : String{
+        val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dataFormat.format(date).toString()
 
     }
 }
