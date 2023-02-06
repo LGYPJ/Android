@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.seminar.data
 import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.config.BaseResponse
 import com.example.template.garamgaebi.model.PresentationResult
+import com.example.template.garamgaebi.model.SeminarDetailInfoResult
 import com.example.template.garamgaebi.model.SeminarParticipantsResult
 
 //세미나 발표 리스트 조회
@@ -28,7 +29,7 @@ data class SeminarDetailInfoResponse(
 )
 
 
-data class SeminarDetailInfoResult(
+/*data class SeminarDetailInfoResult(
     @SerializedName("programIdx") val programIdx: Int,
     @SerializedName("title")val title: String,
     @SerializedName("date")val date: String,
@@ -37,7 +38,7 @@ data class SeminarDetailInfoResult(
     @SerializedName("endDate")val endDate: String,
     @SerializedName("programStatus")val programStatus: String,
     @SerializedName("userButtonStatus")val userButtonStatus: String
-)
+)*/
 
 data class SeminarDetailRequest (
     @SerializedName("memberIdx") val memberIdx : Int,

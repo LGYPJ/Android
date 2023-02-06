@@ -13,7 +13,7 @@ interface ApiInterface {
 
     //세미나 발표 리스트 조회
     @GET("/seminars/{seminar-idx}/presentations")
-    suspend fun getSeminarsInfo(@Path("seminar-idx") seminaridx: Int): Response<SeminarPresentResponse>
+    suspend fun getSeminarsInfo(@Path("seminar-idx") seminarIdx: Int): Response<SeminarPresentResponse>
 
     //세미나 신청자 리스트 조희
     @GET("/seminars/{seminar-idx}/participants")
@@ -35,8 +35,8 @@ interface ApiInterface {
     //@GET("/seminars/info")
 
     //세미나 상세정보 조회
-    @GET("/seminars/info")
-    suspend fun getSeminarDetail(@Query("memberIdx")memberIdx: Int, @Query("programIdx")programIdx: Int): Response<SeminarDetailInfoResponse>
+    @GET("/seminars/{seminar-idx}/info")
+    suspend fun getSeminarDetail(@Path("seminar-idx") seminarIdx: Int, @Query("member-idx")memberIdx: Int): Response<SeminarDetailInfoResponse>
 
 
     //마감된 세미나 조회
