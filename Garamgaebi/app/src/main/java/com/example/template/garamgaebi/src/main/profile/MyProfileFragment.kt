@@ -90,58 +90,51 @@ class MyProfileFragment :
 //            startActivity(intent)
 //        }
 
-        //발표 어댑터 연결
-        viewModel.getSeminarsInfo(6)
-        val presentAdapter = SeminarPresentAdapter(viewModel.present)
-        viewModel.present.observe(viewLifecycleOwner, Observer {
-            /*val presentAdapter = SeminarPresentAdapter(presentList)
-            binding.activitySeminarFreePresentRv.apply {
-                adapter = presentAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
-            }*/
-            //val presentAdapter = SeminarPresentAdapter(viewModel.present)
-            binding.activitySeminarFreePresentRv.apply {
-                items.value = it
-                val presentAdapter = SeminarPresentAdapter(items)
-                // adapter = presentAdapter
-                adapter = presentAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
-            }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    val bundle = Bundle()
-                    bundle.putInt("presentationDialog", position)
-                    val seminarPreviewDialog = SeminarPreviewDialog()
-                    seminarPreviewDialog.arguments = bundle
-                    activity?.let {
-                        seminarPreviewDialog.show(
-                            it.supportFragmentManager, "SeminarPreviewDialog"
-                        )
-                    }
-                    SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                }
-            } )
-        })
+//        //발표 어댑터 연결
+//        viewModel.getSNSInfo(1)
+//        val snsAdapter = SnsMYRVAdapter(viewModel.snsInfo)
+//        viewModel.snsInfo.observe(viewLifecycleOwner, Observer {
+//            binding.activitySeminarFreePresentRv.apply {
+//                items.value = it
+//                val presentAdapter = SeminarPresentAdapter(items)
+//                // adapter = presentAdapter
+//                adapter = presentAdapter
+//                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                addItemDecoration(SeminarVerticalItemDecoration())
+//            }
+//            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
+//            presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
+//                override fun onClick(position: Int) {
+//                    val bundle = Bundle()
+//                    bundle.putInt("presentationDialog", position)
+//                    val seminarPreviewDialog = SeminarPreviewDialog()
+//                    seminarPreviewDialog.arguments = bundle
+//                    activity?.let {
+//                        seminarPreviewDialog.show(
+//                            it.supportFragmentManager, "SeminarPreviewDialog"
+//                        )
+//                    }
+//                    SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                }
+//            } )
+//        })
 
 
-        //sns 리스트뷰 연결
-        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
-        val snsAdapter = SnsMYRVAdapter(snsItems)
-        var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
-        binding.activityMyProfileRVSns.adapter = snsAdapter
+//        //sns 리스트뷰 연결
+//        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
+//        val snsAdapter = SnsMYRVAdapter(snsItems)
+     var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
+//        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+//        binding.activityMyProfileRVSns.adapter = snsAdapter
 
         //sns 추가 버튼
         binding.activityMyProfileBtnSnsAdd.setOnClickListener {
             binding.activityMyProfileRVSns.visibility = View.VISIBLE
             //binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-            snsItems.add(SnsRVItemData("neoninstagram.com"))
-            snsAdapter?.notifyDataSetChanged()
-            Log.d("plus_sns",snsItems.size.toString())
+//            snsItems.add(SnsRVItemData("neoninstagram.com"))
+//            snsAdapter?.notifyDataSetChanged()
+//            Log.d("plus_sns",snsItems.size.toString())
             val intent = Intent(activity,ContainerActivity::class.java)
             intent.putExtra("sns",true) //데이터 넣기
             startActivity(intent)
