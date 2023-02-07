@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivityIntroBinding
 
 class IntroActivity : BaseActivity<ActivityIntroBinding>(ActivityIntroBinding::inflate) {

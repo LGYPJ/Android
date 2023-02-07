@@ -1,8 +1,7 @@
 package com.example.template.garamgaebi.model
 
-import androidx.databinding.ObservableField
 import com.google.gson.annotations.SerializedName
-import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.common.BaseResponse
 
 //신청 취소
 data class CancelRequest(

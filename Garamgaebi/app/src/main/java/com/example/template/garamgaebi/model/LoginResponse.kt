@@ -1,7 +1,6 @@
 package com.example.template.garamgaebi.model
 
-import com.example.template.garamgaebi.config.BaseResponse
-import com.google.gson.annotations.SerializedName
+import com.example.template.garamgaebi.common.BaseResponse
 
 data class LoginResponse(
     val result: LoginResult

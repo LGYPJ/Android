@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileEducationBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

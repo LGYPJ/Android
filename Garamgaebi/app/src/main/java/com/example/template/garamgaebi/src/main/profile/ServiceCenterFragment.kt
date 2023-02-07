@@ -8,7 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentServicecenterBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 

@@ -2,32 +2,19 @@ package com.example.template.garamgaebi.src.main.profile
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.BR
-import com.example.template.garamgaebi.config.BaseBindingFragment
-import com.example.template.garamgaebi.config.GaramgaebiApplication
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
-import com.example.template.garamgaebi.model.HomeSeminarResult
-import com.example.template.garamgaebi.model.ProfileData
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.src.main.ContainerActivity
-import com.example.template.garamgaebi.src.main.home.HomeSeminarRVAdapter
-import com.example.template.garamgaebi.src.main.home.HomeVPItemDecoration
-import com.example.template.garamgaebi.src.main.seminar.SeminarPresentAdapter
-import com.example.template.garamgaebi.src.main.seminar.SeminarPreviewDialog
-import com.example.template.garamgaebi.src.main.seminar.SeminarVerticalItemDecoration
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
 
 class MyProfileFragment :
@@ -70,38 +57,11 @@ class MyProfileFragment :
             }
         })
 
-
-//        //내 프로필 편집 화면으로 이동
-//        binding.activityMyProfileBtnEditProfile.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("edit",true) //데이터 넣기
-//            startActivity(intent)
-//        }
-//        //고객센터 화면으로 이동
-//        binding.activityMyProfileIvCs.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("servicecenter",true) //데이터 넣기
-//            startActivity(intent)
-//        }
-//        //탈퇴 화면으로 이동
-//        binding.activityMyProfileIvWd.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("withdrawal",true) //데이터 넣기
-//            startActivity(intent)
-//        }
-
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(6)
-        val presentAdapter = SeminarPresentAdapter(viewModel.present)
-        viewModel.present.observe(viewLifecycleOwner, Observer {
-            /*val presentAdapter = SeminarPresentAdapter(presentList)
-            binding.activitySeminarFreePresentRv.apply {
-                adapter = presentAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
-            }*/
-            //val presentAdapter = SeminarPresentAdapter(viewModel.present)
-            binding.activitySeminarFreePresentRv.apply {
+        viewModel.getSNSInfo(1)
+        val snsAdapter = SnsMYRVAdapter(viewModel.snsInfo)
+        viewModel.snsInfo.observe(viewLifecycleOwner, Observer {
+            binding.activityMyProfileRVSns.apply {
                 items.value = it
                 val presentAdapter = SeminarPresentAdapter(items)
                 // adapter = presentAdapter
@@ -127,21 +87,21 @@ class MyProfileFragment :
         })
 
 
-        //sns 리스트뷰 연결
-        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
-        val snsAdapter = SnsMYRVAdapter(snsItems)
-        var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
-        binding.activityMyProfileRVSns.adapter = snsAdapter
+//        //sns 리스트뷰 연결
+//        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
+//        val snsAdapter = SnsMYRVAdapter(snsItems)
+     var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
+//        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+//        binding.activityMyProfileRVSns.adapter = snsAdapter
 
         //sns 추가 버튼
         binding.activityMyProfileBtnSnsAdd.setOnClickListener {
             binding.activityMyProfileRVSns.visibility = View.VISIBLE
             //binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
             binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-            snsItems.add(SnsRVItemData("neoninstagram.com"))
-            snsAdapter?.notifyDataSetChanged()
-            Log.d("plus_sns",snsItems.size.toString())
+//            snsItems.add(SnsRVItemData("neoninstagram.com"))
+//            snsAdapter?.notifyDataSetChanged()
+//            Log.d("plus_sns",snsItems.size.toString())
             val intent = Intent(activity,ContainerActivity::class.java)
             intent.putExtra("sns",true) //데이터 넣기
             startActivity(intent)

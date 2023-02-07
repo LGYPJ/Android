@@ -1,6 +1,6 @@
 package com.example.template.garamgaebi.model
 
-import com.example.template.garamgaebi.config.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 
 class NetworkingRepository {
     private val networkingClient = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)

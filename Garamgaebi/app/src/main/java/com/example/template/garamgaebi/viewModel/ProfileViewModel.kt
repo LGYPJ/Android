@@ -26,6 +26,7 @@ class ProfileViewModel : ViewModel(){
             Log.d("present0", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
+                Log.d("success", response.message())
                 _profileInfo.postValue(response.body())
             }
             else {
