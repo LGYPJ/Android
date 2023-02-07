@@ -8,6 +8,7 @@ import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.config.BaseBindingFragment
@@ -15,6 +16,7 @@ import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.model.SeminarParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
+import java.text.SimpleDateFormat
 
 class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
 
@@ -24,9 +26,9 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //뷰모델
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-
 
         //프로필 어댑터 연결
         viewModel.getSeminarParticipants(8,1)

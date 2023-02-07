@@ -19,6 +19,7 @@ import com.example.template.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,7 +32,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         /*ab.setDisplayHomeAsUpEnabled(false)
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
-
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             if(isIceBreaking()){
@@ -57,7 +57,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             binding.activityContainerToolbarTv.text ="네트워킹"
         }
     }
-
 
 
     fun openFragmentOnFrameLayout(int: Int){
@@ -248,6 +247,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+
 
 
 }

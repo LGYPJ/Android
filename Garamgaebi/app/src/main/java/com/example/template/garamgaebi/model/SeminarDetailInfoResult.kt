@@ -7,7 +7,7 @@ data class SeminarDetailInfoResult(
     @SerializedName("title")val title: String,
     @SerializedName("date")val date: String,
     @SerializedName("location")val location: String,
-    @SerializedName("fee")val fee: Int,
+    @SerializedName("fee") var fee: Int,
     @SerializedName("endDate")val endDate: String,
     @SerializedName("programStatus")val programStatus: String,
     @SerializedName("userButtonStatus")val userButtonStatus: String

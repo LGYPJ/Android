@@ -167,11 +167,11 @@ interface ApiInterface {
     //ApplyController
 
     //신청 취소 post
-    @POST("/applies/programs/{id}/leave")
+    @POST("/applies/programs/leave")
     suspend fun postCancel(@Body cancelRequest : CancelRequest) : Response<CancelResponse>
 
     //신청 등록 post
-    @POST("/applies/programs/{id}/enroll")
+    @POST("/applies/programs/enroll")
     suspend fun postEnroll(@Body enrollRequest : EnrollRequest) : Response<EnrollResponse>
 
     //SocialLoginController 소셜 로그인 컨트롤러
