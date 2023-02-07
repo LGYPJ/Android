@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.config
+package com.example.template.garamgaebi.common
 
 import android.content.Context
 import android.os.Bundle

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivityEducationBinding
 
 class EducationActivity : BaseActivity<ActivityEducationBinding>(ActivityEducationBinding::inflate) {

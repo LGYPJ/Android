@@ -39,13 +39,13 @@ class SnsMYRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Ada
         fun onClick(position: Int)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataList[position])
-
-        holder.itemView.setOnClickListener {
-            itemClickListener.onClick(position)
-        }
-    }
+//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        holder.bind(dataList[position])
+//
+//        holder.itemView.setOnClickListener {
+//            itemClickListener.onClick(position)
+//        }
+//    }
 
     override fun getItemCount(): Int {
         return dataList.size

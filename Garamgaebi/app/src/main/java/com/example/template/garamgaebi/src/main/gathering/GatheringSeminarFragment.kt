@@ -7,13 +7,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
+/**
+ * 세미나 모아보기 프래그먼트
+ *
+ */
 class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBinding>(R.layout.fragment_gathering_seminar){
 
 

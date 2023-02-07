@@ -1,7 +1,7 @@
 package com.example.template.garamgaebi.model
 
 import com.google.gson.annotations.SerializedName
-import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.common.BaseResponse
 
 //네트워킹 상세정보 조회
 data class NetworkingInfoResponse(

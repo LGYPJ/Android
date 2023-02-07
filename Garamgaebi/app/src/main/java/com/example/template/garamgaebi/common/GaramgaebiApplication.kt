@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.config
+package com.example.template.garamgaebi.common
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -6,7 +6,6 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import com.example.template.garamgaebi.model.ApiInterface
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

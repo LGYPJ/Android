@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivityContainerBinding
 import com.example.template.garamgaebi.src.main.cancel.CancelFragment
 import com.example.template.garamgaebi.src.main.networking.NetworkingFragment

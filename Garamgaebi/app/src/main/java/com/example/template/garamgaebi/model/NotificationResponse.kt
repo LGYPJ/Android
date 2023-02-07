@@ -1,6 +1,6 @@
 package com.example.template.garamgaebi.model
 
-import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.common.BaseResponse
 import com.google.gson.annotations.SerializedName
 
 data class NotificationResponse(

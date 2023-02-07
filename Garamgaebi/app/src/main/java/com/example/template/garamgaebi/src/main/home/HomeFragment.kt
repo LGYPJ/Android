@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentHomeBinding
 import com.example.template.garamgaebi.model.HomeNetworkingResult
 import com.example.template.garamgaebi.model.HomeProgramResult
@@ -160,9 +160,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         })
         // 알림 이동
         binding.fragmentHomeIvNotification.setOnClickListener {
-            val intent = Intent(context, ContainerActivity::class.java)
-            intent.putExtra("notification", true)
-            startActivity(intent)
+            val target = Intent(context, ContainerActivity::class.java)
+            target.putExtra("notification", true)
+            startActivity(target)
         }
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {

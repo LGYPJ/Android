@@ -1,16 +1,14 @@
 package com.example.template.garamgaebi.src.main.notification
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentNotificationBinding
 import com.example.template.garamgaebi.model.NotificationResult
-import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NotificationViewModel
 
 class NotificationFragment : BaseBindingFragment<FragmentNotificationBinding>(R.layout.fragment_notification) {

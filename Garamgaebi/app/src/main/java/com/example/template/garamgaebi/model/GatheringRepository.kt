@@ -1,6 +1,6 @@
 package com.example.template.garamgaebi.model
 
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.sRetrofit
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.sRetrofit
 
 class GatheringRepository {
     private val gatheringClient = sRetrofit.create(ApiInterface::class.java)

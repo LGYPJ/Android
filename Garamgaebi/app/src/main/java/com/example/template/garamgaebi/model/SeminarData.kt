@@ -1,7 +1,7 @@
 package com.example.template.garamgaebi.src.main.seminar.data
 
 import com.google.gson.annotations.SerializedName
-import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.common.BaseResponse
 import com.example.template.garamgaebi.model.PresentationResult
 import com.example.template.garamgaebi.model.SeminarDetailInfoResult
 import com.example.template.garamgaebi.model.SeminarParticipantsResult

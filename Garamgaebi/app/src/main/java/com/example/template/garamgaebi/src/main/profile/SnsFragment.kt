@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileSnsBinding
 
 class SnsFragment  : BaseFragment<FragmentProfileSnsBinding>(FragmentProfileSnsBinding::bind, R.layout.fragment_profile_sns) {
