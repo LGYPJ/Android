@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.viewModel
 
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,9 @@ import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoRe
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SeminarViewModel : ViewModel(){
     private val seminarRepository = SeminarRepository()
@@ -30,6 +34,8 @@ class SeminarViewModel : ViewModel(){
     private val _info = MutableLiveData<SeminarDetailInfoResponse>()
     val info : LiveData<SeminarDetailInfoResponse>
     get() = _info
+
+    val pay : MutableLiveData<String> = MutableLiveData("무료")
 
     fun getSeminarsInfo(seminarIdx : Int) {
         viewModelScope.launch {
@@ -69,4 +75,18 @@ class SeminarViewModel : ViewModel(){
             }
         }
     }
+
+    fun feeFree(money : String): String {
+        return pay.value.toString()
+    }
+
+    fun convertFee(money : String):String{
+        return "$money 원"
+    }
+
+    /*fun convertDate(date: String?): String? {
+        val dateFormat = "yyyy-MM-dd hh:mm '시'"
+        val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
+        return simpleDateFormat.format(date)
+    }*/
 }

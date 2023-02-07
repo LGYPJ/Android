@@ -19,11 +19,12 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //뷰모델
-    val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //뷰모델
+        val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+        //처음에 버튼 비활성화
         binding.activitySeminarFreeApplyBtn.isEnabled = false
         // et selected 여부에 따라 drawable 결정
         binding.activitySeminarFreeApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -115,10 +116,10 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
 
             //신청 등록 api
-            val name = binding.activitySeminarFreeApplyNameTv.text.toString()
+            /*val name = binding.activitySeminarFreeApplyNameTv.text.toString()
             val nickname = binding.activitySeminarFreeApplyNicknameTv.text.toString()
-            val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()
-            viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()*/
+            //viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
                 if(!it.isSuccess){
                     //세미나 메인 화면으로
