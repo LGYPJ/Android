@@ -66,9 +66,9 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarDetail(6,1)
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful){
-                val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+                /*val dataFormat = SimpleDateFormat("yyyy-MM-dd")
                 val simple=dataFormat.format(response.body()?.result?.date).toString()
-                Log.d("date", simple)
+                Log.d("date", simple)*/
                 //_info.value = response.body()
                 _info.postValue(response.body())
             }
