@@ -12,8 +12,9 @@ import com.example.template.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarPresentBinding
 import com.example.template.garamgaebi.model.PresentationResult
 import com.example.template.garamgaebi.model.SNSData
+import com.example.template.garamgaebi.src.main.seminar.SeminarPresentAdapter
 
-class SnsMYRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Adapter<SnsMyRVAdapter.ViewHolder>(){
 
     private lateinit var itemClickListener: OnItemClickListener
 
@@ -31,21 +32,18 @@ class SnsMYRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Ada
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
 
     interface OnItemClickListener {
         fun onClick(position: Int)
     }
 
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.bind(dataList[position])
-//
-//        holder.itemView.setOnClickListener {
-//            itemClickListener.onClick(position)
-//        }
-//    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataList[position])
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(position)
+        }
+    }
 
     override fun getItemCount(): Int {
         return dataList.size
@@ -55,38 +53,4 @@ class SnsMYRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Ada
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
         itemClickListener = onItemClickListener
     }
-
-    /*fun setData(newRecylerViewItems : ArrayList<PresentationResult>){
-        val diffCallback = DiffCallback(recyclerViewItems, newRecylerViewItems)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        recyclerViewItems.clear()
-        recyclerViewItems.addAll(newRecylerViewItems)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    inner class DiffCallback(
-        private var oldList: ArrayList<PresentationResult>,
-        private var newList : ArrayList<PresentationResult>
-    ):DiffUtil.Callback(){
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].presentationIdx == newList[newItemPosition].presentationIdx
-        }
-
-
-    }*/
-    companion object {
-        @JvmStatic
-        @BindingAdapter("profileImgUrl")
-        fun loadImage(imageView: ImageView, imageURL:String){
-            Glide.with(imageView.context)
-                .load(imageURL)
-                .into(imageView)
-        }
-    }
-
 }
