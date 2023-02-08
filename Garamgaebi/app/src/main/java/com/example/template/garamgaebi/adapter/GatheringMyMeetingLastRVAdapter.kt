@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.gathering
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingLastBin
 import com.example.template.garamgaebi.model.GatheringProgramResult
 
 class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringProgramResult>): RecyclerView.Adapter<GatheringMyMeetingLastRVAdapter.ViewHolder>() {
-    private lateinit var itemClickListener: GatheringMyMeetingLastRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringMyMeetingLastBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringProgramResult){

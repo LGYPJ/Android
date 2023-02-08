@@ -1,10 +1,10 @@
-package com.example.template.garamgaebi.src.main.networking_game
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemNetworkGameSelectBinding
-import com.example.template.garamgaebi.src.main.seminar.SeminarPresentAdapter
+import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelect
 
 class NetworkingGameSelectAdapter(private val dataList: ArrayList<NetworkingGameSelect>): RecyclerView.Adapter<NetworkingGameSelectAdapter.ViewHolder>() {
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.GatheringVPAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 
 import com.example.template.garamgaebi.databinding.FragmentGatheringBinding

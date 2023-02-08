@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.profile
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.util.SparseBooleanArray
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemSomeoneprofileCareerBinding
+import com.example.template.garamgaebi.src.main.profile.CareerRVItemData
 
 class CareerSomeoneRVAdapter(private val dataList: ArrayList<CareerRVItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         private val checkRead = SparseBooleanArray()

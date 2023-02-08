@@ -10,6 +10,9 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.CareerSomeoneRVAdapter
+import com.example.template.garamgaebi.adapter.EduSomeoneRVAdapter
+import com.example.template.garamgaebi.adapter.SnsSomeoneRVAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentSomeoneprofileBinding
 

@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.home
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.template.garamgaebi.databinding.ItemHomeMyMeetingBinding
 import com.example.template.garamgaebi.model.HomeProgramResult
 
 class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>): RecyclerView.Adapter<HomeMyMeetingRVAdapter.ViewHolder>() {
-    private lateinit var itemClickListener: HomeMyMeetingRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemHomeMyMeetingBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeProgramResult){

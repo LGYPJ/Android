@@ -1,16 +1,15 @@
-package com.example.template.garamgaebi.src.main.home
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarClosedBinding
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarScheduledBinding
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarThismonthBinding
 import com.example.template.garamgaebi.model.HomeSeminarResult
 
 class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var itemClickListener:  HomeSeminarRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
 
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarResult) {

@@ -3,12 +3,11 @@ package com.example.template.garamgaebi.src.main.networking
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.adapter.NetworkingProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
 

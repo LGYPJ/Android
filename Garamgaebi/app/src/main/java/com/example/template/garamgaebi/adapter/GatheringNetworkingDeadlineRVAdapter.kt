@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.gathering
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.template.garamgaebi.databinding.ItemGatheringNetworkingDeadli
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
 
 class GatheringNetworkingDeadlineRVAdapter(private val dataList: ArrayList<GatheringNetworkingClosedResult>): RecyclerView.Adapter<GatheringNetworkingDeadlineRVAdapter.ViewHolder>() {
-    private lateinit var itemClickListener: GatheringNetworkingDeadlineRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringNetworkingDeadlineBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringNetworkingClosedResult){

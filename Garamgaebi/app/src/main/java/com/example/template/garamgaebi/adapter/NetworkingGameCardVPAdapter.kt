@@ -1,15 +1,16 @@
-package com.example.template.garamgaebi.src.main.networking_game
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemGameCardVpBinding
+import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameCard
 
 class NetworkingGameCardVPAdapter(private val dataList: ArrayList<NetworkingGameCard>):  RecyclerView.Adapter<NetworkingGameCardVPAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(val binding: ItemGameCardVpBinding) :RecyclerView.ViewHolder(binding.root){
-        fun bind(data :NetworkingGameCard, position: Int){
+        fun bind(data : NetworkingGameCard, position: Int){
             binding.activityItemGameCardTv.text = data.content
 
         }

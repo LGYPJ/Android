@@ -1,6 +1,9 @@
-package com.example.template.garamgaebi.model
+package com.example.template.garamgaebi.repository
 
 import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.model.ApiInterface
+import com.example.template.garamgaebi.model.CancelRequest
+import com.example.template.garamgaebi.model.EnrollRequest
 
 class ApplyRepository {
     private val applyClient = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)

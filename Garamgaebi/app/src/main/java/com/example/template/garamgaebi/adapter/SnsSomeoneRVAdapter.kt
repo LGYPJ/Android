@@ -1,13 +1,15 @@
-package com.example.template.garamgaebi.src.main.profile
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.template.garamgaebi.databinding.ItemSomeoneprofileEduBinding
+import com.example.template.garamgaebi.databinding.ItemSomeoneprofileSnsBinding
+import com.example.template.garamgaebi.src.main.profile.SnsRVItemData
 
-class EduSomeoneRVAdapter(private val dataList: ArrayList<EduRVItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class SnsSomeoneRVAdapter(private val dataList: ArrayList<SnsRVItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
     private val checkRead = SparseBooleanArray()
     var canRemove : Boolean = true
 
@@ -23,7 +25,7 @@ class EduSomeoneRVAdapter(private val dataList: ArrayList<EduRVItemData>): Recyc
     }
 
     //viewHolder 객체
-    inner class DataViewHolder(private val viewBinding: ItemSomeoneprofileEduBinding): RecyclerView.ViewHolder(viewBinding.root){
+    inner class DataViewHolder(private val viewBinding: ItemSomeoneprofileSnsBinding ): RecyclerView.ViewHolder(viewBinding.root){
 
         init {
             itemView.setOnClickListener {
@@ -35,11 +37,9 @@ class EduSomeoneRVAdapter(private val dataList: ArrayList<EduRVItemData>): Recyc
             }
         }
         @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
-        fun bind(data: EduRVItemData) {
-            viewBinding.activityMyprofileEduListItemTvName.text = data.title
-            viewBinding.activityMyprofileEduListItemTvContent.text = data.position
-            viewBinding.activityMyprofileEduListItemTvStartPeriod.text = data.start
-            viewBinding.activityMyprofileEduListItemTvEndPeriod.text = data.end
+        fun bind(data: SnsRVItemData) {
+
+            viewBinding.activitySomeoneprofileSnsListItemTvName.setText(data.snsAddress)
         }
     }
 
@@ -49,7 +49,7 @@ class EduSomeoneRVAdapter(private val dataList: ArrayList<EduRVItemData>): Recyc
 
     //viewHolder 만들어질때 실행할 동작들
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val Binding = ItemSomeoneprofileEduBinding.inflate(
+        val Binding = ItemSomeoneprofileSnsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false)
 
@@ -68,15 +68,17 @@ class EduSomeoneRVAdapter(private val dataList: ArrayList<EduRVItemData>): Recyc
     //표현할 item의 총 개수
     override fun getItemCount(): Int = dataList.size
 
-    fun addItem(data : EduRVItemData) {
+    fun addItem(data : SnsRVItemData) {
         dataList.add(data);
     }
 
-    fun getItem(position : Int): EduRVItemData {
+    fun getItem(position : Int): SnsRVItemData {
         return dataList.get(position);
     }
 
-    fun addUserItems(data: EduRVItemData){
+
+
+    fun addUserItems(data: SnsRVItemData){
         dataList.add(data)
         notifyItemInserted(getItemCount()-1)
     }

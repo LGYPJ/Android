@@ -3,9 +3,6 @@ package com.example.template.garamgaebi.src.main.seminar.data
 
 import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.common.BaseResponse
-import com.example.template.garamgaebi.model.PresentationResult
-import com.example.template.garamgaebi.model.SeminarDetailInfoResult
-import com.example.template.garamgaebi.model.SeminarParticipantsResult
 
 
 //세미나 발표 리스트 조회

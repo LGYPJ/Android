@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.NotificationItemRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentNotificationBinding
 import com.example.template.garamgaebi.model.NotificationResult

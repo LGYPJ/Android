@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.networking_game
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemNetworkGamePlaceProfileBinding
+import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameProfile
 
 class NetworkingGameProfileAdapter(private val dataList: ArrayList<NetworkingGameProfile>): RecyclerView.Adapter<NetworkingGameProfileAdapter.ViewHolder>() {
 

@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.GatheringMyMeetingLastRVAdapter
+import com.example.template.garamgaebi.adapter.GatheringMyMeetingScheduledRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult

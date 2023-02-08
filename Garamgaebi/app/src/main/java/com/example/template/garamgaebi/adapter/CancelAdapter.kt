@@ -1,10 +1,10 @@
-package com.example.template.garamgaebi.src.main.cancel
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemCancelBankBinding
-import com.example.template.garamgaebi.src.main.seminar.SeminarPresentAdapter
+import com.example.template.garamgaebi.src.main.cancel.Cancel
 
 class CancelAdapter(private val dataList: ArrayList<Cancel>): RecyclerView.Adapter<CancelAdapter.ViewHolder>() {
 

@@ -1,30 +1,27 @@
-package com.example.template.garamgaebi.src.main.profile
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.template.garamgaebi.databinding.ItemMyprofileEduBinding
-import com.example.template.garamgaebi.databinding.ItemMyprofileSnsBinding
-import com.example.template.garamgaebi.model.EducationData
-import com.example.template.garamgaebi.model.SNSData
+import com.example.template.garamgaebi.databinding.ItemMyprofileCareerBinding
+import com.example.template.garamgaebi.model.CareerData
 
-class EduMyRVAdapter(private val dataList: ArrayList<EducationData>): RecyclerView.Adapter<EduMyRVAdapter.ViewHolder>(){
+class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>): RecyclerView.Adapter<CareerMyRVAdapter.ViewHolder>(){
 
     private lateinit var itemClickListener: OnItemClickListener
 
-    inner class ViewHolder(private val binding: ItemMyprofileEduBinding):
+    inner class ViewHolder(private val binding: ItemMyprofileCareerBinding):
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(data: EducationData) {
+        fun bind(data: CareerData) {
             binding.item = data
 
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemMyprofileEduBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMyprofileCareerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

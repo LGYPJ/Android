@@ -6,14 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.template.garamgaebi.model.SeminarRepository
+import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class SeminarViewModel : ViewModel(){
     private val seminarRepository = SeminarRepository()
@@ -67,6 +66,10 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarDetail(6,1)
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful){
+                val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+                val simple=dataFormat.format(response.body()?.result?.date).toString()
+                Log.d("date", simple)
+                //_info.value = response.body()
                 _info.postValue(response.body())
             }
             else{

@@ -5,11 +5,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.SeminarPresentAdapter
+import com.example.template.garamgaebi.adapter.SeminarProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
 
@@ -17,7 +18,6 @@ import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {

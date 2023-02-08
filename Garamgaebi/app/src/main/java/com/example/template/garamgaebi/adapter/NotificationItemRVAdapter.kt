@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.notification
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.template.garamgaebi.databinding.ItemNotificationBinding
 import com.example.template.garamgaebi.model.NotificationResult
 
 class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationResult>) : RecyclerView.Adapter<NotificationItemRVAdapter.ViewHolder>() {
-    private lateinit var itemClickListener: NotificationItemRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemNotificationBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: NotificationResult){

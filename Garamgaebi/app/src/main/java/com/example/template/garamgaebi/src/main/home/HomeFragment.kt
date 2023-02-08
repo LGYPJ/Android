@@ -10,6 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.HomeMyMeetingRVAdapter
+import com.example.template.garamgaebi.adapter.HomeNetworkingRVAdapter
+import com.example.template.garamgaebi.adapter.HomeSeminarRVAdapter
+import com.example.template.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentHomeBinding
 import com.example.template.garamgaebi.model.HomeNetworkingResult

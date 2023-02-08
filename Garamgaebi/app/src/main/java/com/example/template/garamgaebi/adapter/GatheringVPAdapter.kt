@@ -1,8 +1,11 @@
-package com.example.template.garamgaebi.src.main.gathering
+package com.example.template.garamgaebi.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.template.garamgaebi.common.HOME_TAG
+import com.example.template.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
+import com.example.template.garamgaebi.src.main.gathering.GatheringNetworkingFragment
+import com.example.template.garamgaebi.src.main.gathering.GatheringSeminarFragment
 
 class GatheringVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 3
