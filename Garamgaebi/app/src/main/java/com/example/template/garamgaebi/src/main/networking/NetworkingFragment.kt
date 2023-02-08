@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity

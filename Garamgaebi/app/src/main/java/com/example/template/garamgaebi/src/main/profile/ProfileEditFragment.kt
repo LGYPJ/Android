@@ -9,7 +9,7 @@ import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileEditBinding
 
 class ProfileEditFragment :

@@ -1,8 +1,7 @@
-package com.example.template.garamgaebi.config
+package com.example.template.garamgaebi.common
 
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.sSharedPreferences
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

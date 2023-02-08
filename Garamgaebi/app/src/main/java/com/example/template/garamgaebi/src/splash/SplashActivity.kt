@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivitySplashBinding
 import com.example.template.garamgaebi.src.main.register.IntroActivity
 

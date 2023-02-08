@@ -8,7 +8,6 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBinding
-import com.example.template.garamgaebi.model.SeminarParticipantsResult
 
 
 class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

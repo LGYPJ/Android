@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseActivity
+import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivityCompleteBinding
 import com.example.template.garamgaebi.src.main.MainActivity
 

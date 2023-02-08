@@ -2,32 +2,20 @@ package com.example.template.garamgaebi.src.main.profile
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.BR
-import com.example.template.garamgaebi.config.BaseBindingFragment
-import com.example.template.garamgaebi.config.GaramgaebiApplication
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
-import com.example.template.garamgaebi.model.HomeSeminarResult
-import com.example.template.garamgaebi.model.ProfileData
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.src.main.ContainerActivity
-import com.example.template.garamgaebi.src.main.home.HomeSeminarRVAdapter
-import com.example.template.garamgaebi.src.main.home.HomeVPItemDecoration
-import com.example.template.garamgaebi.src.main.seminar.SeminarPresentAdapter
-import com.example.template.garamgaebi.src.main.seminar.SeminarPreviewDialog
-import com.example.template.garamgaebi.src.main.seminar.SeminarVerticalItemDecoration
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
 
 class MyProfileFragment :
@@ -91,7 +79,7 @@ class MyProfileFragment :
 //        }
 
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(6)
+        /*viewModel.getSeminarsInfo(6)
         val presentAdapter = SeminarPresentAdapter(viewModel.present)
         viewModel.present.observe(viewLifecycleOwner, Observer {
             /*val presentAdapter = SeminarPresentAdapter(presentList)
@@ -124,7 +112,7 @@ class MyProfileFragment :
                     SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 }
             } )
-        })
+        })*/1
 
 
         //sns 리스트뷰 연결

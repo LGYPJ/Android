@@ -8,15 +8,12 @@ import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
-import com.example.template.garamgaebi.model.SeminarParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
-import java.text.SimpleDateFormat
 
 class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
 
@@ -84,13 +81,14 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
 
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            val pay = binding.activitySeminarFreePayDetailTv.text
+            /*val pay = binding.activitySeminarFreePayDetailTv.text
             if(pay == "무료") {
                 containerActivity!!.openFragmentOnFrameLayout(2)
             }
             else {
                 containerActivity!!.openFragmentOnFrameLayout(3)
-            }
+            }*/
+            containerActivity!!.openFragmentOnFrameLayout(3)
         }
 
     }

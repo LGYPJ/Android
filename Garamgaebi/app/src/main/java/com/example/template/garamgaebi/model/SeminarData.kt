@@ -1,59 +1,55 @@
 package com.example.template.garamgaebi.src.main.seminar.data
 
-import com.google.gson.annotations.SerializedName
-import com.example.template.garamgaebi.config.BaseResponse
-import com.example.template.garamgaebi.model.PresentationResult
-import com.example.template.garamgaebi.model.SeminarDetailInfoResult
-import com.example.template.garamgaebi.model.SeminarParticipantsResult
+import com.example.template.garamgaebi.common.BaseResponse
 
 //세미나 발표 리스트 조회
 data class SeminarPresentResponse(
-    @SerializedName("result") val result : List<PresentationResult>
+    val result : List<PresentationResult>
 ): BaseResponse()
 
-/*data class PresentationResult(
-    @SerializedName("presentationIdx") val presentationIdx : Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("nickname")val nickname : String,
-    @SerializedName("profileImgUrl")val profileImgUrl : String,
-    @SerializedName("organization") val organization : String,
-    @SerializedName("content") val content : String,
-    @SerializedName("presentationUrl") val presentationUrl : String
-)*/
+data class PresentationResult(
+    val presentationIdx : Int=-1,
+    val title: String="",
+    val nickname : String="",
+    val profileImgUrl : String="",
+    val organization : String="",
+    val content : String="",
+    val presentationUrl : String=""
+)
 //세미나 상세정보 조회
 data class SeminarDetailInfoResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean = false,
-    @SerializedName("code") val code: Int = 0,
-    @SerializedName("message") val message: String? = null,
-    @SerializedName("result")val result : SeminarDetailInfoResult
+    val isSuccess: Boolean = false,
+    val code: Int = -1,
+    val message: String ="",
+    val result : SeminarDetailInfoResult
 )
 
 
-/*data class SeminarDetailInfoResult(
-    @SerializedName("programIdx") val programIdx: Int,
-    @SerializedName("title")val title: String,
-    @SerializedName("date")val date: String,
-    @SerializedName("location")val location: String,
-    @SerializedName("fee")val fee: Int,
-    @SerializedName("endDate")val endDate: String,
-    @SerializedName("programStatus")val programStatus: String,
-    @SerializedName("userButtonStatus")val userButtonStatus: String
-)*/
+data class SeminarDetailInfoResult(
+    val programIdx: Int=-1,
+    val title: String="",
+    val date: String="",
+    val location: String="",
+    val fee: Int=-1,
+    val endDate: String="",
+    val programStatus: String="",
+    val userButtonStatus: String=""
+)
 
 data class SeminarDetailRequest (
-    @SerializedName("memberIdx") val memberIdx : Int,
-    @SerializedName("programIdx") val programIdx: Int)
+    val memberIdx : Int,
+   val programIdx: Int)
 
 //세미나 신청자 리스트 조회
 data class SeminarParticipantsResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean = false,
-    @SerializedName("code") val code: Int = 0,
-    @SerializedName("message") val message: String? = null,
-    @SerializedName("result")val result : List<SeminarParticipantsResult>
+    val isSuccess: Boolean = false,
+    val code: Int = 0,
+    val message: String? = null,
+    val result : List<SeminarParticipantsResult>
 )
 
-/*data class SeminarParticipantsResult (
-    @SerializedName("memberIdx") val memberIdx : Int,
-    @SerializedName("nickname")val nickname : String,
-    @SerializedName("profileImg")val profileImg : String
-)*/
+data class SeminarParticipantsResult (
+    val memberIdx : Int,
+    val nickname : String,
+    val profileImg : String
+)

@@ -3,10 +3,10 @@ package com.example.template.garamgaebi.src.main
 import android.os.Bundle
 import android.util.Log
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseActivity
-import com.example.template.garamgaebi.config.GaramgaebiApplication
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
-import com.example.template.garamgaebi.config.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
+import com.example.template.garamgaebi.common.BaseActivity
+import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.example.template.garamgaebi.model.ApiInterface
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment

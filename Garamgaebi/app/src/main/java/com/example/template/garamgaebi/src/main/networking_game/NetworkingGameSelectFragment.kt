@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGameSelectBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 

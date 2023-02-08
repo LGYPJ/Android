@@ -1,31 +1,31 @@
 package com.example.template.garamgaebi.model
 
 import com.google.gson.annotations.SerializedName
-import com.example.template.garamgaebi.config.BaseResponse
+import com.example.template.garamgaebi.common.BaseResponse
 
 //네트워킹 상세정보 조회
 data class NetworkingInfoResponse(
-    @SerializedName("result")val result : NetworkingInfoReult
+   val result : NetworkingInfoReult
 ):BaseResponse()
 
 data class NetworkingInfoReult(
-    @SerializedName("programIdx") val programIdx: Int,
-    @SerializedName("title")val title: String,
-    @SerializedName("date")val date: String,
-    @SerializedName("location")val location: String,
-    @SerializedName("fee")val fee: Int,
-    @SerializedName("endDate")val endDate: String,
-    @SerializedName("programStatus")val programStatus: String,
-    @SerializedName("userButtonStatus")val userButtonStatus: String
+    val programIdx: Int =-1,
+    val title: String="",
+    val date: String="",
+    val location: String="",
+    val fee: Int=-1,
+    val endDate: String="",
+    val programStatus: String="",
+    val userButtonStatus: String=""
 )
 
 //네트워킹 신청자 리스트 조회
 data class NetworkingParticipantsResponse(
-    @SerializedName("result")val result : List<NetworkingParticipantsResult>
+    val result : List<NetworkingParticipantsResult>
 ):BaseResponse()
 
 data class NetworkingParticipantsResult(
-    @SerializedName("memberIdx") val memberIdx : Int,
-    @SerializedName("nickname")val nickname : String,
-    @SerializedName("profileImg")val profileImg : String
+    val memberIdx : Int=-1,
+    val nickname : String="",
+    val profileImg : String=""
 )

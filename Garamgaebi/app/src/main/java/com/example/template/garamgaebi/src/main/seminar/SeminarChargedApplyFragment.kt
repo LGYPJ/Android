@@ -8,14 +8,10 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.config.BaseBindingFragment
-import com.example.template.garamgaebi.config.BaseFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
-import com.example.template.garamgaebi.model.EnrollRequest
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
 import java.util.regex.Pattern
