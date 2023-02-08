@@ -16,6 +16,8 @@ import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.NetworkingGameCardVPAdapter
+import com.example.template.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity

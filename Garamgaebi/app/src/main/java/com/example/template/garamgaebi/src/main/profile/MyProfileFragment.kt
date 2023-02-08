@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.BR
+import com.example.template.garamgaebi.adapter.CareerMyRVAdapter
+import com.example.template.garamgaebi.adapter.EduMyRVAdapter
+import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
@@ -47,6 +50,7 @@ class MyProfileFragment :
 
             } else {
                 with(binding) {
+                    //binding.profileViewModel = viewModel
                     activityMyProfileTvUsername.text = result.result.nickName
                     activityMyProfileTvEmail.text = result.result.profileEmail
                     activityMyProfileTvSchool.text = result.result.belong
@@ -61,12 +65,14 @@ class MyProfileFragment :
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
 
+
         //SNS 정보 어댑터 연결
         viewModel.getSNSInfo(1)
         viewModel.snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
             val snsAdapter = SnsMyRVAdapter(it)
             binding.activityMyProfileRVSns.apply {
                 adapter = snsAdapter
+
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(dividerItemDecoration)
             }

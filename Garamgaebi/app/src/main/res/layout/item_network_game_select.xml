@@ -10,7 +10,7 @@
         android:id="@+id/activity_item_network_game_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가천관"
+        android:text="@string/game_place"
         android:textColor="@color/black80"
         android:textSize="18sp"
         android:textStyle="bold"

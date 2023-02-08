@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+
+import androidx.fragment.app.DialogFragment
+
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,7 +17,8 @@ import com.example.template.garamgaebi.common.BaseDialog
 import com.example.template.garamgaebi.databinding.DialogSeminarPreviewBinding
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
-class SeminarPreviewDialog: BaseDialog<DialogSeminarPreviewBinding>(R.layout.dialog_seminar_preview){
+class SeminarPreviewDialog:DialogFragment() {
+     private lateinit var binding : DialogSeminarPreviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +32,22 @@ class SeminarPreviewDialog: BaseDialog<DialogSeminarPreviewBinding>(R.layout.dia
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
         viewModel.getSeminarsInfo(8)
-        viewModel.present.observe(viewLifecycleOwner, Observer {
+        viewModel.presentation.observe(viewLifecycleOwner, Observer {
             val position = arguments?.getInt("presentationDialog", 0)
-            val data = it[position!!]
-            binding.item = data
+            val data = it.result[position!!]
+            Glide.with(binding.dialogSeminarProfileImg.context)
+                .load(data.profileImgUrl)
+                .into(binding.dialogSeminarProfileImg)
+            binding.dialogFragmentSeminarNameTv.text = data.nickname
+            binding.dialogFragmentSeminarJobTv.text =data.organization
+            binding.dialogFragmentSeminarTitleTv.text = data.title
+            binding.dialogFragmentSeminarContentTv.text = data.content
+            binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
+
 
         })
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {
            dismiss()
-        }
-    }
-    companion object {
-        @JvmStatic
-        @BindingAdapter("profileImg")
-        fun loadImage(imageView: ImageView, imageURL:String){
-            Glide.with(imageView.context)
-                .load(imageURL)
-                .into(imageView)
         }
     }
 

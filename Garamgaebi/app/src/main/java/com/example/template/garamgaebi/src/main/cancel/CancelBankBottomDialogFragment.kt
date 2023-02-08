@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.CancelAdapter
 import com.example.template.garamgaebi.databinding.FragmentCancelBankBottomDialogBinding
 
 class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomSheetDialogFragment(){

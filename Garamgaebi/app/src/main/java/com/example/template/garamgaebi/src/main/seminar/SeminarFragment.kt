@@ -5,18 +5,22 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.adapter.SeminarPresentAdapter
+import com.example.template.garamgaebi.adapter.SeminarProfileAdapter
+
+import com.example.template.garamgaebi.common.BaseFragment
+
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
-import com.example.template.garamgaebi.model.SeminarParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
+import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
-class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
+class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
@@ -41,8 +45,8 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
 
         //발표 어댑터 연결
         viewModel.getSeminarsInfo(8)
-        viewModel.present.observe(viewLifecycleOwner, Observer { it ->
-            val presentAdapter = SeminarPresentAdapter(it)
+        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+            val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -52,6 +56,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
             presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     val bundle = Bundle()
+                   // val temp = it.result[position].presentationIdx
                     bundle.putInt("presentationDialog", position)
                     val seminarPreviewDialog = SeminarPreviewDialog()
                     seminarPreviewDialog.arguments = bundle
@@ -66,17 +71,21 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
         })
 
         //세미나 상세 정보
-        binding.setVariable(BR.item, viewModel)
         viewModel.getSeminarDetail(6,1)
         viewModel.info.observe(viewLifecycleOwner, Observer {
-                //val data = it
-                binding.item = viewModel
+                val item = it.result
+            binding.activitySeminarFreeTitleTv.text = item.title
+            binding.activitySeminarFreeDateDetailTv.text = item.date
+            binding.activitySeminarFreePlaceDetailTv.text = item.location
+            binding.activitySeminarFreePayDetailTv.text = item.fee.toString()
+            binding.activitySeminarFreeDeadlineDetailTv.text = item.endDate
                 //버튼 상태 추가하기
                 /*if (item.userButtonStatus == "ApplyComplete") {
                     binding.activitySeminarFreeApplyBtn.text = "신청완료"
                     binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
                     binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
             }*/
+
         })
 
 

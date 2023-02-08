@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
@@ -83,7 +84,8 @@ class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBin
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
-                seminarDeadlineAdapter.setOnItemClickListener(object :GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
+                seminarDeadlineAdapter.setOnItemClickListener(object :
+                    GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
                         //TODO("Not yet implemented")
                     }

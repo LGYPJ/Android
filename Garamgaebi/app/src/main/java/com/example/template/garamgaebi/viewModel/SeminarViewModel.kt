@@ -6,15 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.template.garamgaebi.model.PresentationResult
-import com.example.template.garamgaebi.model.SeminarRepository
+import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class SeminarViewModel : ViewModel(){
     private val seminarRepository = SeminarRepository()
@@ -23,9 +21,9 @@ class SeminarViewModel : ViewModel(){
     val presentation : LiveData<SeminarPresentResponse>
     get() = _presentation
 
-    private val _present = MutableLiveData<ArrayList<PresentationResult>>()
+    /*private val _present = MutableLiveData<ArrayList<PresentationResult>>()
     val present : LiveData<ArrayList<PresentationResult>>
-    get() = _present
+    get() = _present*/
 
     private val _seminarParticipants = MutableLiveData<SeminarParticipantsResponse>()
     val seminarParticipants : LiveData<SeminarParticipantsResponse>
@@ -42,8 +40,8 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarsInfo(6)
             Log.d("seminarPresent", response.body().toString())
             if (response.isSuccessful) {
-                //_presentation.postValue(response.body())
-                _present.postValue(response.body()?.result as ArrayList<PresentationResult>?)
+                _presentation.postValue(response.body())
+                //_present.postValue(response.body()?.result as ArrayList<PresentationResult>?)
             }
             else {
                 Log.d("error", response.message())
@@ -68,6 +66,10 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarDetail(6,1)
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful){
+                val dataFormat = SimpleDateFormat("yyyy-MM-dd")
+                val simple=dataFormat.format(response.body()?.result?.date).toString()
+                Log.d("date", simple)
+                //_info.value = response.body()
                 _info.postValue(response.body())
             }
             else{
@@ -76,13 +78,13 @@ class SeminarViewModel : ViewModel(){
         }
     }
 
-    fun feeFree(money : String): String {
+    /*fun feeFree(money : String): String {
         return pay.value.toString()
     }
 
     fun convertFee(money : String):String{
         return "$money 원"
-    }
+    }*/
 
     /*fun convertDate(date: String?): String? {
         val dateFormat = "yyyy-MM-dd hh:mm '시'"

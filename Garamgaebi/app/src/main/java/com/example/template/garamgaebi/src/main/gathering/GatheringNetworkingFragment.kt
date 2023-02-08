@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
@@ -72,7 +73,8 @@ class GatheringNetworkingFragment : BaseBindingFragment<FragmentGatheringNetwork
                     adapter = networkingDeadlineAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
-                    networkingDeadlineAdapter.setOnItemClickListener(object :GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
+                    networkingDeadlineAdapter.setOnItemClickListener(object :
+                        GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
                         override fun onClick(position: Int) {
                             //TODO
                         }

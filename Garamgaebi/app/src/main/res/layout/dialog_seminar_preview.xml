@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <variable
-            name="item"
-            type="com.example.template.garamgaebi.model.PresentationResult" />
-    </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -66,7 +61,7 @@
                 android:id="@+id/dialog_seminar_profile_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{item.profileImgUrl}"
+                android:src="@drawable/activity_seminar_present_profile1_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -79,7 +74,7 @@
         android:id="@+id/dialog_fragment_seminar_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{item.nickname}"
+        android:text="@string/seminar_name"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -91,7 +86,7 @@
         android:id="@+id/dialog_fragment_seminar_job_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{item.organization}"
+        android:text="@string/seminar_job"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginStart="4dp"
@@ -103,7 +98,7 @@
         android:id="@+id/dialog_fragment_seminar_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{item.title}"
+        android:text="@string/seminar_title"
         android:textColor="@color/black80"
         android:textStyle="bold"
         android:textSize="20dp"
@@ -116,7 +111,7 @@
         android:id="@+id/dialog_fragment_seminar_content_tv"
         android:layout_width="0dp"
         android:layout_height="99dp"
-        android:text="@{item.content}"
+        android:text="@string/seminar_content"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -145,7 +140,7 @@
         android:id="@+id/dialog_fragment_seminar_present_reference_detail_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{item.presentationUrl}"
+        android:text="@string/seminar_reference"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:layout_marginTop="4dp"
@@ -157,4 +152,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

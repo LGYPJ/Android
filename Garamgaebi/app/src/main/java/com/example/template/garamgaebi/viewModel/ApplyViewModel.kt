@@ -6,7 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
+import com.example.template.garamgaebi.repository.ApplyRepository
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
@@ -35,7 +38,7 @@ class ApplyViewModel : ViewModel() {
                 _cancel.postValue(response.body())
             }
             else {
-                response.body()?.message?.let { Log.d("error", it) }
+                //response.body()?.message?.let { Log.d("error", it) }
             }
         }
     }
@@ -56,5 +59,11 @@ class ApplyViewModel : ViewModel() {
     fun getNameText() : MutableLiveData<String> = inputName
     fun getNickNameText() : MutableLiveData<String> = inputNickName
     fun getPhoneText() : MutableLiveData<String> = inputPhone
+
+    fun convertDate(date: String?): String? {
+        val dateFormat = "yyyy-MM-dd hh:mm '시'"
+        val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
+        return simpleDateFormat.format(date)
+    }
 
 }

@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
+import com.example.template.garamgaebi.repository.HomeRepository
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 
 class HomeViewModel : ViewModel(){
     private val homeRepository = HomeRepository()

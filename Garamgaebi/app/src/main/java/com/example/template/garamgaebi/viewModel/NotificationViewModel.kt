@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.template.garamgaebi.model.NotificationRepository
+import com.example.template.garamgaebi.repository.NotificationRepository
 import com.example.template.garamgaebi.model.NotificationResponse
 import kotlinx.coroutines.launch
 

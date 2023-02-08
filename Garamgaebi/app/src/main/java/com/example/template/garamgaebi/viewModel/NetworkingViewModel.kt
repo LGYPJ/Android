@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
-import com.example.template.garamgaebi.model.NetworkingRepository
+import com.example.template.garamgaebi.repository.NetworkingRepository
 import kotlinx.coroutines.launch
 
 class NetworkingViewModel : ViewModel(){
