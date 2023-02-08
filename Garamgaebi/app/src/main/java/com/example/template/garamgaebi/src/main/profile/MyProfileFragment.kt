@@ -61,12 +61,14 @@ class MyProfileFragment :
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
 
+
         //SNS 정보 어댑터 연결
         viewModel.getSNSInfo(1)
         viewModel.snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
             val snsAdapter = SnsMyRVAdapter(it)
             binding.activityMyProfileRVSns.apply {
                 adapter = snsAdapter
+
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(dividerItemDecoration)
             }
@@ -94,7 +96,7 @@ class MyProfileFragment :
                     // sns 편집
                 }
             } )
-        })
+        })*/1
 
         //교육 정보 어댑터 연결
         viewModel.getEducationInfo(1)

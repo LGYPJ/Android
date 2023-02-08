@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <variable
-            name="item"
-            type="com.example.template.garamgaebi.viewModel.NetworkingViewModel" />
-    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,9 +22,8 @@
             android:id="@+id/activity_network_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.networkingInfo.result.title}"
+            android:text="@string/origin_title"
             android:textStyle="bold"
-
             android:textSize="20sp"
             android:textColor="@color/black"
             android:layout_marginTop="12dp"
@@ -66,7 +59,7 @@
             android:id="@+id/activity_network_date_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.networkingInfo.result.date}"
+            android:text="@string/origin_date"
             android:textSize="14sp"
             android:textColor="@color/black80"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_title_tv"
@@ -90,7 +83,7 @@
             android:id="@+id/activity_network_place_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.networkingInfo.result.location}"
+            android:text="@string/origin_place"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -114,7 +107,7 @@
             android:id="@+id/activity_network_pay_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{Integer.toString(item.networkingInfo.result.fee)}"
+            android:text="@string/origin_pay"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -138,7 +131,7 @@
             android:id="@+id/activity_network_deadline_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.networkingInfo.result.endDate}"
+            android:text="@string/origin_deadline"
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -151,7 +144,7 @@
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:background="@drawable/btn_seminar_apply"
-            android:text="신청하기"
+            android:text="@string/origin_apply"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -178,7 +171,7 @@
             android:id="@+id/activity_network_participant_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="참석자"
+            android:text="@string/origin_participants"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black80"
@@ -191,7 +184,7 @@
             android:id="@+id/activity_network_participant_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16명"
+            android:text="@string/origin_participants_people"
             android:textSize="14sp"
             android:textColor="@color/black80"
             android:layout_marginStart="4dp"
@@ -229,7 +222,7 @@
             android:id="@+id/activity_network_participate_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="참가하기"
+            android:text="@string/networking_apply"
             android:textSize="16sp"
             android:textColor="@color/network_light_gray"
             app:layout_constraintStart_toStartOf="parent"
@@ -255,7 +248,7 @@
         android:id="@+id/activity_network_icebreaking_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아이스 브레이킹"
+        android:text="@string/networking_icebreaking"
         android:textSize="18sp"
         android:textColor="@color/black80"
         android:textStyle="bold"
@@ -268,7 +261,7 @@
         android:id="@+id/activity_network_icebreaking_content1_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아이스브레이킹 참여는"
+        android:text="@string/networking_icebreaking_info1"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
@@ -280,7 +273,7 @@
         android:id="@+id/activity_network_icebreaking_content2_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="네트워킹 당일 정해진 시간에 오픈합니다."
+        android:text="@string/networking_icebreaking_info2"
         android:textSize="14sp"
         android:layout_marginStart="16dp"
         android:textColor="@color/network_icebreaking"
@@ -300,4 +293,3 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

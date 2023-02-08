@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemSeminarPresentBinding
-import com.example.template.garamgaebi.model.PresentationResult
+import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 
 class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>): RecyclerView.Adapter<SeminarPresentAdapter.ViewHolder>() {
 
@@ -20,13 +18,13 @@ class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>)
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(data: PresentationResult) {
-            /*binding.activitySeminarFreePresentTitleTv.text = data.title
+            binding.activitySeminarFreePresentTitleTv.text = data.title
             binding.activitySeminarFreePresentNameTv.text = data.nickname
             binding.activitySeminarFreePresentJobTv.text = data.organization
             Glide.with(binding.activitySeminarPresentPreviewProfileImg.context)
                 .load(data.profileImgUrl)
-                .into(binding.activitySeminarPresentPreviewProfileImg)*/
-            binding.item = data
+                .into(binding.activitySeminarPresentPreviewProfileImg)
+
 
         }
     }
@@ -55,16 +53,6 @@ class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>)
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
         itemClickListener = onItemClickListener
-    }
-
-    companion object {
-        @JvmStatic
-        @BindingAdapter("profileImgUrl")
-        fun loadImage(imageView: ImageView, imageURL:String){
-            Glide.with(imageView.context)
-                .load(imageURL)
-                .into(imageView)
-        }
     }
 
 }
