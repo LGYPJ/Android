@@ -160,9 +160,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         })
         // 알림 이동
         binding.fragmentHomeIvNotification.setOnClickListener {
-            val intent = Intent(context, ContainerActivity::class.java)
-            intent.putExtra("notification", true)
-            startActivity(intent)
+            val target = Intent(context, ContainerActivity::class.java)
+            target.putExtra("notification", true)
+            startActivity(target)
         }
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {

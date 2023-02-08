@@ -1,8 +1,6 @@
 package com.example.template.garamgaebi.viewModel
 
 import android.util.Log
-import androidx.databinding.InverseMethod
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,7 +48,7 @@ class ApplyViewModel : ViewModel() {
                 _enroll.postValue(response.body())
             }
             else{
-                response.body()?.message?.let { Log.d("error", it) }
+                response.body()?.errorMessage?.let { Log.d("error", it) }
             }
         }
     }

@@ -14,6 +14,10 @@ import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
+/**
+ * 세미나 모아보기 프래그먼트
+ *
+ */
 class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBinding>(R.layout.fragment_gathering_seminar){
 
 

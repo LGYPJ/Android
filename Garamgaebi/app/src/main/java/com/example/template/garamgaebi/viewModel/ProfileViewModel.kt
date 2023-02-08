@@ -26,6 +26,7 @@ class ProfileViewModel : ViewModel(){
             Log.d("present0", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
+                Log.d("success", response.message())
                 _profileInfo.postValue(response.body())
             }
             else {
@@ -39,13 +40,18 @@ class ProfileViewModel : ViewModel(){
     val snsInfo : LiveData<SNSDataResponse>
         get() = _snsInfo
 
+    private val _snsInfoArray = MutableLiveData<ArrayList<SNSData>>()
+    val snsInfoArray : LiveData<ArrayList<SNSData>>
+        get() = _snsInfoArray
+
     fun getSNSInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getSNSInfo(memberIdx)
-            Log.d("present", response.body().toString())
+            Log.d("api_sns", response.body().toString())
 
             if (response.isSuccessful) {
-                _snsInfo.postValue(response.body())
+                //_snsInfo.postValue(response.body())
+                _snsInfoArray.postValue(response.body()?.result as ArrayList<SNSData>?)
             }
             else {
                 Log.d("error", response.message())
@@ -58,13 +64,17 @@ class ProfileViewModel : ViewModel(){
     val educationInfo : LiveData<EducationDataResponse>
         get() = _educationInfo
 
+    private val _educationInfoArray = MutableLiveData<ArrayList<EducationData>>()
+    val educationInfoArray : LiveData<ArrayList<EducationData>>
+        get() = _educationInfoArray
+
     fun getEducationInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getEducationInfo(memberIdx)
-            Log.d("present", response.body().toString())
+            Log.d("api_edu", response.body().toString())
 
             if (response.isSuccessful) {
-                _educationInfo.postValue(response.body())
+                _educationInfoArray.postValue(response.body()?.result as ArrayList<EducationData>)
             }
             else {
                 Log.d("error", response.message())
@@ -77,13 +87,17 @@ class ProfileViewModel : ViewModel(){
     val careerInfo : LiveData<CareerDataResponse>
         get() = _careerInfo
 
+    private val _careerInfoArray = MutableLiveData<ArrayList<CareerData>>()
+    val careerInfoArray : LiveData<ArrayList<CareerData>>
+        get() = _careerInfoArray
+
     fun getCareerInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getCareerInfo(memberIdx)
-            Log.d("present", response.body().toString())
+            Log.d("api_career", response.body().toString())
 
             if (response.isSuccessful) {
-                _careerInfo.postValue(response.body())
+                _careerInfoArray.postValue(response.body()?.result as ArrayList<CareerData>)
             }
             else {
                 Log.d("error", response.message())

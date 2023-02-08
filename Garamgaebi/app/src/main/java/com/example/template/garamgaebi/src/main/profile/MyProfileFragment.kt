@@ -58,109 +58,102 @@ class MyProfileFragment :
             }
         })
 
+        var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
-//        //내 프로필 편집 화면으로 이동
-//        binding.activityMyProfileBtnEditProfile.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("edit",true) //데이터 넣기
-//            startActivity(intent)
-//        }
-//        //고객센터 화면으로 이동
-//        binding.activityMyProfileIvCs.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("servicecenter",true) //데이터 넣기
-//            startActivity(intent)
-//        }
-//        //탈퇴 화면으로 이동
-//        binding.activityMyProfileIvWd.setOnClickListener {
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("withdrawal",true) //데이터 넣기
-//            startActivity(intent)
-//        }
 
-        //발표 어댑터 연결
-        /*viewModel.getSeminarsInfo(6)
-        val presentAdapter = SeminarPresentAdapter(viewModel.present)
-        viewModel.present.observe(viewLifecycleOwner, Observer {
-            /*val presentAdapter = SeminarPresentAdapter(presentList)
-            binding.activitySeminarFreePresentRv.apply {
-                adapter = presentAdapter
+
+        //SNS 정보 어댑터 연결
+        viewModel.getSNSInfo(1)
+        viewModel.snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+            val snsAdapter = SnsMyRVAdapter(it)
+            binding.activityMyProfileRVSns.apply {
+                adapter = snsAdapter
+
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
-            }*/
-            //val presentAdapter = SeminarPresentAdapter(viewModel.present)
-            binding.activitySeminarFreePresentRv.apply {
-                items.value = it
-                val presentAdapter = SeminarPresentAdapter(items)
-                // adapter = presentAdapter
-                adapter = presentAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
+                addItemDecoration(dividerItemDecoration)
             }
             //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
+            snsAdapter.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
-                    val bundle = Bundle()
-                    bundle.putInt("presentationDialog", position)
-                    val seminarPreviewDialog = SeminarPreviewDialog()
-                    seminarPreviewDialog.arguments = bundle
-                    activity?.let {
-                        seminarPreviewDialog.show(
-                            it.supportFragmentManager, "SeminarPreviewDialog"
-                        )
-                    }
-                    SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    // sns 편집
+                }
+            } )
+        })
+
+        //경력 정보 어댑터 연결
+        viewModel.getCareerInfo(1)
+        viewModel.careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+            val careerAdapter = CareerMyRVAdapter(it)
+            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
+            binding.activityMyProfileRVCareer.apply {
+                adapter = careerAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(dividerItemDecoration)
+            }
+            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
+            careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    // sns 편집
                 }
             } )
         })*/1
 
+        //교육 정보 어댑터 연결
+        viewModel.getEducationInfo(1)
+        viewModel.educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+            val eduAdapter = EduMyRVAdapter(it)
+            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
+            binding.activityMyProfileRVEdu.apply {
+                adapter = eduAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(dividerItemDecoration)
+            }
+            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
+            eduAdapter.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener{
+                override fun onClick(position: Int) {
+                    // sns 편집
+                }
+            } )
+        })
 
-        //sns 리스트뷰 연결
-        var snsItems: ArrayList<SnsRVItemData> = arrayListOf()
-        val snsAdapter = SnsMYRVAdapter(snsItems)
-        var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
-        binding.activityMyProfileRVSns.adapter = snsAdapter
+//        //career 리스트뷰 연결
+//        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
+//        val careerAdapter = CareerMyRVAdapter(careerItems)
+//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
+//        binding.activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+//        binding.activityMyProfileRVCareer.adapter = careerAdapter
+//
+//
+//        //edu 리스트뷰 연결
+//        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
+//        val eduAdapter = EduMyRVAdapter(eduItems)
+//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
+//        binding.activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
+//        binding.activityMyProfileRVEdu.adapter = eduAdapter
 
-        //sns 추가 버튼
-        binding.activityMyProfileBtnSnsAdd.setOnClickListener {
-            binding.activityMyProfileRVSns.visibility = View.VISIBLE
-            //binding.activityMyprofileSnsVListEndline.visibility = View.VISIBLE
-            binding.activityMyProfileTvSnsDesc.visibility = View.GONE
-            snsItems.add(SnsRVItemData("neoninstagram.com"))
-            snsAdapter?.notifyDataSetChanged()
-            Log.d("plus_sns",snsItems.size.toString())
-            val intent = Intent(activity,ContainerActivity::class.java)
-            intent.putExtra("sns",true) //데이터 넣기
-            startActivity(intent)
+        binding.activityMyProfileBtnSnsAdd.setOnClickListener{
+            goAddSNSFragment()
         }
 
-        //career 리스트뷰 연결
-        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
-        val careerAdapter = CareerMyRVAdapter(careerItems)
-        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
-        binding.activityMyProfileRVCareer.adapter = careerAdapter
+        binding.activityMyProfileBtnCareerAdd.setOnClickListener{
+            goAddCareerFragment()
+        }
 
-//        //career 추가 버튼
-//        binding.activityMyProfileBtnCareerAdd.setOnClickListener {
-//            binding.activityMyProfileRVCareer.visibility = View.VISIBLE
-//            binding.activityMyProfileTvCareerDesc.visibility = View.GONE
-//            careerItems.add(CareerRVItemData("우아한 형제들","프론트엔드 개발자","2020.04","2021.09"))
-//            careerAdapter?.notifyDataSetChanged()
-//            Log.d("plus_career",careerItems.size.toString())
-//            val intent = Intent(activity,ContainerActivity::class.java)
-//            intent.putExtra("career",true) //데이터 넣기
-//            startActivity(intent)
-//        }
+        binding.activityMyProfileBtnEduAdd.setOnClickListener{
+            goAddEduFragment()
+        }
 
-        //edu 리스트뷰 연결
-        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
-        val eduAdapter = EduMyRVAdapter(eduItems)
-        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
-        binding.activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
-        binding.activityMyProfileRVEdu.adapter = eduAdapter
+        binding.activityMyProfileIvCs.setOnClickListener{
+            goServiceCenterFragment()
+        }
 
+        binding.activityMyProfileIvWd.setOnClickListener{
+            goWithdrawalFragment()
+        }
+
+        binding.activityMyProfileBtnEditProfile.setOnClickListener{
+            goEditFragment()
+        }
         //test 상대 프로필
         binding.activityMyProfileIvProfile.setOnClickListener {
             val intent = Intent(activity,ContainerActivity::class.java)
@@ -187,11 +180,18 @@ class MyProfileFragment :
         startActivity(intent)
     }
 
+    //sns 추가 버튼
+    fun goAddSNSFragment(){
+        binding.activityMyProfileRVCareer.visibility = View.VISIBLE
+        binding.activityMyProfileTvCareerDesc.visibility = View.GONE
+        val intent = Intent(activity,ContainerActivity::class.java)
+        intent.putExtra("sns",true) //데이터 넣기
+        startActivity(intent)
+    }
 
     //career 추가 버튼
     fun goAddCareerFragment(){
-        binding.activityMyProfileRVCareer.visibility = View.VISIBLE
-        binding.activityMyProfileTvCareerDesc.visibility = View.GONE
+        Log.d("ff","gogo")
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("career",true) //데이터 넣기
         startActivity(intent)

@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.model
 
+
 import com.example.template.garamgaebi.common.BaseResponse
 
 //신청 취소
