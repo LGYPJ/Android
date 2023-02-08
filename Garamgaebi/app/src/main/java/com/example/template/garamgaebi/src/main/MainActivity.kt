@@ -1,5 +1,7 @@
 package com.example.template.garamgaebi.src.main
 
+
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import com.example.template.garamgaebi.R
@@ -7,23 +9,27 @@ import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
+import com.example.template.garamgaebi.databinding.ActivityMainBinding
 import com.example.template.garamgaebi.model.ApiInterface
+import com.example.template.garamgaebi.model.LoginRequest
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
-import com.example.template.garamgaebi.databinding.ActivityMainBinding
-import com.example.template.garamgaebi.model.LoginRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         // 임시 로그인
         val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)

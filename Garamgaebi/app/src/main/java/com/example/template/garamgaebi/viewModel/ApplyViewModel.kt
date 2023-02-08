@@ -60,10 +60,10 @@ class ApplyViewModel : ViewModel() {
     fun getNickNameText() : MutableLiveData<String> = inputNickName
     fun getPhoneText() : MutableLiveData<String> = inputPhone
 
-    fun convertDate(date: String?): String? {
+    /*fun convertDate(date: String?): String? {
         val dateFormat = "yyyy-MM-dd hh:mm '시'"
         val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
         return simpleDateFormat.format(date)
-    }
+    }*/
 
 }
