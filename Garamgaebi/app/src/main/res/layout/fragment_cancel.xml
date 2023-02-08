@@ -238,7 +238,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@drawable/btn_seminar_apply_free"
-            android:text="취소하기"
+            android:text="@string/origin_cancel"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAlignment="center"
