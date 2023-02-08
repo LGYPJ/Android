@@ -14,7 +14,7 @@
         android:elevation="8dp"
         android:gravity="center"
         android:paddingTop="8dp"
-        android:text="세미나는 발표 위주로 진행되는 행사입니다."
+        android:text="@string/home_seminar_help_dialog"
         android:textAlignment="center"
         android:textColor="@color/blueForBtn"
         android:textSize="12sp"
