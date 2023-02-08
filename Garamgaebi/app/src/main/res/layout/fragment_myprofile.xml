@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <import type="com.example.template.garamgaebi.src.main.seminar.SeminarFragment"/>
+        <import type="android.view.View"/>
+        <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
         <variable
             name="profileFragment"
             type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment" />
@@ -43,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_service_center_24dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{()->profileFragment.goServiceCenterFragment()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/activity_myProfile_ivWd"
@@ -54,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_logout_24dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{()->profileFragment.goWithdrawalFragment()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +154,6 @@
                     android:textColor="@color/blueForBtn"
                     android:outlineProvider="none"
                     android:background="@drawable/basic_sky_btn_layout"
-                    android:onClick="@{()->profileFragment.goEditFragment()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_myProfile_tv_intro"
@@ -171,6 +169,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_myProfile_cl_snsDesc"
                     >
+
                     <TextView
                         android:id="@+id/activity_myProfile_tv_snsTitle"
                         android:layout_width="match_parent"
@@ -180,8 +179,7 @@
                         android:textColor="@color/black80"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -211,13 +209,15 @@
                         android:textSize="16sp"
                         android:gravity="center"
                         android:textColor="@color/black80"
-                        app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        android:visibility="@{profileViewModel.snsInfoArray.isEmpty ? View.VISIBLE : View.GONE, default = visible}"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/activity_myProfile_RV_sns"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="0dp"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -243,8 +243,7 @@
                         app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_sns"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        ></androidx.appcompat.widget.AppCompatButton>
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/activity_myProfile_cl_careerTitle"
@@ -257,6 +256,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_myProfile_cl_careerDesc"
                     >
+
                     <TextView
                         android:id="@+id/activity_myProfile_tv_careerTitle"
                         android:layout_width="match_parent"
@@ -266,8 +266,7 @@
                         android:textColor="@color/black80"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -296,12 +295,14 @@
                         android:textSize="16sp"
                         android:gravity="center"
                         android:textColor="@color/black80"
+                        android:visibility="@{profileViewModel.careerInfoArray.isEmpty ? View.VISIBLE : View.GONE, default = visible}"
                         app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/activity_myProfile_RV_career"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -326,8 +327,7 @@
                         app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_career"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        ></androidx.appcompat.widget.AppCompatButton>
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/activity_myProfile_cl_eduTitle"
@@ -340,6 +340,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/activity_myProfile_cl_eduDesc"
                     >
+
                     <TextView
                         android:id="@+id/activity_myProfile_tv_eduTitle"
                         android:layout_width="match_parent"
@@ -349,8 +350,7 @@
                         android:textColor="@color/black80"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -369,22 +369,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     >
+
                     <TextView
                         android:id="@+id/activity_myProfile_tv_eduDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="12dp"
                         android:text="@string/edu_desc"
+                        android:visibility="@{profileViewModel.educationInfoArray.isEmpty ? View.VISIBLE : View.GONE, default = visible}"
                         android:textStyle="normal"
                         android:textSize="16sp"
                         android:gravity="center"
                         android:textColor="@color/black80"
-                        app:layout_constraintTop_toTopOf="parent"
-                        ></TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/activity_myProfile_RV_edu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -409,8 +411,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_edu"
-                        ></androidx.appcompat.widget.AppCompatButton>
+                        app:layout_constraintTop_toBottomOf="@id/activity_myProfile_RV_edu" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

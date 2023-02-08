@@ -57,29 +57,6 @@ class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>)
         itemClickListener = onItemClickListener
     }
 
-    /*fun setData(newRecylerViewItems : ArrayList<PresentationResult>){
-        val diffCallback = DiffCallback(recyclerViewItems, newRecylerViewItems)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        recyclerViewItems.clear()
-        recyclerViewItems.addAll(newRecylerViewItems)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    inner class DiffCallback(
-        private var oldList: ArrayList<PresentationResult>,
-        private var newList : ArrayList<PresentationResult>
-    ):DiffUtil.Callback(){
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].presentationIdx == newList[newItemPosition].presentationIdx
-        }
-
-
-    }*/
     companion object {
         @JvmStatic
         @BindingAdapter("profileImgUrl")

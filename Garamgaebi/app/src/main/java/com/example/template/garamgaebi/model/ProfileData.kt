@@ -73,7 +73,7 @@ data class ProfileDataResponse(
 
 //SNS 확인
 data class SNSDataResponse (
-    @SerializedName("result") val result: ArrayList<SNSData>
+    @SerializedName("result") val result: List<SNSData>
 ) : BaseResponse()
 
 //프로필 10명 추천
@@ -89,7 +89,7 @@ data class RecommendProfileDataResponse(
 
 //교육 조회
 data class EducationDataResponse(
-    @SerializedName("result") val result: ArrayList<EducationData>
+    @SerializedName("result") val result: List<EducationData>
 ) : BaseResponse()
 
 //경력 조회

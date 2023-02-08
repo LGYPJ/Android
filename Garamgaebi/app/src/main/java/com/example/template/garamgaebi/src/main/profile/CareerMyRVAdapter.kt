@@ -5,80 +5,49 @@ import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.databinding.ItemMyprofileCareerBinding
+import com.example.template.garamgaebi.databinding.ItemMyprofileEduBinding
 import com.example.template.garamgaebi.databinding.ItemSomeoneprofileCareerBinding
+import com.example.template.garamgaebi.model.CareerData
+import com.example.template.garamgaebi.model.EducationData
 
-class CareerMyRVAdapter(private val dataList: ArrayList<CareerRVItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    private val checkRead = SparseBooleanArray()
-    var canRemove : Boolean = true
+class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>): RecyclerView.Adapter<CareerMyRVAdapter.ViewHolder>(){
+
+    private lateinit var itemClickListener: OnItemClickListener
+
+    inner class ViewHolder(private val binding: ItemMyprofileCareerBinding):
+        RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(data: CareerData) {
+            binding.item = data
+
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemMyprofileCareerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
-        fun onLongClick(position: Int)
-    }
-    fun setItemClickListener(param: Any) {}
-
-    private lateinit var mItemClickListener: OnItemClickListener
-    fun setMyItemClickListener(itemClickListener: OnItemClickListener){
-        mItemClickListener = itemClickListener
+        fun onClick(position: Int)
     }
 
-    //viewHolder 객체
-    inner class DataViewHolder(private val viewBinding: ItemSomeoneprofileCareerBinding): RecyclerView.ViewHolder(viewBinding.root){
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataList[position])
 
-        init {
-            itemView.setOnClickListener {
-                mItemClickListener.onItemClick(adapterPosition)
-            }
-            itemView.setOnLongClickListener{
-                mItemClickListener.onLongClick(adapterPosition)
-                return@setOnLongClickListener true
-            }
-        }
-        @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
-        fun bind(data: CareerRVItemData) {
-            viewBinding.activityMyprofileCareerListItemTvName.text = data.title
-            viewBinding.activityMyprofileCareerListItemTvContent.text = data.position
-            viewBinding.activityMyprofileCareerListItemTvStartPeriod.text = data.start
-            viewBinding.activityMyprofileCareerListItemTvEndPeriod.text = data.end
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(position)
         }
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return dataList[position].type
-//    }
-
-    //viewHolder 만들어질때 실행할 동작들
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val Binding = ItemSomeoneprofileCareerBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false)
-
-        return   DataViewHolder(Binding)
-
+    override fun getItemCount(): Int {
+        return dataList.size
     }
 
-    //viewHolder가 실제로 데이터를 표시해야할 때 호출되는 함수
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        (holder as DataViewHolder).bind(dataList[position])
-        //holder.setIsRecyclable(false)
-
-
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
+        itemClickListener = onItemClickListener
     }
-    //표현할 item의 총 개수
-    override fun getItemCount(): Int = dataList.size
-
-    fun addItem(data : CareerRVItemData) {
-        dataList.add(data);
-    }
-
-    fun getItem(position : Int): CareerRVItemData {
-        return dataList.get(position);
-    }
-
-    fun addUserItems(data: CareerRVItemData){
-        dataList.add(data)
-        notifyItemInserted(getItemCount()-1)
-    }
-
 }
