@@ -1,11 +1,59 @@
 <resources>
     <string name="app_name">garamgaebi</string>
+    <string name="app_name_korean">가람개비</string>
+    <string name="app_desc_1">가천대생들을 위한 커뮤니티</string>
+    <string name="app_desc_2">가람개비에서\n가천대 선후배를 찾아봐요!</string>
 
     <!-- Naming Rules -->
     <!-- 도메인명_컴포넌트함축어_용도(=목적) -->
 
     <!-- Common -->
+    <string name="example">example</string>
+    <string name="email_form">\@gachon.ac.kr</string>
+    <string name="user">가람개비 유저</string>
+    <string name="no_recommend_user">추천 유저가 없습니다</string>
 
+    <string name="kakao_login">카카오 로그인</string>
+    <string name="apple">APPLE</string>
+
+    <string name="nickName">닉네임</string>
+
+    <string name="belong">소속</string>
+
+    <string name="career">경력</string>
+    <string name="company">회사</string>
+    <string name="position">직함</string>
+    <string name="working">재직 중</string>
+
+    <string name="education">교육</string>
+    <string name="institution">교육기관</string>
+    <string name="major">전공/과정</string>
+    <string name="learning">교육 중</string>
+
+    <string name="email">이메일</string>
+
+    <string name="working_period">재직 기간</string>
+    <string name="start_date">시작년월</string>
+    <string name="end_date">종료년월</string>
+    <string name="profile_save">프로필 저장</string>
+    <string name="start">시작하기</string>
+    <string name="next">다음</string>
+
+    <string name="bank">은행</string>
+    
+    <string name="gathering">모아보기</string>
+    <string name="seminar">세미나</string>
+    <string name="networking">네트워킹</string>
+    <string name="my_meeting">내 모임</string>
+    <string name="no_meeting_desc">예정된 내 모임이 없습니다\n모임을 신청해주세요:)</string>
+    <string name="gathering_seminar">세미나 모아보기</string>
+    <string name="gathering_networking">네트워킹 모아보기</string>
+
+    <string name="no_seminar1">세미나가 없습니다</string>
+    <string name="no_networking1">네트워킹이 없습니다</string>
+    <string name="close">닫기</string>
+    <string name="check">확인</string>
+    
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>
     <string name="main_btm_nav_my_page_title">마이페이지</string>
@@ -21,6 +69,54 @@
     <string name="my_page_tv_counter">%1d 번 눌렀습니다.</string>
     <string name="my_page_btn_counting_number">숫자 세기</string>
 
+    <!-- Register -->
+
+    <!-- Register_NickName -->
+    <string name="register_nickname_desc">가람개비에서 사용할\n당신의 닉네임을 설정해주세요</string>
+    <string name="register_input_nickname_desc">닉네임을 입력해주세요 (최대 8글자)</string>
+    <string name="register_nickname_state">닉네임 조건</string>
+
+    <!-- Register_Authentication-->
+    <string name="school_certification">가천대생 인증</string>
+    <string name="school_certification_desc">가람개비 사용을위해서는 가천대생 인증이 필요해요\n가천대학교 이메일 인증을 진행해주세요</string>
+    <string name="send_email">이메일 발송하기</string>
+    <string name="check_email_desc">메일을 받지 못하신 경우, 스팸 메일함을 확인해주세요.</string>
+    <string name="certification_num">인증번호 6자리</string>
+    <string name="certification_num_check">인증번호 확인</string>
+
+    <!-- Register_Email -->
+    <string name="register_email_desc">프로필에 기재할\n이메일 주소를 알려주세요</string>
+    <string name="register_input_email_desc">이메일 주소를 입력주세요</string>
+    <string name="register_email_state">이메일 조건</string>
+
+    <!-- Register_Belong -->
+    <string name="register_belong_desc">자신을 표현해봐요</string>
+
+    <!-- Register_Career -->
+    <string name="register_career_desc">재직 중이 아니라면\n가장 최근에 일한 곳을 알려주세요</string>
+    <string name="register_input_company_desc">회사명을 입력해주세요</string>
+    <string name="register_input_position_desc">직함을 입력주세요(예: 백엔드 개발자)</string>
+    <string name="register_no_career">아직 경력이 없으신가요?</string>
+    <string name="register_go_education">교육 입력하기</string>
+
+    <!-- Register_Education -->
+    <string name="register_education_desc">가장 최근에 소속되었던\n교육기관을 알려주세요</string>
+    <string name="register_input_institution_desc">교육기관을 입력주세요</string>
+    <string name="register_input_major">전공/과정을 입력해주세요 (예: 웹 개발 과정)</string>
+    <string name="register_yes_career">경력이 있으신가요?</string>
+    <string name="register_go_career">경력 입력하기</string>
+
+    <!-- Register_Complete -->
+    <string name="register_complete">가입이\n완료되었습니다</string>
+    <string name="register_welcome_user">사용자님, 환영합니다</string>
+    <string name="register_agree_all">전체 동의하기</string>
+    <string name="register_agree_over_14">(필수) 만 14세 이상이에요</string>
+    <string name="register_agree_term">(필수) 이용약관 및 개인정보수집이용 동의</string>
+
+    <!-- Dialog -->
+    <string name="cancel_dialog">신청 취소가 완료되었습니다"</string>
+    <string name="home_networking_help_dialog">네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다</string>
+    <string name="home_seminar_help_dialog">세미나는 발표 위주로 진행되는 행사입니다.</string>
 
     <!-- Profile -->
     <string name="some_id">로건</string>
@@ -38,6 +134,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- seminar -->
+    <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
+    <string name="seminar_select_bank">은행을 선택해주세요</string>
+    <string name="no_seminar">이번 달은 세미나가 없습니다</string>
+    <string name="scheduled_seminar">예정된 세미나</string>
+    <string name="last_seminar">마감된 세미나</string>
+    <string name="no_last_seminar">마감된 세미나가 없습니다</string>
+
     <string name="seminar_name">신디</string>
     <string name="seminar_job">재학생</string>
     <string name="seminar_title">docker에 대해 알아보자</string>
@@ -52,9 +155,16 @@
     <string name="seminar_charged_info5">입금이 완료되지 않으면 신청이 자동적으로 취소됩니다.</string>
 
     <!--seminar network apply 공통 string -->
+    <string name="when">일시</string>
+    <string name="where">장소</string>
+    <string name="cost">참가비</string>
+    <string name="deadline">신청 마감</string>
+    <string name="weather">날씨</string>
+    <string name="open_soon">오픈예정</string>
+
     <string name="origin_profile_name">신디</string>
     <string name="origin_title">2차 세미나</string>
-    <string name="origin_date">2023-02-10 오후 6시</string>
+    <string name="origin_date">2023–02-10 오후 6시</string>
     <string name="origin_place">가천대학교 비전타워 B201</string>
     <string name="origin_pay">무료</string>
     <string name="origin_deadline">2023-01-09 오후 6시</string>
@@ -74,10 +184,18 @@
     <string name="networking_icebreaking_info1">아이스브레이킹 참여는</string>
     <string name="networking_icebreaking_info2">네트워킹 당일 정해진 시간에 오픈합니다.</string>
     <string name="networking_apply">참가하기</string>
+    <string name="no_networking">이번 달은 네트워킹이 없습니다</string>
+    <string name="scheduled_networking">예정된 네트워킹</string>
+    <string name="last_networking">지난 네트워킹</string>
 
     <!--networking game-->
     <string name="game_name">신디</string>
     <string name="game_place">가천관</string>
 
+    <!-- gathering -->
+    <string name="scheduled_meeting">예정된 모임</string>
+    <string name="last_meeting">지난 모임</string>
+    <string name="networking_this_month">이번 달 네트워킹</string>
+    <string name="seminar_this_month">이번 달 세미나</string>
 
 </resources>

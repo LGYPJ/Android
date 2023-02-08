@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="모아보기"
+                android:text="@string/gathering"
                 android:textSize="24sp"
                 android:textColor="@color/black80"
                 android:textStyle="bold"
