@@ -1,6 +1,7 @@
 package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingLastBinding
@@ -24,15 +25,15 @@ class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringP
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.root.setOnClickListener {
-            itemClickListener.onClick(position)
+        holder.binding.itemGatheringMyMeetingLastIvMore.setOnClickListener {
+            itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingLastIvMore)
         }
     }
 
     override fun getItemCount(): Int = dataList.size
 
     interface OnItemClickListener {
-        fun onClick(position: Int)
+        fun onMoreClick(position: Int, v : View)
     }
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         itemClickListener = onItemClickListener
