@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.networking
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,17 +16,16 @@ import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
+import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind ,R.layout.fragment_networking) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    private val viewModel by viewModels<NetworkingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //뷰모델
-        val viewModel = ViewModelProvider(this)[NetworkingViewModel::class.java]
 
         //프로필 어댑터 연결
         viewModel.getNetworkingParticipants(1,1)

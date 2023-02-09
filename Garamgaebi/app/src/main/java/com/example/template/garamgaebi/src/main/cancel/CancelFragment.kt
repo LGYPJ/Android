@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
@@ -16,12 +17,13 @@ import com.example.template.garamgaebi.databinding.FragmentCancelBinding
 import com.example.template.garamgaebi.model.CancelRequest
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
+import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //private val completeDialog = context?.let { Dialog(it) }
+    private val viewModel by viewModels<ApplyViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,7 +69,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelApplyBtn.setOnClickListener {
             //신청 완료 api
-            val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
             viewModel.postCancel(CancelRequest(0,0,"국민", "11111111111"))
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
                 if(!it.isSuccess){

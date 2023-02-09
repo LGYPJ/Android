@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,19 +19,17 @@ import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
+import com.example.template.garamgaebi.viewModel.ApplyViewModel
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-
+    private val viewModel by viewModels<SeminarViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //뷰모델
-        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
 
         //프로필 어댑터 연결
         viewModel.getSeminarParticipants(8,1)
