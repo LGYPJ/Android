@@ -29,10 +29,12 @@ class ApplyViewModel : ViewModel() {
     val inputNickName : MutableLiveData<String> = MutableLiveData("")
     //전화번호
     val inputPhone : MutableLiveData<String> = MutableLiveData("")
+    //계좌번호
+    val inputAccount : MutableLiveData<String> = MutableLiveData("")
 
     fun postCancel(cancelRequest: CancelRequest) {
         viewModelScope.launch {
-            val response = applyRepository.postCancel(cancelRequest)
+            val response = applyRepository.postCancel(CancelRequest(1,6,))
             Log.d("cancel", response.body().toString())
             if(response.isSuccessful){
                 _cancel.postValue(response.body())
@@ -45,8 +47,8 @@ class ApplyViewModel : ViewModel() {
 
     fun postEnroll(){
         viewModelScope.launch {
-            val response = applyRepository.postEnroll(EnrollRequest(1,6, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
-            Log.d("enroll", EnrollRequest(1,6, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
+            val response = applyRepository.postEnroll(EnrollRequest(22,8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
+            Log.d("enroll", EnrollRequest(22,8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
             if(response.isSuccessful){
                 _enroll.postValue(response.body())
             }
@@ -59,11 +61,11 @@ class ApplyViewModel : ViewModel() {
     fun getNameText() : MutableLiveData<String> = inputName
     fun getNickNameText() : MutableLiveData<String> = inputNickName
     fun getPhoneText() : MutableLiveData<String> = inputPhone
+    fun getAccountText() : MutableLiveData<String> = inputAccount
 
     /*fun convertDate(date: String?): String? {
-        val dateFormat = "yyyy-MM-dd hh:mm '시'"
-        val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
-        return simpleDateFormat.format(date)
+        val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm '시'")
+        return date?.let { formatter.parse(it)?.toString() }
     }*/
 
 }

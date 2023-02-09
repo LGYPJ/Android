@@ -27,8 +27,8 @@ class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetin
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
-        viewModel.getGatheringProgramReady(1)
-        viewModel.getGatheringProgramClosed(1)
+        viewModel.getGatheringProgramReady(22)
+        viewModel.getGatheringProgramClosed(22)
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
