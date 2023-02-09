@@ -14,7 +14,7 @@ import com.example.template.garamgaebi.adapter.HomeMyMeetingRVAdapter
 import com.example.template.garamgaebi.adapter.HomeNetworkingRVAdapter
 import com.example.template.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.example.template.garamgaebi.adapter.HomeUserItemRVAdapter
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentHomeBinding
 import com.example.template.garamgaebi.model.HomeNetworkingResult
 import com.example.template.garamgaebi.model.HomeProgramResult
@@ -27,7 +27,7 @@ import com.example.template.garamgaebi.src.main.seminar.HomeSeminarHelpDialog
 import com.example.template.garamgaebi.viewModel.HomeViewModel
 
 
-class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
@@ -55,7 +55,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
-            if(result.isEmpty() || result == null) {
+            if(result.isEmpty()) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                 constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
             } else {
@@ -89,7 +89,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.networking.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
-            if(result.isEmpty() || result == null) {
+            if(result.isEmpty()) {
                 binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             } else {
                 networkingRVAdapter = HomeNetworkingRVAdapter(result)
@@ -120,7 +120,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
-            if(result.isEmpty() || result == null) {
+            if(result.isEmpty()) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             } else {
                 userRVAdapter = HomeUserItemRVAdapter(result)
@@ -142,7 +142,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
-            if (result.isEmpty() || result == null) {
+            if (result.isEmpty()) {
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             } else {
                 myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
