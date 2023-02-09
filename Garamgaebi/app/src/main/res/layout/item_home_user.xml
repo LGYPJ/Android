@@ -1,73 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="120dp"
+    android:layout_height="184dp"
+    android:background="@drawable/fragment_home_user_profile_border">
 
-    <data>
-        <variable
-            name="model"
-            type="com.example.template.garamgaebi.model.HomeUserResult"/>
-    </data>
+    <ImageView
+        android:id="@+id/item_home_user_iv_profile"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        android:background="@drawable/fragment_home_user_iv_border"
+        android:src="@drawable/ic_launcher_background"
+        android:backgroundTint="@color/grayD9"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="120dp"
-        android:layout_height="184dp">
+    <TextView
+        android:id="@+id/item_home_user_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@{model.nickName}"
+        android:textColor="@color/black80"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/item_home_user_tv_org"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_home_user_iv_profile" />
 
-        <ImageView
-            android:id="@+id/item_home_user_profile_img"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_launcher_background"
-            android:background="@drawable/fragment_home_user_profile_border"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/item_home_user_cl_info" />
+    <TextView
+        android:id="@+id/item_home_user_tv_org"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{model.group}"
+        android:textColor="@color/black80"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/item_home_user_tv_major"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_home_user_tv_nickname" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_home_user_cl_info"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/fragment_home_user_info_border"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_home_user_profile_img">
-
-            <TextView
-                android:id="@+id/item_home_user_tv_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@{model.nickName}"
-                android:textColor="@color/black80"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/item_home_user_tv_org"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/item_home_user_tv_org"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{model.group}"
-                android:textColor="@color/black80"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_home_user_tv_nickname"
-                app:layout_constraintBottom_toTopOf="@id/item_home_user_tv_major" />
-
-            <TextView
-                android:id="@+id/item_home_user_tv_major"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{model.detail}"
-                android:textColor="@color/black80"
-                android:textSize="12sp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_home_user_tv_org" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <TextView
+        android:id="@+id/item_home_user_tv_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@{model.detail}"
+        android:textColor="@color/black80"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_home_user_tv_org" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.databinding.ItemHomeNetworkingClosedBinding
 import com.example.template.garamgaebi.databinding.ItemHomeNetworkingScheduledBinding
 import com.example.template.garamgaebi.databinding.ItemHomeNetworkingThismonthBinding
@@ -12,17 +13,43 @@ class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingRes
     private lateinit var itemClickListener: OnItemClickListener
     inner class ThisMonthViewHolder(val binding: ItemHomeNetworkingThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            binding.model = data
+            if(data.payment == "PREMIUM")
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            else
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            with(binding) {
+                itemHomeNetworkingTvName.text = data.title
+                itemHomeNetworkingTvDateData.text = data.date
+                itemHomeNetworkingTvPlaceData.text = data.location
+                itemHomeNetworkingTvDDay.text = "D-day"
+            }
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeNetworkingScheduledBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            binding.model = data
+            if(data.payment == "PREMIUM")
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            else
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            with(binding) {
+                itemHomeNetworkingTvName.text = data.title
+                itemHomeNetworkingTvDateData.text = data.date
+                itemHomeNetworkingTvPlaceData.text = data.location
+                itemHomeNetworkingTvDDay.text = "D-day"
+            }
         }
     }
     inner class ClosedViewHolder(val binding: ItemHomeNetworkingClosedBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeNetworkingResult) {
-            binding.model = data
+            if(data.payment == "PREMIUM")
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            else
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            with(binding) {
+                itemHomeNetworkingTvName.text = data.title
+                itemHomeNetworkingTvDateData.text = data.date
+                itemHomeNetworkingTvPlaceData.text = data.location
+            }
         }
     }
 
