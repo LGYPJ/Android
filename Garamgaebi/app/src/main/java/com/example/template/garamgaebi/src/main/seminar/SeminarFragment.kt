@@ -50,7 +50,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
+                //addItemDecoration(SeminarVerticalItemDecoration())
             }
             //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
             presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{

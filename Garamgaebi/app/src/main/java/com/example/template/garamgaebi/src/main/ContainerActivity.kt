@@ -34,7 +34,14 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-           onBackPressed()
+            if(isSeminar()){
+                finish()
+            }
+            if(isNetworking()){
+                finish()
+            }else{
+                onBackPressed()
+            }
         }
 
     }
@@ -240,11 +247,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
 
 
-    fun isGame ():Boolean {
+    fun isSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
-            if (fragment is NetworkingGamePlaceFragment) {
+            if (fragment is SeminarFragment) {
                 returnValue = true
             }
         }

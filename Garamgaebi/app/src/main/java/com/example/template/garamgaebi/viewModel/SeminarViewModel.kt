@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
@@ -37,8 +38,7 @@ class SeminarViewModel : ViewModel(){
     val info : LiveData<SeminarDetailInfoResponse>
     get() = _info
 
-    val pay : MutableLiveData<String> = MutableLiveData("무료")
-
+    //val pay : MutableLiveData<String> = MutableLiveData("무료")
     fun getSeminarsInfo(seminarIdx : Int) {
         viewModelScope.launch {
             val response = seminarRepository.getSeminarsInfo(6)
@@ -54,7 +54,7 @@ class SeminarViewModel : ViewModel(){
     }
     fun getSeminarParticipants(seminarIdx : Int, memberIdx: Int) {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarParticipants(8,1)
+            val response = seminarRepository.getSeminarParticipants(8,sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
                 _seminarParticipants.postValue(response.body())
@@ -67,7 +67,7 @@ class SeminarViewModel : ViewModel(){
 
     fun getSeminarDetail(seminarIdx: Int,memberIdx: Int) {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarDetail(6,1)
+            val response = seminarRepository.getSeminarDetail(6,sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
                 //date 가공

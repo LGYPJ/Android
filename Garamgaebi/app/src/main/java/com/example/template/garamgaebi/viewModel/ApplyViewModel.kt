@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ApplyRepository
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ class ApplyViewModel : ViewModel() {
 
     fun postCancel(cancelRequest: CancelRequest) {
         viewModelScope.launch {
-            val response = applyRepository.postCancel(CancelRequest(1,6,))
+            val response = applyRepository.postCancel(CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),6,))
             Log.d("cancel", response.body().toString())
             if(response.isSuccessful){
                 _cancel.postValue(response.body())
@@ -47,8 +48,8 @@ class ApplyViewModel : ViewModel() {
 
     fun postEnroll(){
         viewModelScope.launch {
-            val response = applyRepository.postEnroll(EnrollRequest(22,8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
-            Log.d("enroll", EnrollRequest(22,8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
+            val response = applyRepository.postEnroll(EnrollRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
+            Log.d("enroll", EnrollRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
             if(response.isSuccessful){
                 _enroll.postValue(response.body())
             }

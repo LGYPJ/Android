@@ -47,6 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         with(GaramgaebiApplication.sSharedPreferences.edit()) {
                             putString(X_ACCESS_TOKEN, response.body()?.result?.accessToken)
                             putString(X_REFRESH_TOKEN, response.body()?.result?.refreshToken)
+                            response.body()?.result?.let { putInt("memberIdx", it.memberIdx) }
                             apply()
                         }
                     }
