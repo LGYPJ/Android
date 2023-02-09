@@ -44,7 +44,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
             addItemDecoration(NetworkingGameSelectVerticalItemDecoration())
         }
 
-        //viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
+
         networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 containerActivity!!.openFragmentOnFrameLayout(8)
