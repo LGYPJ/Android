@@ -73,7 +73,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         //세미나 상세 정보
         viewModel.getSeminarDetail(6,1)
         viewModel.info.observe(viewLifecycleOwner, Observer {
-                val item = it.result
+            val item = it.result
             binding.activitySeminarFreeTitleTv.text = item.title
             binding.activitySeminarFreeDateDetailTv.text = item.date
             binding.activitySeminarFreePlaceDetailTv.text = item.location
