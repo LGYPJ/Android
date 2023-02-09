@@ -10,7 +10,7 @@
         android:paddingTop="8dp"
         android:paddingStart="24dp"
         android:backgroundTint="@color/black80"
-        android:text="네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다"
+        android:text="@string/home_networking_help_dialog"
         android:textColor="@color/blueForBtn"
         android:textSize="12sp"
         android:gravity="center_vertical"

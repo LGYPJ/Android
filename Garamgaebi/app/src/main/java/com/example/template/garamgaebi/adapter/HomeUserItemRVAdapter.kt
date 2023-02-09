@@ -3,6 +3,8 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.databinding.ItemHomeUserBinding
 import com.example.template.garamgaebi.model.HomeUserResult
 
@@ -11,7 +13,14 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
     inner class ViewHolder( val binding: ItemHomeUserBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
-            binding.model = data
+            with(binding) {
+                itemHomeUserIvProfile.clipToOutline = true
+                itemHomeUserTvNickname.text = data.nickName
+                itemHomeUserTvOrg.text = data.group
+                itemHomeUserTvMajor.text = data.detail
+            }
+            Glide.with(itemView).load(R.drawable.ic_launcher_background)
+                .into(binding.itemHomeUserIvProfile)
         }
     }
 

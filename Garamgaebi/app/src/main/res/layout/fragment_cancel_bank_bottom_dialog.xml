@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="은행을 선책해주세요"
+            android:text="@string/seminar_select_bank"
             android:textColor="@color/black80"
             android:textSize="20sp"
             android:textStyle="bold"

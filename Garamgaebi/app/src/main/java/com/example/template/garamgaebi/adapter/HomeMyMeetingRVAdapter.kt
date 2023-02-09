@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemHomeMyMeetingBinding
+
 import com.example.template.garamgaebi.model.HomeProgramResult
 
 class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>): RecyclerView.Adapter<HomeMyMeetingRVAdapter.ViewHolder>() {
@@ -11,7 +12,13 @@ class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>)
     inner class ViewHolder( val binding: ItemHomeMyMeetingBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeProgramResult){
-            binding.model = data
+            with(binding){
+                itemHomeMyMeetingTvName.text = data.title
+                itemHomeMyMeetingTvDate.text = data.date
+                itemHomeMyMeetingTvPlace.text = data.location
+            }
+
+
         }
     }
 

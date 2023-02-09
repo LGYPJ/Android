@@ -1,345 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="thisMonthModel"
-            type="com.example.template.garamgaebi.model.GatheringSeminarResult"/>
-        <variable
-            name="nextMonthModel"
-            type="com.example.template.garamgaebi.model.GatheringSeminarResult"/>
-        <variable
-            name="viewModel"
-            type="com.example.template.garamgaebi.viewModel.GatheringViewModel" />
-    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_gathering_seminar_cl_parent"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_gathering_seminar_cl_parent"
+    <androidx.core.widget.NestedScrollView
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/fragment_gathering_seminar_tv_this_month"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:text="@string/seminar_this_month"
+                android:textColor="@color/black80"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/fragment_gathering_seminar_tv_this_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이번 달 세미나"
-                    android:textColor="@color/black80"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_margin="16dp" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fragment_gathering_seminar_cl_this_month"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:background="@drawable/home_seminar_item_border"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{thisMonthModel.title}"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="날짜"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_this_month_tv_place"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_date_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{thisMonthModel.date}"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toTopOf="@+id/fragment_gathering_seminar_this_month_tv_place_data"
-                        app:layout_constraintStart_toEndOf="@+id/fragment_gathering_seminar_this_month_tv_date" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="장소"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_place_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="@{thisMonthModel.location}"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toEndOf="@id/fragment_gathering_seminar_this_month_tv_place"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_d_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="D day"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:layout_margin="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fragment_gathering_seminar_this_month_cl_blank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/fragment_home_my_meetings_blank_border"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
-
-                    <ImageView
-                        android:id="@+id/fragment_gathering_seminar_this_month_iv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/ic_fragment_home_my_meetings_blank"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_this_month_tv_blank" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_this_month_tv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="이번 달은 세미나가 없습니다"
-                        android:textAlignment="center"
-                        android:textColor="@color/grayD9"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_this_month_iv_blank" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/home_seminar_item_border"
+                android:id="@+id/fragment_gathering_seminar_cl_this_month"
+                android:layout_height="140dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent">
 
                 <TextView
-                    android:id="@+id/fragment_gathering_seminar_tv_scheduled"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_name"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="예정된 세미나"
-                    android:textColor="@color/black80"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fragment_gathering_seminar_cl_scheduled"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:background="@drawable/home_seminar_item_border"
-                    android:backgroundTint="@color/home_seminar_scheduled_blue"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{nextMonthModel.title}"
-                        android:textColor="@color/black50"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:layout_margin="16dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="날짜"
-                        android:textColor="@color/black50"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_place"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_date_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{nextMonthModel.date}"
-                        android:textColor="@color/black50"
-                        android:textSize="14sp"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toTopOf="@+id/fragment_gathering_seminar_scheduled_tv_place_data"
-                        app:layout_constraintStart_toEndOf="@+id/fragment_gathering_seminar_scheduled_tv_date" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="장소"
-                        android:textColor="@color/black50"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_place_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="@{nextMonthModel.location}"
-                        android:textSize="14sp"
-                        android:textColor="@color/black50"
-                        app:layout_constraintStart_toEndOf="@id/fragment_gathering_seminar_scheduled_tv_place"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_d_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="오픈예정"
-                        android:textColor="@color/black50"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:layout_margin="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fragment_gathering_seminar_scheduled_cl_blank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/fragment_home_my_meetings_blank_border"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
-
-                    <ImageView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_iv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/ic_fragment_home_my_meetings_blank"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_blank" />
-
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_scheduled_tv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="예정된 세미나가 없습니다"
-                        android:textAlignment="center"
-                        android:textColor="@color/grayD9"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_scheduled_iv_blank" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/fragment_gathering_seminar_tv_closed"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="마감된 세미나"
-                    android:textColor="@color/black80"
-                    android:textSize="18sp"
+                    android:text="@{thisMonthModel.title}"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_gathering_seminar_cl_scheduled" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fragment_gathering_seminar_rv_closed"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_date"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/when"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_this_month_tv_place"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_date_data"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@{thisMonthModel.date}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/fragment_gathering_seminar_this_month_tv_place_data"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_gathering_seminar_this_month_tv_date" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_place"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:overScrollMode="never" />
+                    android:layout_width="wrap_content"
+                    android:text="@string/where"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fragment_gathering_seminar_closed_cl_blank"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_place_data"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_margin="16dp"
-                    android:background="@drawable/fragment_home_my_meetings_blank_border"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
+                    android:layout_width="wrap_content"
+                    android:text="@{thisMonthModel.location}"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_gathering_seminar_this_month_tv_place" />
 
-                    <ImageView
-                        android:id="@+id/fragment_gathering_seminar_closed_iv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/ic_fragment_home_my_meetings_blank"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_closed_tv_blank" />
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_d_day"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="D day"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/fragment_gathering_seminar_closed_tv_blank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="마감된 세미나가 없습니다"
-                        android:textAlignment="center"
-                        android:textColor="@color/grayD9"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_closed_iv_blank" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/fragment_home_my_meetings_blank_border"
+                android:id="@+id/fragment_gathering_seminar_this_month_cl_blank"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+                <ImageView
+                    android:id="@+id/fragment_gathering_seminar_this_month_iv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_fragment_home_my_meetings_blank"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_this_month_tv_blank"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_this_month_tv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/no_seminar"
+                    android:textAlignment="center"
+                    android:textColor="@color/grayD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_this_month_iv_blank" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/fragment_gathering_seminar_tv_scheduled"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_width="wrap_content"
+                android:text="@string/scheduled_seminar"
+                android:textColor="@color/black80"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/home_seminar_item_border"
+                android:backgroundTint="@color/home_seminar_scheduled_blue"
+                android:id="@+id/fragment_gathering_seminar_cl_scheduled"
+                android:layout_height="140dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_name"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@{nextMonthModel.title}"
+                    android:textColor="@color/black50"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_date"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/when"
+                    android:textColor="@color/black50"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_place"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_date_data"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@{nextMonthModel.date}"
+                    android:textColor="@color/black50"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/fragment_gathering_seminar_scheduled_tv_place_data"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_gathering_seminar_scheduled_tv_date" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_place"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/where"
+                    android:textColor="@color/black50"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_place_data"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@{nextMonthModel.location}"
+                    android:textColor="@color/black50"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_gathering_seminar_scheduled_tv_place" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_d_day"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/open_soon"
+                    android:textColor="@color/black50"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/fragment_home_my_meetings_blank_border"
+                android:id="@+id/fragment_gathering_seminar_scheduled_cl_blank"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
+
+                <ImageView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_iv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_fragment_home_my_meetings_blank"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_scheduled_tv_blank"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_scheduled_tv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/no_seminar"
+                    android:textAlignment="center"
+                    android:textColor="@color/grayD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_scheduled_iv_blank" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/fragment_gathering_seminar_tv_closed"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_width="wrap_content"
+                android:text="@string/last_seminar"
+                android:textColor="@color/black80"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_gathering_seminar_cl_scheduled" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_gathering_seminar_rv_closed"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:overScrollMode="never" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/fragment_home_my_meetings_blank_border"
+                android:id="@+id/fragment_gathering_seminar_closed_cl_blank"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_tv_this_month">
+
+                <ImageView
+                    android:id="@+id/fragment_gathering_seminar_closed_iv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_fragment_home_my_meetings_blank"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_gathering_seminar_closed_tv_blank"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fragment_gathering_seminar_closed_tv_blank"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="@string/no_last_seminar"
+                    android:textAlignment="center"
+                    android:textColor="@color/grayD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_gathering_seminar_closed_iv_blank" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
