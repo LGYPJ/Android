@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.template.garamgaebi.viewModel.GatheringViewModel" />
+            type="com.example.template.garamgaebi.viewModel.ApplyViewModel" />
 
     </data>
 
@@ -220,7 +220,10 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@drawable/activity_cancel_background_white"
-            android:hint="@string/seminar_input_account_number"
+
+            android:hint="계좌번호를 입력해주세요"
+            android:text="@={item.inputAccount}"
+
             android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginTop="12dp"

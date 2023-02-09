@@ -45,7 +45,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
 
         //발표 어댑터 연결
         viewModel.getSeminarsInfo(8)
-        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+        viewModel.presentation.observe(viewLifecycleOwner, Observer { it ->
             val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter

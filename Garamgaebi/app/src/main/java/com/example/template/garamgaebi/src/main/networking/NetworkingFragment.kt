@@ -64,6 +64,8 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         binding.activityNetworkParticipateBtn.setOnClickListener {
             //viewModel.selectItem("아이스브레이킹")
             containerActivity!!.openFragmentOnFrameLayout(7)
+            val temp = "아이스브레이킹"
+            containerActivity!!.iceBreaking(temp)
         }
 
     }

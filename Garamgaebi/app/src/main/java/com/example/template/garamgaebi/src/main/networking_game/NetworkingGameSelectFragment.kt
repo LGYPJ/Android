@@ -3,12 +3,17 @@ package com.example.template.garamgaebi.src.main.networking_game
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.NetworkingGameSelectAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGameSelectBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import com.example.template.garamgaebi.viewModel.NetworkingGameViewModel
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBinding>(FragmentNetworkingGameSelectBinding::bind, R.layout.fragment_networking_game_select) {
 
@@ -28,6 +33,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
     )
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,7 +44,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
             addItemDecoration(NetworkingGameSelectVerticalItemDecoration())
         }
 
-        //viewModel = ViewModelProvider(this)[ItemViewModel::class.java]
+
         networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 containerActivity!!.openFragmentOnFrameLayout(8)
@@ -46,6 +52,14 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
                 containerActivity!!.networkingPlace(temp)
 
             }
+
+        })
+
+        //웹소켓 구현
+        val viewModel = ViewModelProvider(this)[NetworkingGameViewModel::class.java]
+
+        viewModel.connectStomp("cindy")
+        viewModel.message.observe(viewLifecycleOwner, Observer { it ->
 
         })
 
