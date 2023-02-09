@@ -19,13 +19,14 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //신청 등록 뷰모델
-    val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activityNetworkFreeApplyBtn.isEnabled = false
 
+        //신청 등록 뷰모델
+        val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
 
         // et selected 여부에 따라 drawable 결정
         binding.activityNetworkFreeApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
