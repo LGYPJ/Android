@@ -43,13 +43,10 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.setOnClickListener {
             val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
                 binding.activityCancelBankTv.text = it
-                with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                    putString(
-                        GaramgaebiApplication.X_ACCESS_TOKEN,
-                        it
-                    )
-                    apply()
-                }
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putString(GaramgaebiApplication.X_ACCESS_TOKEN, it)
+                    .apply()
+
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
                 isBank()
             }
@@ -69,7 +66,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelApplyBtn.setOnClickListener {
             //신청 완료 api
-            viewModel.postCancel(CancelRequest(0,0,"국민", "11111111111"))
+            viewModel.postCancel()
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
                 if(!it.isSuccess){
                     //showDialog()
@@ -130,19 +127,5 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
-
-    // 신청완료 다이얼 로그
-    /*private fun showDialog(){
-        completeDialog?.show()
-        completeDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val complete = completeDialog?.findViewById<View>(R.id.dialog_cancel_complete_btn)
-        complete?.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
-    }*/
-
-
 
 }

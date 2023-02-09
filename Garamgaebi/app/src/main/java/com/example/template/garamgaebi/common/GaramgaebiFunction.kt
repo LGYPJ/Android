@@ -22,13 +22,4 @@ class GaramgaebiFunction {
         }
 
     }
-
-    //fee가 0이면 무료로 출력
-    fun getFee(realFee : String? = null): String? {
-        return if(realFee == "0"){
-            "무료"
-        } else{
-            realFee
-        }
-    }
 }

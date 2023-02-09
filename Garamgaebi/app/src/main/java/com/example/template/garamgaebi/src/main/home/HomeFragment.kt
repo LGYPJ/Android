@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.getHomeSeminar()
         viewModel.getHomeNetworking()
         viewModel.getHomeUser()
-        viewModel.getHomeProgram(1)
+        viewModel.getHomeProgram(22)
 
         // 세미나
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
+                        it.result[position].programIdx
                     }
                 })
             }

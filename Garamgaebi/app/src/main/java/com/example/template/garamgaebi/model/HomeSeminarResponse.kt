@@ -8,7 +8,7 @@ data class HomeSeminarResponse(
 ): BaseResponse()
 
 data class HomeSeminarResult(
-    @SerializedName("presentationIdx") val presentationIdx : Int,
+    @SerializedName("programIdx") val programIdx : Int,
     @SerializedName("title") val title: String,
     @SerializedName("date")val date : String,
     @SerializedName("location")val location : String,
@@ -16,5 +16,4 @@ data class HomeSeminarResult(
     @SerializedName("payment") val payment : String,
     @SerializedName("status") val status : String,
     @SerializedName("isOpen") val isOpen : String
-
 )

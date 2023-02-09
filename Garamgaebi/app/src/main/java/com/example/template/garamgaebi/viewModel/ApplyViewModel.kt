@@ -33,15 +33,15 @@ class ApplyViewModel : ViewModel() {
     //계좌번호
     val inputAccount : MutableLiveData<String> = MutableLiveData("")
 
-    fun postCancel(cancelRequest: CancelRequest) {
+    fun postCancel() {
         viewModelScope.launch {
-            val response = applyRepository.postCancel(CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),6,))
+            val response = applyRepository.postCancel(CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8, ))
             Log.d("cancel", response.body().toString())
             if(response.isSuccessful){
                 _cancel.postValue(response.body())
             }
             else {
-                //response.body()?.message?.let { Log.d("error", it) }
+                response.body()?.errorMessage?.let { Log.d("error", it) }
             }
         }
     }
