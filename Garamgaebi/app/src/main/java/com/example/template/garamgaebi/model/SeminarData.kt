@@ -33,7 +33,7 @@ data class SeminarDetailInfoResult(
     val title: String="",
     var date: String="",
     val location: String="",
-    val fee: Int=-1,
+    var fee: Int=-1,
     var endDate: String="",
     val programStatus: String="",
     val userButtonStatus: String=""

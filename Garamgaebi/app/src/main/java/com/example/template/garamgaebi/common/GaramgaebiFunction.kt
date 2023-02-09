@@ -9,7 +9,7 @@ class GaramgaebiFunction {
     fun getDay(date : String): String{
         return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-mm-dd")).toString()
     }
-
+    //날짜 데이터 변환
     fun getDate(realDate : String):String {
         val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         val date = LocalDateTime.parse(realDate, pattern)
@@ -21,5 +21,14 @@ class GaramgaebiFunction {
             date.format(pattern2)
         }
 
+    }
+
+    //fee가 0이면 무료로 출력
+    fun getFee(realFee : String? = null): String? {
+        return if(realFee == "0"){
+            "무료"
+        } else{
+            realFee
+        }
     }
 }

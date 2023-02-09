@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
 import com.example.template.garamgaebi.repository.NetworkingRepository
@@ -46,6 +47,11 @@ class NetworkingViewModel : ViewModel(){
             val response = networkingRepository.getNetworkingInfo(1,1)
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
+                //날짜 데이터 변환
+                response.body()?.result?.date =
+                    response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
+                response.body()?.result?.endDate =
+                    response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
                 _networkingInfo.postValue(response.body())
             }
             else{

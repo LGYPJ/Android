@@ -95,11 +95,12 @@ class SeminarViewModel : ViewModel(){
                 else{
                     response.body()?.result?.endDate = dateEnd.format(pattern2End)
                 }*/
-
+                //날짜 데이터 변환
                 response.body()?.result?.date =
                     response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
                 response.body()?.result?.endDate =
                     response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
+
                 _info.postValue(response.body())
             }
             else{

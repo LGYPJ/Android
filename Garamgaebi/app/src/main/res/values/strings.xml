@@ -178,6 +178,7 @@
     <string name="origin_name_input">이름을 입력해주세요</string>
     <string name="origin_nickname_input">닉네임을 입력해주세요</string>
     <string name="origin_phone_input">전화번호를 입력해주세요</string>
+    <string name="main_fee">%s원</string>
 
     <!--networking-->
     <string name="networking_icebreaking">아이스 브레이킹</string>

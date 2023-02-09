@@ -77,7 +77,12 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             binding.activitySeminarFreeTitleTv.text = item.title
             binding.activitySeminarFreeDateDetailTv.text = item.date
             binding.activitySeminarFreePlaceDetailTv.text = item.location
-            binding.activitySeminarFreePayDetailTv.text = item.fee.toString()
+            if(item.fee.toString() == "0"){
+                binding.activitySeminarFreePayDetailTv.text = "무료"
+            }
+            else{
+                binding.activitySeminarFreePayDetailTv.text = getString(R.string.main_fee, item.fee.toString())
+            }
             binding.activitySeminarFreeDeadlineDetailTv.text = item.endDate
                 //버튼 상태 추가하기
                 /*if (item.userButtonStatus == "ApplyComplete") {

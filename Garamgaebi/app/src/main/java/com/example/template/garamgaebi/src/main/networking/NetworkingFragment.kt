@@ -45,7 +45,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             binding.activityNetworkTitleTv.text = item.title
             binding.activityNetworkDateDetailTv.text = item.date
             binding.activityNetworkPlaceDetailTv.text = item.location
-            binding.activityNetworkPayDetailTv.text = item.fee.toString()
+            if(item.fee.toString() == "0"){
+                binding.activityNetworkPayDetailTv.text = "무료"
+            }
             binding.activityNetworkDeadlineDetailTv.text = item.endDate
             //버튼 상태 추가
             /*if (item.userButtonStatus == "ApplyComplete") {
