@@ -3,7 +3,9 @@ package com.example.template.garamgaebi.src.main.seminar
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
@@ -27,11 +29,22 @@ class SeminarPreviewDialog:DialogFragment() {
         isCancelable = true
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DialogSeminarPreviewBinding.inflate(inflater, container, false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-        viewModel.getSeminarsInfo(8)
+        viewModel.getSeminarDetail()
         viewModel.presentation.observe(viewLifecycleOwner, Observer {
             val position = arguments?.getInt("presentationDialog", 0)
             val data = it.result[position!!]
@@ -43,7 +56,6 @@ class SeminarPreviewDialog:DialogFragment() {
             binding.dialogFragmentSeminarTitleTv.text = data.title
             binding.dialogFragmentSeminarContentTv.text = data.content
             binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
-
 
         })
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {

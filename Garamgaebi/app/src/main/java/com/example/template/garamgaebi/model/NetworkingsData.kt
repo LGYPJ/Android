@@ -11,10 +11,10 @@ data class NetworkingInfoResponse(
 data class NetworkingInfoReult(
     val programIdx: Int =-1,
     val title: String="",
-    val date: String="",
+    var date: String="",
     val location: String="",
     val fee: Int=-1,
-    val endDate: String="",
+    var endDate: String="",
     val programStatus: String="",
     val userButtonStatus: String=""
 )

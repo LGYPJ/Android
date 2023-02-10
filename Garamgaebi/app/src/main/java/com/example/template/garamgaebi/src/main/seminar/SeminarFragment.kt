@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,44 +15,48 @@ import com.example.template.garamgaebi.adapter.SeminarPresentAdapter
 import com.example.template.garamgaebi.adapter.SeminarProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
+import com.example.template.garamgaebi.viewModel.ApplyViewModel
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-
+    private val viewModel by viewModels<SeminarViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //뷰모델
-        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
+        //val seminar = arguments?.getInt("HomeSeminarIdx")
 
         //프로필 어댑터 연결
-        viewModel.getSeminarParticipants(8,1)
+
+        viewModel.getSeminarParticipants()
+
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
             val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
             binding.activitySeminarFreeProfileRv.apply {
                 adapter = seminarProfile
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(SeminarHorizontalItemDecoration())
+                //addItemDecoration(SeminarHorizontalItemDecoration())
             }
         })
 
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(8)
-        viewModel.presentation.observe(viewLifecycleOwner, Observer {
+
+        viewModel.getSeminarsInfo()
+        viewModel.presentation.observe(viewLifecycleOwner, Observer { it ->
             val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
                 adapter = presentAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(SeminarVerticalItemDecoration())
+                //addItemDecoration(SeminarVerticalItemDecoration())
             }
             //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
             presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
@@ -71,13 +77,18 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         })
 
         //세미나 상세 정보
-        viewModel.getSeminarDetail(6,1)
+        viewModel.getSeminarDetail()
         viewModel.info.observe(viewLifecycleOwner, Observer {
-                val item = it.result
+            val item = it.result
             binding.activitySeminarFreeTitleTv.text = item.title
             binding.activitySeminarFreeDateDetailTv.text = item.date
             binding.activitySeminarFreePlaceDetailTv.text = item.location
-            binding.activitySeminarFreePayDetailTv.text = item.fee.toString()
+            if(item.fee.toString() == "0"){
+                binding.activitySeminarFreePayDetailTv.text = "무료"
+            }
+            else{
+                binding.activitySeminarFreePayDetailTv.text = getString(R.string.main_fee, item.fee.toString())
+            }
             binding.activitySeminarFreeDeadlineDetailTv.text = item.endDate
                 //버튼 상태 추가하기
                 /*if (item.userButtonStatus == "ApplyComplete") {

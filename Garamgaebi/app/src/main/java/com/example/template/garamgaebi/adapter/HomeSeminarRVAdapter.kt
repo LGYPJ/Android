@@ -88,9 +88,9 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarResult>):
             }
             is ScheduledViewHolder -> {
                 holder.bind(dataList[position])
-                holder.binding.root.setOnClickListener {
+                /*holder.binding.root.setOnClickListener {
                     itemClickListener.onClick(position)
-                }
+                }*/
             }
             is ClosedViewHolder -> {
                 holder.bind(dataList[position])

@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.networking
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,40 +13,42 @@ import com.example.template.garamgaebi.adapter.NetworkingProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
+import com.example.template.garamgaebi.model.HomeSeminarResult
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
+import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind ,R.layout.fragment_networking) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    private val viewModel by viewModels<NetworkingViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //뷰모델
-        val viewModel = ViewModelProvider(this)[NetworkingViewModel::class.java]
-
         //프로필 어댑터 연결
-        viewModel.getNetworkingParticipants(1,1)
+        viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
             val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
             binding.activityNetworkProfileRv.apply {
                 adapter = networkingProfile
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(NetworkingHorizontalItemDecoration())
+                //addItemDecoration(NetworkingHorizontalItemDecoration())
             }
         })
 
         //네트워킹 상세정보
-        viewModel.getNetworkingInfo(1,1)
+        viewModel.getNetworkingInfo()
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
             val item = it.result
             binding.activityNetworkTitleTv.text = item.title
             binding.activityNetworkDateDetailTv.text = item.date
             binding.activityNetworkPlaceDetailTv.text = item.location
-            binding.activityNetworkPayDetailTv.text = item.fee.toString()
+            if(item.fee.toString() == "0"){
+                binding.activityNetworkPayDetailTv.text = "무료"
+            }
             binding.activityNetworkDeadlineDetailTv.text = item.endDate
             //버튼 상태 추가
             /*if (item.userButtonStatus == "ApplyComplete") {
@@ -64,6 +67,8 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         binding.activityNetworkParticipateBtn.setOnClickListener {
             //viewModel.selectItem("아이스브레이킹")
             containerActivity!!.openFragmentOnFrameLayout(7)
+            val temp = "아이스브레이킹"
+            containerActivity!!.iceBreaking(temp)
         }
 
     }

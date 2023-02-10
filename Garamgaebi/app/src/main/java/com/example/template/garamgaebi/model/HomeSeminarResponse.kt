@@ -16,5 +16,4 @@ data class HomeSeminarResult(
     val status: String = "",
     val title: String = "",
     val type: String = ""
-
 )

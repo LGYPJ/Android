@@ -22,7 +22,7 @@
             android:id="@+id/activity_network_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/origin_title"
+
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
@@ -59,7 +59,7 @@
             android:id="@+id/activity_network_date_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/origin_date"
+
             android:textSize="14sp"
             android:textColor="@color/black80"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_title_tv"
@@ -83,7 +83,7 @@
             android:id="@+id/activity_network_place_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/origin_place"
+
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -107,7 +107,7 @@
             android:id="@+id/activity_network_pay_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/origin_pay"
+
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"
@@ -131,7 +131,7 @@
             android:id="@+id/activity_network_deadline_detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/origin_deadline"
+
             android:textColor="@color/black80"
             android:textSize="14sp"
             android:layout_marginTop="2dp"

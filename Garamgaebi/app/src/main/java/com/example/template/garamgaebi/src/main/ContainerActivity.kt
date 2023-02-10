@@ -34,15 +34,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            if(isIceBreaking()){
-                onBackPressed()
-                binding.activityContainerToolbarTv.text ="아이스브레이킹"
+            if(isSeminar()){
+                finish()
             }
-            else {
+            if(isNetworking()){
+                finish()
+            }else{
                 onBackPressed()
-                if(isNetworking()){
-                    binding.activityContainerToolbarTv.text = "네트워킹"
-                }
             }
         }
 
@@ -56,6 +54,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(isNetworking()){
             binding.activityContainerToolbarTv.text ="네트워킹"
         }
+        if(isSeminar()){
+            binding.activityContainerToolbarTv.text = "세미나"
+        }
     }
 
 
@@ -64,10 +65,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         when(int){
             0 -> finish()
             1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment(), "seminar")
-                }
+                binding.activityContainerToolbarTv.text = "세미나"
+            }
             2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment() ,"seminarFree").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "세미나"
             }
             3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment(),"seminarCharged").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "세미나"
             }
 
             4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment(),"cancel")
@@ -76,10 +80,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }
             6 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment(),"networkingFree").addToBackStack(null)
-                 binding.activityContainerToolbarTv.text = "네트워킹"
+                binding.activityContainerToolbarTv.text = "네트워킹"
             }
             7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment(),"networkingGameSelect").addToBackStack(null)
-                   binding.activityContainerToolbarTv.text = "아이스브레이킹"
+                binding.activityContainerToolbarTv.text = "아이스브레이킹"
             }
             8 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGamePlaceFragment(),"networkingGamePlace").addToBackStack(null)
             }
@@ -87,7 +91,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
             //승민 부분
             9 -> {
-                transaction.replace(R.id.activity_seminar_frame, SnsFragment(),"sns")
+                transaction.replace(R.id.activity_seminar_frame, SnsAddFragment(),"sns")
             }
             10 -> {
                 transaction.replace(R.id.activity_seminar_frame, CareerFragment(),"career")
@@ -112,6 +116,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             16 -> {
                 transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification")
             }
+
+            //승민 추가
+            17 -> {
+                transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
+            }
+
         }
         transaction.commit()
         for(fragment: Fragment in supportFragmentManager.fragments) {
@@ -128,7 +138,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "networkingFree" -> fragmentTitle = "네트워킹"
                     "networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
                     "networkingGamePlace" -> fragmentTitle = binding.activityContainerToolbarTv.text.toString()
-                    "sns" -> fragmentTitle = "SNS"
+                    "sns" -> fragmentTitle = "SNS 추가하기"
+                    "snsEdit" -> fragmentTitle = "SNS 편집하기"
+                    //"networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
+                    //"networkingGamePlace" -> fragmentTitle = ""
                     "career" -> fragmentTitle = "경력"
                     "edu" -> fragmentTitle = "교육"
                     "profileEdit" -> fragmentTitle = "프로필 편집"
@@ -146,18 +159,30 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
     fun networkingPlace(place: String){
-        if(isIceBreaking()){
             binding.activityContainerToolbarTv.text = place
-        }
     }
-    
+
+    fun iceBreaking(ice: String){
+        binding.activityContainerToolbarTv.text = ice
+    }
+
     override fun onStart() {
         super.onStart()
         Log.d("title_onstart","됨")
+        if(isSeminarCharged()){
+            binding.activityContainerToolbarTv.text = "세미나"
+        }
 
         if(intent.getBooleanExtra("seminar", false)){
-            openFragmentOnFrameLayout(1)
             binding.activityContainerToolbarTv.text = "세미나"
+            /*val seminar = intent.getIntExtra("HomeSeminarIdx", 0)
+            val bundle = Bundle()
+            bundle.putInt("HomeSeminarIdx", seminar)
+            val seminarFragment = SeminarFragment()
+            seminarFragment.arguments = bundle
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
+            openFragmentOnFrameLayout(1)
         }
         if(intent.getBooleanExtra("cancel", false)){
             openFragmentOnFrameLayout(4)
@@ -206,7 +231,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
         /*val fragmentList = supportFragmentManager.fragments
-
         for (fragment in fragmentList) {
             if(fragment is SeminarFragment){
                 binding.activityContainerToolbarTv.text = "세미나"
@@ -220,11 +244,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             if(fragment is CancelFragment){
                 binding.activityContainerToolbarTv.text = "신청 취소"
             }
-
         }*/
 
     }
-     //안드로이드 뒤로가기 버튼 눌렀을때
+    //안드로이드 뒤로가기 버튼 눌렀을때
 
 
     fun isIceBreaking ():Boolean {
@@ -249,6 +272,30 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
 
 
+    fun isSeminar ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is SeminarFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isSeminarCharged ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is SeminarChargedApplyFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 
 
-}
+
+
+
+    }
