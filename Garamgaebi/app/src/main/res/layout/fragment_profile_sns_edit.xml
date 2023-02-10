@@ -1,16 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <import type="android.view.View"/>
-        <import type="com.example.template.garamgaebi.src.main.profile.SnsAddFragment"/>
-        <variable
-            name="snsAddFragment"
-            type="com.example.template.garamgaebi.src.main.profile.SnsAddFragment" />
-        <variable
-            name="snsViewModel"
-            type="com.example.template.garamgaebi.viewModel.SNSViewModel" />
-    </data>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -51,7 +39,7 @@
             android:gravity="center_vertical"
             android:hint="@string/sns_add_link_desc"
             android:paddingStart="12dp"
-            android:text="@={snsViewModel.snsAddress}"
+            android:text=""
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
@@ -80,7 +68,7 @@
             android:gravity="center_vertical"
             android:hint="@string/sns_add_type_desc"
             android:paddingStart="12dp"
-            android:text="@={snsViewModel.snsType}"
+            android:text=""
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
@@ -88,24 +76,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_sns_remove_btn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="68dp"
+            android:background="@drawable/basic_blue_white_btn_layout"
+            android:text="@string/remove"
+            android:textColor="@color/blueForBtn"
+            android:textSize="16sp"
+            android:outlineProvider="none"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_sns_save_btn"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </androidx.appcompat.widget.AppCompatButton>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_sns_save_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_gray_btn_layout"
+            android:background="@drawable/basic_blue_btn_layout"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:outlineProvider="none"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
+        </androidx.appcompat.widget.AppCompatButton>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
 
