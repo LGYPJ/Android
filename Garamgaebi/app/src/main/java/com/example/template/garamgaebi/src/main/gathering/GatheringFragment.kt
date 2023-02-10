@@ -5,15 +5,14 @@ import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringVPAdapter
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseFragment
 
 import com.example.template.garamgaebi.databinding.FragmentGatheringBinding
 
 
-class GatheringFragment : BaseBindingFragment<FragmentGatheringBinding>(R.layout.fragment_gathering) {
+class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheringBinding::bind, R.layout.fragment_gathering) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val gatheringVPAdapter = GatheringVPAdapter(this)
         binding.fragmentGatheringVp.adapter =  gatheringVPAdapter

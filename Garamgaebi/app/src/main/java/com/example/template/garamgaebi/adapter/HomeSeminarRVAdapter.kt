@@ -3,6 +3,8 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarClosedBinding
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarScheduledBinding
 import com.example.template.garamgaebi.databinding.ItemHomeSeminarThismonthBinding
@@ -13,17 +15,43 @@ class HomeSeminarRVAdapter (private val dataList: ArrayList<HomeSeminarResult>):
 
     inner class ThisMonthViewHolder(val binding: ItemHomeSeminarThismonthBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarResult) {
-            binding.model = data
+            with(binding) {
+                if(data.payment == "PREMIUM")
+                    icPay.setImageResource(R.drawable.ic_item_home_charged)
+                else
+                    icPay.setImageResource(R.drawable.ic_item_home_for_free)
+                itemHomeSeminarTvName.text = data.title
+                itemHomeSeminarTvDateData.text = data.date
+                itemHomeSeminarTvPlaceData.text = data.location
+                itemHomeSeminarTvDDay.text = "D-day"
+            }
         }
     }
     inner class ScheduledViewHolder(val binding: ItemHomeSeminarScheduledBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarResult) {
-            binding.model = data
+            if(data.payment == "PREMIUM")
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            else
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            with(binding) {
+                itemHomeSeminarTvName.text = data.title
+                itemHomeSeminarTvDateData.text = data.date
+                itemHomeSeminarTvPlaceData.text = data.location
+                itemHomeSeminarTvDDay.text = "D-day"
+            }
         }
     }
     inner class ClosedViewHolder(val binding: ItemHomeSeminarClosedBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeSeminarResult) {
-            binding.model = data
+            if(data.payment == "PREMIUM")
+                binding.icPay.setImageResource(R.drawable.ic_item_home_charged)
+            else
+                binding.icPay.setImageResource(R.drawable.ic_item_home_for_free)
+            with(binding) {
+                itemHomeSeminarTvName.text = data.title
+                itemHomeSeminarTvDateData.text = data.date
+                itemHomeSeminarTvPlaceData.text = data.location
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

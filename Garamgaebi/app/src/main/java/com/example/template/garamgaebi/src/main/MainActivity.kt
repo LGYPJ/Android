@@ -16,16 +16,20 @@ import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import ua.naiksoftware.stomp.StompClient
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

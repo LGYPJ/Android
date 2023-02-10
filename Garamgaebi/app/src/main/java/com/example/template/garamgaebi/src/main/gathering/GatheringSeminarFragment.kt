@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -19,7 +20,7 @@ import com.example.template.garamgaebi.viewModel.GatheringViewModel
  * 세미나 모아보기 프래그먼트
  *
  */
-class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBinding>(R.layout.fragment_gathering_seminar){
+class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(FragmentGatheringSeminarBinding::bind,R.layout.fragment_gathering_seminar){
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +36,6 @@ class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBin
 
         // 이번 달
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
-        binding.viewModel = viewModel
         viewModel.getGatheringSeminarThisMonth()
         viewModel.getGatheringSeminarNextMonth()
         viewModel.getGatheringSeminarClosed()
@@ -49,7 +49,10 @@ class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBin
                 binding.fragmentGatheringSeminarThisMonthClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.VISIBLE
 
-                binding.thisMonthModel = result
+                binding.fragmentGatheringSeminarThisMonthTvName.text = result.title
+                binding.fragmentGatheringSeminarThisMonthTvDateData.text = result.date
+                binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
+                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
             }
         })
 
@@ -63,7 +66,9 @@ class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBin
                 binding.fragmentGatheringSeminarScheduledClBlank.visibility = View.GONE
                 binding.fragmentGatheringSeminarClScheduled.visibility = View.VISIBLE
 
-                binding.nextMonthModel = result
+                binding.fragmentGatheringSeminarScheduledTvName.text = result.title
+                binding.fragmentGatheringSeminarScheduledTvDateData.text = result.date
+                binding.fragmentGatheringSeminarScheduledTvPlaceData.text = result.location
             }
 
         })
@@ -87,20 +92,16 @@ class GatheringSeminarFragment : BaseBindingFragment<FragmentGatheringSeminarBin
                 seminarDeadlineAdapter.setOnItemClickListener(object :
                     GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        //TODO("Not yet implemented")
+                        //세미나 메인 프래그먼트로!
+                        val intent = Intent(context, ContainerActivity::class.java)
+                        intent.putExtra("seminar", true)
+                        startActivity(intent)
                     }
                 })
             }
         })
 
         binding.fragmentGatheringSeminarClScheduled.setOnClickListener {
-            //세미나 메인 프래그먼트로!
-            val intent = Intent(context, ContainerActivity::class.java)
-            intent.putExtra("seminar", true)
-            startActivity(intent)
-        }
-
-        binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
             //세미나 메인 프래그먼트로!
             val intent = Intent(context, ContainerActivity::class.java)
             intent.putExtra("seminar", true)

@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringMyMeetingLastRVAdapter
 import com.example.template.garamgaebi.adapter.GatheringMyMeetingScheduledRVAdapter
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
-class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetingBinding>(R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener{
+class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
@@ -27,8 +27,8 @@ class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetin
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
         val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
-        viewModel.getGatheringProgramReady(1)
-        viewModel.getGatheringProgramClosed(1)
+        viewModel.getGatheringProgramReady(22)
+        viewModel.getGatheringProgramClosed(22)
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
@@ -48,7 +48,7 @@ class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetin
                 }
                 myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
                     override fun onMoreClick(position: Int, v: View) {
-                        showPopup(v)
+                        showPopupScheduled(v)
                     }
                 })
             }
@@ -70,8 +70,8 @@ class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetin
                     addItemDecoration(GatheringItemDecoration())
                 }
                 myMeetingLastAdapter.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
-                    override fun onClick(position: Int) {
-                        //TODO("Not yet implemented")
+                    override fun onMoreClick(position: Int, v: View) {
+                        showPopupLast(v)
                     }
                 })
             }
@@ -79,9 +79,15 @@ class GatheringMyMeetingFragment : BaseBindingFragment<FragmentGatheringMyMeetin
 
 
     }
-    private fun showPopup(v : View) {
+    private fun showPopupScheduled(v : View) {
         val popup = PopupMenu(requireContext(), v)
-        popup.menuInflater.inflate(R.menu.fragment_home_my_meeting_popup, popup.menu)
+        popup.menuInflater.inflate(R.menu.fragment_gathering_my_meeting_popup_scheduled, popup.menu)
+        popup.setOnMenuItemClickListener(this)
+        popup.show()
+    }
+    private fun showPopupLast(v : View) {
+        val popup = PopupMenu(requireContext(), v)
+        popup.menuInflater.inflate(R.menu.fragment_gathering_my_meeting_popup_last, popup.menu)
         popup.setOnMenuItemClickListener(this)
         popup.show()
     }

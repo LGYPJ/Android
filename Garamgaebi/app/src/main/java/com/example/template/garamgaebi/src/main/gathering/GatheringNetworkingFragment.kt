@@ -8,14 +8,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
-import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
-class GatheringNetworkingFragment : BaseBindingFragment<FragmentGatheringNetworkingBinding>(R.layout.fragment_gathering_networking){
+class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +41,11 @@ class GatheringNetworkingFragment : BaseBindingFragment<FragmentGatheringNetwork
                 binding.fragmentGatheringNetworkingThisMonthClBlank.visibility = View.GONE
                 binding.fragmentGatheringNetworkingClThisMonth.visibility = View.VISIBLE
 
-                binding.thisMonthModel = result
+                binding.fragmentGatheringNetworkingThisMonthTvName.text = result.title
+                binding.fragmentGatheringNetworkingThisMonthTvDateData.text = result.date
+                binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-day"
+
             }
         })
         // 예정된
@@ -54,7 +58,9 @@ class GatheringNetworkingFragment : BaseBindingFragment<FragmentGatheringNetwork
                 binding.fragmentGatheringNetworkingScheduledClBlank.visibility = View.GONE
                 binding.fragmentGatheringNetworkingClScheduled.visibility = View.VISIBLE
 
-                binding.nextMonthModel = result
+                binding.fragmentGatheringNetworkingScheduledTvName.text = result.title
+                binding.fragmentGatheringNetworkingScheduledTvDateData.text = result.date
+                binding.fragmentGatheringNetworkingScheduledTvPlaceData.text = result.location
             }
         })
         // 마감된
@@ -76,7 +82,10 @@ class GatheringNetworkingFragment : BaseBindingFragment<FragmentGatheringNetwork
                     networkingDeadlineAdapter.setOnItemClickListener(object :
                         GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
                         override fun onClick(position: Int) {
-                            //TODO
+                            //네트워킹 프래그먼트로!
+                            val intent = Intent(context, ContainerActivity::class.java)
+                            intent.putExtra("networking", true)
+                            startActivity(intent)
                         }
                     })
                 }

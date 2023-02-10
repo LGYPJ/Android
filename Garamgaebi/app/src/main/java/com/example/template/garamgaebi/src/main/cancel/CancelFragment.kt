@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentCancelBinding
 import com.example.template.garamgaebi.model.CancelRequest
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -26,6 +27,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
         binding.activityCancelApplyBtn.isEnabled = false
 
+        binding.activityCancelBankTv.text = "은행"
 
         // et selected 여부에 따라 drawable 결정
         binding.activityCancelPayEt.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -39,6 +41,13 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.setOnClickListener {
             val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
                 binding.activityCancelBankTv.text = it
+                with(GaramgaebiApplication.sSharedPreferences.edit()) {
+                    putString(
+                        GaramgaebiApplication.X_ACCESS_TOKEN,
+                        it
+                    )
+                    apply()
+                }
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
                 isBank()
             }
