@@ -58,6 +58,8 @@
     <string name="remove">삭제하기</string>
     <string name="close">닫기</string>
     <string name="check">확인</string>
+    <string name="dDayBetween">D</string>
+    <string name="dDay">D-Day</string>
     
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>

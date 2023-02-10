@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
@@ -45,7 +46,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingThisMonthTvName.text = result.title
                 binding.fragmentGatheringNetworkingThisMonthTvDateData.text = result.date
                 binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
-                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-day"
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
 
             }
             val program = it.result.programIdx
