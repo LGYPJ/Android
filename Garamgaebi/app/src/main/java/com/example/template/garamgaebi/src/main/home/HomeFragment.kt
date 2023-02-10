@@ -127,7 +127,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    addItemDecoration(HomeUserItemDecoration())
+                    addItemDecoration(HomeUserItemDecoration(requireContext()))
                 }
                 binding.fragmentHomeClUserBlank.visibility = View.GONE
                 // 리사이클러뷰 클릭 리스너

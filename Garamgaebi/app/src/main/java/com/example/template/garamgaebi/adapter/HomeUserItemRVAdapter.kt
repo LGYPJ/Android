@@ -1,6 +1,7 @@
 package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,13 +15,26 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
             with(binding) {
+                Glide.with(itemView).load(R.drawable.ic_launcher_background)
+                    .into(itemHomeUserIvProfile)
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName
-                itemHomeUserTvOrg.text = data.group
-                itemHomeUserTvMajor.text = data.detail
+                if(data.belong == null) {
+                    itemHomeUserTvBelong.visibility = View.GONE
+                    itemHomeUserTvOrg.visibility = View.VISIBLE
+                    itemHomeUserTvMajor.visibility = View.VISIBLE
+                    itemHomeUserTvOrg.text = data.group
+                    itemHomeUserTvMajor.text = data.detail
+                } else {
+                    itemHomeUserTvBelong.visibility = View.VISIBLE
+                    itemHomeUserTvOrg.visibility = View.GONE
+                    itemHomeUserTvMajor.visibility = View.GONE
+                    itemHomeUserTvBelong.text = data.belong
+                    itemHomeUserTvOrg.text = ""
+                    itemHomeUserTvMajor.text = ""
+                }
             }
-            Glide.with(itemView).load(R.drawable.ic_launcher_background)
-                .into(binding.itemHomeUserIvProfile)
+
         }
     }
 

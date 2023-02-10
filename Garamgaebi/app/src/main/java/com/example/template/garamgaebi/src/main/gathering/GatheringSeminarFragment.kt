@@ -10,6 +10,8 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -52,7 +54,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarThisMonthTvName.text = result.title
                 binding.fragmentGatheringSeminarThisMonthTvDateData.text = result.date
                 binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
-                binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
+                binding.fragmentGatheringSeminarThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
             }
         })
 

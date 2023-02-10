@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.ItemHomeMyMeetingBinding
 
 import com.example.template.garamgaebi.model.HomeProgramResult
@@ -14,11 +15,9 @@ class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>)
         fun bind(data: HomeProgramResult){
             with(binding){
                 itemHomeMyMeetingTvName.text = data.title
-                itemHomeMyMeetingTvDate.text = data.date
+                itemHomeMyMeetingTvDate.text = GaramgaebiFunction().getDateHomeMyMeeting(data.date)
                 itemHomeMyMeetingTvPlace.text = data.location
             }
-
-
         }
     }
 
