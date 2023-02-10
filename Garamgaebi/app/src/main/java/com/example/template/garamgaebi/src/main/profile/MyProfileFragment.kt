@@ -18,6 +18,7 @@ import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
+import com.example.template.garamgaebi.model.SNSData
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
 
@@ -190,6 +191,12 @@ class MyProfileFragment :
         binding.activityMyProfileTvCareerDesc.visibility = View.GONE
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("sns",true) //데이터 넣기
+        startActivity(intent)
+    }
+
+    fun goEditSNSFragment(data:SNSData){
+        val intent = Intent(activity,ContainerActivity::class.java)
+        intent.putExtra("snsEdit",true) //데이터 넣기
         startActivity(intent)
     }
 

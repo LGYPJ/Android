@@ -78,7 +78,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
             //승민 부분
             9 -> {
-                transaction.replace(R.id.activity_seminar_frame, SnsFragment(),"sns")
+                transaction.replace(R.id.activity_seminar_frame, SnsAddFragment(),"sns")
             }
             10 -> {
                 transaction.replace(R.id.activity_seminar_frame, CareerFragment(),"career")
@@ -103,6 +103,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             16 -> {
                 transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification")
             }
+
+            //승민 추가
+            17 -> {
+                transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
+            }
+
         }
         transaction.commit()
         for(fragment: Fragment in supportFragmentManager.fragments) {
@@ -117,9 +123,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "cancel" -> fragmentTitle = "신청 취소"
                     "networking" -> fragmentTitle = "네트워킹"
                     "networkingFree" -> fragmentTitle = "네트워킹"
+                    "networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
+                    "networkingGamePlace" -> fragmentTitle = binding.activityContainerToolbarTv.text.toString()
+                    "sns" -> fragmentTitle = "SNS 추가하기"
+                    "snsEdit" -> fragmentTitle = "SNS 편집하기"
                     //"networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
                     //"networkingGamePlace" -> fragmentTitle = ""
-                    "sns" -> fragmentTitle = "SNS"
                     "career" -> fragmentTitle = "경력"
                     "edu" -> fragmentTitle = "교육"
                     "profileEdit" -> fragmentTitle = "프로필 편집"

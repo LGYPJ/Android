@@ -51,6 +51,11 @@
 
     <string name="no_seminar1">세미나가 없습니다</string>
     <string name="no_networking1">네트워킹이 없습니다</string>
+
+
+    <string name="my_profile_title">내 프로필</string>
+    <string name="save">저장하기</string>
+    <string name="remove">삭제하기</string>
     <string name="close">닫기</string>
     <string name="check">확인</string>
     
@@ -119,6 +124,18 @@
     <string name="home_seminar_help_dialog">세미나는 발표 위주로 진행되는 행사입니다.</string>
 
     <!-- Profile -->
+    <string name="sns_add_type">SNS 종류</string>
+    <string name="sns_add_type_desc">표시할 이름을 입력해주세요 (예:블로그, 깃허브 등)</string>
+    <string name="sns_add_link">링크</string>
+    <string name="sns_add_link_desc">https://</string>
+
+    <string name="sns_type_dialog_1">인스타</string>
+    <string name="sns_type_dialog_2">블로그</string>
+    <string name="sns_type_dialog_3">깃허브</string>
+    <string name="sns_type_dialog_4">직접 입력</string>
+
+
+
     <string name="some_id">로건</string>
     <string name="sns_desc">유저들과 소통을 위해서 SNS 주소를 남겨주세요! </string>
     <string name="career_desc">지금 하고 있거나\n이전에 한 일을 알려주세요</string>

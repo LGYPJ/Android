@@ -11,7 +11,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileSnsBinding
 
-class SnsFragment  : BaseFragment<FragmentProfileSnsBinding>(FragmentProfileSnsBinding::bind, R.layout.fragment_profile_sns) {
+class SnsAddFragment  : BaseFragment<FragmentProfileSnsBinding>(FragmentProfileSnsBinding::bind, R.layout.fragment_profile_sns) {
     private lateinit var callback: OnBackPressedCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
