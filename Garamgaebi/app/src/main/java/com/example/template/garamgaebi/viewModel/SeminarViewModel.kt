@@ -42,7 +42,7 @@ class SeminarViewModel : ViewModel(){
     //val pay : MutableLiveData<String> = MutableLiveData("무료")
     fun getSeminarsInfo() {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("seminarIdx", 0))
+            val response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("programIdx", 0))
             Log.d("seminarPresent", response.body().toString())
             if (response.isSuccessful) {
                 _presentation.postValue(response.body())
@@ -55,7 +55,7 @@ class SeminarViewModel : ViewModel(){
     }
     fun getSeminarParticipants() {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("seminarIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
+            val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
                 _seminarParticipants.postValue(response.body())
@@ -68,7 +68,7 @@ class SeminarViewModel : ViewModel(){
 
     fun getSeminarDetail() {
         viewModelScope.launch {
-            val response = seminarRepository.getSeminarDetail(sSharedPreferences.getInt("seminarIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
+            val response = seminarRepository.getSeminarDetail(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
                 //date 가공

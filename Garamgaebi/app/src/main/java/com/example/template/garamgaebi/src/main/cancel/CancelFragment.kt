@@ -70,7 +70,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             //신청 완료 api
             GaramgaebiApplication.sSharedPreferences.getString("bank", null)
                 ?.let { it1 ->
-                    CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8,
+                    CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
                         it1, binding.activityCancelPayEt.toString())
                 }?.let { it2 -> viewModel.postCancel(it2) }
 

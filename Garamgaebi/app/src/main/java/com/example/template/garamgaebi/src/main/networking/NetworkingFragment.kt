@@ -29,7 +29,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         super.onViewCreated(view, savedInstanceState)
 
         //프로필 어댑터 연결
-        viewModel.getNetworkingParticipants(1,1)
+        viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
             val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
             binding.activityNetworkProfileRv.apply {
@@ -40,7 +40,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         })
 
         //네트워킹 상세정보
-        viewModel.getNetworkingInfo(1,1)
+        viewModel.getNetworkingInfo()
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
             val item = it.result
             binding.activityNetworkTitleTv.text = item.title

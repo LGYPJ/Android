@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     override fun onClick(position: Int) {
                         val program = it.result[position].programIdx
                         GaramgaebiApplication.sSharedPreferences
-                            .edit().putInt("seminarIdx", program)
+                            .edit().putInt("programIdx", program)
                             .apply()
                         //세미나 메인 프래그먼트로!
                         val intent = Intent(context, ContainerActivity::class.java)
@@ -120,7 +120,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 networkingRVAdapter.setOnItemClickListener(object : HomeNetworkingRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
+                        val program = it.result[position].programIdx
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putInt("programIdx", program)
+                            .apply()
+                        //네트워킹 메인 프래그먼트로!
+                        val intent = Intent(context, ContainerActivity::class.java)
+                        intent.putExtra("networking", true)
+                        startActivity(intent)
                     }
                 })
             }
@@ -166,7 +173,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 myMeetingRVAdapter.setOnItemClickListener(object :
                     HomeMyMeetingRVAdapter.OnItemClickListener {
                     override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
+                        val program = it.result[position].programIdx
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putInt("programIdx", program)
+                            .apply()
+
+                        //세미나 메인 프래그먼트로!
+                        if(it.result[position].type == "SEMINAR"){
+                            val intent = Intent(context, ContainerActivity::class.java)
+                            intent.putExtra("seminar", true)
+                            startActivity(intent)
+                        }
+                        //네트워킹 메인 프래그먼트로
+                        if(it.result[position].type == "NETWORKING"){
+                            val intent = Intent(context, ContainerActivity::class.java)
+                            intent.putExtra("networking", true)
+                            startActivity(intent)
+                        }
                     }
                 })
             }
