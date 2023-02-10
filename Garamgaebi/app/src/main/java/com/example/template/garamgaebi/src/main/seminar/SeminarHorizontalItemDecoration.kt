@@ -14,6 +14,7 @@ class SeminarHorizontalItemDecoration: RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         val offset = 60
+        //val position = parent.getChildAdapterPosition(view)
         outRect.right = offset
 
     }

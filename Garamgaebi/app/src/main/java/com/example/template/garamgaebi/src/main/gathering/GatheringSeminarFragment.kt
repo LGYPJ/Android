@@ -10,6 +10,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -54,6 +55,17 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
                 binding.fragmentGatheringSeminarThisMonthTvDDay.text = "D-day"
             }
+            val program = it.result.programIdx
+            binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
+                //세미나 메인 화면으로
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", program)
+                    .apply()
+                //세미나 메인 프래그먼트로!
+                val intent = Intent(context, ContainerActivity::class.java)
+                intent.putExtra("seminar", true)
+                startActivity(intent)
+            }
         })
 
         // 예정된
@@ -70,6 +82,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarScheduledTvDateData.text = result.date
                 binding.fragmentGatheringSeminarScheduledTvPlaceData.text = result.location
             }
+            binding.fragmentGatheringSeminarClScheduled.isEnabled = false
 
         })
 
@@ -92,6 +105,10 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 seminarDeadlineAdapter.setOnItemClickListener(object :
                     GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
+                        val program = it.result[position].programIdx
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putInt("programIdx", program)
+                            .apply()
                         //세미나 메인 프래그먼트로!
                         val intent = Intent(context, ContainerActivity::class.java)
                         intent.putExtra("seminar", true)
@@ -100,13 +117,6 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 })
             }
         })
-
-        binding.fragmentGatheringSeminarClScheduled.setOnClickListener {
-            //세미나 메인 프래그먼트로!
-            val intent = Intent(context, ContainerActivity::class.java)
-            intent.putExtra("seminar", true)
-            startActivity(intent)
-        }
     }
 
 
