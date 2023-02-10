@@ -107,6 +107,42 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             override fun afterTextChanged(p0: Editable?) {
             }
         })
+
+        //type에 따라 상세보기 뷰모델 달라짐!
+        //세미나 상세보기 뷰모델로
+        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="SEMINAR"){
+            viewModel.getSeminar()
+            viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
+                val data = it.result
+                binding.activityCancelTitleTv.text = data.title
+                binding.activityCancelDateDetailTv.text = data.date
+                binding.activityCancelPlaceDetailTv.text = data.location
+                if(data.fee.toString() == "0"){
+                    binding.activityCancelPayDetailTv.text = "무료"
+                }
+                else{
+                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
+                }
+                binding.activityCancelDeadlineDetailTv.text = data.endDate
+            })
+        }
+        //네트워킹 상세보기 뷰모델로
+        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="NETWORKING"){
+            viewModel.getNetworking()
+            viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
+                val data = it.result
+                binding.activityCancelTitleTv.text = data.title
+                binding.activityCancelDateDetailTv.text = data.date
+                binding.activityCancelPlaceDetailTv.text = data.location
+                if(data.fee.toString() == "0"){
+                    binding.activityCancelPayDetailTv.text = "무료"
+                }
+                else{
+                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
+                }
+                binding.activityCancelDeadlineDetailTv.text = data.endDate
+            })
+        }
     }
 
     private fun isBank(): Boolean {

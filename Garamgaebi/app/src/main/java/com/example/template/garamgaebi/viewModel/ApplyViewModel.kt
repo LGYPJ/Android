@@ -6,14 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ApplyRepository
+import com.example.template.garamgaebi.repository.NetworkingRepository
+import com.example.template.garamgaebi.repository.SeminarRepository
+import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
+    private val networkingRepository = NetworkingRepository()
+    private val seminarRepository = SeminarRepository()
 
     private val _cancel = MutableLiveData<CancelResponse>()
     val cancel : LiveData<CancelResponse>
@@ -22,6 +28,15 @@ class ApplyViewModel : ViewModel() {
     private val _enroll = MutableLiveData<EnrollResponse>()
     val enroll : LiveData<EnrollResponse>
     get() = _enroll
+
+    private val _networkingInfo = MutableLiveData<NetworkingInfoResponse>()
+    val networkingInfo : LiveData<NetworkingInfoResponse>
+        get() = _networkingInfo
+
+    private val _seminarInfo = MutableLiveData<SeminarDetailInfoResponse>()
+    val seminarInfo : LiveData<SeminarDetailInfoResponse>
+        get() = _seminarInfo
+
 
     //신청하기 request
     //이름
@@ -55,6 +70,43 @@ class ApplyViewModel : ViewModel() {
             }
             else{
                 response.body()?.errorMessage?.let { Log.d("error", it) }
+            }
+        }
+    }
+
+    fun getSeminar(){
+        viewModelScope.launch {
+            val response = seminarRepository.getSeminarDetail(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            Log.d("seminarDetail", response.body().toString())
+            if(response.isSuccessful) {
+                //날짜 데이터 변환
+                response.body()?.result?.date =
+                    response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
+                response.body()?.result?.endDate =
+                    response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
+
+                _seminarInfo.postValue(response.body())
+            }
+            else{
+                Log.d("error", response.message())
+            }
+        }
+    }
+
+    fun getNetworking(){
+        viewModelScope.launch {
+            val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            Log.d("networking", response.body().toString())
+            if(response.isSuccessful){
+                //날짜 데이터 변환
+                response.body()?.result?.date =
+                    response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
+                response.body()?.result?.endDate =
+                    response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
+                _networkingInfo.postValue(response.body())
+            }
+            else{
+                Log.d("error", response.message())
             }
         }
     }
