@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,8 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //데이터바인딩
+        binding.setVariable(BR.item, viewModel)
         binding.activityNetworkFreeApplyBtn.isEnabled = false
 
         // et selected 여부에 따라 drawable 결정
@@ -122,7 +125,9 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
             val phone = binding.activityNetworkFreeApplyPhoneTv.text.toString()*/
             //신청 등록 api
             //viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            viewModel.postEnroll()
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                binding.item = viewModel
                 if(it.isSuccess){
                     //네트워킹 메인 화면으로
                     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
