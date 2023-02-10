@@ -27,6 +27,7 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         //데이터바인딩
         binding.setVariable(BR.item, viewModel)
 
+
         //처음에 버튼 비활성화
         binding.activitySeminarChargedApplyBtn.isEnabled = false
 
@@ -123,6 +124,12 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
                 }
             })
         }
+
+        viewModel.getSeminar()
+        viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+
+        })
 
     }
 

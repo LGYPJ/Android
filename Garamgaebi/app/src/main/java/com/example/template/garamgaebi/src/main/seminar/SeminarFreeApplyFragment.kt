@@ -135,6 +135,11 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             })
         }
 
+        viewModel.getSeminar()
+        viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+        })
+
 
     }
 

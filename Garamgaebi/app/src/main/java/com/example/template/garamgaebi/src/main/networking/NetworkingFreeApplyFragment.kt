@@ -136,6 +136,11 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
             })
         }
 
+        viewModel.getNetworking()
+        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+        })
+
 
     }
 

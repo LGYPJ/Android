@@ -42,6 +42,8 @@ class ApplyViewModel : ViewModel() {
     val enrollReq : LiveData<EnrollRequest>
     get() = _enrollReq
 
+    private val pay : MutableLiveData<String> = MutableLiveData("무료")
+
 
     //신청하기 request
     //이름
@@ -162,5 +164,14 @@ class ApplyViewModel : ViewModel() {
         val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm '시'")
         return date?.let { formatter.parse(it)?.toString() }
     }*/
+
+    fun convertFee(money : String):String{
+        return "${money}원"
+    }
+
+    fun feeFree(money : String): String {
+        return pay.value.toString()
+    }
+
 
 }
