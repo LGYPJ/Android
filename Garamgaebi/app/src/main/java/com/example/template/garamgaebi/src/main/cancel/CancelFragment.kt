@@ -32,6 +32,10 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelBankTv.text = "은행"
 
+        binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
+        binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
+        binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
+
         // et selected 여부에 따라 drawable 결정
         binding.activityCancelPayEt.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
@@ -77,6 +81,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
                 Log.d("cancel", it.toString())
                 if(it.isSuccess){
+
                     //showDialog()
                     activity?.let {
                         CancelCompleteDialog().show(
@@ -86,6 +91,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
                 }
+
             })
 
 
@@ -143,6 +149,20 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
             })
         }
+
+        //이름, 닉네임, 전화번호
+        /*viewModel.postEnroll()
+        viewModel.enrollReq.observe(viewLifecycleOwner, Observer{
+
+                binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
+                binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
+                binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
+
+                /*binding.activityCancelNameTv.text = it.name
+                binding.activityCancelNicknameTv.text = it.nickname
+                binding.activityCancelPhoneTv.text = it.phone*/
+
+        })*/
     }
 
     private fun isBank(): Boolean {

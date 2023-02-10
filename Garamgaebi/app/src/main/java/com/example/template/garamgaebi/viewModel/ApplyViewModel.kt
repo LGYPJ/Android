@@ -15,6 +15,7 @@ import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoRe
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
@@ -36,6 +37,10 @@ class ApplyViewModel : ViewModel() {
     private val _seminarInfo = MutableLiveData<SeminarDetailInfoResponse>()
     val seminarInfo : LiveData<SeminarDetailInfoResponse>
         get() = _seminarInfo
+
+    private val _enrollReq = MutableLiveData<EnrollRequest>()
+    val enrollReq : LiveData<EnrollRequest>
+    get() = _enrollReq
 
 
     //신청하기 request
@@ -63,15 +68,52 @@ class ApplyViewModel : ViewModel() {
 
     fun postEnroll(){
         viewModelScope.launch {
-            val response = applyRepository.postEnroll(EnrollRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()))
-            Log.d("enroll", EnrollRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8, inputName.value.toString(), inputNickName.value.toString(), inputPhone.value.toString()).toString())
-            if(response.isSuccessful){
+            val response = applyRepository.postEnroll(
+                EnrollRequest(
+                    GaramgaebiApplication.sSharedPreferences.getInt(
+                        "memberIdx",
+                        0
+                    ),
+                    GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                    inputName.value.toString(),
+                    inputNickName.value.toString(),
+                    inputPhone.value.toString()
+                )
+            )
+            if(response.isSuccessful) {
                 _enroll.postValue(response.body())
+                _enrollReq.value = EnrollRequest(
+                    GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),
+                    GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                    inputName.value.toString(),
+                    inputNickName.value.toString(),
+                    inputPhone.value.toString()
+                )
+
+                with(GaramgaebiApplication.sSharedPreferences.edit()) {
+                    putInt(
+                        "enrollIdx",
+                        GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0)
+                    )
+                    putString("inputName", inputName.value.toString())
+                    putString("inputNickName", inputNickName.value.toString())
+                    putString("inputPhone", inputPhone.value.toString())
+                    apply()
+                }
+                /*val set = java.util.HashSet<String>()
+                    set.add(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0).toString())
+                    set.add(inputName.value.toString())
+                    set.add(inputNickName.value.toString())
+                    set.add(inputPhone.value.toString())
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putStringSet("enroll", set)
+                        .apply()*/
             }
             else{
-                response.body()?.errorMessage?.let { Log.d("error", it) }
+                Log.d("error", response.message())
             }
         }
+
     }
 
     fun getSeminar(){

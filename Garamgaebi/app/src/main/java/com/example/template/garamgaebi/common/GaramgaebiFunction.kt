@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.common
 
+import com.example.template.garamgaebi.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -21,4 +22,5 @@ class GaramgaebiFunction {
             date.format(pattern2)
         }
     }
+
 }

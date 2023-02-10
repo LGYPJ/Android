@@ -141,7 +141,7 @@
             android:id="@+id/activity_cancel_name_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="이채원"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"
@@ -159,7 +159,7 @@
             android:id="@+id/activity_cancel_nickname_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="신디"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"
@@ -177,7 +177,7 @@
             android:id="@+id/activity_cancel_phone_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="010-1234-5678"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"
