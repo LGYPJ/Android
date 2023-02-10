@@ -13,6 +13,7 @@ import com.example.template.garamgaebi.adapter.NetworkingProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
+import com.example.template.garamgaebi.model.HomeSeminarResult
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
@@ -34,7 +35,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             binding.activityNetworkProfileRv.apply {
                 adapter = networkingProfile
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(NetworkingHorizontalItemDecoration())
+                //addItemDecoration(NetworkingHorizontalItemDecoration())
             }
         })
 

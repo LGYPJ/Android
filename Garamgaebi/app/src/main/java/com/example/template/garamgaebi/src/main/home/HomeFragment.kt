@@ -15,6 +15,7 @@ import com.example.template.garamgaebi.adapter.HomeNetworkingRVAdapter
 import com.example.template.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.example.template.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentHomeBinding
 import com.example.template.garamgaebi.model.HomeNetworkingResult
 import com.example.template.garamgaebi.model.HomeProgramResult
@@ -80,7 +81,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        it.result[position].programIdx
+                        val program = it.result[position].programIdx
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putInt("seminarIdx", program)
+                            .apply()
+                        //세미나 메인 프래그먼트로!
+                        val intent = Intent(context, ContainerActivity::class.java)
+                        intent.putExtra("seminar", true)
+                        //intent.putExtra("HomeSeminarIdx", program)
+                        startActivity(intent)
                     }
                 })
             }

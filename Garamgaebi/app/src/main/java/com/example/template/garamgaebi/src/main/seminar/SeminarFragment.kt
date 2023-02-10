@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.example.template.garamgaebi.adapter.SeminarPresentAdapter
 import com.example.template.garamgaebi.adapter.SeminarProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -31,19 +33,24 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //val seminar = arguments?.getInt("HomeSeminarIdx")
+
         //프로필 어댑터 연결
-        viewModel.getSeminarParticipants(8,1)
+
+        viewModel.getSeminarParticipants()
+
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
             val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
             binding.activitySeminarFreeProfileRv.apply {
                 adapter = seminarProfile
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(SeminarHorizontalItemDecoration())
+                //addItemDecoration(SeminarHorizontalItemDecoration())
             }
         })
 
         //발표 어댑터 연결
-        viewModel.getSeminarsInfo(8)
+
+        viewModel.getSeminarsInfo()
         viewModel.presentation.observe(viewLifecycleOwner, Observer { it ->
             val presentAdapter = SeminarPresentAdapter(it.result as ArrayList<PresentationResult>)
             binding.activitySeminarFreePresentRv.apply {
@@ -70,7 +77,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         })
 
         //세미나 상세 정보
-        viewModel.getSeminarDetail(6,1)
+        viewModel.getSeminarDetail()
         viewModel.info.observe(viewLifecycleOwner, Observer {
             val item = it.result
             binding.activitySeminarFreeTitleTv.text = item.title
