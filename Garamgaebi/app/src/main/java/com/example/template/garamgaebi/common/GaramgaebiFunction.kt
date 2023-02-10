@@ -20,6 +20,5 @@ class GaramgaebiFunction {
         } else{
             date.format(pattern2)
         }
-
     }
 }

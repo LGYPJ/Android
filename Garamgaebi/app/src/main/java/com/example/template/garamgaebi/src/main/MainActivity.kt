@@ -14,6 +14,7 @@ import com.example.template.garamgaebi.model.ApiInterface
 import com.example.template.garamgaebi.model.LoginRequest
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
+import com.example.template.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
 import okhttp3.OkHttpClient
@@ -127,6 +128,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
         gatheringFragment!!.setVPNetworking()
     }
+
+    /*override fun onRestart() {
+        super.onRestart()
+        GatheringMyMeetingFragment().refreshAdapter()
+    }*/
 
 
 }

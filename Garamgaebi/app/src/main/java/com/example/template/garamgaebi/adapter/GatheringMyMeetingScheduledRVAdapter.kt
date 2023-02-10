@@ -3,9 +3,11 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult
+import okhttp3.internal.notify
 
 class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<GatheringProgramResult>): RecyclerView.Adapter<GatheringMyMeetingScheduledRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
@@ -38,5 +40,6 @@ class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<Gathe
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         itemClickListener = onItemClickListener
     }
+
 
 }

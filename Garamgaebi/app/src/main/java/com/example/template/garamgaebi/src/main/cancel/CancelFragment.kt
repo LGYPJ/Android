@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -44,10 +45,11 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
                 binding.activityCancelBankTv.text = it
                 GaramgaebiApplication.sSharedPreferences
-                    .edit().putString(GaramgaebiApplication.X_ACCESS_TOKEN, it)
+                    .edit().putString("bank", it)
                     .apply()
 
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
+                binding.activityCancelBankTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
                 isBank()
             }
                     activity?.let {
@@ -66,9 +68,15 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelApplyBtn.setOnClickListener {
             //신청 완료 api
-            viewModel.postCancel()
+            GaramgaebiApplication.sSharedPreferences.getString("bank", null)
+                ?.let { it1 ->
+                    CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),8,
+                        it1, binding.activityCancelPayEt.toString())
+                }?.let { it2 -> viewModel.postCancel(it2) }
+
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
-                if(!it.isSuccess){
+                Log.d("cancel", it.toString())
+                if(it.isSuccess){
                     //showDialog()
                     activity?.let {
                         CancelCompleteDialog().show(

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +18,16 @@ import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener{
+    //리사이클러뷰 갱신
+    var data = mutableListOf<GatheringProgramResult>()
+    //var myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter? = null
+    //var myMeetingLastAdapter : GatheringMyMeetingLastRVAdapter? =null
+    //private val viewModel by viewModels<GatheringViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
@@ -33,7 +42,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter
-            if(result.isEmpty() || !it.isSuccess || it == null) {
+            if(result.isEmpty() || !it.isSuccess || (it == null)) {
                 binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
             } else {
@@ -45,8 +54,9 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     adapter = myMeetingScheduledAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
+
                 }
-                myMeetingScheduledAdapter.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
+                myMeetingScheduledAdapter!!.setOnItemClickListener(object : GatheringMyMeetingScheduledRVAdapter.OnItemClickListener{
                     override fun onMoreClick(position: Int, v: View) {
                         showPopupScheduled(v)
                     }
@@ -69,7 +79,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
-                myMeetingLastAdapter.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
+                myMeetingLastAdapter!!.setOnItemClickListener(object : GatheringMyMeetingLastRVAdapter.OnItemClickListener{
                     override fun onMoreClick(position: Int, v: View) {
                         showPopupLast(v)
                     }
@@ -106,4 +116,9 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         }
         return item != null
     }
+
+    //리사이클러뷰 갱신
+    /*fun refreshAdapter(){
+        myMeetingScheduledAdapter?.notifyDataSetChanged()
+    }*/
 }
