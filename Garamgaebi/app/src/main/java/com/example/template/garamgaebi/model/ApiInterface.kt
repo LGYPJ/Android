@@ -109,14 +109,28 @@ interface ApiInterface {
         @Body request: QnAData
     ): Response<QnADataResponse>
 
+    //프로필 사진 저장/수정
+    @POST("/profile/images")
+    suspend fun getCheckEditProfileImg(
+        /*
+        {
+  "info": {
+    "memberIdx": 0,
+    "nickName": "string"
+  },
+  "image": "string"
+}
+         */
+    ):Response<BooleanResponse>
+
     //교육 추가
-    @POST("/profile/edit/{memberIdx}")
+    @POST("/profile/education")
     suspend fun getCheckAddEducation(
         @Body request: EducationData
-    ): Response<EducationDataResponse>
+    ): Response<AddEducationDataResponse>
 
     //프로필 편집
-    @POST("/profile/sns")
+    @POST("/profile/edit/{memberIdx}")
     suspend fun getCheckEditProfile(
         @Body request: ProfileData
     ): Response<EditProfileDataResponse>

@@ -16,6 +16,7 @@ import com.example.template.garamgaebi.adapter.CareerMyRVAdapter
 import com.example.template.garamgaebi.adapter.EduMyRVAdapter
 import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.model.SNSData
@@ -100,6 +101,15 @@ class MyProfileFragment :
             careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     // sns 편집
+//                    val program = it.result[position].programIdx
+//                    GaramgaebiApplication.sSharedPreferences
+//                        .edit().putInt("programIdx", program)
+//                        .apply()
+//                    //세미나 메인 프래그먼트로!
+//                    val intent = Intent(context, ContainerActivity::class.java)
+//                    intent.putExtra("seminar", true)
+//                    //intent.putExtra("HomeSeminarIdx", program)
+//                    startActivity(intent)
                 }
             } )
         })
@@ -209,6 +219,10 @@ class MyProfileFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // containerActivity = context as ContainerActivity
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onDetach() {

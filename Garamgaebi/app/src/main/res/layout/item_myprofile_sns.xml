@@ -18,12 +18,26 @@
             android:id="@+id/activity_myprofile_sns_list_item_tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="예시 인스타그램"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/black80"
+            android:layout_marginEnd="4dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_myprofile_sns_list_item_tvLink"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/activity_myprofile_sns_list_item_tvLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@{item.address}"
             android:textStyle="normal"
             android:textSize="14sp"
             android:textColor="@color/black80"
 
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/activity_myprofile_sns_list_item_tvName"
             app:layout_constraintTop_toTopOf="parent"
             >
         </TextView>

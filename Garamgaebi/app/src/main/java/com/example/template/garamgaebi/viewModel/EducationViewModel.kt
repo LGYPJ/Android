@@ -10,22 +10,22 @@ import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.launch
 
-class CareerViewModel : ViewModel(){
+class EducationViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
     var addressFirst : Boolean = false
     var typeFirst: Boolean = false
 
-    val company = MutableLiveData<String>()
-    init { company.value = ""}
+    val institution = MutableLiveData<String>()
+    init { institution.value = ""}
 
-    val companyIsValid = MutableLiveData<Boolean>()
-    init { companyIsValid.value = false}
+    val institutionIsValid = MutableLiveData<Boolean>()
+    init { institutionIsValid.value = false}
 
-    val position = MutableLiveData<String>()
-    init { position.value = ""}
+    val major = MutableLiveData<String>()
+    init { major.value = ""}
 
-    val positionIsValid = MutableLiveData<Boolean>()
-    init { positionIsValid.value = false}
+    val majorIsValid = MutableLiveData<Boolean>()
+    init { majorIsValid.value = false}
 
     val startDate = MutableLiveData<String>()
     init { startDate.value = ""}
@@ -39,21 +39,22 @@ class CareerViewModel : ViewModel(){
     val endDateIsValid = MutableLiveData<Boolean>()
     init { endDateIsValid.value = false}
 
-    val isWorking = MutableLiveData<String>()
-    init { isWorking.value = "FALSE"}
+    val isLearning = MutableLiveData<String>()
+    init { isLearning.value = "FALSE"}
 
-    private val _add = MutableLiveData<AddCareerDataResponse>()
-    val add : LiveData<AddCareerDataResponse>
+    private val _add = MutableLiveData<AddEducationDataResponse>()
+    val add : LiveData<AddEducationDataResponse>
         get() = _add
-    //Career 추가
-    fun postCareerInfo() {
+
+    //Education 추가
+    fun postEducationInfo() {
         viewModelScope.launch {
-            val response = profileRepository.getCheckAddCareer(CareerData(1,company.value.toString(), position.value.toString(), isWorking.value.toString(),
+            val response = profileRepository.getCheckAddEducation(EducationData(1, institution.value.toString(), major.value.toString(), isLearning.value.toString(),
             startDate.value.toString(), endDate.value.toString()))
-            //Log.d("sns_add", response.body().toString())
+            Log.d("education_add", response.toString())
             if(response.isSuccessful){
                 _add.postValue(response.body())
-                Log.d("career_add_success", response.body().toString())
+                Log.d("education_add_success", response.body().toString())
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }

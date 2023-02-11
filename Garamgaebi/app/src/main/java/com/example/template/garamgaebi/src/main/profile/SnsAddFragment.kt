@@ -52,7 +52,6 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         binding.activitySnsSaveBtn.setOnClickListener {
             viewModel.postSNSInfo()
             Log.d("sns_add_button","success")
-
         }
 
 

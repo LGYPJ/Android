@@ -19,12 +19,13 @@ class GaramgaebiFunction {
         val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         val date = LocalDateTime.parse(realDate, pattern)
         val pattern2 = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시 mm분", Locale.KOREA)
-        return if(date.format(pattern2)!!.contains("00분")){
+        return if (date.format(pattern2)!!.contains("00분")) {
             val pattern3 = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시", Locale.KOREA)
             date.format(pattern3)
-        } else{
+        } else {
             date.format(pattern2)
         }
+    }
 
     //editText focus Listener
 //    var onFocusChangeListener =
@@ -64,4 +65,11 @@ class GaramgaebiFunction {
         else "D${ChronoUnit.DAYS.between(date, now)}"
     }
 
+    //현재인지 확인
+    fun checkNow(inputDate :String) : Boolean {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        var formatted = current.format(formatter)
+        return inputDate >= formatted
+    }
 }

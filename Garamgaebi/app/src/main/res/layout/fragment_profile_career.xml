@@ -4,7 +4,10 @@
         <variable
             name="careerViewModel"
             type="com.example.template.garamgaebi.viewModel.CareerViewModel" />
-    </data>>
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -43,15 +46,28 @@
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
-            android:hint="@string/register_input_nickname_desc"
+            android:hint="@string/register_input_company_desc"
             android:paddingStart="12dp"
             android:text="@={careerViewModel.company}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_company_desc))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_career_tv_companyTitle" />
+
+        <TextView
+            android:id="@+id/caution_input_company_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_career_et_companyDesc"
+            app:layout_constraintTop_toBottomOf="@id/activity_career_et_companyDesc" />
 
         <TextView
             android:id="@+id/activity_career_tv_positionTitle"
@@ -79,9 +95,21 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_position_desc))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_positionTitle" />
+        <TextView
+            android:id="@+id/caution_input_position_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_career_et_position"
+            app:layout_constraintTop_toBottomOf="@id/activity_career_et_position" />
 
         <TextView
             android:id="@+id/activity_career_tv_periodTitle"
@@ -148,7 +176,7 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            android:text="@={careerViewModel.endDate}"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
@@ -178,7 +206,6 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/ic_checkbox_16dp"
-                android:onCheckedChanged=""
                 android:button="@android:color/transparent"></CheckBox>
         </RelativeLayout>
 
@@ -199,11 +226,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_gray_btn_layout"
+            android:background="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:outlineProvider="none"
+            android:clickable="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? true : false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>

@@ -1,5 +1,7 @@
 package com.example.template.garamgaebi.viewModel
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -76,27 +78,19 @@ class EditTextViewModel : ViewModel(){
 //    }
 
 
-    fun setBackgroundEditTextOnFocus(view: EditText, onFocus : Boolean, check : Boolean){
+    @SuppressLint("ResourceAsColor")
+    fun setBackgroundEditTextOnFocus(view: EditText, onFocus : Boolean, hint: String){
         Log.d("focus_check","true12")
         with(view) {
             if (onFocus) {
-                if (!check) {
-                    Log.d("focus_check","red")
-                    setBackgroundResource(R.drawable.basic_red_border_layout)
-                }else{
                     Log.d("focus_check","true")
                     setBackgroundResource(R.drawable.basic_black_border_layout)
-                }
+                    setHint("")
             } else {
-                if (!check) {
-                    Log.d("focus_check","red")
-                    setBackgroundResource(R.drawable.basic_red_border_layout)
-                }else{
                     Log.d("focus_check","false")
                     setBackgroundResource(R.drawable.basic_gray_border_layout)
-                }
+                    setHint(hint)
             }
-
         }
     }
 }
