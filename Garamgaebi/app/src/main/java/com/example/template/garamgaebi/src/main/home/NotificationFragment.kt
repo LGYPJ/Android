@@ -2,6 +2,7 @@ package com.example.template.garamgaebi.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.example.template.garamgaebi.databinding.FragmentNotificationBinding
 import com.example.template.garamgaebi.model.NotificationList
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.HomeViewModel
+import kotlinx.coroutines.*
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentNotificationBinding::bind,R.layout.fragment_notification) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,31 +24,18 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentN
 
         val viewModel by viewModels<HomeViewModel>()
         viewModel.getNotification(22)
-
+        var notificationRVAdapter : NotificationItemRVAdapter
+        val editor = GaramgaebiApplication.sSharedPreferences.edit()
+        var list : ArrayList<NotificationList> = arrayListOf()
 
         viewModel.notification.observe(viewLifecycleOwner, Observer {
-            val result = it.result.result as ArrayList<NotificationList>
-            val notificationRVAdapter = NotificationItemRVAdapter(result)
+            list.addAll(it.result.result as ArrayList<NotificationList>)
+            editor.putBoolean("hasNext", it.result.hasNext).apply()
+            notificationRVAdapter = NotificationItemRVAdapter(list)
             binding.activityNotificationRv.apply {
                 adapter = notificationRVAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
-            binding.activityNotificationRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(rv: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(rv, newState)
-                    val lastVisibleItemPosition =
-                        (rv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                    val totalItemViewCount = rv.adapter!!.itemCount-1
-                    if(newState == 2 && !rv.canScrollVertically(1)
-                        &&lastVisibleItemPosition == totalItemViewCount-1){
-                        var lastItemId =
-                            (binding.activityNotificationRv.adapter as NotificationItemRVAdapter)
-                                .getLastItemId(totalItemViewCount)
-                        viewModel.getNotification(22, lastItemId)
-                    }
-                }
-            })
-
             notificationRVAdapter.setOnItemClickListener(object : NotificationItemRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     it.result.result[position].isRead = true
@@ -54,7 +43,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentN
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putInt("programIdx", program)
                         .apply()
-
                     //세미나 메인 프래그먼트로!
                     if(it.result.result[position].resourceType == "SEMINAR"){
                         val intent = Intent(context, ContainerActivity::class.java)
@@ -69,6 +57,25 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentN
                     }
                 }
             })
+        })
+
+        binding.activityNotificationRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(rv, dx, dy)
+                if(GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext",false)){
+                    val rvPosition =
+                        (rv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                    val totalCount = rv.adapter?.itemCount?.minus(1)
+                    if(rvPosition == totalCount) {
+                        CoroutineScope(Dispatchers.Default).launch {
+                            launch {
+                                delay(1500)
+                                viewModel.getNotification(22, rv.adapter!!.getItemId(totalCount).toInt())
+                            }
+                        }
+                    }
+                }
+            }
         })
 
     }
