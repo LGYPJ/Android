@@ -88,9 +88,9 @@ class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingRes
             }
             is ScheduledViewHolder -> {
                 holder.bind(dataList[position])
-                /*holder.binding.root.setOnClickListener {
+                holder.binding.root.setOnClickListener {
                     itemClickListener.onClick(position)
-                }*/
+                }
             }
             is ClosedViewHolder -> {
                 holder.bind(dataList[position])

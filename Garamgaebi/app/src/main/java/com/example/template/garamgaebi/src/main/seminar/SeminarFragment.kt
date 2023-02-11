@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,18 +35,23 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val seminar = arguments?.getInt("HomeSeminarIdx")
-
         //프로필 어댑터 연결
-
         viewModel.getSeminarParticipants()
-
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
             val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
-            binding.activitySeminarFreeProfileRv.apply {
-                adapter = seminarProfile
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                //addItemDecoration(SeminarHorizontalItemDecoration())
+            //참석자가 없을 경우 다른 뷰 노출
+            if(it.result.isEmpty()){
+                binding.activitySeminarFreeNoParticipants.visibility = VISIBLE
+                binding.activitySeminarFreeProfileRv.visibility = GONE
+            }
+            else{
+                binding.activitySeminarFreeNoParticipants.visibility = GONE
+                binding.activitySeminarFreeProfileRv.visibility = VISIBLE
+                binding.activitySeminarFreeProfileRv.apply {
+                    adapter = seminarProfile
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    //addItemDecoration(SeminarHorizontalItemDecoration())
+                }
             }
         })
 

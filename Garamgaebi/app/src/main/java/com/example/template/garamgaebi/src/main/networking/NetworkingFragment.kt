@@ -3,6 +3,8 @@ package com.example.template.garamgaebi.src.main.networking
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,10 +34,19 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
             val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
-            binding.activityNetworkProfileRv.apply {
-                adapter = networkingProfile
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                //addItemDecoration(NetworkingHorizontalItemDecoration())
+            //참석자가 없을 경우 다른 뷰 노출
+            if(it.result.isEmpty()){
+                binding.activityNetworkingNoParticipants.visibility = VISIBLE
+                binding.activityNetworkProfileRv.visibility = GONE
+
+            } else{
+                binding.activityNetworkingNoParticipants.visibility = GONE
+                binding.activityNetworkProfileRv.visibility = VISIBLE
+                binding.activityNetworkProfileRv.apply {
+                    adapter = networkingProfile
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    //addItemDecoration(NetworkingHorizontalItemDecoration())
+                }
             }
         })
 
