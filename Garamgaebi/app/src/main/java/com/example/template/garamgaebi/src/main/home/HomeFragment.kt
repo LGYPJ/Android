@@ -254,4 +254,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         )
         constraints.applyTo(binding.fragmentHomeClMeeting)
     }
+
 }

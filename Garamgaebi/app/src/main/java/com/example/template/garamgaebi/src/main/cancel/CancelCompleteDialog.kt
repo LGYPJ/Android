@@ -1,20 +1,33 @@
 package com.example.template.garamgaebi.src.main.cancel
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.example.template.garamgaebi.adapter.GatheringMyMeetingScheduledRVAdapter
 import com.example.template.garamgaebi.databinding.DialogCancelCompleteBinding
+import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import com.example.template.garamgaebi.src.main.MainActivity
+import com.example.template.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
+import com.example.template.garamgaebi.viewModel.ApplyViewModel
+import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
 class CancelCompleteDialog: DialogFragment() {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    //var mainActivity : MainActivity? = null
+    //var gatheringMyMeetingFragment: GatheringMyMeetingFragment? = null
+    private val viewModel by viewModels<GatheringViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +55,22 @@ class CancelCompleteDialog: DialogFragment() {
         //신청취소 완료 다이얼로그에서 닫기 버튼 누르면 다이얼로그 없어짐
         // 내모임으로 화면전환 추가하기
         binding.dialogCancelCompleteBtn.setOnClickListener {
-
-            containerActivity!!.openFragmentOnFrameLayout(0)
+            //containerActivity!!.openFragmentOnFrameLayout(0)
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("meeting", true)
+            startActivity(intent)
+            viewModel.programReady.observe(viewLifecycleOwner, Observer{
+                val adapter : GatheringMyMeetingScheduledRVAdapter by lazy { GatheringMyMeetingScheduledRVAdapter(viewLifecycleOwner,
+                    it as ArrayList<GatheringProgramResult>, viewModel) }
+                adapter.submitList(it)
+            })
+            //(activity as MainActivity).goGatheringMy()
+            //GatheringMyMeetingFragment().refresh()
+            //gatheringMyMeetingFragment?.refresh()
+            //gatheringMyMeetingFragment!!.refresh()
             //this.completeDialogInterface?.onYesButtonClick()
-
+            //goGathering()
+            //GatheringMyMeetingFragment().myMeetingScheduledAdapter?.notifyDataSetChanged()
         }
 
     }
@@ -57,8 +82,8 @@ class CancelCompleteDialog: DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
+       // gatheringMyMeetingFragment = GatheringMyMeetingFragment()
+
     }
-
-
 
 }

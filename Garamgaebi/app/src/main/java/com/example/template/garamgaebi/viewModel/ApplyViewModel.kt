@@ -9,9 +9,11 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ApplyRepository
+import com.example.template.garamgaebi.repository.GatheringRepository
 import com.example.template.garamgaebi.repository.NetworkingRepository
 import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +23,7 @@ class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
     private val networkingRepository = NetworkingRepository()
     private val seminarRepository = SeminarRepository()
+    private val gatheringRepository = GatheringRepository()
 
     private val _cancel = MutableLiveData<CancelResponse>()
     val cancel : LiveData<CancelResponse>
@@ -41,6 +44,11 @@ class ApplyViewModel : ViewModel() {
     private val _enrollReq = MutableLiveData<EnrollRequest>()
     val enrollReq : LiveData<EnrollRequest>
     get() = _enrollReq
+
+    private val _programReady = MutableLiveData<List<GatheringProgramResult>>()
+    val programReady : LiveData<List<GatheringProgramResult>>
+        get() = _programReady
+
 
     private val pay : MutableLiveData<String> = MutableLiveData("무료")
 
@@ -151,6 +159,20 @@ class ApplyViewModel : ViewModel() {
             }
             else{
                 Log.d("error", response.message())
+            }
+        }
+
+        //신청취소 리프레쉬
+        fun addGetGatheringProgramReady() {
+            viewModelScope.launch(Dispatchers.IO){
+                val response = gatheringRepository.getGatheringProgramReady(22)
+                Log.d("getGatheringProgramReady", "$response")
+
+                if (response.isSuccessful && response.body() != null) {
+                    //_programReady.postValue(response.body())
+                    _programReady.postValue(response.body()!!.result)
+                    Log.d("getGatheringProgramReady", "${response.body()}")
+                }
             }
         }
     }

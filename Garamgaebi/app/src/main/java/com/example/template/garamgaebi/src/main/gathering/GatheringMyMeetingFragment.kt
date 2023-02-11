@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringMyMeetingLastRVAdapter
@@ -22,10 +23,12 @@ import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener {
     //리사이클러뷰 갱신
-    var data = mutableListOf<GatheringProgramResult>()
-    //var myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter? = null
+    var data = MutableLiveData<GatheringProgramResult>()
+    var myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter? = null
     //var myMeetingLastAdapter : GatheringMyMeetingLastRVAdapter? =null
     //private val viewModel by viewModels<GatheringViewModel>()
+    //뷰모델
+    private val viewModel by viewModels<GatheringViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,11 +38,12 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
-        val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
-        viewModel.getGatheringProgramReady(22)
+        //val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+       viewModel.getGatheringProgramReady(22)
         viewModel.getGatheringProgramClosed(22)
 
-        viewModel.programReady.observe(viewLifecycleOwner, Observer {
+
+        /*viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
             if (result.isEmpty() || !it.isSuccess || (it == null)) {
@@ -56,7 +60,6 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                     myMeetingScheduledAdapter.submitList(result)
-
                 }
 
                 myMeetingScheduledAdapter.setOnItemClickListener(object :
@@ -73,7 +76,56 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     }
                 })
             }
+        })*/
+
+        viewModel.programReady.observe(viewLifecycleOwner, Observer {
+            //val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
+            myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(viewLifecycleOwner,
+                it as ArrayList<GatheringProgramResult>, viewModel
+            )
+            binding.fragmentGatheringMyMeetingRvScheduled.apply {
+                adapter = myMeetingScheduledAdapter
+                layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(GatheringItemDecoration())
+            }
+            if (it.isEmpty() || (it == null)) {
+                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
+                binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
+            } else {
+                binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.GONE
+                binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.VISIBLE
+
+                /*myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(viewLifecycleOwner,
+                    it as ArrayList<GatheringProgramResult>, viewModel
+                )
+                binding.fragmentGatheringMyMeetingRvScheduled.apply {
+                    adapter = myMeetingScheduledAdapter
+                    layoutManager =
+                        LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                    addItemDecoration(GatheringItemDecoration())
+                }*/
+                myMeetingScheduledAdapter!!.setData(it)
+                viewModel.addGetGatheringProgramReady()
+                //myMeetingScheduledAdapter.submitList(it)
+
+                myMeetingScheduledAdapter!!.setOnItemClickListener(object :
+                    GatheringMyMeetingScheduledRVAdapter.OnItemClickListener {
+                    override fun onMoreClick(position: Int, v: View) {
+                        val program = it[position].programIdx
+                        val type = it[position].type
+                        with(GaramgaebiApplication.sSharedPreferences.edit()) {
+                            putInt("programIdx", program)
+                            putString("type", type)
+                            apply()
+                        }
+                        showPopupScheduled(v)
+                    }
+                })
+            }
         })
+
+
         viewModel.programClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
@@ -149,9 +201,14 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         return item != null
     }
 
-    //리사이클러뷰 갱신
-    /*fun refreshAdapter(){
-        myMeetingScheduledAdapter?.submitList(data)
+    //리사이클러뷰 갱신 프래그먼트 화면 갱신
+    /*fun refresh() {
+        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
+        ft.detach(this).attach(this).commit()
     }*/
+
+
+
+
 
 }

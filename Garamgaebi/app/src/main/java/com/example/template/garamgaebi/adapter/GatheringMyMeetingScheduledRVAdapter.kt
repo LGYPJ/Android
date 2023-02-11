@@ -3,21 +3,28 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult
+import com.example.template.garamgaebi.viewModel.GatheringViewModel
 
-class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<GatheringProgramResult>) : ListAdapter<GatheringProgramResult, GatheringMyMeetingScheduledRVAdapter.ViewHolder>(
-    diffUtil) {
+class GatheringMyMeetingScheduledRVAdapter(
+    viewLifecycleOwner: LifecycleOwner,
+    private var dataList: ArrayList<GatheringProgramResult>, private val gatheringViewModel: GatheringViewModel
+) : ListAdapter<GatheringProgramResult, GatheringMyMeetingScheduledRVAdapter.ViewHolder>(diffUtil){
     private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringMyMeetingScheduledBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: GatheringProgramResult){
+        fun bind(data: GatheringProgramResult, gatheringViewModel: GatheringViewModel){
             binding.itemGatheringMyMeetingScheduledTvName.text = data.title
             binding.itemGatheringMyMeetingScheduledTvDate.text = data.date
             binding.itemGatheringMyMeetingScheduledTvPlace.text = data.location
+
+            //삭제
+            gatheringViewModel.addGetGatheringProgramReady()
         }
     }
     companion object {
@@ -47,7 +54,7 @@ class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<Gathe
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList[position], gatheringViewModel)
         //val temp = differ.currentList[position]
         //holder.bind(currentList[position])
         holder.binding.itemGatheringMyMeetingScheduledIvMore.setOnClickListener {
@@ -64,7 +71,15 @@ class GatheringMyMeetingScheduledRVAdapter(private val dataList: ArrayList<Gathe
         itemClickListener = onItemClickListener
     }
 
+    fun setData(memo : List<GatheringProgramResult>){
+        dataList = memo as ArrayList<GatheringProgramResult>
+        notifyDataSetChanged()
+    }
 
+    // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
 
 

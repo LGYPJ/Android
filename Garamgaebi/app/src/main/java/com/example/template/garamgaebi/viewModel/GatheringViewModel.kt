@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.GatheringRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -40,9 +41,12 @@ class GatheringViewModel: ViewModel() {
     get() = _networkingClosed
 
     // 내 모임
-    private val _programReady = MutableLiveData<GatheringProgramResponse>()
+    /*private val _programReady = MutableLiveData<GatheringProgramResponse>()
     val programReady : LiveData<GatheringProgramResponse>
-    get() = _programReady
+    get() = _programReady*/
+    private val _programReady = MutableLiveData<List<GatheringProgramResult>>()
+    val programReady : LiveData<List<GatheringProgramResult>>
+        get() = _programReady
 
     private val _programClosed = MutableLiveData<GatheringProgramResponse>()
     val programClosed : LiveData<GatheringProgramResponse>
@@ -132,18 +136,19 @@ class GatheringViewModel: ViewModel() {
 
 
     fun getGatheringProgramReady(memberIdx : Int) {
-        viewModelScope.launch {
-            val response = gatheringRepository.getGatheringProgramReady(memberIdx)
+        viewModelScope.launch(Dispatchers.IO){
+            val response = gatheringRepository.getGatheringProgramReady(22)
             Log.d("getGatheringProgramReady", "$response")
 
             if (response.isSuccessful && response.body() != null) {
-                _programReady.postValue(response.body())
+                //_programReady.postValue(response.body())
+                _programReady.postValue(response.body()!!.result)
                 Log.d("getGatheringProgramReady", "${response.body()}")
             }
         }
     }
     fun getGatheringProgramClosed(memberIdx : Int) {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO){
             val response = gatheringRepository.getGatheringProgramClosed(memberIdx)
             Log.d("getGatheringProgramClosed", "$response")
 
@@ -154,9 +159,9 @@ class GatheringViewModel: ViewModel() {
         }
     }
 
-    fun getDay(date : String) : String{
-        val formatter = DateTimeFormatter.ISO_DATE_TIME
-        val dataFormat = SimpleDateFormat("yyyy-MM-dd")
-        return dataFormat.format(formatter.parse(date))
+    fun addGetGatheringProgramReady() {
+        viewModelScope.launch (Dispatchers.IO){
+            gatheringRepository.getGatheringProgramReady(22)
+        }
     }
 }
