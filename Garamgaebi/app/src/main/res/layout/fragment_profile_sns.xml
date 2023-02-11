@@ -33,6 +33,36 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/activity_sns_tv_nameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:text="@string/sns_add_type"
+            android:textColor="@color/black80"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/activity_sns_et_name"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@drawable/basic_gray_border_layout"
+            android:gravity="center_vertical"
+            android:hint="@string/sns_add_type_desc"
+            android:paddingStart="12dp"
+            android:text="@={snsViewModel.snsType}"
+            android:textColor="@color/black80"
+            android:textColorHint="@color/grayD9"
+            android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/sns_add_type_desc))}"
+            android:onClick="@{()->snsViewModel.setTrueType()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle" />
+
+        <TextView
             android:id="@+id/activity_sns_tv_linkTitle"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -49,7 +79,7 @@
             android:id="@+id/activity_sns_et_linkDesc"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@{snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid ? @drawable/basic_gray_border_layout : @drawable/basic_red_border_layout}"
+            android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
             android:hint="@string/sns_add_link_desc"
             android:paddingStart="12dp"
@@ -57,41 +87,11 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/sns_add_link_desc))}"
             android:onClick="@{()->snsViewModel.setTrueAddress()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_linkTitle" />
-
-        <TextView
-            android:id="@+id/activity_sns_tv_nameTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:text="@string/sns_add_type"
-            android:textColor="@color/black80"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/activity_sns_et_name"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:background="@{snsViewModel.typeFirst &amp;&amp; snsViewModel.snsTypeIsValid ? @drawable/basic_gray_border_layout : @drawable/basic_red_border_layout}"
-
-            android:gravity="center_vertical"
-            android:hint="@string/sns_add_type_desc"
-            android:paddingStart="12dp"
-            android:text="@={snsViewModel.snsType}"
-            android:textColor="@color/black80"
-            android:textColorHint="@color/grayForBtn"
-            android:textSize="14sp"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,snsViewModel.snsTypeIsValid)}"
-            android:onClick="@{()->snsViewModel.setTrueType()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle" />
 
 
         <androidx.appcompat.widget.AppCompatButton

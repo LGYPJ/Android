@@ -8,6 +8,10 @@
     <!-- 도메인명_컴포넌트함축어_용도(=목적) -->
 
     <!-- Common -->
+    <string name="trueString">TRUE</string>
+    <string name="falseString">FALSE</string>
+
+    <string name="now">현재</string>
     <string name="example">example</string>
     <string name="email_form">\@gachon.ac.kr</string>
     <string name="user">가람개비 유저</string>
@@ -26,7 +30,7 @@
     <string name="working">재직 중</string>
 
     <string name="education">교육</string>
-    <string name="institution">교육기관</string>
+    <string name="institution">교육 기관</string>
     <string name="major">전공/과정</string>
     <string name="learning">교육 중</string>
 
@@ -100,6 +104,7 @@
     <string name="register_belong_desc">자신을 표현해봐요</string>
 
     <!-- Register_Career -->
+    <string name="caution_input_22">22자 이내로 작성해주세요</string>
     <string name="register_career_desc">재직 중이 아니라면\n가장 최근에 일한 곳을 알려주세요</string>
     <string name="register_input_company_desc">회사명을 입력해주세요</string>
     <string name="register_input_position_desc">직함을 입력주세요(예: 백엔드 개발자)</string>

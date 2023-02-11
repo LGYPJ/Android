@@ -3,27 +3,71 @@ package com.example.template.garamgaebi.src.main.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.FragmentProfileEducationBinding
+import com.example.template.garamgaebi.viewModel.CareerViewModel
+import com.example.template.garamgaebi.viewModel.EditTextViewModel
+import com.example.template.garamgaebi.viewModel.EducationViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class EduFragment  : BaseFragment<FragmentProfileEducationBinding>(FragmentProfileEducationBinding::bind, R.layout.fragment_profile_education) {
+class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layout.fragment_profile_education) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //편집 정보 저장하기 버튼 클릭이벤트
+        val viewModel = ViewModelProvider(this)[EducationViewModel::class.java]
+        binding.setVariable(BR.snsViewModel,viewModel)
+        binding.educationViewModel = viewModel
+
+        val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
+        binding.setVariable(BR.editTextViewModel,editTextViewModel)
+
+        binding.editTextViewModel = editTextViewModel
+
+        // 유효성 확인
+        viewModel.institution.observe(viewLifecycleOwner, Observer {
+            binding.educationViewModel = viewModel
+            if(it.length < 22 && it.isNotEmpty())
+                viewModel.institutionIsValid.value = true
+
+            Log.d("education_institution_true",viewModel.institutionIsValid.value.toString())
+        })
+        viewModel.major.observe(viewLifecycleOwner, Observer {
+            binding.educationViewModel = viewModel
+            if(it.length < 22 && it.isNotEmpty())
+                viewModel.majorIsValid.value = true
+
+            Log.d("education_major_true",viewModel.majorIsValid.value.toString())
+        })
+        viewModel.startDate.observe(viewLifecycleOwner, Observer {
+            binding.educationViewModel = viewModel
+
+            viewModel.startDateIsValid.value = it.isNotEmpty()
+
+            Log.d("education_startDate_true",viewModel.startDateIsValid.value.toString())
+        })
+        viewModel.endDate.observe(viewLifecycleOwner, Observer {
+            binding.educationViewModel = viewModel
+
+            viewModel.endDateIsValid.value = it.isNotEmpty()
+
+            Log.d("educationendDate_true",viewModel.startDateIsValid.value.toString())
+        })
+
         binding.activityEducationSaveBtn.setOnClickListener {
-            if (checkInfo() == true) {
-                //교육 저장 기능 추가
-            } else {
-                //저장 불가 및 이유
-            }
+            viewModel.postEducationInfo()
+            Log.d("education_add_button","success")
         }
+
 
 
         //교육기관 입력 시 레이아웃 테두리 변경
@@ -53,12 +97,15 @@ class EduFragment  : BaseFragment<FragmentProfileEducationBinding>(FragmentProfi
         binding.activityEducationEtEndPeriod.setOnClickListener {
             val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
                 val arr = it.split(".")
-                if (checkNow(it)) {
+                viewModel.endDate.value = arr[0]+"."+arr[1]
+                if (GaramgaebiFunction().checkNow(it)) {
                     binding.activityEducationCheckbox.isChecked = true
                     binding.activityEducationEtEndPeriod.setText("현재")
+                    viewModel.isLearning.value = "TRUE"
                 } else {
                     binding.activityEducationCheckbox.isChecked = false
                     binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
+                    viewModel.isLearning.value = "FALSE"
                 }
                 checkDpInput(binding.activityEducationEtEndPeriod)
             }
@@ -97,13 +144,7 @@ class EduFragment  : BaseFragment<FragmentProfileEducationBinding>(FragmentProfi
             }
         })
     }
-     fun checkNow(inputDate :String) : Boolean {
-        //현재 교육 중일 때
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        var formatted = current.format(formatter)
-        return inputDate >= formatted
-    }
+
      fun checkInfo() : Boolean{
         var  checkResult = true
         var institution = binding.activityEducationEtInstitutionDesc.text.toString()

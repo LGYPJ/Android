@@ -65,4 +65,12 @@ class GaramgaebiFunction {
             date.format(pattern2)
         }
     }
+
+    //현재인지 확인
+    fun checkNow(inputDate :String) : Boolean {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        var formatted = current.format(formatter)
+        return inputDate >= formatted
+    }
 }
