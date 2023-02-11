@@ -5,11 +5,18 @@
     android:layout_height="184dp"
     android:background="@drawable/fragment_home_user_profile_border">
 
-    <ImageView
+    <com.joooonho.SelectableRoundedImageView
         android:id="@+id/item_home_user_iv_profile"
         android:layout_width="match_parent"
         android:layout_height="92dp"
-        android:clipToOutline="true"
+        app:sriv_left_top_corner_radius="12dip"
+        app:sriv_right_top_corner_radius="12dip"
+        app:sriv_left_bottom_corner_radius="0dip"
+        app:sriv_right_bottom_corner_radius="0dip"
+        app:sriv_oval="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/fragment_home_user_iv_border"
         android:src="@drawable/ic_launcher_background"
         android:backgroundTint="@color/grayD9"

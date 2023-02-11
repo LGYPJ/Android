@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +19,6 @@ import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.home.GatheringItemDecoration
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
-import okhttp3.internal.notify
-import okhttp3.internal.notifyAll
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener {
     //리사이클러뷰 갱신
@@ -28,6 +26,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
     //var myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter? = null
     //var myMeetingLastAdapter : GatheringMyMeetingLastRVAdapter? =null
     //private val viewModel by viewModels<GatheringViewModel>()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,8 +55,11 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     layoutManager =
                         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
+                    myMeetingScheduledAdapter.submitList(result)
+
                 }
-                myMeetingScheduledAdapter!!.setOnItemClickListener(object :
+
+                myMeetingScheduledAdapter.setOnItemClickListener(object :
                     GatheringMyMeetingScheduledRVAdapter.OnItemClickListener {
                     override fun onMoreClick(position: Int, v: View) {
                         val program = it.result[position].programIdx
@@ -88,7 +90,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(GatheringItemDecoration())
                 }
-                myMeetingLastAdapter!!.setOnItemClickListener(object :
+                myMeetingLastAdapter.setOnItemClickListener(object :
                     GatheringMyMeetingLastRVAdapter.OnItemClickListener {
                     override fun onMoreClick(position: Int, v: View) {
                         val program = it.result[position].programIdx
@@ -149,7 +151,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
 
     //리사이클러뷰 갱신
     /*fun refreshAdapter(){
-        myMeetingScheduledAdapter?.notifyDataSetChanged()
+        myMeetingScheduledAdapter?.submitList(data)
     }*/
 
 }

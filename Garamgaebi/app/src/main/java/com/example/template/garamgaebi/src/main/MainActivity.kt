@@ -129,8 +129,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         gatheringFragment!!.setVPNetworking()
     }
 
-    /*override fun onRestart() {
-        super.onRestart()
+    /*override fun onStart() {
+        super.onStart()
         GatheringMyMeetingFragment().refreshAdapter()
     }*/
 
