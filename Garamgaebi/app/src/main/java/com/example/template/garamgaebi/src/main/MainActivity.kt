@@ -145,20 +145,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
             gatheringFragment!!.setVPmy()
         }
-        //gatheringFragment!!.setVPSeminar()
+        else{
+            gatheringFragment!!.setVPSeminar()
+        }
     }
 
-    /*override fun onRestart() {
-        super.onRestart()
-        GatheringMyMeetingFragment().onResume()
-    }*/
-
-    /*override fun onRestart() {
-        super.onRestart()
-        val intent = intent
-        finish() //현재 액티비티 종료 실시
-        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-        startActivity(intent) //현재 액티비티 재실행 실시
-        overridePendingTransition(0, 0)
-    }*/
 }
