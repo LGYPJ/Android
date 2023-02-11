@@ -28,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+
     //private var gatheringProgramResponse = MutableLiveData<GatheringProgramResponse>()
     var data = mutableListOf<GatheringProgramResult>()
 
@@ -138,18 +139,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onStart() {
         super.onStart()
-        if(intent.getBooleanExtra("meeting", false)){
+        if (intent.getBooleanExtra("meeting", false)) {
             goGathering()
             binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
             gatheringFragment!!.setVPmy()
-        }
-        else{
+        } else {
             gatheringFragment!!.setVPSeminar()
+        }
+    }
 
-    /*override fun onRestart() {
-        super.onRestart()
-        GatheringMyMeetingFragment().refreshAdapter()
-    }*/
     fun getHelpFrame() {
         Log.d("getHelpFrame", "getHelpFrame")
         binding.activityMainHelpFrm.visibility = View.VISIBLE
@@ -160,5 +158,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         }
     }
-
 }
+
+
+
+
+

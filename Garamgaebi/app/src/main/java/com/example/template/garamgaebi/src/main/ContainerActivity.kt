@@ -2,6 +2,7 @@ package com.example.template.garamgaebi.src.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseActivity
@@ -22,6 +23,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         //툴바
         val toolbar = binding.activityContainerToolbar
@@ -168,6 +170,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onStart() {
         super.onStart()
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         Log.d("title_onstart","됨")
         if(isSeminarCharged()){
             binding.activityContainerToolbarTv.text = "세미나"
@@ -293,8 +296,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
-
 
 
 
