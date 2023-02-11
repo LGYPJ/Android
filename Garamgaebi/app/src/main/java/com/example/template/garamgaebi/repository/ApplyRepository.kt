@@ -12,5 +12,7 @@ class ApplyRepository {
     suspend fun postCancel(cancelRequest : CancelRequest) = applyClient.postCancel(cancelRequest)
     //신청등록
     suspend fun postEnroll(enrollRequest : EnrollRequest) = applyClient.postEnroll(enrollRequest)
+    //신청정보조회
+    suspend fun getCancel(memberIdx:Int, programIdx:Int) = applyClient.getCancel(memberIdx,programIdx)
 
 }

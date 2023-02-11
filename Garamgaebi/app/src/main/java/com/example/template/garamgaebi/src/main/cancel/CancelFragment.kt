@@ -34,9 +34,15 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelBankTv.text = "은행"
 
-        binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
-        binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
-        binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
+        //신청정보조회
+        viewModel.getCancel()
+        viewModel.cancelInfo.observe(viewLifecycleOwner, Observer{
+            val data = it.result
+            binding.activityCancelNameTv.text = data.name
+            binding.activityCancelNicknameTv.text = data.nickname
+            binding.activityCancelPhoneTv.text = data.phone
+        })
+
 
         // et selected 여부에 따라 drawable 결정
         binding.activityCancelPayEt.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
