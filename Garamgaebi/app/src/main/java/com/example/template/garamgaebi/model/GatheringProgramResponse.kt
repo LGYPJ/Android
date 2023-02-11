@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.model
 
+
 import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.common.BaseResponse
 

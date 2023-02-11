@@ -1,7 +1,6 @@
 package com.example.template.garamgaebi.src.main
 
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,26 +11,25 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_
 import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.example.template.garamgaebi.databinding.ActivityMainBinding
 import com.example.template.garamgaebi.model.ApiInterface
+import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.model.LoginRequest
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
 import com.example.template.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ua.naiksoftware.stomp.StompClient
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
-
-
+    //private var gatheringProgramResponse = MutableLiveData<GatheringProgramResponse>()
+    var data = mutableListOf<GatheringProgramResult>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,6 +125,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
     }
 
+    private fun goGathering() {
+        val findFragment = supportFragmentManager.findFragmentByTag("gathering")
+        supportFragmentManager.fragments.forEach { fm ->
+            supportFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
+        }
+        findFragment?.let {
+            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
+            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(intent.getBooleanExtra("meeting", false)){
+            goGathering()
+            binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+            gatheringFragment!!.setVPmy()
+        }
+        else{
+            gatheringFragment!!.setVPSeminar()
+
     /*override fun onRestart() {
         super.onRestart()
         GatheringMyMeetingFragment().refreshAdapter()
@@ -138,6 +157,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             binding.activityMainHelpFrm.visibility = View.GONE
             homeFragment!!.goneSeminarHelp()
             homeFragment!!.goneNetworkingHelp()
+
         }
     }
 

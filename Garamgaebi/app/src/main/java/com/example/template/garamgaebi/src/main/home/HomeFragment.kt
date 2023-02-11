@@ -259,6 +259,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         )
         constraints.applyTo(binding.fragmentHomeClMeeting)
     }
+
     fun goneSeminarHelp() {
         binding.fragmentHomeTvSeminarHelp.visibility = View.GONE
     }
@@ -266,3 +267,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeTvNetworkingHelp.visibility = View.GONE
     }
 }
+

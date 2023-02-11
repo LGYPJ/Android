@@ -81,7 +81,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
                 Log.d("cancel", it.toString())
                 if(it.isSuccess){
-
                     //showDialog()
                     activity?.let {
                         CancelCompleteDialog().show(
