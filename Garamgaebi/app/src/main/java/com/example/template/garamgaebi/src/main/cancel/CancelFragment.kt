@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -130,6 +131,14 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
                 }
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
+
+                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                if(data.fee == 0){
+                   binding.activityCancelBankTv.visibility = GONE
+                    binding.activityCancelBankDownBtn.visibility = GONE
+                    binding.activityCancelPayEt.visibility = GONE
+                }
+
             })
         }
         //네트워킹 상세보기 뷰모델로
@@ -147,6 +156,14 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
                 }
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
+
+                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                if(data.fee == 0){
+                    binding.activityCancelBankTv.visibility = GONE
+                    binding.activityCancelBankDownBtn.visibility = GONE
+                    binding.activityCancelPayEt.visibility = GONE
+                }
+
             })
         }
 
