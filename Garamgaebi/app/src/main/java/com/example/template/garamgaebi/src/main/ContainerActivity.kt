@@ -45,7 +45,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
             if(isCancel()){
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("meeting", true)
+                intent.putExtra("meeting", "meeting")
                 startActivity(intent)
             }
             else{
@@ -68,7 +68,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isCancel()){
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("meeting", true)
+            intent.putExtra("meeting", "meeting")
             startActivity(intent)
         }
     }
@@ -319,6 +319,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+    /*fun isNotifi ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is NotificationFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }*/
 
 
 

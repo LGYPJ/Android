@@ -136,15 +136,54 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
         }
     }
+    private fun goHome() {
+        val findFragment = supportFragmentManager.findFragmentByTag("home")
+        supportFragmentManager.fragments.forEach { fm ->
+            supportFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
+        }
+        findFragment?.let {
+            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
+            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        }
+    }
 
-    override fun onStart() {
+    /*override fun onStart(int: Int) {
         super.onStart()
+        when(int){
+            intent.getIntExtra("meeting",0) -> {
+
+            }
+        }
         if (intent.getBooleanExtra("meeting", false)) {
             goGathering()
             binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
             gatheringFragment!!.setVPmy()
-        } else {
+        }
+        else {
             gatheringFragment!!.setVPSeminar()
+        }
+    }*/
+
+    fun onMove(int: Int) {
+        super.onStart()
+        when(int){
+            0 -> {
+                goGathering()
+                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+                gatheringFragment!!.setVPmy()
+            }
+            1 -> {gatheringFragment!!.setVPSeminar()
+                goHome()}
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (intent.getStringExtra("meeting") == "meeting") {
+           onMove(0)
+        }
+        else {
+            onMove(1)
         }
     }
 
