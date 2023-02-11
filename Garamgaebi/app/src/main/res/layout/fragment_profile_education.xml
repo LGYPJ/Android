@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="educationViewModel"
+            type="com.example.template.garamgaebi.viewModel.EducationViewModel" />
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:text="교육 기관"
+            android:text="@string/institution"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -36,15 +45,27 @@
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
-            android:hint="닉네임을 입력해주세요 (최대 8글자)"
+            android:hint="@string/register_input_institution_desc"
             android:paddingStart="12dp"
-            android:text=""
+            android:text="@={educationViewModel.institution}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_institution_desc))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_education_tv_institutionTitle" />
+        <TextView
+            android:id="@+id/caution_input_institution_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_education_et_institutionDesc"
+            app:layout_constraintTop_toBottomOf="@id/activity_education_et_institutionDesc" />
 
         <TextView
             android:id="@+id/activity_education_tv_majorTitle"
@@ -52,7 +73,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="전공/과정"
+            android:text="@string/major"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -66,15 +87,27 @@
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
-            android:hint="소속을 입력해주세요"
+            android:hint="@string/register_input_major"
             android:paddingStart="12dp"
-            android:text=""
+            android:text="@={educationViewModel.major}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_major))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_majorTitle" />
+        <TextView
+            android:id="@+id/caution_input_major_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_education_et_majorDesc"
+            app:layout_constraintTop_toBottomOf="@id/activity_education_et_majorDesc" />
 
         <TextView
             android:id="@+id/activity_education_tv_periodTitle"
@@ -82,7 +115,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="교육 기간"
+            android:text="@string/working_period"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -95,15 +128,17 @@
             android:layout_height="48dp"
             android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
-            android:hint="시작년월"
+            android:hint="@string/start_date"
             android:padding="11dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            android:text="@={educationViewModel.startDate}"
             app:layout_constraintEnd_toStartOf="@id/activity_education_tv_period"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
+
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -112,8 +147,7 @@
             android:src="@drawable/ic_calendar_20dp"
             app:layout_constraintEnd_toEndOf="@id/activity_education_et_startPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"
-            app:layout_constraintBottom_toBottomOf="@id/activity_education_et_startPeriod"
-            ></ImageView>
+            app:layout_constraintBottom_toBottomOf="@id/activity_education_et_startPeriod" />
         <TextView
             android:id="@+id/activity_education_tv_period"
             android:layout_width="wrap_content"
@@ -133,12 +167,13 @@
             android:layout_height="48dp"
             android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
-            android:hint="종료년월"
+            android:hint="@string/end_date"
             android:padding="11dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_education_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
@@ -178,7 +213,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:text="교육 중"
+            android:text="@string/learning"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_education_checkbox_rl"
             app:layout_constraintTop_toBottomOf="@id/activity_education_et_startPeriod"></TextView>
@@ -188,11 +223,12 @@
             android:layout_width="379dp"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_gray_btn_layout"
+            android:background="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:outlineProvider="none"
-            android:text="저장하기"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:clickable="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? true : false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
@@ -201,4 +237,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
+</layout>

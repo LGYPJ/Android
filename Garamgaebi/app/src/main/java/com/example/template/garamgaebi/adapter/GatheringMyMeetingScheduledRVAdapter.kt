@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult
 import com.example.template.garamgaebi.viewModel.GatheringViewModel
@@ -18,7 +19,7 @@ class GatheringMyMeetingScheduledRVAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringProgramResult){
             binding.itemGatheringMyMeetingScheduledTvName.text = data.title
-            binding.itemGatheringMyMeetingScheduledTvDate.text = data.date
+            binding.itemGatheringMyMeetingScheduledTvDate.text = GaramgaebiFunction().getDateMyMeeting(data.date)
             binding.itemGatheringMyMeetingScheduledTvPlace.text = data.location
         }
     }

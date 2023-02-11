@@ -16,6 +16,7 @@ import com.example.template.garamgaebi.adapter.CareerMyRVAdapter
 import com.example.template.garamgaebi.adapter.EduMyRVAdapter
 import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.model.SNSData
@@ -44,8 +45,9 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         viewModel.getProfileInfo(1)
 
-
         viewModel.profileInfo.observe(viewLifecycleOwner, Observer {
+            binding.profileViewModel = viewModel
+
             val result = it as ProfileDataResponse
             if(result == null) {
 
@@ -99,6 +101,15 @@ class MyProfileFragment :
             careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     // sns 편집
+//                    val program = it.result[position].programIdx
+//                    GaramgaebiApplication.sSharedPreferences
+//                        .edit().putInt("programIdx", program)
+//                        .apply()
+//                    //세미나 메인 프래그먼트로!
+//                    val intent = Intent(context, ContainerActivity::class.java)
+//                    intent.putExtra("seminar", true)
+//                    //intent.putExtra("HomeSeminarIdx", program)
+//                    startActivity(intent)
                 }
             } )
         })
@@ -121,20 +132,6 @@ class MyProfileFragment :
             } )
         })
 
-//        //career 리스트뷰 연결
-//        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
-//        val careerAdapter = CareerMyRVAdapter(careerItems)
-//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-//        binding.activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
-//        binding.activityMyProfileRVCareer.adapter = careerAdapter
-//
-//
-//        //edu 리스트뷰 연결
-//        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
-//        val eduAdapter = EduMyRVAdapter(eduItems)
-//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
-//        binding.activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
-//        binding.activityMyProfileRVEdu.adapter = eduAdapter
 
         binding.activityMyProfileBtnSnsAdd.setOnClickListener{
             goAddSNSFragment()
@@ -222,6 +219,10 @@ class MyProfileFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // containerActivity = context as ContainerActivity
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onDetach() {

@@ -3,12 +3,14 @@ package com.example.template.garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
@@ -28,7 +30,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
         binding.fragmentGatheringNetworkingClosedClBlank.visibility = View.VISIBLE
         binding.fragmentGatheringNetworkingRvDeadline.visibility = View.GONE
         // 이번 달
-        val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        val viewModel by viewModels<GatheringViewModel>()
         viewModel.getGatheringNetworkingThisMonth()
         viewModel.getGatheringNetworkingNextMonth()
         viewModel.getGatheringNetworkingClosed()
@@ -43,9 +45,9 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingClThisMonth.visibility = View.VISIBLE
 
                 binding.fragmentGatheringNetworkingThisMonthTvName.text = result.title
-                binding.fragmentGatheringNetworkingThisMonthTvDateData.text = result.date
+                binding.fragmentGatheringNetworkingThisMonthTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
                 binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
-                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-day"
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
 
             }
             val program = it.result.programIdx
@@ -70,7 +72,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingClScheduled.visibility = View.VISIBLE
 
                 binding.fragmentGatheringNetworkingScheduledTvName.text = result.title
-                binding.fragmentGatheringNetworkingScheduledTvDateData.text = result.date
+                binding.fragmentGatheringNetworkingScheduledTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
                 binding.fragmentGatheringNetworkingScheduledTvPlaceData.text = result.location
             }
             binding.fragmentGatheringNetworkingClScheduled.isEnabled = false

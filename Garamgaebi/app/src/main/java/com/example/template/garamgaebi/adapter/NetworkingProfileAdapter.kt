@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.databinding.ItemNetworkProfileBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
-import com.example.template.garamgaebi.src.main.seminar.*
 
 class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

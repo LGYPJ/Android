@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="careerViewModel"
+            type="com.example.template.garamgaebi.viewModel.CareerViewModel" />
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:text="회사"
+            android:text="@string/company"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -37,15 +46,28 @@
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
-            android:hint="닉네임을 입력해주세요 (최대 8글자)"
+            android:hint="@string/register_input_company_desc"
             android:paddingStart="12dp"
-            android:text=""
+            android:text="@={careerViewModel.company}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_company_desc))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_career_tv_companyTitle" />
+
+        <TextView
+            android:id="@+id/caution_input_company_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_career_et_companyDesc"
+            app:layout_constraintTop_toBottomOf="@id/activity_career_et_companyDesc" />
 
         <TextView
             android:id="@+id/activity_career_tv_positionTitle"
@@ -53,7 +75,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="직함"
+            android:text="@string/position"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -67,15 +89,27 @@
             android:background="@drawable/basic_gray_border_layout"
 
             android:gravity="center_vertical"
-            android:hint="소속을 입력해주세요"
+            android:hint="@string/register_input_position_desc"
             android:paddingStart="12dp"
-            android:text=""
+            android:text="@={careerViewModel.position}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_position_desc))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_positionTitle" />
+        <TextView
+            android:id="@+id/caution_input_position_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caution_input_22"
+            android:textColor="@color/redForText"
+            android:visibility="invisible"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_career_et_position"
+            app:layout_constraintTop_toBottomOf="@id/activity_career_et_position" />
 
         <TextView
             android:id="@+id/activity_career_tv_periodTitle"
@@ -83,7 +117,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="재직 기간"
+            android:text="@string/working_period"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -96,12 +130,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
-            android:hint="시작년월"
+            android:hint="@string/start_date"
             android:padding="14dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            android:text="@={careerViewModel.startDate}"
             android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@id/activity_career_tv_period"
             app:layout_constraintStart_toStartOf="parent"
@@ -135,12 +170,13 @@
             android:layout_height="48dp"
             android:background="@drawable/basic_gray_border_layout"
             android:gravity="center_vertical"
-            android:hint="종료년월"
+            android:hint="@string/end_date"
             android:padding="11dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
@@ -180,7 +216,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:text="재직 중"
+            android:text="@string/working"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_career_checkbox_rl"
             app:layout_constraintTop_toBottomOf="@id/activity_career_et_startPeriod"></TextView>
@@ -190,11 +226,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_gray_btn_layout"
-            android:text="저장하기"
+            android:background="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:outlineProvider="none"
+            android:clickable="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? true : false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
@@ -203,4 +240,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
 

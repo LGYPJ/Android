@@ -1,10 +1,12 @@
 package com.example.template.garamgaebi.src.main.home
 
+import android.content.Context
 import android.graphics.Rect
+import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeUserItemDecoration : RecyclerView.ItemDecoration() {
+class HomeUserItemDecoration(val context : Context) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -12,15 +14,18 @@ class HomeUserItemDecoration : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        val offset = 20
+        val offset = dpToPx(16)
         val position = parent.getChildAdapterPosition(view)
 
         if(position == 0) {
-            outRect.left = 0
-        } else {
             outRect.left = offset
+        } else {
+            outRect.left = 0
         }
         outRect.right = offset
 
+    }
+    private fun dpToPx(dp : Int) : Int{
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
     }
 }

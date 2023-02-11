@@ -11,7 +11,16 @@ interface ApiInterface {
 
     //NotificationController 알림 컨트롤러
     @GET("/notification/{member-idx}")
-    suspend fun getNotification(@Path("member-idx") memberIdx: Int) : Response<NotificationResponse>
+    suspend fun getNotification(
+        @Path("member-idx") memberIdx: Int,
+        @Query("lastNotificationIdx") lastNotificationIdx: Int) : Response<NotificationResponse>
+
+    @GET("/notification/{member-idx}")
+    suspend fun getNotification(
+        @Path("member-idx") memberIdx: Int) : Response<NotificationResponse>
+
+    @GET("/notification/unread/{member-idx}")
+    suspend fun getNotificationUnread(@Path("member-idx") memberIdx: Int) : Response<NotificationUnreadResponse>
 
     //SeminarController 세미나 컨트롤러
 
@@ -92,31 +101,45 @@ interface ApiInterface {
     suspend fun getCheckAddSNS(
         //@Header("accessToken") accessToken : String,
         @Body request: SNSData
-    ): Call<AddSNSDataResponse>
+    ): Response<AddSNSDataResponse>
 
     //고객센터 문의 요청
     @POST("/profile/qna")
     suspend fun getCheckQnA(
         @Body request: QnAData
-    ): Call<QnADataResponse>
+    ): Response<QnADataResponse>
+
+    //프로필 사진 저장/수정
+    @POST("/profile/images")
+    suspend fun getCheckEditProfileImg(
+        /*
+        {
+  "info": {
+    "memberIdx": 0,
+    "nickName": "string"
+  },
+  "image": "string"
+}
+         */
+    ):Response<BooleanResponse>
 
     //교육 추가
-    @POST("/profile/edit/{memberIdx}")
+    @POST("/profile/education")
     suspend fun getCheckAddEducation(
         @Body request: EducationData
-    ): Call<EducationDataResponse>
+    ): Response<AddEducationDataResponse>
 
     //프로필 편집
-    @POST("/profile/sns")
+    @POST("/profile/edit/{memberIdx}")
     suspend fun getCheckEditProfile(
         @Body request: ProfileData
-    ): Call<EditProfileDataResponse>
+    ): Response<EditProfileDataResponse>
 
     //경력 추가
     @POST("/profile/career")
     suspend fun getCheckAddCareer(
         @Body request: CareerData
-    ): Call<AddCareerDataResponse>
+    ): Response<AddCareerDataResponse>
 
     //프로필 정보 조회
     @GET("/profile/{memberIdx}")

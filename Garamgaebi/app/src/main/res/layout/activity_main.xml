@@ -7,6 +7,13 @@
     tools:context=".src.main.MainActivity">
 
     <FrameLayout
+        android:id="@+id/activity_main_help_frm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:elevation="5dp"
+        android:background="@android:color/transparent"/>
+    <FrameLayout
         android:id="@+id/activity_main_frm"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,5 +28,6 @@
         app:menu="@menu/activity_main_btm_nav"
         app:itemIconTint="@drawable/selector_btm_nav_color"
         app:itemTextColor="@drawable/selector_btm_nav_color" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

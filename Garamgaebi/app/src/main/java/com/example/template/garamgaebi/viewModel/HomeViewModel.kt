@@ -28,13 +28,21 @@ class HomeViewModel : ViewModel(){
     private val _program = MutableLiveData<HomeProgramResponse>()
     val program : LiveData<HomeProgramResponse>
         get() = _program
-    
+
+    private val _notification = MutableLiveData<NotificationResponse>()
+    val notification : LiveData<NotificationResponse>
+        get() = _notification
+
+    private val _notificationUnread = MutableLiveData<NotificationUnreadResponse>()
+    val notificationUnread : LiveData<NotificationUnreadResponse>
+        get() = _notificationUnread
+
     fun getHomeSeminar() {
         viewModelScope.launch {
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
 
-            if (response.isSuccessful && response.body()?.result != null) {
+            if (response.isSuccessful && response.body() != null) {
                 _seminar.postValue(response.body())
                 Log.d("getHomeSeminar", "${response.body()}")
             }
@@ -48,7 +56,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
-            if (response.isSuccessful && response.body()?.result != null) {
+            if (response.isSuccessful && response.body() != null) {
                 _networking.postValue(response.body())
                 Log.d("getHomeNetworking", "${response.body()}")
             } else {
@@ -60,8 +68,11 @@ class HomeViewModel : ViewModel(){
         viewModelScope.launch {
             val response = homeRepository.getHomeUser()
             Log.d("getHomeUser", "$response")
-
-            if (response.isSuccessful && response.body()?.result != null) {
+            if (response.isSuccessful && response.body() != null) {
+                (response.body()!!.result as ArrayList).removeIf{it.memberIdx == 22}
+                if ((response.body()!!.result as ArrayList).size == 11) {
+                    (response.body()!!.result as ArrayList).removeAt(10)
+                }
                 _user.postValue(response.body())
                 Log.d("getHomeUser", "${response.body()}")
             } else {
@@ -75,7 +86,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeProgram(memberIdx)
             Log.d("getHomeProgram", "$response")
 
-            if (response.isSuccessful && response.body()?.result != null) {
+            if (response.isSuccessful && response.body() != null) {
                 _program.postValue(response.body())
                 Log.d("getHomeProgram", "${response.body()}")
             } else {
@@ -84,9 +95,46 @@ class HomeViewModel : ViewModel(){
         }
     }
 
-    fun getDay(date : String) : String{
-        val dataFormat = SimpleDateFormat("yyyy-MM-dd")
-        return dataFormat.format(date).toString()
+    fun getNotification(memberIdx : Int ,lastNotificationIdx : Int) {
+        viewModelScope.launch {
+            val response = homeRepository.getNotification(memberIdx, lastNotificationIdx)
+            Log.d("getNotification", "$response")
 
+            if (response.isSuccessful && response.body() != null) {
+                _notification.postValue(response.body())
+                Log.d("getNotification", "${response.body()}")
+            }
+            else {
+                Log.d("error", "getNotification : "+response.message())
+            }
+        }
+    }
+    fun getNotification(memberIdx : Int) {
+        viewModelScope.launch {
+            val response = homeRepository.getNotification(memberIdx)
+            Log.d("getNotification", "$response")
+
+            if (response.isSuccessful && response.body() != null) {
+                _notification.postValue(response.body())
+                Log.d("getNotification", "${response.body()}")
+            }
+            else {
+                Log.d("error", "getNotification : "+response.message())
+            }
+        }
+    }
+
+    fun getNotificationUnread(memberIdx: Int) {
+        viewModelScope.launch {
+            val response = homeRepository.getNotificationUnread(memberIdx)
+            Log.d("getNotificationUnread", "$response")
+            if (response.isSuccessful && response.body()?.result != null) {
+                _notificationUnread.postValue(response.body())
+                Log.d("getNotificationUnread", "${response.body()}")
+            }
+            else {
+                Log.d("error", "getNotificationUnread : "+response.message())
+            }
+        }
     }
 }

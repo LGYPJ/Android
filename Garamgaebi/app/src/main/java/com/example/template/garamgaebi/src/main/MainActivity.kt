@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.common.GaramgaebiApplication
@@ -72,41 +73,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         supportFragmentManager.beginTransaction()
             .add(R.id.activity_main_frm, myProfileFragment!!, "myProfile").commitAllowingStateLoss()
 
-        supportFragmentManager.beginTransaction().show(homeFragment!!).commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction().hide(gatheringFragment!!)
-            .commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction().hide(myProfileFragment!!)
+        supportFragmentManager.beginTransaction()
+            .show(homeFragment!!)
+            .hide(gatheringFragment!!)
+            .hide(myProfileFragment!!)
             .commitAllowingStateLoss()
         binding.activityMainBottomNavi.selectedItemId = R.id.home
 
         binding.activityMainBottomNavi.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.activity_main_btm_nav_home -> {
-                    supportFragmentManager.beginTransaction().show(homeFragment!!)
-                        .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().hide(gatheringFragment!!)
-                        .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().hide(myProfileFragment!!)
+                    supportFragmentManager.beginTransaction()
+                        .show(homeFragment!!)
+                        .hide(gatheringFragment!!)
+                        .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {
-                    supportFragmentManager.beginTransaction().hide(homeFragment!!)
-                        .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().show(gatheringFragment!!)
-                        .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().hide(myProfileFragment!!)
+                    supportFragmentManager.beginTransaction()
+                        .hide(homeFragment!!)
+                        .show(gatheringFragment!!)
+                        .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_profile -> {
-                    supportFragmentManager.beginTransaction().hide(homeFragment!!)
-                        .hide((homeFragment!!))
+                    supportFragmentManager.beginTransaction()
+                        .hide(homeFragment!!)
+                        .hide(gatheringFragment!!)
+                        .show(myProfileFragment!!)
                         .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().hide(gatheringFragment!!)
-                        .commitAllowingStateLoss()
-                    supportFragmentManager.beginTransaction().show(myProfileFragment!!)
-                        .commitAllowingStateLoss()
+
 
                     return@setOnItemSelectedListener true
                 }
@@ -118,13 +116,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     fun goGatheringSeminar() {
-        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
         gatheringFragment!!.setVPSeminar()
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
     }
 
     fun goGatheringNetworking() {
-        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
         gatheringFragment!!.setVPNetworking()
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
     }
 
     private fun goGathering() {
@@ -147,6 +145,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         else{
             gatheringFragment!!.setVPSeminar()
+
+    /*override fun onRestart() {
+        super.onRestart()
+        GatheringMyMeetingFragment().refreshAdapter()
+    }*/
+    fun getHelpFrame() {
+        Log.d("getHelpFrame", "getHelpFrame")
+        binding.activityMainHelpFrm.visibility = View.VISIBLE
+        binding.activityMainHelpFrm.setOnClickListener {
+            binding.activityMainHelpFrm.visibility = View.GONE
+            homeFragment!!.goneSeminarHelp()
+            homeFragment!!.goneNetworkingHelp()
+
         }
     }
 
