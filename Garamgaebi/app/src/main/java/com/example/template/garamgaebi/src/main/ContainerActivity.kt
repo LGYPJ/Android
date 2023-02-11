@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.src.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -41,7 +42,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
             if(isNetworking()){
                 finish()
-            }else{
+            }
+            if(isCancel()){
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("meeting", true)
+                startActivity(intent)
+            }
+            else{
                 onBackPressed()
             }
         }
@@ -58,6 +65,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
             binding.activityContainerToolbarTv.text = "세미나"
+        }
+        if(isCancel()){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("meeting", true)
+            startActivity(intent)
         }
     }
 
@@ -291,6 +303,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if (fragment is SeminarChargedApplyFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isCancel ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is CancelFragment) {
                 returnValue = true
             }
         }
