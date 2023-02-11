@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -212,6 +213,7 @@ class ProfileEditFragment :
         view.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?) {}
+            @SuppressLint("SuspiciousIndentation")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val email = binding.activityEditProfileEtEmail.text.toString()
 

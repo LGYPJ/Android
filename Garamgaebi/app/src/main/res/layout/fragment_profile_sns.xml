@@ -9,6 +9,9 @@
         <variable
             name="snsViewModel"
             type="com.example.template.garamgaebi.viewModel.SNSViewModel" />
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,8 +49,7 @@
             android:id="@+id/activity_sns_et_linkDesc"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-
+            android:background="@{snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid ? @drawable/basic_gray_border_layout : @drawable/basic_red_border_layout}"
             android:gravity="center_vertical"
             android:hint="@string/sns_add_link_desc"
             android:paddingStart="12dp"
@@ -55,6 +57,7 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            android:onClick="@{()->snsViewModel.setTrueAddress()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_linkTitle" />
@@ -75,7 +78,7 @@
             android:id="@+id/activity_sns_et_name"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{snsViewModel.typeFirst &amp;&amp; snsViewModel.snsTypeIsValid ? @drawable/basic_gray_border_layout : @drawable/basic_red_border_layout}"
 
             android:gravity="center_vertical"
             android:hint="@string/sns_add_type_desc"
@@ -84,6 +87,8 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,snsViewModel.snsTypeIsValid)}"
+            android:onClick="@{()->snsViewModel.setTrueType()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle" />
@@ -94,11 +99,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_gray_btn_layout"
+            android:background="@{(snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:outlineProvider="none"
+            android:clickable="@{(snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

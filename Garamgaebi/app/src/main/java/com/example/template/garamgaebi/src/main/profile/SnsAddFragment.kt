@@ -3,81 +3,58 @@ package com.example.template.garamgaebi.src.main.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.FragmentProfileSnsBinding
+import com.example.template.garamgaebi.model.ProfileDataResponse
+import com.example.template.garamgaebi.model.SNSData
+import com.example.template.garamgaebi.viewModel.EditTextViewModel
+import com.example.template.garamgaebi.viewModel.ProfileViewModel
+import com.example.template.garamgaebi.viewModel.SNSViewModel
 
-class SnsAddFragment  : BaseFragment<FragmentProfileSnsBinding>(FragmentProfileSnsBinding::bind, R.layout.fragment_profile_sns) {
+class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
     private lateinit var callback: OnBackPressedCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val viewModel = ViewModelProvider(this)[SNSViewModel::class.java]
+        binding.setVariable(BR.snsViewModel,viewModel)
 
-        //편집 정보 저장하기 버튼 클릭이벤트
-        binding.activitySnsSaveBtn.setOnClickListener {
-            if (checkInfo() == true){
-                //경력 저장 기능 추가
-            }else{
-                //저장 불가 및 이유
-            }
-        }
+        binding.snsViewModel = viewModel
 
-        //회사 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activitySnsEtLinkDesc)
+        val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
+        binding.setVariable(BR.editTextViewModel,editTextViewModel)
 
-        //직함 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activitySnsEtName)
+        binding.editTextViewModel = editTextViewModel
 
-    }
-    private fun checkDpInput(view:TextView){
-        if (checkInfo()){
-            binding.activitySnsSaveBtn.isClickable = true
-            binding.activitySnsSaveBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-        }else{
-            binding.activitySnsSaveBtn.isClickable = false
-            binding.activitySnsSaveBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-        }
-    }
-    private fun checkEtInput(view: EditText) {
-        view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.register_et_border_selected)
-            } else {
-                view.setBackgroundResource(R.drawable.register_et_border)
-            }
-        }
-        view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (checkInfo()){
-                    binding.activitySnsSaveBtn.isClickable = true
-                    binding.activitySnsSaveBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-                }else{
-                    binding.activitySnsSaveBtn.isClickable = false
-                    binding.activitySnsSaveBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-                }
-            }
+        // 유효성 확인
+        viewModel.snsType.observe(viewLifecycleOwner, Observer {
+            binding.snsViewModel = viewModel
+            viewModel.snsTypeIsValid.value = it.isNotEmpty()
+            Log.d("sns_type_true",it.isNotEmpty().toString())
+        })
+        viewModel.snsAddress.observe(viewLifecycleOwner, Observer {
+            binding.snsViewModel = viewModel
+            viewModel.snsAddressIsValid.value = it.isNotEmpty()
+            Log.d("sns_address_true",it.isNotEmpty().toString())
         })
 
-    }
+        binding.activitySnsSaveBtn.setOnClickListener {
+            viewModel.postSNSInfo()
+            Log.d("sns_add_button","success")
 
-    fun checkInfo() : Boolean{
-        var  checkResult = true
-        var link = binding.activitySnsEtLinkDesc.text.toString()
-        var name = binding.activitySnsEtName.text.toString()
-
-
-        //회사 조건 확인 기능
-        if(link.length < 8) checkResult = false
-        //직함 조건 확인 기능
-        if(name.isEmpty()) {
-            checkResult = false
         }
-        return checkResult
+
+
     }
 }

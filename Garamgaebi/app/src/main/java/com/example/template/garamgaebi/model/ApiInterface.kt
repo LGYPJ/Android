@@ -101,31 +101,31 @@ interface ApiInterface {
     suspend fun getCheckAddSNS(
         //@Header("accessToken") accessToken : String,
         @Body request: SNSData
-    ): Call<AddSNSDataResponse>
+    ): Response<AddSNSDataResponse>
 
     //고객센터 문의 요청
     @POST("/profile/qna")
     suspend fun getCheckQnA(
         @Body request: QnAData
-    ): Call<QnADataResponse>
+    ): Response<QnADataResponse>
 
     //교육 추가
     @POST("/profile/edit/{memberIdx}")
     suspend fun getCheckAddEducation(
         @Body request: EducationData
-    ): Call<EducationDataResponse>
+    ): Response<EducationDataResponse>
 
     //프로필 편집
     @POST("/profile/sns")
     suspend fun getCheckEditProfile(
         @Body request: ProfileData
-    ): Call<EditProfileDataResponse>
+    ): Response<EditProfileDataResponse>
 
     //경력 추가
     @POST("/profile/career")
     suspend fun getCheckAddCareer(
         @Body request: CareerData
-    ): Call<AddCareerDataResponse>
+    ): Response<AddCareerDataResponse>
 
     //프로필 정보 조회
     @GET("/profile/{memberIdx}")

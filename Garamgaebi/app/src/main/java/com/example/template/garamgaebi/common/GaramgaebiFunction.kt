@@ -1,13 +1,17 @@
 package com.example.template.garamgaebi.common
 
-
 import android.util.Log
+import android.view.View.OnFocusChangeListener
+import android.widget.EditText
+import androidx.databinding.BindingAdapter
+import com.example.template.garamgaebi.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 import java.util.*
+
 
 class GaramgaebiFunction {
     //날짜 데이터 변환
@@ -21,7 +25,24 @@ class GaramgaebiFunction {
         } else{
             date.format(pattern2)
         }
+
+    //editText focus Listener
+//    var onFocusChangeListener =
+//        OnFocusChangeListener { view, isFocused ->
+//            val origin = view.background
+//            if(isFocused){
+//                view.setBackgroundResource(R.drawable.basic_black_border_layout)
+//            }else{
+//                view.background = origin
+//            }
+//        }
+    interface OnFocusLostListener {
+        fun onFocusLost(view: EditText,boolean: Boolean)
     }
+    fun logTest(view:EditText, check : Boolean,isValid : Boolean){
+        Log.d("focus_check_log",view.toString() + check.toString() + isValid.toString())
+    }
+
 
     fun getDateYMD(beforeDate : String) : String {
         val date = LocalDateTime.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
