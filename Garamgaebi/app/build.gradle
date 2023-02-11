@@ -122,5 +122,7 @@ dependencies {
     //okhttp3
     implementation 'com.squareup.okhttp3:okhttp:3.12.12'
 
+    // round image
+    implementation 'com.joooonho:selectableroundedimageview:1.0.1'
 }
 tasks.register("prepareKotlinBuildScriptModel"){}

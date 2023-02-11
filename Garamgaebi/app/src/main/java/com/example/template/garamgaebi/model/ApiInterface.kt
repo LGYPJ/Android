@@ -11,7 +11,16 @@ interface ApiInterface {
 
     //NotificationController 알림 컨트롤러
     @GET("/notification/{member-idx}")
-    suspend fun getNotification(@Path("member-idx") memberIdx: Int) : Response<NotificationResponse>
+    suspend fun getNotification(
+        @Path("member-idx") memberIdx: Int,
+        @Query("lastNotificationIdx") lastNotificationIdx: Int) : Response<NotificationResponse>
+
+    @GET("/notification/{member-idx}")
+    suspend fun getNotification(
+        @Path("member-idx") memberIdx: Int) : Response<NotificationResponse>
+
+    @GET("/notification/unread/{member-idx}")
+    suspend fun getNotificationUnread(@Path("member-idx") memberIdx: Int) : Response<NotificationUnreadResponse>
 
     //SeminarController 세미나 컨트롤러
 

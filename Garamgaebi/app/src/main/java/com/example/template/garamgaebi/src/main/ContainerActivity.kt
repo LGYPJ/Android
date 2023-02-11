@@ -11,7 +11,7 @@ import com.example.template.garamgaebi.src.main.networking.NetworkingFragment
 import com.example.template.garamgaebi.src.main.networking.NetworkingFreeApplyFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
-import com.example.template.garamgaebi.src.main.notification.NotificationFragment
+import com.example.template.garamgaebi.src.main.home.NotificationFragment
 import com.example.template.garamgaebi.src.main.profile.*
 import com.example.template.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
@@ -209,7 +209,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             openFragmentOnFrameLayout(12)
             binding.activityContainerToolbarTv.text = "프로필 편집"
         }
-        if(intent.getBooleanExtra("someoneprofile", false)){
+        if(intent.getBooleanExtra("someoneProfile", false)){
             openFragmentOnFrameLayout(13)
             binding.activityContainerToolbarTv.text = "프로필"
         }

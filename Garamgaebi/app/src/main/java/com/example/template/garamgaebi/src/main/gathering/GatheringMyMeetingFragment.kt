@@ -36,14 +36,14 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
-        val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        val viewModel by viewModels<GatheringViewModel>()
         viewModel.getGatheringProgramReady(22)
         viewModel.getGatheringProgramClosed(22)
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
-            if (result.isEmpty() || !it.isSuccess || (it == null)) {
+            if (result.isEmpty()) {
                 binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
             } else {
@@ -75,7 +75,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.programClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
-            if (result.isEmpty() || !it.isSuccess || it == null) {
+            if (result.isEmpty()) {
                 binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
             } else {

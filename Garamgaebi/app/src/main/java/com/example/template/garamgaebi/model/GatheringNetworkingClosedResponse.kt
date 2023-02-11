@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.common.BaseResponse
 
 data class GatheringNetworkingClosedResponse(
-    val result: List<GatheringNetworkingClosedResult>
+    val result: List<GatheringNetworkingClosedResult> = arrayListOf()
 ) : BaseResponse()
 data class GatheringNetworkingClosedResult(
-    val date: String = "",
+    var date: String = "",
     val isOpen: String = "",
     val location: String = "",
     val payment: String = "",

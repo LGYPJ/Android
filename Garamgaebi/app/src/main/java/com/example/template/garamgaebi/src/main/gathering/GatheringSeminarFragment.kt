@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.gathering
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 
 
         // 이번 달
-        val viewModel = ViewModelProvider(this)[GatheringViewModel::class.java]
+        val viewModel by viewModels<GatheringViewModel>()
         viewModel.getGatheringSeminarThisMonth()
         viewModel.getGatheringSeminarNextMonth()
         viewModel.getGatheringSeminarClosed()
@@ -52,7 +53,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarClThisMonth.visibility = View.VISIBLE
 
                 binding.fragmentGatheringSeminarThisMonthTvName.text = result.title
-                binding.fragmentGatheringSeminarThisMonthTvDateData.text = result.date
+                binding.fragmentGatheringSeminarThisMonthTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
                 binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
                 binding.fragmentGatheringSeminarThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
             }
@@ -80,7 +81,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarClScheduled.visibility = View.VISIBLE
 
                 binding.fragmentGatheringSeminarScheduledTvName.text = result.title
-                binding.fragmentGatheringSeminarScheduledTvDateData.text = result.date
+                binding.fragmentGatheringSeminarScheduledTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
                 binding.fragmentGatheringSeminarScheduledTvPlaceData.text = result.location
             }
             binding.fragmentGatheringSeminarClScheduled.isEnabled = false

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.common.BaseResponse
 
 data class HomeNetworkingResponse(
-    val result: List<HomeNetworkingResult>
+    val result: List<HomeNetworkingResult> = arrayListOf()
 ) : BaseResponse()
 data class HomeNetworkingResult(
     val date: String = "",

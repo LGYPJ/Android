@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.template.garamgaebi.common.BaseActivity
 import com.example.template.garamgaebi.databinding.ActivitySplashBinding
+import com.example.template.garamgaebi.src.main.MainActivity
 import com.example.template.garamgaebi.src.main.register.IntroActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
@@ -13,7 +14,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         super.onCreate(savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this,  IntroActivity::class.java))
+            startActivity(Intent(this,  MainActivity::class.java))
             finish()
         }, 1500)
     }
