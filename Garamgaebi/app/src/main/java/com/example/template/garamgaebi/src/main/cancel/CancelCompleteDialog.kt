@@ -25,9 +25,6 @@ class CancelCompleteDialog: DialogFragment() {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //var mainActivity : MainActivity? = null
-    //var gatheringMyMeetingFragment: GatheringMyMeetingFragment? = null
-    private val viewModel by viewModels<GatheringViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +33,6 @@ class CancelCompleteDialog: DialogFragment() {
         isCancelable = true
     }
     private lateinit var binding: DialogCancelCompleteBinding
-    //private var completeDialogInterface : CompleteDialogInterface? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,30 +54,13 @@ class CancelCompleteDialog: DialogFragment() {
             val intent = Intent(context, MainActivity::class.java)
             intent.putExtra("meeting", true)
             startActivity(intent)
-            viewModel.programReady.observe(viewLifecycleOwner, Observer{
-                val adapter : GatheringMyMeetingScheduledRVAdapter by lazy { GatheringMyMeetingScheduledRVAdapter(viewLifecycleOwner,
-                    it as ArrayList<GatheringProgramResult>, viewModel) }
-                adapter.submitList(it)
-            })
-            //(activity as MainActivity).goGatheringMy()
-            //GatheringMyMeetingFragment().refresh()
-            //gatheringMyMeetingFragment?.refresh()
-            //gatheringMyMeetingFragment!!.refresh()
-            //this.completeDialogInterface?.onYesButtonClick()
-            //goGathering()
-            //GatheringMyMeetingFragment().myMeetingScheduledAdapter?.notifyDataSetChanged()
         }
 
     }
 
-    /*interface CompleteDialogInterface {
-        fun onYesButtonClick()
-    }*/
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-       // gatheringMyMeetingFragment = GatheringMyMeetingFragment()
 
     }
 

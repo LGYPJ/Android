@@ -110,14 +110,7 @@ class ApplyViewModel : ViewModel() {
                     putString("inputPhone", inputPhone.value.toString())
                     apply()
                 }
-                /*val set = java.util.HashSet<String>()
-                    set.add(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0).toString())
-                    set.add(inputName.value.toString())
-                    set.add(inputNickName.value.toString())
-                    set.add(inputPhone.value.toString())
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putStringSet("enroll", set)
-                        .apply()*/
+
             }
             else{
                 Log.d("error", response.message())
@@ -162,30 +155,12 @@ class ApplyViewModel : ViewModel() {
             }
         }
 
-        //신청취소 리프레쉬
-        fun addGetGatheringProgramReady() {
-            viewModelScope.launch(Dispatchers.IO){
-                val response = gatheringRepository.getGatheringProgramReady(22)
-                Log.d("getGatheringProgramReady", "$response")
-
-                if (response.isSuccessful && response.body() != null) {
-                    //_programReady.postValue(response.body())
-                    _programReady.postValue(response.body()!!.result)
-                    Log.d("getGatheringProgramReady", "${response.body()}")
-                }
-            }
-        }
     }
 
     fun getNameText() : MutableLiveData<String> = inputName
     fun getNickNameText() : MutableLiveData<String> = inputNickName
     fun getPhoneText() : MutableLiveData<String> = inputPhone
     fun getAccountText() : MutableLiveData<String> = inputAccount
-
-    /*fun convertDate(date: String?): String? {
-        val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm '시'")
-        return date?.let { formatter.parse(it)?.toString() }
-    }*/
 
     fun convertFee(money : String):String{
         return "${money}원"

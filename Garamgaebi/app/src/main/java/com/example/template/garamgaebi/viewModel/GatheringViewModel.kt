@@ -41,12 +41,9 @@ class GatheringViewModel: ViewModel() {
     get() = _networkingClosed
 
     // 내 모임
-    /*private val _programReady = MutableLiveData<GatheringProgramResponse>()
+    private val _programReady = MutableLiveData<GatheringProgramResponse>()
     val programReady : LiveData<GatheringProgramResponse>
-    get() = _programReady*/
-    private val _programReady = MutableLiveData<List<GatheringProgramResult>>()
-    val programReady : LiveData<List<GatheringProgramResult>>
-        get() = _programReady
+    get() = _programReady
 
     private val _programClosed = MutableLiveData<GatheringProgramResponse>()
     val programClosed : LiveData<GatheringProgramResponse>
@@ -142,7 +139,7 @@ class GatheringViewModel: ViewModel() {
 
             if (response.isSuccessful && response.body() != null) {
                 //_programReady.postValue(response.body())
-                _programReady.postValue(response.body()!!.result)
+                _programReady.postValue(response.body())
                 Log.d("getGatheringProgramReady", "${response.body()}")
             }
         }
@@ -159,9 +156,4 @@ class GatheringViewModel: ViewModel() {
         }
     }
 
-    fun addGetGatheringProgramReady() {
-        viewModelScope.launch (Dispatchers.IO){
-            gatheringRepository.getGatheringProgramReady(22)
-        }
-    }
 }
