@@ -180,6 +180,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
+            android:id="@+id/activity_seminar_free_participants_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/origin_participants_people"

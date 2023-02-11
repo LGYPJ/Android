@@ -53,6 +53,9 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     //addItemDecoration(SeminarHorizontalItemDecoration())
                 }
             }
+
+            //참석자 수 표시
+            binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, it.result.size.toString())
         })
 
         //발표 어댑터 연결

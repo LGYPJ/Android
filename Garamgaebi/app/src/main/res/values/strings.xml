@@ -203,6 +203,7 @@
     <string name="origin_nickname_input">가입 시 닉네임을 적어주세요</string>
     <string name="origin_phone_input">숫자만 입력해주세요</string>
     <string name="main_fee">%s원</string>
+    <string name="main_participants">%s명</string>
     <string name="no_participants">아직 참석자가 없습니다\n첫 참석자가 되어주세요!</string>
 
     <!--networking-->

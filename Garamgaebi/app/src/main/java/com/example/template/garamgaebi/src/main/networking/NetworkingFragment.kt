@@ -48,6 +48,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     //addItemDecoration(NetworkingHorizontalItemDecoration())
                 }
             }
+
+            //참석자 수 표시
+            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.result.size.toString())
         })
 
         //네트워킹 상세정보
