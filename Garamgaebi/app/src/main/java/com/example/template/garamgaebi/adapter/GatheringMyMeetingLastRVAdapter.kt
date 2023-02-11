@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.ItemGatheringMyMeetingLastBinding
 import com.example.template.garamgaebi.model.GatheringProgramResult
 
@@ -13,7 +14,7 @@ class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringP
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringProgramResult){
             binding.itemGatheringMyMeetingLastTvName.text = data.title
-            binding.itemGatheringMyMeetingLastTvDate.text = data.date
+            binding.itemGatheringMyMeetingLastTvDate.text = GaramgaebiFunction().getDateMyMeeting(data.date)
             binding.itemGatheringMyMeetingLastTvPlace.text = data.location
         }
     }

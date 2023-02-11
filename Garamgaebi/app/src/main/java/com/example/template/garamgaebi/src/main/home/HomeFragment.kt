@@ -1,10 +1,14 @@
 package com.example.template.garamgaebi.src.main.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +33,7 @@ import com.example.template.garamgaebi.viewModel.HomeViewModel
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
@@ -46,11 +51,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
 
         // 뷰모델
-        val viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        val viewModel by viewModels<HomeViewModel>()
         viewModel.getHomeSeminar()
         viewModel.getHomeNetworking()
         viewModel.getHomeUser()
         viewModel.getHomeProgram(22)
+        viewModel.getNotificationUnread(22)
 
         // 세미나
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
@@ -149,7 +155,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        // TODO("Not yet implemented")
+                        val intent = Intent(context, ContainerActivity::class.java)
+                        intent.putExtra("someoneProfile", true)
+                        startActivity(intent)
                     }
                 })
             }
@@ -200,6 +208,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             target.putExtra("notification", true)
             startActivity(target)
         }
+        // 읽지 않은 알림 존재 여부
+        viewModel.notificationUnread.observe(viewLifecycleOwner, Observer {
+            if(it.result.isUnreadExist)
+                binding.fragmentHomeIvNotificationPoint.visibility = View.VISIBLE
+            else
+                binding.fragmentHomeIvNotificationPoint.visibility = View.GONE
+        })
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
             (activity as MainActivity).goGatheringSeminar()
@@ -212,24 +227,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
         // 세미나 도움말
-        binding.fragmentHomeIvSeminarHelpBtn.setOnClickListener { v ->
-            Log.d("test", "${v.x.toInt()}, ${v.y.toInt()}")
-            activity?.let {
-                HomeSeminarHelpDialog(v.x.toInt(), v.y.toInt()).show(
-                    it.supportFragmentManager, "HomeSeminarHelpDialog"
-                )
-            }
-            true
+        binding.fragmentHomeIvSeminarHelpBtn.setOnClickListener {
+            (activity as MainActivity).getHelpFrame()
+            binding.fragmentHomeTvSeminarHelp.visibility = View.VISIBLE
         }
+
         // 네트워크 도움말
-        binding.fragmentHomeIvNetworkingHelpBtn.setOnClickListener { v ->
-            Log.d("test", "${v.x.toInt()}, ${v.y.toInt()}")
-            activity?.let {
-                HomeNetworkingHelpDialog(v.x.toInt(), v.y.toInt()).show(
-                    it.supportFragmentManager, "HomeSeminarHelpDialog"
-                )
-            }
-            true
+        binding.fragmentHomeIvNetworkingHelpBtn.setOnClickListener {
+            (activity as MainActivity).getHelpFrame()
+            binding.fragmentHomeTvNetworkingHelp.visibility = View.VISIBLE
         }
     }
     private fun goGathering() {
@@ -238,7 +244,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             parentFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
         }
         findFragment?.let {
-            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
             parentFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
         }
     }
@@ -253,5 +258,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             ConstraintSet.BOTTOM,
         )
         constraints.applyTo(binding.fragmentHomeClMeeting)
+    }
+    fun goneSeminarHelp() {
+        binding.fragmentHomeTvSeminarHelp.visibility = View.GONE
+    }
+    fun goneNetworkingHelp() {
+        binding.fragmentHomeTvNetworkingHelp.visibility = View.GONE
     }
 }

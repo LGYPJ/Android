@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.example.template.garamgaebi.common.BaseResponse
 
 data class HomeSeminarResponse(
-    val result : List<HomeSeminarResult>
+    val result : List<HomeSeminarResult> = arrayListOf()
 ): BaseResponse()
 
 data class HomeSeminarResult(

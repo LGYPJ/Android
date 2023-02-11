@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.ItemGatheringSeminarDeadlineBinding
 import com.example.template.garamgaebi.model.GatheringSeminarClosedResult
 
@@ -12,7 +13,7 @@ class GatheringSeminarDeadlineRVAdapter(private val dataList: ArrayList<Gatherin
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: GatheringSeminarClosedResult){
             binding.itemGatheringSeminarDeadlineTvName.text = data.title
-            binding.itemGatheringSeminarDeadlineTvDateData.text = data.date
+            binding.itemGatheringSeminarDeadlineTvDateData.text = GaramgaebiFunction().getDateYMD(data.date)
             binding.itemGatheringSeminarDeadlineTvPlaceData.text = data.location
         }
     }

@@ -5,11 +5,18 @@
     android:layout_height="184dp"
     android:background="@drawable/fragment_home_user_profile_border">
 
-    <ImageView
+    <com.joooonho.SelectableRoundedImageView
         android:id="@+id/item_home_user_iv_profile"
         android:layout_width="match_parent"
         android:layout_height="92dp"
-        android:clipToOutline="true"
+        app:sriv_left_top_corner_radius="12dp"
+        app:sriv_right_top_corner_radius="12dp"
+        app:sriv_left_bottom_corner_radius="0dp"
+        app:sriv_right_bottom_corner_radius="0dp"
+        app:sriv_oval="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/fragment_home_user_iv_border"
         android:src="@drawable/ic_launcher_background"
         android:backgroundTint="@color/grayD9"
@@ -21,9 +28,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text=""
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/black80"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_home_user_iv_profile" />
@@ -34,10 +46,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text=""
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/black80"
+        android:visibility="visible"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/item_home_user_tv_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView
         android:id="@+id/item_home_user_tv_org"
         android:layout_width="wrap_content"
@@ -45,9 +64,14 @@
         android:text=""
         android:textColor="@color/black80"
         android:textSize="12sp"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/item_home_user_tv_major"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_home_user_tv_nickname" />
 
     <TextView
         android:id="@+id/item_home_user_tv_major"
@@ -57,7 +81,10 @@
         android:text=""
         android:textColor="@color/black80"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_home_user_tv_org" />
 </androidx.constraintlayout.widget.ConstraintLayout>
