@@ -6,7 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
@@ -16,18 +18,23 @@ import com.example.template.garamgaebi.databinding.FragmentCancelBinding
 import com.example.template.garamgaebi.model.CancelRequest
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
+import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //private val completeDialog = context?.let { Dialog(it) }
+    private val viewModel by viewModels<ApplyViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activityCancelApplyBtn.isEnabled = false
 
         binding.activityCancelBankTv.text = "은행"
+
+        binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
+        binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
+        binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
 
         // et selected 여부에 따라 drawable 결정
         binding.activityCancelPayEt.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -41,14 +48,12 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.setOnClickListener {
             val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
                 binding.activityCancelBankTv.text = it
-                with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                    putString(
-                        GaramgaebiApplication.X_ACCESS_TOKEN,
-                        it
-                    )
-                    apply()
-                }
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putString("bank", it)
+                    .apply()
+
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
+                binding.activityCancelBankTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
                 isBank()
             }
                     activity?.let {
@@ -67,10 +72,16 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelApplyBtn.setOnClickListener {
             //신청 완료 api
-            val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
-            viewModel.postCancel(CancelRequest(0,0,"국민", "11111111111"))
+            GaramgaebiApplication.sSharedPreferences.getString("bank", null)
+                ?.let { it1 ->
+                    CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                        it1, binding.activityCancelPayEt.toString())
+                }?.let { it2 -> viewModel.postCancel(it2) }
+
             viewModel.cancel.observe(viewLifecycleOwner, Observer {
-                if(!it.isSuccess){
+                Log.d("cancel", it.toString())
+                if(it.isSuccess){
+
                     //showDialog()
                     activity?.let {
                         CancelCompleteDialog().show(
@@ -80,6 +91,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
                 }
+
             })
 
 
@@ -101,6 +113,56 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             override fun afterTextChanged(p0: Editable?) {
             }
         })
+
+        //type에 따라 상세보기 뷰모델 달라짐!
+        //세미나 상세보기 뷰모델로
+        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="SEMINAR"){
+            viewModel.getSeminar()
+            viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
+                val data = it.result
+                binding.activityCancelTitleTv.text = data.title
+                binding.activityCancelDateDetailTv.text = data.date
+                binding.activityCancelPlaceDetailTv.text = data.location
+                if(data.fee.toString() == "0"){
+                    binding.activityCancelPayDetailTv.text = "무료"
+                }
+                else{
+                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
+                }
+                binding.activityCancelDeadlineDetailTv.text = data.endDate
+            })
+        }
+        //네트워킹 상세보기 뷰모델로
+        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="NETWORKING"){
+            viewModel.getNetworking()
+            viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
+                val data = it.result
+                binding.activityCancelTitleTv.text = data.title
+                binding.activityCancelDateDetailTv.text = data.date
+                binding.activityCancelPlaceDetailTv.text = data.location
+                if(data.fee.toString() == "0"){
+                    binding.activityCancelPayDetailTv.text = "무료"
+                }
+                else{
+                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
+                }
+                binding.activityCancelDeadlineDetailTv.text = data.endDate
+            })
+        }
+
+        //이름, 닉네임, 전화번호
+        /*viewModel.postEnroll()
+        viewModel.enrollReq.observe(viewLifecycleOwner, Observer{
+
+                binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
+                binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
+                binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
+
+                /*binding.activityCancelNameTv.text = it.name
+                binding.activityCancelNicknameTv.text = it.nickname
+                binding.activityCancelPhoneTv.text = it.phone*/
+
+        })*/
     }
 
     private fun isBank(): Boolean {
@@ -129,19 +191,5 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
-
-    // 신청완료 다이얼 로그
-    /*private fun showDialog(){
-        completeDialog?.show()
-        completeDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val complete = completeDialog?.findViewById<View>(R.id.dialog_cancel_complete_btn)
-        complete?.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
-    }*/
-
-
 
 }

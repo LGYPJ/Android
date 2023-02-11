@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.example.template.garamgaebi.model.GatheringNetworkingClosedResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -44,8 +46,18 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingThisMonthTvName.text = result.title
                 binding.fragmentGatheringNetworkingThisMonthTvDateData.text = result.date
                 binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
-                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = "D-day"
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
 
+            }
+            val program = it.result.programIdx
+            binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", program)
+                    .apply()
+                //네트워킹 메인 프래그먼트로!
+                val intent = Intent(context, ContainerActivity::class.java)
+                intent.putExtra("networking", true)
+                startActivity(intent)
             }
         })
         // 예정된
@@ -62,6 +74,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingScheduledTvDateData.text = result.date
                 binding.fragmentGatheringNetworkingScheduledTvPlaceData.text = result.location
             }
+            binding.fragmentGatheringNetworkingClScheduled.isEnabled = false
         })
         // 마감된
         viewModel.networkingClosed.observe(viewLifecycleOwner, Observer{
@@ -82,7 +95,11 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                     networkingDeadlineAdapter.setOnItemClickListener(object :
                         GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
                         override fun onClick(position: Int) {
-                            //네트워킹 프래그먼트로!
+                            val program = it.result[position].programIdx
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putInt("programIdx", program)
+                                .apply()
+                            //네트워킹 메인 프래그먼트로!
                             val intent = Intent(context, ContainerActivity::class.java)
                             intent.putExtra("networking", true)
                             startActivity(intent)
@@ -91,14 +108,5 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 }
             }
         })
-
-        binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
-            //네트워킹 프래그먼트로!
-            val intent = Intent(context, ContainerActivity::class.java)
-            intent.putExtra("networking", true)
-            startActivity(intent)
-        }
-
-
     }
 }

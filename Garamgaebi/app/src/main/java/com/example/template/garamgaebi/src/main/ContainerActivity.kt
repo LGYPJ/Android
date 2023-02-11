@@ -34,7 +34,14 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-           onBackPressed()
+            if(isSeminar()){
+                finish()
+            }
+            if(isNetworking()){
+                finish()
+            }else{
+                onBackPressed()
+            }
         }
 
     }
@@ -47,6 +54,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(isNetworking()){
             binding.activityContainerToolbarTv.text ="네트워킹"
         }
+        if(isSeminar()){
+            binding.activityContainerToolbarTv.text = "세미나"
+        }
     }
 
 
@@ -55,10 +65,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         when(int){
             0 -> finish()
             1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment(), "seminar")
+                binding.activityContainerToolbarTv.text = "세미나"
             }
             2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment() ,"seminarFree").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "세미나"
             }
             3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment(),"seminarCharged").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "세미나"
             }
 
             4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment(),"cancel")
@@ -156,10 +169,20 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onStart() {
         super.onStart()
         Log.d("title_onstart","됨")
+        if(isSeminarCharged()){
+            binding.activityContainerToolbarTv.text = "세미나"
+        }
 
         if(intent.getBooleanExtra("seminar", false)){
-            openFragmentOnFrameLayout(1)
             binding.activityContainerToolbarTv.text = "세미나"
+            /*val seminar = intent.getIntExtra("HomeSeminarIdx", 0)
+            val bundle = Bundle()
+            bundle.putInt("HomeSeminarIdx", seminar)
+            val seminarFragment = SeminarFragment()
+            seminarFragment.arguments = bundle
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
+            openFragmentOnFrameLayout(1)
         }
         if(intent.getBooleanExtra("cancel", false)){
             openFragmentOnFrameLayout(4)
@@ -249,11 +272,22 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
 
 
-    fun isGame ():Boolean {
+    fun isSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
-            if (fragment is NetworkingGamePlaceFragment) {
+            if (fragment is SeminarFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isSeminarCharged ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is SeminarChargedApplyFragment) {
                 returnValue = true
             }
         }

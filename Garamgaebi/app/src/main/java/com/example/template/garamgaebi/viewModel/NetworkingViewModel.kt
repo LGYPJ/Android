@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
 import com.example.template.garamgaebi.repository.NetworkingRepository
@@ -22,9 +24,10 @@ class NetworkingViewModel : ViewModel(){
     get() = _networkingInfo
 
 
-    fun getNetworkingParticipants(networkingIdx : Int, memberIdx: Int) {
+    fun getNetworkingParticipants() {
         viewModelScope.launch{
-            val response = networkingRepository.getNetworkingParticipants(1,1)
+            val response = networkingRepository.getNetworkingParticipants(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 _networkingParticipants.postValue(response.body())
@@ -41,11 +44,16 @@ class NetworkingViewModel : ViewModel(){
         }
     }
 
-    fun getNetworkingInfo(networkingIdx: Int, memberIdx: Int) {
+    fun getNetworkingInfo() {
         viewModelScope.launch {
-            val response = networkingRepository.getNetworkingInfo(1,1)
+            val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
+                //날짜 데이터 변환
+                response.body()?.result?.date =
+                    response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
+                response.body()?.result?.endDate =
+                    response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
                 _networkingInfo.postValue(response.body())
             }
             else{

@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseFragment
@@ -18,11 +21,12 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
 
     //화면전환
     var containerActivity: ContainerActivity? = null
+    private val viewModel by viewModels<ApplyViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //뷰모델
-        val viewModel = ViewModelProvider(this)[ApplyViewModel::class.java]
+        //데이터바인딩
+        binding.setVariable(BR.item, viewModel)
         //처음에 버튼 비활성화
         binding.activitySeminarFreeApplyBtn.isEnabled = false
         // et selected 여부에 따라 drawable 결정
@@ -119,14 +123,22 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
             val nickname = binding.activitySeminarFreeApplyNicknameTv.text.toString()
             val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()*/
             //viewModel.postEnroll(EnrollRequest(0,0,name,nickname,phone))
+            viewModel.postEnroll()
             viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                if(!it.isSuccess){
+                binding.item = viewModel
+                if(it.isSuccess){
                     //세미나 메인 화면으로
                     requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
                     requireActivity().supportFragmentManager.popBackStack()
+
                 }
             })
         }
+
+        viewModel.getSeminar()
+        viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+        })
 
 
     }

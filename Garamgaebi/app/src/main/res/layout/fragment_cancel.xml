@@ -31,7 +31,7 @@
                 android:id="@+id/activity_cancel_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2차 세미나"
+
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/black80"
@@ -55,7 +55,7 @@
                 android:id="@+id/activity_cancel_date_detail_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2023-02-10 오후 6시"
+
                 android:textSize="14sp"
                 android:textColor="@color/black80"
                 app:layout_constraintTop_toBottomOf="@+id/activity_cancel_title_tv"
@@ -79,7 +79,7 @@
                 android:id="@+id/activity_cancel_place_detail_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="가천대학교 비전타워 B201"
+
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:layout_marginTop="2dp"
@@ -103,7 +103,7 @@
                 android:id="@+id/activity_cancel_pay_detail_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="무료"
+
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:layout_marginTop="2dp"
@@ -127,7 +127,7 @@
                 android:id="@+id/activity_cancel_deadline_detail_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2023-01-09 오후 6시"
+
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:layout_marginTop="2dp"
@@ -141,7 +141,7 @@
             android:id="@+id/activity_cancel_name_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="이채원"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"
@@ -159,7 +159,7 @@
             android:id="@+id/activity_cancel_nickname_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="신디"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"
@@ -177,7 +177,7 @@
             android:id="@+id/activity_cancel_phone_tv"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:text="010-1234-5678"
+
             android:textSize="16sp"
             android:paddingStart="12dp"
             android:gravity="left"

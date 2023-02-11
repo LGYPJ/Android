@@ -44,7 +44,7 @@ class SeminarPreviewDialog:DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-        viewModel.getSeminarsInfo(8)
+        viewModel.getSeminarDetail()
         viewModel.presentation.observe(viewLifecycleOwner, Observer {
             val position = arguments?.getInt("presentationDialog", 0)
             val data = it.result[position!!]
@@ -56,7 +56,6 @@ class SeminarPreviewDialog:DialogFragment() {
             binding.dialogFragmentSeminarTitleTv.text = data.title
             binding.dialogFragmentSeminarContentTv.text = data.content
             binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
-
 
         })
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {

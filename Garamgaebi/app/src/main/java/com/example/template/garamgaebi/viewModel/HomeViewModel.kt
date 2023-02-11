@@ -62,6 +62,13 @@ class HomeViewModel : ViewModel(){
             Log.d("getHomeUser", "$response")
 
             if (response.isSuccessful && response.body()?.result != null) {
+                (response.body()!!.result as ArrayList).forEach { item ->
+                    if(item.memberIdx == 1) (response.body()!!.result as ArrayList).remove(item)
+                }
+                if ((response.body()!!.result as ArrayList).size == 11) {
+                    (response.body()!!.result as ArrayList).removeAt(10)
+                }
+                
                 _user.postValue(response.body())
                 Log.d("getHomeUser", "${response.body()}")
             } else {
