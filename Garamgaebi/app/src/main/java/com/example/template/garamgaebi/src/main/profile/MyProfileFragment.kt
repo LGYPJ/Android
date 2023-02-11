@@ -44,8 +44,9 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         viewModel.getProfileInfo(1)
 
-
         viewModel.profileInfo.observe(viewLifecycleOwner, Observer {
+            binding.profileViewModel = viewModel
+
             val result = it as ProfileDataResponse
             if(result == null) {
 
@@ -121,20 +122,6 @@ class MyProfileFragment :
             } )
         })
 
-//        //career 리스트뷰 연결
-//        var careerItems: ArrayList<CareerRVItemData> = arrayListOf()
-//        val careerAdapter = CareerMyRVAdapter(careerItems)
-//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-//        binding.activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
-//        binding.activityMyProfileRVCareer.adapter = careerAdapter
-//
-//
-//        //edu 리스트뷰 연결
-//        var eduItems: ArrayList<EduRVItemData> = arrayListOf()
-//        val eduAdapter = EduMyRVAdapter(eduItems)
-//        dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
-//        binding.activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
-//        binding.activityMyProfileRVEdu.adapter = eduAdapter
 
         binding.activityMyProfileBtnSnsAdd.setOnClickListener{
             goAddSNSFragment()

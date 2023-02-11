@@ -7,16 +7,26 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
+import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
+import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
+import com.example.template.garamgaebi.viewModel.CareerViewModel
+import com.example.template.garamgaebi.viewModel.ProfileViewModel
+import com.example.template.garamgaebi.viewModel.SNSViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CareerFragment  : BaseFragment<FragmentProfileCareerBinding>(FragmentProfileCareerBinding::bind, R.layout.fragment_profile_career) {
+class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
     private lateinit var callback: OnBackPressedCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
+        binding.setVariable(BR.snsViewModel,viewModel)
+        binding.careerViewModel = viewModel
 
         //편집 정보 저장하기 버튼 클릭이벤트
         binding.activityCareerSaveBtn.setOnClickListener {
