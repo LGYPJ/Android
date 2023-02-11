@@ -15,7 +15,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
             with(binding) {
-                Glide.with(itemView).load(R.drawable.ic_launcher_background)
+                Glide.with(itemView).load(data.profileUrl)
                     .into(itemHomeUserIvProfile)
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName

@@ -34,12 +34,15 @@ class HomeSeminarHelpDialog(x : Int,  y : Int): DialogFragment() {
 
         Log.d("test", "$coX $coY")
         dialog?.window?.attributes?.apply {
-            x = (coX+ConvertDPtoPX(-23)).toInt()
-            y = (coY+ConvertDPtoPX(87)).toInt()
+            x = (coX+convertDPtoPX(-26)).toInt()
+            //y = (coY+convertDPtoPX(-55)).toInt()
+            //x = coX
+            y = coY
+            Log.d("help", "$x $y")
         }
         return binding.root
     }
-    fun ConvertDPtoPX(dp: Int): Float {
+    private fun convertDPtoPX(dp: Int): Float {
         val density: Float = requireContext().resources.displayMetrics.density
         return (dp*density+0.5).toFloat()
     }

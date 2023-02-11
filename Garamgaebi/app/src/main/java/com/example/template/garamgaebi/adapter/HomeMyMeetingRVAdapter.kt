@@ -15,7 +15,7 @@ class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>)
         fun bind(data: HomeProgramResult){
             with(binding){
                 itemHomeMyMeetingTvName.text = data.title
-                itemHomeMyMeetingTvDate.text = GaramgaebiFunction().getDateHomeMyMeeting(data.date)
+                itemHomeMyMeetingTvDate.text = GaramgaebiFunction().getDateMyMeeting(data.date)
                 itemHomeMyMeetingTvPlace.text = data.location
             }
         }

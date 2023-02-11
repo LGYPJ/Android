@@ -10,5 +10,8 @@ class HomeRepository {
     suspend fun getHomeNetworking() = homeClient.getHomeNetworking()
     suspend fun getHomeUser() = homeClient.getHomeUser()
     suspend fun getHomeProgram(memberIdx : Int) = homeClient.getHomeProgram(memberIdx)
+    suspend fun getNotification(memberIdx : Int, lastNotificationIdx : Int) = homeClient.getNotification(memberIdx, lastNotificationIdx)
+    suspend fun getNotification(memberIdx : Int) = homeClient.getNotification(memberIdx)
+    suspend fun getNotificationUnread(memberIdx: Int) = homeClient.getNotificationUnread(memberIdx)
 
 }
