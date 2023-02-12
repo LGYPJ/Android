@@ -10,9 +10,7 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.repository.SeminarRepository
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
+import com.example.template.garamgaebi.src.main.seminar.data.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -31,8 +29,8 @@ class SeminarViewModel : ViewModel(){
     val present : LiveData<ArrayList<PresentationResult>>
     get() = _present*/
 
-    private val _seminarParticipants = MutableLiveData<SeminarParticipantsResponse>()
-    val seminarParticipants : LiveData<SeminarParticipantsResponse>
+    private val _seminarParticipants = MutableLiveData<List<SeminarResult>>()
+    val seminarParticipants : LiveData<List<SeminarResult>>
     get() = _seminarParticipants
 
     private val _info = MutableLiveData<SeminarDetailInfoResponse>()
@@ -58,7 +56,7 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
-                _seminarParticipants.postValue(response.body())
+                _seminarParticipants.postValue(response.body()?.result?.participantList)
             }
             else {
                 Log.d("error", response.message())

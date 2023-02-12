@@ -9,14 +9,15 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
+import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.repository.NetworkingRepository
 import kotlinx.coroutines.launch
 
 class NetworkingViewModel : ViewModel(){
     private val networkingRepository = NetworkingRepository()
 
-    private val _networkingParticipants = MutableLiveData<NetworkingParticipantsResponse>()
-    val networkingParticipants : LiveData<NetworkingParticipantsResponse>
+    private val _networkingParticipants = MutableLiveData<List<NetworkingResult>>()
+    val networkingParticipants : LiveData<List<NetworkingResult>>
     get() = _networkingParticipants
 
     private val _networkingInfo = MutableLiveData<NetworkingInfoResponse>()
@@ -30,7 +31,7 @@ class NetworkingViewModel : ViewModel(){
                 GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
-                _networkingParticipants.postValue(response.body())
+                _networkingParticipants.postValue(response.body()?.result?.participantList)
             }
             else {
                 Log.d("error", response.message())

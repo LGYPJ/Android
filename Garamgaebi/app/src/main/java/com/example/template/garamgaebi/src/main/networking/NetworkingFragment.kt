@@ -18,6 +18,7 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.HomeSeminarResult
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
+import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
@@ -34,12 +35,11 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         //프로필 어댑터 연결
         viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
-            val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
+            val networkingProfile = NetworkingProfileAdapter(it as ArrayList<NetworkingResult>)
             //참석자가 없을 경우 다른 뷰 노출
-            if(it.result.isEmpty()){
+            if(it.isEmpty()){
                 binding.activityNetworkingNoParticipants.visibility = VISIBLE
                 binding.activityNetworkProfileRv.visibility = GONE
-
             } else{
                 binding.activityNetworkingNoParticipants.visibility = GONE
                 binding.activityNetworkProfileRv.visibility = VISIBLE
@@ -53,7 +53,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 NetworkingProfileAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
                         //상대방 프로필 프래그먼트로
-                        if(position ==0 && it.result[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                        if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
                             containerActivity!!.openFragmentOnFrameLayout(13)
                         }
                         if(position != 0){
@@ -64,7 +64,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             }
 
             //참석자 수 표시
-            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.result.size.toString())
+            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.size.toString())
         })
 
         //네트워킹 상세정보

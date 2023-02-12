@@ -1,29 +1,26 @@
 package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.common.BLUE
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.ORIGIN
-import com.example.template.garamgaebi.common.THIS_MONTH
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
-import com.example.template.garamgaebi.viewModel.SeminarViewModel
+import com.example.template.garamgaebi.src.main.seminar.data.SeminarResult
 
 
-class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
 
     inner class OriginViewHolder(val binding: ItemSeminarProfileBinding):
             RecyclerView.ViewHolder(binding.root) {
                 @SuppressLint("SetTextI18n")
-                fun bind(data: SeminarParticipantsResult){
+                fun bind(data: SeminarResult){
                     binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
@@ -33,7 +30,7 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarParticipantsR
 
     inner class BlueViewHolder(private val binding: ItemSeminarProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(data: SeminarParticipantsResult){
+        fun bind(data: SeminarResult){
             binding.itemProfileNameTv.text = data.nickname
             Glide.with(binding.itemProfileImg.context)
                 .load(data.profileImg)

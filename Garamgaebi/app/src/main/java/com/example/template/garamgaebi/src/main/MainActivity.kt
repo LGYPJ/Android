@@ -174,8 +174,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
                 gatheringFragment!!.setVPmy()
                 intent.removeExtra("meeting")
-                intent.removeExtra("networking1")
-                }
+                intent.removeExtra("networking1") }
             1 -> {
             }
             2 -> {
@@ -195,7 +194,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onStart() {
         super.onStart()
         if (intent.getStringExtra("meeting") == "meeting") {
-           onMove(0)
+            onMove(0)
         }
         else {
             if(isGathering()){
@@ -206,20 +205,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     onMove(1)
                 }
             }
-
-
-            /*if(isGathering()){
-                if(isSeminar()){
-                    onMove(2)
-                }
-                if(isNetworking()){
-                    onMove(3)
-                }
-                if(isMeeting()){
-                    onMove(4)
-                }
-            }*/
-
         }
     }
 

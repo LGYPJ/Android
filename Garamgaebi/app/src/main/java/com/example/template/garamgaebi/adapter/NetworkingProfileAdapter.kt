@@ -13,15 +13,16 @@ import com.example.template.garamgaebi.databinding.ItemNetworkProfileBlueBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
+import com.example.template.garamgaebi.model.NetworkingResult
 
-class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingParticipantsResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var itemClickListener: OnItemClickListener
 
     inner class OriginViewHolder(private val binding: ItemNetworkProfileBinding):
             RecyclerView.ViewHolder(binding.root) {
                 @SuppressLint("SetTextI18n")
-                fun bind(data: NetworkingParticipantsResult){
+                fun bind(data: NetworkingResult){
                     binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
@@ -32,7 +33,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingPartici
 
     inner class BlueViewHolder(private val binding: ItemNetworkProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(data: NetworkingParticipantsResult){
+        fun bind(data: NetworkingResult){
             binding.itemProfileNameTv.text = data.nickname
             Glide.with(binding.itemProfileImg.context)
                 .load(data.profileImg)
