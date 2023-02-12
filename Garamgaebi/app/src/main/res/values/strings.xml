@@ -130,6 +130,9 @@
     <string name="home_networking_help_dialog">네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다</string>
     <string name="home_seminar_help_dialog">세미나는 발표 위주로 진행되는 행사입니다.</string>
 
+    <string name="etc">기타</string>
+
+
     <!-- Profile -->
     <string name="sns_add_type">SNS 종류</string>
     <string name="sns_add_type_desc">표시할 이름을 입력해주세요 (예:블로그, 깃허브 등)</string>
@@ -157,6 +160,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- serviceCenter-->
+    <string name="input_100">100자 이내로 작성해주세요</string>
+    <string name="response_email">답변받을 이메일주소</string>
     <!-- seminar -->
     <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
     <string name="seminar_select_bank">은행을 선택해주세요</string>

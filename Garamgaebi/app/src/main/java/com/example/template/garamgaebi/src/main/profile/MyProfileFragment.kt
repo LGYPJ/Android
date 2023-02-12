@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +30,13 @@ class MyProfileFragment :
     private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
     override fun initViewModel() {
         super.initViewModel()
 
@@ -38,10 +47,13 @@ class MyProfileFragment :
         super.onCreate(savedInstanceState)
 
     }
+    lateinit var viewModel: ProfileViewModel
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
         binding.setVariable(BR.profileViewModel,viewModel)
         viewModel.getProfileInfo(22)
 
@@ -63,14 +75,13 @@ class MyProfileFragment :
                     activityMyProfileTvSchool.text = result.result.belong
                     activityMyProfileTvIntro.text = result.result.content
                 }
-                    if (result.result.content == null) {
-                        binding.activityMyProfileTvIntro.visibility = View.VISIBLE
-                    }
+                if (result.result.content == null) {
+                    binding.activityMyProfileTvIntro.visibility = View.VISIBLE
+                }
             }
         })
 
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-
 
 
         //SNS 정보 어댑터 연결
@@ -81,12 +92,25 @@ class MyProfileFragment :
                 adapter = snsAdapter
 
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
             }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
             snsAdapter.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     // sns 편집
+                    val editSNSAddress = it[position].address
+                    val editSNSType = it[position].type
+                    val editSNSIdx = it[position].snsIdx
+
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putString("SNSAddressForEdit", editSNSAddress)
+                        .putString("SNSTypeForEdit", editSNSType)
+                        .putInt("SNSIdxForEdit", editSNSIdx)
+                        .apply()
+
+                    //SNS 편집 프래그먼트로!
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("snsEdit", true)
+                    startActivity(intent)
+
                 }
             } )
         })
@@ -98,22 +122,34 @@ class MyProfileFragment :
             dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
             binding.activityMyProfileRVCareer.apply {
                 adapter = careerAdapter
+                Log.d("career_adapter_list_size",it.size.toString())
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
             }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
+
             careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
-                    // sns 편집
-//                    val program = it.result[position].programIdx
-//                    GaramgaebiApplication.sSharedPreferences
-//                        .edit().putInt("programIdx", program)
-//                        .apply()
-//                    //세미나 메인 프래그먼트로!
-//                    val intent = Intent(context, ContainerActivity::class.java)
-//                    intent.putExtra("seminar", true)
-//                    //intent.putExtra("HomeSeminarIdx", program)
-//                    startActivity(intent)
+                    // 경력 편집
+                    val careerIdx = it[position].careerIdx
+                    val editCareerCompany = it[position].company
+                    val editCareerPosition = it[position].position
+                    val editCareerIsWorking = it[position].isWorking
+                    val editCareerStartDate = it[position].startDate
+                    val editCareerEndDate = it[position].endDate
+                    Log.d("career_edit_button", "success$editCareerEndDate")
+
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putString("CareerCompanyForEdit", editCareerCompany)
+                        .putString("CareerPositionForEdit", editCareerPosition)
+                        .putString("CareerIsWorkingForEdit", editCareerIsWorking)
+                        .putString("CareerStartDateForEdit", editCareerStartDate)
+                        .putString("CareerEndDateForEdit", editCareerEndDate)
+                        .putInt("CareerIdxForEdit",careerIdx)
+                        .apply()
+
+                    //SNS 편집 프래그먼트로!
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("careerEdit", true)
+                    startActivity(intent)
                 }
             } )
         })
@@ -126,46 +162,72 @@ class MyProfileFragment :
             binding.activityMyProfileRVEdu.apply {
                 adapter = eduAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
             }
             //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
             eduAdapter.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
-                    // sns 편집
+                    // 교육 편집
+                    val educationIdx = it[position].educationIdx
+                    val editEduInstitution= it[position].institution
+                    val editEduMajor = it[position].major
+                    val editEduIsLearning = it[position].isLearning
+                    val editEduStartDate = it[position].startDate
+                    val editEduEndDate = it[position].endDate
+
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putString("EduInstitutionForEdit", editEduInstitution)
+                        .putString("EduMajorForEdit", editEduMajor)
+                        .putString("EduIsLearningForEdit", editEduIsLearning)
+                        .putString("EduStartDateForEdit", editEduStartDate)
+                        .putString("EduEndDateForEdit", editEduEndDate)
+                        .putInt("EduIdxForEdit", educationIdx)
+                        .apply()
+
+                    //SNS 편집 프래그먼트로!
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("eduEdit", true)
+                    startActivity(intent)
                 }
             } )
         })
 
+        with(binding){
+            activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+            activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+            activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
 
-        binding.activityMyProfileBtnSnsAdd.setOnClickListener{
-            goAddSNSFragment()
+            activityMyProfileBtnSnsAdd.setOnClickListener{
+                goAddSNSFragment()
+            }
+
+            activityMyProfileBtnCareerAdd.setOnClickListener{
+                goAddCareerFragment()
+            }
+
+            activityMyProfileBtnEduAdd.setOnClickListener{
+                goAddEduFragment()
+            }
+
+            activityMyProfileIvCs.setOnClickListener{
+                goServiceCenterFragment()
+            }
+
+            activityMyProfileIvWd.setOnClickListener{
+                goWithdrawalFragment()
+            }
+
+            activityMyProfileBtnEditProfile.setOnClickListener{
+                goEditFragment()
+            }
+            //test 상대 프로필
+            activityMyProfileIvProfile.setOnClickListener {
+                val intent = Intent(activity,ContainerActivity::class.java)
+                intent.putExtra("someoneProfile",true) //데이터 넣기
+                startActivity(intent)
+            }
         }
 
-        binding.activityMyProfileBtnCareerAdd.setOnClickListener{
-            goAddCareerFragment()
-        }
 
-        binding.activityMyProfileBtnEduAdd.setOnClickListener{
-            goAddEduFragment()
-        }
-
-        binding.activityMyProfileIvCs.setOnClickListener{
-            goServiceCenterFragment()
-        }
-
-        binding.activityMyProfileIvWd.setOnClickListener{
-            goWithdrawalFragment()
-        }
-
-        binding.activityMyProfileBtnEditProfile.setOnClickListener{
-            goEditFragment()
-        }
-        //test 상대 프로필
-        binding.activityMyProfileIvProfile.setOnClickListener {
-            val intent = Intent(activity,ContainerActivity::class.java)
-            intent.putExtra("someoneprofile",true) //데이터 넣기
-            startActivity(intent)
-        }
     }
     //내 프로필 편집 화면으로 이동
     fun goEditFragment() {
@@ -226,6 +288,13 @@ class MyProfileFragment :
     }
 
     override fun onResume() {
+        Log.d("onResume","yes__")
+
+        viewModel.getProfileInfo(1)
+        viewModel.getSNSInfo(1)
+        viewModel.getCareerInfo(1)
+        viewModel.getEducationInfo(1)
+
         super.onResume()
     }
 
