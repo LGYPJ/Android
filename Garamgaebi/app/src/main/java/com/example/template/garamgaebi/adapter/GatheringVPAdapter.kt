@@ -12,7 +12,7 @@ class GatheringVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            HOME_TAG -> GatheringSeminarFragment()
+            0 -> GatheringSeminarFragment()
             1 -> GatheringNetworkingFragment()
             2 -> GatheringMyMeetingFragment()
             else -> GatheringSeminarFragment()

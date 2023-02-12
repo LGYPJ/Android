@@ -16,7 +16,10 @@ import com.example.template.garamgaebi.model.LoginRequest
 import com.example.template.garamgaebi.model.LoginResponse
 import com.example.template.garamgaebi.src.main.gathering.GatheringFragment
 import com.example.template.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
+import com.example.template.garamgaebi.src.main.gathering.GatheringNetworkingFragment
+import com.example.template.garamgaebi.src.main.gathering.GatheringSeminarFragment
 import com.example.template.garamgaebi.src.main.home.HomeFragment
+import com.example.template.garamgaebi.src.main.networking.NetworkingFragment
 import com.example.template.garamgaebi.src.main.profile.MyProfileFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
 import retrofit2.Call
@@ -34,7 +37,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         // 임시 로그인
         val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
@@ -171,9 +173,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 goGathering()
                 binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
                 gatheringFragment!!.setVPmy()
+                intent.removeExtra("meeting")
+                intent.removeExtra("networking1")
+                }
+            1 -> {
             }
-            1 -> {gatheringFragment!!.setVPSeminar()
-                goHome()}
+            2 -> {
+                gatheringFragment!!.setVPSeminar()
+            }
+            3->{
+                goGathering()
+                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+                gatheringFragment!!.setVPNetworking()
+            }
+            4 ->{
+                gatheringFragment!!.setVPmy()
+            }
         }
     }
 
@@ -183,7 +198,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
            onMove(0)
         }
         else {
-            onMove(1)
+            if(isGathering()){
+                if(intent.getStringExtra("networking1") == "networking1"){
+                    onMove(0)
+                }
+                else{
+                    onMove(1)
+                }
+            }
+
+
+            /*if(isGathering()){
+                if(isSeminar()){
+                    onMove(2)
+                }
+                if(isNetworking()){
+                    onMove(3)
+                }
+                if(isMeeting()){
+                    onMove(4)
+                }
+            }*/
+
         }
     }
 
@@ -196,6 +232,72 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             homeFragment!!.goneNetworkingHelp()
 
         }
+    }
+
+    fun isNetworking ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is NetworkingFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isGathering ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is GatheringFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isMeeting ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is GatheringMyMeetingFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isHome ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is HomeFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isProfile ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is MyProfileFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isSeminar ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is SeminarFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
     }
 }
 

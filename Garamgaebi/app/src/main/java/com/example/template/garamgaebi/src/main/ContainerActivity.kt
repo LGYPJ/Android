@@ -42,7 +42,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 finish()
             }
             if(isNetworking()){
-                finish()
+                if(intent.getStringExtra("gathering-networking")=="gathering-networking"){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("networking1", "networking1")
+                    startActivity(intent)
+                    intent.removeExtra("gathering-networking")
+                }
+                else{
+                    finish()
+                }
             }
             if(isCancel()){
                 val intent = Intent(this, MainActivity::class.java)
@@ -71,6 +79,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("meeting", "meeting")
             startActivity(intent)
+        }
+        if(isSeminar()){
+
         }
     }
 
