@@ -33,6 +33,10 @@ class HomeViewModel : ViewModel(){
     val notification : LiveData<NotificationResponse>
         get() = _notification
 
+    private val _notificationScroll = MutableLiveData<NotificationResponse>()
+    val notificationScroll : LiveData<NotificationResponse>
+        get() = _notificationScroll
+
     private val _notificationUnread = MutableLiveData<NotificationUnreadResponse>()
     val notificationUnread : LiveData<NotificationUnreadResponse>
         get() = _notificationUnread
@@ -95,13 +99,13 @@ class HomeViewModel : ViewModel(){
         }
     }
 
-    fun getNotification(memberIdx : Int ,lastNotificationIdx : Int) {
+    fun getNotificationScroll(memberIdx : Int ,lastNotificationIdx : Int) {
         viewModelScope.launch {
-            val response = homeRepository.getNotification(memberIdx, lastNotificationIdx)
+            val response = homeRepository.getNotificationScroll(memberIdx, lastNotificationIdx)
             Log.d("getNotification", "$response")
 
             if (response.isSuccessful && response.body() != null) {
-                _notification.postValue(response.body())
+                _notificationScroll.postValue(response.body())
                 Log.d("getNotification", "${response.body()}")
             }
             else {
