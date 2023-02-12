@@ -9,6 +9,7 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
+import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.repository.NetworkingRepository
 import kotlinx.coroutines.launch
@@ -16,14 +17,19 @@ import kotlinx.coroutines.launch
 class NetworkingViewModel : ViewModel(){
     private val networkingRepository = NetworkingRepository()
 
+    //어댑터를 위한 데이터
     private val _networkingParticipants = MutableLiveData<List<NetworkingResult>>()
     val networkingParticipants : LiveData<List<NetworkingResult>>
     get() = _networkingParticipants
 
+    // 아이스브레이킹 버튼 활성화를 위한 데이터
+    private val _networkingActive = MutableLiveData<NetworkingParticipantsResult>()
+    val networkingActive : LiveData<NetworkingParticipantsResult>
+    get() = _networkingActive
+
     private val _networkingInfo = MutableLiveData<NetworkingInfoResponse>()
     val networkingInfo : LiveData<NetworkingInfoResponse>
     get() = _networkingInfo
-
 
     fun getNetworkingParticipants() {
         viewModelScope.launch{
@@ -32,6 +38,7 @@ class NetworkingViewModel : ViewModel(){
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 _networkingParticipants.postValue(response.body()?.result?.participantList)
+                _networkingActive.postValue(response.body()?.result)
             }
             else {
                 Log.d("error", response.message())

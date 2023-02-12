@@ -213,17 +213,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_network_profile_rv"
             android:layout_width="0dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="16dp"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_network_profile"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_participant_tv"
-            app:layout_constraintStart_toStartOf="parent"/>
+            tools:listitem="@layout/item_network_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -257,7 +258,6 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/networking_join_btn"
             android:background="@drawable/activity_network_participate_btn_gray"
             app:layout_constraintStart_toEndOf="@+id/activity_network_participate_tv"
             app:layout_constraintTop_toTopOf="@+id/activity_network_participate_tv"

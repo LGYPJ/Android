@@ -67,6 +67,21 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.size.toString())
         })
 
+        // 아이스브레이킹 버튼 참여 활성화
+        viewModel.networkingActive.observe(viewLifecycleOwner, Observer{
+            if(it.isApply){
+                //버튼 활성화 & 멘트 바꾸기
+                binding.activityNetworkIcebreakingContent1Tv.text = getString(R.string.networking_icebreaking_active1)
+                binding.activityNetworkIcebreakingContent2Tv.text = getString(R.string.networking_icebreaking_active2)
+                binding.activityNetworkParticipateBtn.isEnabled = true
+                binding.activityNetworkParticipateTv.setTextColor(resources.getColor(R.color.white))
+                binding.activityNetworkParticipateImg.setBackgroundResource(R.drawable.activity_network_participate_btn_white)
+                binding.activityNetworkParticipateBtn.setBackgroundResource(R.drawable.networking_blue_join_btn_background)
+            }else{
+                binding.activityNetworkParticipateBtn.isEnabled = false
+            }
+        })
+
         //네트워킹 상세정보
         viewModel.getNetworkingInfo()
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
