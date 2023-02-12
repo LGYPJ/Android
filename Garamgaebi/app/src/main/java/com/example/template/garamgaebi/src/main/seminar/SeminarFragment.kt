@@ -74,14 +74,15 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     val bundle = Bundle()
                    // val temp = it.result[position].presentationIdx
                     bundle.putInt("presentationDialog", position)
-                    val seminarPreviewDialog = SeminarPreviewDialog()
+                    val seminarPreviewDialog = SeminarPreviewDialog(it.result)
                     seminarPreviewDialog.arguments = bundle
-                    activity?.let {
+                    /*activity?.let {
                         seminarPreviewDialog.show(
                             it.supportFragmentManager, "SeminarPreviewDialog"
                         )
-                    }
-                    SeminarPreviewDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    }*/
+                    seminarPreviewDialog.show( parentFragmentManager, "SeminarPreviewDialog")
+                    SeminarPreviewDialog(it.result).dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 }
             } )
         })
