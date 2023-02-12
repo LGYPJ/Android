@@ -14,6 +14,7 @@ import com.example.template.garamgaebi.src.main.networking.NetworkingFreeApplyFr
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.example.template.garamgaebi.src.main.home.NotificationFragment
+import com.example.template.garamgaebi.src.main.networking.NetworkingChargedApplyFragment
 import com.example.template.garamgaebi.src.main.profile.*
 import com.example.template.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
@@ -136,6 +137,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
             }
 
+            //신디 추가 네트워킹 유료 신청
+            18 -> {
+                transaction.replace(R.id.activity_seminar_frame, NetworkingChargedApplyFragment(), "networkingCharged").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "네트워킹"
+            }
+
         }
         transaction.commit()
         for(fragment: Fragment in supportFragmentManager.fragments) {
@@ -163,6 +170,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "servicecenter" -> fragmentTitle = "고객 센터"
                     "withdrawal" -> fragmentTitle = "회원 탈퇴"
                     "notification" -> fragmentTitle = "알림"
+                    "networkingCharged" -> fragmentTitle = "네트워킹"
                 }
 
                 binding.activityContainerToolbarTv.text = fragmentTitle

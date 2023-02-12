@@ -74,7 +74,13 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
 
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
         binding.activityNetworkApplyBtn.setOnClickListener {
-            containerActivity!!.openFragmentOnFrameLayout(6)
+            val pay = binding.activityNetworkPayDetailTv.text
+            if(pay == "무료") {
+                containerActivity!!.openFragmentOnFrameLayout(6)
+            }
+            else {
+                containerActivity!!.openFragmentOnFrameLayout(18)
+            }
         }
 
         //참가하기 버튼 누르면 네트워킹 게임 화면으로
