@@ -57,6 +57,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 intent.putExtra("meeting", "meeting")
                 startActivity(intent)
             }
+            //알림
+            if(isNotifi()){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
             else{
                 onBackPressed()
             }
@@ -82,6 +87,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
 
+        }
+        //알림
+        if(isNotifi()){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -339,7 +349,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         return returnValue
     }
 
-    /*fun isNotifi ():Boolean {
+    fun isNotifi ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
@@ -348,7 +358,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
         }
         return returnValue
-    }*/
+    }
 
 
 
