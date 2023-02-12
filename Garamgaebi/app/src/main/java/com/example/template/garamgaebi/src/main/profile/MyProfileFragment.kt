@@ -55,13 +55,16 @@ class MyProfileFragment :
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         binding.setVariable(BR.profileViewModel,viewModel)
-
-        viewModel.getProfileInfo(1)
+        viewModel.getProfileInfo(22)
 
         viewModel.profileInfo.observe(viewLifecycleOwner, Observer {
             binding.profileViewModel = viewModel
 
             val result = it as ProfileDataResponse
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putString("nickname", result.result.nickName)
+                .apply()
+
             if(result == null) {
 
             } else {

@@ -27,3 +27,13 @@ data class EnrollRequest(
 data class EnrollResponse(
     val result : Int=-1
 ):BaseResponse()
+
+data class CancelInfoResponse(
+    val result : CancelInfoResult
+):BaseResponse()
+
+data class CancelInfoResult(
+    val name: String ="",
+    val nickname: String="",
+    val phone : String=""
+)

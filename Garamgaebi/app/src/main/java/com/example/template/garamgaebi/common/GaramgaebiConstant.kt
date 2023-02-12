@@ -7,3 +7,13 @@ const val HOME_TAG = 0
 const val THIS_MONTH = 1
 const val READY = 2
 const val CLOSED = 3
+
+
+//참가자
+const val BLUE = 1
+const val ORIGIN = 2
+
+// 알림
+const val RV_ITEM = 1
+const val PROGRESSBAR = 2
+

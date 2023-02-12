@@ -1,7 +1,9 @@
 package com.example.template.garamgaebi.src.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseActivity
@@ -12,6 +14,7 @@ import com.example.template.garamgaebi.src.main.networking.NetworkingFreeApplyFr
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.example.template.garamgaebi.src.main.home.NotificationFragment
+import com.example.template.garamgaebi.src.main.networking.NetworkingChargedApplyFragment
 import com.example.template.garamgaebi.src.main.profile.*
 import com.example.template.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
@@ -22,6 +25,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         //툴바
         val toolbar = binding.activityContainerToolbar
@@ -38,8 +42,27 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 finish()
             }
             if(isNetworking()){
-                finish()
-            }else{
+                if(intent.getStringExtra("gathering-networking")=="gathering-networking"){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("networking1", "networking1")
+                    startActivity(intent)
+                    intent.removeExtra("gathering-networking")
+                }
+                else{
+                    finish()
+                }
+            }
+            if(isCancel()){
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("meeting", "meeting")
+                startActivity(intent)
+            }
+            //알림
+            if(isNotifi()){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            else{
                 onBackPressed()
             }
         }
@@ -56,6 +79,19 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
             binding.activityContainerToolbarTv.text = "세미나"
+        }
+        if(isCancel()){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("meeting", "meeting")
+            startActivity(intent)
+        }
+        if(isSeminar()){
+
+        }
+        //알림
+        if(isNotifi()){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -102,7 +138,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
@@ -128,6 +164,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 transaction.replace(R.id.activity_seminar_frame, EduEditFragment(), "snsEdit")
             }
 
+
+            //신디 추가 네트워킹 유료 신청
+            18 -> {
+                transaction.replace(R.id.activity_seminar_frame, NetworkingChargedApplyFragment(), "networkingCharged").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "네트워킹"
+            }
 
         }
         transaction.commit()
@@ -160,6 +202,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "servicecenter" -> fragmentTitle = "고객 센터"
                     "withdrawal" -> fragmentTitle = "회원 탈퇴"
                     "notification" -> fragmentTitle = "알림"
+                    "networkingCharged" -> fragmentTitle = "네트워킹"
                 }
 
                 binding.activityContainerToolbarTv.text = fragmentTitle
@@ -179,6 +222,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onStart() {
         super.onStart()
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         Log.d("title_onstart","됨")
         if(isSeminarCharged()){
             binding.activityContainerToolbarTv.text = "세미나"
@@ -319,7 +363,27 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         return returnValue
     }
 
+    fun isCancel ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is CancelFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 
+    fun isNotifi ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is NotificationFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 
 
 

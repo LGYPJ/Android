@@ -2,6 +2,7 @@ package com.example.template.garamgaebi.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.example.template.garamgaebi.databinding.FragmentNotificationBinding
 import com.example.template.garamgaebi.model.NotificationList
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.HomeViewModel
+import kotlinx.coroutines.*
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentNotificationBinding::bind,R.layout.fragment_notification) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,54 +24,79 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentN
 
         val viewModel by viewModels<HomeViewModel>()
         viewModel.getNotification(22)
+        var notificationRVAdapter = NotificationItemRVAdapter(arrayListOf())
+        //hasNext 저장 용도
+        val editor = GaramgaebiApplication.sSharedPreferences.edit()
 
-
+        // 최초 리사이클러뷰
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             val result = it.result.result as ArrayList<NotificationList>
-            val notificationRVAdapter = NotificationItemRVAdapter(result)
+            editor.putBoolean("hasNext", it.result.hasNext).apply()
+            notificationRVAdapter.setList(result)
+            if(!GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false))
+                notificationRVAdapter.deleteLoading()
             binding.activityNotificationRv.apply {
                 adapter = notificationRVAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
-            binding.activityNotificationRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(rv: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(rv, newState)
-                    val lastVisibleItemPosition =
+        })
+        // 최하단 스크롤 시 다음 알림 조회 API call
+        binding.activityNotificationRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(rv, dx, dy)
+                Log.d("scrollHasNext", "${GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext",false)}")
+                if(GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext",false)){
+                    val rvPosition =
                         (rv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                    val totalItemViewCount = rv.adapter!!.itemCount-1
-                    if(newState == 2 && !rv.canScrollVertically(1)
-                        &&lastVisibleItemPosition == totalItemViewCount-1){
-                        var lastItemId =
-                            (binding.activityNotificationRv.adapter as NotificationItemRVAdapter)
-                                .getLastItemId(totalItemViewCount)
-                        viewModel.getNotification(22, lastItemId)
+                    val totalCount = rv.adapter?.itemCount?.minus(1)
+                    Log.d("scrollEndTotalCount", "${rv.adapter?.itemCount?.minus(1)}")
+                    if(rvPosition == totalCount) {
+                        (rv.adapter!! as NotificationItemRVAdapter).deleteLoading()
+                        CoroutineScope(Dispatchers.Default).launch {
+                            launch {
+                                delay(1500)
+                                Log.d("scrollEndLastId", "scrollEnd " +
+                                        "${(rv.adapter!! as NotificationItemRVAdapter).getLastItemId(totalCount-1)}")
+                                viewModel.getNotificationScroll(22,
+                                    (rv.adapter!! as NotificationItemRVAdapter).getLastItemId(totalCount-1))
+                            }
+                        }
                     }
                 }
-            })
-
-            notificationRVAdapter.setOnItemClickListener(object : NotificationItemRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    it.result.result[position].isRead = true
-                    val program = it.result.result[position].programIdx
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putInt("programIdx", program)
-                        .apply()
-
-                    //세미나 메인 프래그먼트로!
-                    if(it.result.result[position].resourceType == "SEMINAR"){
-                        val intent = Intent(context, ContainerActivity::class.java)
-                        intent.putExtra("seminar", true)
-                        startActivity(intent)
-                    }
-                    //네트워킹 메인 프래그먼트로
-                    if(it.result.result[position].resourceType == "NETWORKING"){
-                        val intent = Intent(context, ContainerActivity::class.java)
-                        intent.putExtra("networking", true)
-                        startActivity(intent)
-                    }
-                }
-            })
+            }
+        })
+        // 다음 알림 조회 API
+        viewModel.notificationScroll.observe(viewLifecycleOwner, Observer{
+            editor.putBoolean("hasNext", it.result.hasNext).apply()
+            notificationRVAdapter.apply{
+                setList(it.result.result as ArrayList<NotificationList>)
+                Log.d("scrollEndGetNext", "${notificationRVAdapter.itemCount-it.result.result.size} ${it.result.result.size}")
+                notifyItemRangeInserted(notificationRVAdapter.itemCount-it.result.result.size, it.result.result.size)
+                if(!GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false))
+                    deleteLoading()
+        }
         })
 
+        notificationRVAdapter.setOnItemClickListener(object : NotificationItemRVAdapter.OnItemClickListener{
+            override fun onClick(dataList: ArrayList<NotificationList>, position: Int) {
+                dataList[position].isRead = true
+                val program = dataList[position].programIdx
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", program)
+                    .apply()
+                //세미나 메인 프래그먼트로!
+                if(dataList[position].resourceType == "SEMINAR"){
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("seminar", true)
+                    startActivity(intent)
+                }
+                //네트워킹 메인 프래그먼트로
+                if(dataList[position].resourceType == "NETWORKING"){
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("networking", true)
+                    startActivity(intent)
+                }
+            }
+        })
     }
 }

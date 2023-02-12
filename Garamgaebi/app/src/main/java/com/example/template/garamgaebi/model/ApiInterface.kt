@@ -244,4 +244,8 @@ interface ApiInterface {
 
     //카카오 로그인 완료 조회
     //@GET("/member/kakao/callback")
+
+    //신청 정보 조회
+    @GET("/applies/{member-idx}/{program-idx}/info")
+    suspend fun getCancel( @Path("member-idx") memberIdx: Int, @Path("program-idx") programIdx: Int) : Response<CancelInfoResponse>
 }

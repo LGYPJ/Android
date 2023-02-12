@@ -9,9 +9,11 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ApplyRepository
+import com.example.template.garamgaebi.repository.GatheringRepository
 import com.example.template.garamgaebi.repository.NetworkingRepository
 import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +23,7 @@ class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
     private val networkingRepository = NetworkingRepository()
     private val seminarRepository = SeminarRepository()
+    private val gatheringRepository = GatheringRepository()
 
     private val _cancel = MutableLiveData<CancelResponse>()
     val cancel : LiveData<CancelResponse>
@@ -41,6 +44,16 @@ class ApplyViewModel : ViewModel() {
     private val _enrollReq = MutableLiveData<EnrollRequest>()
     val enrollReq : LiveData<EnrollRequest>
     get() = _enrollReq
+
+    private val _programReady = MutableLiveData<List<GatheringProgramResult>>()
+    val programReady : LiveData<List<GatheringProgramResult>>
+        get() = _programReady
+
+    //취소정보조회
+    private val _cancelInfo = MutableLiveData<CancelInfoResponse>()
+    val cancelInfo : LiveData<CancelInfoResponse>
+    get() = _cancelInfo
+
 
     private val pay : MutableLiveData<String> = MutableLiveData("무료")
 
@@ -102,14 +115,7 @@ class ApplyViewModel : ViewModel() {
                     putString("inputPhone", inputPhone.value.toString())
                     apply()
                 }
-                /*val set = java.util.HashSet<String>()
-                    set.add(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0).toString())
-                    set.add(inputName.value.toString())
-                    set.add(inputNickName.value.toString())
-                    set.add(inputPhone.value.toString())
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putStringSet("enroll", set)
-                        .apply()*/
+
             }
             else{
                 Log.d("error", response.message())
@@ -153,17 +159,26 @@ class ApplyViewModel : ViewModel() {
                 Log.d("error", response.message())
             }
         }
+
+    }
+
+    //신청정보조회
+    fun getCancel(){
+        viewModelScope.launch {
+            val response = applyRepository.getCancel(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0))
+            if(response.isSuccessful){
+                _cancelInfo.postValue(response.body())
+            }
+            else{
+                Log.d("error", response.message())
+            }
+        }
     }
 
     fun getNameText() : MutableLiveData<String> = inputName
     fun getNickNameText() : MutableLiveData<String> = inputNickName
     fun getPhoneText() : MutableLiveData<String> = inputPhone
     fun getAccountText() : MutableLiveData<String> = inputAccount
-
-    /*fun convertDate(date: String?): String? {
-        val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm '시'")
-        return date?.let { formatter.parse(it)?.toString() }
-    }*/
 
     fun convertFee(money : String):String{
         return "${money}원"

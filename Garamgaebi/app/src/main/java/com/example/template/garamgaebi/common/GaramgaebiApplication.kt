@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.common
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -26,7 +27,6 @@ class GaramgaebiApplication : Application() {
     companion object {
         private lateinit var appInstance: GaramgaebiApplication
         fun getApplication() = appInstance
-
         // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
         lateinit var sSharedPreferences: SharedPreferences
 
