@@ -1,9 +1,11 @@
 package com.example.template.garamgaebi.viewModel
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.template.garamgaebi.model.MessageV0
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -22,11 +24,11 @@ class NetworkingGameViewModel: ViewModel() {
     private lateinit var mStompClient: StompClient
     private val gson = Gson()
 
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String>
+    private val _message = MutableLiveData<MessageV0>()
+    val message: LiveData<MessageV0>
         get() = _message
 
-    fun connectStomp(room: String) {
+    fun connectStomp() {
 
         mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
         val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
@@ -39,7 +41,6 @@ class NetworkingGameViewModel: ViewModel() {
                     "socket", "Error",
                     lifecycleEvent.exception
                 )
-                    connectStomp(room)
                 }
                 LifecycleEvent.Type.CLOSED -> Log.i(
                     "socket",
@@ -51,20 +52,23 @@ class NetworkingGameViewModel: ViewModel() {
                 )
             }
         }
-        /*stompConnection= mStompClient.topic(MSSAGE_DESTINATION + "/" + room)
+        val stompSubscribe: Disposable = mStompClient.topic(" /topic/game/room/1")
             .subscribe { stompMessage ->
-                Log.d(TAG, "receive messageData :" + stompMessage.payload)
-            }*/
+                Log.i("subscribe", "receive messageData :" + stompMessage.payload)
+                val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
+                _message.postValue(messageV0)
+                Log.i("whywhy", messageV0.toString())
+            }
         mStompClient.connect()
-
 
     }
 
-    /*fun sendMessage(name: String, content: String, room: String) {   // 구독 하는 방과 같은 주소로 메세지 전송
-        val time = SimpleDateFormat("k:mm").format(Date(System.currentTimeMillis()))
-        //mStompClient.send(MSSAGE_DESTINATION + "/" + room, messageJson).subscribe()
-
-    }*/
+    fun sendMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
+        val messageVO = MessageV0("TALK", "1","zzangu", "안녕!!","")
+        val messageJson: String = gson.toJson(messageVO)
+        mStompClient.send("/app/game/message", messageJson).subscribe()
+        Log.i("send", "send messageData : $messageJson")
+    }
 
     fun disconnectStomp(){
         mStompClient.disconnect()

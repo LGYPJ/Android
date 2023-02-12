@@ -58,8 +58,16 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
         //웹소켓 구현
         val viewModel = ViewModelProvider(this)[NetworkingGameViewModel::class.java]
 
-        viewModel.connectStomp("cindy")
-        viewModel.message.observe(viewLifecycleOwner, Observer { it ->
+        viewModel.connectStomp()
+        viewModel.message.observe(viewLifecycleOwner, Observer {
+
+        })
+        viewModel.sendMessage()
+        viewModel.message.observe(viewLifecycleOwner, Observer{
+
+        })
+        viewModel.disconnectStomp()
+        viewModel.message.observe(viewLifecycleOwner, Observer{
 
         })
 
