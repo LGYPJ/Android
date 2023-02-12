@@ -49,6 +49,11 @@ class ApplyViewModel : ViewModel() {
     val programReady : LiveData<List<GatheringProgramResult>>
         get() = _programReady
 
+    //취소정보조회
+    private val _cancelInfo = MutableLiveData<CancelInfoResponse>()
+    val cancelInfo : LiveData<CancelInfoResponse>
+    get() = _cancelInfo
+
 
     private val pay : MutableLiveData<String> = MutableLiveData("무료")
 
@@ -155,6 +160,19 @@ class ApplyViewModel : ViewModel() {
             }
         }
 
+    }
+
+    //신청정보조회
+    fun getCancel(){
+        viewModelScope.launch {
+            val response = applyRepository.getCancel(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0))
+            if(response.isSuccessful){
+                _cancelInfo.postValue(response.body())
+            }
+            else{
+                Log.d("error", response.message())
+            }
+        }
     }
 
     fun getNameText() : MutableLiveData<String> = inputName

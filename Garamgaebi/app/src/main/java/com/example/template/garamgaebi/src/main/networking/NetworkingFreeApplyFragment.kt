@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentNetworkingFreeApplyBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
@@ -69,6 +70,34 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
                 else{
                     binding.activityNetworkFreeApplyNotCorrectNicknameTv.visibility = View.GONE
                     binding.activityNetworkFreeApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
+                }
+                if(isButton()){
+
+                    binding.activityNetworkFreeApplyBtn.isEnabled = true
+                    binding.activityNetworkFreeApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                }
+                else {
+
+                    binding.activityNetworkFreeApplyBtn.isEnabled = false
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+
+        binding.activityNetworkFreeApplyNameTv.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if(!isNickName()){
+                    binding.activityNetworkFreeApplyNotCorrectNameTv.visibility = View.VISIBLE
+                    binding.activityNetworkFreeApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
+                }
+                else{
+                    binding.activityNetworkFreeApplyNotCorrectNameTv.visibility = View.GONE
+                    binding.activityNetworkFreeApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
                 }
                 if(isButton()){
 
@@ -150,35 +179,51 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
         containerActivity = context as ContainerActivity
     }
 
+    // 이름 형식 맞나
+    fun isName() : Boolean {
+        var returnValue = false
+        val name = binding.activityNetworkFreeApplyNameTv.text.toString()
+        val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(name)
+        if (m.matches()) {
+            returnValue = true
+        }
+        return returnValue;
+    }
+
     //전화번호 형식 맞나
     fun isPhoneNumberCheck() : Boolean {
         var returnValue = false
         val phone = binding.activityNetworkFreeApplyPhoneTv.text.toString()
-        val regex = "^\\s*(010|011|012|013|014|015|016|017|018|019)(-|\\)|\\s)*(\\d{3,4})(-|\\s)*(\\d{4})\\s*$";
-        val p = Pattern.compile(regex);
-        val m = p.matcher(phone);
+        val regex = "^[0-9]{11}$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(phone)
         if (m.matches()) {
-            returnValue = true;
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
     }
     //닉네임 맞나
     fun isNickName(): Boolean{
         var returnValue = false
         val nickname = binding.activityNetworkFreeApplyNicknameTv.text.toString()
-        val regex = "cindy"
-        val p = regex.matches(nickname.toRegex())
-        if(p){
-            returnValue = true;
+        //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
+        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
+        val p = regex?.matches(nickname.toRegex())
+        if(p == true){
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
     }
-    //신청하기 버튼 클릭하면 네트워킹 메인 신청하기 버튼 바뀌게
+
+    //버튼 활성화
     fun isButton():Boolean {
         var returnValue = false
-        if(isNickName()&&isPhoneNumberCheck()){
-            returnValue = true;
+        if(isNickName()&&isPhoneNumberCheck()&&isName()){
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
+
     }
 }

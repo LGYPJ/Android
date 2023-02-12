@@ -19,10 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-
-                            <entry key="outputName" value="arrow_circle_right" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\와이어프레임 - 가람개비 (2)\vuesax\linear\arrow-circle-right.svg" />
-
+                            <entry key="outputName" value="view" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\view\view.svg" />
                           </map>
                         </option>
                       </PersistentState>

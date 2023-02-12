@@ -137,12 +137,14 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 if (GaramgaebiApplication.sSharedPreferences.getString("type", null) == "SEMINAR") {
                     val intent = Intent(context, ContainerActivity::class.java)
                     intent.putExtra("seminar", true)
+                    intent.putExtra("gathering-seminar", "gathering-seminar")
                     startActivity(intent)
                 }
                 //네트워킹으로
                 if (GaramgaebiApplication.sSharedPreferences.getString("type", null) == "NETWORKING") {
                     val intent = Intent(context, ContainerActivity::class.java)
                     intent.putExtra("networking", true)
+                    intent.putExtra("gathering-networking", "gathering-networking")
                     startActivity(intent)
                 }
             }

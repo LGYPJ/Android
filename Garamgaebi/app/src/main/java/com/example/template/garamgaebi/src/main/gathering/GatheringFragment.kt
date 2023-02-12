@@ -27,22 +27,6 @@ class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheri
             tab.position.let{binding.fragmentGatheringVp.setCurrentItem(position, false)}
         }.attach()
 
-        //스와이프 불가
-        /*binding.fragmentGatheringVp.run {
-            isUserInputEnabled = false
-        }*/
-
-        /*binding.fragmentGatheringTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.position?.let{binding.fragmentGatheringVp.setCurrentItem(it, false)}
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-        })*/
-
     }
     fun setVPSeminar() {
         binding.fragmentGatheringVp.currentItem = 0
@@ -54,24 +38,5 @@ class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheri
         binding.fragmentGatheringVp.currentItem = 2
     }
 
-    /*fun swipe(){
-        binding.fragmentGatheringVp.run {
-            isUserInputEnabled = false
-        }
-    }*/
-
-
-    /*fun setVPSeminar() {
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frm, GatheringSeminarFragment()).commit()
-    }
-    fun setVPNetworking() {
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frm, GatheringNetworkingFragment()).commit()
-    }
-    fun setVPmy() {
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.activity_main_frm, GatheringMyMeetingFragment()).commit()
-    }*/
 
 }

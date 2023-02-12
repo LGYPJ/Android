@@ -14,11 +14,11 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/activity_seminar_charged_scroll"
+            android:id="@+id/activity_network_charged_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/activity_seminar_charged_apply_cancel"
+            app:layout_constraintBottom_toTopOf="@+id/activity_network_charged_apply_cancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -29,7 +29,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/activity_seminar_charged_apply_info"
+                    android:id="@+id/activity_network_charged_apply_info"
                     android:layout_width="match_parent"
                     android:layout_height="141dp"
                     android:background="@drawable/btn_seminar_present"
@@ -42,10 +42,10 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_title_tv"
+                        android:id="@+id/activity_network_charged_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{item.seminarInfo.result.title}"
+                        android:text="@{item.networkingInfo.result.title}"
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:textColor="@color/black80"
@@ -54,7 +54,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_date_tv"
+                        android:id="@+id/activity_network_charged_date_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="일시"
@@ -63,22 +63,22 @@
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_title_tv" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_date_detail_tv"
+                        android:id="@+id/activity_network_charged_date_detail_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{item.seminarInfo.result.date}"
+                        android:text="@{item.networkingInfo.result.date}"
                         android:textSize="14sp"
                         android:textColor="@color/black80"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_title_tv"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_date_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv"
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_date_tv"
                         android:layout_marginTop="2dp"
                         android:layout_marginStart="8dp" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_place_tv"
+                        android:id="@+id/activity_network_charged_place_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="장소"
@@ -86,23 +86,23 @@
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_date_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_place_detail_tv"
+                        android:id="@+id/activity_network_charged_place_detail_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{item.seminarInfo.result.location}"
+                        android:text="@{item.networkingInfo.result.location}"
                         android:textColor="@color/black80"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
                         android:layout_marginStart="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_date_tv"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_place_tv" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv"
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_place_tv" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_pay_tv"
+                        android:id="@+id/activity_network_charged_pay_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="참가비"
@@ -110,23 +110,23 @@
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_place_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_pay_detail_tv"
+                        android:id="@+id/activity_network_charged_pay_detail_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Integer.toString(item.seminarInfo.result.fee).equals(0) ? item.convertFee(Integer.toString(item.seminarInfo.result.fee)) : item.feeFree(Integer.toString(item.seminarInfo.result.fee))}"
+                        android:text="@{Integer.toString(item.networkingInfo.result.fee).equals(0) ? item.convertFee(Integer.toString(item.networkingInfo.result.fee)) : item.feeFree(Integer.toString(item.networkingInfo.result.fee))}"
                         android:textColor="@color/black80"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
                         android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_pay_tv"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_place_tv" />
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_pay_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_deadline_tv"
+                        android:id="@+id/activity_network_charged_deadline_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="신청 마감"
@@ -135,26 +135,26 @@
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_pay_tv" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_deadline_detail_tv"
+                        android:id="@+id/activity_network_charged_deadline_detail_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{item.seminarInfo.result.endDate}"
+                        android:text="@{item.networkingInfo.result.endDate}"
                         android:textColor="@color/black80"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"
                         android:layout_marginStart="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_pay_tv"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_deadline_tv" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv"
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_deadline_tv" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_name"
+                    android:id="@+id/activity_network_charged_apply_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/origin_apply_name"
@@ -163,11 +163,11 @@
                     android:textSize="16sp"
                     android:layout_marginTop="24dp"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_info"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_info"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
-                    android:id="@+id/activity_seminar_charged_apply_name_tv"
+                    android:id="@+id/activity_network_charged_apply_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="@string/origin_name_input"
@@ -181,11 +181,11 @@
                     android:background="@drawable/et_seminat_apply"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_name"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_not_correct_name_tv"
+                    android:id="@+id/activity_network_charged_apply_not_correct_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/apply_not_name"
@@ -194,11 +194,11 @@
                     android:textSize="12sp"
                     android:visibility="gone"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_name_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_nickname"
+                    android:id="@+id/activity_network_charged_apply_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/origin_apply_nickname"
@@ -207,12 +207,12 @@
                     android:textSize="16sp"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_not_correct_name_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_not_correct_name_tv"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <EditText
-                    android:id="@+id/activity_seminar_charged_apply_nickname_tv"
+                    android:id="@+id/activity_network_charged_apply_nickname_tv"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="@string/origin_nickname_input"
@@ -226,11 +226,11 @@
                     android:background="@drawable/et_seminat_apply"
                     android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_nickname"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_not_correct_nickname_tv"
+                    android:id="@+id/activity_network_charged_apply_not_correct_nickname_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/apply_not_nickname"
@@ -239,11 +239,11 @@
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_nickname_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_phone"
+                    android:id="@+id/activity_network_charged_apply_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/origin_apply_phone"
@@ -252,12 +252,12 @@
                     android:textSize="16sp"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_not_correct_nickname_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_not_correct_nickname_tv"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <EditText
-                    android:id="@+id/activity_seminar_charged_apply_phone_tv"
+                    android:id="@+id/activity_network_charged_apply_phone_tv"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="@string/origin_phone_input"
@@ -271,11 +271,11 @@
                     android:background="@drawable/et_seminat_apply"
                     android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activity_seminar_charged_apply_not_correct_phone_tv"
+                    android:id="@+id/activity_network_charged_apply_not_correct_phone_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/apply_not_phone"
@@ -284,11 +284,11 @@
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_phone_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/activity_seminar_charged_apply_content_box"
+                    android:id="@+id/activity_network_charged_apply_content_box"
                     android:layout_width="match_parent"
                     android:paddingStart="12dp"
                     android:layout_height="wrap_content"
@@ -298,13 +298,13 @@
                     android:layout_marginEnd="16dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_apply_phone_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv1"
+                        android:id="@+id/activity_network_charged_info_tv1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_bank"
@@ -314,7 +314,7 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_account"
+                        android:id="@+id/activity_network_charged_info_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_bank_account"
@@ -322,20 +322,20 @@
                         android:layout_marginStart="3dp"
                         android:textColor="@color/black80"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_info_tv1" />
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_tv1" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/activity_seminar_charged_copy_btn"
+                        android:id="@+id/activity_network_charged_copy_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/activity_seminar_charged_copy"
                         android:layout_marginStart="4dp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_info_account"
-                        app:layout_constraintTop_toTopOf="@+id/activity_seminar_charged_info_tv1"
-                        app:layout_constraintBottom_toBottomOf="@+id/activity_seminar_charged_info_tv1" />
+                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_account"
+                        app:layout_constraintTop_toTopOf="@+id/activity_network_charged_info_tv1"
+                        app:layout_constraintBottom_toBottomOf="@+id/activity_network_charged_info_tv1" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv2"
+                        android:id="@+id/activity_network_charged_info_tv2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -343,10 +343,10 @@
                         android:textSize="14sp"
                         android:textColor="@color/black80"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_info_tv1" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv1" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv3"
+                        android:id="@+id/activity_network_charged_info_tv3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_charged_info2"
@@ -354,30 +354,30 @@
                         android:textColor="@color/black80"
                         android:layout_marginTop="12dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_info_tv2" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv2" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv4"
+                        android:id="@+id/activity_network_charged_info_tv4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_charged_info3"
                         android:textSize="14sp"
                         android:textColor="@color/black80"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_info_tv3" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv3" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv5"
+                        android:id="@+id/activity_network_charged_info_tv5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_charged_info4"
                         android:textSize="14sp"
                         android:textColor="@color/black80"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_info_tv4" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv4" />
 
                     <TextView
-                        android:id="@+id/activity_seminar_charged_info_tv6"
+                        android:id="@+id/activity_network_charged_info_tv6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/seminar_charged_info5"
@@ -385,7 +385,7 @@
                         android:textColor="@color/black80"
                         android:layout_marginTop="12dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_info_tv5" />
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv5" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -395,7 +395,7 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/activity_seminar_charged_apply_cancel"
+            android:id="@+id/activity_network_charged_apply_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="14dp"
@@ -403,11 +403,11 @@
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_seminar_charged_scroll"
+            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_scroll"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:id="@+id/activity_seminar_charged_apply_btn"
+                android:id="@+id/activity_network_charged_apply_btn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:background="@drawable/btn_seminar_apply_free"

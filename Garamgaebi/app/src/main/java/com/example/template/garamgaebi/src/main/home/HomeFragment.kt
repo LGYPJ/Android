@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -81,15 +82,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
-                        val program = it.result[position].programIdx
-                        GaramgaebiApplication.sSharedPreferences
-                            .edit().putInt("programIdx", program)
-                            .apply()
-                        //세미나 메인 프래그먼트로!
-                        val intent = Intent(context, ContainerActivity::class.java)
-                        intent.putExtra("seminar", true)
-                        //intent.putExtra("HomeSeminarIdx", program)
-                        startActivity(intent)
+                        if(it.result[position].isOpen == "OPEN"){
+                            val program = it.result[position].programIdx
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putInt("programIdx", program)
+                                .apply()
+                            //세미나 메인 프래그먼트로!
+                            val intent = Intent(context, ContainerActivity::class.java)
+                            intent.putExtra("seminar", true)
+                            //intent.putExtra("HomeSeminarIdx", program)
+                            startActivity(intent)
+                        }
                     }
                 })
             }

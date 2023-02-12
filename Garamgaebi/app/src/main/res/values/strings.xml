@@ -171,7 +171,8 @@
     <string name="seminar_content">내용내용</string>
     <string name="seminar_reference">링크링크링크</string>
     <string name="seminar_presentation_preview">발표 미리보기</string>
-    <string name="seminar_bank">카카오뱅크 3333-22-5500352</string>
+    <string name="seminar_bank">카카오뱅크</string>
+    <string name="seminar_bank_account">3333-22-5500352</string>
     <string name="seminar_charged_info1">입금자명은 닉네임/이름(예: 찹도/민세림)으로 해주세요.</string>
     <string name="seminar_charged_info2">신청 확정은 신청 마감 이후에 일괄 처리됩니다.</string>
     <string name="seminar_charged_info3">신청 취소는 일주일 전까지 가능합니다.(이후로는 취소 불가)</string>
@@ -203,6 +204,11 @@
     <string name="origin_nickname_input">가입 시 닉네임을 적어주세요</string>
     <string name="origin_phone_input">숫자만 입력해주세요</string>
     <string name="main_fee">%s원</string>
+    <string name="main_participants">%s명</string>
+    <string name="no_participants">아직 참석자가 없습니다\n첫 참석자가 되어주세요!</string>
+    <string name="apply_not_name">이름 형식이 올바르지 않습니다</string>
+    <string name="apply_not_nickname">닉네임이 일치하지 않습니다</string>
+    <string name="apply_not_phone">번호 형식이 올바르지 않습니다</string>
 
     <!--networking-->
     <string name="networking_icebreaking">아이스 브레이킹</string>

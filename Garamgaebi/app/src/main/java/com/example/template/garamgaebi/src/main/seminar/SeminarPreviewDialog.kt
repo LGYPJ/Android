@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.seminar
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,9 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,9 +21,11 @@ import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseDialog
 import com.example.template.garamgaebi.databinding.DialogSeminarPreviewBinding
+import com.example.template.garamgaebi.model.GatheringProgramResult
+import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
-class SeminarPreviewDialog:DialogFragment() {
+class SeminarPreviewDialog(private val present : List<PresentationResult>):DialogFragment() {
      private lateinit var binding : DialogSeminarPreviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,22 +48,35 @@ class SeminarPreviewDialog:DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bundle = arguments
+        val position = bundle!!.getInt("presentationDialog", 0)
+        val data = present[position]
+        Glide.with(binding.dialogSeminarProfileImg.context)
+            .load(data.profileImgUrl)
+            .into(binding.dialogSeminarProfileImg)
+        binding.dialogFragmentSeminarNameTv.text = data.nickname
+        Log.d("imgwhy", data.nickname)
+        binding.dialogFragmentSeminarJobTv.text =data.organization
+        binding.dialogFragmentSeminarTitleTv.text = data.title
+        binding.dialogFragmentSeminarContentTv.text = data.content
+        binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
 
-        val viewModel = ViewModelProvider(this)[SeminarViewModel::class.java]
-        viewModel.getSeminarDetail()
+        /*viewModel.getSeminarDetail()
         viewModel.presentation.observe(viewLifecycleOwner, Observer {
-            val position = arguments?.getInt("presentationDialog", 0)
-            val data = it.result[position!!]
+            //val position = arguments?.getInt("presentationDialog", 0)
+            Log.d("presentwhy1", position.toString())
+            val data = it.result[position]
             Glide.with(binding.dialogSeminarProfileImg.context)
                 .load(data.profileImgUrl)
                 .into(binding.dialogSeminarProfileImg)
             binding.dialogFragmentSeminarNameTv.text = data.nickname
+            Log.d("imgwhy", data.nickname)
             binding.dialogFragmentSeminarJobTv.text =data.organization
             binding.dialogFragmentSeminarTitleTv.text = data.title
             binding.dialogFragmentSeminarContentTv.text = data.content
             binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
 
-        })
+        })*/
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {
            dismiss()
         }

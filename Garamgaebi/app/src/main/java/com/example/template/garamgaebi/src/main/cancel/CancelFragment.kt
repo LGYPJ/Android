@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -33,9 +34,15 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         binding.activityCancelBankTv.text = "은행"
 
-        binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
-        binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
-        binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
+        //신청정보조회
+        viewModel.getCancel()
+        viewModel.cancelInfo.observe(viewLifecycleOwner, Observer{
+            val data = it.result
+            binding.activityCancelNameTv.text = data.name
+            binding.activityCancelNicknameTv.text = data.nickname
+            binding.activityCancelPhoneTv.text = data.phone
+        })
+
 
         // et selected 여부에 따라 drawable 결정
         binding.activityCancelPayEt.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -97,23 +104,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         }
 
-        //은행 선택하고 계좌번호 쓰면 버튼 활성화 됨
-        binding.activityCancelPayEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(isButton()){
-                    binding.activityCancelApplyBtn.isEnabled = true
-                    binding.activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-                    binding.activityCancelApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
-
         //type에 따라 상세보기 뷰모델 달라짐!
         //세미나 상세보기 뷰모델로
         if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="SEMINAR"){
@@ -130,6 +120,22 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
                 }
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
+
+                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                if(data.fee == 0){
+                   binding.activityCancelBankTv.visibility = GONE
+                    binding.activityCancelBankDownBtn.visibility = GONE
+                    binding.activityCancelPayEt.visibility = GONE
+
+                    //무료 버튼 활성화
+                    binding.activityCancelApplyBtn.isEnabled = true
+                    binding.activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+
+                }else {
+                    //유료 버튼활성화
+                    isCharged()
+                }
+
             })
         }
         //네트워킹 상세보기 뷰모델로
@@ -147,22 +153,23 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
                 }
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
+
+                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                if(data.fee == 0){
+                    binding.activityCancelBankTv.visibility = GONE
+                    binding.activityCancelBankDownBtn.visibility = GONE
+                    binding.activityCancelPayEt.visibility = GONE
+
+                    //무료 버튼 활성화
+                    binding.activityCancelApplyBtn.isEnabled = true
+                    binding.activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                }else {
+                    //유료 버튼활성화
+                    isCharged()
+                }
+
             })
         }
-
-        //이름, 닉네임, 전화번호
-        /*viewModel.postEnroll()
-        viewModel.enrollReq.observe(viewLifecycleOwner, Observer{
-
-                binding.activityCancelNameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputName", null)
-                binding.activityCancelNicknameTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputNickName", null)
-                binding.activityCancelPhoneTv.text = GaramgaebiApplication.sSharedPreferences.getString("inputPhone", null)
-
-                /*binding.activityCancelNameTv.text = it.name
-                binding.activityCancelNicknameTv.text = it.nickname
-                binding.activityCancelPhoneTv.text = it.phone*/
-
-        })*/
     }
 
     private fun isBank(): Boolean {
@@ -184,6 +191,26 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         }
         return returnValue;
 
+    }
+
+    // 유료 프로그램일때 신청취소
+    private fun isCharged(){
+        //은행 선택하고 계좌번호 쓰면 버튼 활성화 됨
+        binding.activityCancelPayEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(isButton()){
+                    binding.activityCancelApplyBtn.isEnabled = true
+                    binding.activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                }
+                else {
+                    binding.activityCancelApplyBtn.isEnabled = false
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
     }
 
     //화면전환
