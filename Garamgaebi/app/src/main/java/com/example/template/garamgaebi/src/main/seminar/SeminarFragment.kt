@@ -52,6 +52,19 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     //addItemDecoration(SeminarHorizontalItemDecoration())
                 }
+                //리사이클러뷰 클릭 이벤트
+                seminarProfile.setOnItemClickListener(object :
+                SeminarProfileAdapter.OnItemClickListener{
+                    override fun onClick(position: Int) {
+                        //상대방 프로필로 이동
+                        if(position ==0 && it.result[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                            containerActivity!!.openFragmentOnFrameLayout(13)
+                        }
+                        if(position != 0){
+                            containerActivity!!.openFragmentOnFrameLayout(13)
+                        }
+                    }
+                })
             }
 
             //참석자 수 표시

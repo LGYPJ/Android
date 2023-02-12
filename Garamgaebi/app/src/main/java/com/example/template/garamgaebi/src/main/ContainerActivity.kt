@@ -117,7 +117,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")

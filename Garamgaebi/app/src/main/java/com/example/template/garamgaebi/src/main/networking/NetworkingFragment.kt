@@ -13,6 +13,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.NetworkingProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.HomeSeminarResult
@@ -47,6 +48,19 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     //addItemDecoration(NetworkingHorizontalItemDecoration())
                 }
+                //리사이클러뷰 클릭 이벤트
+                networkingProfile.setOnItemClickListener(object :
+                NetworkingProfileAdapter.OnItemClickListener{
+                    override fun onClick(position: Int) {
+                        //상대방 프로필 프래그먼트로
+                        if(position ==0 && it.result[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                            containerActivity!!.openFragmentOnFrameLayout(13)
+                        }
+                        if(position != 0){
+                            containerActivity!!.openFragmentOnFrameLayout(13)
+                        }
+                    }
+                })
             }
 
             //참석자 수 표시
