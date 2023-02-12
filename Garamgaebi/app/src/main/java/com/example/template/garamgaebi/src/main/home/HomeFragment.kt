@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -39,27 +40,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         super.onViewCreated(view, savedInstanceState)
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-        binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-
+        with(binding) {
+            fragmentHomeClSeminarBlank.visibility = View.VISIBLE
+            fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
+            fragmentHomeClUserBlank.visibility = View.VISIBLE
+            fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+        }
 
         // 뷰페이저 간격 조절을 위한 변수
-        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.homeItemPageMargin)
-        val pagerWidth = resources.getDimensionPixelOffset(R.dimen.homeItemPagerWidth)
+        val pagerWidth = resources.displayMetrics.widthPixels
+            .minus(resources.getDimensionPixelOffset(R.dimen.exceptionHomeItemWidth))
+        val pageMargin = resources.getDimensionPixelOffset(R.dimen.homeItemMargin)
         val screenWidth = resources.displayMetrics.widthPixels
-        val offsetPx = screenWidth - pageMarginPx - pagerWidth
+        val offsetPx = screenWidth - pagerWidth - pageMargin
 
         // 뷰모델
         val viewModel by viewModels<HomeViewModel>()
-        viewModel.getHomeSeminar()
-        viewModel.getHomeNetworking()
-        viewModel.getHomeUser()
-        viewModel.getHomeProgram(22)
-        viewModel.getNotificationUnread(22)
 
         // 세미나
+        viewModel.getHomeSeminar()
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
@@ -71,11 +70,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeVpSeminar.apply {
                     adapter = seminarRVAdapter
                     orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            super.onPageSelected(position)
-                        }
-                    })
                     offscreenPageLimit = 1
                     // 간격 조절
                     setPageTransformer { page, position ->
@@ -103,7 +97,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 })
             }
         })
+
         // 네트워킹
+        viewModel.getHomeNetworking()
         viewModel.networking.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
@@ -141,7 +137,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 })
             }
         })
+
         // 유저 프로필 11명
+        viewModel.getHomeUser()
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
@@ -165,7 +163,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 })
             }
         })
+
         // 내 모임
+        viewModel.getHomeProgram(22)
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
@@ -211,13 +211,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             target.putExtra("notification", true)
             startActivity(target)
         }
+
         // 읽지 않은 알림 존재 여부
+        viewModel.getNotificationUnread(22)
         viewModel.notificationUnread.observe(viewLifecycleOwner, Observer {
             if(it.result.isUnreadExist)
                 binding.fragmentHomeIvNotificationPoint.visibility = View.VISIBLE
             else
                 binding.fragmentHomeIvNotificationPoint.visibility = View.GONE
         })
+
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
             (activity as MainActivity).goGatheringSeminar()
@@ -262,12 +265,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         )
         constraints.applyTo(binding.fragmentHomeClMeeting)
     }
-
     fun goneSeminarHelp() {
         binding.fragmentHomeTvSeminarHelp.visibility = View.GONE
     }
     fun goneNetworkingHelp() {
         binding.fragmentHomeTvNetworkingHelp.visibility = View.GONE
     }
-}
 
+}
