@@ -120,8 +120,66 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
             }*/
 
-        })
+            //무료
+            if(it.result.fee == 0) {
+                // 버튼 상태
+                if(it.result.userButtonStatus == "APPLY_COMPLETE"){
+                    //신청완료, 비활성화
+                    binding.activitySeminarFreeApplyBtn.text = "마감"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "CLOSED"){
+                    //마감, 비활성화
+                    binding.activitySeminarFreeApplyBtn.text = "마감"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY"){
+                    // 신청하기 활성화
+                    binding.activitySeminarFreeApplyBtn.text = "신청하기"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.white))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = true
+                }
+            }
+            //유료
+            else {
+                // 버튼 상태
+                if(it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM"){
+                    //신청확인중, 비활성화
+                    binding.activitySeminarFreeApplyBtn.text = "신청확인중"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY_COMPLETE"){
+                    //신청완료, 비활성화
+                    binding.activitySeminarFreeApplyBtn.text = "신청완료"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "CLOSED"){
+                    //마감, 비활성화
+                    binding.activitySeminarFreeApplyBtn.text = "마감"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY"){
+                    // 신청하기 활성화
+                    binding.activitySeminarFreeApplyBtn.text = "신청하기"
+                    binding.activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.white))
+                    binding.activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                    binding.activitySeminarFreeApplyBtn.isEnabled = true
+                }
 
+            }
+
+        })
 
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
         binding.activitySeminarFreeApplyBtn.setOnClickListener {

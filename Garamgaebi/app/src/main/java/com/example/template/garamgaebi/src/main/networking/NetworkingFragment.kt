@@ -78,12 +78,65 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 binding.activityNetworkPayDetailTv.text = "무료"
             }
             binding.activityNetworkDeadlineDetailTv.text = item.endDate
-            //버튼 상태 추가
-            /*if (item.userButtonStatus == "ApplyComplete") {
-                binding.activityNetworkApplyBtn.text = "신청완료"
-                binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-            }*/
+
+            //무료
+            if(it.result.fee == 0) {
+                // 버튼 상태
+                if(it.result.userButtonStatus == "APPLY_COMPLETE"){
+                    //신청완료, 비활성화
+                    binding.activityNetworkApplyBtn.text = "마감"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activityNetworkApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "CLOSED"){
+                    //마감, 비활성화
+                    binding.activityNetworkApplyBtn.text = "마감"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activityNetworkApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY"){
+                    // 신청하기 활성화
+                    binding.activityNetworkApplyBtn.text = "신청하기"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                    binding.activityNetworkApplyBtn.isEnabled = true
+                }
+            }
+            //유료
+            else {
+                // 버튼 상태
+                if(it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM"){
+                    //신청확인중, 비활성화
+                    binding.activityNetworkApplyBtn.text = "신청확인중"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                    binding.activityNetworkApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY_COMPLETE"){
+                    //신청완료, 비활성화
+                    binding.activityNetworkApplyBtn.text = "신청완료"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                    binding.activityNetworkApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "CLOSED"){
+                    //마감, 비활성화
+                    binding.activityNetworkApplyBtn.text = "마감"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activityNetworkApplyBtn.isEnabled = false
+                }
+                if(it.result.userButtonStatus == "APPLY"){
+                    // 신청하기 활성화
+                    binding.activityNetworkApplyBtn.text = "신청하기"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                    binding.activityNetworkApplyBtn.isEnabled = true
+                }
+
+            }
         })
 
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
