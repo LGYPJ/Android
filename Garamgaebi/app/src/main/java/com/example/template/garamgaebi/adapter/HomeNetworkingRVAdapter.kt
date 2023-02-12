@@ -82,20 +82,26 @@ class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingRes
         when(holder) {
             is ThisMonthViewHolder -> {
                 holder.bind(dataList[position])
-                holder.binding.root.setOnClickListener {
-                    itemClickListener.onClick(position)
+                if(dataList[position].isOpen == "OPEN"){
+                    holder.binding.root.setOnClickListener {
+                        itemClickListener.onClick(position)
+                    }
                 }
             }
             is ScheduledViewHolder -> {
                 holder.bind(dataList[position])
-                holder.binding.root.setOnClickListener {
-                    itemClickListener.onClick(position)
+                if(dataList[position].isOpen == "OPEN"){
+                    holder.binding.root.setOnClickListener {
+                        itemClickListener.onClick(position)
+                    }
                 }
             }
             is ClosedViewHolder -> {
                 holder.bind(dataList[position])
-                holder.binding.root.setOnClickListener {
-                    itemClickListener.onClick(position)
+                if(dataList[position].isOpen == "OPEN"){
+                    holder.binding.root.setOnClickListener {
+                        itemClickListener.onClick(position)
+                    }
                 }
             }
         }

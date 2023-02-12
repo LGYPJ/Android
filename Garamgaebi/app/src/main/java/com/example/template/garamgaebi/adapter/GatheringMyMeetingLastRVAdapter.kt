@@ -27,7 +27,9 @@ class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringP
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
         holder.binding.itemGatheringMyMeetingLastIvMore.setOnClickListener {
-            itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingLastIvMore)
+            if(dataList[position].isOpen == "OPEN"){
+                itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingLastIvMore)
+            }
         }
     }
 

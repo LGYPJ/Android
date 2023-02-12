@@ -52,7 +52,9 @@ class GatheringMyMeetingScheduledRVAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
         holder.binding.itemGatheringMyMeetingScheduledIvMore.setOnClickListener {
-            itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingScheduledIvMore)
+            if(dataList[position].isOpen == "OPEN"){
+                itemClickListener.onMoreClick(position, v = holder.binding.itemGatheringMyMeetingScheduledIvMore)
+            }
         }
     }
 
