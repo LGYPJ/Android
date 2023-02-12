@@ -39,17 +39,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         super.onViewCreated(view, savedInstanceState)
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-        binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-        binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-
+        with(binding) {
+            fragmentHomeClSeminarBlank.visibility = View.VISIBLE
+            fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
+            fragmentHomeClUserBlank.visibility = View.VISIBLE
+            fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+        }
 
         // 뷰페이저 간격 조절을 위한 변수
-        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.homeItemPageMargin)
-        val pagerWidth = resources.getDimensionPixelOffset(R.dimen.homeItemPagerWidth)
+        val pagerWidth = resources.displayMetrics.widthPixels
+            .minus(resources.getDimensionPixelOffset(R.dimen.exceptionHomeItemWidth))
+        val pageMargin = resources.getDimensionPixelOffset(R.dimen.homeItemMargin)
         val screenWidth = resources.displayMetrics.widthPixels
-        val offsetPx = screenWidth - pageMarginPx - pagerWidth
+        val offsetPx = screenWidth - pagerWidth - pageMargin
 
         // 뷰모델
         val viewModel by viewModels<HomeViewModel>()
@@ -67,11 +69,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeVpSeminar.apply {
                     adapter = seminarRVAdapter
                     orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            super.onPageSelected(position)
-                        }
-                    })
                     offscreenPageLimit = 1
                     // 간격 조절
                     setPageTransformer { page, position ->
