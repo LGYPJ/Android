@@ -8,10 +8,18 @@ data class BooleanResponse (
 ):BaseResponse()
 
 //SNS 추가
-data class SNSData (
+data class AddSNSData (
     val memberIdx : Int = 0,
-    val address : String = ""
+    val address : String = "",
+    val type :String = ""
 )
+
+data class SNSData (
+    val snsIdx : Int = 0,
+    val address : String = "",
+    val type :String = ""
+)
+
 data class AddSNSDataResponse(
     val result : Boolean
 ):BaseResponse()
@@ -28,8 +36,17 @@ data class QnADataResponse(
 ):BaseResponse()
 
 //교육 추가
-data class EducationData (
+data class AddEducationData (
     val memberIdx : Int = 0,
+    val institution : String,
+    val major : String,
+    val isLearning : String,
+    val startDate : String,
+    val endDate : String
+)
+
+data class EducationData (
+    val educationIdx : Int = 0,
     val institution : String,
     val major : String,
     val isLearning : String,
@@ -54,8 +71,17 @@ data class EditProfileDataResponse(
 ):BaseResponse()
 
 //경력 추가
-data class CareerData (
+data class AddCareerData (
     val memberIdx : Int = 0,
+    val company : String,
+    val position : String,
+    val isWorking : String,
+    val startDate : String,
+    val endDate : String
+)
+
+data class CareerData (
+    val careerIdx : Int = 0,
     val company : String,
     val position : String,
     val isWorking : String,

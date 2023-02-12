@@ -219,8 +219,23 @@
             app:layout_constraintTop_toBottomOf="@id/activity_education_et_startPeriod"></TextView>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_education_remove_btn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="68dp"
+            android:background="@drawable/basic_blue_white_btn_layout"
+            android:text="@string/remove"
+            android:textColor="@color/blueForBtn"
+            android:textSize="16sp"
+            android:outlineProvider="none"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_education_save_btn"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_education_save_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
             android:background="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
@@ -228,8 +243,9 @@
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:layout_marginEnd="3dp"
             android:clickable="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? true : false}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/activity_education_remove_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
     </androidx.constraintlayout.widget.ConstraintLayout>

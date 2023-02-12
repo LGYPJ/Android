@@ -106,23 +106,5 @@ class ProfileViewModel : ViewModel(){
         }
     }
 
-//    //추천 프로필 정보 조회
-//    private val _recommendInfo = MutableLiveData<RecommendProfileDataResponse>()
-//    val recommendInfo : LiveData<RecommendProfileDataResponse>
-//        get() = _recommendInfo
-//
-//    fun getRecommendProfile(memberIdx : Int) {
-//        viewModelScope.launch {
-//            val response = profileRepository.getRecommendProfile()
-//            Log.d("present", response.body().toString())
-//
-//            if (response.isSuccessful) {
-//                _recommendInfo.postValue(response.body())
-//            }
-//            else {
-//                Log.d("error", response.message())
-//            }
-//        }
-//    }
 
 }

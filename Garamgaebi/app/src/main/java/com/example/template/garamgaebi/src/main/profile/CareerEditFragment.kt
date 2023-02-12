@@ -15,7 +15,9 @@ import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
+import com.example.template.garamgaebi.databinding.FragmentProfileCareerEditBinding
 import com.example.template.garamgaebi.viewModel.CareerViewModel
 import com.example.template.garamgaebi.viewModel.EditTextViewModel
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
@@ -23,20 +25,45 @@ import com.example.template.garamgaebi.viewModel.SNSViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
+class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit) {
     private lateinit var callback: OnBackPressedCallback
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
-        binding.setVariable(BR.careerViewModel,viewModel)
+        binding.setVariable(BR.snsViewModel,viewModel)
         binding.careerViewModel = viewModel
 
         val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
         binding.setVariable(BR.editTextViewModel,editTextViewModel)
 
         binding.editTextViewModel = editTextViewModel
+
+        val careerIdx = GaramgaebiApplication.sSharedPreferences.getInt("CareerIdxForEdit",-1)
+        val originCompany = GaramgaebiApplication.sSharedPreferences.getString("CareerCompanyForEdit","Error")
+        val originPosition = GaramgaebiApplication.sSharedPreferences.getString("CareerPositionForEdit","Error")
+        val originNow = GaramgaebiApplication.sSharedPreferences.getString("CareerIsWorkingForEdit","Error")
+        val originStart = GaramgaebiApplication.sSharedPreferences.getString("CareerStartDateForEdit","Error")
+        val originEnd = GaramgaebiApplication.sSharedPreferences.getString("CareerEndDateForEdit","Error")
+
+        Log.d("go_edit_career",careerIdx.toString() + originCompany + originPosition + originNow + originStart + originEnd)
+
+        viewModel.careerIdx = careerIdx
+        viewModel.company.value = originCompany
+        viewModel.position.value = originPosition
+        viewModel.isWorking.value = originNow
+        viewModel.startDate.value = originStart
+        viewModel.endDate.value = originEnd
+
+
+        with(binding){
+            activityCareerCheckbox.isChecked = originNow.equals("TRUE")
+            activityCareerEtEndPeriod.text = originEnd
+            if(originNow.equals("TRUE")){
+                activityCareerEtEndPeriod.text = "현재"
+            }
+        }
 
         // 유효성 확인
         viewModel.company.observe(viewLifecycleOwner, Observer {
@@ -68,9 +95,15 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             Log.d("career_endDate_true",viewModel.positionIsValid.value.toString())
         })
 
+        binding.activityCareerRemoveBtn.setOnClickListener {
+            //경력 삭제
+            viewModel.deleteCareerInfo()
+            Log.d("career_remove_button","success")
+        }
         binding.activityCareerSaveBtn.setOnClickListener {
-            viewModel.postCareerInfo()
-            Log.d("career_add_button","success"+viewModel.endDate.value.toString())
+            //경력 편집 저장
+            viewModel.patchCareerInfo()
+            Log.d("career_add_button","success")
         }
 
 
@@ -102,12 +135,16 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 viewModel.endDate.value = arr[0]+"."+arr[1]
                 if(checkNow(it)){
                     binding.activityCareerCheckbox.isChecked = true
-                    binding.activityCareerEtEndPeriod.setText("현재")
+                    //binding.activityCareerEtEndPeriod.setText("현재")
                     viewModel.isWorking.value = "TRUE"
+                    Log.d("edit_Date","yes")
+
                 }else{
                     binding.activityCareerCheckbox.isChecked = false
                     binding.activityCareerEtEndPeriod.setText(arr[0]+"."+arr[1])
                     viewModel.isWorking.value = "FALSE"
+                    Log.d("edit_Date","no")
+
                 }
                 checkDpInput(binding.activityCareerEtEndPeriod)
             }
@@ -152,6 +189,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         var formatted = current.format(formatter)
+        Log.d("edit_Date",(inputDate >= formatted).toString())
         return inputDate >= formatted
     }
     fun checkInfo() : Boolean{

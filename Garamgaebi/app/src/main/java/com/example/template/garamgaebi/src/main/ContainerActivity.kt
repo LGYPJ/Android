@@ -121,6 +121,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             17 -> {
                 transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
             }
+            18 -> {
+                transaction.replace(R.id.activity_seminar_frame, CareerEditFragment(), "snsEdit")
+            }
+            19 -> {
+                transaction.replace(R.id.activity_seminar_frame, EduEditFragment(), "snsEdit")
+            }
+
 
         }
         transaction.commit()
@@ -143,7 +150,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     //"networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
                     //"networkingGamePlace" -> fragmentTitle = ""
                     "career" -> fragmentTitle = "경력"
+                    "careerEdit" -> fragmentTitle = "경력 편집하기"
+
                     "edu" -> fragmentTitle = "교육"
+                    "eduEdit" -> fragmentTitle = "교육 편집하기"
+
                     "profileEdit" -> fragmentTitle = "프로필 편집"
                     "someoneProfile" -> fragmentTitle = "프로필"
                     "servicecenter" -> fragmentTitle = "고객 센터"
@@ -224,6 +235,20 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(intent.getBooleanExtra("notification", false)) {
             openFragmentOnFrameLayout(16)
             binding.activityContainerToolbarTv.text = "알림"
+        }
+
+        //승민 추가
+        if(intent.getBooleanExtra("snsEdit", false)) {
+            openFragmentOnFrameLayout(17)
+            binding.activityContainerToolbarTv.text = "SNS 편집하기"
+       }
+        if(intent.getBooleanExtra("careerEdit", false)) {
+            openFragmentOnFrameLayout(18)
+            binding.activityContainerToolbarTv.text = "경력 편집하기"
+        }
+        if(intent.getBooleanExtra("eduEdit", false)) {
+            openFragmentOnFrameLayout(19)
+            binding.activityContainerToolbarTv.text = "교육 편집하기"
         }
 
 

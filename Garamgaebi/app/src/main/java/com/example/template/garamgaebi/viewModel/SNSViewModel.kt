@@ -14,6 +14,7 @@ class SNSViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
     var addressFirst : Boolean = false
     var typeFirst: Boolean = false
+    var snsIdx: Int = -1
 
     val snsType = MutableLiveData<String>()
     init { snsType.value = ""}
@@ -44,7 +45,7 @@ class SNSViewModel : ViewModel(){
     //SNS 추가
     fun postSNSInfo() {
         viewModelScope.launch {
-            val response = profileRepository.getCheckAddSNS(SNSData(1,snsAddress.value.toString()))
+            val response = profileRepository.getCheckAddSNS(AddSNSData(1,snsAddress.value.toString(),snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _add.postValue(response.body())
@@ -55,4 +56,42 @@ class SNSViewModel : ViewModel(){
             }
         }
     }
+
+    private val _patch = MutableLiveData<BooleanResponse>()
+    val patch : LiveData<BooleanResponse>
+        get() = _patch
+
+    //SNS 수정
+    fun patchSNSInfo() {
+        viewModelScope.launch {
+            val response = profileRepository.patchSNS(SNSData(snsIdx,snsAddress.value.toString(),snsType.value.toString()))
+            //Log.d("sns_add", response.body().toString())
+            if(response.isSuccessful){
+                _patch.postValue(response.body())
+                Log.d("sns_patch_success", response.body().toString())
+            }
+            else {
+                //response.body()?.message?.let { Log.d("error", it) }
+            }
+        }
+    }
+
+    private val _delete = MutableLiveData<BooleanResponse>()
+    val delete : LiveData<BooleanResponse>
+        get() = _delete
+    //SNS 삭제
+    fun deleteSNSInfo() {
+        viewModelScope.launch {
+            val response = profileRepository.deleteSNS(snsIdx)
+            //Log.d("sns_add", response.body().toString())
+            if(response.isSuccessful){
+                _delete.postValue(response.body())
+                Log.d("sns_delete_success", response.body().toString())
+            }
+            else {
+                //response.body()?.message?.let { Log.d("error", it) }
+            }
+        }
+    }
+
 }
