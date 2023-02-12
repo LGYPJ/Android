@@ -72,7 +72,6 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             presentAdapter.setOnItemClickListener(object : SeminarPresentAdapter.OnItemClickListener{
                 override fun onClick(position: Int) {
                     val bundle = Bundle()
-                   // val temp = it.result[position].presentationIdx
                     bundle.putInt("presentationDialog", position)
                     val seminarPreviewDialog = SeminarPreviewDialog(it.result)
                     seminarPreviewDialog.arguments = bundle

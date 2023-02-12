@@ -1,16 +1,21 @@
 package com.example.template.garamgaebi.src.main.seminar
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ApplyViewModel
@@ -111,6 +116,12 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
 
         })
 
+        // 계좌 복사
+        binding.activitySeminarChargedCopyBtn.setOnClickListener {
+            val copy = binding.activitySeminarChargedInfoAccount.text
+            createClipData(copy as String)
+        }
+
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
         binding.activitySeminarChargedApplyBtn.setOnClickListener {
             //신청 등록 api
@@ -170,6 +181,15 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
+    }
+
+    // 계좌 복사
+    private fun createClipData(copy : String){
+        val clipboardManager: ClipboardManager =
+        requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData: ClipData = ClipData.newPlainText("copy", copy)
+        //클립보드에 배치
+        clipboardManager.setPrimaryClip(clipData)
     }
 
 }
