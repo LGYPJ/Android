@@ -188,7 +188,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
     fun isPhoneNumberCheck() : Boolean {
         var returnValue = false
         val phone = binding.activitySeminarFreeApplyPhoneTv.text.toString()
-        val regex = "^[0,9]{11}$"
+        val regex = "^[0-9]{11}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(phone)
         if (m.matches()) {

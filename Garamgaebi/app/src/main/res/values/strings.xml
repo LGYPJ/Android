@@ -206,6 +206,9 @@
     <string name="main_fee">%s원</string>
     <string name="main_participants">%s명</string>
     <string name="no_participants">아직 참석자가 없습니다\n첫 참석자가 되어주세요!</string>
+    <string name="apply_not_name">이름 형식이 올바르지 않습니다</string>
+    <string name="apply_not_nickname">닉네임이 일치하지 않습니다</string>
+    <string name="apply_not_phone">번호 형식이 올바르지 않습니다</string>
 
     <!--networking-->
     <string name="networking_icebreaking">아이스 브레이킹</string>

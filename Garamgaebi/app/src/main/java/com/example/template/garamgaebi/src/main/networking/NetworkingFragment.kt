@@ -77,6 +77,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             if(item.fee.toString() == "0"){
                 binding.activityNetworkPayDetailTv.text = "무료"
             }
+            else{
+                binding.activityNetworkPayDetailTv.text = getString(R.string.main_fee, item.fee.toString())
+            }
             binding.activityNetworkDeadlineDetailTv.text = item.endDate
 
             //무료
@@ -159,6 +162,8 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         }
 
     }
+
+
 
     //화면전환
     override fun onAttach(context: Context) {

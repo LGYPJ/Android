@@ -144,36 +144,51 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
 
     }
 
+    // 이름 형식 맞나
+    fun isName() : Boolean {
+        var returnValue = false
+        val name = binding.activitySeminarChargedApplyNameTv.text.toString()
+        val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(name)
+        if (m.matches()) {
+            returnValue = true
+        }
+        return returnValue;
+    }
+
     //전화번호 형식 맞나
     fun isPhoneNumberCheck() : Boolean {
         var returnValue = false
         val phone = binding.activitySeminarChargedApplyPhoneTv.text.toString()
-        val regex = "^\\s*(010|011|012|013|014|015|016|017|018|019)(-|\\)|\\s)*(\\d{3,4})(-|\\s)*(\\d{4})\\s*$";
-        val p = Pattern.compile(regex);
-        val m = p.matcher(phone);
+        val regex = "^[0-9]{11}$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(phone)
         if (m.matches()) {
-            returnValue = true;
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
     }
     //닉네임 맞나
     fun isNickName(): Boolean{
         var returnValue = false
         val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
-        val regex = "cindy"
-        val p = regex.matches(nickname.toRegex())
-        if(p){
-            returnValue = true;
+        //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
+        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
+        val p = regex?.matches(nickname.toRegex())
+        if(p == true){
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
     }
-    //닉네임이 맞고 전화번호 형식이 맞으면 버튼이 활성화 되는 함수
+
+    //버튼 활성화
     fun isButton():Boolean {
         var returnValue = false
-        if(isNickName()&&isPhoneNumberCheck()){
-            returnValue = true;
+        if(isNickName()&&isPhoneNumberCheck()&&isName()){
+            returnValue = true
         }
-        return returnValue;
+        return returnValue
 
     }
 
