@@ -11,6 +11,7 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.sS
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.repository.SeminarRepository
 import com.example.template.garamgaebi.src.main.seminar.data.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -39,7 +40,7 @@ class SeminarViewModel : ViewModel(){
 
     //val pay : MutableLiveData<String> = MutableLiveData("무료")
     fun getSeminarsInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("programIdx", 0))
             Log.d("seminarPresent", response.body().toString())
             if (response.isSuccessful) {
@@ -52,7 +53,7 @@ class SeminarViewModel : ViewModel(){
         }
     }
     fun getSeminarParticipants() {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO){
             val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
@@ -65,7 +66,7 @@ class SeminarViewModel : ViewModel(){
     }
 
     fun getSeminarDetail() {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO){
             val response = seminarRepository.getSeminarDetail(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {

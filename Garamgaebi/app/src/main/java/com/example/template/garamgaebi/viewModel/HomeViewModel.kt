@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.HomeRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 
@@ -41,8 +43,12 @@ class HomeViewModel : ViewModel(){
     val notificationUnread : LiveData<NotificationUnreadResponse>
         get() = _notificationUnread
 
+    init{
+        getNotificationUnread(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+    }
+
     fun getHomeSeminar() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
 
@@ -56,7 +62,7 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun getHomeNetworking() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
@@ -69,7 +75,7 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun getHomeUser() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeUser()
             Log.d("getHomeUser", "$response")
             if (response.isSuccessful && response.body() != null) {
@@ -86,7 +92,7 @@ class HomeViewModel : ViewModel(){
     }
     
     fun getHomeProgram(memberIdx : Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeProgram(memberIdx)
             Log.d("getHomeProgram", "$response")
 
@@ -100,7 +106,7 @@ class HomeViewModel : ViewModel(){
     }
 
     fun getNotificationScroll(memberIdx : Int ,lastNotificationIdx : Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getNotificationScroll(memberIdx, lastNotificationIdx)
             Log.d("getNotification", "$response")
 
@@ -114,7 +120,7 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun getNotification(memberIdx : Int) {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO){
             val response = homeRepository.getNotification(memberIdx)
             Log.d("getNotification", "$response")
 
@@ -129,7 +135,7 @@ class HomeViewModel : ViewModel(){
     }
 
     fun getNotificationUnread(memberIdx: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getNotificationUnread(memberIdx)
             Log.d("getNotificationUnread", "$response")
             if (response.isSuccessful && response.body()?.result != null) {

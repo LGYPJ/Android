@@ -12,6 +12,7 @@ import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
 import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.repository.NetworkingRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NetworkingViewModel : ViewModel(){
@@ -32,7 +33,7 @@ class NetworkingViewModel : ViewModel(){
     get() = _networkingInfo
 
     fun getNetworkingParticipants() {
-        viewModelScope.launch{
+        viewModelScope.launch(Dispatchers.IO){
             val response = networkingRepository.getNetworkingParticipants(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
                 GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
@@ -53,7 +54,7 @@ class NetworkingViewModel : ViewModel(){
     }
 
     fun getNetworkingInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
 
             GaramgaebiApplication.sSharedPreferences
