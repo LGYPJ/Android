@@ -44,7 +44,7 @@
     <string name="next">다음</string>
 
     <string name="bank">은행</string>
-    
+
     <string name="gathering">모아보기</string>
     <string name="seminar">세미나</string>
     <string name="networking">네트워킹</string>
@@ -64,7 +64,7 @@
     <string name="check">확인</string>
     <string name="dDayBetween">D</string>
     <string name="dDay">D-Day</string>
-    
+
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>
     <string name="main_btm_nav_my_page_title">마이페이지</string>
@@ -93,7 +93,7 @@
     <string name="send_email">이메일 발송하기</string>
     <string name="check_email_desc">메일을 받지 못하신 경우, 스팸 메일함을 확인해주세요.</string>
     <string name="certification_num">인증번호 6자리</string>
-    <string name="certification_num_check">인증번호 확인</string>
+    <string name="certification_num_check">인증</string>
 
     <!-- Register_Email -->
     <string name="register_email_desc">프로필에 기재할\n이메일 주소를 알려주세요</string>
@@ -140,7 +140,6 @@
     <string name="sns_type_dialog_2">블로그</string>
     <string name="sns_type_dialog_3">깃허브</string>
     <string name="sns_type_dialog_4">직접 입력</string>
-
 
 
     <string name="some_id">로건</string>

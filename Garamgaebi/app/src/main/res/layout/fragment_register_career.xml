@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fragment_career_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/career"
+            android:textColor="@color/black80"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="68dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/register_career_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_career_tv_title" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/company"
+            android:textColor="@color/black80"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/fragment_career_et_company"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_career_tv_desc" />
+
+        <EditText
+            android:id="@+id/fragment_career_et_company"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/register_input_company_desc"
+            android:textColorHint="#D9D9D9"
+            android:paddingStart="16dp"
+            android:background="@drawable/register_et_border"
+            app:layout_constraintTop_toBottomOf="@id/fragment_career_tv_company" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/career"
+            android:textColor="@color/black80"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/fragment_career_et_rank"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_career_et_company" />
+
+        <EditText
+            android:id="@+id/fragment_career_et_rank"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/register_input_position_desc"
+            android:textColorHint="#D9D9D9"
+            android:paddingStart="16dp"
+            android:background="@drawable/register_et_border"
+            app:layout_constraintTop_toBottomOf="@id/fragment_career_tv_rank" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/working_period"
+            android:textColor="@color/black80"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_career_et_rank" />
+
+        <EditText
+            android:id="@+id/fragment_career_et_start_date"
+            android:inputType="textEmailAddress"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/start_date"
+            android:textColorHint="#D9D9D9"
+            android:paddingStart="16dp"
+            android:background="@drawable/register_et_border"
+            app:layout_constraintTop_toBottomOf="@id/fragment_career_tv_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_career_tv_wave" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~"
+            android:textColor="#D9D9D9"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_career_et_start_date"
+            app:layout_constraintEnd_toStartOf="@id/fragment_career_et_end_date"
+            app:layout_constraintStart_toEndOf="@id/fragment_career_et_start_date"
+            app:layout_constraintTop_toTopOf="@id/fragment_career_et_start_date" />
+
+        <EditText
+            android:id="@+id/fragment_career_et_end_date"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/register_et_border"
+            android:hint="@string/end_date"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:textColorHint="#D9D9D9"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_career_et_start_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fragment_career_tv_wave"
+            app:layout_constraintTop_toTopOf="@id/fragment_career_et_start_date" />
+
+        <CheckBox
+            android:id="@+id/fragment_career_cb_isWorking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_career_et_start_date" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_isWorking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/working"
+            android:textColor="#8A8A8A"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_career_cb_isWorking"
+            app:layout_constraintStart_toEndOf="@+id/fragment_career_cb_isWorking"
+            app:layout_constraintTop_toTopOf="@+id/fragment_career_cb_isWorking" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/register_no_career"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_career_btn_next"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_career_tv_education"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/register_go_education"
+            android:textSize="16sp"
+            android:textColor="#2294FF"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_career_btn_next"
+            app:layout_constraintStart_toEndOf="@id/fragment_career_tv" />
+
+        <Button
+            android:id="@+id/fragment_career_btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/register_btn_color_enable"
+            android:stateListAnimator="@null"
+            android:text="@string/profile_save"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
