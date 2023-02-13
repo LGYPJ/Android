@@ -149,63 +149,72 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    /*override fun onStart(int: Int) {
-        super.onStart()
-        when(int){
-            intent.getIntExtra("meeting",0) -> {
-
-            }
-        }
-        if (intent.getBooleanExtra("meeting", false)) {
-            goGathering()
-            binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
-            gatheringFragment!!.setVPmy()
-        }
-        else {
-            gatheringFragment!!.setVPSeminar()
-        }
-    }*/
-
     fun onMove(int: Int) {
         super.onStart()
         when(int){
-            0 -> {
+            1 -> {
                 goGathering()
                 binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
                 gatheringFragment!!.setVPmy()
                 intent.removeExtra("meeting")
-                intent.removeExtra("networking1") }
-            1 -> {
+                intent.removeExtra("networking1")
             }
             2 -> {
-                gatheringFragment!!.setVPSeminar()
+                if(isHome()){
+                    gatheringFragment!!.setVPSeminar()
+
+                }
+                if(isProfile()){
+                    gatheringFragment!!.setVPSeminar()
+                }
             }
-            3->{
+            3 -> {
+                goGathering()
+                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+                gatheringFragment!!.setVPSeminar()
+                intent.removeExtra("goseminar1")
+                intent.removeExtra("gathering-seminar1")
+            }
+            4 -> {
                 goGathering()
                 binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
                 gatheringFragment!!.setVPNetworking()
+                intent.removeExtra("gonetworking1")
             }
-            4 ->{
-                gatheringFragment!!.setVPmy()
+            else -> {
+
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if (intent.getStringExtra("meeting") == "meeting") {
-            onMove(0)
+        if(isHome()){
+            onMove(2)
         }
-        else {
-            if(isGathering()){
-                if(intent.getStringExtra("networking1") == "networking1"){
-                    onMove(0)
-                }
-                else{
-                    onMove(1)
-                }
+        if(isProfile()){
+            onMove(2)
+        }
+        if(isGathering()){
+            if(intent.getStringExtra("networking1") == "networking1"){
+                onMove(1)
             }
+            if (intent.getStringExtra("meeting") == "meeting") {
+                onMove(1)
+            }
+            if(intent.getStringExtra("goseminar1")=="goseminar1"){
+                onMove(3)
+            }
+            if(intent.getStringExtra("gonetworking1")== "gonetworking1"){
+                onMove(4)
+            }
+            if(intent.getStringExtra("gathering-seminar1") == "gathering-seminar1"){
+                onMove(3)
+            }
+
         }
+
+
     }
 
     fun getHelpFrame() {
@@ -219,33 +228,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun isNetworking ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is NetworkingFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
     fun isGathering ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if (fragment is GatheringFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
-    fun isMeeting ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is GatheringMyMeetingFragment) {
                 returnValue = true
             }
         }
@@ -268,17 +255,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if (fragment is MyProfileFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
-    fun isSeminar ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is SeminarFragment) {
                 returnValue = true
             }
         }

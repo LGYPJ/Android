@@ -39,7 +39,20 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             if(isSeminar()){
-                finish()
+                if(intent.getStringExtra("goseminar") == "goseminar"){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("goseminar1", "goseminar1")
+                    startActivity(intent)
+                    intent.removeExtra("goseminar")
+                }
+                if(intent.getStringExtra("gathering-seminar")=="gathering-seminar"){
+                    intent.putExtra("gathering-seminar1", "gathering-seminar1")
+                    startActivity(intent)
+                    intent.removeExtra("gathering-seminar")
+                }
+                else{
+                    finish()
+                }
             }
             if(isNetworking()){
                 if(intent.getStringExtra("gathering-networking")=="gathering-networking"){
@@ -47,6 +60,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     intent.putExtra("networking1", "networking1")
                     startActivity(intent)
                     intent.removeExtra("gathering-networking")
+                }
+                if(intent.getStringExtra("gonetworking") == "gonetworking"){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("gonetworking1", "gonetworking1")
+                    startActivity(intent)
+                    intent.removeExtra("gonetworking")
                 }
                 else{
                     finish()
@@ -138,7 +157,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
