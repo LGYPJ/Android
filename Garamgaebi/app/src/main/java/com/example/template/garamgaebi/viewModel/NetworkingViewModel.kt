@@ -55,6 +55,12 @@ class NetworkingViewModel : ViewModel(){
     fun getNetworkingInfo() {
         viewModelScope.launch {
             val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putString("startDate",
+                    response.body()?.result?.let { GaramgaebiFunction().getDateYMD(it.date) })
+                .apply()
+
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 //날짜 데이터 변환

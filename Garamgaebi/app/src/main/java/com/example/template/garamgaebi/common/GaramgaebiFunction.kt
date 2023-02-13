@@ -47,7 +47,7 @@ class GaramgaebiFunction {
 
     fun getDateYMD(beforeDate : String) : String {
         val date = LocalDateTime.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.KOREA))
+        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
 
     fun getDateMyMeeting(beforeDate : String) : String {
@@ -72,4 +72,15 @@ class GaramgaebiFunction {
         var formatted = current.format(formatter)
         return inputDate >= formatted
     }
+
+    // 아이스브레이킹 참가하기 버튼 활성화
+    fun checkIceBreaking(startDate : String):Boolean {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        var formatted = current.format(formatter)
+        return formatted == startDate
+    }
+
+
+
 }

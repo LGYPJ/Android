@@ -22,7 +22,6 @@ class NetworkingGameViewModel: ViewModel() {
     private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket" // http = ws로 시작하며 https = wss로 시작
     //private val MSSAGE_DESTINATION = "/topic/game/room" // 소켓 주소
 
-
     private lateinit var mStompClient: StompClient
     private val gson = Gson()
 
@@ -59,7 +58,7 @@ class NetworkingGameViewModel: ViewModel() {
             .subscribe { stompMessage ->
                 Log.i("subscribe", "receive messageData :" + stompMessage.payload)
                 val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                //_message.postValue(messageV0)
+                _message.postValue(messageV0)
                 Log.i("whywhy", messageV0.toString())
             }
 
