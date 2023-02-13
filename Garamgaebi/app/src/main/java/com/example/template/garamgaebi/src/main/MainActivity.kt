@@ -138,7 +138,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
         }
     }
-    
+
+    //뒤로가기 이슈 해결 코드....
     fun onMove(int: Int) {
         super.onStart()
         when(int){
@@ -176,7 +177,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
     }
-
+   // 뒤로가기 이슈 해결 코드,,,
     override fun onStart() {
         super.onStart()
         if(isHome()){

@@ -12,6 +12,7 @@ const val CLOSED = 3
 //참가자
 const val BLUE = 1
 const val ORIGIN = 2
+const val GRAY = 3
 
 // 알림
 const val RV_ITEM = 1

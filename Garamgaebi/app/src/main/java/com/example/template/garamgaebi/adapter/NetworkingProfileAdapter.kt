@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.common.BLUE
+import com.example.template.garamgaebi.common.GRAY
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.ORIGIN
 import com.example.template.garamgaebi.databinding.ItemNetworkProfileBinding
 import com.example.template.garamgaebi.databinding.ItemNetworkProfileBlueBinding
+import com.example.template.garamgaebi.databinding.ItemNetworkProfileGrayBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBinding
 import com.example.template.garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
@@ -42,6 +44,13 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
         }
     }
 
+    inner class GrayViewHolder(private val binding: ItemNetworkProfileGrayBinding): RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("SetTextI18n")
+        fun bind(){
+
+        }
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -49,6 +58,11 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
             BLUE -> {
                 val binding = ItemNetworkProfileBlueBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 BlueViewHolder(binding)
+            }
+            GRAY -> {
+                val binding = ItemNetworkProfileGrayBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+                GrayViewHolder(binding)
+
             }
             else -> {
                 val binding = ItemNetworkProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -76,12 +90,16 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                     itemClickListener.onClick(position)
                 }
             }
+            is GrayViewHolder -> {
+                holder.bind()
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when(dataList[position].memberIdx){
             GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0) -> BLUE
+            -1 -> GRAY
             else -> ORIGIN
         }
     }
