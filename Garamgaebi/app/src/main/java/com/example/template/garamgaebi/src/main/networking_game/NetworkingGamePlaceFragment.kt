@@ -21,6 +21,10 @@ import com.example.template.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBinding>(FragmentNetworkingGamePlaceBinding::bind, R.layout.fragment_networking_game_place) {
@@ -234,21 +238,37 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
             //시작하기 버튼 누르면 처음 사람 프로필 강조 효과
-            thread(start=true){
+            CoroutineScope(Dispatchers.Main).launch {
+                launch {
+                    delay(700)
+                    networkingGameProfileList[index].next = true
+                    networkingGameProfile.notifyDataSetChanged()
+                }
+            }
+            /*thread(start=true){
                 Thread.sleep(700)
                 activity?.runOnUiThread {
                     networkingGameProfileList[index].next = true
                     networkingGameProfile.notifyDataSetChanged()
 
                 }
-            }
+            }*/
 
             //시작하기 버튼 누르면 뷰페이저 보이게
             binding.activityGameCardBackImg.visibility = View.VISIBLE
 
 
             //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
-            thread(start=true){
+            CoroutineScope(Dispatchers.Main).launch {
+                launch {
+                    delay(1400)
+                    //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
+                    fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.activity_game_fade_in)
+                    binding.activityGameCardBackVp.offscreenPageLimit = 1
+
+                }
+            }
+            /*thread(start=true){
                 Thread.sleep(1400)
                 activity?.runOnUiThread {
                     //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
@@ -257,7 +277,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                 }
 
-            }
+            }*/
 
         }
 
