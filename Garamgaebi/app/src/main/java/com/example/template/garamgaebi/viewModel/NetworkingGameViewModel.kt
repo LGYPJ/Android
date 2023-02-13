@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.template.garamgaebi.model.MessageV0
+import com.example.template.garamgaebi.model.*
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -17,9 +17,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class NetworkingGameViewModel: ViewModel() {
-    //private val TAG = NetworkingGameViewModel::class.java.simpleName
 
-    private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket" // http = ws로 시작하며 https = wss로 시작
+
+    private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket"
     //private val MSSAGE_DESTINATION = "/topic/game/room" // 소켓 주소
 
     private lateinit var mStompClient: StompClient
@@ -28,6 +28,40 @@ class NetworkingGameViewModel: ViewModel() {
     private val _message = MutableLiveData<MessageV0>()
     val message: LiveData<MessageV0>
         get() = _message
+
+    private val _postMember = MutableLiveData<GameMemberPostResponse>()
+    val postMember : LiveData<GameMemberPostResponse>
+    get() = _postMember
+
+    private val _postMemberReq = MutableLiveData<GameMemberPostRequest>()
+    val postMemberReq : LiveData<GameMemberPostRequest>
+    get() = _postMemberReq
+
+    private val _deleteMember = MutableLiveData<GameMemberDeleteResponse>()
+    val deleteMember : LiveData<GameMemberDeleteResponse>
+    get() = _deleteMember
+
+    private val _deleteMemberReq = MutableLiveData<GameMemberDeleteRequest>()
+    val deleteMemberReq : LiveData<GameMemberDeleteRequest>
+    get() = _deleteMemberReq
+
+    private val _getRoom = MutableLiveData<GameRoomResponse>()
+    val getRoom : LiveData<GameRoomResponse>
+    get() = _getRoom
+
+    private val _getImg = MutableLiveData<GameImagesResponse>()
+    val getImg : LiveData<GameImagesResponse>
+    get() = _getImg
+
+    private val _getMember = MutableLiveData<GameMemberGetResponse>()
+    val getMember : LiveData<GameMemberGetResponse>
+    get() = _getMember
+
+    private val _getMemberReq = MutableLiveData<GameMemberGetRequest>()
+    val getMemberReq : LiveData<GameMemberGetRequest>
+    get() = _getMemberReq
+
+
 
     fun connectStomp() {
 
