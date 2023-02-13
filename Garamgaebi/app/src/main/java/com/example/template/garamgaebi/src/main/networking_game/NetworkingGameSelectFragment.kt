@@ -60,11 +60,9 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
         viewModel.connectStomp()
         viewModel.message.observe(viewLifecycleOwner, Observer {
-
         })
         viewModel.sendMessage()
         viewModel.message.observe(viewLifecycleOwner, Observer{
-
         })
         viewModel.disconnectStomp()
         viewModel.message.observe(viewLifecycleOwner, Observer{

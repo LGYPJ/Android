@@ -9,6 +9,7 @@ import com.example.template.garamgaebi.model.MessageV0
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import okhttp3.OkHttpClient
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -19,7 +20,8 @@ class NetworkingGameViewModel: ViewModel() {
     //private val TAG = NetworkingGameViewModel::class.java.simpleName
 
     private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket" // http = ws로 시작하며 https = wss로 시작
-    //private val MSSAGE_DESTINATION = "/socket/message" // 소켓 주소
+    //private val MSSAGE_DESTINATION = "/topic/game/room" // 소켓 주소
+
 
     private lateinit var mStompClient: StompClient
     private val gson = Gson()
@@ -31,6 +33,7 @@ class NetworkingGameViewModel: ViewModel() {
     fun connectStomp() {
 
         mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
+        mStompClient.connect()
         val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
             when (lifecycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> Log.i(
@@ -52,14 +55,13 @@ class NetworkingGameViewModel: ViewModel() {
                 )
             }
         }
-        val stompSubscribe: Disposable = mStompClient.topic(" /topic/game/room/1")
+        val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room/1")
             .subscribe { stompMessage ->
                 Log.i("subscribe", "receive messageData :" + stompMessage.payload)
                 val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                _message.postValue(messageV0)
+                //_message.postValue(messageV0)
                 Log.i("whywhy", messageV0.toString())
             }
-        mStompClient.connect()
 
     }
 
@@ -73,4 +75,6 @@ class NetworkingGameViewModel: ViewModel() {
     fun disconnectStomp(){
         mStompClient.disconnect()
     }
+
+
 }
