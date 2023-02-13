@@ -138,17 +138,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
         }
     }
-    private fun goHome() {
-        val findFragment = supportFragmentManager.findFragmentByTag("home")
-        supportFragmentManager.fragments.forEach { fm ->
-            supportFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
-        }
-        findFragment?.let {
-            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
-            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
-        }
-    }
-
+    
     fun onMove(int: Int) {
         super.onStart()
         when(int){
