@@ -21,11 +21,16 @@ class RegisterViewModel : ViewModel(){
 
     val email = MutableLiveData<String>("")
     val emailFocusing = MutableLiveData<Boolean>(false)
+
     val timerFirst = MutableLiveData<Boolean>(true)
     val isTimerRunning = MutableLiveData<Boolean>(false)
+
     val authNum = MutableLiveData<String>("")
+    val authNumFocusing = MutableLiveData<Boolean>(false)
+
     val isEmailValid = MutableLiveData<Boolean>(false)
     val isNumValid = MutableLiveData<Boolean>(false)
+    val isAuthWrong = MutableLiveData<Boolean>(false)
     val isCompleteAuth = MutableLiveData<Boolean>(false)
 
     private val _emailConfirm = MutableLiveData<RegisterEmailResponse>()
@@ -34,8 +39,6 @@ class RegisterViewModel : ViewModel(){
 
     var _timerCount = MutableLiveData<Int>(5)
     lateinit var timer : Job
-    val timerCount : LiveData<Int>
-        get() = _timerCount
 
 
 
@@ -74,5 +77,12 @@ class RegisterViewModel : ViewModel(){
     fun checkEmail(): Boolean {
         val validation = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z[0-9]]{5,20}$"
         return Pattern.matches(validation, email.value)
+    }
+    fun checkAuthNum() : Boolean {
+        val validation = "^[0-9]{6}$"
+        return Pattern.matches(validation, authNum.value)
+    }
+    fun getEmail(context: Context) : String {
+        return email.value+context.getString(R.string.register_email_gachon)
     }
 }
