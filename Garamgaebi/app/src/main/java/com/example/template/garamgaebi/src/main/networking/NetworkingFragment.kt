@@ -14,10 +14,12 @@ import com.example.template.garamgaebi.adapter.NetworkingProfileAdapter
 
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 
 import com.example.template.garamgaebi.databinding.FragmentNetworkingBinding
 import com.example.template.garamgaebi.model.HomeSeminarResult
 import com.example.template.garamgaebi.model.NetworkingParticipantsResult
+import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.NetworkingViewModel
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
@@ -34,12 +36,12 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         //프로필 어댑터 연결
         viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
-            val networkingProfile = NetworkingProfileAdapter(it.result as ArrayList<NetworkingParticipantsResult>)
+            val networkingProfile = NetworkingProfileAdapter(it as ArrayList<NetworkingResult>)
+
             //참석자가 없을 경우 다른 뷰 노출
-            if(it.result.isEmpty()){
+            if(it.isEmpty()){
                 binding.activityNetworkingNoParticipants.visibility = VISIBLE
                 binding.activityNetworkProfileRv.visibility = GONE
-
             } else{
                 binding.activityNetworkingNoParticipants.visibility = GONE
                 binding.activityNetworkProfileRv.visibility = VISIBLE
@@ -53,7 +55,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 NetworkingProfileAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
                         //상대방 프로필 프래그먼트로
-                        if(position ==0 && it.result[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                        if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
                             containerActivity!!.openFragmentOnFrameLayout(13)
                         }
                         if(position != 0){
@@ -64,12 +66,30 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             }
 
             //참석자 수 표시
-            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.result.size.toString())
+            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.size.toString())
+        })
+
+        // 아이스브레이킹 버튼 참여 활성화
+        viewModel.networkingActive.observe(viewLifecycleOwner, Observer{
+            val startDate = GaramgaebiApplication.sSharedPreferences.getString("startDate", null)
+                              //현재 시간과 stratDate 비교 --> 같다면 true로 반환
+            if(it.isApply && startDate?.let { it1 -> GaramgaebiFunction().checkIceBreaking(it1) } == true){
+                //버튼 활성화 & 멘트 바꾸기
+                binding.activityNetworkIcebreakingContent1Tv.text = getString(R.string.networking_icebreaking_active1)
+                binding.activityNetworkIcebreakingContent2Tv.text = getString(R.string.networking_icebreaking_active2)
+                binding.activityNetworkParticipateBtn.isEnabled = true
+                binding.activityNetworkParticipateTv.setTextColor(resources.getColor(R.color.white))
+                binding.activityNetworkParticipateImg.setBackgroundResource(R.drawable.activity_network_participate_btn_white)
+                binding.activityNetworkParticipateBtn.setBackgroundResource(R.drawable.networking_blue_join_btn_background)
+            }else{
+                binding.activityNetworkParticipateBtn.isEnabled = true
+            }
         })
 
         //네트워킹 상세정보
         viewModel.getNetworkingInfo()
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
+            // 시작 date변환 -> 저장
             val item = it.result
             binding.activityNetworkTitleTv.text = item.title
             binding.activityNetworkDateDetailTv.text = item.date
@@ -87,9 +107,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 // 버튼 상태
                 if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                     //신청완료, 비활성화
-                    binding.activityNetworkApplyBtn.text = "마감"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                    binding.activityNetworkApplyBtn.text = "신청완료"
+                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                     binding.activityNetworkApplyBtn.isEnabled = false
                 }
                 if(it.result.userButtonStatus == "CLOSED"){

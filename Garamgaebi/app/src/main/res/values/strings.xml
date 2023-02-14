@@ -251,6 +251,8 @@
     <string name="no_networking">이번 달은 네트워킹이 없습니다</string>
     <string name="scheduled_networking">예정된 네트워킹</string>
     <string name="last_networking">지난 네트워킹</string>
+    <string name="networking_icebreaking_active1">네트워킹에 함께 참여한 사람들과</string>
+    <string name="networking_icebreaking_active2">친해지는 시간을 가져봐요!</string>
 
     <!--networking game-->
     <string name="game_name">신디</string>

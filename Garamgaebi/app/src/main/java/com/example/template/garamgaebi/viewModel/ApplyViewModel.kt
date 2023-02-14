@@ -125,7 +125,7 @@ class ApplyViewModel : ViewModel() {
     }
 
     fun getSeminar(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = seminarRepository.getSeminarDetail(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
@@ -144,7 +144,7 @@ class ApplyViewModel : ViewModel() {
     }
 
     fun getNetworking(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
@@ -164,7 +164,7 @@ class ApplyViewModel : ViewModel() {
 
     //신청정보조회
     fun getCancel(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = applyRepository.getCancel(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0))
             if(response.isSuccessful){
                 _cancelInfo.postValue(response.body())

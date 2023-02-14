@@ -66,6 +66,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 //세미나 메인 프래그먼트로!
                 val intent = Intent(context, ContainerActivity::class.java)
                 intent.putExtra("seminar", true)
+                intent.putExtra("goseminar", "goseminar")
                 startActivity(intent)
             }
         })
@@ -114,6 +115,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                         //세미나 메인 프래그먼트로!
                         val intent = Intent(context, ContainerActivity::class.java)
                         intent.putExtra("seminar", true)
+                        intent.putExtra("goseminar", "goseminar")
                         startActivity(intent)
                     }
                 })

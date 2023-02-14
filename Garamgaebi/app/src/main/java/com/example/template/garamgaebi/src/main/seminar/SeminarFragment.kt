@@ -4,13 +4,11 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.adapter.SeminarPresentAdapter
@@ -22,8 +20,7 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentSeminarBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.seminar.data.PresentationResult
-import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResult
-import com.example.template.garamgaebi.viewModel.ApplyViewModel
+import com.example.template.garamgaebi.src.main.seminar.data.SeminarResult
 import com.example.template.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {
@@ -38,9 +35,9 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         //프로필 어댑터 연결
         viewModel.getSeminarParticipants()
         viewModel.seminarParticipants.observe(viewLifecycleOwner, Observer {
-            val seminarProfile = SeminarProfileAdapter(it.result as ArrayList<SeminarParticipantsResult>)
+            val seminarProfile = SeminarProfileAdapter(it as ArrayList<SeminarResult>)
             //참석자가 없을 경우 다른 뷰 노출
-            if(it.result.isEmpty()){
+            if(it.isEmpty()){
                 binding.activitySeminarFreeNoParticipants.visibility = VISIBLE
                 binding.activitySeminarFreeProfileRv.visibility = GONE
             }
@@ -57,7 +54,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                 SeminarProfileAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
                         //상대방 프로필로 이동
-                        if(position ==0 && it.result[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                        if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
                             containerActivity!!.openFragmentOnFrameLayout(13)
                         }
                         if(position != 0){
@@ -68,7 +65,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             }
 
             //참석자 수 표시
-            binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, it.result.size.toString())
+            binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, it.size.toString())
         })
 
         //발표 어댑터 연결

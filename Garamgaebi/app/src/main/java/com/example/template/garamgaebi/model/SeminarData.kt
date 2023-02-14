@@ -41,18 +41,21 @@ data class SeminarDetailInfoResult(
 
 data class SeminarDetailRequest (
     val memberIdx : Int,
-   val programIdx: Int)
+   val programIdx: Int
+   )
 
 //세미나 신청자 리스트 조회
 data class SeminarParticipantsResponse(
-    val isSuccess: Boolean = false,
-    val code: Int = 0,
-    val message: String? = null,
-    val result : List<SeminarParticipantsResult>
-)
+    val result : SeminarParticipantsResult
+):BaseResponse()
 
 data class SeminarParticipantsResult (
-    val memberIdx : Int,
-    val nickname : String,
-    val profileImg : String
+   val participantList : List<SeminarResult>,
+   val isApply : Boolean
+)
+
+data class SeminarResult(
+    val memberIdx : Int=-1,
+    val nickname :String? =null,
+    val profileImg : String ?=null
 )

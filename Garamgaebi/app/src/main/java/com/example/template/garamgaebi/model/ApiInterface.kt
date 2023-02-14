@@ -241,4 +241,25 @@ interface ApiInterface {
     //신청 정보 조회
     @GET("/applies/{member-idx}/{program-idx}/info")
     suspend fun getCancel( @Path("member-idx") memberIdx: Int, @Path("program-idx") programIdx: Int) : Response<CancelInfoResponse>
+
+
+    //game member post
+    @POST("/game/member")
+    suspend fun postGameMember(@Body gameMemberPostRequest: GameMemberPostRequest) : Response<GameMemberPostResponse>
+
+    //game member delete
+    @DELETE("/game/member")
+    suspend fun deleteGameMember(@Body gameMemberDeleteRequest: GameMemberDeleteRequest) : Response<GameMemberDeleteResponse>
+
+    //game room get
+    @GET("/game/{programIdx}/rooms")
+    suspend fun getGameRoom(@Path("programIdx") programIdx : Int) :Response<GameRoomResponse>
+
+    //game image get
+    @GET("/game/{programIdx}/images")
+    suspend fun getGameImage(@Path("programIdx") programIdx : Int) : Response<GameImagesResponse>
+
+    //game member post
+    @POST("/game/members")
+    suspend fun getGameMember(@Body gameMemberGetRequest: GameMemberGetRequest) : Response<GameMemberGetResponse>
 }
