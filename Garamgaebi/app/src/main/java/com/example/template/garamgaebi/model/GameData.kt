@@ -53,7 +53,7 @@ data class GameMemberGetRequest(
 )
 
 data class GameMemberGetResponse(
-    val result : GameMemberGetResult
+    val result : List<GameMemberGetResult>
 ):BaseResponse()
 
 data class GameMemberGetResult(
