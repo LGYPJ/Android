@@ -7,5 +7,5 @@ import retrofit2.create
 class RegisterRepository {
     private val registerClient = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
 
-
+    suspend fun postEmailConfirm(email:String) = registerClient.postEmailConfirm(email)
 }

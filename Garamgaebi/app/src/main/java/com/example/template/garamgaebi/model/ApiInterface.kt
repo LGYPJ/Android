@@ -56,6 +56,10 @@ interface ApiInterface {
     @GET("/seminars/closed")
     suspend fun getGatheringSeminarClosed() : Response<GatheringSeminarClosedResponse>
 
+
+    // EmailController 이메일 컨트롤러
+    @POST("/email/emailconfirm")
+    suspend fun postEmailConfirm(@Body email : String) : Response<RegisterEmailResponse>
     //NetworkingController 네트워킹 컨트롤러
 
     //네트워킹 신청자 리스트 조회

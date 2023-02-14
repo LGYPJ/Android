@@ -46,7 +46,6 @@
             android:layout_margin="16dp"
             android:text="@string/school_certification_desc"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_title" />
 
@@ -69,8 +68,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:maxLines="1"
             android:background="@drawable/register_et_border"
             android:text="@={registerViewModel.email}"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
             android:hint="@string/example"
             android:paddingStart="12dp"
             android:textColorHint="@color/grayD9"
@@ -81,21 +82,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="\@gachon.ac.kr"
-            android:textColor="#D9D9D9"
+            android:text="@string/register_email_gachon"
+            android:textColor="@color/black80"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/fragment_authentication_et_email"
             app:layout_constraintEnd_toEndOf="@id/fragment_authentication_et_email"
             app:layout_constraintTop_toTopOf="@id/fragment_authentication_et_email" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_authentication_btn_email"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="@drawable/register_btn_color"
-            android:stateListAnimator="@null"
-            android:enabled="false"
+            android:clickable="@{registerViewModel.isEmailValid() ? true : false}"
             android:text="@string/send_email"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -121,21 +121,34 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/register_et_border"
             android:hint="@string/certification_num"
+            android:text="@={registerViewModel.authNum}"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
             android:inputType="number"
             android:paddingStart="16dp"
-            android:textColorHint="#D9D9D9"
+            android:maxLength="6"
+            android:textColorHint="@color/grayD9"
             android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@+id/fragment_authentication_btn_num"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_tv_ann" />
-
-        <Button
+        <TextView
+            android:id="@+id/fragment_authentication_tv_num_ann"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_num_desc"
+            android:textColor="@color/redForText"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_num" />
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_authentication_btn_num"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="@drawable/fragment_register_auth_btn_radius_8"
-            android:enabled="false"
+            android:enabled="@{registerViewModel.isNumValid() ? true : false}"
             android:stateListAnimator="@null"
             android:text="@string/certification_num_check"
             android:textColor="@color/white"
@@ -144,7 +157,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/fragment_authentication_et_num"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_authentication_et_num" />
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_authentication_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"

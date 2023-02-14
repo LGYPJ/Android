@@ -92,6 +92,7 @@
     <string name="school_certification_desc">가람개비 사용을위해서는 가천대생 인증이 필요해요\n가천대학교 이메일 인증을 진행해주세요</string>
     <string name="send_email">이메일 발송하기</string>
     <string name="check_email_desc">메일을 받지 못하신 경우, 스팸 메일함을 확인해주세요.</string>
+    <string name="check_num_desc">인증번호가 올바르지 않습니다</string>
     <string name="certification_num">인증번호 6자리</string>
     <string name="certification_num_check">인증</string>
 
@@ -99,6 +100,7 @@
     <string name="register_email_desc">프로필에 기재할\n이메일 주소를 알려주세요</string>
     <string name="register_input_email_desc">이메일 주소를 입력주세요</string>
     <string name="register_email_state">이메일 조건</string>
+    <string name="register_email_gachon">\@gachon.ac.kr</string>
 
     <!-- Register_Belong -->
     <string name="register_belong_desc">자신을 표현해봐요</string>
