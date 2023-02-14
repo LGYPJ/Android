@@ -72,10 +72,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:maxLines="1"
-            android:background="@drawable/register_et_border"
+            android:background="@{registerViewModel.emailFocusing? @drawable/register_et_border_selected : @drawable/register_et_border}"
             android:text="@={registerViewModel.email}"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
-            android:hint="@string/example"
+            android:textColor="@color/black80"
+            app:onFocusing="@{(check)->registerViewModel.setBoolean(registerViewModel.emailFocusing, check)}"
+            android:hint='@{registerViewModel.emailFocusing ? "" : @string/example}'
             android:paddingStart="12dp"
             android:textColorHint="@color/grayD9"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_tv_email_title" />
@@ -97,11 +98,10 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
-            android:background="@drawable/register_btn_color"
+            android:background="@{registerViewModel.isTimerRunning() ? @drawable/fragment_auth_btn_send :(registerViewModel.isEmailValid() ? @drawable/register_btn_color_enable : @drawable/register_btn_color)}"
             android:clickable="@{registerViewModel.isEmailValid() ? true : false}"
-            android:onClick="@{()->registerViewModel.timerStart()}"
-            android:text="@{}"
-            android:textColor="@color/white"
+            android:text="@{registerViewModel.isTimerRunning() ? String.format(@string/re_send_email, registerViewModel._timerCount/60, registerViewModel._timerCount%60) : registerViewModel.timerFirst ? @string/send_email : @string/re_send_email_time_zero}"
+            android:textColor="@{registerViewModel.isTimerRunning()? @color/blueForBtn : @color/white}"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_email" />
 
@@ -153,7 +153,6 @@
             android:layout_margin="16dp"
             android:background="@drawable/fragment_register_auth_btn_radius_8"
             android:enabled="@{registerViewModel.isNumValid() ? true : false}"
-            android:stateListAnimator="@null"
             android:text="@string/certification_num_check"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -162,7 +161,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_authentication_et_num" />
         <Button
-            android:id="@+id/fragment_authentication_btn"
+            android:id="@+id/fragment_authentication_btn_next"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
@@ -170,6 +169,8 @@
             android:stateListAnimator="@null"
             android:text="@string/next"
             android:textColor="@color/white"
+            android:enabled="true"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

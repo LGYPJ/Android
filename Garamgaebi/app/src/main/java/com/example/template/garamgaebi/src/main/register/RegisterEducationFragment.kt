@@ -7,6 +7,7 @@ import android.view.View
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.REGISTER_CAREER
+import com.example.template.garamgaebi.common.REGISTER_COMPLETE
 import com.example.template.garamgaebi.databinding.FragmentRegisterEducationBinding
 
 
@@ -20,7 +21,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
         checkFocus(binding.fragmentEducationEtMajor)
 
         binding.fragmentEducationBtnNext.setOnClickListener {
-
+            registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentEducationTvCareer.setOnClickListener {
             registerActivity.setFragment(REGISTER_CAREER)

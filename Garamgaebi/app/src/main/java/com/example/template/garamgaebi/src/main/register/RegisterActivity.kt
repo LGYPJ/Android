@@ -34,6 +34,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
                 trans.replace(R.id.activity_register_frm, RegisterOrganizationFragment()).addToBackStack(null)
             }
             REGISTER_EDU -> {
+                Log.d("eduactivity","edu")
                 trans.replace(R.id.activity_register_frm, RegisterEducationFragment()).addToBackStack(null)
             }
             REGISTER_CAREER -> {

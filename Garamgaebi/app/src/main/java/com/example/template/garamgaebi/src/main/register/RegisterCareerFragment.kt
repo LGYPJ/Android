@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.src.main.register
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
@@ -25,6 +26,7 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentCareerTvEducation.setOnClickListener {
+            Log.d("edu","edu")
             registerActivity.setFragment(REGISTER_EDU)
             parentFragmentManager.popBackStack()
         }
