@@ -5,10 +5,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.model.*
+import com.example.template.garamgaebi.repository.GameRepository
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
@@ -21,6 +26,8 @@ class NetworkingGameViewModel: ViewModel() {
 
     private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket"
     //private val MSSAGE_DESTINATION = "/topic/game/room" // 소켓 주소
+
+    private val gameRepository = GameRepository()
 
     private lateinit var mStompClient: StompClient
     private val gson = Gson()
@@ -62,44 +69,62 @@ class NetworkingGameViewModel: ViewModel() {
     get() = _getMemberReq
 
 
-
-    fun connectStomp() {
-
-        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
-        mStompClient.connect()
-        val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
-            when (lifecycleEvent.type) {
-                LifecycleEvent.Type.OPENED -> Log.i(
-                    "socket",
-                    "Stomp connection opened"
-                )
-                LifecycleEvent.Type.ERROR -> { Log.i(
-                    "socket", "Error",
-                    lifecycleEvent.exception
-                )
-                }
-                LifecycleEvent.Type.CLOSED -> Log.i(
-                    "socket",
-                    "Stomp connection closed"
-                )
-                LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.i(
-                    "socket",
-                    "FAILED_SERVER_HEARTBEAT"
-                )
+    // room 조회
+    /*fun getRoomId(){
+        viewModelScope.launch(Dispatchers.IO){
+            val response = gameRepository.getGameRoom(20)
+            if(response.isSuccessful){
+                _getRoom.postValue(response.body())
+            }
+            else{
+                Log.d("error", response.message())
             }
         }
-        val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room/1")
-            .subscribe { stompMessage ->
-                Log.i("subscribe", "receive messageData :" + stompMessage.payload)
-                val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                _message.postValue(messageV0)
-                Log.i("whywhy", messageV0.toString())
+
+    }*/
+
+    fun connectStomp() {
+        viewModelScope.launch {
+            val response = gameRepository.getGameRoom(20)
+            mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
+            mStompClient.connect()
+            val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
+                when (lifecycleEvent.type) {
+                    LifecycleEvent.Type.OPENED -> {if(response.isSuccessful){
+                        _getRoom.postValue(response.body())
+                    }
+                    else{
+                        Log.d("error", response.message())
+                    }}
+                    LifecycleEvent.Type.ERROR -> { Log.i(
+                        "socket", "Error",
+                        lifecycleEvent.exception
+                    )
+                    }
+                    LifecycleEvent.Type.CLOSED -> Log.i(
+                        "socket",
+                        "Stomp connection closed"
+                    )
+                    LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.i(
+                        "socket",
+                        "FAILED_SERVER_HEARTBEAT"
+                    )
+                }
             }
+
+            val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
+                .subscribe { stompMessage ->
+                    Log.i("subscribe", "receive messageData :" + stompMessage.payload)
+                    /*val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
+                    _message.postValue(messageV0)*/
+                }
+
+        }
 
     }
 
     fun sendMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
-        val messageVO = MessageV0("TALK", "1","zzangu", "안녕!!","")
+        val messageVO = MessageV0("ENTER", "1","zzangu", "안녕!!","")
         val messageJson: String = gson.toJson(messageVO)
         mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")

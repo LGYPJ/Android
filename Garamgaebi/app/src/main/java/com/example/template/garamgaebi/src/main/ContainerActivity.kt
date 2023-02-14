@@ -67,9 +67,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     startActivity(intent)
                     intent.removeExtra("gonetworking")
                 }
-                else{
+                /*else{
                     finish()
-                }
+                }*/
             }
             if(isCancel()){
                 val intent = Intent(this, MainActivity::class.java)
@@ -108,9 +108,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 startActivity(intent)
                 intent.removeExtra("gonetworking")
             }
-            else{
+            /*else{
                 finish()
-            }
+            }*/
 
         }
         if(isSeminar()){

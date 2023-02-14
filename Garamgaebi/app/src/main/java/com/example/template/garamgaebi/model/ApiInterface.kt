@@ -223,7 +223,7 @@ interface ApiInterface {
     @GET("/game/{programIdx}/images")
     suspend fun getGameImage(@Path("programIdx") programIdx : Int) : Response<GameImagesResponse>
 
-    //game member get
-    @GET("/game/members")
+    //game member post
+    @POST("/game/members")
     suspend fun getGameMember(@Body gameMemberGetRequest: GameMemberGetRequest) : Response<GameMemberGetResponse>
 }

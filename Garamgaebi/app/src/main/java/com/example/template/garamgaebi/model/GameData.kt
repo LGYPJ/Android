@@ -32,7 +32,7 @@ data class GameMemberDeleteResult(
 
 //room
 data class GameRoomResponse(
-    val result :GameRoomResult
+    val result :List<GameRoomResult>
 ):BaseResponse()
 
 data class GameRoomResult(
