@@ -98,11 +98,13 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         binding.activityEducationSaveBtn.setOnClickListener {
             //편집 저장하기
             viewModel.postEducationInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("edu_edit_button","success")
         }
         binding.activityEducationRemoveBtn.setOnClickListener {
             //삭제하기
             viewModel.deleteEducationInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("edu_remove_button","success")
         }
 

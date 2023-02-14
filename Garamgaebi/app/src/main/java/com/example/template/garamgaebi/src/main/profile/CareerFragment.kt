@@ -16,6 +16,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
+import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.CareerViewModel
 import com.example.template.garamgaebi.viewModel.EditTextViewModel
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
@@ -70,6 +71,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
 
         binding.activityCareerSaveBtn.setOnClickListener {
             viewModel.postCareerInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("career_add_button","success"+viewModel.endDate.value.toString())
         }
 

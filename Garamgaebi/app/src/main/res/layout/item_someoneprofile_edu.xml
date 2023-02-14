@@ -1,69 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.example.template.garamgaebi.model.EducationData" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="12dp"
-        >
-        <TextView
-            android:id="@+id/activity_myprofile_edu_list_item_tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="우아한 형제들"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="@color/black80"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
             >
-        </TextView>
-        <TextView
-            android:id="@+id/activity_myprofile_edu_list_item_tvContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="프론트엔드 프로그래머"
-            android:textColor="@color/black80"
-            android:textSize="14sp"
-            android:layout_marginStart="4dp"
-            app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tvName"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-        </TextView>
-        <TextView
-            android:id="@+id/activity_myprofile_edu_list_item_tv_startPeriod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="2020.02.04"
-            android:textSize="14sp"
-            android:textColor="@color/grayText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_list_item_tvName"
+            <TextView
+                android:id="@+id/activity_myprofile_edu_list_item_tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.institution}"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/black80"
 
-            ></TextView>
-        <TextView
-            android:id="@+id/activity_myprofile_edu_list_item_tv_Textperiod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" ~ "
-            android:textSize="14sp"
-            android:textColor="@color/grayText"
-            app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
-            app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
-            ></TextView>
-        <TextView
-            android:id="@+id/activity_myprofile_edu_list_item_tv_endPeriod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2021.02.09"
-            android:textSize="14sp"
-            android:textColor="@color/grayText"
-            app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_Textperiod"
-            app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
-            ></TextView>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/activity_myprofile_edu_list_item_tvContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.major}"
+                android:textColor="@color/black80"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_list_item_tvName"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/activity_myprofile_edu_list_item_tv_startPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{item.startDate}"
+                android:textSize="14sp"
+                android:textColor="@color/grayText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_list_item_tvContent"
+
+                ></TextView>
+            <TextView
+                android:id="@+id/activity_myprofile_edu_list_item_tv_Textperiod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ~ "
+                android:textSize="14sp"
+                android:textColor="@color/grayText"
+                app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
+                app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
+                ></TextView>
+            <TextView
+                android:id="@+id/activity_myprofile_edu_list_item_tv_endPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.isLearning().equals(@string/trueString) ? @string/now : item.endDate}"
+                android:textSize="14sp"
+                android:textColor="@color/grayText"
+                app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_Textperiod"
+                app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
+                ></TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

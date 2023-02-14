@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.launch
@@ -50,7 +51,7 @@ class EducationViewModel : ViewModel(){
     //Education 추가
     fun postEducationInfo() {
         viewModelScope.launch {
-            val response = profileRepository.getCheckAddEducation(AddEducationData(1, institution.value.toString(), major.value.toString(), isLearning.value.toString(),
+            val response = profileRepository.getCheckAddEducation(AddEducationData(myMemberIdx, institution.value.toString(), major.value.toString(), isLearning.value.toString(),
             startDate.value.toString(), endDate.value.toString()))
             Log.d("education_add", response.toString())
             if(response.isSuccessful){

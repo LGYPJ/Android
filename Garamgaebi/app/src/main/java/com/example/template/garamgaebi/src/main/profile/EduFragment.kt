@@ -14,6 +14,7 @@ import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.FragmentProfileEducationBinding
+import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.CareerViewModel
 import com.example.template.garamgaebi.viewModel.EditTextViewModel
 import com.example.template.garamgaebi.viewModel.EducationViewModel
@@ -65,6 +66,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
 
         binding.activityEducationSaveBtn.setOnClickListener {
             viewModel.postEducationInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("education_add_button","success")
         }
 

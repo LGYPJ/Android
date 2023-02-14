@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import com.example.template.garamgaebi.R
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -40,8 +41,23 @@ class GaramgaebiFunction {
     interface OnFocusLostListener {
         fun onFocusLost(view: EditText,boolean: Boolean)
     }
+    interface OnFocusingListener {
+        fun onFocusing(boolean: Boolean)
+    }
     fun logTest(view:EditText, check : Boolean,isValid : Boolean){
         Log.d("focus_check_log",view.toString() + check.toString() + isValid.toString())
+    }
+    companion object {
+        @JvmStatic
+        fun setBoolean(
+            data: MutableLiveData<Boolean>,
+            first: MutableLiveData<Boolean>,
+            check: Boolean
+        ) {
+            data.value = check
+            first.value = false
+
+        }
     }
 
 

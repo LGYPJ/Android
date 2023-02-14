@@ -18,6 +18,7 @@ import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerEditBinding
+import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.CareerViewModel
 import com.example.template.garamgaebi.viewModel.EditTextViewModel
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
@@ -98,11 +99,13 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         binding.activityCareerRemoveBtn.setOnClickListener {
             //경력 삭제
             viewModel.deleteCareerInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("career_remove_button","success")
         }
         binding.activityCareerSaveBtn.setOnClickListener {
             //경력 편집 저장
             viewModel.patchCareerInfo()
+            (activity as ContainerActivity).onBackPressed()
             Log.d("career_add_button","success")
         }
 

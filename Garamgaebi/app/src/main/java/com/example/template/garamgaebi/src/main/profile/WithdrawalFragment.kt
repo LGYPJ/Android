@@ -34,6 +34,7 @@ class WithdrawalFragment :
         binding.activityWithdrawalSendBtn.setOnClickListener {
             if (checkInfo() == true){
                 //탈퇴 기능 추가
+                (activity as ContainerActivity).onBackPressed()
             }else{
                 //탈퇴 불가 및 이유
             }
@@ -64,12 +65,20 @@ class WithdrawalFragment :
             if(it.isNotEmpty())
                 viewModel.categoryIsValid.value = true
 
+            if(it.equals("기타")){
+                viewModel.contentIsValid.value = false
+            }
+
             Log.d("wd_category_true",viewModel.categoryIsValid.value.toString())
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
             binding.withdrawalViewModel = viewModel
 
-            viewModel.contentIsValid.value = it.length < 100
+            if(viewModel.category.value.equals("기타"))
+            viewModel.contentIsValid.value = (it.length < 100 && it.isNotEmpty())
+            else{
+                viewModel.contentIsValid.value = true
+            }
 
             Log.d("wd_content_true",viewModel.contentIsValid.value.toString())
         })
@@ -125,13 +134,6 @@ class WithdrawalFragment :
         }
 
     }
-//    private fun dipToPixels(dipValue: Float): Float {
-//        return TypedValue.applyDimension(
-//            TypedValue.COMPLEX_UNIT_DIP,
-//            dipValue,
-//            resources.displayMetrics
-//        )
-//    }
 
     fun checkEtInput(view: EditText) {
         view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->

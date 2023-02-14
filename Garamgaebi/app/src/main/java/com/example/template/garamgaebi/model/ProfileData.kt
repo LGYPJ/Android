@@ -58,17 +58,36 @@ data class AddEducationDataResponse(
 ):BaseResponse()
 
 //프로필 편집
-data class ProfileData (
+data class EditProfileData(
+    var info : EditProfileInfoData,
+    var image : EditImageData
+)
+data class EditProfileInfoData (
     val memberIdx : Int = 0,
-    val nickName : String,
-    val belong : String,
+    var nickName : String,
+    var belong : String,
     var profileEmail : String,
-    val content : String,
-    val profileUrl : String
+    var content : String,
+)
+data class EditImageData(
+    var image:String = ""
 )
 data class EditProfileDataResponse(
-    val result : Boolean
+    val result : MemberIdx
 ):BaseResponse()
+
+data class MemberIdx(
+    val memberIdx: Int = 0
+)
+
+data class ProfileData (
+    val memberIdx : Int = 0,
+    var nickName : String,
+    var belong : String,
+    var profileEmail : String,
+    var content : String,
+    var profileUrl : String
+)
 
 //경력 추가
 data class AddCareerData (

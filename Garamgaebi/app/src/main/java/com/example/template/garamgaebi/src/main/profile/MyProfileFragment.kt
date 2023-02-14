@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.adapter.CareerMyRVAdapter
@@ -19,6 +20,7 @@ import com.example.template.garamgaebi.adapter.EduMyRVAdapter
 import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.model.SNSData
@@ -29,6 +31,7 @@ class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,142 +57,113 @@ class MyProfileFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
+        binding.lifecycleOwner = this
+
         binding.setVariable(BR.profileViewModel,viewModel)
-        viewModel.getProfileInfo(22)
-
-        viewModel.profileInfo.observe(viewLifecycleOwner, Observer {
-            binding.profileViewModel = viewModel
-
-            val result = it as ProfileDataResponse
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putString("nickname", result.result.nickName)
-                .apply()
-
-            if(result == null) {
-
-            } else {
-                with(binding) {
-                    //binding.profileViewModel = viewModel
-                    activityMyProfileTvUsername.text = result.result.nickName
-                    activityMyProfileTvEmail.text = result.result.profileEmail
-                    activityMyProfileTvSchool.text = result.result.belong
-                    activityMyProfileTvIntro.text = result.result.content
-                }
-                if (result.result.content == null) {
-                    binding.activityMyProfileTvIntro.visibility = View.VISIBLE
-                }
-            }
-        })
-
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
+        with(viewModel) {
+            getProfileInfo(myMemberIdx)
 
-        //SNS 정보 어댑터 연결
-        viewModel.getSNSInfo(1)
-        viewModel.snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val snsAdapter = SnsMyRVAdapter(it)
-            binding.activityMyProfileRVSns.apply {
-                adapter = snsAdapter
+            profileInfo.observe(viewLifecycleOwner, Observer {
+                binding.profileViewModel = viewModel
 
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            }
-            snsAdapter.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // sns 편집
-                    val editSNSAddress = it[position].address
-                    val editSNSType = it[position].type
-                    val editSNSIdx = it[position].snsIdx
+                val result = it as ProfileDataResponse
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putString("nickname", result.result.nickName)
+                    .apply()
 
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putString("SNSAddressForEdit", editSNSAddress)
-                        .putString("SNSTypeForEdit", editSNSType)
-                        .putInt("SNSIdxForEdit", editSNSIdx)
-                        .apply()
+                if (result == null) {
 
-                    //SNS 편집 프래그먼트로!
-                    val intent = Intent(context, ContainerActivity::class.java)
-                    intent.putExtra("snsEdit", true)
-                    startActivity(intent)
+                } else {
+                    with(binding) {
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putString("myNickName", result.result.nickName)
+                            .putString("myBelong", result.result.belong)
+                            .putString("myEmail", result.result.profileEmail)
+                            .putString("myIntro", result.result.content)
+                            .putString("myImage", result.result.profileUrl)
+                            .apply()
+                        Log.d("myImage",result.result.profileUrl+"h")
+                        activityMyProfileTvUsername.text = result.result.nickName
+                        activityMyProfileTvEmail.text = result.result.profileEmail
+                        activityMyProfileTvSchool.text = result.result.belong
+                        activityMyProfileTvIntro.text = result.result.content
+
+                        if(result.result.profileUrl != null){
+                            activity?.let { it1 ->
+                                Glide.with(it1).load(result.result.profileUrl)
+                                    .into(activityMyProfileIvProfile)
+                            }
+                        }
+
+                        activityMyProfileIvProfile.clipToOutline = true
+
+                        if (result.result.content == null) {
+                            activityMyProfileTvIntro.visibility = View.GONE
+                        }else{
+                            activityMyProfileTvIntro.visibility = View.VISIBLE
+                        }
+                    }
 
                 }
-            } )
-        })
+            })
+            //SNS 정보 어댑터 연결
+            getSNSInfo(myMemberIdx)
+            snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val snsAdapter = activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+                binding.activityMyProfileRVSns.apply {
+                    adapter = snsAdapter
 
-        //경력 정보 어댑터 연결
-        viewModel.getCareerInfo(1)
-        viewModel.careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val careerAdapter = CareerMyRVAdapter(it)
-            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-            binding.activityMyProfileRVCareer.apply {
-                adapter = careerAdapter
-                Log.d("career_adapter_list_size",it.size.toString())
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            }
-
-            careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // 경력 편집
-                    val careerIdx = it[position].careerIdx
-                    val editCareerCompany = it[position].company
-                    val editCareerPosition = it[position].position
-                    val editCareerIsWorking = it[position].isWorking
-                    val editCareerStartDate = it[position].startDate
-                    val editCareerEndDate = it[position].endDate
-                    Log.d("career_edit_button", "success$editCareerEndDate")
-
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putString("CareerCompanyForEdit", editCareerCompany)
-                        .putString("CareerPositionForEdit", editCareerPosition)
-                        .putString("CareerIsWorkingForEdit", editCareerIsWorking)
-                        .putString("CareerStartDateForEdit", editCareerStartDate)
-                        .putString("CareerEndDateForEdit", editCareerEndDate)
-                        .putInt("CareerIdxForEdit",careerIdx)
-                        .apply()
-
-                    //SNS 편집 프래그먼트로!
-                    val intent = Intent(context, ContainerActivity::class.java)
-                    intent.putExtra("careerEdit", true)
-                    startActivity(intent)
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 }
-            } )
-        })
-
-        //교육 정보 어댑터 연결
-        viewModel.getEducationInfo(1)
-        viewModel.educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val eduAdapter = EduMyRVAdapter(it)
-            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
-            binding.activityMyProfileRVEdu.apply {
-                adapter = eduAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            eduAdapter.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // 교육 편집
-                    val educationIdx = it[position].educationIdx
-                    val editEduInstitution= it[position].institution
-                    val editEduMajor = it[position].major
-                    val editEduIsLearning = it[position].isLearning
-                    val editEduStartDate = it[position].startDate
-                    val editEduEndDate = it[position].endDate
-
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putString("EduInstitutionForEdit", editEduInstitution)
-                        .putString("EduMajorForEdit", editEduMajor)
-                        .putString("EduIsLearningForEdit", editEduIsLearning)
-                        .putString("EduStartDateForEdit", editEduStartDate)
-                        .putString("EduEndDateForEdit", editEduEndDate)
-                        .putInt("EduIdxForEdit", educationIdx)
-                        .apply()
-
-                    //SNS 편집 프래그먼트로!
-                    val intent = Intent(context, ContainerActivity::class.java)
-                    intent.putExtra("eduEdit", true)
-                    startActivity(intent)
+                snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+            })
+            //경력 정보 어댑터 연결
+            getCareerInfo(myMemberIdx)
+            careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val careerAdapter = activity?.let { it1 ->
+                    CareerMyRVAdapter(it,
+                        it1.applicationContext)
                 }
-            } )
-        })
+                dividerItemDecoration = DividerItemDecoration(
+                    binding.activityMyProfileRVCareer.context,
+                    LinearLayoutManager(requireContext()).orientation
+                )
+                binding.activityMyProfileRVCareer.apply {
+                    adapter = careerAdapter
+                    Log.d("career_adapter_list_size", it.size.toString())
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
+                careerAdapter?.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+                })
+            //교육 정보 어댑터 연결
+            getEducationInfo(myMemberIdx)
+            educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val eduAdapter = activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
+                dividerItemDecoration = DividerItemDecoration(
+                    binding.activityMyProfileRVEdu.context,
+                    LinearLayoutManager(requireContext()).orientation
+                )
+                binding.activityMyProfileRVEdu.apply {
+                    adapter = eduAdapter
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
+                eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+            })
+        }
 
         with(binding){
             activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
@@ -212,22 +186,17 @@ class MyProfileFragment :
                 goServiceCenterFragment()
             }
 
-            activityMyProfileIvWd.setOnClickListener{
-                goWithdrawalFragment()
-            }
 
             activityMyProfileBtnEditProfile.setOnClickListener{
                 goEditFragment()
             }
             //test 상대 프로필
-            activityMyProfileIvProfile.setOnClickListener {
-                val intent = Intent(activity,ContainerActivity::class.java)
-                intent.putExtra("someoneProfile",true) //데이터 넣기
-                startActivity(intent)
-            }
+//            activityMyProfileIvProfile.setOnClickListener {
+//                val intent = Intent(activity,ContainerActivity::class.java)
+//                intent.putExtra("someoneProfile",true) //데이터 넣기
+//                startActivity(intent)
+//            }
         }
-
-
     }
     //내 프로필 편집 화면으로 이동
     fun goEditFragment() {
@@ -290,10 +259,10 @@ class MyProfileFragment :
     override fun onResume() {
         Log.d("onResume","yes__")
 
-        viewModel.getProfileInfo(1)
-        viewModel.getSNSInfo(1)
-        viewModel.getCareerInfo(1)
-        viewModel.getEducationInfo(1)
+        viewModel.getProfileInfo(myMemberIdx)
+        viewModel.getSNSInfo(myMemberIdx)
+        viewModel.getCareerInfo(myMemberIdx)
+        viewModel.getEducationInfo(myMemberIdx)
 
         super.onResume()
     }
