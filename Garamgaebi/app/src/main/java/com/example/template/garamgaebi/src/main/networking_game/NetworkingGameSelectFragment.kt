@@ -39,7 +39,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel.connectStomp()
+        viewModel.getRoomId()
         viewModel.getRoom.observe(viewLifecycleOwner, Observer{
             val networkingGameSelectAdapter = NetworkingGameSelectAdapter(networkGameSelectList)
             binding.activityNetworkGameRv.apply {
@@ -67,20 +67,6 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
         })
 
-        /*networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
-            override fun onClick(position: Int) {
-                containerActivity!!.openFragmentOnFrameLayout(8)
-                val temp = networkGameSelectList[position].place
-                containerActivity!!.networkingPlace(temp)
-
-            }
-
-        })*/
-
-        //웹소켓 구현
-        viewModel.sendMessage()
-        viewModel.message.observe(viewLifecycleOwner, Observer{
-        })
 
 
     }

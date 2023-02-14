@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.size
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
@@ -21,6 +22,7 @@ import com.example.template.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
+import com.example.template.garamgaebi.viewModel.NetworkingGameViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -62,6 +64,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         NetworkingGameCard("나에게 줄리아는"),
     )
 
+    //뷰모델
+    private val viewModel by viewModels<NetworkingGameViewModel>()
+
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,6 +81,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         //뷰페이저 클릭해서 넘어가게
         var v = 0
+
+        //뷰모델 연결
+        viewModel.connectStomp()
+
 
         //카드 뷰페이저2
         val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(networkingGameCardList)
@@ -142,7 +151,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
 
         }
-        //뷰페이저에 elevation 효과 넣기
+
 
 
 
