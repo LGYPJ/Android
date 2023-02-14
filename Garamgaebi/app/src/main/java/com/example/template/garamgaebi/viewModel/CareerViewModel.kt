@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.example.template.garamgaebi.model.*
 import com.example.template.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.launch
@@ -49,7 +50,7 @@ class CareerViewModel : ViewModel(){
     //Career 추가
     fun postCareerInfo() {
         viewModelScope.launch {
-            val response = profileRepository.getCheckAddCareer(AddCareerData(1,company.value.toString(), position.value.toString(), isWorking.value.toString(),
+            val response = profileRepository.getCheckAddCareer(AddCareerData(myMemberIdx,company.value.toString(), position.value.toString(), isWorking.value.toString(),
             startDate.value.toString(), endDate.value.toString()))
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){

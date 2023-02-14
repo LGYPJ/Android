@@ -18,12 +18,11 @@
             android:id="@+id/activity_myprofile_sns_list_item_tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="인스타그램"
+            android:text="@{item.type}"
             android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="@color/black80"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/activity_myprofile_sns_list_item_tvLink"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -33,10 +32,10 @@
             android:text="@{item.address}"
             android:textStyle="normal"
             android:textSize="14sp"
-            android:textColor="@color/black80"
-            android:layout_marginStart="4dp"
-            app:layout_constraintStart_toEndOf="@id/activity_myprofile_sns_list_item_tvName"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/blueForBtn"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/activity_myprofile_sns_list_item_tvName"
+            app:layout_constraintTop_toBottomOf="@id/activity_myprofile_sns_list_item_tvName"
             >
         </TextView>
 

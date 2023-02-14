@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.model
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -123,19 +124,13 @@ interface ApiInterface {
         @Body request: QnAData
     ): Response<QnADataResponse>
 
-    //프로필 사진 저장/수정
-    @POST("/profile/images")
-    suspend fun getCheckEditProfileImg(
-        /*
-        {
-  "info": {
-    "memberIdx": 0,
-    "nickName": "string"
-  },
-  "image": "string"
-}
-         */
-    ):Response<BooleanResponse>
+    //프로필 편집 저장/수정
+    @Multipart
+    @POST("/profile/edit/{memberIdx}")
+    suspend fun getCheckEditProfile(
+        @Part info : EditProfileInfoData,
+        @Part image : MultipartBody.Part
+    ):Response<EditProfileDataResponse>
 
     //교육 추가
     @POST("/profile/education")
@@ -156,12 +151,6 @@ interface ApiInterface {
         //@Header("accessToken") accessToken : String,
         @Path("educationIdx") educationIdx: Int
     ): Response<BooleanResponse>
-
-    //프로필 편집
-    @POST("/profile/edit/{memberIdx}")
-    suspend fun getCheckEditProfile(
-        @Body request: ProfileData
-    ): Response<EditProfileDataResponse>
 
     //경력 추가
     @POST("/profile/career")

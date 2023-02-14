@@ -89,6 +89,7 @@ class ServiceCenterFragment :
             if (checkInfo() == true){
                 //문의 보내기 기능 추가
                 viewModel.postQna()
+                (activity as ContainerActivity).onBackPressed()
                 Log.d("qna_success","입니다")
             }else{
                 //저장 불가 및 이유
@@ -98,6 +99,7 @@ class ServiceCenterFragment :
         //회원탈퇴 이동
         binding.activityServicecenterTvWithdrawal.setOnClickListener {
             containerActivity!!.openFragmentOnFrameLayout(15)
+            containerActivity!!.goWithdrawal()
         }
 
         //로그아웃 이동

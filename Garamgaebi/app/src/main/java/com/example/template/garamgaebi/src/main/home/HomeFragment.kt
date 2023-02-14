@@ -156,6 +156,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 리사이클러뷰 클릭 리스너
                 userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
+                        GaramgaebiApplication.sSharedPreferences.edit().putInt("userMemberIdx",result[position].memberIdx).apply()
+
                         val intent = Intent(context, ContainerActivity::class.java)
                         intent.putExtra("someoneProfile", true)
                         startActivity(intent)

@@ -138,14 +138,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
             }
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
-                binding.activityContainerToolbarTv.text = "회원탈퇴"
+                //binding.activityContainerToolbarTv.text = "회원탈퇴"
+                Log.d("회워탈퇴",binding.activityContainerToolbarTv.text.toString())
             }
 
             //동원 부분
@@ -158,10 +159,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
             }
             18 -> {
-                transaction.replace(R.id.activity_seminar_frame, CareerEditFragment(), "snsEdit")
+                transaction.replace(R.id.activity_seminar_frame, CareerEditFragment(), "careerEdit")
             }
             19 -> {
-                transaction.replace(R.id.activity_seminar_frame, EduEditFragment(), "snsEdit")
+                transaction.replace(R.id.activity_seminar_frame, EduEditFragment(), "eduEdit")
             }
 
 
@@ -250,15 +251,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("sns", false)){
             openFragmentOnFrameLayout(9)
-            binding.activityContainerToolbarTv.text = "SNS"
+            binding.activityContainerToolbarTv.text = "SNS 추가하기"
         }
         if(intent.getBooleanExtra("career", false)){
             openFragmentOnFrameLayout(10)
-            binding.activityContainerToolbarTv.text = "경력"
+            binding.activityContainerToolbarTv.text = "경력 추가하기"
         }
         if(intent.getBooleanExtra("edu", false)){
             openFragmentOnFrameLayout(11)
-            binding.activityContainerToolbarTv.text = "교육"
+            binding.activityContainerToolbarTv.text = "교육 추가하기"
         }
         if(intent.getBooleanExtra("edit", false)){
             openFragmentOnFrameLayout(12)
@@ -339,7 +340,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
+    fun goWithdrawal(){
+        binding.activityContainerToolbarTv.text = "회원 탈퇴"
+    }
 
     fun isSeminar ():Boolean {
         var returnValue = false

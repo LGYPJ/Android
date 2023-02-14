@@ -16,10 +16,25 @@ object BindingAdapters {
         setOnFocusChangeListener { _, hasFocus ->
             Log.d("focus_check","adapter")
             if (!hasFocus) {
-                callback.onFocusLost(this, false)
+                callback.onFocusLost( this,false)
                 Log.d("focus_check","adapter2")
             } else {
-                callback.onFocusLost(this, true)
+                callback.onFocusLost(this,true)
+                Log.d("focus_check","adapter3")
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:onFocusing")
+    fun EditText.onFocusing(callback: GaramgaebiFunction.OnFocusingListener) {
+        setOnFocusChangeListener { _, hasFocus ->
+            Log.d("focus_check","adapter")
+            if (!hasFocus) {
+                callback.onFocusing(false)
+                Log.d("focus_check","adapter2")
+            } else {
+                callback.onFocusing(true)
                 Log.d("focus_check","adapter3")
             }
         }

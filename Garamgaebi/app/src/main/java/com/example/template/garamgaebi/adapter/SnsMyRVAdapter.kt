@@ -1,13 +1,17 @@
 package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.example.template.garamgaebi.model.SNSData
+import com.example.template.garamgaebi.src.main.ContainerActivity
 
-class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Adapter<SnsMyRVAdapter.ViewHolder>(){
+class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Context): RecyclerView.Adapter<SnsMyRVAdapter.ViewHolder>(){
 
     private lateinit var itemClickListener: OnItemClickListener
 
@@ -16,7 +20,24 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>): RecyclerView.Ada
         @SuppressLint("SetTextI18n")
         fun bind(data: SNSData) {
             binding.item = data
+            binding.activityMyprofileSnsListItemIvEdit.setOnClickListener {
+                // sns 편집
+                val editSNSAddress = data.address
+                val editSNSType = data.type
+                val editSNSIdx = data.snsIdx
 
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putString("SNSAddressForEdit", editSNSAddress)
+                    .putString("SNSTypeForEdit", editSNSType)
+                    .putInt("SNSIdxForEdit", editSNSIdx)
+                    .apply()
+
+                //SNS 편집 프래그먼트로!
+                val intent = Intent(it.context, ContainerActivity::class.java)
+                intent.putExtra("snsEdit", true)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent)
+            }
         }
     }
 

@@ -1,86 +1,70 @@
 package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.example.template.garamgaebi.databinding.ItemSomeoneprofileSnsBinding
+import com.example.template.garamgaebi.model.SNSData
+import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.src.main.profile.SnsRVItemData
 
-class SnsSomeoneRVAdapter(private val dataList: ArrayList<SnsRVItemData>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class SnsSomeoneRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Context): RecyclerView.Adapter<SnsSomeoneRVAdapter.ViewHolder>(){
 
-    private val checkRead = SparseBooleanArray()
-    var canRemove : Boolean = true
+    private lateinit var itemClickListener: OnItemClickListener
+
+    inner class ViewHolder(private val binding: ItemSomeoneprofileSnsBinding):
+        RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(data: SNSData) {
+            binding.item = data
+            binding.activitySomeoneprofileSnsListItemIvCopy.setOnClickListener {
+                val clipboard = mContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                // 새로운 ClipData 객체로 데이터 복사하기
+                val clip: ClipData =
+                    ClipData.newPlainText("sns_address", data.address)
+
+                // 새로운 클립 객체를 클립보드에 배치합니다.
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemSomeoneprofileSnsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
-        fun onLongClick(position: Int)
-    }
-    fun setItemClickListener(param: Any) {}
-
-    private lateinit var mItemClickListener: OnItemClickListener
-    fun setMyItemClickListener(itemClickListener: OnItemClickListener){
-        mItemClickListener = itemClickListener
+        fun onClick(position: Int)
     }
 
-    //viewHolder 객체
-    inner class DataViewHolder(private val viewBinding: ItemSomeoneprofileSnsBinding ): RecyclerView.ViewHolder(viewBinding.root){
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataList[position])
 
-        init {
-            itemView.setOnClickListener {
-                mItemClickListener.onItemClick(adapterPosition)
-            }
-            itemView.setOnLongClickListener{
-                mItemClickListener.onLongClick(adapterPosition)
-                return@setOnLongClickListener true
-            }
-        }
-        @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
-        fun bind(data: SnsRVItemData) {
-
-            viewBinding.activitySomeoneprofileSnsListItemTvName.setText(data.snsAddress)
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(position)
         }
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return dataList[position].type
-//    }
-
-    //viewHolder 만들어질때 실행할 동작들
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val Binding = ItemSomeoneprofileSnsBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false)
-
-        return   DataViewHolder(Binding)
-
-    }
-
-    //viewHolder가 실제로 데이터를 표시해야할 때 호출되는 함수
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-        (holder as DataViewHolder).bind(dataList[position])
-        //holder.setIsRecyclable(false)
-
-
-    }
-    //표현할 item의 총 개수
-    override fun getItemCount(): Int = dataList.size
-
-    fun addItem(data : SnsRVItemData) {
-        dataList.add(data);
-    }
-
-    fun getItem(position : Int): SnsRVItemData {
-        return dataList.get(position);
+    override fun getItemCount(): Int {
+        return dataList.size
     }
 
 
-
-    fun addUserItems(data: SnsRVItemData){
-        dataList.add(data)
-        notifyItemInserted(getItemCount()-1)
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
+        itemClickListener = onItemClickListener
     }
-
 }
