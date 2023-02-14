@@ -14,6 +14,7 @@ import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
 import com.example.template.garamgaebi.viewModel.EditTextViewModel
 import com.example.template.garamgaebi.viewModel.RegisterViewModel
+import kotlinx.coroutines.*
 import java.util.regex.Pattern
 
 class RegisterAuthenticationFragment :
@@ -21,11 +22,11 @@ class RegisterAuthenticationFragment :
     lateinit var registerActivity : RegisterActivity
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val registerViewModel by viewModels<RegisterViewModel>()
         binding.registerViewModel = registerViewModel
         val editTextViewModel by viewModels<EditTextViewModel>()
         binding.editTextViewModel = editTextViewModel
+        var job : Job
         // 이메일 발송 버튼 drawable, 활성화 여부
         binding.fragmentAuthenticationEtEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -33,11 +34,13 @@ class RegisterAuthenticationFragment :
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (checkEmail()) {
                     binding.fragmentAuthenticationBtnEmail.setBackgroundResource(R.drawable.register_btn_color_enable)
-                    binding.registerViewModel.isEmailValid.value = true
+                    registerViewModel.isEmailValid.value = true
+                    binding.registerViewModel = registerViewModel
                     Log.d("registerEmail", "isEmailValid ${registerViewModel.isEmailValid.value}")
                 } else {
                     binding.fragmentAuthenticationBtnEmail.setBackgroundResource(R.drawable.register_btn_color)
-                    binding.registerViewModel.isEmailValid.value = false
+                    registerViewModel.isEmailValid.value = false
+                    binding.registerViewModel = registerViewModel
                     Log.d("registerEmail", "isEmailValid ${registerViewModel.isEmailValid.value}")
                 }
             }

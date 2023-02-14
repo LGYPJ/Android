@@ -10,6 +10,9 @@
         <variable
             name="editTextViewModel"
             type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+        <variable
+            name="context"
+            type="com.example.template.garamgaebi.src.main.register.RegisterActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,14 +92,15 @@
             app:layout_constraintEnd_toEndOf="@id/fragment_authentication_et_email"
             app:layout_constraintTop_toTopOf="@id/fragment_authentication_et_email" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/fragment_authentication_btn_email"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="@drawable/register_btn_color"
             android:clickable="@{registerViewModel.isEmailValid() ? true : false}"
-            android:text="@string/send_email"
+            android:onClick="@{()->registerViewModel.timerStart()}"
+            android:text="@{}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_email" />
@@ -142,7 +146,7 @@
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_num" />
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/fragment_authentication_btn_num"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -157,7 +161,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/fragment_authentication_et_num"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_authentication_et_num" />
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/fragment_authentication_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
