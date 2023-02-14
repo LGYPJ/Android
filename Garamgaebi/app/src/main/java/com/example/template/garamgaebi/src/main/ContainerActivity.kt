@@ -1,5 +1,6 @@
 package com.example.template.garamgaebi.src.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -13,6 +14,7 @@ import com.example.template.garamgaebi.src.main.networking.NetworkingFreeApplyFr
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGamePlaceFragment
 import com.example.template.garamgaebi.src.main.networking_game.NetworkingGameSelectFragment
 import com.example.template.garamgaebi.src.main.home.NotificationFragment
+import com.example.template.garamgaebi.src.main.networking.NetworkingChargedApplyFragment
 import com.example.template.garamgaebi.src.main.profile.*
 import com.example.template.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.example.template.garamgaebi.src.main.seminar.SeminarFragment
@@ -39,8 +41,27 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 finish()
             }
             if(isNetworking()){
-                finish()
-            }else{
+                if(intent.getStringExtra("gathering-networking")=="gathering-networking"){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("networking1", "networking1")
+                    startActivity(intent)
+                    intent.removeExtra("gathering-networking")
+                }
+                else{
+                    finish()
+                }
+            }
+            if(isCancel()){
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("meeting", "meeting")
+                startActivity(intent)
+            }
+            //알림
+            if(isNotifi()){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            else{
                 onBackPressed()
             }
         }
@@ -57,6 +78,19 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
             binding.activityContainerToolbarTv.text = "세미나"
+        }
+        if(isCancel()){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("meeting", "meeting")
+            startActivity(intent)
+        }
+        if(isSeminar()){
+
+        }
+        //알림
+        if(isNotifi()){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -110,7 +144,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
-                binding.activityContainerToolbarTv.text = "회원탈퇴"
+                //binding.activityContainerToolbarTv.text = "회원탈퇴"
+                Log.d("회워탈퇴",binding.activityContainerToolbarTv.text.toString())
             }
 
             //동원 부분
@@ -121,6 +156,19 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             //승민 추가
             17 -> {
                 transaction.replace(R.id.activity_seminar_frame, SnsEditFragment(), "snsEdit")
+            }
+            18 -> {
+                transaction.replace(R.id.activity_seminar_frame, CareerEditFragment(), "careerEdit")
+            }
+            19 -> {
+                transaction.replace(R.id.activity_seminar_frame, EduEditFragment(), "eduEdit")
+            }
+
+
+            //신디 추가 네트워킹 유료 신청
+            18 -> {
+                transaction.replace(R.id.activity_seminar_frame, NetworkingChargedApplyFragment(), "networkingCharged").addToBackStack(null)
+                binding.activityContainerToolbarTv.text = "네트워킹"
             }
 
         }
@@ -144,12 +192,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     //"networkingGameSelect" -> fragmentTitle = "아이스브레이킹"
                     //"networkingGamePlace" -> fragmentTitle = ""
                     "career" -> fragmentTitle = "경력"
+                    "careerEdit" -> fragmentTitle = "경력 편집하기"
+
                     "edu" -> fragmentTitle = "교육"
+                    "eduEdit" -> fragmentTitle = "교육 편집하기"
+
                     "profileEdit" -> fragmentTitle = "프로필 편집"
                     "someoneProfile" -> fragmentTitle = "프로필"
                     "servicecenter" -> fragmentTitle = "고객 센터"
                     "withdrawal" -> fragmentTitle = "회원 탈퇴"
                     "notification" -> fragmentTitle = "알림"
+                    "networkingCharged" -> fragmentTitle = "네트워킹"
                 }
 
                 binding.activityContainerToolbarTv.text = fragmentTitle
@@ -197,15 +250,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("sns", false)){
             openFragmentOnFrameLayout(9)
-            binding.activityContainerToolbarTv.text = "SNS"
+            binding.activityContainerToolbarTv.text = "SNS 추가하기"
         }
         if(intent.getBooleanExtra("career", false)){
             openFragmentOnFrameLayout(10)
-            binding.activityContainerToolbarTv.text = "경력"
+            binding.activityContainerToolbarTv.text = "경력 추가하기"
         }
         if(intent.getBooleanExtra("edu", false)){
             openFragmentOnFrameLayout(11)
-            binding.activityContainerToolbarTv.text = "교육"
+            binding.activityContainerToolbarTv.text = "교육 추가하기"
         }
         if(intent.getBooleanExtra("edit", false)){
             openFragmentOnFrameLayout(12)
@@ -226,6 +279,20 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(intent.getBooleanExtra("notification", false)) {
             openFragmentOnFrameLayout(16)
             binding.activityContainerToolbarTv.text = "알림"
+        }
+
+        //승민 추가
+        if(intent.getBooleanExtra("snsEdit", false)) {
+            openFragmentOnFrameLayout(17)
+            binding.activityContainerToolbarTv.text = "SNS 편집하기"
+       }
+        if(intent.getBooleanExtra("careerEdit", false)) {
+            openFragmentOnFrameLayout(18)
+            binding.activityContainerToolbarTv.text = "경력 편집하기"
+        }
+        if(intent.getBooleanExtra("eduEdit", false)) {
+            openFragmentOnFrameLayout(19)
+            binding.activityContainerToolbarTv.text = "교육 편집하기"
         }
 
 
@@ -272,7 +339,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
+    fun goWithdrawal(){
+        binding.activityContainerToolbarTv.text = "회원 탈퇴"
+    }
 
     fun isSeminar ():Boolean {
         var returnValue = false
@@ -290,6 +359,28 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if (fragment is SeminarChargedApplyFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isCancel ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is CancelFragment) {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
+
+    fun isNotifi ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is NotificationFragment) {
                 returnValue = true
             }
         }

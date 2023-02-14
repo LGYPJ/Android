@@ -8,10 +8,18 @@ data class BooleanResponse (
 ):BaseResponse()
 
 //SNS 추가
-data class SNSData (
+data class AddSNSData (
     val memberIdx : Int = 0,
-    val address : String = ""
+    val address : String = "",
+    val type :String = ""
 )
+
+data class SNSData (
+    val snsIdx : Int = 0,
+    val address : String = "",
+    val type :String = ""
+)
+
 data class AddSNSDataResponse(
     val result : Boolean
 ):BaseResponse()
@@ -28,8 +36,17 @@ data class QnADataResponse(
 ):BaseResponse()
 
 //교육 추가
-data class EducationData (
+data class AddEducationData (
     val memberIdx : Int = 0,
+    val institution : String,
+    val major : String,
+    val isLearning : String,
+    val startDate : String,
+    val endDate : String
+)
+
+data class EducationData (
+    val educationIdx : Int = 0,
     val institution : String,
     val major : String,
     val isLearning : String,
@@ -41,21 +58,49 @@ data class AddEducationDataResponse(
 ):BaseResponse()
 
 //프로필 편집
-data class ProfileData (
+data class EditProfileData(
+    var info : EditProfileInfoData,
+    var image : EditImageData
+)
+data class EditProfileInfoData (
     val memberIdx : Int = 0,
-    val nickName : String,
-    val belong : String,
+    var nickName : String,
+    var belong : String,
     var profileEmail : String,
-    val content : String,
-    val profileUrl : String
+    var content : String,
+)
+data class EditImageData(
+    var image:String = ""
 )
 data class EditProfileDataResponse(
-    val result : Boolean
+    val result : MemberIdx
 ):BaseResponse()
 
-//경력 추가
-data class CareerData (
+data class MemberIdx(
+    val memberIdx: Int = 0
+)
+
+data class ProfileData (
     val memberIdx : Int = 0,
+    var nickName : String,
+    var belong : String,
+    var profileEmail : String,
+    var content : String,
+    var profileUrl : String
+)
+
+//경력 추가
+data class AddCareerData (
+    val memberIdx : Int = 0,
+    val company : String,
+    val position : String,
+    val isWorking : String,
+    val startDate : String,
+    val endDate : String
+)
+
+data class CareerData (
+    val careerIdx : Int = 0,
     val company : String,
     val position : String,
     val isWorking : String,

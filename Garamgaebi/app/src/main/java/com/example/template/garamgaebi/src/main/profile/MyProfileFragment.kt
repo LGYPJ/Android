@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.adapter.CareerMyRVAdapter
@@ -17,6 +20,7 @@ import com.example.template.garamgaebi.adapter.EduMyRVAdapter
 import com.example.template.garamgaebi.adapter.SnsMyRVAdapter
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.example.template.garamgaebi.databinding.FragmentMyprofileBinding
 import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.model.SNSData
@@ -28,6 +32,14 @@ class MyProfileFragment :
     private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
     override fun initViewModel() {
         super.initViewModel()
 
@@ -38,129 +50,152 @@ class MyProfileFragment :
         super.onCreate(savedInstanceState)
 
     }
+    lateinit var viewModel: ProfileViewModel
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
+        binding.lifecycleOwner = this
+
         binding.setVariable(BR.profileViewModel,viewModel)
-        viewModel.getProfileInfo(1)
-
-        viewModel.profileInfo.observe(viewLifecycleOwner, Observer {
-            binding.profileViewModel = viewModel
-
-            val result = it as ProfileDataResponse
-            if(result == null) {
-
-            } else {
-                with(binding) {
-                    //binding.profileViewModel = viewModel
-                    activityMyProfileTvUsername.text = result.result.nickName
-                    activityMyProfileTvEmail.text = result.result.profileEmail
-                    activityMyProfileTvSchool.text = result.result.belong
-                    activityMyProfileTvIntro.text = result.result.content
-                }
-                    if (result.result.content == null) {
-                        binding.activityMyProfileTvIntro.visibility = View.VISIBLE
-                    }
-            }
-        })
-
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
+        with(viewModel) {
+            getProfileInfo(myMemberIdx)
 
+            profileInfo.observe(viewLifecycleOwner, Observer {
+                binding.profileViewModel = viewModel
 
-        //SNS 정보 어댑터 연결
-        viewModel.getSNSInfo(1)
-        viewModel.snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val snsAdapter = SnsMyRVAdapter(it)
-            binding.activityMyProfileRVSns.apply {
-                adapter = snsAdapter
+                val result = it as ProfileDataResponse
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putString("nickname", result.result.nickName)
+                    .apply()
 
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
-            }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            snsAdapter.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // sns 편집
+                if (result == null) {
+
+                } else {
+                    with(binding) {
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putString("myNickName", result.result.nickName)
+                            .putString("myBelong", result.result.belong)
+                            .putString("myEmail", result.result.profileEmail)
+                            .putString("myIntro", result.result.content)
+                            .putString("myImage", result.result.profileUrl)
+                            .apply()
+                        Log.d("myImage",result.result.profileUrl+"h")
+                        activityMyProfileTvUsername.text = result.result.nickName
+                        activityMyProfileTvEmail.text = result.result.profileEmail
+                        activityMyProfileTvSchool.text = result.result.belong
+                        activityMyProfileTvIntro.text = result.result.content
+
+                        if(result.result.profileUrl != null){
+                            activity?.let { it1 ->
+                                Glide.with(it1).load(result.result.profileUrl)
+                                    .into(activityMyProfileIvProfile)
+                            }
+                        }
+
+                        activityMyProfileIvProfile.clipToOutline = true
+
+                        if (result.result.content == null) {
+                            activityMyProfileTvIntro.visibility = View.GONE
+                        }else{
+                            activityMyProfileTvIntro.visibility = View.VISIBLE
+                        }
+                    }
+
                 }
-            } )
-        })
+            })
+            //SNS 정보 어댑터 연결
+            getSNSInfo(myMemberIdx)
+            snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val snsAdapter = activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+                binding.activityMyProfileRVSns.apply {
+                    adapter = snsAdapter
 
-        //경력 정보 어댑터 연결
-        viewModel.getCareerInfo(1)
-        viewModel.careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val careerAdapter = CareerMyRVAdapter(it)
-            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVCareer.context, LinearLayoutManager(requireContext()).orientation)
-            binding.activityMyProfileRVCareer.apply {
-                adapter = careerAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
-            }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            careerAdapter.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // sns 편집
-//                    val program = it.result[position].programIdx
-//                    GaramgaebiApplication.sSharedPreferences
-//                        .edit().putInt("programIdx", program)
-//                        .apply()
-//                    //세미나 메인 프래그먼트로!
-//                    val intent = Intent(context, ContainerActivity::class.java)
-//                    intent.putExtra("seminar", true)
-//                    //intent.putExtra("HomeSeminarIdx", program)
-//                    startActivity(intent)
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 }
-            } )
-        })
-
-        //교육 정보 어댑터 연결
-        viewModel.getEducationInfo(1)
-        viewModel.educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-            val eduAdapter = EduMyRVAdapter(it)
-            dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVEdu.context, LinearLayoutManager(requireContext()).orientation)
-            binding.activityMyProfileRVEdu.apply {
-                adapter = eduAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(dividerItemDecoration)
-            }
-            //발표 리사이클러뷰 클릭하면 팝업다이얼로그 나타남!
-            eduAdapter.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener{
-                override fun onClick(position: Int) {
-                    // sns 편집
+                snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+            })
+            //경력 정보 어댑터 연결
+            getCareerInfo(myMemberIdx)
+            careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val careerAdapter = activity?.let { it1 ->
+                    CareerMyRVAdapter(it,
+                        it1.applicationContext)
                 }
-            } )
-        })
-
-
-        binding.activityMyProfileBtnSnsAdd.setOnClickListener{
-            goAddSNSFragment()
+                dividerItemDecoration = DividerItemDecoration(
+                    binding.activityMyProfileRVCareer.context,
+                    LinearLayoutManager(requireContext()).orientation
+                )
+                binding.activityMyProfileRVCareer.apply {
+                    adapter = careerAdapter
+                    Log.d("career_adapter_list_size", it.size.toString())
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
+                careerAdapter?.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+                })
+            //교육 정보 어댑터 연결
+            getEducationInfo(myMemberIdx)
+            educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                val eduAdapter = activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
+                dividerItemDecoration = DividerItemDecoration(
+                    binding.activityMyProfileRVEdu.context,
+                    LinearLayoutManager(requireContext()).orientation
+                )
+                binding.activityMyProfileRVEdu.apply {
+                    adapter = eduAdapter
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
+                eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
+                    override fun onClick(position: Int) {
+                    }
+                })
+            })
         }
 
-        binding.activityMyProfileBtnCareerAdd.setOnClickListener{
-            goAddCareerFragment()
-        }
+        with(binding){
+            activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+            activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+            activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
 
-        binding.activityMyProfileBtnEduAdd.setOnClickListener{
-            goAddEduFragment()
-        }
+            activityMyProfileBtnSnsAdd.setOnClickListener{
+                goAddSNSFragment()
+            }
 
-        binding.activityMyProfileIvCs.setOnClickListener{
-            goServiceCenterFragment()
-        }
+            activityMyProfileBtnCareerAdd.setOnClickListener{
+                goAddCareerFragment()
+            }
 
-        binding.activityMyProfileIvWd.setOnClickListener{
-            goWithdrawalFragment()
-        }
+            activityMyProfileBtnEduAdd.setOnClickListener{
+                goAddEduFragment()
+            }
 
-        binding.activityMyProfileBtnEditProfile.setOnClickListener{
-            goEditFragment()
-        }
-        //test 상대 프로필
-        binding.activityMyProfileIvProfile.setOnClickListener {
-            val intent = Intent(activity,ContainerActivity::class.java)
-            intent.putExtra("someoneprofile",true) //데이터 넣기
-            startActivity(intent)
+            activityMyProfileIvCs.setOnClickListener{
+                goServiceCenterFragment()
+            }
+
+
+            activityMyProfileBtnEditProfile.setOnClickListener{
+                goEditFragment()
+            }
+            //test 상대 프로필
+//            activityMyProfileIvProfile.setOnClickListener {
+//                val intent = Intent(activity,ContainerActivity::class.java)
+//                intent.putExtra("someoneProfile",true) //데이터 넣기
+//                startActivity(intent)
+//            }
         }
     }
     //내 프로필 편집 화면으로 이동
@@ -222,6 +257,13 @@ class MyProfileFragment :
     }
 
     override fun onResume() {
+        Log.d("onResume","yes__")
+
+        viewModel.getProfileInfo(myMemberIdx)
+        viewModel.getSNSInfo(myMemberIdx)
+        viewModel.getCareerInfo(myMemberIdx)
+        viewModel.getEducationInfo(myMemberIdx)
+
         super.onResume()
     }
 

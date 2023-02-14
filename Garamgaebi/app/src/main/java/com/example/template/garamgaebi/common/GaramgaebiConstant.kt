@@ -9,11 +9,14 @@ const val READY = 2
 const val CLOSED = 3
 
 
+//참가자
+const val BLUE = 1
+const val ORIGIN = 2
+
 // 알림
 const val RV_ITEM = 1
 const val PROGRESSBAR = 2
 
-// 가입
 const val FIRST = 0
 const val SECOND = 1
 

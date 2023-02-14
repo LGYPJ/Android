@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+        <variable
+            name="serviceCenterFragment"
+            type="com.example.template.garamgaebi.src.main.profile.ServiceCenterFragment" />
+        <variable
+            name="serviceCenterViewModel"
+            type="com.example.template.garamgaebi.viewModel.ServiceCenterViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +49,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
-        android:text=""
+        android:text="@={serviceCenterViewModel.email}"
         android:bufferType="spannable"
         android:textSize="14sp"
         android:textColor="@color/black80"
@@ -44,6 +58,7 @@
         android:hint="@string/myemail"
         android:background="@drawable/basic_gray_border_layout"
         android:layout_marginTop="24dp"
+        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/response_email))}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_info"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -59,10 +74,11 @@
         android:paddingStart="12dp"
         android:textColorHint="@color/grayForBtn"
         android:hint="질문 유행을 선택해주세요"
-        android:background="@drawable/basic_gray_border_layout"
+        android:background="@{serviceCenterViewModel.categoryIsValid ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout}"
         android:layout_marginTop="21dp"
         android:gravity="center_vertical"
         android:clickable="false"
+        android:text="@={serviceCenterViewModel.category}"
         app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
         app:layout_constraintTop_toBottomOf="@+id/activity_sevicecenter_tv_email"
         app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email" />
@@ -81,7 +97,7 @@
         android:layout_width="0dp"
         android:layout_height="152dp"
         android:padding="11dp"
-        android:hint="내용을 적어주세요"
+        android:hint="@string/input_100"
         android:gravity="top"
         android:textSize="14sp"
         android:textColor="@color/black80"
@@ -89,6 +105,7 @@
         android:paddingStart="12dp"
         android:background="@drawable/basic_gray_border_layout"
         android:layout_marginTop="14dp"
+        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/input_100))}"
         app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
         app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_et_option"
         app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email"/>
@@ -108,6 +125,7 @@
             android:id="@+id/activity_servicecenter_checkbox"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:checked="@={serviceCenterViewModel.agree}"
             android:button="@android:color/transparent"
             android:background="@drawable/ic_checkbox_16dp"
             ></CheckBox>
@@ -132,8 +150,9 @@
         android:text="보내기"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:background="@drawable/basic_gray_btn_layout"
+        android:background="@{(serviceCenterViewModel.emailIsValid &amp;&amp; serviceCenterViewModel.categoryIsValid &amp;&amp; serviceCenterViewModel.contentIsValid &amp;&amp; serviceCenterViewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
         android:outlineProvider="none"
+        android:clickable="@{(serviceCenterViewModel.emailIsValid &amp;&amp; serviceCenterViewModel.categoryIsValid &amp;&amp; serviceCenterViewModel.contentIsValid &amp;&amp; serviceCenterViewModel.agree) ? true : false}"
         app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_checkbox_desc"
         app:layout_constraintStart_toStartOf="@id/activity_servicecenter_et_content"
         app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_content"
@@ -175,4 +194,4 @@
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</layout>

@@ -3,6 +3,7 @@ package com.example.template.garamgaebi.model
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
 import com.example.template.garamgaebi.src.main.seminar.data.SeminarPresentResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -104,8 +105,22 @@ interface ApiInterface {
     @POST("/profile/sns")
     suspend fun getCheckAddSNS(
         //@Header("accessToken") accessToken : String,
-        @Body request: SNSData
+        @Body request: AddSNSData
     ): Response<AddSNSDataResponse>
+
+    //SNS 수정
+    @PATCH("/profile/sns")
+    suspend fun patchSNS(
+        //@Header("accessToken") accessToken : String,
+        @Body request: SNSData
+    ): Response<BooleanResponse>
+
+    //SNS 삭제
+    @DELETE("/profile/sns/{snsIdx}")
+    suspend fun deleteSNS(
+        //@Header("accessToken") accessToken : String,
+        @Path("snsIdx") snsIdx: Int
+    ): Response<BooleanResponse>
 
     //고객센터 문의 요청
     @POST("/profile/qna")
@@ -113,37 +128,54 @@ interface ApiInterface {
         @Body request: QnAData
     ): Response<QnADataResponse>
 
-    //프로필 사진 저장/수정
-    @POST("/profile/images")
-    suspend fun getCheckEditProfileImg(
-        /*
-        {
-  "info": {
-    "memberIdx": 0,
-    "nickName": "string"
-  },
-  "image": "string"
-}
-         */
-    ):Response<BooleanResponse>
+    //프로필 편집 저장/수정
+    @Multipart
+    @POST("/profile/edit/{memberIdx}")
+    suspend fun getCheckEditProfile(
+        @Part info : EditProfileInfoData,
+        @Part image : MultipartBody.Part
+    ):Response<EditProfileDataResponse>
 
     //교육 추가
     @POST("/profile/education")
     suspend fun getCheckAddEducation(
-        @Body request: EducationData
+        @Body request: AddEducationData
     ): Response<AddEducationDataResponse>
 
-    //프로필 편집
-    @POST("/profile/edit/{memberIdx}")
-    suspend fun getCheckEditProfile(
-        @Body request: ProfileData
-    ): Response<EditProfileDataResponse>
+    //교육 수정
+    @PATCH("/profile/education")
+    suspend fun patchEducation(
+        //@Header("accessToken") accessToken : String,
+        @Body request: EducationData
+    ): Response<BooleanResponse>
+
+    //교육 삭제
+    @DELETE("/profile/education/{educationIdx}")
+    suspend fun deleteEducation(
+        //@Header("accessToken") accessToken : String,
+        @Path("educationIdx") educationIdx: Int
+    ): Response<BooleanResponse>
 
     //경력 추가
     @POST("/profile/career")
     suspend fun getCheckAddCareer(
-        @Body request: CareerData
+        @Body request: AddCareerData
     ): Response<AddCareerDataResponse>
+
+    //경력 수정
+    @PATCH("/profile/career")
+    suspend fun patchCareer(
+        //@Header("accessToken") accessToken : String,
+        @Body request: CareerData
+    ): Response<BooleanResponse>
+
+    //경력 삭제
+    @DELETE("/profile/career/{careerIdx}")
+    suspend fun deleteCareer(
+        //@Header("accessToken") accessToken : String,
+        @Path("careerIdx") careerIdx: Int
+    ): Response<BooleanResponse>
+
 
     //프로필 정보 조회
     @GET("/profile/{memberIdx}")
@@ -205,4 +237,8 @@ interface ApiInterface {
 
     //카카오 로그인 완료 조회
     //@GET("/member/kakao/callback")
+
+    //신청 정보 조회
+    @GET("/applies/{member-idx}/{program-idx}/info")
+    suspend fun getCancel( @Path("member-idx") memberIdx: Int, @Path("program-idx") programIdx: Int) : Response<CancelInfoResponse>
 }

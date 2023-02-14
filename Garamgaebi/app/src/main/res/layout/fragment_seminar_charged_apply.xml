@@ -188,7 +188,7 @@
                     android:id="@+id/activity_seminar_charged_apply_not_correct_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="닉네임이 일치하지 않습니다"
+                    android:text="@string/apply_not_name"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
@@ -233,7 +233,7 @@
                     android:id="@+id/activity_seminar_charged_apply_not_correct_nickname_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="닉네임이 일치하지 않습니다!"
+                    android:text="@string/apply_not_nickname"
                     android:layout_marginStart="23dp"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/seminar_red"
@@ -278,7 +278,7 @@
                     android:id="@+id/activity_seminar_charged_apply_not_correct_phone_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="번호형식이 올바르지 않습니다"
+                    android:text="@string/apply_not_phone"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/seminar_red"
@@ -313,13 +313,24 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
+                    <TextView
+                        android:id="@+id/activity_seminar_charged_info_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seminar_bank_account"
+                        android:textSize="14sp"
+                        android:layout_marginStart="3dp"
+                        android:textColor="@color/black80"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_info_tv1" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/activity_seminar_charged_copy_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/activity_seminar_charged_copy"
                         android:layout_marginStart="4dp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_info_tv1"
+                        app:layout_constraintStart_toEndOf="@+id/activity_seminar_charged_info_account"
                         app:layout_constraintTop_toTopOf="@+id/activity_seminar_charged_info_tv1"
                         app:layout_constraintBottom_toBottomOf="@+id/activity_seminar_charged_info_tv1" />
 

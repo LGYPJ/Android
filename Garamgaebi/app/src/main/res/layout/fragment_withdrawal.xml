@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+        <variable
+            name="withdrawalFragment"
+            type="com.example.template.garamgaebi.src.main.profile.WithdrawalFragment" />
+        <variable
+            name="withdrawalViewModel"
+            type="com.example.template.garamgaebi.viewModel.WithdrawalViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +34,7 @@
             android:id="@+id/activity_withdrawal_tv_noteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="탈퇴 시 유의사항"
+            android:text="@string/withdrawal_caution"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -45,7 +59,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="계정 이메일"
+            android:text="@string/account_email"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -60,7 +74,7 @@
             android:bufferType="spannable"
             android:gravity="center_vertical"
             android:paddingStart="12dp"
-            android:text="umc@naver.com"
+            android:text="@{withdrawalViewModel.email}"
             android:textColor="@color/black80"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +87,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="탈퇴 사유"
+            android:text="@string/withdrawal_reason"
             android:textColor="@color/black80"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -84,13 +98,14 @@
             android:id="@+id/activity_withdrawal_et_option"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{withdrawalViewModel.categoryIsValid ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout}"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            android:hint="탈퇴 사유를 선택해주세요"
+            android:hint="@string/withdrawal_reason_desc"
             android:gravity="center_vertical"
+            android:text="@={withdrawalViewModel.category}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_periodTitle" />
@@ -109,14 +124,17 @@
             android:layout_width="0dp"
             android:layout_height="152dp"
             android:padding="11dp"
-            android:hint="내용을 적어주세요"
+            android:hint="@string/input_content"
             android:gravity="top"
             android:textSize="14sp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:paddingStart="12dp"
+            android:text="@={withdrawalViewModel.content}"
             android:background="@drawable/basic_gray_border_layout"
             android:layout_marginTop="14dp"
+            android:visibility="@{withdrawalViewModel.category.equals(@string/etc) ? View.VISIBLE : View.GONE}"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/input_100))}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_et_option"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -134,6 +152,7 @@
                 android:id="@+id/activity_withdrawal_checkbox"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:checked="@={withdrawalViewModel.agree}"
                 android:background="@drawable/ic_checkbox_16dp"
                 android:button="@android:color/transparent"></CheckBox>
         </RelativeLayout>
@@ -145,7 +164,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="회원 탈퇴에 관한 모든 내용을 숙지하고,\n회원 탈퇴를 신청합니다."
+            android:text="@string/withdrawal_desc"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_withdrawal_checkbox_rl"
             app:layout_constraintTop_toBottomOf="@id/activity_withdrawal_et_content"></TextView>
@@ -156,10 +175,11 @@
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
             android:outlineProvider="none"
-            android:background="@drawable/basic_gray_btn_layout"
-            android:text="탈퇴하기"
+            android:background="@{(withdrawalViewModel.emailIsValid &amp;&amp; withdrawalViewModel.categoryIsValid &amp;&amp; withdrawalViewModel.contentIsValid &amp;&amp; withdrawalViewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:text="@{@string/withdrawal + @string/doing}"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:clickable="@{(withdrawalViewModel.emailIsValid &amp;&amp; withdrawalViewModel.categoryIsValid &amp;&amp; withdrawalViewModel.contentIsValid &amp;&amp; withdrawalViewModel.agree) ? true : false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -169,5 +189,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
+</layout>
 

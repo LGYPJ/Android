@@ -26,7 +26,6 @@ class GaramgaebiApplication : Application() {
     companion object {
         private lateinit var appInstance: GaramgaebiApplication
         fun getApplication() = appInstance
-
         // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
         lateinit var sSharedPreferences: SharedPreferences
 
@@ -36,6 +35,9 @@ class GaramgaebiApplication : Application() {
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
+
+        const val myMemberIdx: Int = 1
+
     }
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.

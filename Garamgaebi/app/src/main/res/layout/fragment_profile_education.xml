@@ -220,7 +220,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_education_save_btn"
-            android:layout_width="379dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
             android:background="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"

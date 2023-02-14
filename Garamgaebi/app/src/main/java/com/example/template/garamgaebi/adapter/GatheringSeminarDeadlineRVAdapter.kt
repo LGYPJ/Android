@@ -25,8 +25,10 @@ class GatheringSeminarDeadlineRVAdapter(private val dataList: ArrayList<Gatherin
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.root.setOnClickListener {
-            itemClickListener.onClick(position)
+        if(dataList[position].isOpen == "OPEN"){
+            holder.binding.root.setOnClickListener {
+                itemClickListener.onClick(position)
+            }
         }
     }
 

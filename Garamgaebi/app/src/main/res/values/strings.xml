@@ -11,6 +11,7 @@
     <string name="trueString">TRUE</string>
     <string name="falseString">FALSE</string>
 
+    <string name="add">추가</string>
     <string name="now">현재</string>
     <string name="example">example</string>
     <string name="email_form">\@gachon.ac.kr</string>
@@ -21,21 +22,25 @@
     <string name="apple">APPLE</string>
 
     <string name="nickName">닉네임</string>
-
+    <string name="edit">편집</string>
     <string name="belong">소속</string>
-
+    <string name="sns">SNS</string>
     <string name="career">경력</string>
     <string name="company">회사</string>
     <string name="position">직함</string>
     <string name="working">재직 중</string>
-
+    <string name="service_center">고객 센터</string>
     <string name="education">교육</string>
     <string name="institution">교육 기관</string>
     <string name="major">전공/과정</string>
     <string name="learning">교육 중</string>
 
+    <string name="edit_profile_hint">8자 이내로 입력해주세요 (특수문자 불가)</string>
+    <string name="oneLine_intro">한 줄 소개</string>
+    <string name="oneLine_intro_hint">한 줄 소개를 입력해주세요 (예: 프리랜서 백엔드 개발자)</string>
+    <string name="intro">자기소개</string>
     <string name="email">이메일</string>
-
+    <string name="doing">하기</string>
     <string name="working_period">재직 기간</string>
     <string name="start_date">시작년월</string>
     <string name="end_date">종료년월</string>
@@ -133,17 +138,31 @@
     <string name="home_networking_help_dialog">네트워킹은 참석자들과 서로 대화하며 진행\n되는 행사입니다</string>
     <string name="home_seminar_help_dialog">세미나는 발표 위주로 진행되는 행사입니다.</string>
 
+    <string name="etc">기타</string>
+
+
     <!-- Profile -->
+    <string name="edit_my_profile">내 프로필 편집하기</string>
+
     <string name="sns_add_type">SNS 종류</string>
     <string name="sns_add_type_desc">표시할 이름을 입력해주세요 (예:블로그, 깃허브 등)</string>
     <string name="sns_add_link">링크</string>
     <string name="sns_add_link_desc">https://</string>
 
-    <string name="sns_type_dialog_1">인스타</string>
+    <string name="sns_type_dialog_1">인스타그램</string>
     <string name="sns_type_dialog_2">블로그</string>
     <string name="sns_type_dialog_3">깃허브</string>
     <string name="sns_type_dialog_4">직접 입력</string>
+    <string name="sns_type_dialog_insta_desc">인스타그램 계정을 입력해주세요</string>
+    <string name="sns_type_dialog_blog_desc">블로그 주소를 입력해주세요</string>
+    <string name="sns_type_dialog_github_desc">깃허브 Username을 입력해주세요</string>
+    <string name="sns_address_dialog_etc_desc">링크를 직접 입력해주세요</string>
+    <string name="sns_type_dialog_etc_desc">SNS 종류를 직접 입력해주세요</string>
 
+    <string name="sns_type_dialog_insta_state">인스타그램 계정이 올바르지 않습니다</string>
+    <string name="sns_type_dialog_blog_state">블로그 주소가 올바르지 않습니다</string>
+    <string name="sns_type_dialog_github_state">깃허브 Username이 올바르지 않습니다</string>
+    <string name="sns_type_dialog_etc_state">링크가 올바르지 않습니다</string>
 
     <string name="some_id">로건</string>
     <string name="sns_desc">유저들과 소통을 위해서 SNS 주소를 남겨주세요! </string>
@@ -159,6 +178,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- serviceCenter-->
+    <string name="input_100">100자 이내로 작성해주세요</string>
+    <string name="response_email">답변받을 이메일주소</string>
+
+    <!-- withdrawal -->
+    <string name="withdrawal">탈퇴</string>
+    <string name="withdrawal_caution">탈퇴 시 유의사항</string>
+    <string name="account_email">계정 이메일</string>
+    <string name="withdrawal_reason">탈퇴 사유</string>
+    <string name="withdrawal_reason_desc">탈퇴 사유를 선택해주세요</string>
+    <string name="input_content">내용을 적어주세요</string>
+    <string name="withdrawal_desc">회원 탈퇴에 관한 모든 내용을 숙지하고,\n회원 탈퇴를 신청합니다.</string>
     <!-- seminar -->
     <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
     <string name="seminar_select_bank">은행을 선택해주세요</string>
@@ -173,7 +204,8 @@
     <string name="seminar_content">내용내용</string>
     <string name="seminar_reference">링크링크링크</string>
     <string name="seminar_presentation_preview">발표 미리보기</string>
-    <string name="seminar_bank">카카오뱅크 3333-22-5500352</string>
+    <string name="seminar_bank">카카오뱅크</string>
+    <string name="seminar_bank_account">3333-22-5500352</string>
     <string name="seminar_charged_info1">입금자명은 닉네임/이름(예: 찹도/민세림)으로 해주세요.</string>
     <string name="seminar_charged_info2">신청 확정은 신청 마감 이후에 일괄 처리됩니다.</string>
     <string name="seminar_charged_info3">신청 취소는 일주일 전까지 가능합니다.(이후로는 취소 불가)</string>
@@ -205,6 +237,11 @@
     <string name="origin_nickname_input">가입 시 닉네임을 적어주세요</string>
     <string name="origin_phone_input">숫자만 입력해주세요</string>
     <string name="main_fee">%s원</string>
+    <string name="main_participants">%s명</string>
+    <string name="no_participants">아직 참석자가 없습니다\n첫 참석자가 되어주세요!</string>
+    <string name="apply_not_name">이름 형식이 올바르지 않습니다</string>
+    <string name="apply_not_nickname">닉네임이 일치하지 않습니다</string>
+    <string name="apply_not_phone">번호 형식이 올바르지 않습니다</string>
 
     <!--networking-->
     <string name="networking_icebreaking">아이스 브레이킹</string>

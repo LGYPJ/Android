@@ -28,8 +28,10 @@ class HomeMyMeetingRVAdapter(private val dataList: ArrayList<HomeProgramResult>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.root.setOnClickListener {
-            itemClickListener.onClick(position)
+        if(dataList[position].isOpen == "OPEN"){
+            holder.binding.root.setOnClickListener {
+                itemClickListener.onClick(position)
+            }
         }
     }
 
