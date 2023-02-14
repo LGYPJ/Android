@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="registerViewModel"
+            type="com.example.template.garamgaebi.viewModel.RegisterViewModel" />
+        <variable
+            name="editTextViewModel"
+            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+        <variable
+            name="context"
+            type="com.example.template.garamgaebi.src.main.register.RegisterActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/fragment_register_indicator_first"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_authentication_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/school_certification"
+            android:textColor="@color/black80"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/fragment_authentication_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/school_certification_desc"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_title" />
+
+        <TextView
+            android:id="@+id/fragment_authentication_tv_email_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textColor="@color/black80"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_desc" />
+        <EditText
+            android:id="@+id/fragment_authentication_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:background="@drawable/register_et_border"
+            android:text="@={registerViewModel.email}"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
+            android:hint="@string/example"
+            android:paddingStart="12dp"
+            android:textColorHint="@color/grayD9"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_tv_email_title" />
+
+        <TextView
+            android:id="@+id/fragment_authentication_domain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/register_email_gachon"
+            android:textColor="@color/black80"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_authentication_et_email"
+            app:layout_constraintEnd_toEndOf="@id/fragment_authentication_et_email"
+            app:layout_constraintTop_toTopOf="@id/fragment_authentication_et_email" />
+
+        <Button
+            android:id="@+id/fragment_authentication_btn_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/register_btn_color"
+            android:clickable="@{registerViewModel.isEmailValid() ? true : false}"
+            android:onClick="@{()->registerViewModel.timerStart()}"
+            android:text="@{}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_email" />
+
+        <TextView
+            android:id="@+id/fragment_authentication_tv_ann"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_email_desc"
+            android:textColor="@color/black80"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_authentication_btn_email" />
+
+        <EditText
+            android:id="@+id/fragment_authentication_et_num"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/register_et_border"
+            android:hint="@string/certification_num"
+            android:text="@={registerViewModel.authNum}"
+            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:maxLength="6"
+            android:textColorHint="@color/grayD9"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_authentication_btn_num"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_tv_ann" />
+        <TextView
+            android:id="@+id/fragment_authentication_tv_num_ann"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_num_desc"
+            android:textColor="@color/redForText"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_num" />
+        <Button
+            android:id="@+id/fragment_authentication_btn_num"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/fragment_register_auth_btn_radius_8"
+            android:enabled="@{registerViewModel.isNumValid() ? true : false}"
+            android:stateListAnimator="@null"
+            android:text="@string/certification_num_check"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_authentication_et_num"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_authentication_et_num" />
+        <Button
+            android:id="@+id/fragment_authentication_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/register_btn_color"
+            android:stateListAnimator="@null"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

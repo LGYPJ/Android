@@ -26,7 +26,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         //툴바
         val toolbar = binding.activityContainerToolbar
         setSupportActionBar(toolbar)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/activity_complete_tv_title"
+        android:id="@+id/fragment_complete_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_complete"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/activity_complete_tv_desc"
+        android:id="@+id/fragment_complete_tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_welcome_user"
@@ -26,67 +26,67 @@
         android:textSize="25sp"
         android:textColor="@color/black80"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_complete_tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_complete_tv_title" />
     <CheckBox
-        android:id="@+id/activity_complete_cb_whole"
+        android:id="@+id/fragment_complete_cb_whole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_complete_cb_old"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_complete_cb_old"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/activity_complete_tv_whole"
+        android:id="@+id/fragment_complete_tv_whole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_agree_all"
         android:textColor="@color/black80"
         android:textStyle="bold"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_complete_cb_whole"
-        app:layout_constraintStart_toEndOf="@+id/activity_complete_cb_whole"
-        app:layout_constraintTop_toTopOf="@+id/activity_complete_cb_whole" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_whole"
+        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_whole"
+        app:layout_constraintTop_toTopOf="@+id/fragment_complete_cb_whole" />
 
     <CheckBox
-        android:id="@+id/activity_complete_cb_old"
+        android:id="@+id/fragment_complete_cb_old"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/activity_complete_cb_personal"
+        app:layout_constraintBottom_toTopOf="@id/fragment_complete_cb_personal"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/activity_complete_tv_old"
+        android:id="@+id/fragment_complete_tv_old"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_agree_over_14"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_complete_cb_old"
-        app:layout_constraintStart_toEndOf="@+id/activity_complete_cb_old"
-        app:layout_constraintTop_toTopOf="@+id/activity_complete_cb_old" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_old"
+        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_old"
+        app:layout_constraintTop_toTopOf="@+id/fragment_complete_cb_old" />
 
     <CheckBox
-        android:id="@+id/activity_complete_cb_personal"
+        android:id="@+id/fragment_complete_cb_personal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_complete_btn_next"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_complete_btn_next"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/activity_complete_tv_personal"
+        android:id="@+id/fragment_complete_tv_personal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_agree_term"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_complete_cb_personal"
-        app:layout_constraintStart_toEndOf="@+id/activity_complete_cb_personal"
-        app:layout_constraintTop_toTopOf="@id/activity_complete_cb_personal" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_personal"
+        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_personal"
+        app:layout_constraintTop_toTopOf="@id/fragment_complete_cb_personal" />
     <Button
-        android:id="@+id/activity_complete_btn_next"
+        android:id="@+id/fragment_complete_btn_next"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
