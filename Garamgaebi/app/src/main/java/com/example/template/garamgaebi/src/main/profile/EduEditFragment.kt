@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.common.BaseBindingFragment
-import com.example.template.garamgaebi.common.GaramgaebiApplication
-import com.example.template.garamgaebi.common.GaramgaebiFunction
+import com.example.template.garamgaebi.common.*
 import com.example.template.garamgaebi.databinding.FragmentProfileEducationBinding
 import com.example.template.garamgaebi.databinding.FragmentProfileEducationEditBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -23,7 +21,7 @@ import com.example.template.garamgaebi.viewModel.EducationViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding>(R.layout.fragment_profile_education_edit) {
+class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding>(R.layout.fragment_profile_education_edit),ConfirmDialogInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -90,21 +88,22 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             Log.d("education_endDate_true",viewModel.startDateIsValid.value.toString())
         })
 
-        binding.activityEducationSaveBtn.setOnClickListener {
-            viewModel.postEducationInfo()
-            Log.d("education_add_button","success")
-        }
+
 
         binding.activityEducationSaveBtn.setOnClickListener {
             //편집 저장하기
-            viewModel.postEducationInfo()
+            viewModel.patchEducationInfo()
             (activity as ContainerActivity).onBackPressed()
             Log.d("edu_edit_button","success")
         }
+
         binding.activityEducationRemoveBtn.setOnClickListener {
+            val dialog = ConfirmDialog(this, getString(R.string.delete_done), 1)
+            // 알림창이 띄워져있는 동안 배경 클릭 막기
+            dialog.isCancelable = false
+            dialog.show(activity?.supportFragmentManager!!, "com.example.template.garamgaebi.common.ConfirmDialog")
             //삭제하기
             viewModel.deleteEducationInfo()
-            (activity as ContainerActivity).onBackPressed()
             Log.d("edu_remove_button","success")
         }
 
@@ -205,5 +204,9 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         if(end.isEmpty()) checkResult = false
 
         return checkResult
+    }
+
+    override fun onYesButtonClick(id: Int) {
+        (activity as ContainerActivity).onBackPressed()
     }
 }

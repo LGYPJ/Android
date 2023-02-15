@@ -13,9 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
-import com.example.template.garamgaebi.common.BaseBindingFragment
-import com.example.template.garamgaebi.common.BaseFragment
-import com.example.template.garamgaebi.common.GaramgaebiApplication
+import com.example.template.garamgaebi.common.*
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerEditBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
@@ -26,7 +24,7 @@ import com.example.template.garamgaebi.viewModel.SNSViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit) {
+class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit),ConfirmDialogInterface{
     private lateinit var callback: OnBackPressedCallback
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,9 +95,12 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         })
 
         binding.activityCareerRemoveBtn.setOnClickListener {
+            val dialog = ConfirmDialog(this, getString(R.string.delete_done), 1)
+            // 알림창이 띄워져있는 동안 배경 클릭 막기
+            dialog.isCancelable = false
+            dialog.show(activity?.supportFragmentManager!!, "com.example.template.garamgaebi.common.ConfirmDialog")
             //경력 삭제
             viewModel.deleteCareerInfo()
-            (activity as ContainerActivity).onBackPressed()
             Log.d("career_remove_button","success")
         }
         binding.activityCareerSaveBtn.setOnClickListener {
@@ -217,6 +218,9 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         if(end.isEmpty()) checkResult = false
 
         return checkResult
+    }
+    override fun onYesButtonClick(id: Int) {
+        (activity as ContainerActivity).onBackPressed()
     }
 
 }

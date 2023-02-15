@@ -1,5 +1,7 @@
 package com.example.template.garamgaebi.src.main.profile
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +29,8 @@ import com.example.template.garamgaebi.model.ProfileDataResponse
 import com.example.template.garamgaebi.model.SNSData
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.ProfileViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
@@ -108,6 +113,18 @@ class MyProfileFragment :
 
                 }
             })
+            binding.activityMyProfileTvEmail.setOnClickListener {
+                val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                // 새로운 ClipData 객체로 데이터 복사하기
+                val clip: ClipData =
+                    ClipData.newPlainText("sns_address", this.email.value)
+
+                // 새로운 클립 객체를 클립보드에 배치합니다.
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
+
+            }
             //SNS 정보 어댑터 연결
             getSNSInfo(myMemberIdx)
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
@@ -258,7 +275,6 @@ class MyProfileFragment :
 
     override fun onResume() {
         Log.d("onResume","yes__")
-
         viewModel.getProfileInfo(myMemberIdx)
         viewModel.getSNSInfo(myMemberIdx)
         viewModel.getCareerInfo(myMemberIdx)
@@ -266,6 +282,7 @@ class MyProfileFragment :
 
         super.onResume()
     }
+
 
     override fun onDetach() {
         super.onDetach()

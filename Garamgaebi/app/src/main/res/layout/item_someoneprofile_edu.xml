@@ -22,7 +22,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/black80"
-
+                android:maxLines="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 >
@@ -34,6 +34,7 @@
                 android:text="@{item.major}"
                 android:textColor="@color/black80"
                 android:textSize="14sp"
+                android:maxLines="1"
                 android:layout_marginTop="4dp"
                 app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_list_item_tvName"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +50,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_myprofile_edu_list_item_tvContent"
-
-                ></TextView>
+             />
             <TextView
                 android:id="@+id/activity_myprofile_edu_list_item_tv_Textperiod"
                 android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
                 app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
-                ></TextView>
+                />
             <TextView
                 android:id="@+id/activity_myprofile_edu_list_item_tv_endPeriod"
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toEndOf="@id/activity_myprofile_edu_list_item_tv_Textperiod"
                 app:layout_constraintTop_toTopOf="@id/activity_myprofile_edu_list_item_tv_startPeriod"
-                ></TextView>
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
