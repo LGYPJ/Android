@@ -248,7 +248,7 @@ interface ApiInterface {
     suspend fun postGameMember(@Body gameMemberPostRequest: GameMemberPostRequest) : Response<GameMemberPostResponse>
 
     //game member delete
-    @DELETE("/game/member")
+    @HTTP(method = "DELETE", path="/game/member", hasBody = true)
     suspend fun deleteGameMember(@Body gameMemberDeleteRequest: GameMemberDeleteRequest) : Response<GameMemberDeleteResponse>
 
     //game room get

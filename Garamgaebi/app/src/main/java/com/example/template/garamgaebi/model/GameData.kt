@@ -46,7 +46,9 @@ data class GameImagesResponse(
     val result : List<String>
 ):BaseResponse()
 
-
+/*data class GameImagesResult(
+    val img : String
+)*/
 //member get
 data class GameMemberGetRequest(
     val roomId : String
@@ -60,4 +62,9 @@ data class GameMemberGetResult(
     val memberIdx: Int,
     val nickname : String,
     val profileUrl : String
+)
+
+data class GameMemberGetResultRe(
+    val result : GameMemberGetResult,
+    val next : Boolean = false
 )
