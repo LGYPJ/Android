@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_career_info"
             android:layout_width="0dp"

@@ -1,10 +1,13 @@
 package com.garamgaebi.garamgaebi.viewModel
 
+
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.model.RegisterEmailResponse
 import com.garamgaebi.garamgaebi.repository.RegisterRepository
 import kotlinx.coroutines.Job
@@ -15,13 +18,19 @@ import java.util.regex.Pattern
 class RegisterViewModel : ViewModel(){
     private val registerRepository = RegisterRepository()
 
-    val email = MutableLiveData<String>("")
+    val socialEmail = MutableLiveData<String>("")
+    val uniEmail = MutableLiveData<String>("")
     val emailFocusing = MutableLiveData<Boolean>(false)
+
     val timerFirst = MutableLiveData<Boolean>(true)
     val isTimerRunning = MutableLiveData<Boolean>(false)
+
     val authNum = MutableLiveData<String>("")
+    val authNumFocusing = MutableLiveData<Boolean>(false)
+
     val isEmailValid = MutableLiveData<Boolean>(false)
     val isNumValid = MutableLiveData<Boolean>(false)
+    val isAuthWrong = MutableLiveData<Boolean>(false)
     val isCompleteAuth = MutableLiveData<Boolean>(false)
 
     private val _emailConfirm = MutableLiveData<RegisterEmailResponse>()
@@ -30,8 +39,6 @@ class RegisterViewModel : ViewModel(){
 
     var _timerCount = MutableLiveData<Int>(5)
     lateinit var timer : Job
-    val timerCount : LiveData<Int>
-        get() = _timerCount
 
 
 
@@ -69,6 +76,13 @@ class RegisterViewModel : ViewModel(){
 
     fun checkEmail(): Boolean {
         val validation = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z[0-9]]{5,20}$"
-        return Pattern.matches(validation, email.value)
+        return Pattern.matches(validation, uniEmail.value)
+    }
+    fun checkAuthNum() : Boolean {
+        val validation = "^[0-9]{6}$"
+        return Pattern.matches(validation, authNum.value)
+    }
+    fun getEmail(context: Context) : String {
+        return uniEmail.value+context.getString(R.string.register_email_gachon)
     }
 }
