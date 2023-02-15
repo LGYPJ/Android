@@ -28,69 +28,57 @@ class ServiceCenterFragment :
         //뒤로가기
 
         val viewModel = ViewModelProvider(this)[ServiceCenterViewModel::class.java]
-        binding.setVariable(BR.serviceCenterViewModel,viewModel)
-        binding.serviceCenterViewModel = viewModel
+        binding.setVariable(BR.viewModel,viewModel)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
-        val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
-        binding.setVariable(BR.editTextViewModel,editTextViewModel)
 
         viewModel.email.observe(viewLifecycleOwner, Observer {
-            binding.serviceCenterViewModel = viewModel
+            binding.viewModel = viewModel
 
             //email 유효성 검사 부분
-            if(it.length < 22 && it.isNotEmpty())
-                viewModel.emailIsValid.value = true
-
+            viewModel.emailIsValid.value = it.length < 22 && it.isNotEmpty() && it.contains("@")
             Log.d("qna_email_true",viewModel.emailIsValid.value.toString())
         })
+
         viewModel.category.observe(viewLifecycleOwner, Observer {
-            binding.serviceCenterViewModel = viewModel
+            binding.viewModel = viewModel
             if(it.isNotEmpty())
                 viewModel.categoryIsValid.value = true
 
             Log.d("qna_category_true",viewModel.categoryIsValid.value.toString())
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
-            binding.serviceCenterViewModel = viewModel
+            binding.viewModel = viewModel
 
             viewModel.contentIsValid.value = it.length < 100
 
             Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
         viewModel.agree.observe(viewLifecycleOwner, Observer {
-            binding.serviceCenterViewModel = viewModel
+            binding.viewModel = viewModel
 
             viewModel.agreeIsValid.value = binding.activityServicecenterCheckbox.isChecked
 
             Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
 
+        with(viewModel){
+            emailHint.value = getString(R.string.response_email_desc)
+            emailState.value = getString(R.string.email_wrong_state)
+
+        }
 
         //동의 체크박스 클릭 이벤트
         binding.activityServicecenterCheckboxDesc.setOnClickListener {
             var preCheck = binding.activityServicecenterCheckbox.isChecked
             viewModel.agree.value = !preCheck
-
-           // binding.activityServicecenterCheckbox.isChecked = !preCheck
-
-//                if (checkInfo()){
-//                    binding.activityServicecenterSendBtn.isClickable = true
-//                    binding.activityServicecenterSendBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-//                }else{
-//                    binding.activityServicecenterSendBtn.isClickable = false
-//                    binding.activityServicecenterSendBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-//                }
         }
 
         binding.activityServicecenterSendBtn.setOnClickListener {
-            if (checkInfo() == true){
-                //문의 보내기 기능 추가
+
                 viewModel.postQna()
                 (activity as ContainerActivity).onBackPressed()
-                Log.d("qna_success","입니다")
-            }else{
-                //저장 불가 및 이유
-            }
         }
 
         //회원탈퇴 이동
@@ -105,13 +93,11 @@ class ServiceCenterFragment :
             //로그아웃으로 이동
         }
 
-        //이메일 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activitySevicecenterTvEmail)
-
-        //문의내용 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activityServicecenterEtContent)
 
         binding.activityServicecenterEtOption.setOnClickListener {
+            viewModel.categoryFocusing.value = true
+            viewModel.categoryFirst.value = false
+
             val orderBottomDialogFragment: ServiceCenterOrderBottomdialogFragment = ServiceCenterOrderBottomdialogFragment {
                 when (it) {
                     0 -> {
@@ -138,47 +124,6 @@ class ServiceCenterFragment :
             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
       }
-    fun checkEtInput(view: EditText) {
-        view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.basic_black_border_layout)
-            } else {
-                view.setBackgroundResource(R.drawable.basic_gray_border_layout)
-            }
-        }
-        view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (checkInfo()){
-                    binding.activityServicecenterSendBtn.isClickable = true
-                    binding.activityServicecenterSendBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-                }else{
-                    binding.activityServicecenterSendBtn.isClickable = false
-                    binding.activityServicecenterSendBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-                }
-            }
-        })
-    }
-    fun checkInfo() : Boolean{
-        var  checkResult = true
-        var option = binding.activityServicecenterEtOption.text.toString()
-        var content = binding.activityServicecenterEtContent.text.toString()
-
-
-        //질문 선택 확인 기능
-        if(option.isEmpty()) checkResult = false
-
-        //내용 확인 기능
-        if(content.isEmpty()) {
-            checkResult = false
-        }
-
-        if(!binding.activityServicecenterCheckbox.isChecked){
-            checkResult = false
-        }
-        return checkResult
-    }
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)

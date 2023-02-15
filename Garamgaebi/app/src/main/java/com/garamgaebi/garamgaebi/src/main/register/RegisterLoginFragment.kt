@@ -18,6 +18,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 
+
 class RegisterLoginFragment : BaseFragment<FragmentRegisterLoginBinding>(
     FragmentRegisterLoginBinding::bind, R.layout.fragment_register_login) {
     lateinit var registerActivity : RegisterActivity

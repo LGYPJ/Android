@@ -31,7 +31,7 @@ class SNSViewModel : ViewModel(){
     init { snsAddressIsValid.value = false}
 
 
-    //유효성 검사를 위한 부분
+    //유효성 검사를 위한 부분 1)SNS 종류 2)SNS 주소
 
     //포커싱 감지
     val snsTypeFocusing = MutableLiveData<Boolean>(false)

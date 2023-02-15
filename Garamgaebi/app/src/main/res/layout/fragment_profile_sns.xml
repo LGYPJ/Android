@@ -2,10 +2,6 @@
 <layout>
     <data>
         <import type="android.view.View"/>
-        <import type="com.garamgaebi.garamgaebi.src.main.profile.SnsAddFragment"/>
-        <variable
-            name="snsAddFragment"
-            type="com.garamgaebi.garamgaebi.src.main.profile.SnsAddFragment" />
         <variable
             name="snsViewModel"
             type="com.garamgaebi.garamgaebi.viewModel.SNSViewModel" />

@@ -2,15 +2,11 @@
 <layout>
     <data>
         <import type="android.view.View"/>
-        <import type="com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment"/>
-        <variable
-            name="editTextViewModel"
-            type="com.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
         <variable
             name="withdrawalFragment"
             type="com.garamgaebi.garamgaebi.src.main.profile.WithdrawalFragment" />
         <variable
-            name="withdrawalViewModel"
+            name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,7 +70,7 @@
             android:bufferType="spannable"
             android:gravity="center_vertical"
             android:paddingStart="12dp"
-            android:text="@{withdrawalViewModel.email}"
+            android:text="@{viewModel.email}"
             android:textColor="@color/black80"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,14 +94,14 @@
             android:id="@+id/activity_withdrawal_et_option"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@{withdrawalViewModel.categoryIsValid ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout}"
+            android:background="@{viewModel.categoryFirst || viewModel.categoryIsValid? (viewModel.categoryFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_gray_border_layout}"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
             android:hint="@string/withdrawal_reason_desc"
             android:gravity="center_vertical"
-            android:text="@={withdrawalViewModel.category}"
+            android:text="@={viewModel.category}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_periodTitle" />
@@ -123,21 +119,34 @@
             android:id="@+id/activity_withdrawal_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
-            android:padding="11dp"
-            android:hint="@string/input_content"
+            android:layout_marginTop="14dp"
+            android:background="@{viewModel.contentFirst || viewModel.contentIsValid ? (viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:gravity="top"
-            android:textSize="14sp"
+            android:hint='@{viewModel.contentFocusing ? "" : @string/input_content}'
+            android:padding="11dp"
+            android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
-            android:paddingStart="12dp"
-            android:text="@={withdrawalViewModel.content}"
-            android:background="@drawable/basic_gray_border_layout"
-            android:layout_marginTop="14dp"
-            android:visibility="@{withdrawalViewModel.category.equals(@string/etc) ? View.VISIBLE : View.GONE}"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/input_100))}"
+            android:textSize="14sp"
+            android:text="@={viewModel.content}"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.contentFocusing,viewModel.contentFirst,check)}"
+            android:visibility="@{viewModel.category.equals(@string/etc) ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_et_option"
             app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/activity_content_et_name_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayD9"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            android:text='@{viewModel.content.length() +"/100"}'
+            app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_et_content"
+            app:layout_constraintBottom_toBottomOf="@id/activity_withdrawal_et_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            />
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_withdrawal_checkbox_rl"
             android:layout_width="16dp"
@@ -152,7 +161,7 @@
                 android:id="@+id/activity_withdrawal_checkbox"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:checked="@={withdrawalViewModel.agree}"
+                android:checked="@={viewModel.agree}"
                 android:background="@drawable/ic_checkbox_16dp"
                 android:button="@android:color/transparent"></CheckBox>
         </RelativeLayout>
@@ -175,11 +184,11 @@
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
             android:outlineProvider="none"
-            android:background="@{(withdrawalViewModel.emailIsValid &amp;&amp; withdrawalViewModel.categoryIsValid &amp;&amp; withdrawalViewModel.contentIsValid &amp;&amp; withdrawalViewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:background="@{(!viewModel.categoryFirst &amp;&amp; !viewModel.contentFirst &amp;&amp; viewModel.categoryIsValid  &amp;&amp; viewModel.contentIsValid  &amp;&amp; viewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@{@string/withdrawal + @string/doing}"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:clickable="@{(withdrawalViewModel.emailIsValid &amp;&amp; withdrawalViewModel.categoryIsValid &amp;&amp; withdrawalViewModel.contentIsValid &amp;&amp; withdrawalViewModel.agree) ? true : false}"
+            android:clickable="@{(viewModel.categoryIsValid &amp;&amp; viewModel.contentIsValid &amp;&amp; viewModel.agree) ? true : false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

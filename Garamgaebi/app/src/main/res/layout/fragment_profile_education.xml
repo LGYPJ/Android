@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View"/>
         <variable
-            name="educationViewModel"
+            name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.EducationViewModel" />
-        <variable
-            name="editTextViewModel"
-            type="com.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -42,16 +40,15 @@
             android:id="@+id/activity_education_et_institutionDesc"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-
+            android:background="@{viewModel.institutionFirst || viewModel.institutionIsValid ? (viewModel.institutionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:gravity="center_vertical"
-            android:hint="@string/register_input_institution_desc"
+            android:hint='@{viewModel.institutionFocusing ? "" : viewModel.institutionHint}'
             android:paddingStart="12dp"
-            android:text="@={educationViewModel.institution}"
+            android:text="@={viewModel.institution}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_institution_desc))}"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.institutionFocusing,viewModel.institutionFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_education_tv_institutionTitle" />
@@ -59,13 +56,26 @@
             android:id="@+id/caution_input_institution_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/caution_input_22"
+            android:text="@{viewModel.institutionState}"
             android:textColor="@color/redForText"
-            android:visibility="invisible"
+            android:visibility="@{viewModel.institutionFirst || viewModel.institutionIsValid ? View.INVISIBLE : View.VISIBLE}"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/activity_education_et_institutionDesc"
             app:layout_constraintTop_toBottomOf="@id/activity_education_et_institutionDesc" />
+
+        <TextView
+            android:id="@+id/activity_education_institution_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayD9"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:text='@{viewModel.institution.length() +"/22"}'
+            app:layout_constraintEnd_toEndOf="@id/activity_education_et_institutionDesc"
+            app:layout_constraintBottom_toTopOf="@id/activity_education_et_institutionDesc"
+            android:layout_marginBottom="4dp"
+            />
 
         <TextView
             android:id="@+id/activity_education_tv_majorTitle"
@@ -84,16 +94,15 @@
             android:id="@+id/activity_education_et_majorDesc"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-
+            android:background="@{viewModel.majorFirst || viewModel.majorIsValid ? (viewModel.majorFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:gravity="center_vertical"
-            android:hint="@string/register_input_major"
+            android:hint='@{viewModel.majorFocusing ? "" : viewModel.majorHint}'
             android:paddingStart="12dp"
-            android:text="@={educationViewModel.major}"
+            android:text="@={viewModel.major}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_major))}"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.majorFocusing,viewModel.majorFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_majorTitle" />
@@ -103,12 +112,23 @@
             android:layout_height="wrap_content"
             android:text="@string/caution_input_22"
             android:textColor="@color/redForText"
-            android:visibility="invisible"
+            android:visibility="@{viewModel.majorFirst || viewModel.majorIsValid ? View.INVISIBLE : View.VISIBLE}"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/activity_education_et_majorDesc"
             app:layout_constraintTop_toBottomOf="@id/activity_education_et_majorDesc" />
-
+        <TextView
+            android:id="@+id/activity_education_tv_major_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayD9"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:text='@{viewModel.major.length() +"/22"}'
+            app:layout_constraintEnd_toEndOf="@id/activity_education_et_majorDesc"
+            app:layout_constraintBottom_toTopOf="@id/activity_education_et_majorDesc"
+            android:layout_marginBottom="4dp"
+            />
         <TextView
             android:id="@+id/activity_education_tv_periodTitle"
             android:layout_width="wrap_content"
@@ -126,15 +146,16 @@
             android:id="@+id/activity_education_et_startPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.startFirst || viewModel.startDateIsValid ? (viewModel.startFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:gravity="center_vertical"
             android:hint="@string/start_date"
-            android:padding="11dp"
+            android:padding="14dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            android:text="@={educationViewModel.startDate}"
+            android:text="@={viewModel.startDate}"
+            android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@id/activity_education_tv_period"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
@@ -159,13 +180,13 @@
             app:layout_constraintBottom_toBottomOf="@id/activity_education_et_startPeriod"
             app:layout_constraintEnd_toStartOf="@id/activity_education_et_endPeriod"
             app:layout_constraintStart_toEndOf="@id/activity_education_et_startPeriod"
-            app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"></TextView>
+            app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"/>
 
         <TextView
             android:id="@+id/activity_education_et_endPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.endFirst || viewModel.endDateIsValid ? (viewModel.endFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:gravity="center_vertical"
             android:hint="@string/end_date"
             android:padding="11dp"
@@ -186,7 +207,7 @@
             app:layout_constraintEnd_toEndOf="@id/activity_education_et_endPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_education_et_endPeriod"
             app:layout_constraintBottom_toBottomOf="@id/activity_education_et_endPeriod"
-            ></ImageView>
+            />
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_education_checkbox_rl"
             android:layout_width="16dp"
@@ -203,7 +224,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/ic_checkbox_16dp"
-                android:button="@android:color/transparent"></CheckBox>
+                android:button="@android:color/transparent"/>
         </RelativeLayout>
 
         <TextView
@@ -216,22 +237,22 @@
             android:text="@string/learning"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_education_checkbox_rl"
-            app:layout_constraintTop_toBottomOf="@id/activity_education_et_startPeriod"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/activity_education_et_startPeriod"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_education_save_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:background="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-            android:outlineProvider="none"
+            android:background="@{(!viewModel.institutionFirst &amp;&amp; !viewModel.majorFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.institutionIsValid &amp;&amp; viewModel.majorIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:clickable="@{(educationViewModel.institutionIsValid &amp;&amp; educationViewModel.majorIsValid &amp;&amp; educationViewModel.startDateIsValid &amp;&amp; educationViewModel.endDateIsValid) ? true : false}"
+            android:outlineProvider="none"
+            android:clickable="@{(!viewModel.institutionFirst &amp;&amp; !viewModel.majorFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.institutionIsValid &amp;&amp; viewModel.majorIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

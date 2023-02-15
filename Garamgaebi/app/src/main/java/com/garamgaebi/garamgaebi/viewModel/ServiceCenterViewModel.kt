@@ -11,8 +11,6 @@ import kotlinx.coroutines.launch
 
 class ServiceCenterViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
-    var addressFirst : Boolean = false
-    var typeFirst: Boolean = false
 
     val email = MutableLiveData<String>()
     init { email.value = ""}
@@ -37,6 +35,41 @@ class ServiceCenterViewModel : ViewModel(){
 
     val agreeIsValid = MutableLiveData<Boolean>()
     init { agreeIsValid.value = false}
+
+    /*유효성 검사를 위한 부분
+   * 1) 이메일
+   * 2) 문의사유
+   * 3) 내용
+   * 4) 동의
+   * * */
+
+    //포커싱 감지
+    val emailFocusing = MutableLiveData<Boolean>(false)
+    val categoryFocusing = MutableLiveData<Boolean>(false)
+    val contentFocusing = MutableLiveData<Boolean>(false)
+
+    //첫 입력 확인
+    var emailFirst = MutableLiveData<Boolean>(true)
+    var categoryFirst = MutableLiveData<Boolean>(true)
+    var contentFirst = MutableLiveData<Boolean>(true)
+
+    //hint 문구
+    var emailHint= MutableLiveData<String>("")
+    var categoryHint = MutableLiveData<String>("")
+    var contentHint = MutableLiveData<String>("")
+
+    //checkBox
+    var checkBox = MutableLiveData<Boolean>(false)
+
+    //유효성 문구
+    var emailState = MutableLiveData<String>("")
+    fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        Log.d("링크 focusing입니다",data.value.toString())
+        Log.d("링크 첫입력입니다",first.value.toString())
+    }
+
 
     private val _qna = MutableLiveData<QnADataResponse>()
     val qna : LiveData<QnADataResponse>

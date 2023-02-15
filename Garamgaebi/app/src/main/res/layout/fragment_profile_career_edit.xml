@@ -1,230 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View"/>
         <variable
-            name="careerViewModel"
+            name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.CareerViewModel" />
-        <variable
-            name="commonFunction"
-            type="com.garamgaebi.garamgaebi.common.GaramgaebiFunction" />
-        <variable
-            name="editTextViewModel"
-            type="com.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
-    </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+           </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/activity_career_info"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/activity_career_tv_companyTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:text="@string/company"
-            android:textColor="@color/black80"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/activity_career_et_companyDesc"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_career_info"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-
-            android:gravity="center_vertical"
-            android:hint="@string/register_input_company_desc"
-            android:paddingStart="12dp"
-            android:text="@={careerViewModel.company}"
-            android:textColor="@color/black80"
-            android:textColorHint="@color/grayForBtn"
-            android:textSize="14sp"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_company_desc))}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_career_tv_companyTitle" />
-
-        <TextView
-            android:id="@+id/caution_input_company_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/caution_input_22"
-            android:textColor="@color/redForText"
-            android:visibility="invisible"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@id/activity_career_et_companyDesc"
-            app:layout_constraintTop_toBottomOf="@id/activity_career_et_companyDesc" />
-
-        <TextView
-            android:id="@+id/activity_career_tv_positionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:text="@string/position"
-            android:textColor="@color/black80"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_career_et_companyDesc" />
-
-        <EditText
-            android:id="@+id/activity_career_et_position"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-
-            android:gravity="center_vertical"
-            android:hint="@string/register_input_position_desc"
-            android:paddingStart="12dp"
-            android:text="@={careerViewModel.position}"
-            android:textColor="@color/black80"
-            android:textColorHint="@color/grayForBtn"
-            android:textSize="14sp"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/register_input_position_desc))}"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_positionTitle" />
-        <TextView
-            android:id="@+id/caution_input_position_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/caution_input_22"
-            android:textColor="@color/redForText"
-            android:visibility="invisible"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@id/activity_career_et_position"
-            app:layout_constraintTop_toBottomOf="@id/activity_career_et_position" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/activity_career_tv_periodTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:text="@string/working_period"
-            android:textColor="@color/black80"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_career_et_position" />
+            <TextView
+                android:id="@+id/activity_career_tv_companyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:text="@string/company"
+                android:textColor="@color/black80"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/activity_career_et_startPeriod"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/basic_gray_border_layout"
-            android:gravity="center_vertical"
-            android:hint="@string/start_date"
-            android:padding="14dp"
-            android:paddingStart="12dp"
-            android:textColor="@color/black80"
-            android:textColorHint="@color/grayForBtn"
-            android:textSize="14sp"
-            android:text="@={careerViewModel.startDate}"
-            android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@id/activity_career_tv_period"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="12dp"
-            android:clickable="false"
-            android:src="@drawable/ic_calendar_20dp"
-            app:layout_constraintEnd_toEndOf="@id/activity_career_et_startPeriod"
-            app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"
-            app:layout_constraintBottom_toBottomOf="@id/activity_career_et_startPeriod"
-            ></ImageView>
-        <TextView
-            android:id="@+id/activity_career_tv_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="14.5dp"
-            android:text="~"
-            android:textColor="@color/grayForBtn"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/activity_career_et_startPeriod"
-            app:layout_constraintEnd_toStartOf="@id/activity_career_et_endPeriod"
-            app:layout_constraintStart_toEndOf="@id/activity_career_et_startPeriod"
-            app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"></TextView>
+            <EditText
+                android:id="@+id/activity_career_et_companyDesc"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{viewModel.companyFirst || viewModel.companyIsValid ? (viewModel.companyFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint='@{viewModel.companyFocusing ? "" : viewModel.companyHint}'
+                android:paddingStart="12dp"
+                android:text="@={viewModel.company}"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayForBtn"
+                android:textSize="14sp"
+                app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.companyFocusing,viewModel.companyFirst,check)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_career_tv_companyTitle" />
 
-        <TextView
-            android:id="@+id/activity_career_et_endPeriod"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:background="@drawable/basic_gray_border_layout"
-            android:gravity="center_vertical"
-            android:hint="@string/end_date"
-            android:padding="11dp"
-            android:paddingStart="12dp"
-            android:textColor="@color/black80"
-            android:textColorHint="@color/grayForBtn"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
-            app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="12dp"
-            android:clickable="false"
-            android:src="@drawable/ic_calendar_20dp"
-            app:layout_constraintEnd_toEndOf="@id/activity_career_et_endPeriod"
-            app:layout_constraintTop_toTopOf="@id/activity_career_et_endPeriod"
-            app:layout_constraintBottom_toBottomOf="@id/activity_career_et_endPeriod"
-            ></ImageView>
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/activity_career_checkbox_rl"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            <TextView
+                android:id="@+id/caution_input_company_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.companyState}"
+                android:textColor="@color/redForText"
+                android:visibility="@{viewModel.companyFirst || viewModel.companyIsValid ? View.INVISIBLE : View.VISIBLE}"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/activity_career_et_companyDesc"
+                app:layout_constraintTop_toBottomOf="@id/activity_career_et_companyDesc" />
+            <TextView
+                android:id="@+id/activity_career_tv_company_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayD9"
+                android:textSize="14sp"
+                android:visibility="visible"
+                android:text='@{viewModel.company.length() +"/22"}'
+                app:layout_constraintEnd_toEndOf="@id/activity_career_et_companyDesc"
+                app:layout_constraintBottom_toTopOf="@id/activity_career_et_companyDesc"
+                android:layout_marginBottom="4dp"
+                />
 
-            android:background="@drawable/activity_servicecenter_checkbox_container"
-            android:clipToOutline="true"
-            app:layout_constraintBottom_toBottomOf="@id/activity_career_checkbox_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/activity_career_checkbox_desc">
+            <TextView
+                android:id="@+id/activity_career_tv_positionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/position"
+                android:textColor="@color/black80"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_career_et_companyDesc" />
 
-            <CheckBox
-                android:id="@+id/activity_career_checkbox"
+            <EditText
+                android:id="@+id/activity_career_et_position"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{viewModel.positionFirst || viewModel.positionIsValid ? (viewModel.positionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint='@{viewModel.positionFocusing ? "" : viewModel.positionHint}'
+                android:paddingStart="12dp"
+                android:text="@={viewModel.position}"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayForBtn"
+                android:textSize="14sp"
+                app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.positionFocusing,viewModel.positionFirst,check)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_positionTitle" />
+            <TextView
+                android:id="@+id/caution_input_position_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.positionState}"
+                android:textColor="@color/redForText"
+                android:visibility="@{viewModel.positionFirst || viewModel.positionIsValid ? View.INVISIBLE : View.VISIBLE}"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/activity_career_et_position"
+                app:layout_constraintTop_toBottomOf="@id/activity_career_et_position" />
+            <TextView
+                android:id="@+id/activity_career_tv_position_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayD9"
+                android:textSize="14sp"
+                android:visibility="visible"
+                android:text='@{viewModel.position.length() +"/22"}'
+                app:layout_constraintEnd_toEndOf="@id/activity_career_et_position"
+                app:layout_constraintBottom_toTopOf="@id/activity_career_et_position"
+                android:layout_marginBottom="4dp"
+                />
+            <TextView
+                android:id="@+id/activity_career_tv_periodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/working_period"
+                android:textColor="@color/black80"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_career_et_position" />
+
+            <TextView
+                android:id="@+id/activity_career_et_startPeriod"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@{viewModel.startFirst || viewModel.startDateIsValid ? (viewModel.startFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint="@string/start_date"
+                android:padding="14dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayForBtn"
+                android:textSize="14sp"
+                android:text="@={viewModel.startDate}"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@id/activity_career_tv_period"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="12dp"
+                android:clickable="false"
+                android:src="@drawable/ic_calendar_20dp"
+                app:layout_constraintEnd_toEndOf="@id/activity_career_et_startPeriod"
+                app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"
+                app:layout_constraintBottom_toBottomOf="@id/activity_career_et_startPeriod"
+                />
+            <TextView
+                android:id="@+id/activity_career_tv_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="14.5dp"
+                android:text="~"
+                android:textColor="@color/grayForBtn"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/activity_career_et_startPeriod"
+                app:layout_constraintEnd_toStartOf="@id/activity_career_et_endPeriod"
+                app:layout_constraintStart_toEndOf="@id/activity_career_et_startPeriod"
+                app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"/>
+
+            <TextView
+                android:id="@+id/activity_career_et_endPeriod"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{viewModel.endFirst || viewModel.endDateIsValid ? (viewModel.endFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint="@string/end_date"
+                android:padding="11dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayForBtn"
+                android:textSize="14sp"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
+                app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="12dp"
+                android:clickable="false"
+                android:src="@drawable/ic_calendar_20dp"
+                app:layout_constraintEnd_toEndOf="@id/activity_career_et_endPeriod"
+                app:layout_constraintTop_toTopOf="@id/activity_career_et_endPeriod"
+                app:layout_constraintBottom_toBottomOf="@id/activity_career_et_endPeriod"
+                />
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/activity_career_checkbox_rl"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:checked="@{careerViewModel.isWorking().toString().equals(@string/trueString)}"
-                android:background="@drawable/ic_checkbox_16dp"
-                android:button="@android:color/transparent"></CheckBox>
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/activity_career_checkbox_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:text="@string/working"
-            android:textColor="#8A8A8A"
-            app:layout_constraintStart_toEndOf="@id/activity_career_checkbox_rl"
-            app:layout_constraintTop_toBottomOf="@id/activity_career_et_startPeriod"></TextView>
+                android:background="@drawable/activity_servicecenter_checkbox_container"
+                android:clipToOutline="true"
+                app:layout_constraintBottom_toBottomOf="@id/activity_career_checkbox_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/activity_career_checkbox_desc">
 
-        <androidx.appcompat.widget.AppCompatButton
+                <CheckBox
+                    android:id="@+id/activity_career_checkbox"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:checked="@={viewModel.checkBox}"
+                    android:background="@drawable/ic_checkbox_16dp"
+                    android:button="@android:color/transparent"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/activity_career_checkbox_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/working"
+                android:textColor="#8A8A8A"
+                app:layout_constraintStart_toEndOf="@id/activity_career_checkbox_rl"
+                app:layout_constraintTop_toBottomOf="@id/activity_career_et_startPeriod"/>
+            <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_career_remove_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -240,19 +255,18 @@
             app:layout_constraintBottom_toBottomOf="parent">
         </androidx.appcompat.widget.AppCompatButton>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_career_save_btn"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
-            android:background="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-            android:text="@string/save"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:outlineProvider="none"
-            android:layout_marginStart="3dp"
-            android:clickable="@{(careerViewModel.companyIsValid &amp;&amp; careerViewModel.positionIsValid &amp;&amp; careerViewModel.startDateIsValid &amp;&amp; careerViewModel.endDateIsValid) ? true : false}"
-            app:layout_constraintStart_toEndOf="@id/activity_career_remove_btn"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/activity_career_save_btn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="68dp"
+                android:background="@{(!viewModel.companyFirst &amp;&amp; !viewModel.positionFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:outlineProvider="none"
+                android:clickable="@{(!viewModel.companyFirst &amp;&amp; !viewModel.positionFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
+                app:layout_constraintStart_toEndOf="@id/activity_career_remove_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
