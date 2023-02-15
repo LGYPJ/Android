@@ -23,8 +23,8 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentEducationTvCareer.setOnClickListener {
-            registerActivity.setFragment(REGISTER_CAREER)
             parentFragmentManager.popBackStack()
+            registerActivity.setFragment(REGISTER_CAREER)
         }
     }
     private fun checkFocus(view : View) {

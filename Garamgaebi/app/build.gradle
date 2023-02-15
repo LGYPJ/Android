@@ -47,6 +47,7 @@ android {
         gradleVersion = '7.0'
 
     }
+    namespace 'com.garamgaebi.garamgaebi'
 
 }
 

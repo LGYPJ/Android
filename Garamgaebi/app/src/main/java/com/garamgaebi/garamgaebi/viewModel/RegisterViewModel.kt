@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.viewModel
 
 import android.content.Context
 import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,10 +27,12 @@ class RegisterViewModel : ViewModel(){
     val emailSent = MutableLiveData<String>("")
     val authNumSent = MutableLiveData<String>("")
     val nickname = MutableLiveData<String>("")
+    val profileEmail = MutableLiveData<String>("")
 
     val emailFocusing = MutableLiveData<Boolean>(false)
     val authNumFocusing = MutableLiveData<Boolean>(false)
     val nicknameFocusing = MutableLiveData<Boolean>(false)
+    val profileEmailFocusing = MutableLiveData<Boolean>(false)
 
     val timerFirst = MutableLiveData<Boolean>(true)
     val isTimerRunning = MutableLiveData<Boolean>(false)
@@ -40,6 +43,7 @@ class RegisterViewModel : ViewModel(){
     val isAuthWrong = MutableLiveData<Boolean>(false)
     val isCompleteAuth = MutableLiveData<Boolean>(false)
     val isNickNameValid = MutableLiveData<Boolean>(false)
+    val isProfileEmailValid = MutableLiveData<Boolean>(false)
 
     var timerCount = MutableLiveData<Int>(180)
     lateinit var timer : Job
@@ -113,6 +117,10 @@ class RegisterViewModel : ViewModel(){
     }
     fun checkNickname() : Boolean {
         val validation = "^[a-zA-Z0-9가-힣]{1,8}$"
-        return Pattern.matches(validation, authNum.value)
+        Log.d("checkNickname", "${Pattern.matches(validation, nickname.value)}")
+        return Pattern.matches(validation, nickname.value)
+    }
+    fun checkProfileEmail() : Boolean{
+        return Patterns.EMAIL_ADDRESS.matcher(profileEmail.value).matches()
     }
 }

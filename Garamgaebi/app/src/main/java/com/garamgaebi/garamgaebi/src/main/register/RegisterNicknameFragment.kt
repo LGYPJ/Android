@@ -23,21 +23,23 @@ class RegisterNicknameFragment : BaseBindingFragment<FragmentRegisterNicknameBin
 
         val viewModel by viewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
-        binding.setVariable(BR.registerViewModel, viewModel)
+        binding.setVariable(BR.viewModel, viewModel)
 
         viewModel.nickname.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.isEmailValid.value = viewModel.checkNickname()
+            viewModel.isNickNameValid.value = viewModel.checkNickname()
         })
-
+        binding.fragmentNicknameBtn.setOnClickListener {
+            registerActivity.setFragment(REGISTER_EMAIL)
+        }
         // et selected 여부에 따라 drawable 결정
-        binding.fragmentNicknameEtEmail.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        /*binding.fragmentNicknameEtEmail.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
                     view.setBackgroundResource(R.drawable.register_et_border_selected)
                 } else {
                     view.setBackgroundResource(R.drawable.register_et_border)
                 }
-        }
+        }*/
 
         //// et에 따라 닉네임 조건 tv 변경
         //binding.fragmentNicknameEtEmail.addTextChangedListener(object : TextWatcher {
@@ -75,9 +77,6 @@ class RegisterNicknameFragment : BaseBindingFragment<FragmentRegisterNicknameBin
         //    }
         //})
 
-        binding.fragmentNicknameBtn.setOnClickListener {
-            registerActivity.setFragment(REGISTER_EMAIL)
-        }
 
     }
     override fun onAttach(context: Context) {

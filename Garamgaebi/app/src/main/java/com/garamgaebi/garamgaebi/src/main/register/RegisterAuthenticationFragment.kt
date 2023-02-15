@@ -24,10 +24,10 @@ class RegisterAuthenticationFragment :
 
         val viewModel by viewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
-        binding.setVariable(BR.registerViewModel, viewModel)
+        binding.setVariable(BR.viewModel, viewModel)
 
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
-            binding.registerViewModel = viewModel
+            binding.viewModel = viewModel
             viewModel.isEmailValid.value = viewModel.checkEmail()
         })
         //// 이메일 발송 버튼 drawable, 활성화 여부
@@ -53,7 +53,7 @@ class RegisterAuthenticationFragment :
         // 이메일 발송 버튼 클릭
         with(binding) {
             fragmentAuthenticationBtnEmail.setOnClickListener {
-                registerViewModel = viewModel
+                binding.viewModel = viewModel
                 with(viewModel) {
                     timerStart()
                     emailSent.value = viewModel.getEmail(registerActivity)
@@ -68,7 +68,7 @@ class RegisterAuthenticationFragment :
         }
 
         viewModel.authNum.observe(viewLifecycleOwner, Observer {
-            binding.registerViewModel = viewModel
+            binding.viewModel = viewModel
             viewModel.isNumValid.value = viewModel.checkAuthNum()
         })
 
@@ -89,7 +89,7 @@ class RegisterAuthenticationFragment :
 
         // 인증번호 버튼 클릭
         binding.fragmentAuthenticationBtnNum.setOnClickListener {
-            binding.registerViewModel = viewModel
+            binding.viewModel = viewModel
             with(viewModel) {
                 Log.d("이메일 인증버튼", "이메일 인증버튼")
                 authNumSent.value = authNum.value
