@@ -58,6 +58,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 //네트워킹 메인 프래그먼트로!
                 val intent = Intent(context, ContainerActivity::class.java)
                 intent.putExtra("networking", true)
+                intent.putExtra("gonetworking", "gonetworking")
                 startActivity(intent)
             }
         })
@@ -103,6 +104,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                             //네트워킹 메인 프래그먼트로!
                             val intent = Intent(context, ContainerActivity::class.java)
                             intent.putExtra("networking", true)
+                            intent.putExtra("gonetworking", "gonetworking")
                             startActivity(intent)
                         }
                     })

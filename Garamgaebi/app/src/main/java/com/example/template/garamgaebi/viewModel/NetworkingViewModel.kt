@@ -9,28 +9,37 @@ import com.example.template.garamgaebi.common.GaramgaebiApplication
 import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.model.NetworkingInfoResponse
 import com.example.template.garamgaebi.model.NetworkingParticipantsResponse
+import com.example.template.garamgaebi.model.NetworkingParticipantsResult
+import com.example.template.garamgaebi.model.NetworkingResult
 import com.example.template.garamgaebi.repository.NetworkingRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NetworkingViewModel : ViewModel(){
     private val networkingRepository = NetworkingRepository()
 
-    private val _networkingParticipants = MutableLiveData<NetworkingParticipantsResponse>()
-    val networkingParticipants : LiveData<NetworkingParticipantsResponse>
+    //어댑터를 위한 데이터
+    private val _networkingParticipants = MutableLiveData<List<NetworkingResult>>()
+    val networkingParticipants : LiveData<List<NetworkingResult>>
     get() = _networkingParticipants
+
+    // 아이스브레이킹 버튼 활성화를 위한 데이터
+    private val _networkingActive = MutableLiveData<NetworkingParticipantsResult>()
+    val networkingActive : LiveData<NetworkingParticipantsResult>
+    get() = _networkingActive
 
     private val _networkingInfo = MutableLiveData<NetworkingInfoResponse>()
     val networkingInfo : LiveData<NetworkingInfoResponse>
     get() = _networkingInfo
 
-
     fun getNetworkingParticipants() {
-        viewModelScope.launch{
+        viewModelScope.launch(Dispatchers.IO){
             val response = networkingRepository.getNetworkingParticipants(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
                 GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
-                _networkingParticipants.postValue(response.body())
+                _networkingParticipants.postValue(response.body()?.result?.participantList)
+                _networkingActive.postValue(response.body()?.result)
             }
             else {
                 Log.d("error", response.message())
@@ -45,8 +54,14 @@ class NetworkingViewModel : ViewModel(){
     }
 
     fun getNetworkingInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putString("startDate",
+                    response.body()?.result?.let { GaramgaebiFunction().getDateYMD(it.date) })
+                .apply()
+
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 //날짜 데이터 변환

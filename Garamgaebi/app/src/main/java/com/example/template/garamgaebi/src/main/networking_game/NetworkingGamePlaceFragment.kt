@@ -13,6 +13,8 @@ import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.size
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.template.garamgaebi.R
@@ -20,8 +22,14 @@ import com.example.template.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.example.template.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.example.template.garamgaebi.common.BaseFragment
 import com.example.template.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
+import com.example.template.garamgaebi.model.GameMemberGetResult
 import com.example.template.garamgaebi.src.main.ContainerActivity
-import kotlin.concurrent.thread
+import com.example.template.garamgaebi.viewModel.NetworkingGameViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBinding>(FragmentNetworkingGamePlaceBinding::bind, R.layout.fragment_networking_game_place) {
 
@@ -35,7 +43,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     lateinit var shadow_fade_in : Animation
     //var isFront = true
 
-    private var networkingGameProfileList: ArrayList<NetworkingGameProfile> = arrayListOf(
+    /*private var networkingGameProfileList: ArrayList<NetworkingGameProfile> = arrayListOf(
         NetworkingGameProfile(R.drawable.ic_network_game_profile, "cindy", false),
         NetworkingGameProfile(R.drawable.ic_network_game_profile, "neon", false),
         NetworkingGameProfile(R.drawable.ic_network_game_profile, "이채원", false),
@@ -45,7 +53,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         NetworkingGameProfile(R.drawable.ic_network_game_profile, "짱구", false),
         NetworkingGameProfile(R.drawable.ic_network_game_profile, "찹도", false)
 
-    )
+    )*/
 
     private var networkingGameCardList: ArrayList<NetworkingGameCard> = arrayListOf(
         NetworkingGameCard("나에게 가천대는"),
@@ -58,6 +66,14 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         NetworkingGameCard("나에게 줄리아는"),
     )
 
+    //뷰모델
+    private val viewModel by viewModels<NetworkingGameViewModel>()
+    //프로필 관련
+    private var index = 0
+    private var blue : Boolean = false
+    //뷰페이저 클릭해서 넘어가게
+    private var v = 0
+
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,17 +82,89 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         //화면전환 & 게임장소 데이터 받아오기
         //binding.activityGamePlaceTopTv.text = intent.getStringExtra("game_place")
 
-
-        //프로필 관련
-        var index:Int = 0;
-
-        //뷰페이저 클릭해서 넘어가게
-        var v = 0
-
         //카드 뷰페이저2
         val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(networkingGameCardList)
         binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(networkingGameCardList)
         binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        //뷰페이저 넘어갈때 시간 조정
+        fun ViewPager2.setCurrentItemWithDuration(item: Int, duration: Long, interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(), pagePxWidth: Int = width){
+            val pxToDrag: Int = pagePxWidth * (item - currentItem)
+            val animator = ValueAnimator.ofInt(0, pxToDrag)
+            var previousValue = 0
+            animator.addUpdateListener { valueAnimator ->
+                val currentValue = valueAnimator.animatedValue as Int
+                val currentPxToDrag = (currentValue - previousValue).toFloat()
+                fakeDragBy(-currentPxToDrag)
+                previousValue = currentValue
+            }
+            animator.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) { beginFakeDrag() }
+                override fun onAnimationEnd(animation: Animator?) { endFakeDrag() }
+                override fun onAnimationCancel(animation: Animator?) { /* Ignored */ }
+                override fun onAnimationRepeat(animation: Animator?) { /* Ignored */ }
+            })
+            animator.interpolator = interpolator
+            animator.duration = duration
+            animator.start()
+        }
+
+
+
+        // 유저 입장
+        viewModel.connectStomp()
+        viewModel.getGameMember()
+        viewModel.postGameMember()
+        viewModel.sendMessage()
+        viewModel.gameJoin()
+        viewModel.getMember.observe(viewLifecycleOwner, Observer {
+            val data = it
+            val networkingGameProfile =
+                NetworkingGameProfileAdapter(it as ArrayList<GameMemberGetResult>, blue)
+            binding.activityGameProfileRv.apply {
+                adapter = networkingGameProfile
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                addItemDecoration(NetworkingGameProfileHorizontalItemDecoration())
+
+                // 파란색 카드다음 버튼 누르면 프로필 가장자리 하이라이트되게 구현
+                binding.activityGamePlaceCardNextBtn.setOnClickListener {
+                    index++
+                    blue = true
+                    var i = 0
+                    i++
+                    //data[index-i].next = false
+                    blue = false
+
+                    if(index >size){
+                        binding.activityGamePlaceCardNextBtn.isEnabled = false
+                    }
+                    if(i >size-1){
+                        binding.activityGamePlaceCardNextBtn.isEnabled = false
+                    }
+                    //리사이클러뷰 아이템 포지션으로 포커스되게 스크롤
+                    (layoutManager as LinearLayoutManager).scrollToPosition(index)
+                    networkingGameProfile.notifyDataSetChanged()
+
+                    //파란색 카드다음 버튼 누르면 뷰페이저 넘어가게 구현
+                    v++
+                    //binding.activityGameCardBackVp.setCurrentItem(v, true)
+                    binding.activityGameCardBackVp.setCurrentItemWithDuration(v,400)
+                    networkingGameCardVPAdapter.notifyDataSetChanged()
+
+                }
+
+                //시작하기 버튼 누르면 처음 사람 프로필 강조 효과
+                CoroutineScope(Dispatchers.Main).launch {
+                    launch {
+                        delay(700)
+                        blue = true
+                        networkingGameProfile.notifyDataSetChanged()
+                    }
+                }
+
+            }
+        })
+
 
         //뷰페이저 가운데 카드 그림자 애니메이션
         shadow_fade_in = AnimationUtils.loadAnimation(context, R.anim.activity_game_card_shadow_fade_in)
@@ -138,34 +226,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
 
         }
-        //뷰페이저에 elevation 효과 넣기
-
-
-
-        //뷰페이저 넘어갈때 시간 조정
-        fun ViewPager2.setCurrentItemWithDuration(item: Int, duration: Long, interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(), pagePxWidth: Int = width){
-            val pxToDrag: Int = pagePxWidth * (item - currentItem)
-            val animator = ValueAnimator.ofInt(0, pxToDrag)
-            var previousValue = 0
-            animator.addUpdateListener { valueAnimator ->
-                val currentValue = valueAnimator.animatedValue as Int
-                val currentPxToDrag = (currentValue - previousValue).toFloat()
-                fakeDragBy(-currentPxToDrag)
-                previousValue = currentValue
-            }
-            animator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) { beginFakeDrag() }
-                override fun onAnimationEnd(animation: Animator?) { endFakeDrag() }
-                override fun onAnimationCancel(animation: Animator?) { /* Ignored */ }
-                override fun onAnimationRepeat(animation: Animator?) { /* Ignored */ }
-            })
-            animator.interpolator = interpolator
-            animator.duration = duration
-            animator.start()
-        }
-
-
-
 
         binding.activityGameCardBackVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
@@ -179,40 +239,14 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
         //프로필 리사이클러뷰
-        val networkingGameProfile = NetworkingGameProfileAdapter(networkingGameProfileList)
+        /*val networkingGameProfile = NetworkingGameProfileAdapter(networkingGameProfileList)
         binding.activityGameProfileRv.apply {
             adapter = networkingGameProfile
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(NetworkingGameProfileHorizontalItemDecoration())
+            addItemDecoration(NetworkingGameProfileHorizontalItemDecoration())*/
 
 
-            // 파란색 카드다음 버튼 누르면 프로필 가장자리 하이라이트되게 구현
-            binding.activityGamePlaceCardNextBtn.setOnClickListener {
-                index++
-                networkingGameProfileList[index].next = true
-                var i = 0
-                i++
-                networkingGameProfileList[index-i].next = false
 
-                if(index >size){
-                    binding.activityGamePlaceCardNextBtn.isEnabled = false
-                }
-                if(i >size-1){
-                    binding.activityGamePlaceCardNextBtn.isEnabled = false
-                }
-                //리사이클러뷰 아이템 포지션으로 포커스되게 스크롤
-                (layoutManager as LinearLayoutManager).scrollToPosition(index)
-                networkingGameProfile.notifyDataSetChanged()
-
-                //파란색 카드다음 버튼 누르면 뷰페이저 넘어가게 구현
-                v++
-                //binding.activityGameCardBackVp.setCurrentItem(v, true)
-                binding.activityGameCardBackVp.setCurrentItemWithDuration(v,400)
-                networkingGameCardVPAdapter.notifyDataSetChanged()
-
-            }
-
-        }
 
         //카드 뒤집기 애니메이션
         var scale = context?.resources?.displayMetrics?.density
@@ -233,22 +267,30 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             binding.activityGameCardStartBtn.isEnabled = false
 
 
-            //시작하기 버튼 누르면 처음 사람 프로필 강조 효과
-            thread(start=true){
+            /*thread(start=true){
                 Thread.sleep(700)
                 activity?.runOnUiThread {
                     networkingGameProfileList[index].next = true
                     networkingGameProfile.notifyDataSetChanged()
 
                 }
-            }
+            }*/
 
             //시작하기 버튼 누르면 뷰페이저 보이게
             binding.activityGameCardBackImg.visibility = View.VISIBLE
 
 
             //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
-            thread(start=true){
+            CoroutineScope(Dispatchers.Main).launch {
+                launch {
+                    delay(1400)
+                    //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
+                    fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.activity_game_fade_in)
+                    binding.activityGameCardBackVp.offscreenPageLimit = 1
+
+                }
+            }
+            /*thread(start=true){
                 Thread.sleep(1400)
                 activity?.runOnUiThread {
                     //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
@@ -257,7 +299,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                 }
 
-            }
+            }*/
 
         }
 
@@ -268,4 +310,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
+
+    /*fun isIndex(number : Int) : Boolean {
+        var returnValue = false
+        val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(name)
+        if (m.matches()) {
+            returnValue = true
+        }
+        return returnValue;
+    }*/
+
 }
