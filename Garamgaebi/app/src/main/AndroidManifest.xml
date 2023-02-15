@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.template.garamgaebi">
+    package="com.garamgaebi.garamgaebi">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!--갤러리 권한-->
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:name="com.example.template.garamgaebi.common.GaramgaebiApplication"
+        android:name="com.garamgaebi.garamgaebi.common.GaramgaebiApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,29 +21,30 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
-            android:name="com.example.template.garamgaebi.src.main.register.RegisterActivity"
+            android:name="com.garamgaebi.garamgaebi.src.main.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.template.garamgaebi.src.splash.SplashActivity"
+            android:name="com.garamgaebi.garamgaebi.src.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <data android:host="oauth"
+                    android:scheme="kakao${KAKAO_API_KEY}" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.template.garamgaebi.src.main.MainActivity"
+            android:name="com.garamgaebi.garamgaebi.src.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
-            android:name="com.example.template.garamgaebi.src.main.ContainerActivity"
+            android:name="com.garamgaebi.garamgaebi.src.main.ContainerActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"

@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
-        <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
+        <import type="com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment"/>
         <variable
             name="profileFragment"
-            type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment" />
+            type="com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment" />
         <variable
             name="profileViewModel"
-            type="com.example.template.garamgaebi.viewModel.ProfileViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

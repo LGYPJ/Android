@@ -2,16 +2,16 @@
 <layout>
     <data>
         <import type="android.view.View"/>
-        <import type="com.example.template.garamgaebi.src.main.profile.SnsAddFragment"/>
+        <import type="com.garamgaebi.garamgaebi.src.main.profile.SnsAddFragment"/>
         <variable
             name="snsAddFragment"
-            type="com.example.template.garamgaebi.src.main.profile.SnsAddFragment" />
+            type="com.garamgaebi.garamgaebi.src.main.profile.SnsAddFragment" />
         <variable
             name="snsViewModel"
-            type="com.example.template.garamgaebi.viewModel.SNSViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.SNSViewModel" />
         <variable
             name="common"
-            type="com.example.template.garamgaebi.common.GaramgaebiFunction"/>
+            type="com.garamgaebi.garamgaebi.common.GaramgaebiFunction"/>
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
