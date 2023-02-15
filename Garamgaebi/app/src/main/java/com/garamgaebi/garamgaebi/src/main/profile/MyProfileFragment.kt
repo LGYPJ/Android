@@ -65,6 +65,11 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
+        binding.textIdChanger.setText(myMemberIdx.toString())
+        binding.textIdChangerBtn.setOnClickListener {
+            myMemberIdx = binding.textIdChanger.text.toString().toInt()
+            activity?.finish()
+        }
         with(viewModel) {
             getProfileInfo(myMemberIdx)
 

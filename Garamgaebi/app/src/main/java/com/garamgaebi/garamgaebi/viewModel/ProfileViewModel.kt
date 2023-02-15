@@ -46,6 +46,43 @@ class ProfileViewModel : ViewModel(){
     val imageIsValid = MutableLiveData<Boolean>()
     init { imageIsValid.value = false}
 
+    /*유효성 검사를 위한 부분
+  * 1) 닉네임
+  * 2) 한 줄 소개
+  * 3) 이메일
+  * 4) 자기소개
+  * * */
+
+    //포커싱 감지
+    val nameFocusing = MutableLiveData<Boolean>(false)
+    val oneLineFocusing = MutableLiveData<Boolean>(false)
+    val emailFocusing = MutableLiveData<Boolean>(false)
+    val introFocusing = MutableLiveData<Boolean>(false)
+
+    //첫 입력 확인
+    var nameFirst = MutableLiveData<Boolean>(true)
+    var oneLineFirst = MutableLiveData<Boolean>(true)
+    var emailFirst = MutableLiveData<Boolean>(true)
+    var introFirst = MutableLiveData<Boolean>(true)
+
+    //hint 문구
+    var nameHint= MutableLiveData<String>("")
+    var oneLineHint = MutableLiveData<String>("")
+    var emailHint = MutableLiveData<String>("")
+    var introHint = MutableLiveData<String>("")
+
+    //유효성 문구
+    var nameState = MutableLiveData<String>("")
+    var oneLineState = MutableLiveData<String>("")
+    var emailState = MutableLiveData<String>("")
+    var introState = MutableLiveData<String>("")
+
+    fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        Log.d("링크 focusing입니다",data.value.toString())
+        Log.d("링크 첫입력입니다",first.value.toString())
+    }
 
     //프로필 정보 편집
     private val _profileEdit = MutableLiveData<EditProfileDataResponse>()

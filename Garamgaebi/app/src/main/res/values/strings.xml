@@ -36,6 +36,8 @@
     <string name="learning">교육 중</string>
 
     <string name="edit_profile_hint">8자 이내로 입력해주세요 (특수문자 불가)</string>
+    <string name="wrong_nick_name">사용할 수 없는 닉네임입니다</string>
+
     <string name="oneLine_intro">한 줄 소개</string>
     <string name="oneLine_intro_hint">한 줄 소개를 입력해주세요 (예: 프리랜서 백엔드 개발자)</string>
     <string name="intro">자기소개</string>
@@ -185,6 +187,8 @@
 
     <!-- serviceCenter-->
     <string name="input_100">100자 이내로 작성해주세요</string>
+    <string name="input_18">18자 이내로 작성해주세요</string>
+
     <string name="response_email">답변받을 이메일</string>
     <string name="response_email_desc">답변받을 이메일주소를 적어주세요</string>
     <string name="serviceCenter_information">고객센터 안내</string>

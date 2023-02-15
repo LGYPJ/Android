@@ -36,7 +36,7 @@ class GaramgaebiApplication : Application() {
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
 
-        const val myMemberIdx: Int = 1
+        var myMemberIdx: Int = 1
 
     }
 

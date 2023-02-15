@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable
-            name="profileViewModel"
+            name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.ProfileViewModel" />
-        <variable
-            name="editViewModel"
-            type="com.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
+
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -20,14 +19,18 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="129dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="186dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/activity_edit_profile_ivProfile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/activity_myprofile_graycircle"
+            android:scaleType="centerCrop"
+            app:civ_border_overlay="true"
+            app:civ_border_width="0dp"
+            app:civ_border_color="#000000"
+            android:src="@drawable/default_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,27 +70,29 @@
             android:layout_height="48dp"
 
             android:layout_marginTop="0dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.nameFirst || viewModel.nickNameIsValid ? (viewModel.nameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
-            android:hint="@string/edit_profile_hint"
+            android:hint='@{viewModel.nameFocusing ? "" : @string/edit_profile_hint}'
             android:paddingStart="12dp"
-            android:text="@={profileViewModel.nickName}"
+            android:text="@={viewModel.nickName}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_nickTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_nickTitle"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.nameFocusing,viewModel.nameFirst,check)}" />
 
         <TextView
             android:id="@+id/activity_nickname_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text=" "
-            android:textSize="12sp"
-            android:visibility="gone"
+            android:text="@{viewModel.nameState}"
+            android:textSize="10sp"
+            android:textColor="@color/redForText"
+            android:visibility="@{viewModel.nameFirst || viewModel.nickNameIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_nick" />
 
@@ -119,12 +124,12 @@
             android:layout_height="48dp"
 
             android:layout_marginTop="0dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.oneLineFirst || viewModel.belongIsValid ? (viewModel.oneLineFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
-            android:hint="@string/oneLine_intro_hint"
+            android:hint='@{viewModel.oneLineFocusing ? "" : @string/oneLine_intro_hint}'
             android:paddingStart="12dp"
-            android:text="@={profileViewModel.belong}"
+            android:text="@={viewModel.belong}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
@@ -137,11 +142,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="닉네임 조건"
-            android:textSize="12sp"
-            android:visibility="gone"
+            android:text="@{@string/input_18}"
+            android:textSize="10sp"
+            android:textColor="@color/redForText"
+            android:visibility="@{viewModel.oneLineFirst || viewModel.belongIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_team" />
+
+        <TextView
+            android:id="@+id/activity_content_et_name_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text='@{viewModel.belong.length() +"/18"}'
+            android:textColor="@color/grayD9"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_tv_teamTitle"
+            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_teamTitle"
+            app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_et_team"
+            />
 
         <TextView
             android:id="@+id/activity_edit_profile_tv_emailTitle"
@@ -170,15 +190,16 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.emailFirst || viewModel.emailIsValid ? (viewModel.emailFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
-            android:hint="@string/register_input_email_desc"
+            android:hint='@{viewModel.emailFocusing ? "" : @string/register_input_email_desc}'
             android:paddingStart="12dp"
-            android:text="@={profileViewModel.email}"
+            android:text="@={viewModel.email}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.emailFocusing,viewModel.emailFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_emailTitle" />
@@ -188,9 +209,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="닉네임 조건"
-            android:textSize="12sp"
-            android:visibility="gone"
+            android:text="@{@string/email_wrong_state}"
+            android:textSize="10sp"
+            android:visibility="@{viewModel.emailFirst || viewModel.emailIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_email" />
 
@@ -211,18 +232,32 @@
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/basic_gray_border_layout"
+            android:background="@{viewModel.introFirst || viewModel.introIsValid ? (viewModel.introFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="top"
-            android:hint="@string/input_100"
+            android:hint='@{viewModel.introFocusing ? "" : @string/input_100}'
             android:padding="12dp"
-            android:text="@={profileViewModel.intro}"
+            android:text="@={viewModel.intro}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.introFocusing,viewModel.introFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_introTitle" />
+        <TextView
+            android:id="@+id/activity_edit_profile_et_intro_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayD9"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:text='@{viewModel.intro.length() +"/100"}'
+            app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_et_intro"
+            app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_et_intro"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -230,11 +265,12 @@
         android:layout_width="379dp"
         android:layout_height="48dp"
         android:layout_marginBottom="68dp"
-        android:outlineProvider="none"
-        android:background="@drawable/basic_blue_btn_layout"
         android:text="저장하기"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:background="@{(!viewModel.emailFirst &amp;&amp; !viewModel.nameFirst &amp;&amp; !viewModel.oneLineFirst &amp;&amp; viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.belongIsValid  &amp;&amp; viewModel.introIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+        android:outlineProvider="none"
+        android:clickable="@{(!viewModel.emailFirst &amp;&amp; !viewModel.nameFirst &amp;&amp; !viewModel.oneLineFirst &amp;&amp; viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.belongIsValid &amp;&amp; viewModel.introIsValid) ? true : false}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>

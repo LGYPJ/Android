@@ -37,6 +37,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 >
             </TextView>
+            <EditText
+                android:id="@+id/text_id_changer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="아이디 변환기"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_id_changer_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/text_id_changer_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="바꾸기"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/activity_myProfile_ivCs"
+                />
             <ImageView
                 android:id="@+id/activity_myProfile_ivCs"
                 android:layout_height="0dp"
@@ -74,7 +92,7 @@
                     android:layout_height="80dp"
                     android:layout_width="80dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/activity_myprofile_graycircle"
+                    android:src="@drawable/default_profile"
                     android:background="@drawable/activity_myprofile_graycircle"
                     app:civ_border_overlay="true"
                     app:civ_border_width="0dp"
