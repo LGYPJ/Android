@@ -59,8 +59,12 @@ interface ApiInterface {
 
 
     // EmailController 이메일 컨트롤러
-    @POST("/email/emailconfirm")
-    suspend fun postEmailConfirm(@Body email : String) : Response<RegisterEmailResponse>
+    @POST("/email/verify")
+    suspend fun postEmailVerify(@Body request: RegisterEmailVerifyRequest) : Response<RegisterEmailResponse>
+
+    @POST("/email/sendEmail")
+    suspend fun postSendEmail(@Body request : RegisterSendEmailRequest) : Response<RegisterEmailResponse>
+
     //NetworkingController 네트워킹 컨트롤러
 
     //네트워킹 신청자 리스트 조회
@@ -214,10 +218,6 @@ interface ApiInterface {
     //멤버 활동중 수정
     //@PATCH("/member/post")
 
-    //EmailController 이메일 컨트롤러
-
-    //이메일 유효성 확인 post
-    //@POST("/email/{email}/emailconfirm")
 
     //MemberController
     @POST("/member/login")

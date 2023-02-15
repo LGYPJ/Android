@@ -12,9 +12,9 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_NICKNAME
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
+import com.garamgaebi.garamgaebi.model.RegisterEmailVerifyRequest
+import com.garamgaebi.garamgaebi.model.RegisterSendEmailRequest
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
-import com.kakao.sdk.user.UserApiClient
-import kotlinx.coroutines.*
 
 class RegisterAuthenticationFragment :
     BaseBindingFragment<FragmentRegisterAuthenticationBinding>(R.layout.fragment_register_authentication) {
@@ -53,10 +53,13 @@ class RegisterAuthenticationFragment :
         // 이메일 발송 버튼 클릭
         with(binding) {
             fragmentAuthenticationBtnEmail.setOnClickListener {
-                Log.d("registerEmail", "emailBtn")
                 registerViewModel = viewModel
-                viewModel.timerStart()
-                //viewModel.postEmailConfirm(viewModel.getEmail(registerActivity))
+                with(viewModel) {
+                    timerStart()
+                    emailSent.value = viewModel.getEmail(registerActivity)
+                    Log.d("registerEmail", emailSent.value!!)
+                    postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                }
                 fragmentAuthenticationEtEmail.clearFocus()
                 fragmentAuthenticationEtNum.clearFocus()
                 fragmentAuthenticationEtNum.visibility = VISIBLE
@@ -89,27 +92,36 @@ class RegisterAuthenticationFragment :
             binding.registerViewModel = viewModel
             with(viewModel) {
                 Log.d("이메일 인증버튼", "이메일 인증버튼")
-                //emailConfirm.observe(viewLifecycleOwner, Observer {
-                    if (viewModel.authNum.value == "123456") {
-                        Log.d("이메일 인증버튼", "이메일 인증버튼 완")
-                        isCompleteAuth.value = true
-                        isAuthWrong.value = false
-                        timer.cancel()
-                        isTimerRunning.value = false
-                        with(binding) {
-                            fragmentAuthenticationEtEmail.isEnabled = false
-                            fragmentAuthenticationEtNum.isEnabled = false
-                            fragmentAuthenticationBtnEmail.isEnabled = false
-                            fragmentAuthenticationBtnNum.isEnabled = false
-                        }
-
-                    } else {
-                        Log.d("이메일 인증버튼", "이메일 인증버튼 틀림")
-                        isAuthWrong.value = true
-                    }
-                //})
+                authNumSent.value = authNum.value
+                Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
+                postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
             }
         }
+        with(viewModel) {
+            emailVerify.observe(viewLifecycleOwner, Observer {
+                Log.d("registerEmailAuthBtnResult", "${it.isSuccess}")
+                if (it.isSuccess) {
+                    Log.d("이메일 인증버튼", "이메일 인증버튼 완")
+                    isCompleteAuth.value = true
+                    isAuthWrong.value = false
+                    timer.cancel()
+                    isTimerRunning.value = false
+                    binding.fragmentAuthenticationEtEmail.clearFocus()
+                    binding.fragmentAuthenticationEtNum.clearFocus()
+                    with(binding) {
+                        fragmentAuthenticationEtEmail.isEnabled = false
+                        fragmentAuthenticationEtNum.isEnabled = false
+                        fragmentAuthenticationBtnEmail.isEnabled = false
+                        fragmentAuthenticationBtnNum.isEnabled = false
+                    }
+
+                } else {
+                    Log.d("이메일 인증버튼", "이메일 인증버튼 틀림")
+                    isAuthWrong.value = true
+                }
+            })
+        }
+
         binding.fragmentAuthenticationBtnNext.setOnClickListener {
             registerActivity.setFragment(REGISTER_NICKNAME)
         }
