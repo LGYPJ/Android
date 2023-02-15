@@ -34,6 +34,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
         binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
 
         // 유효성 확인

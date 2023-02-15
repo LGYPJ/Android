@@ -198,7 +198,7 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            android:text=""
+            android:text="@={viewModel.endDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />

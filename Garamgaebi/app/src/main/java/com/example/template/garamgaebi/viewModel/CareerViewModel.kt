@@ -75,7 +75,6 @@ class CareerViewModel : ViewModel(){
     var companyState = MutableLiveData<String>("")
     var positionState = MutableLiveData<String>("")
 
-
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false

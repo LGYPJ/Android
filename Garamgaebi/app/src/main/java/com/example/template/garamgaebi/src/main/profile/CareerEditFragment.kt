@@ -31,8 +31,9 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
-        binding.setVariable(BR.snsViewModel,viewModel)
+        binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         val careerIdx = GaramgaebiApplication.sSharedPreferences.getInt("CareerIdxForEdit",-1)
         val originCompany = GaramgaebiApplication.sSharedPreferences.getString("CareerCompanyForEdit","Error")

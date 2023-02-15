@@ -47,7 +47,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM")
         var formatted = current.format(formatter)
         var arr : List<String>
-        if(date.isNotEmpty()) {
+        if(date.isNotEmpty() && !(date.equals("Error") || date.equals("현재"))) {
             arr = date.split(".")
             setYearMonth(arr[0], arr[1])
         }else{
