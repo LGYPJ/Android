@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import java.util.regex.Pattern

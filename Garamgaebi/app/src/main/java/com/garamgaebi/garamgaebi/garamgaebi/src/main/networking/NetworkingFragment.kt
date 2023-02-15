@@ -15,7 +15,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiFunction
 
-import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentNetworkingBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.NetworkingResult
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.NetworkingViewModel

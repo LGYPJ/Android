@@ -10,7 +10,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.garamgaebi.garamgaebi"
+        applicationId "com.garamgaebi.garamgaebi.garamgaebi"
         minSdkVersion 27
         targetSdkVersion 31
         versionCode 1

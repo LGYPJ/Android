@@ -9,9 +9,9 @@ import com.garamgaebi.garamgaebi.garamgaebi.common.BLUE
 import com.garamgaebi.garamgaebi.garamgaebi.common.GRAY
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.ORIGIN
-import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBinding
-import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBlueBinding
-import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileGrayBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBlueBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSeminarProfileGrayBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.seminar.data.SeminarResult
 
 

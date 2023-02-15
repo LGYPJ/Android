@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileSnsBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileSnsBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.SNSData
 
 class SnsSomeoneRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Context): RecyclerView.Adapter<SnsSomeoneRVAdapter.ViewHolder>(){

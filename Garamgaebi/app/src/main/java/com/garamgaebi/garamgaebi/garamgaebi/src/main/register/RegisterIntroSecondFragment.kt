@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroSecondBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroSecondBinding
 
 class RegisterIntroSecondFragment : BaseFragment<FragmentRegisterIntroSecondBinding>(
     FragmentRegisterIntroSecondBinding::bind, R.layout.fragment_register_intro_second){

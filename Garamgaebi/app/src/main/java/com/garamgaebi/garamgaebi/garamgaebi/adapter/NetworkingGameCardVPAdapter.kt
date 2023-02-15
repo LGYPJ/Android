@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.garamgaebi.garamgaebi.databinding.ItemGameCardVpBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemGameCardVpBinding
 
 class NetworkingGameCardVPAdapter(private val dataList: List<String>):  RecyclerView.Adapter<NetworkingGameCardVPAdapter.ViewHolder>() {
 

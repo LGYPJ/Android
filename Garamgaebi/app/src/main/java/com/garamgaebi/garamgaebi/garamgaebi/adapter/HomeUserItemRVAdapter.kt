@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.HomeUserResult
 
 class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {

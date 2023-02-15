@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.databinding.ItemGatheringNetworkingDeadlineBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemGatheringNetworkingDeadlineBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.GatheringNetworkingClosedResult
 
 class GatheringNetworkingDeadlineRVAdapter(private val dataList: ArrayList<GatheringNetworkingClosedResult>): RecyclerView.Adapter<GatheringNetworkingDeadlineRVAdapter.ViewHolder>() {

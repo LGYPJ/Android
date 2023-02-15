@@ -9,7 +9,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
-import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.ApiInterface
 import com.garamgaebi.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.garamgaebi.model.LoginRequest

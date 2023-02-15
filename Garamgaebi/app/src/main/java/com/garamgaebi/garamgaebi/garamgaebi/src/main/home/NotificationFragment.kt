@@ -12,7 +12,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.NotificationItemRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.databinding.FragmentNotificationBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentNotificationBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.NotificationList
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.HomeViewModel

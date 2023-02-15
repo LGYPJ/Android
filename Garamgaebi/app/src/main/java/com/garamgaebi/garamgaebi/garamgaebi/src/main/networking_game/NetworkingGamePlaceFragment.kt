@@ -21,7 +21,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.GameMemberGetResult
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel

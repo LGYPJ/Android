@@ -17,7 +17,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.adapter.SeminarProfileAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 
-import com.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.seminar.data.SeminarResult

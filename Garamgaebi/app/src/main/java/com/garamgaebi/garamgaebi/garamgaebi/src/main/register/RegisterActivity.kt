@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.*
-import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,9 +9,9 @@ import com.garamgaebi.garamgaebi.garamgaebi.common.BLUE
 import com.garamgaebi.garamgaebi.garamgaebi.common.GRAY
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.ORIGIN
-import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBinding
-import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
-import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileGrayBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNetworkProfileGrayBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.NetworkingResult
 
 class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

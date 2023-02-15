@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
-import com.garamgaebi.garamgaebi.databinding.DialogLoadingBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.DialogLoadingBinding
 
 class LoadingDialog(context: Context) : Dialog(context) {
     private lateinit var binding: DialogLoadingBinding

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.NetworkingGameSelectAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGameSelectBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentNetworkingGameSelectBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel
 import androidx.lifecycle.Observer

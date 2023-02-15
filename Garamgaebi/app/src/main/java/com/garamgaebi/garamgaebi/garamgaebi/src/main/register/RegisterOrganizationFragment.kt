@@ -7,7 +7,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.REGISTER_CAREER
 import com.garamgaebi.garamgaebi.garamgaebi.common.REGISTER_EDU
-import com.garamgaebi.garamgaebi.databinding.FragmentRegisterOrganizationBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterOrganizationBinding
 
 class RegisterOrganizationFragment : BaseFragment<FragmentRegisterOrganizationBinding>
     (FragmentRegisterOrganizationBinding::bind, R.layout.fragment_register_organization) {

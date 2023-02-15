@@ -15,7 +15,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
+import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.HomeNetworkingResult
 import com.garamgaebi.garamgaebi.garamgaebi.model.HomeProgramResult
 import com.garamgaebi.garamgaebi.garamgaebi.model.HomeSeminarResult
