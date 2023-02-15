@@ -2,16 +2,23 @@ package com.garamgaebi.garamgaebi.src.main.register
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
+import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
-        if(intent.getBooleanExtra("login", false))
+        val viewModel by viewModels<RegisterViewModel>()
+
+        if(intent.getBooleanExtra("login", false)){
             setFragment(REGISTER_AUTH)
+            Log.d("kakao", "${intent.getStringExtra("email")}")
+            viewModel.socialEmail.value = intent.getStringExtra("email")
+        }
         else
             setFragment(REGISTER_INTRO)
 
