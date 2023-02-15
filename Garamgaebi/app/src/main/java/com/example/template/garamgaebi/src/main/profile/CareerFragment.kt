@@ -15,6 +15,7 @@ import com.example.template.garamgaebi.BR
 import com.example.template.garamgaebi.R
 import com.example.template.garamgaebi.common.BaseBindingFragment
 import com.example.template.garamgaebi.common.BaseFragment
+import com.example.template.garamgaebi.common.GaramgaebiFunction
 import com.example.template.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.example.template.garamgaebi.src.main.ContainerActivity
 import com.example.template.garamgaebi.viewModel.CareerViewModel
@@ -31,43 +32,69 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
-        binding.setVariable(BR.careerViewModel,viewModel)
-        binding.careerViewModel = viewModel
+        binding.setVariable(BR.viewModel,viewModel)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
-        val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
-        binding.setVariable(BR.editTextViewModel,editTextViewModel)
-
-        binding.editTextViewModel = editTextViewModel
 
         // 유효성 확인
         viewModel.company.observe(viewLifecycleOwner, Observer {
-            binding.careerViewModel = viewModel
-            if(it.length < 22 && it.isNotEmpty())
-            viewModel.companyIsValid.value = true
+            binding.viewModel = viewModel
+                viewModel.companyIsValid.value = it.length < 22 && it.isNotEmpty()
+
 
             Log.d("career_company_true",viewModel.companyIsValid.value.toString())
         })
         viewModel.position.observe(viewLifecycleOwner, Observer {
-            binding.careerViewModel = viewModel
-            if(it.length < 22 && it.isNotEmpty())
-                viewModel.positionIsValid.value = true
+            binding.viewModel = viewModel
+                viewModel.positionIsValid.value = it.length < 22 && it.isNotEmpty()
 
             Log.d("career_position_true",viewModel.positionIsValid.value.toString())
         })
         viewModel.startDate.observe(viewLifecycleOwner, Observer {
-            binding.careerViewModel = viewModel
+            binding.viewModel = viewModel
 
             viewModel.startDateIsValid.value = it.isNotEmpty()
 
-            Log.d("career_startDate_true",viewModel.positionIsValid.value.toString())
+            if(viewModel.endDate.value?.isNotEmpty() == true) {
+                if (it < viewModel.endDate.value.toString()) {
+                    viewModel.startDateIsValid.value = true
+                    viewModel.endDateIsValid.value = true
+                } else {
+                    viewModel.startDateIsValid.value = false
+                    viewModel.endDateIsValid.value = false
+                }
+            }
+            Log.d("career_startDate_true",viewModel.startDateIsValid.value.toString())
         })
         viewModel.endDate.observe(viewLifecycleOwner, Observer {
-            binding.careerViewModel = viewModel
+            binding.viewModel = viewModel
 
             viewModel.endDateIsValid.value = it.isNotEmpty()
 
-            Log.d("career_endDate_true",viewModel.positionIsValid.value.toString())
+            if(viewModel.startDate.value?.isNotEmpty() == true) {
+                if (it > viewModel.startDate.value.toString()) {
+                    viewModel.endDateIsValid.value = true
+                    viewModel.startDateIsValid.value = true
+                } else {
+                    viewModel.endDateIsValid.value = false
+                    viewModel.startDateIsValid.value = false
+                }
+            }
+
+            Log.d("career_endDate_true",viewModel.endDateIsValid.value.toString())
         })
+
+
+        with(viewModel){
+            companyHint.value = getString(R.string.register_input_company_desc)
+            positionHint.value = getString(R.string.register_input_position_desc)
+
+            companyState.value = getString(R.string.caution_input_22)
+            positionState.value = getString(R.string.caution_input_22)
+        }
+
+        //유효성 끝
 
         binding.activityCareerSaveBtn.setOnClickListener {
             viewModel.postCareerInfo()
@@ -77,107 +104,42 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
 
 
 
-        //회사 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activityCareerEtCompanyDesc)
-
-        //직함 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activityCareerEtPosition)
-
-        //재직기간_시작 입력 시 레이아웃 테두리 변경 -> 달력으로 바꿔야함
-        checkDpInput(binding.activityCareerEtStartPeriod)
-
-        //재직기간_종료 시 레이아웃 테두리 변경 -> 달력으로 바꿔야함
-        checkDpInput(binding.activityCareerEtEndPeriod)
 
         //재직 정보 date picker
         binding.activityCareerEtStartPeriod.setOnClickListener {
-                val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
-                    val arr = it.split(".")
-                    binding.activityCareerEtStartPeriod.setText(arr[0]+"."+arr[1])
-                    checkDpInput(binding.activityCareerEtStartPeriod)
-                }
-                orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+            viewModel.startFocusing.value = true
+            viewModel.startFirst.value = false
+
+                val orderBottomDialogFragment: DatePickerDialogFragment? =
+                    viewModel.startDate.value?.let { it1 ->
+                        DatePickerDialogFragment(it1) {
+                            val arr = it.split(".")
+                            binding.activityCareerEtStartPeriod.setText(arr[0]+"."+arr[1])
+                        }
+                    }
+            orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
         binding.activityCareerEtEndPeriod.setOnClickListener {
-            val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
-                val arr = it.split(".")
-                viewModel.endDate.value = arr[0]+"."+arr[1]
-                if(checkNow(it)){
-                    binding.activityCareerCheckbox.isChecked = true
-                    binding.activityCareerEtEndPeriod.setText("현재")
-                    viewModel.isWorking.value = "TRUE"
-                }else{
-                    binding.activityCareerCheckbox.isChecked = false
-                    binding.activityCareerEtEndPeriod.setText(arr[0]+"."+arr[1])
-                    viewModel.isWorking.value = "FALSE"
+            viewModel.endFocusing.value = true
+            viewModel.endFirst.value = false
+            val orderBottomDialogFragment: DatePickerDialogFragment? =
+                viewModel.endDate.value?.let { it1 ->
+                    DatePickerDialogFragment(it1) {
+                        val arr = it.split(".")
+                        viewModel.endDate.value = arr[0] + "." + arr[1]
+                        if (GaramgaebiFunction().checkNow(it)) {
+                            binding.activityCareerCheckbox.isChecked = true
+                            binding.activityCareerEtEndPeriod.setText("현재")
+                            viewModel.isWorking.value = "TRUE"
+                        } else {
+                            binding.activityCareerCheckbox.isChecked = false
+                            binding.activityCareerEtEndPeriod.setText(arr[0] + "." + arr[1])
+                            viewModel.isWorking.value = "FALSE"
+                        }
+                    }
                 }
-                checkDpInput(binding.activityCareerEtEndPeriod)
-            }
-            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+            orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
+
         }
     }
-    private fun checkDpInput(view:TextView){
-        if (checkInfo()){
-            //binding.activityCareerSaveBtn.isClickable = true
-            binding.activityCareerSaveBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-        }else{
-            //binding.activityCareerSaveBtn.isClickable = false
-            binding.activityCareerSaveBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-        }
-    }
-    private fun checkEtInput(view: EditText) {
-        view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.register_et_border_selected)
-            } else {
-                view.setBackgroundResource(R.drawable.register_et_border)
-            }
-        }
-        view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (checkInfo()){
-                    //binding.activityCareerSaveBtn.isClickable = true
-                    binding.activityCareerSaveBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-                }else{
-                   // binding.activityCareerSaveBtn.isClickable = false
-                    binding.activityCareerSaveBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-                }
-            }
-        })
-
-    }
-
-    private fun checkNow(inputDate :String) : Boolean {
-        //현재 재직 중일 때
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        var formatted = current.format(formatter)
-        return inputDate >= formatted
-    }
-    fun checkInfo() : Boolean{
-        var  checkResult = true
-        var company = binding.activityCareerEtCompanyDesc.text.toString()
-        var position = binding.activityCareerEtPosition.text.toString()
-        var start = binding.activityCareerEtStartPeriod.text.toString()
-        var end = binding.activityCareerEtEndPeriod.text.toString()
-
-        //회사 조건 확인 기능
-        if(company.length > 22) {
-            checkResult = false
-        }
-        //직함 조건 확인 기능
-        if(position.length > 22) {
-            checkResult = false
-        }
-        //시작년월 조건 확인 기능
-        if(start.isEmpty()) checkResult = false
-
-        //종료년월 조건 확인 기능
-        if(end.isEmpty()) checkResult = false
-
-        return checkResult
-    }
-
 }

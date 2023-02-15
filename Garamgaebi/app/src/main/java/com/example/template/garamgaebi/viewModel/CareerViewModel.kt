@@ -13,8 +13,6 @@ import kotlinx.coroutines.launch
 
 class CareerViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
-    var addressFirst : Boolean = false
-    var typeFirst: Boolean = false
     var careerIdx:Int = -1
 
     val company = MutableLiveData<String>()
@@ -43,6 +41,51 @@ class CareerViewModel : ViewModel(){
 
     val isWorking = MutableLiveData<String>()
     init { isWorking.value = "FALSE"}
+
+
+    /*유효성 검사를 위한 부분
+    * 1) 회사
+    * 2) 직함
+    * 3) 시작년월
+    * 4) 종료년월
+    * * */
+
+    //포커싱 감지
+    val companyFocusing = MutableLiveData<Boolean>(false)
+    val positionFocusing = MutableLiveData<Boolean>(false)
+    val startFocusing = MutableLiveData<Boolean>(false)
+    val endFocusing = MutableLiveData<Boolean>(false)
+
+    //첫 입력 확인
+    var companyFirst = MutableLiveData<Boolean>(true)
+    var positionFirst = MutableLiveData<Boolean>(true)
+    var startFirst = MutableLiveData<Boolean>(true)
+    var endFirst = MutableLiveData<Boolean>(true)
+
+    //hint 문구
+    var companyHint= MutableLiveData<String>("")
+    var positionHint = MutableLiveData<String>("")
+    var startHint = MutableLiveData<String>("")
+    var endHint = MutableLiveData<String>("")
+
+    //checkBox
+    var checkBox = MutableLiveData<Boolean>(false)
+
+    //유효성 문구
+    var companyState = MutableLiveData<String>("")
+    var positionState = MutableLiveData<String>("")
+
+    fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        Log.d("링크 focusing입니다",data.value.toString())
+        Log.d("링크 첫입력입니다",first.value.toString())
+        Log.d("링크 시작 첫입력입니다",startFirst.value.toString())
+        Log.d("링크 종료 첫입력입니다",endFirst.value.toString())
+
+    }
+
+    //유효성 끝
 
     private val _add = MutableLiveData<AddCareerDataResponse>()
     val add : LiveData<AddCareerDataResponse>

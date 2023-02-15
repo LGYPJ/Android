@@ -20,19 +20,41 @@
         android:background="@drawable/basic_bottom_sheet_dialog_layout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <DatePicker
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/date_picker"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="150dp"
             android:layout_marginTop="40dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/date_picker_btn"
             >
-        </DatePicker>
+            <NumberPicker
+                android:id="@+id/picker_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toStartOf="@id/picker_month"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+            </NumberPicker>
+
+            <NumberPicker
+                android:id="@+id/picker_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintStart_toEndOf="@id/picker_year"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/date_picker_btn"
             android:layout_width="wrap_content"

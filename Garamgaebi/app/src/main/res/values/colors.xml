@@ -24,6 +24,8 @@
     <color name="gray54">#545454</color>
     <color name="grayF5">#F5F5F5</color>
     <color name="grayF9">#F9F9F9</color>
+    <color name="blue_close">#007AFF</color>
+    <color name="gray_close">#3c3c43</color>
 
     <!--홈-->
     <color name="home_seminar_this_month_blue">#CC356EFF</color>

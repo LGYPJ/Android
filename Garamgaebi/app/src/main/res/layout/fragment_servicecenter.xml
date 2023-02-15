@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
@@ -13,10 +14,9 @@
             name="serviceCenterViewModel"
             type="com.example.template.garamgaebi.viewModel.ServiceCenterViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_servicecenter_info"
@@ -28,7 +28,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
+<TextView
+    android:id="@+id/activity_servicecenter_tv_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/serviceCenter_information"
+    android:textColor="@color/black80"
+    android:textStyle="bold"
+    android:textSize="16sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
         <TextView
             android:id="@+id/activity_servicecenter_tv_desc"
             android:layout_width="wrap_content"
@@ -36,35 +46,69 @@
             android:text="@string/cs_info"
             android:textColor="@color/black80"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_tv_title"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/activity_servicecenter_tv_email_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/response_email"
+        android:textColor="@color/black80"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_info"
+        />
 
     <EditText
         android:id="@+id/activity_sevicecenter_tv_email"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        android:text="@={serviceCenterViewModel.email}"
-        android:bufferType="spannable"
-        android:textSize="14sp"
-        android:textColor="@color/black80"
-        android:paddingStart="12dp"
-        android:textColorHint="@color/grayForBtn"
-        android:hint="@string/myemail"
+        android:layout_marginTop="8dp"
         android:background="@drawable/basic_gray_border_layout"
-        android:layout_marginTop="24dp"
-        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/response_email))}"
+        android:bufferType="spannable"
+        android:gravity="center_vertical"
+        android:hint="@string/response_email_desc"
+        android:paddingStart="12dp"
+        android:text="@={serviceCenterViewModel.email}"
+        android:textColor="@color/black80"
+        android:textColorHint="@color/grayForBtn"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_info"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="@+id/activity_servicecenter_tv_email_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_tv_email_title"
+        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/response_email))}" />
+    <TextView
+        android:id="@+id/activity_eservicecenter_email_tv_nameState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@color/redForText"
+        app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email"
+        app:layout_constraintTop_toBottomOf="@id/activity_sevicecenter_tv_email"
+        />
 
-
-
+    <TextView
+        android:id="@+id/activity_servicecenter_tv_option_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black80"
+        android:textStyle="bold"
+        android:text="@string/reason"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_sevicecenter_tv_email"
+        />
     <TextView
         android:id="@+id/activity_servicecenter_et_option"
         android:layout_width="0dp"
@@ -73,15 +117,15 @@
         android:textColor="@color/black80"
         android:paddingStart="12dp"
         android:textColorHint="@color/grayForBtn"
-        android:hint="질문 유행을 선택해주세요"
+        android:hint="@string/choose_why"
         android:background="@{serviceCenterViewModel.categoryIsValid ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout}"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:clickable="false"
         android:text="@={serviceCenterViewModel.category}"
-        app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
-        app:layout_constraintTop_toBottomOf="@+id/activity_sevicecenter_tv_email"
-        app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_tv_option_title"
+        app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_option_title" />
 
     <ImageView
         android:id="@+id/activity_servicecenter_iv_option"
@@ -92,23 +136,37 @@
         app:layout_constraintBottom_toBottomOf="@+id/activity_servicecenter_et_option"
         app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_option"
         app:layout_constraintTop_toTopOf="@id/activity_servicecenter_et_option"></ImageView>
+
     <EditText
         android:id="@+id/activity_servicecenter_et_content"
         android:layout_width="0dp"
         android:layout_height="152dp"
-        android:padding="11dp"
-        android:hint="@string/input_100"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/basic_gray_border_layout"
         android:gravity="top"
-        android:textSize="14sp"
+        android:hint="@string/input_content"
+        android:padding="11dp"
+        android:paddingStart="12dp"
         android:textColor="@color/black80"
         android:textColorHint="@color/grayForBtn"
-        android:paddingStart="12dp"
-        android:background="@drawable/basic_gray_border_layout"
-        android:layout_marginTop="14dp"
-        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/input_100))}"
-        app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/activity_servicecenter_et_option"
+        app:layout_constraintStart_toStartOf="@+id/activity_servicecenter_et_option"
         app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_et_option"
-        app:layout_constraintStart_toStartOf="@id/activity_sevicecenter_tv_email"/>
+        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/input_100))}" />
+    <TextView
+        android:id="@+id/activity_content_et_name_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grayD9"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:text='@{serviceCenterViewModel.content.length() +"/100"}'
+        app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_content"
+        app:layout_constraintBottom_toBottomOf="@id/activity_servicecenter_et_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="12dp"
+        />
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/activity_servicecenter_checkbox_rl"
