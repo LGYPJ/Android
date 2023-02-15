@@ -6,13 +6,13 @@
     <data>
         <variable
             name="registerViewModel"
-            type="com.example.template.garamgaebi.viewModel.RegisterViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.RegisterViewModel" />
         <variable
             name="editTextViewModel"
-            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
         <variable
             name="context"
-            type="com.example.template.garamgaebi.src.main.register.RegisterActivity" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.src.main.register.RegisterActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

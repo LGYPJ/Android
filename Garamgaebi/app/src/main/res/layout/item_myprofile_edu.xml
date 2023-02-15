@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.template.garamgaebi.model.EducationData" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.model.EducationData" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

@@ -5,10 +5,10 @@
     <data>
         <variable
             name="profileViewModel"
-            type="com.example.template.garamgaebi.viewModel.ProfileViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.ProfileViewModel" />
         <variable
             name="editViewModel"
-            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

@@ -3,10 +3,10 @@
     <data>
         <variable
             name="careerViewModel"
-            type="com.example.template.garamgaebi.viewModel.CareerViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.CareerViewModel" />
         <variable
             name="editTextViewModel"
-            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
