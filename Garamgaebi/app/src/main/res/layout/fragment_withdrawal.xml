@@ -2,16 +2,15 @@
 <layout>
     <data>
         <import type="android.view.View"/>
-        <import type="com.example.template.garamgaebi.src.main.profile.MyProfileFragment"/>
         <variable
             name="editTextViewModel"
-            type="com.example.template.garamgaebi.viewModel.EditTextViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
         <variable
             name="withdrawalFragment"
-            type="com.example.template.garamgaebi.src.main.profile.WithdrawalFragment" />
+            type="com.garamgaebi.garamgaebi.src.main.profile.WithdrawalFragment" />
         <variable
             name="withdrawalViewModel"
-            type="com.example.template.garamgaebi.viewModel.WithdrawalViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

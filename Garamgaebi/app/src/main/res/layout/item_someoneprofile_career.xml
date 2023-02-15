@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.template.garamgaebi.model.CareerData" />
+            type="com.garamgaebi.garamgaebi.model.CareerData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
