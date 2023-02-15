@@ -11,7 +11,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.adapter.GatheringSeminarDeadlineRVAd
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration

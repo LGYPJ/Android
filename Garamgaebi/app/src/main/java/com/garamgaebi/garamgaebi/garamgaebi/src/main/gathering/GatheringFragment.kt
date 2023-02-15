@@ -7,7 +7,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.GatheringVPAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentGatheringBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentGatheringBinding
 
 
 class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheringBinding::bind, R.layout.fragment_gathering) {

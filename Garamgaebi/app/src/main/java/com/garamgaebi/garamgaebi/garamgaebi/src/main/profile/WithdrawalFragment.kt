@@ -9,11 +9,11 @@ import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.garamgaebi.garamgaebi.garamgaebi.BR
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel

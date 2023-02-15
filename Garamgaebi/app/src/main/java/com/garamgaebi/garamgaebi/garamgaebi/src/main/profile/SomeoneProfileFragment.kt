@@ -13,7 +13,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 

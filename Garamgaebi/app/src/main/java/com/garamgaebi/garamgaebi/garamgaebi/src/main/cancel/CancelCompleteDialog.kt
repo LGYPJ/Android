@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.DialogCancelCompleteBinding
+import com.garamgaebi.garamgaebi.databinding.DialogCancelCompleteBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.MainActivity
 

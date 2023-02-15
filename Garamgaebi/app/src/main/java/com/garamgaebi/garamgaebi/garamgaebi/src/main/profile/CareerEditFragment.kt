@@ -11,11 +11,11 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.garamgaebi.garamgaebi.garamgaebi.BR
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentProfileCareerEditBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentProfileCareerEditBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel

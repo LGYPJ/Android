@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel
 import com.garamgaebi.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 import kotlinx.coroutines.*

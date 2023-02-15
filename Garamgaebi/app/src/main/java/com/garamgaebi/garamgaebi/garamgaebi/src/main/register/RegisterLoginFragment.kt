@@ -6,7 +6,7 @@ import android.view.View
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.REGISTER_AUTH
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterLoginBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterLoginBinding
 
 class RegisterLoginFragment : BaseFragment<FragmentRegisterLoginBinding>(
     FragmentRegisterLoginBinding::bind, R.layout.fragment_register_login) {

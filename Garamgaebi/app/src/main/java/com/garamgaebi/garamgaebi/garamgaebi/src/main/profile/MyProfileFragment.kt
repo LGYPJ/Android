@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.garamgaebi.BR
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity

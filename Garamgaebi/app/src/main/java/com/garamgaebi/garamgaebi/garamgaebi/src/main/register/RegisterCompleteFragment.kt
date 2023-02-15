@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterCompleteBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCompleteBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.MainActivity
 
 class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>

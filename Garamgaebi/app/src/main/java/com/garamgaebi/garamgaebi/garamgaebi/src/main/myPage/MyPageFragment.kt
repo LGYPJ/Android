@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentMyPageBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentMyPageBinding
 
 class MyPageFragment :
     BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding::bind, R.layout.fragment_my_page) {

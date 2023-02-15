@@ -3,7 +3,7 @@ package com.garamgaebi.garamgaebi.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNetworkGameSelectBinding
+import com.garamgaebi.garamgaebi.databinding.ItemNetworkGameSelectBinding
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.networking_game.NetworkingGameSelect
 
 class NetworkingGameSelectAdapter(private val dataList: ArrayList<NetworkingGameSelect>): RecyclerView.Adapter<NetworkingGameSelectAdapter.ViewHolder>() {

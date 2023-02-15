@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileEduBinding
+import com.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileEduBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.EducationData
 
 class EduSomeoneRVAdapter(private val dataList: ArrayList<EducationData>, val mContext : Context): RecyclerView.Adapter<EduSomeoneRVAdapter.ViewHolder>() {

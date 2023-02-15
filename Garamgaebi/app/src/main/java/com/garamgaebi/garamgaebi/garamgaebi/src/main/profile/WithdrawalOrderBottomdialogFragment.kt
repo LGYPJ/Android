@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentWithdrawalOrderBottomDialogBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalOrderBottomDialogBinding
 
 
 class WithdrawalOrderBottomDialogFragment (val itemClick: (Int) -> Unit) :

@@ -13,7 +13,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.FIRST
 import com.garamgaebi.garamgaebi.garamgaebi.common.REGISTER_LOGIN
 import com.garamgaebi.garamgaebi.garamgaebi.common.SECOND
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
 
 class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(FragmentRegisterIntroBinding::bind, R.layout.fragment_register_intro) {
     lateinit var registerActivity : RegisterActivity

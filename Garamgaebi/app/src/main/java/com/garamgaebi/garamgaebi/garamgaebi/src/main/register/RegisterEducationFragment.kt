@@ -6,7 +6,7 @@ import android.view.View
 import com.garamgaebi.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.REGISTER_CAREER
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterEducationBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEducationBinding
 
 
 class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationBinding>(R.layout.fragment_register_education) {

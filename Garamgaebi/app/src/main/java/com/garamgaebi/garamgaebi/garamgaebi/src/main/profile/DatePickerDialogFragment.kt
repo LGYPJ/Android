@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentDatepickerDialogBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentDatepickerDialogBinding
 
 class DatePickerDialogFragment (val itemClick: (String) -> Unit) :
     BottomSheetDialogFragment() {

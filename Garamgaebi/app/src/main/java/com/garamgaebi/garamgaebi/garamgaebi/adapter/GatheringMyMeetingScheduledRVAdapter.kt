@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
+import com.garamgaebi.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.GatheringProgramResult
 
 class GatheringMyMeetingScheduledRVAdapter(

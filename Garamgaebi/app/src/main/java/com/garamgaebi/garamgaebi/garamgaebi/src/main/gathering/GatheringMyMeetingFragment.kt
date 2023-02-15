@@ -14,7 +14,7 @@ import com.garamgaebi.garamgaebi.garamgaebi.adapter.GatheringMyMeetingLastRVAdap
 import com.garamgaebi.garamgaebi.garamgaebi.adapter.GatheringMyMeetingScheduledRVAdapter
 import com.garamgaebi.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.garamgaebi.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration
