@@ -120,35 +120,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         //교육기간_종료 시 레이아웃 테두리 변경 -> 달력으로 바꿔야함
         checkDpInput(binding.activityEducationEtEndPeriod)
 
-//재직 정보 date picker
-        binding.activityEducationEtStartPeriod.setOnClickListener {
-            val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
-                val arr = it.split(".")
 
-                binding.activityEducationEtStartPeriod.setText(arr[0] + "." + arr[1])
-
-                checkDpInput(binding.activityEducationEtEndPeriod)
-            }
-            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-        }
-        //종료년월
-        binding.activityEducationEtEndPeriod.setOnClickListener {
-            val orderBottomDialogFragment: DatePickerDialogFragment = DatePickerDialogFragment {
-                val arr = it.split(".")
-                viewModel.endDate.value = arr[0]+"."+arr[1]
-                if (GaramgaebiFunction().checkNow(it)) {
-                    binding.activityEducationCheckbox.isChecked = true
-                    binding.activityEducationEtEndPeriod.setText("현재")
-                    viewModel.isLearning.value = "TRUE"
-                } else {
-                    binding.activityEducationCheckbox.isChecked = false
-                    binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
-                    viewModel.isLearning.value = "FALSE"
-                }
-                checkDpInput(binding.activityEducationEtEndPeriod)
-            }
-            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-        }
     }
 
      fun checkDpInput(view: TextView){
