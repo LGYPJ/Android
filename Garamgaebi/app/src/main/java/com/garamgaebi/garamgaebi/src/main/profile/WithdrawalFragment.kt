@@ -25,88 +25,67 @@ class WithdrawalFragment :
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //탈퇴기 버튼 클릭이벤트
-
-        var myEmail = GaramgaebiApplication.sSharedPreferences.getString("myEmail","umc@naver.com")
+        var myEmail = GaramgaebiApplication.sSharedPreferences.getString("mySchoolEmail","not@gachon.ac.kr")
 
         binding.activityWithdrawalSendBtn.setOnClickListener {
-            if (checkInfo() == true){
                 //탈퇴 기능 추가
                 (activity as ContainerActivity).onBackPressed()
-            }else{
-                //탈퇴 불가 및 이유
-            }
         }
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
-        binding.setVariable(BR.withdrawalViewModel,viewModel)
-        binding.withdrawalViewModel = viewModel
-
-        val editTextViewModel = ViewModelProvider(this)[EditTextViewModel::class.java]
-        binding.setVariable(BR.editTextViewModel,editTextViewModel)
+        binding.setVariable(BR.viewModel,viewModel)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
 
         if (myEmail != null) {
             viewModel.email.value = myEmail
         }
 
-        viewModel.email.observe(viewLifecycleOwner, Observer {
-            binding.withdrawalViewModel = viewModel
-
-            //email 유효성 검사 부분
-            if(it.length < 22 && it.isNotEmpty())
-                viewModel.emailIsValid.value = true
-
-            Log.d("wd_email_true",viewModel.emailIsValid.value.toString())
-        })
         viewModel.category.observe(viewLifecycleOwner, Observer {
-            binding.withdrawalViewModel = viewModel
+            binding.viewModel = viewModel
             if(it.isNotEmpty())
                 viewModel.categoryIsValid.value = true
 
             if(it.equals("기타")){
-                viewModel.contentIsValid.value = false
+                binding.activityContentEtNameLength.visibility = View.VISIBLE
+                viewModel.content.value=""
+            }else{
+                binding.activityContentEtNameLength.visibility = View.GONE
+                viewModel.contentIsValid.value=true
+
             }
 
-            Log.d("wd_category_true",viewModel.categoryIsValid.value.toString())
+
+            Log.d("qna_category_true",viewModel.categoryIsValid.value.toString())
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
-            binding.withdrawalViewModel = viewModel
+            binding.viewModel = viewModel
 
-            if(viewModel.category.value.equals("기타"))
-            viewModel.contentIsValid.value = (it.length < 100 && it.isNotEmpty())
-            else{
-                viewModel.contentIsValid.value = true
-            }
+            viewModel.contentIsValid.value = it.length < 100 && it.isNotEmpty()
 
-            Log.d("wd_content_true",viewModel.contentIsValid.value.toString())
+            Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
         viewModel.agree.observe(viewLifecycleOwner, Observer {
-            binding.withdrawalViewModel = viewModel
+            binding.viewModel = viewModel
 
             viewModel.agreeIsValid.value = binding.activityWithdrawalCheckbox.isChecked
 
-            Log.d("wd_agree_true",viewModel.agreeIsValid.value.toString())
+            Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
+
+
 
         //동의 체크박스 클릭 이벤트
         binding.activityWithdrawalTvCheckboxDesc.setOnClickListener {
             var preCheck = binding.activityWithdrawalCheckbox.isChecked
             viewModel.agree.value = !preCheck
 
-            //binding.activityWithdrawalCheckbox.isChecked = !preCheck
-//                if (checkInfo()){
-//                    binding.activityWithdrawalSendBtn.isClickable = true
-//                    binding.activityWithdrawalSendBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-//                }else{
-//                    binding.activityWithdrawalSendBtn.isClickable = false
-//                    binding.activityWithdrawalSendBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-//                }
         }
 
-        //탈퇴사유 입력 시 레이아웃 테두리 변경
-        checkEtInput(binding.activityWithdrawalEtContent)
-
         binding.activityWithdrawalEtOption.setOnClickListener {
+            viewModel.categoryFocusing.value = true
+            viewModel.categoryFirst.value = false
+
             val orderBottomDialogFragment: WithdrawalOrderBottomDialogFragment = WithdrawalOrderBottomDialogFragment {
                 when (it) {
                     0 -> {
@@ -133,47 +112,7 @@ class WithdrawalFragment :
 
     }
 
-    fun checkEtInput(view: EditText) {
-        view.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.register_et_border_selected)
-            } else {
-                view.setBackgroundResource(R.drawable.register_et_border)
-            }
-        }
-        view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (checkInfo()){
-                    binding.activityWithdrawalSendBtn.isClickable = true
-                    binding.activityWithdrawalSendBtn.setBackgroundResource(R.drawable.basic_blue_btn_layout)
-                }else{
-                    binding.activityWithdrawalSendBtn.isClickable = false
-                    binding.activityWithdrawalSendBtn.setBackgroundResource(R.drawable.basic_gray_btn_layout)
-                }
-            }
-        })
-    }
 
-    fun checkInfo() : Boolean{
-        var  checkResult = true
-        var option = binding.activityWithdrawalEtOption.text.toString()
-        var content = binding.activityWithdrawalEtContent.text.toString()
-
-
-        //질문 선택 확인 기능
-        if(option.isEmpty()) checkResult = false
-
-        //내용 확인 기능
-        if(content.isEmpty()) {
-            checkResult = false
-        }
-        if(!binding.activityWithdrawalCheckbox.isChecked){
-            checkResult = false
-        }
-        return checkResult
-    }
     //뒤로가기 버튼 눌렀을 때
 }
 
