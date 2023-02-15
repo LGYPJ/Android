@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -42,7 +43,7 @@ class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(Fragmen
             if(binding.fragmentRegisterIntroBtn.text == getString(R.string.next)) {
                 binding.fragmentIntroVp.currentItem = 1
             } else {
-                registerActivity.setFragment(REGISTER_LOGIN)
+                startActivity(Intent(registerActivity, RegisterLoginActivity::class.java))
             }
         }
     }

@@ -20,9 +20,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".src.main.register.RegisterLoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth"
+                    android:scheme="kakaof660903d82252a06c824795c15178d2b"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.register.RegisterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name="com.garamgaebi.garamgaebi.src.splash.SplashActivity"
             android:exported="true"
@@ -31,8 +43,7 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <data android:host="oauth"
-                    android:scheme="kakao${KAKAO_API_KEY}" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

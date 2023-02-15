@@ -9,8 +9,14 @@ import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
+        if(intent.getBooleanExtra("login", false))
+            setFragment(REGISTER_AUTH)
+        else
+            setFragment(REGISTER_INTRO)
+
         Log.d("register","onCreate")
-        setFragment(REGISTER_INTRO)
+
     }
     fun setFragment(int : Int) {
         val trans = supportFragmentManager.beginTransaction()
@@ -18,9 +24,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             REGISTER_INTRO -> {
                 trans.replace(R.id.activity_register_frm, RegisterIntroFragment())
             }
-            REGISTER_LOGIN -> {
+            /*REGISTER_LOGIN -> {
                 trans.replace(R.id.activity_register_frm, RegisterLoginFragment()).addToBackStack(null)
-            }
+            }*/
             REGISTER_AUTH -> {
                 trans.replace(R.id.activity_register_frm, RegisterAuthenticationFragment()).addToBackStack(null)
             }
