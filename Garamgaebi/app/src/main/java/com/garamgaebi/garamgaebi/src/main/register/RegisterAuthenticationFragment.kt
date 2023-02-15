@@ -13,6 +13,7 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_NICKNAME
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.*
 
 class RegisterAuthenticationFragment :

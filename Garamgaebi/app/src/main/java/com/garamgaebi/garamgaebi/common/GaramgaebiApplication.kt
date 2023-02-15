@@ -48,7 +48,7 @@ class GaramgaebiApplication : Application() {
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
-        KakaoSdk.init(this, BuildConfig.KAKAO_API_KEY)
+        KakaoSdk.init(this, "f660903d82252a06c824795c15178d2b")
         // 레트로핏 인스턴스 생성
         initRetrofitInstance()
         settingScreenPortrait()
