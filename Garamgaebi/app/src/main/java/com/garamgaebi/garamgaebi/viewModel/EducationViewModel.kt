@@ -12,8 +12,6 @@ import kotlinx.coroutines.launch
 
 class EducationViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
-    var addressFirst : Boolean = false
-    var typeFirst: Boolean = false
     var educationIdx:Int = -1
 
     val institution = MutableLiveData<String>()
@@ -42,6 +40,49 @@ class EducationViewModel : ViewModel(){
 
     val isLearning = MutableLiveData<String>()
     init { isLearning.value = "FALSE"}
+
+    /*유효성 검사를 위한 부분
+    * 1) 교육기관
+    * 2) 전공
+    * 3) 시작년월
+    * 4) 종료년월
+    * * */
+
+    //포커싱 감지
+    val institutionFocusing = MutableLiveData<Boolean>(false)
+    val majorFocusing = MutableLiveData<Boolean>(false)
+    val startFocusing = MutableLiveData<Boolean>(false)
+    val endFocusing = MutableLiveData<Boolean>(false)
+
+    //첫 입력 확인
+    var institutionFirst = MutableLiveData<Boolean>(true)
+    var majorFirst = MutableLiveData<Boolean>(true)
+    var startFirst = MutableLiveData<Boolean>(true)
+    var endFirst = MutableLiveData<Boolean>(true)
+
+    //hint 문구
+    var institutionHint= MutableLiveData<String>("")
+    var majorHint = MutableLiveData<String>("")
+    var startHint = MutableLiveData<String>("")
+    var endHint = MutableLiveData<String>("")
+
+    //checkBox
+    var checkBox = MutableLiveData<Boolean>(false)
+
+    //유효성 문구
+    var institutionState = MutableLiveData<String>("")
+    var majorState = MutableLiveData<String>("")
+    fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        Log.d("링크 focusing입니다",data.value.toString())
+        Log.d("링크 첫입력입니다",first.value.toString())
+        Log.d("링크 시작 첫입력입니다",startFirst.value.toString())
+        Log.d("링크 종료 첫입력입니다",endFirst.value.toString())
+
+    }
+
+    //유효성 끝
 
     private val _add = MutableLiveData<AddEducationDataResponse>()
     val add : LiveData<AddEducationDataResponse>

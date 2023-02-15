@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemHomeMyMeetingBinding
+import com.garamgaebi.garamgaebi.databinding.ItemHomeMyMeetingBinding
 
 import com.garamgaebi.garamgaebi.model.HomeProgramResult
 

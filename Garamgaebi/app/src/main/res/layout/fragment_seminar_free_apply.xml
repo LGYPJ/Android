@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.ApplyViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.ApplyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -10,14 +10,14 @@ import android.view.View.VISIBLE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.SeminarPresentAdapter
 import com.garamgaebi.garamgaebi.adapter.SeminarProfileAdapter
 
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
 import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarResult

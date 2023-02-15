@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_EMAIL
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterNicknameBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterNicknameBinding
 
 class RegisterNicknameFragment : BaseBindingFragment<FragmentRegisterNicknameBinding>
     (R.layout.fragment_register_nickname) {

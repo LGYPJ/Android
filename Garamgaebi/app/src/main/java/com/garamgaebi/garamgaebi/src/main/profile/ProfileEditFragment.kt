@@ -27,12 +27,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.garamgaebi.garamgaebi.garamgaebi.BR
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.BR
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

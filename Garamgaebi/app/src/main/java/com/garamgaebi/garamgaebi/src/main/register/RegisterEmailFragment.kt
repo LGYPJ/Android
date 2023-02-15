@@ -6,10 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_ORG
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterEmailBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEmailBinding
 
 
 class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(R.layout.fragment_register_email) {

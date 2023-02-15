@@ -3,10 +3,11 @@ package com.garamgaebi.garamgaebi.src.main.register
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_CAREER
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterEducationBinding
+import com.garamgaebi.garamgaebi.common.REGISTER_COMPLETE
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEducationBinding
 
 
 class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationBinding>(R.layout.fragment_register_education) {
@@ -19,7 +20,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
         checkFocus(binding.fragmentEducationEtMajor)
 
         binding.fragmentEducationBtnNext.setOnClickListener {
-
+            registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentEducationTvCareer.setOnClickListener {
             registerActivity.setFragment(REGISTER_CAREER)

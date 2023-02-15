@@ -1,15 +1,15 @@
-package com.garamgaebi.garamgaebi.src.main
+package com.example.template.garamgaebi.src.main
 
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ActivityMainBinding
+import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.ApiInterface
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.model.LoginRequest

@@ -1,11 +1,11 @@
-package com.garamgaebi.garamgaebi.adapter
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemGatheringMyMeetingLastBinding
+import com.garamgaebi.garamgaebi.databinding.ItemGatheringMyMeetingLastBinding
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 
 class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringProgramResult>): RecyclerView.Adapter<GatheringMyMeetingLastRVAdapter.ViewHolder>() {

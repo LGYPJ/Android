@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.cancel
+package com.example.template.garamgaebi.src.main.cancel
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CancelAdapter
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentCancelBankBottomDialogBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentCancelBankBottomDialogBinding
 
 class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomSheetDialogFragment(){
 

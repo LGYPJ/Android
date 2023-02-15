@@ -3,14 +3,14 @@ package com.garamgaebi.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.CLOSED
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.READY
 import com.garamgaebi.garamgaebi.common.THIS_MONTH
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingClosedBinding
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingScheduledBinding
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingThismonthBinding
+import com.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingClosedBinding
+import com.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingScheduledBinding
+import com.garamgaebi.garamgaebi.databinding.ItemHomeNetworkingThismonthBinding
 import com.garamgaebi.garamgaebi.model.HomeNetworkingResult
 
 class HomeNetworkingRVAdapter (private val dataList: ArrayList<HomeNetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="registerViewModel"
-            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.RegisterViewModel" />
-        <variable
-            name="editTextViewModel"
-            type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
+            type="com.garamgaebi.garamgaebi.viewModel.RegisterViewModel" />
         <variable
             name="context"
-            type="com.garamgaebi.garamgaebi.garamgaebi.src.main.register.RegisterActivity" />
+            type="com.garamgaebi.garamgaebi.src.main.register.RegisterActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,10 +70,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:maxLines="1"
-            android:background="@drawable/register_et_border"
-            android:text="@={registerViewModel.email}"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
-            android:hint="@string/example"
+            android:background="@{registerViewModel.emailFocusing? @drawable/register_et_border_selected : @drawable/register_et_border}"
+            android:text="@={registerViewModel.uniEmail}"
+            android:textColor="@color/black80"
+            app:onFocusing="@{(check)->registerViewModel.setBoolean(registerViewModel.emailFocusing, check)}"
+            android:hint='@{registerViewModel.emailFocusing ? "" : @string/example}'
             android:paddingStart="12dp"
             android:textColorHint="@color/grayD9"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_tv_email_title" />
@@ -97,11 +96,10 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
-            android:background="@drawable/register_btn_color"
+            android:background="@{registerViewModel.isTimerRunning() ? @drawable/fragment_auth_btn_send :(registerViewModel.isEmailValid() ? @drawable/register_btn_color_enable : @drawable/register_btn_color)}"
             android:clickable="@{registerViewModel.isEmailValid() ? true : false}"
-            android:onClick="@{()->registerViewModel.timerStart()}"
-            android:text="@{}"
-            android:textColor="@color/white"
+            android:text="@{registerViewModel.isCompleteAuth() ? @string/email_auth_complete : registerViewModel.isTimerRunning() ? String.format(@string/re_send_email, registerViewModel._timerCount/60, registerViewModel._timerCount%60) : registerViewModel.timerFirst ? @string/send_email : @string/re_send_email_time_zero}"
+            android:textColor="@{registerViewModel.isTimerRunning()? @color/blueForBtn : @color/white}"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_email" />
 
@@ -123,10 +121,11 @@
             android:layout_marginTop="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/register_et_border"
-            android:hint="@string/certification_num"
+            android:background="@{registerViewModel.isAuthWrong() ? @drawable/basic_red_border_layout : registerViewModel.authNumFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout}"
+            android:hint='@{registerViewModel.checkAuthNum() ? "" : @string/certification_num}'
             android:text="@={registerViewModel.authNum}"
-            app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,@string/example)}"
+            android:textColor="@color/black80"
+            app:onFocusing="@{(check)->registerViewModel.setBoolean(registerViewModel.authNumFocusing, check)}"
             android:inputType="number"
             android:paddingStart="16dp"
             android:maxLength="6"
@@ -143,7 +142,7 @@
             android:textColor="@color/redForText"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:visibility="invisible"
+            android:visibility="@{registerViewModel.isAuthWrong()? View.VISIBLE : View.INVISIBLE }"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_authentication_et_num" />
         <Button
@@ -152,8 +151,8 @@
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="@drawable/fragment_register_auth_btn_radius_8"
-            android:enabled="@{registerViewModel.isNumValid() ? true : false}"
-            android:stateListAnimator="@null"
+            android:backgroundTint="@{(registerViewModel.isNumValid() &amp;&amp; registerViewModel.isTimerRunning()) ? @color/blueForBtn : @color/grayD9}"
+            android:enabled="@{(registerViewModel.isNumValid() &amp;&amp; registerViewModel.isTimerRunning())? true : false}"
             android:text="@string/certification_num_check"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -162,14 +161,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_authentication_et_num" />
         <Button
-            android:id="@+id/fragment_authentication_btn"
+            android:id="@+id/fragment_authentication_btn_next"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
-            android:background="@drawable/register_btn_color"
-            android:stateListAnimator="@null"
+            android:background="@{registerViewModel.isCompleteAuth() ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/next"
             android:textColor="@color/white"
+            android:enabled="@{registerViewModel.isCompleteAuth() ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

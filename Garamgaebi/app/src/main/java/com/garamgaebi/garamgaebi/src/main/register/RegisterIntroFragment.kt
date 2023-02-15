@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.FIRST
 import com.garamgaebi.garamgaebi.common.REGISTER_LOGIN
 import com.garamgaebi.garamgaebi.common.SECOND
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
 
 class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(FragmentRegisterIntroBinding::bind, R.layout.fragment_register_intro) {
     lateinit var registerActivity : RegisterActivity
@@ -42,7 +42,7 @@ class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(Fragmen
             if(binding.fragmentRegisterIntroBtn.text == getString(R.string.next)) {
                 binding.fragmentIntroVp.currentItem = 1
             } else {
-                registerActivity.setFragment(REGISTER_LOGIN)
+                startActivity(Intent(registerActivity, RegisterLoginActivity::class.java))
             }
         }
     }

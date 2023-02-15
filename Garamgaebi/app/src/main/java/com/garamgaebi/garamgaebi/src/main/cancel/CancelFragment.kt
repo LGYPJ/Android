@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.cancel
+package com.example.template.garamgaebi.src.main.cancel
 
 import android.content.Context
 import android.graphics.Color
@@ -11,10 +11,10 @@ import android.view.View
 import android.view.View.GONE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
 import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel

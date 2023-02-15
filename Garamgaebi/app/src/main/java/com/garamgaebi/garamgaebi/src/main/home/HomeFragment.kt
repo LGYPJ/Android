@@ -8,14 +8,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.HomeMyMeetingRVAdapter
 import com.garamgaebi.garamgaebi.adapter.HomeNetworkingRVAdapter
 import com.garamgaebi.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.garamgaebi.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.HomeNetworkingResult
 import com.garamgaebi.garamgaebi.model.HomeProgramResult
 import com.garamgaebi.garamgaebi.model.HomeSeminarResult

@@ -1,11 +1,11 @@
-package com.garamgaebi.garamgaebi.adapter
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileCareerBinding
+import com.garamgaebi.garamgaebi.databinding.ItemSomeoneprofileCareerBinding
 import com.garamgaebi.garamgaebi.model.CareerData
 
 class CareerSomeoneRVAdapter(private val dataList: ArrayList<CareerData>, val mContext : Context): RecyclerView.Adapter<CareerSomeoneRVAdapter.ViewHolder>(){

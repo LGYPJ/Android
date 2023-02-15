@@ -4,11 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.PROGRESSBAR
 import com.garamgaebi.garamgaebi.common.RV_ITEM
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNotificationBinding
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemNotificationProgressBarBinding
+import com.garamgaebi.garamgaebi.databinding.ItemNotificationBinding
+import com.garamgaebi.garamgaebi.databinding.ItemNotificationProgressBarBinding
 import com.garamgaebi.garamgaebi.model.NotificationList
 
 class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

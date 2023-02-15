@@ -17,11 +17,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel

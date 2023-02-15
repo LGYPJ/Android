@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemMyprofileSnsBinding
+import com.garamgaebi.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 

@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.gathering
+package com.example.template.garamgaebi.src.main.gathering
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration

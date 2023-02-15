@@ -2,12 +2,13 @@ package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_COMPLETE
 import com.garamgaebi.garamgaebi.common.REGISTER_EDU
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.FragmentRegisterCareerBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCareerBinding
 
 class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding>(R.layout.fragment_register_career) {
     lateinit var registerActivity:RegisterActivity
@@ -24,6 +25,7 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentCareerTvEducation.setOnClickListener {
+            Log.d("edu","edu")
             registerActivity.setFragment(REGISTER_EDU)
             parentFragmentManager.popBackStack()
         }

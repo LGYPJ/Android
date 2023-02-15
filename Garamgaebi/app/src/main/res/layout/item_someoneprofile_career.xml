@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.garamgaebi.garamgaebi.garamgaebi.model.CareerData" />
+            type="com.garamgaebi.garamgaebi.model.CareerData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/black80"
-
+                android:maxLines="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 >
@@ -36,7 +36,7 @@
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"
-
+                android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/activity_myprofile_career_list_item_tvName"
                 app:layout_constraintStart_toStartOf="parent"
                 >
@@ -51,8 +51,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_myprofile_career_list_item_tvContent"
-
-                ></TextView>
+                />
             <TextView
                 android:id="@+id/activity_myprofile_career_list_item_tv_Textperiod"
                 android:layout_width="wrap_content"
@@ -62,7 +61,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toEndOf="@id/activity_myprofile_career_list_item_tv_startPeriod"
                 app:layout_constraintTop_toTopOf="@id/activity_myprofile_career_list_item_tv_startPeriod"
-                ></TextView>
+                />
             <TextView
                 android:id="@+id/activity_myprofile_career_list_item_tv_endPeriod"
                 android:layout_width="wrap_content"
@@ -72,8 +71,7 @@
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toEndOf="@id/activity_myprofile_career_list_item_tv_Textperiod"
                 app:layout_constraintTop_toTopOf="@id/activity_myprofile_career_list_item_tv_startPeriod"
-                ></TextView>
-
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

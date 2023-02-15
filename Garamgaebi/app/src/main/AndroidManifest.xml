@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.garamgaebi.garamgaebi.garamgaebi">
+    package="com.garamgaebi.garamgaebi">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!--갤러리 권한-->
@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".src.main.register.RegisterLoginActivity"
+            android:exported="true">
+        </activity>
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.register.RegisterActivity"
             android:exported="false" />
@@ -29,6 +32,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.MainActivity"
@@ -36,11 +44,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.ContainerActivity"

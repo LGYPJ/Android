@@ -1,135 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <layout>
-<data>
-    <import type="android.view.View"/>
-    <import type="com.garamgaebi.garamgaebi.garamgaebi.src.main.profile.SnsEditFragment"/>
-    <variable
-        name="snsEditFragment"
-        type="com.garamgaebi.garamgaebi.garamgaebi.src.main.profile.SnsEditFragment" />
-    <variable
-        name="snsViewModel"
-        type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.SNSViewModel" />
-    <variable
-        name="editTextViewModel"
-        type="com.garamgaebi.garamgaebi.garamgaebi.viewModel.EditTextViewModel" />
-</data>
+<layout>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/activity_sns_info"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+        <variable
+            name="snsViewModel"
+            type="com.garamgaebi.garamgaebi.viewModel.SNSViewModel" />
 
-    <TextView
-        android:id="@+id/activity_sns_tv_nameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:gravity="center_vertical"
-        android:text="@string/sns_add_type"
-        android:textColor="@color/black80"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="common"
+            type="com.garamgaebi.garamgaebi.common.GaramgaebiFunction" />
+    </data>
 
-    <EditText
-        android:id="@+id/activity_sns_et_name"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:background="@drawable/basic_gray_border_layout"
-        android:gravity="center_vertical"
-        android:hint="@string/sns_add_type_desc"
-        android:paddingStart="12dp"
-        android:text="@={snsViewModel.snsType}"
-        android:textColor="@color/black80"
-        android:textColorHint="@color/grayD9"
-        android:textSize="14sp"
-        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/sns_add_type_desc))}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/activity_sns_tv_linkTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:gravity="center_vertical"
-        android:layout_marginTop="16dp"
-        android:text="@string/sns_add_link"
-        android:textColor="@color/black80"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_sns_et_name" />
-
-    <EditText
-        android:id="@+id/activity_sns_et_linkDesc"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:background="@drawable/basic_gray_border_layout"
-        android:gravity="center_vertical"
-        android:hint="@string/sns_add_link_desc"
-        android:paddingStart="12dp"
-        android:text="@={snsViewModel.snsAddress}"
-        android:textColor="@color/black80"
-        android:textColorHint="@color/grayForBtn"
-        android:textSize="14sp"
-        app:onFocusLost="@{(view,check) -> editTextViewModel.setBackgroundEditTextOnFocus(view,check,(@string/sns_add_link_desc))}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_linkTitle" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_sns_remove_btn"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_sns_info"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
-            android:background="@drawable/basic_blue_white_btn_layout"
-            android:text="@string/remove"
-            android:textColor="@color/blueForBtn"
-            android:textSize="16sp"
-            android:outlineProvider="none"
-            android:layout_marginEnd="3dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/activity_sns_save_btn"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </androidx.appcompat.widget.AppCompatButton>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_sns_save_btn"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
-            android:background="@{(snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-            android:text="@string/save"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:outlineProvider="none"
-            android:layout_marginStart="3dp"
-            android:clickable="@{(snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
-            app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </androidx.appcompat.widget.AppCompatButton>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/activity_sns_tv_nameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:text="@string/sns_add_type"
+                android:textColor="@color/black80"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/activity_sns_et_name"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{snsViewModel.typeFirst || snsViewModel.snsTypeIsValid ? (snsViewModel.snsTypeFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint='@{snsViewModel.snsTypeFocusing ? "" : snsViewModel.typeInputDesc}'
+                android:paddingStart="12dp"
+                android:text="@={snsViewModel.snsType}"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayD9"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle"
+                app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsTypeFocusing,snsViewModel.typeFirst,check)}" />
+
+            <TextView
+                android:id="@+id/activity_sns_tv_nameState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{snsViewModel.typeState}"
+                android:textColor="@color/redForText"
+                android:textSize="14sp"
+                android:visibility="@{snsViewModel.typeFirst || snsViewModel.snsTypeIsValid ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/activity_sns_et_name"
+                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_name" />
+
+            <TextView
+                android:id="@+id/activity_sns_et_name_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text='@{snsViewModel.snsType.length() +"/22"}'
+                android:textColor="@color/grayD9"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/activity_sns_et_name"
+                app:layout_constraintEnd_toEndOf="@id/activity_sns_et_name" />
+
+
+            <TextView
+                android:id="@+id/activity_sns_tv_linkTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/sns_add_link"
+                android:textColor="@color/black80"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_name" />
+
+            <EditText
+                android:id="@+id/activity_sns_et_linkDesc"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{snsViewModel.addressFirst || snsViewModel.snsAddressIsValid ? (snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:gravity="center_vertical"
+                android:hint='@{snsViewModel.snsAddressFocusing ? "" : snsViewModel.addressInputDesc}'
+                android:paddingStart="12dp"
+                android:text="@={snsViewModel.snsAddress}"
+                android:textColor="@color/black80"
+                android:textColorHint="@color/grayForBtn"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_linkTitle"
+                app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsAddressFocusing,snsViewModel.addressFirst,check)}" />
+
+            <TextView
+                android:id="@+id/activity_sns_tv_linkState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{snsViewModel.linkState}"
+                android:textColor="@color/redForText"
+                android:textSize="14sp"
+                android:visibility="@{snsViewModel.addressFirst || snsViewModel.snsAddressIsValid ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/activity_sns_et_linkDesc"
+                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_linkDesc" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/activity_sns_remove_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="68dp"
+                android:background="@drawable/basic_blue_white_btn_layout"
+                android:outlineProvider="none"
+                android:text="@string/remove"
+                android:textColor="@color/blueForBtn"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/activity_sns_save_btn"
+                app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.AppCompatButton>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/activity_sns_save_btn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="68dp"
+                android:background="@{(!snsViewModel.typeFirst &amp;&amp; !snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+                android:clickable="@{(!snsViewModel.typeFirst &amp;&amp; !snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
+                android:outlineProvider="none"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"></androidx.appcompat.widget.AppCompatButton>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

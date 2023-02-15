@@ -1,9 +1,9 @@
-package com.garamgaebi.garamgaebi.adapter
+package com.example.template.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ItemCancelBankBinding
+import com.garamgaebi.garamgaebi.databinding.ItemCancelBankBinding
 import com.garamgaebi.garamgaebi.src.main.cancel.Cancel
 
 class CancelAdapter(private val dataList: ArrayList<Cancel>): RecyclerView.Adapter<CancelAdapter.ViewHolder>() {

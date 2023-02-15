@@ -3,7 +3,7 @@ package com.garamgaebi.garamgaebi.src.splash
 import android.content.Intent
 import android.os.Bundle
 import com.garamgaebi.garamgaebi.common.BaseActivity
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ActivitySplashBinding
+import com.garamgaebi.garamgaebi.databinding.ActivitySplashBinding
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

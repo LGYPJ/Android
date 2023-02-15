@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 
 class EditTextViewModel : ViewModel(){
 //    fun checkNickname(view: EditText){

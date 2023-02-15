@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.cancel
+package com.example.template.garamgaebi.src.main.cancel
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.DialogCancelCompleteBinding
+import com.garamgaebi.garamgaebi.databinding.DialogCancelCompleteBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 

@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
-import com.garamgaebi.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
-import com.garamgaebi.garamgaebi.garamgaebi.databinding.ActivityContainerBinding
+import com.garamgaebi.garamgaebi.databinding.ActivityContainerBinding
 import com.garamgaebi.garamgaebi.src.main.cancel.CancelFragment
 import com.garamgaebi.garamgaebi.src.main.networking.NetworkingFragment
 import com.garamgaebi.garamgaebi.src.main.networking.NetworkingFreeApplyFragment
