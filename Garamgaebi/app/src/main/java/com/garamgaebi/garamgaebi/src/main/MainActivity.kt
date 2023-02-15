@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main
+package com.example.template.garamgaebi.src.main
 
 
 import android.os.Bundle
@@ -35,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         // 임시 로그인
         val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
-        client.postLogin(LoginRequest("zzangu@gachon.ac.kr", "1234"))
+        client.postLogin(LoginRequest("chaewon1769@daum.net"))
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
                     call: Call<LoginResponse>,

@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.adapter
+package com.example.template.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context

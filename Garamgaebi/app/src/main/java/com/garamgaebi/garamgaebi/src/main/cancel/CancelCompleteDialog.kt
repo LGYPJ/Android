@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.cancel
+package com.example.template.garamgaebi.src.main.cancel
 
 import android.content.Context
 import android.content.Intent
