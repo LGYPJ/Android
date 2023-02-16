@@ -16,21 +16,11 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fragmentCompleteCbWhole.setOnClickListener {
-            if(binding.fragmentCompleteCbWhole.isChecked){
-                binding.fragmentCompleteCbPersonal.isChecked = true
-                binding.fragmentCompleteCbOld.isChecked = true
-            } else {
-                binding.fragmentCompleteCbPersonal.isChecked = false
-                binding.fragmentCompleteCbOld.isChecked = false
-            }
-            checkAgree()
-        }
         binding.fragmentCompleteCbPersonal.setOnClickListener {
             checkAgree()
         }
-        binding.fragmentCompleteCbOld.setOnClickListener {
-            checkAgree()
+        binding.fragmentCompleteTvPersonal.setOnClickListener {
+            checkTvAgree()
         }
         binding.fragmentCompleteBtnNext.setOnClickListener {
             startActivity(Intent(registerActivity, MainActivity::class.java))
@@ -38,8 +28,19 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         }
 
     }
+    private fun checkTvAgree() {
+        if(binding.fragmentCompleteCbPersonal.isChecked){
+            binding.fragmentCompleteBtnNext.isEnabled = false
+            binding.fragmentCompleteCbPersonal.isChecked = false
+            binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color)
+        } else {
+            binding.fragmentCompleteBtnNext.isEnabled = true
+            binding.fragmentCompleteCbPersonal.isChecked = true
+            binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
+        }
+    }
     private fun checkAgree() {
-        if(binding.fragmentCompleteCbPersonal.isChecked && binding.fragmentCompleteCbOld.isChecked){
+        if(binding.fragmentCompleteCbPersonal.isChecked){
             binding.fragmentCompleteBtnNext.isEnabled = true
             binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
         } else {

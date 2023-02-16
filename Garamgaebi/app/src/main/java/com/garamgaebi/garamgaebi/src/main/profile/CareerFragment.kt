@@ -31,8 +31,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         viewModel.company.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
                 viewModel.companyIsValid.value = it.length < 22 && it.isNotEmpty()
-
-
             Log.d("career_company_true",viewModel.companyIsValid.value.toString())
         })
         viewModel.position.observe(viewLifecycleOwner, Observer {

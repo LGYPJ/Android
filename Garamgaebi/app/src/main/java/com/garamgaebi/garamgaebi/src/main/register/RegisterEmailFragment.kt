@@ -6,10 +6,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.REGISTER_EMAIL
 import com.garamgaebi.garamgaebi.common.REGISTER_ORG
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEmailBinding
+import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 
 class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(R.layout.fragment_register_email) {
@@ -18,16 +23,19 @@ class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(
         super.onViewCreated(view, savedInstanceState)
 
 
-        // et selected 여부에 따라 drawable 결정
-        binding.fragmentEmailEtEmail.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.register_et_border_selected)
-            } else {
-                view.setBackgroundResource(R.drawable.register_et_border)
-            }
+        val viewModel by viewModels<RegisterViewModel>()
+        binding.lifecycleOwner = this
+        binding.setVariable(BR.viewModel, viewModel)
+
+        viewModel.profileEmail.observe(viewLifecycleOwner, Observer {
+            binding.viewModel = viewModel
+            viewModel.isProfileEmailValid.value = viewModel.checkProfileEmail()
+        })
+        binding.fragmentEmailBtn.setOnClickListener {
+            registerActivity.setFragment(REGISTER_ORG)
         }
 
-        // et에 따라 닉네임 조건 tv 변경
+        /*// et에 따라 닉네임 조건 tv 변경
         binding.fragmentEmailEtEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?) {}
@@ -54,15 +62,11 @@ class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(
                     }
                 }
             }
-        })
+        })*/
 
         binding.fragmentEmailBtn.setOnClickListener {
             registerActivity.setFragment(REGISTER_ORG)
         }
-    }
-    fun checkEmail() : Boolean{
-        val email = binding.fragmentEmailEtEmail.text.toString()
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
