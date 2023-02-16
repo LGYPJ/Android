@@ -12,7 +12,7 @@ import com.garamgaebi.garamgaebi.repository.ApplyRepository
 import com.garamgaebi.garamgaebi.repository.GatheringRepository
 import com.garamgaebi.garamgaebi.repository.NetworkingRepository
 import com.garamgaebi.garamgaebi.repository.SeminarRepository
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
+import com.garamgaebi.garamgaebi.model.SeminarDetailInfoResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

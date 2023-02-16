@@ -19,8 +19,8 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarResult
+import com.garamgaebi.garamgaebi.model.PresentationResult
+import com.garamgaebi.garamgaebi.model.SeminarResult
 import com.garamgaebi.garamgaebi.viewModel.SeminarViewModel
 
 class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBinding::bind,R.layout.fragment_seminar) {

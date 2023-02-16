@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.cancel
+package com.garamgaebi.garamgaebi.src.main.cancel
 
 import android.os.Bundle
 import android.view.LayoutInflater

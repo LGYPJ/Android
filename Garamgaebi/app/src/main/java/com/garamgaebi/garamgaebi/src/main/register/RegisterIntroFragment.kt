@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View

@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.gathering
+package com.garamgaebi.garamgaebi.src.main.gathering
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,6 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
 
 /**

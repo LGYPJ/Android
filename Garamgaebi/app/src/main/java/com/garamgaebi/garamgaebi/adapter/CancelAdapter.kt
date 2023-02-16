@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.adapter
+package com.garamgaebi.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

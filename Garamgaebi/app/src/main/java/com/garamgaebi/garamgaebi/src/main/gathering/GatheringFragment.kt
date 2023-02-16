@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.src.main.gathering
+package com.garamgaebi.garamgaebi.src.main.gathering
 
 import android.os.Bundle
 import android.view.View

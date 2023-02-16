@@ -1,9 +1,10 @@
-package com.example.template.garamgaebi.src.main
+package com.garamgaebi.garamgaebi.src.main
 
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -14,7 +15,7 @@ import com.garamgaebi.garamgaebi.model.ApiInterface
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.model.LoginResponse
-import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
+
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import retrofit2.Call

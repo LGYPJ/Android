@@ -2,15 +2,16 @@ package com.garamgaebi.garamgaebi.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.garamgaebi.garamgaebi.common.BLUE
+import com.garamgaebi.garamgaebi.common.ORIGIN
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkGamePlaceProfileBinding
+import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 
-class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGetResult>, private val blue : Boolean): RecyclerView.Adapter<NetworkingGameProfileAdapter.ViewHolder>() {
+class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGetResult>, private val number : Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     inner class ViewHolder(val binding: ItemNetworkGamePlaceProfileBinding):

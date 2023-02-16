@@ -1,4 +1,4 @@
-package com.example.template.garamgaebi.adapter
+package com.garamgaebi.garamgaebi.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,9 @@ import com.garamgaebi.garamgaebi.databinding.ItemGatheringMyMeetingScheduledBind
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 
 class GatheringMyMeetingScheduledRVAdapter(
-    private var dataList: ArrayList<GatheringProgramResult>) : ListAdapter<GatheringProgramResult, GatheringMyMeetingScheduledRVAdapter.ViewHolder>(diffUtil){
+    private var dataList: ArrayList<GatheringProgramResult>) : ListAdapter<GatheringProgramResult, GatheringMyMeetingScheduledRVAdapter.ViewHolder>(
+    diffUtil
+){
     private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemGatheringMyMeetingScheduledBinding):
         RecyclerView.ViewHolder(binding.root) {

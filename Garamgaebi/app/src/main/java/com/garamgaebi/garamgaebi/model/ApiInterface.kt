@@ -1,8 +1,5 @@
 package com.garamgaebi.garamgaebi.model
 
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response

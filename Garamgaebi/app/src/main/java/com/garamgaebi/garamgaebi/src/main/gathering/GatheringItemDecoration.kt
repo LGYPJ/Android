@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.home
+package com.garamgaebi.garamgaebi.src.main.gathering
 
 import android.graphics.Rect
 import android.view.View

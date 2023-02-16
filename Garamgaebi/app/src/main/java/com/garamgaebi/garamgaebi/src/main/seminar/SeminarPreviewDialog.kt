@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.databinding.DialogSeminarPreviewBinding
-import com.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
+import com.garamgaebi.garamgaebi.model.PresentationResult
 
 class SeminarPreviewDialog(private val present : List<PresentationResult>):DialogFragment() {
      private lateinit var binding : DialogSeminarPreviewBinding

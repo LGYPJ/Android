@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.databinding.ItemGameCardVpBinding
 import com.garamgaebi.garamgaebi.src.main.networking_game.NetworkingGameCard
 
