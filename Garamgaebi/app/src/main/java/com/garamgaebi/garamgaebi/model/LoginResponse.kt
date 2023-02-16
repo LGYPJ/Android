@@ -14,6 +14,5 @@ data class LoginResult(
 )
 
 data class LoginRequest(
-    var uniEmail : String,
-    var password : String
+    var socialEmail : String
 )

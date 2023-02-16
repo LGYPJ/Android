@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarPresentBinding
-import com.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
+import com.garamgaebi.garamgaebi.model.PresentationResult
 
 class SeminarPresentAdapter(private val dataList: ArrayList<PresentationResult>): RecyclerView.Adapter<SeminarPresentAdapter.ViewHolder>() {
 

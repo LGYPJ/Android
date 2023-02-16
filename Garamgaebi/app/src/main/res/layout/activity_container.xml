@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".src.main.ContainerActivity">
+    tools:context="com.garamgaebi.garamgaebi.src.main.ContainerActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/activity_container_toolbar"

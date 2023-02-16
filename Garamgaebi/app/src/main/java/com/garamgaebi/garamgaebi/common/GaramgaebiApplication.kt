@@ -6,7 +6,6 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import com.garamgaebi.garamgaebi.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

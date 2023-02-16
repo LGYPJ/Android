@@ -8,7 +8,7 @@
     android:background="@color/blue5"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".src.main.home.HomeFragment">
+    tools:context="com.garamgaebi.garamgaebi.src.main.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"

@@ -1,8 +1,5 @@
 package com.garamgaebi.garamgaebi.model
 
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarDetailInfoResponse
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarParticipantsResponse
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarPresentResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
@@ -248,7 +245,7 @@ interface ApiInterface {
     suspend fun postGameMember(@Body gameMemberPostRequest: GameMemberPostRequest) : Response<GameMemberPostResponse>
 
     //game member delete
-    @DELETE("/game/member")
+    @HTTP(method = "DELETE", path="/game/member", hasBody = true)
     suspend fun deleteGameMember(@Body gameMemberDeleteRequest: GameMemberDeleteRequest) : Response<GameMemberDeleteResponse>
 
     //game room get
@@ -262,4 +259,7 @@ interface ApiInterface {
     //game member post
     @POST("/game/members")
     suspend fun getGameMember(@Body gameMemberGetRequest: GameMemberGetRequest) : Response<GameMemberGetResponse>
+
+    // game patch current-idx
+    suspend fun patchGameCurrentIdx(@Body gameCurrentIdxRequest: GameCurrentIdxRequest) : Response<GameCurrentIdxResponse>
 }

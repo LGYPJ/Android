@@ -17,7 +17,6 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(FragmentGatheringMyMeetingBinding::bind, R.layout.fragment_gathering_my_meeting), PopupMenu.OnMenuItemClickListener {

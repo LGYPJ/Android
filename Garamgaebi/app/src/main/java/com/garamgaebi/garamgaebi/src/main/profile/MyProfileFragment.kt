@@ -68,13 +68,13 @@ class MyProfileFragment :
         with(viewModel) {
             getProfileInfo(myMemberIdx)
 
-            profileInfo.observe(viewLifecycleOwner, Observer {
+            /*profileInfo.observe(viewLifecycleOwner, Observer {
                 binding.profileViewModel = viewModel
 
                 val result = it as ProfileDataResponse
-                GaramgaebiApplication.sSharedPreferences
+                /*GaramgaebiApplication.sSharedPreferences
                     .edit().putString("nickname", result.result.nickName)
-                    .apply()
+                    .apply()*/
 
                 if (result == null) {
 
@@ -110,7 +110,7 @@ class MyProfileFragment :
                     }
 
                 }
-            })
+            })*/
             binding.activityMyProfileTvEmail.setOnClickListener {
                 val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -124,8 +124,8 @@ class MyProfileFragment :
 
             }
             //SNS 정보 어댑터 연결
-            getSNSInfo(myMemberIdx)
-            snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+            //getSNSInfo(myMemberIdx)
+            /*snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 val snsAdapter = activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
                 binding.activityMyProfileRVSns.apply {
                     adapter = snsAdapter
@@ -137,9 +137,9 @@ class MyProfileFragment :
                     override fun onClick(position: Int) {
                     }
                 })
-            })
+            })*/
             //경력 정보 어댑터 연결
-            getCareerInfo(myMemberIdx)
+            //getCareerInfo(myMemberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 val careerAdapter = activity?.let { it1 ->
                     CareerMyRVAdapter(it,
@@ -161,7 +161,7 @@ class MyProfileFragment :
                 })
                 })
             //교육 정보 어댑터 연결
-            getEducationInfo(myMemberIdx)
+            //getEducationInfo(myMemberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 val eduAdapter = activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
                 dividerItemDecoration = DividerItemDecoration(
@@ -275,8 +275,8 @@ class MyProfileFragment :
         Log.d("onResume","yes__")
         viewModel.getProfileInfo(myMemberIdx)
         viewModel.getSNSInfo(myMemberIdx)
-        viewModel.getCareerInfo(myMemberIdx)
-        viewModel.getEducationInfo(myMemberIdx)
+        //viewModel.getCareerInfo(myMemberIdx)
+        //viewModel.getEducationInfo(myMemberIdx)
 
         super.onResume()
     }

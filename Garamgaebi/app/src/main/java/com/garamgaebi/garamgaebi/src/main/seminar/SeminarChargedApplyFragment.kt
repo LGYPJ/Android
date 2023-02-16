@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -58,19 +58,47 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         }
 
         // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
-        binding.activitySeminarChargedApplyNicknameTv.addTextChangedListener(object : TextWatcher {
+        // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
+        binding.activitySeminarChargedApplyNameTv.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if(!isName()){
+                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.VISIBLE
+                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
+                }
+                else{
+                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.GONE
+                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
+                }
+                if(isButton()){
+
+                    binding.activitySeminarChargedApplyBtn.isEnabled = true
+                    binding.activitySeminarChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                }
+                else {
+
+                    binding.activitySeminarChargedApplyBtn.isEnabled = false
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+        binding.activitySeminarChargedApplyNameTv.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 if(!isNickName()){
-                    binding.activitySeminarChargedApplyNotCorrectNicknameTv.visibility = View.VISIBLE
-                    binding.activitySeminarChargedApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
+                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.VISIBLE
+                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
                 }
                 else{
-                    binding.activitySeminarChargedApplyNotCorrectNicknameTv.visibility = View.GONE
-                    binding.activitySeminarChargedApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
+                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.GONE
+                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
                 }
                 if(isButton()){
 
@@ -172,9 +200,9 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         var returnValue = false
         val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
-        val p = regex?.matches(nickname.toRegex())
-        if(p == true){
+        val regex = "zzangu"
+        val p = regex.matches(nickname.toRegex())
+        if(p){
             returnValue = true
         }
         return returnValue

@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.seminar
+package com.garamgaebi.garamgaebi.src.main.home
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

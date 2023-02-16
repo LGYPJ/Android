@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.model.SeminarDetailInfoResponse
+import com.garamgaebi.garamgaebi.model.SeminarPresentResponse
+import com.garamgaebi.garamgaebi.model.SeminarResult
 import com.garamgaebi.garamgaebi.repository.SeminarRepository
-import com.garamgaebi.garamgaebi.src.main.seminar.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

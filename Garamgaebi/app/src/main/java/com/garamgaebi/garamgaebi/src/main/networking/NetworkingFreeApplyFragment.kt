@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -61,7 +61,7 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                if(!isNickName()){
+                if(!isName()){
                     binding.activityNetworkFreeApplyNotCorrectNicknameTv.visibility = View.VISIBLE
                     binding.activityNetworkFreeApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
                 }
@@ -207,7 +207,7 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
         var returnValue = false
         val nickname = binding.activityNetworkFreeApplyNicknameTv.text.toString()
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
+        val regex = "zzangu"
         val p = regex?.matches(nickname.toRegex())
         if(p == true){
             returnValue = true

@@ -33,14 +33,17 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         viewModel.getNetworkingParticipants()
         viewModel.networkingParticipants.observe(viewLifecycleOwner, Observer {
             val networkingProfile = NetworkingProfileAdapter(it as ArrayList<NetworkingResult>)
-
             //참석자가 없을 경우 다른 뷰 노출
             if(it.isEmpty()){
                 binding.activityNetworkingNoParticipants.visibility = VISIBLE
                 binding.activityNetworkProfileRv.visibility = GONE
+                //참석자 수 표시
+                binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, "0")
             } else{
                 binding.activityNetworkingNoParticipants.visibility = GONE
                 binding.activityNetworkProfileRv.visibility = VISIBLE
+                //참석자 수 표시
+                binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.size.toString())
                 binding.activityNetworkProfileRv.apply {
                     adapter = networkingProfile
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -60,9 +63,6 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     }
                 })
             }
-
-            //참석자 수 표시
-            binding.activityNetworkParticipantNumberTv.text = getString(R.string.main_participants, it.size.toString())
         })
 
         // 아이스브레이킹 버튼 참여 활성화
@@ -165,7 +165,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 containerActivity!!.openFragmentOnFrameLayout(6)
             }
             else {
-                containerActivity!!.openFragmentOnFrameLayout(18)
+                containerActivity!!.openFragmentOnFrameLayout(20)
             }
         }
 
