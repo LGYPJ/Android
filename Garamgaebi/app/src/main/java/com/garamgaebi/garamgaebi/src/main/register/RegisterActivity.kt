@@ -24,9 +24,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             //테스트용
             //setFragment(REGISTER_INTRO)
             //setFragment(REGISTER_AUTH)
-            setFragment(REGISTER_NICKNAME)
+            //setFragment(REGISTER_NICKNAME)
             //setFragment(REGISTER_EMAIL)
-            //setFragment(REGISTER_ORG)
+            setFragment(REGISTER_ORG)
             //setFragment(REGISTER_COMPLETE)
 
         Log.d("register","onCreate")

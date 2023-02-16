@@ -52,60 +52,36 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
     }
     private fun kakaoLogin() {
 
-        // 로그인 정보 확인
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+        // 카카오계정으로 로그인 공통 callback 구성
+        // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
+        val callback: (OAuthToken?, Throwable?) -> Unit ={token, error->
             if (error != null) {
-                Log.d( "kakao", "토큰 정보 보기 실패$error")
-            }
-            else if (tokenInfo != null) {
-                Log.d("kakao", "토큰 정보 보기 성공")
+                Log.e("kakao", "카카오계정으로 로그인 실패", error)
+            } else if (token != null) {
+                Log.i("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
                 getUserInfo()
             }
         }
+        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this){token, error->
+                if (error != null) {
+                    Log.e("kakao", "카카오톡으로 로그인 실패", error)
 
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            Log.e("Callback", "$token")
-            if (error != null) {
-                when {
-                    error.toString() == AuthErrorCause.AccessDenied.toString() -> {
-                        Log.d("kakao", "접근이 거부 됨(동의 취소)")
+                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                        return@loginWithKakaoTalk
                     }
-                    error.toString() == AuthErrorCause.InvalidClient.toString() -> {
-                        Log.d( "kakao", "유효하지 않은 앱")
-                    }
-                    error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
-                        Log.d( "kakao", "인증 수단이 유효하지 않아 인증할 수 없는 상태")
-                    }
-                    error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
-                        Log.d( "kakao", "요청 파라미터 오류")
-                    }
-                    error.toString() == AuthErrorCause.InvalidScope.toString() -> {
-                        Log.d( "kakao", "유효하지 않은 scope ID")
-                    }
-                    error.toString() == AuthErrorCause.Misconfigured.toString() -> {
-                        Log.d( "kakao", "설정이 올바르지 않음(android key hash)")
-                    }
-                    error.toString() == AuthErrorCause.ServerError.toString() -> {
-                        Log.d( "kakao", "서버 내부 에러")
-                    }
-                    error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                        Log.d( "kakao", "앱이 요청 권한이 없음")
-                    }
-                    else -> { // Unknown
-                        Log.d( "kakao", "기타 에러")
-                    }
+
+                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
+                    UserApiClient.instance.loginWithKakaoAccount(this , callback = callback)
+                } else if (token != null) {
+                    Log.i("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                    getUserInfo()
                 }
             }
-            else if (token != null) {
-                Log.d( "kakao", "로그인 성공")
-                getUserInfo()
-            }
-        }
-
-        if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
-            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
-
-        }else{
+        } else {
             UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
         }
     }
@@ -119,8 +95,8 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
                     putExtra("login",true)
                     putExtra("email", userInfo.kakaoAccount?.email)
                     startActivity(this)
+                    finish()
                 }
-                finish()
             }
         }
     }

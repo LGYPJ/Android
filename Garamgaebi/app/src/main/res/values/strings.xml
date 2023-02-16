@@ -23,7 +23,7 @@
 
     <string name="nickName">닉네임을 입력해주세요</string>
     <string name="edit">편집</string>
-    <string name="belong">소속</string>
+    <string name="belong">소속을 입력해주세요</string>
     <string name="sns">SNS</string>
     <string name="career">경력</string>
     <string name="company">회사</string>
@@ -112,7 +112,9 @@
     <string name="register_email_gachon">\@gachon.ac.kr</string>
 
     <!-- Register_Belong -->
-    <string name="register_belong_desc">자신을 표현해봐요</string>
+    <string name="register_belong_desc">프로필에 기재할\n본인의 소속을 알려주세요</string>
+    <string name="register_belong_career">본인의 경력을\n적어주세요</string>
+    <string name="register_belong_edu">본인이 받은 교육을\n적어주세요</string>
 
     <!-- Register_Career -->
     <string name="caution_input_22">22자 이내로 작성해주세요</string>

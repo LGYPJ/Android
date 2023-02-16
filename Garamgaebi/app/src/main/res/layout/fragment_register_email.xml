@@ -56,11 +56,11 @@
             android:layout_marginEnd="16dp"
             android:hint='@{viewModel.profileEmailFocusing? "" :@string/register_input_email_desc}'
             android:text="@={viewModel.profileEmail}"
-            app:onFocusing="@{(check)->viewModel.setBoolean(viewModel.authNumFocusing, check)}"
+            app:onFocusing="@{(check)->viewModel.setBoolean(viewModel.profileEmailFocusing, check)}"
             android:textColorHint="@color/grayD9"
             android:textSize="14sp"
             android:paddingStart="16dp"
-            android:background="@{(viewModel.checkProfileEmail() || viewModel.profileEmail.length() == 0) ? @drawable/register_et_border : @drawable/basic_red_border_layout}"
+            android:background="@{(viewModel.checkProfileEmail() || viewModel.profileEmail.length() == 0) ? (viewModel.profileEmailFocusing ? @drawable/register_et_border_selected : @drawable/register_et_border) : @drawable/basic_red_border_layout}"
             app:layout_constraintTop_toBottomOf="@id/fragment_email_desc" />
 
         <TextView
