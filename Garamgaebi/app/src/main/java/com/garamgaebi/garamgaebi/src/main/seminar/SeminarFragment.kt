@@ -40,10 +40,14 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
             if(it.isEmpty()){
                 binding.activitySeminarFreeNoParticipants.visibility = VISIBLE
                 binding.activitySeminarFreeProfileRv.visibility = GONE
+                //참석자 수 표시
+                binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, "0")
             }
             else{
                 binding.activitySeminarFreeNoParticipants.visibility = GONE
                 binding.activitySeminarFreeProfileRv.visibility = VISIBLE
+                //참석자 수 표시
+                binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, it.size.toString())
                 binding.activitySeminarFreeProfileRv.apply {
                     adapter = seminarProfile
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -63,9 +67,6 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     }
                 })
             }
-
-            //참석자 수 표시
-            binding.activitySeminarFreeParticipantsNumber.text = getString(R.string.main_participants, it.size.toString())
         })
 
         //발표 어댑터 연결

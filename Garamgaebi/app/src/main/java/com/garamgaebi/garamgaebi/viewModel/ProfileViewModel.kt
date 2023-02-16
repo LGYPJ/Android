@@ -127,7 +127,7 @@ class ProfileViewModel : ViewModel(){
     val educationInfoArray : LiveData<ArrayList<EducationData>>
         get() = _educationInfoArray
 
-    fun getEducationInfo(memberIdx : Int) {
+    /*fun getEducationInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getEducationInfo(memberIdx)
             Log.d("api_edu", response.body().toString())
@@ -139,7 +139,7 @@ class ProfileViewModel : ViewModel(){
                 Log.d("error", response.message())
             }
         }
-    }
+    }*/
 
     //경력 정보 조회
     private val _careerInfo = MutableLiveData<CareerDataResponse>()
@@ -150,7 +150,7 @@ class ProfileViewModel : ViewModel(){
     val careerInfoArray : LiveData<ArrayList<CareerData>>
         get() = _careerInfoArray
 
-    fun getCareerInfo(memberIdx : Int) {
+    /*fun getCareerInfo(memberIdx : Int) {
         viewModelScope.launch {
             val response = profileRepository.getCareerInfo(memberIdx)
             Log.d("api_career", response.body().toString())
@@ -162,7 +162,7 @@ class ProfileViewModel : ViewModel(){
                 Log.d("error", response.message())
             }
         }
-    }
+    }*/
 
 
 }

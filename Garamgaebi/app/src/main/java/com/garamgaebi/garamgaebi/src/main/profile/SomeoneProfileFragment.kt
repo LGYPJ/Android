@@ -119,7 +119,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //경력 정보 어댑터 연결
-            getCareerInfo(memberIdx)
+            //getCareerInfo(memberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 if(it.isEmpty()){
                     binding.activitySomeoneProfileClCareerTitle.visibility = GONE
@@ -149,7 +149,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //교육 정보 어댑터 연결
-            getEducationInfo(memberIdx)
+            //getEducationInfo(memberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 if(it.isEmpty()){
                     binding.activitySomeoneProfileClEduTitle.visibility = GONE

@@ -259,4 +259,7 @@ interface ApiInterface {
     //game member post
     @POST("/game/members")
     suspend fun getGameMember(@Body gameMemberGetRequest: GameMemberGetRequest) : Response<GameMemberGetResponse>
+
+    // game patch current-idx
+    suspend fun patchGameCurrentIdx(@Body gameCurrentIdxRequest: GameCurrentIdxRequest) : Response<GameCurrentIdxResponse>
 }

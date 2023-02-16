@@ -28,118 +28,29 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         super.onViewCreated(view, savedInstanceState)
         //데이터바인딩
         binding.setVariable(BR.item, viewModel)
+        binding.item = viewModel
+        binding.lifecycleOwner = this
 
-
-        //처음에 버튼 비활성화
-        binding.activityNetworkChargedApplyBtn.isEnabled = false
-
-        // et selected 여부에 따라 drawable 결정
-        binding.activityNetworkChargedApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-        binding.activityNetworkChargedApplyNicknameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-        binding.activityNetworkChargedApplyPhoneTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-
-        // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
-        binding.activityNetworkChargedApplyNicknameTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if(!isNickName()){
-                    binding.activityNetworkChargedApplyNotCorrectNicknameTv.visibility = View.VISIBLE
-                    binding.activityNetworkChargedApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activityNetworkChargedApplyNotCorrectNicknameTv.visibility = View.GONE
-                    binding.activityNetworkChargedApplyNicknameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = true
-                    binding.activityNetworkChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
+        viewModel.inputName.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.nameIsValid.value = it.isNotEmpty() && isName(it)
         })
 
-        binding.activityNetworkChargedApplyNameTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if(!isName()){
-                    binding.activityNetworkChargedApplyNotCorrectNameTv.visibility = View.VISIBLE
-                    binding.activityNetworkChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activityNetworkChargedApplyNotCorrectNameTv.visibility = View.GONE
-                    binding.activityNetworkChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = true
-                    binding.activityNetworkChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
+        viewModel.inputNickName.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.nicknameIsValid.value = it.isNotEmpty() && isNickName(it)
         })
 
-        binding.activityNetworkChargedApplyPhoneTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(!isPhoneNumberCheck()){
-                    binding.activityNetworkChargedApplyNotCorrectPhoneTv.visibility = View.VISIBLE
-                    binding.activityNetworkChargedApplyPhoneTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activityNetworkChargedApplyNotCorrectPhoneTv.visibility = View.GONE
-                    binding.activityNetworkChargedApplyPhoneTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = true
-                    binding.activityNetworkChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activityNetworkChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
+        viewModel.inputPhone.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.phoneIsValid.value = it.isNotEmpty() && isPhoneNumberCheck(it)
         })
+
+        with(viewModel){
+            nameState.value = getString(R.string.apply_not_name)
+            nicknameState.value = getString(R.string.apply_not_nickname)
+            phoneState.value = getString(R.string.apply_not_phone)
+        }
 
         // 계좌 복사
         binding.activityNetworkChargedCopyBtn.setOnClickListener {
@@ -170,9 +81,8 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     }
 
     // 이름 형식 맞나
-    fun isName() : Boolean {
+    fun isName(name : String) : Boolean {
         var returnValue = false
-        val name = binding.activityNetworkChargedApplyNameTv.text.toString()
         val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(name)
@@ -183,9 +93,8 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     }
 
     //전화번호 형식 맞나
-    fun isPhoneNumberCheck() : Boolean {
+    fun isPhoneNumberCheck( phone : String) : Boolean {
         var returnValue = false
-        val phone = binding.activityNetworkChargedApplyPhoneTv.text.toString()
         val regex = "^[0-9]{11}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(phone)
@@ -195,26 +104,15 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         return returnValue
     }
     //닉네임 맞나
-    fun isNickName(): Boolean{
+    fun isNickName(nickname : String): Boolean{
         var returnValue = false
-        val nickname = binding.activityNetworkChargedApplyNicknameTv.text.toString()
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
-        val p = regex?.matches(nickname.toRegex())
+        val regex = "zzangu"
+        val p = regex.matches(nickname.toRegex())
         if(p == true){
             returnValue = true
         }
         return returnValue
-    }
-
-    //버튼 활성화
-    fun isButton():Boolean {
-        var returnValue = false
-        if(isNickName()&&isPhoneNumberCheck()&&isName()){
-            returnValue = true
-        }
-        return returnValue
-
     }
 
     //화면전환

@@ -13,7 +13,8 @@ data class GameMemberPostResponse(
 ):BaseResponse()
 
 data class GameMemberPostResult(
-    val message : String
+    val message : String,
+    val currentImgIdx : Int
 )
 
 //member delete
@@ -67,4 +68,14 @@ data class GameMemberGetResult(
 data class GameMemberGetResultRe(
     val result : GameMemberGetResult,
     val next : Boolean = false
+)
+
+
+// /game/current-idx
+data class GameCurrentIdxResponse(
+    val result : String
+):BaseResponse()
+
+data class GameCurrentIdxRequest(
+    val roomId: String
 )
