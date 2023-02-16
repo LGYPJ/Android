@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.garamgaebi.garamgaebi.BuildConfig
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.databinding.ActivityRegisterLoginBinding
 import com.kakao.sdk.auth.model.OAuthToken
