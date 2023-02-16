@@ -36,7 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         // 임시 로그인
         val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
-        client.postLogin(LoginRequest("chaewon1769@daum.net"))
+        client.postLogin(LoginRequest("cindy1769@gachon.ac.kr"))
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
                     call: Call<LoginResponse>,

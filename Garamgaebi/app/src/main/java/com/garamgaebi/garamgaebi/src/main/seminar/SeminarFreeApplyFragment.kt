@@ -200,7 +200,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
         var returnValue = false
         val nickname = binding.activitySeminarFreeApplyNicknameTv.text.toString()
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("nickname", null)
+        val regex = "zzangu"
         val p = regex?.matches(nickname.toRegex())
         if(p == true){
             returnValue = true

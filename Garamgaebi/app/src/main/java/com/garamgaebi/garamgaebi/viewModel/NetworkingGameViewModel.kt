@@ -26,6 +26,8 @@ class NetworkingGameViewModel: ViewModel() {
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
     //memberIdx
     private val memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)
+    //currentIdx
+    private val currentIdx = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
 
     private val gameRepository = GameRepository()
 
@@ -96,6 +98,12 @@ class NetworkingGameViewModel: ViewModel() {
             if (response != null) {
                 if(response.isSuccessful){
                     _postMember.postValue(response.body())
+                    // currrentIdx 보내는 거
+                    response.body()?.result?.currentImgIdx?.let {
+                        GaramgaebiApplication.sSharedPreferences
+                            .edit().putInt("currentIdx", it)
+                            .apply()
+                    }
                 } else{
                     Log.d("error", response.message())
                 }
@@ -130,6 +138,14 @@ class NetworkingGameViewModel: ViewModel() {
         }
     }
 
+    //current-idx
+    fun patchGameCurrentIdx(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = roomId?.let { GameCurrentIdxRequest(it) }
+                ?.let { gameRepository.patchGameCurrentIdx(it) }
+        }
+    }
+
     // 현재 유저 조회 post  (game/members)
     fun getGameMember(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -139,6 +155,7 @@ class NetworkingGameViewModel: ViewModel() {
             if (response != null) {
                 if(response.isSuccessful){
                     _getMember.postValue(response.body()?.result)
+                    Log.d("gameMember", response.body()?.result.toString())
                     //_profile.postValue(false)
                     //number.value = number.value?.plus(1)
                 } else{
@@ -208,7 +225,7 @@ class NetworkingGameViewModel: ViewModel() {
         val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
             .subscribe {stompMessage ->
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                getGameMember()
+                patchGameCurrentIdx()
             }
     }
 
@@ -222,6 +239,13 @@ class NetworkingGameViewModel: ViewModel() {
 
     fun sendDeleteMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
         val messageVO = roomId?.let { MessageV0("EXIT", it,"zzangu", "","") }
+        val messageJson: String = gson.toJson(messageVO)
+        val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
+        Log.i("send", "send messageData : $messageJson")
+    }
+
+    fun sendCurrentIdxMessage(){
+        val messageVO = roomId?.let { MessageV0("TALK", it,"zzangu", "NEXT","") }
         val messageJson: String = gson.toJson(messageVO)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")

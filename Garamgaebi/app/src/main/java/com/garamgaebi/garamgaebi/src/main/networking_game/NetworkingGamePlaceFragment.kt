@@ -21,6 +21,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -53,8 +54,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         NetworkingGameCard("나에게 코코아는"),
         NetworkingGameCard("나에게 줄리아는"),
     )*/
-
-    private var index = -1
+    private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+    //private var index = -1
 
     //뷰모델
     private val viewModel by viewModels<NetworkingGameViewModel>()
@@ -121,6 +122,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         ) as AnimatorSet
 
 
+
         // 유저 입장
         CoroutineScope(Dispatchers.Main).launch {
             launch {
@@ -137,6 +139,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 viewModel.sendMessage()
             }
         }
+
+        viewModel.getImage()
+
         viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
 
             val networkingGameProfile2 =
@@ -178,7 +183,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
             }
 
+                // 다음 버튼 눌렀을때
                 binding.activityGamePlaceCardNextBtn.setOnClickListener {
+                    CoroutineScope(Dispatchers.Main).launch{
+                        launch {
+                            viewModel.patchGameCurrentIdx()
+                        }
+                        launch {
+                            viewModel.sendCurrentIdxMessage()
+                        }
+                    }
                     index++
                     val networkingGameProfile =
                         NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
@@ -192,8 +206,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     (layoutManager as LinearLayoutManager).scrollToPosition(index)
                     networkingGameProfile.notifyDataSetChanged()
                         //카드 뷰페이저2 get images api 연결
-                        viewModel.getImage()
+
                         viewModel.getImg.observe(viewLifecycleOwner, Observer {
+                            Log.d("img", it[0])
                             val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it)
                             binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it)
                             binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL

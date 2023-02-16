@@ -232,7 +232,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
             //신디 추가 네트워킹 유료 신청
-            18 -> {
+            20 -> {
                 transaction.replace(R.id.activity_seminar_frame, NetworkingChargedApplyFragment(), "networkingCharged").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }

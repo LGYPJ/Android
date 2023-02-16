@@ -53,7 +53,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                 constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
             } else {
@@ -94,7 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.networking.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             } else {
                 networkingRVAdapter = HomeNetworkingRVAdapter(result)
@@ -134,7 +134,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             } else {
                 userRVAdapter = HomeUserItemRVAdapter(result)
@@ -162,7 +162,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
-            if (result.isEmpty()) {
+            if (result == null) {
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             } else {
                 myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)

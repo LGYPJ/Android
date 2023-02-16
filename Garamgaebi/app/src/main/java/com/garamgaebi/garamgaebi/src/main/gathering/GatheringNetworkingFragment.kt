@@ -48,6 +48,9 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
 
             }
+            if(it.result.isOpen == "BEFORE_OPEN"){
+                binding.fragmentGatheringNetworkingClThisMonth.isEnabled = false
+            }
             val program = it.result.programIdx
             binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
                 GaramgaebiApplication.sSharedPreferences

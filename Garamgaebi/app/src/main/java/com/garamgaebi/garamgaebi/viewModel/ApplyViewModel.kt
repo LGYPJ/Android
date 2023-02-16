@@ -65,7 +65,43 @@ class ApplyViewModel : ViewModel() {
     //계좌번호
     val inputAccount : MutableLiveData<String> = MutableLiveData("")
 
-    fun postCancel(cancelRequest: CancelRequest) {
+    //유효성 검사
+    // 포커싱 감저
+    val nameFocusing = MutableLiveData<Boolean>(false)
+    val nicknameFocusing = MutableLiveData<Boolean>(false)
+    val phoneFocusing = MutableLiveData<Boolean>(false)
+
+    //첫 입력 확인
+    var nameFirst = MutableLiveData<Boolean>(true)
+    var nicknameFirst = MutableLiveData<Boolean>(true)
+    var phoneFirst = MutableLiveData<Boolean>(true)
+
+    //유효성 문구
+    var nameState = MutableLiveData<String>("")
+    var nicknameState = MutableLiveData<String>("")
+    var phoneState = MutableLiveData<String>("")
+
+    val nameIsValid = MutableLiveData<Boolean>()
+    init {
+        nameIsValid.value = false
+    }
+
+    val nicknameIsValid = MutableLiveData<Boolean>()
+    init {
+        nicknameIsValid.value = false
+    }
+
+    val phoneIsValid = MutableLiveData<Boolean>()
+    init {
+        phoneIsValid.value = false
+    }
+
+    fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+    }
+
+  fun postCancel(cancelRequest: CancelRequest) {
         viewModelScope.launch {
             val response = applyRepository.postCancel(cancelRequest)
             Log.d("cancel", response.body().toString())

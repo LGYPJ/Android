@@ -55,6 +55,11 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
             }
             val program = it.result.programIdx
+
+            if(it.result.isOpen == "BEFORE_OPEN"){
+                binding.fragmentGatheringSeminarClThisMonth.isEnabled = false
+            }
+
             binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
                 //세미나 메인 화면으로
                 GaramgaebiApplication.sSharedPreferences
