@@ -18,7 +18,6 @@ import com.kakao.sdk.user.UserApiClient
 
 class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
     ActivityRegisterLoginBinding::inflate) {
-    var socialEmail : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

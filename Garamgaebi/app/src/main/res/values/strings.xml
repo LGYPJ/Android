@@ -42,6 +42,7 @@
     <string name="email">이메일을 입력해주세요</string>
     <string name="doing">하기</string>
     <string name="working_period">재직 기간</string>
+    <string name="education_period">교육 기간</string>
     <string name="start_date">시작년월</string>
     <string name="end_date">종료년월</string>
     <string name="profile_save">프로필 저장</string>
@@ -115,6 +116,7 @@
     <string name="register_belong_desc">프로필에 기재할\n본인의 소속을 알려주세요</string>
     <string name="register_belong_career">본인의 경력을\n적어주세요</string>
     <string name="register_belong_edu">본인이 받은 교육을\n적어주세요</string>
+    <string name="register_belong_profile_save">프로필 저장</string>
 
     <!-- Register_Career -->
     <string name="caution_input_22">22자 이내로 작성해주세요</string>
@@ -123,6 +125,7 @@
     <string name="register_input_position_desc">직함을 입력주세요(예: 백엔드 개발자)</string>
     <string name="register_no_career">아직 경력이 없으신가요?</string>
     <string name="register_go_education">교육 입력하기</string>
+    <string name="register_belong_length">/22</string>
 
     <!-- Register_Education -->
     <string name="register_education_desc">가장 최근에 소속되었던\n교육기관을 알려주세요</string>

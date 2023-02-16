@@ -27,64 +27,35 @@
         android:textColor="@color/black80"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_complete_tv_title" />
-    <CheckBox
-        android:id="@+id/fragment_complete_cb_whole"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_complete_cl_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_complete_cb_old"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/fragment_complete_btn_next"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp">
+        <CheckBox
+            android:id="@+id/fragment_complete_cb_personal"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/ic_checkbox_16dp"
+            android:button="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-        android:id="@+id/fragment_complete_tv_whole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register_agree_all"
-        android:textColor="@color/black80"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_whole"
-        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_whole"
-        app:layout_constraintTop_toTopOf="@+id/fragment_complete_cb_whole" />
+        <TextView
+            android:id="@+id/fragment_complete_tv_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_agree_term"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_personal"
+            app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_personal"
+            app:layout_constraintTop_toTopOf="@id/fragment_complete_cb_personal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <CheckBox
-        android:id="@+id/fragment_complete_cb_old"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_complete_cb_personal"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/fragment_complete_tv_old"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register_agree_over_14"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_old"
-        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_old"
-        app:layout_constraintTop_toTopOf="@+id/fragment_complete_cb_old" />
-
-    <CheckBox
-        android:id="@+id/fragment_complete_cb_personal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_complete_btn_next"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/fragment_complete_tv_personal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register_agree_term"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_personal"
-        app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_personal"
-        app:layout_constraintTop_toTopOf="@id/fragment_complete_cb_personal" />
     <Button
         android:id="@+id/fragment_complete_btn_next"
         android:layout_width="match_parent"

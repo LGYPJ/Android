@@ -26,8 +26,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             //setFragment(REGISTER_AUTH)
             //setFragment(REGISTER_NICKNAME)
             //setFragment(REGISTER_EMAIL)
-            setFragment(REGISTER_ORG)
-            //setFragment(REGISTER_COMPLETE)
+            //setFragment(REGISTER_ORG)
+            setFragment(REGISTER_COMPLETE)
 
         Log.d("register","onCreate")
 
