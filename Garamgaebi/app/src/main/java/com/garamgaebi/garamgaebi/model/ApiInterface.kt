@@ -210,7 +210,8 @@ interface ApiInterface {
     //MemberController 멤버 컨트롤러
 
     //멤버 추가
-    //@POST("/member/post")
+    @POST("/member/post")
+    suspend fun postMember(@Body registerRequest: RegisterRequest) : Response<RegisterResponse>
 
     //멤버 활동중 수정
     //@PATCH("/member/post")

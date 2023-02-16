@@ -5,16 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCompleteBinding
 import com.garamgaebi.garamgaebi.src.main.MainActivity
+import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
     (FragmentRegisterCompleteBinding::bind, R.layout.fragment_register_complete){
     lateinit var registerActivity : RegisterActivity
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewModel by viewModels<RegisterViewModel>()
 
         binding.fragmentCompleteCbPersonal.setOnClickListener {
             checkAgree()
@@ -23,8 +28,14 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
             checkTvAgree()
         }
         binding.fragmentCompleteBtnNext.setOnClickListener {
-            startActivity(Intent(registerActivity, MainActivity::class.java))
-            ActivityCompat.finishAffinity(registerActivity)
+            viewModel.postRegister(viewModel.getRegisterRequest())
+            viewModel.register.observe(viewLifecycleOwner, Observer {
+                if(it.isSuccess) {
+                    startActivity(Intent(registerActivity, MainActivity::class.java))
+                    ActivityCompat.finishAffinity(registerActivity)
+                }
+            })
+
         }
 
     }

@@ -9,9 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.model.RegisterEmailResponse
-import com.garamgaebi.garamgaebi.model.RegisterEmailVerifyRequest
-import com.garamgaebi.garamgaebi.model.RegisterSendEmailRequest
+import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.RegisterRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -86,7 +84,9 @@ class RegisterViewModel : ViewModel(){
     val sendEmail  : LiveData<RegisterEmailResponse>
         get() = _sendEmail
 
-
+    private val _register = MutableLiveData<RegisterResponse>()
+    val register : LiveData<RegisterResponse>
+        get() = _register
 
     fun postEmailVerify(request : RegisterEmailVerifyRequest) {
         viewModelScope.launch {
@@ -94,7 +94,7 @@ class RegisterViewModel : ViewModel(){
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _emailVerify.postValue(response.body())
-                Log.d("postEmailConfirm", "${response.body()}")
+                Log.d("postEmailVerify", "${response.body()}")
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }
@@ -107,7 +107,20 @@ class RegisterViewModel : ViewModel(){
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _sendEmail.postValue(response.body())
-                Log.d("postEmailConfirm", "${response.body()}")
+                Log.d("postSendEmail", "${response.body()}")
+            }
+            else {
+                //response.body()?.message?.let { Log.d("error", it) }
+            }
+        }
+    }
+    fun postRegister(request: RegisterRequest) {
+        viewModelScope.launch {
+            val response = registerRepository.postRegister(request)
+            //Log.d("sns_add", response.body().toString())
+            if(response.isSuccessful){
+                _register.postValue(response.body())
+                Log.d("postRegister", "${response.body()}")
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }
@@ -152,5 +165,9 @@ class RegisterViewModel : ViewModel(){
     }
     fun checkProfileEmail() : Boolean{
         return Patterns.EMAIL_ADDRESS.matcher(profileEmail.value).matches()
+    }
+
+    fun getRegisterRequest() : RegisterRequest {
+        return RegisterRequest(nickname.value!!, profileEmail.value!!, socialEmail.value!!, emailSent.value!!, "ACTIVE")
     }
 }

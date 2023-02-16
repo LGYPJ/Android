@@ -54,9 +54,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
             if(result == null) {
+
+            }
+            else if (result.isEmpty()) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                 constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-            } else {
+            }
+            else {
                 seminarRVAdapter = HomeSeminarRVAdapter(result)
                 binding.fragmentHomeVpSeminar.apply {
                     adapter = seminarRVAdapter
@@ -95,8 +99,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
             if(result == null) {
+
+            } else if(result.isEmpty()) {
                 binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-            } else {
+            }
+            else {
                 networkingRVAdapter = HomeNetworkingRVAdapter(result)
                 binding.fragmentHomeVpNetworking.apply {
                     adapter = networkingRVAdapter
@@ -135,8 +142,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
             if(result == null) {
+
+            } else if(result.isEmpty()) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-            } else {
+            }
+            else {
                 userRVAdapter = HomeUserItemRVAdapter(result)
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
@@ -163,8 +173,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
             if (result == null) {
+            } else if(result.isEmpty()){
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-            } else {
+            }
+            else {
                 myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
                 binding.fragmentHomeRvMyMeeting.apply {
                     adapter = myMeetingRVAdapter
