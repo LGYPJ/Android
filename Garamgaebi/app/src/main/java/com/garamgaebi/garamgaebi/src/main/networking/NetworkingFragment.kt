@@ -71,12 +71,14 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                               //현재 시간과 stratDate 비교 --> 같다면 true로 반환
             if(it.isApply && startDate?.let { it1 -> GaramgaebiFunction().checkIceBreaking(it1) } == true){
                 //버튼 활성화 & 멘트 바꾸기
-                binding.activityNetworkIcebreakingContent1Tv.text = getString(R.string.networking_icebreaking_active1)
-                binding.activityNetworkIcebreakingContent2Tv.text = getString(R.string.networking_icebreaking_active2)
-                binding.activityNetworkParticipateBtn.isEnabled = true
-                binding.activityNetworkParticipateTv.setTextColor(resources.getColor(R.color.white))
-                binding.activityNetworkParticipateImg.setBackgroundResource(R.drawable.activity_network_participate_btn_white)
-                binding.activityNetworkParticipateBtn.setBackgroundResource(R.drawable.networking_blue_join_btn_background)
+                with(binding){
+                    activityNetworkIcebreakingContent1Tv.text = getString(R.string.networking_icebreaking_active1)
+                    activityNetworkIcebreakingContent2Tv.text = getString(R.string.networking_icebreaking_active2)
+                    activityNetworkParticipateBtn.isEnabled = true
+                    activityNetworkParticipateTv.setTextColor(resources.getColor(R.color.white))
+                    activityNetworkParticipateImg.setBackgroundResource(R.drawable.activity_network_participate_btn_white)
+                    activityNetworkParticipateBtn.setBackgroundResource(R.drawable.networking_blue_join_btn_background)
+                }
             }else{
                 binding.activityNetworkParticipateBtn.isEnabled = true
             }
@@ -87,9 +89,11 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
             // 시작 date변환 -> 저장
             val item = it.result
-            binding.activityNetworkTitleTv.text = item.title
-            binding.activityNetworkDateDetailTv.text = item.date
-            binding.activityNetworkPlaceDetailTv.text = item.location
+            with(binding) {
+                activityNetworkTitleTv.text = item.title
+                activityNetworkDateDetailTv.text = item.date
+                activityNetworkPlaceDetailTv.text = item.location
+            }
             if(item.fee.toString() == "0"){
                 binding.activityNetworkPayDetailTv.text = "무료"
             }
@@ -103,24 +107,30 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 // 버튼 상태
                 if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                     //신청완료, 비활성화
-                    binding.activityNetworkApplyBtn.text = "신청완료"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                    binding.activityNetworkApplyBtn.isEnabled = false
+                    with(binding) {
+                        activityNetworkApplyBtn.text = "신청완료"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                        activityNetworkApplyBtn.isEnabled = false
+                    }
                 }
                 if(it.result.userButtonStatus == "CLOSED"){
                     //마감, 비활성화
-                    binding.activityNetworkApplyBtn.text = "마감"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                    binding.activityNetworkApplyBtn.isEnabled = false
+                    with(binding) {
+                        activityNetworkApplyBtn.text = "마감"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                        activityNetworkApplyBtn.isEnabled = false
+                    }
                 }
                 if(it.result.userButtonStatus == "APPLY"){
                     // 신청하기 활성화
-                    binding.activityNetworkApplyBtn.text = "신청하기"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                    binding.activityNetworkApplyBtn.isEnabled = true
+                    with(binding) {
+                        activityNetworkApplyBtn.text = "신청하기"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                        activityNetworkApplyBtn.isEnabled = true
+                    }
                 }
             }
             //유료
@@ -128,31 +138,39 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 // 버튼 상태
                 if(it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM"){
                     //신청확인중, 비활성화
-                    binding.activityNetworkApplyBtn.text = "신청확인중"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                    binding.activityNetworkApplyBtn.isEnabled = false
+                    with(binding){
+                        activityNetworkApplyBtn.text = "신청확인중"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                        activityNetworkApplyBtn.isEnabled = false
+                    }
                 }
                 if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                     //신청완료, 비활성화
-                    binding.activityNetworkApplyBtn.text = "신청완료"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                    binding.activityNetworkApplyBtn.isEnabled = false
+                    with(binding){
+                        activityNetworkApplyBtn.text = "신청완료"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                        activityNetworkApplyBtn.isEnabled = false
+                    }
                 }
                 if(it.result.userButtonStatus == "CLOSED"){
                     //마감, 비활성화
-                    binding.activityNetworkApplyBtn.text = "마감"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                    binding.activityNetworkApplyBtn.isEnabled = false
+                    with(binding){
+                        activityNetworkApplyBtn.text = "마감"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                        activityNetworkApplyBtn.isEnabled = false
+                    }
                 }
                 if(it.result.userButtonStatus == "APPLY"){
                     // 신청하기 활성화
-                    binding.activityNetworkApplyBtn.text = "신청하기"
-                    binding.activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
-                    binding.activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                    binding.activityNetworkApplyBtn.isEnabled = true
+                    with(binding){
+                        activityNetworkApplyBtn.text = "신청하기"
+                        activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
+                        activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                        activityNetworkApplyBtn.isEnabled = true
+                    }
                 }
 
             }

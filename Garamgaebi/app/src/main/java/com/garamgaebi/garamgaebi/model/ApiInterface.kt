@@ -262,5 +262,6 @@ interface ApiInterface {
     suspend fun getGameMember(@Body gameMemberGetRequest: GameMemberGetRequest) : Response<GameMemberGetResponse>
 
     // game patch current-idx
+    @PATCH("/game/current-idx")
     suspend fun patchGameCurrentIdx(@Body gameCurrentIdxRequest: GameCurrentIdxRequest) : Response<GameCurrentIdxResponse>
 }

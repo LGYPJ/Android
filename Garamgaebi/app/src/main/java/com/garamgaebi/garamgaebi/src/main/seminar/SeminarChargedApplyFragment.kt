@@ -29,118 +29,30 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         super.onViewCreated(view, savedInstanceState)
         //데이터바인딩
         binding.setVariable(BR.item, viewModel)
+        binding.item = viewModel
+        binding.lifecycleOwner = this
 
-
-        //처음에 버튼 비활성화
-        binding.activitySeminarChargedApplyBtn.isEnabled = false
-
-        // et selected 여부에 따라 drawable 결정
-        binding.activitySeminarChargedApplyNameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-        binding.activitySeminarChargedApplyNicknameTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-        binding.activitySeminarChargedApplyPhoneTv.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-            } else {
-                view.setBackgroundResource(R.drawable.et_seminat_apply)
-            }
-        }
-
-        // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
-        // et에 따라 오류메세지 생성 & drawable 변경 & 신청하기버튼 활성화
-        binding.activitySeminarChargedApplyNameTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if(!isName()){
-                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.VISIBLE
-                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.GONE
-                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = true
-                    binding.activitySeminarChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
-        binding.activitySeminarChargedApplyNameTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if(!isNickName()){
-                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.VISIBLE
-                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activitySeminarChargedApplyNotCorrectNameTv.visibility = View.GONE
-                    binding.activitySeminarChargedApplyNameTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = true
-                    binding.activitySeminarChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
+        viewModel.inputName.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.nameIsValid.value = it.isNotEmpty() && isName(it)
         })
 
-        binding.activitySeminarChargedApplyPhoneTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(!isPhoneNumberCheck()){
-                    binding.activitySeminarChargedApplyNotCorrectPhoneTv.visibility = View.VISIBLE
-                    binding.activitySeminarChargedApplyPhoneTv.setBackgroundResource(R.drawable.activity_seminar_apply_red_border)
-                }
-                else{
-                    binding.activitySeminarChargedApplyNotCorrectPhoneTv.visibility = View.GONE
-                    binding.activitySeminarChargedApplyPhoneTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
-                }
-                if(isButton()){
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = true
-                    binding.activitySeminarChargedApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                }
-                else {
-
-                    binding.activitySeminarChargedApplyBtn.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
+        viewModel.inputNickName.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.nicknameIsValid.value = it.isNotEmpty() && isNickName(it)
         })
+
+        viewModel.inputPhone.observe(viewLifecycleOwner, Observer{
+            binding.item = viewModel
+            viewModel.phoneIsValid.value = it.isNotEmpty() && isPhoneNumberCheck(it)
+        })
+
+        with(viewModel){
+            nameState.value = getString(R.string.apply_not_name)
+            nicknameState.value = getString(R.string.apply_not_nickname)
+            phoneState.value = getString(R.string.apply_not_phone)
+        }
+
 
         // 계좌 복사
         binding.activitySeminarChargedCopyBtn.setOnClickListener {
@@ -171,9 +83,8 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
     }
 
     // 이름 형식 맞나
-    fun isName() : Boolean {
+    fun isName(name : String) : Boolean {
         var returnValue = false
-        val name = binding.activitySeminarChargedApplyNameTv.text.toString()
         val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(name)
@@ -184,9 +95,8 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
     }
 
     //전화번호 형식 맞나
-    fun isPhoneNumberCheck() : Boolean {
+    fun isPhoneNumberCheck( phone : String) : Boolean {
         var returnValue = false
-        val phone = binding.activitySeminarChargedApplyPhoneTv.text.toString()
         val regex = "^[0-9]{11}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(phone)
@@ -196,26 +106,15 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         return returnValue
     }
     //닉네임 맞나
-    fun isNickName(): Boolean{
+    fun isNickName(nickname : String): Boolean{
         var returnValue = false
-        val nickname = binding.activitySeminarChargedApplyNicknameTv.text.toString()
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
         val regex = "zzangu"
         val p = regex.matches(nickname.toRegex())
-        if(p){
+        if(p == true){
             returnValue = true
         }
         return returnValue
-    }
-
-    //버튼 활성화
-    fun isButton():Boolean {
-        var returnValue = false
-        if(isNickName()&&isPhoneNumberCheck()&&isName()){
-            returnValue = true
-        }
-        return returnValue
-
     }
 
     //화면전환
