@@ -40,8 +40,10 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
        
 
         val viewModel by viewModels<GatheringViewModel>()
+
         viewModel.getGatheringProgramReady(myMemberIdx)
         viewModel.getGatheringProgramClosed(myMemberIdx)
+
 
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {

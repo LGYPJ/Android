@@ -132,7 +132,7 @@ class GatheringViewModel: ViewModel() {
 
     fun getGatheringProgramReady(memberIdx : Int) {
         viewModelScope.launch(Dispatchers.IO){
-            val response = gatheringRepository.getGatheringProgramReady(22)
+            val response = gatheringRepository.getGatheringProgramReady(memberIdx)
             Log.d("getGatheringProgramReady", "$response")
 
             if (response.isSuccessful && response.body() != null) {

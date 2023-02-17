@@ -28,7 +28,8 @@ data class GameMemberDeleteResponse(
 )
 
 data class GameMemberDeleteResult(
-    val message: String
+    val message: String,
+    val currentImgIdx : Int
 )
 
 //room
