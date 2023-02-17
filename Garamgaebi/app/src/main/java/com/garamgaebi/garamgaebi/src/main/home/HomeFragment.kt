@@ -57,6 +57,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
             if(result == null) {
+                binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
+                constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
             }
             else if (result.isEmpty()) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
@@ -80,15 +82,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
                     override fun onClick(position: Int) {
                         if(it.result[position].isOpen == "OPEN"){
-                            val program = it.result[position].programIdx
                             GaramgaebiApplication.sSharedPreferences
-                                .edit().putInt("programIdx", program)
+                                .edit().putInt("programIdx", it.result[position].programIdx)
                                 .apply()
                             //세미나 메인 프래그먼트로!
-                            val intent = Intent(context, ContainerActivity::class.java)
-                            intent.putExtra("seminar", true)
-                            //intent.putExtra("HomeSeminarIdx", program)
-                            startActivity(intent)
+                            startActivity(Intent(requireContext(), ContainerActivity::class.java)
+                                .putExtra("seminar", true))
                         }
                     }
                 })
@@ -101,7 +100,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
             if(result == null) {
-
+                binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             } else if(result.isEmpty()) {
                 binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             }
@@ -144,7 +143,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
             if(result == null) {
-
+                binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             } else if(result.isEmpty()) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             }
@@ -176,6 +175,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
 
             if (result == null) {
+                binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             } else if(result.isEmpty()){
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             }
