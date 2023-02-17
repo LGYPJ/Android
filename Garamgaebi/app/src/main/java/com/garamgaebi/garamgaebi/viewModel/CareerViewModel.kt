@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
+import com.garamgaebi.garamgaebi.src.main.profile.DatePickerDialogFragment
 import kotlinx.coroutines.launch
 
 class CareerViewModel : ViewModel(){
@@ -64,24 +65,22 @@ class CareerViewModel : ViewModel(){
     //hint 문구
     var companyHint= MutableLiveData<String>("")
     var positionHint = MutableLiveData<String>("")
-    var startHint = MutableLiveData<String>("")
-    var endHint = MutableLiveData<String>("")
+
 
     //checkBox
     var checkBox = MutableLiveData<Boolean>(false)
 
-    //유효성 문구
-    var companyState = MutableLiveData<String>("")
-    var positionState = MutableLiveData<String>("")
-
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false
-        Log.d("링크 focusing입니다",data.value.toString())
-        Log.d("링크 첫입력입니다",first.value.toString())
-        Log.d("링크 시작 첫입력입니다",startFirst.value.toString())
-        Log.d("링크 종료 첫입력입니다",endFirst.value.toString())
 
+    }
+    var showStart = MutableLiveData<Boolean>(false)
+    var showEnd = MutableLiveData<Boolean>(false)
+    fun showDatePicker(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,show:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        show.value = true
     }
 
     //유효성 끝
@@ -97,7 +96,7 @@ class CareerViewModel : ViewModel(){
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _add.postValue(response.body())
-                Log.d("career_add_success", response.toString() +endDate.value.toString())
+                Log.d("career_add_success", response.toString() + "마지막날"+endDate.value.toString())
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }

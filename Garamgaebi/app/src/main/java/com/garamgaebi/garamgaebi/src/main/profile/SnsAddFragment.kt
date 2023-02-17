@@ -55,6 +55,10 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             viewModel.snsAddressIsValid.value = it.length < 45 && it.isNotEmpty()
 
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
+            Log.d("sns_address_first",viewModel.addressFirst.value.toString())
+            Log.d("sns_type_true",viewModel.snsTypeIsValid.value.toString())
+            Log.d("sns_type_first",viewModel.typeFirst.value.toString())
+
         })
 
 

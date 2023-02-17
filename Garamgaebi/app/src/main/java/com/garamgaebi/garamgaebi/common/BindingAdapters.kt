@@ -32,6 +32,7 @@ object BindingAdapters {
                 callback.onFocusing(true)
                 Log.d("focus_check","adapter3")
             }
+
         }
     }
 
