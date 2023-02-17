@@ -1,7 +1,10 @@
 package com.garamgaebi.garamgaebi.src.splash
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AccelerateInterpolator
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.databinding.ActivitySplashBinding
 import com.garamgaebi.garamgaebi.src.main.MainActivity
@@ -19,6 +22,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             startActivity(Intent(this,  MainActivity::class.java))
             finish()
         }, 1500)*/
+
+        var logo = binding.logo
+
+        fun imageViewRotate(){
+            val currentDegree = logo.rotation
+            var anim = ObjectAnimator.ofFloat(logo, View.ROTATION, currentDegree, currentDegree+90f)
+            anim.interpolator = AccelerateInterpolator()
+            anim.setDuration(1500)
+
+            anim.start()
+        }
+        imageViewRotate()
+
 
         CoroutineScope(Dispatchers.Default).launch {
             launch {

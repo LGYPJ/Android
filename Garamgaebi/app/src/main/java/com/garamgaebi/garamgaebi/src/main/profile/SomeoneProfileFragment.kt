@@ -67,9 +67,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                     .into(activitySomeoneProfileIvProfile)
                             }
                         }
-
-                        activitySomeoneProfileIvProfile.clipToOutline = true
-
                         if (result.result.content == null) {
                             activitySomeoneProfileTvIntro.visibility = View.GONE
                         }else{
