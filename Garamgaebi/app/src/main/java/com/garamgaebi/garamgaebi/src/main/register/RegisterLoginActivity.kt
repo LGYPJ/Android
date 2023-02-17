@@ -20,8 +20,8 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //val keyHash = Utility.getKeyHash(this)
-        //Log.d("Hash", keyHash)
+        val keyHash = Utility.getKeyHash(this)
+        Log.d("kakao", "hash $keyHash")
         /*UserApiClient.instance.logout { error ->
             if (error != null) {
                 Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
@@ -45,14 +45,7 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
             }
         }*/
         binding.fragmentLoginKakao.setOnClickListener {
-            Intent(this, RegisterActivity::class.java).run{
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                putExtra("login",true)
-                //putExtra("email", userInfo.kakaoAccount?.email)
-                startActivity(this)
-                finish()
-            }
-            //kakaoLogin()
+            kakaoLogin()
         }
     }
     private fun kakaoLogin() {

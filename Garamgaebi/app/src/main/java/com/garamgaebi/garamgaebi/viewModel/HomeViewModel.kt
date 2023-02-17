@@ -50,7 +50,7 @@ class HomeViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
-
+            response.code()
             if (response.isSuccessful && response.body() != null) {
                 _seminar.postValue(response.body())
                 Log.d("getHomeSeminar", "${response.body()}")
