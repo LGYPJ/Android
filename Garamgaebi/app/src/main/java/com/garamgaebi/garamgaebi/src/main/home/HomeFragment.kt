@@ -1,9 +1,12 @@
 package com.garamgaebi.garamgaebi.src.main.home
 
+import android.animation.ObjectAnimator
+import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -50,6 +53,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         // 뷰모델
         val viewModel by viewModels<HomeViewModel>()
+
+        var logo = binding.logo
+
+        val sDefaultInterpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
+
+        fun imageViewRotate(){
+            val currentDegree = logo.rotation
+            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+90f)
+            anim.interpolator = AccelerateInterpolator()
+                anim.setDuration(1000)
+
+            anim.start()
+        }
+        logo.setOnClickListener {
+            imageViewRotate()
+            viewModel.getHomeUser()
+        }
 
         // 세미나
         viewModel.getHomeSeminar()
@@ -137,6 +157,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
         })
 
+        var adapterFirst : Boolean = true
+
         // 유저 프로필 11명
         viewModel.getHomeUser()
         viewModel.user.observe(viewLifecycleOwner, Observer {
@@ -152,7 +174,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    addItemDecoration(HomeUserItemDecoration(requireContext()))
+                }
+
+                if(adapterFirst){
+                    binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
+                    adapterFirst = false
                 }
                 binding.fragmentHomeClUserBlank.visibility = View.GONE
                 // 리사이클러뷰 클릭 리스너
