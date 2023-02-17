@@ -65,26 +65,27 @@ class ProfileEditFragment :
                 ?.let { ImageDecoder.decodeBitmap(it) }
             binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
             binding.activityEditProfileIvProfile.setImageResource(R.drawable.basic_gray_border_layout)
-            Log.d("testt",file.name)
-            Log.d("testt2",imageUri.toString())
-            Log.d("testt3",bitmap.toString())
+            Log.d("image_1_file_name",file.name)
+            Log.d("image_2_image_uri",imageUri.toString())
+            Log.d("image_3_image_bitmap",bitmap.toString())
 
             activity?.let { Glide.with(it).load(imageUri).fitCenter().apply(RequestOptions().override(80,80)).into(binding.activityEditProfileIvProfile) }
 
 
             //sendImage(body)
 
-            //binding.activityEditProfileIvProfile.setImageURI(file)
+            binding.activityEditProfileIvProfile.setImageURI(imageUri)
+            //binding.activityEditProfileIvProfile.setBackgroundResource(imageUri)
 
-//                        activity?.let { it1 ->
-//                            Glide.with(it1)
-//                                .load(imageUri.toString())
-//                                .into(binding.activityEditProfileIvProfile)
-//                        }
+                        activity?.let { it1 ->
+                            Glide.with(it1)
+                                .load(imageUri.toString())
+                                .into(binding.activityEditProfileIvProfile)
+                        }
             binding.activityEditProfileIvProfile.clipToOutline = true
 
 
-            Log.d("testt_",binding.activityEditProfileIvProfile.resources.toString())
+            Log.d("image_4_resource",binding.activityEditProfileIvProfile.resources.toString())
 
         }
     }
