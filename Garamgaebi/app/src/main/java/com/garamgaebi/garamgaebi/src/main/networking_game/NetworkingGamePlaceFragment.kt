@@ -143,7 +143,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
                     val people = data.size
                     val networkingGameProfile2 =
-                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index % people)
+                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
                     binding.activityGameProfileRv.apply {
                         adapter = networkingGameProfile2
                         layoutManager =
@@ -197,9 +197,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     binding.activityGamePlaceCardNextBtn.setOnClickListener {
                         index++
                         CoroutineScope(Dispatchers.Main).launch {
-                            launch {
-                                viewModel.patchGameCurrentIdx()
-                            }
                             launch {
                                 viewModel.sendCurrentIdxMessage()
                             }
