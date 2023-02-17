@@ -78,6 +78,8 @@ class NetworkingGameViewModel: ViewModel() {
     val patchCurrent : LiveData<GameCurrentIdxResponse>
     get() = _patchCurrent
 
+    private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+
 
     val number : MutableLiveData<Int?> = MutableLiveData(-1)
 
@@ -103,11 +105,11 @@ class NetworkingGameViewModel: ViewModel() {
                 if(response.isSuccessful){
                     _postMember.postValue(response.body())
                     // currrentIdx 보내는 거
-                    response.body()?.result?.currentImgIdx?.let {
+                    /*response.body()?.result?.currentImgIdx?.let {
                         GaramgaebiApplication.sSharedPreferences
                             .edit().putInt("currentIdx", it)
                             .apply()
-                    }
+                    }*/
                 } else{
                     Log.d("error", response.message())
                 }
@@ -207,10 +209,11 @@ class NetworkingGameViewModel: ViewModel() {
             .subscribe {stompMessage ->
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
                 getGameMember()
+                postGameMember()
             }
     }
 
-    fun connectStomp1(){
+    /*fun connectStomp1(){
         mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
         val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
             when (lifecycleEvent.type) {
@@ -240,7 +243,7 @@ class NetworkingGameViewModel: ViewModel() {
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
                 patchGameCurrentIdx()
             }
-    }
+    }*/
 
 
     fun sendMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
