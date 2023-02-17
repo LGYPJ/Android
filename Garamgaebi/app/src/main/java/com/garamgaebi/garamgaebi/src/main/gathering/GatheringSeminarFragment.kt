@@ -53,23 +53,24 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarThisMonthTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
                 binding.fragmentGatheringSeminarThisMonthTvPlaceData.text = result.location
                 binding.fragmentGatheringSeminarThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
-            }
-            val program = it.result.programIdx
 
-            if(it.result.isOpen == "BEFORE_OPEN"){
-                binding.fragmentGatheringSeminarClThisMonth.isEnabled = false
-            }
+                val program = it.result.programIdx
 
-            binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
-                //세미나 메인 화면으로
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("programIdx", program)
-                    .apply()
-                //세미나 메인 프래그먼트로!
-                val intent = Intent(context, ContainerActivity::class.java)
-                intent.putExtra("seminar", true)
-                intent.putExtra("goseminar", "goseminar")
-                startActivity(intent)
+                if(it.result.isOpen == "BEFORE_OPEN"){
+                    binding.fragmentGatheringSeminarClThisMonth.isEnabled = false
+                }
+
+                binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
+                    //세미나 메인 화면으로
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putInt("programIdx", program)
+                        .apply()
+                    //세미나 메인 프래그먼트로!
+                    val intent = Intent(context, ContainerActivity::class.java)
+                    intent.putExtra("seminar", true)
+                    intent.putExtra("goseminar", "goseminar")
+                    startActivity(intent)
+                }
             }
         })
 
