@@ -47,12 +47,12 @@ class HomeViewModel : ViewModel(){
     }
 
     fun getHomeSeminar() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
-
+            response.code()
             if (response.isSuccessful && response.body() != null) {
-                _seminar.postValue(response.body())
+                _seminar.value = response.body()
                 Log.d("getHomeSeminar", "${response.body()}")
             }
             else {
@@ -61,12 +61,13 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun getHomeNetworking() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
             if (response.isSuccessful && response.body() != null) {
-                _networking.postValue(response.body())
+                //_networking.postValue(response.body())
+                _networking.value = response.body()
                 Log.d("getHomeNetworking", "${response.body()}")
             } else {
                 Log.d("error", "getHomeNetworking : "+response.message())

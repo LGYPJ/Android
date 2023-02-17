@@ -1,17 +1,20 @@
 package com.garamgaebi.garamgaebi.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.garamgaebi.garamgaebi.common.ORIGIN
 import com.garamgaebi.garamgaebi.databinding.ItemGameCardVpBinding
-import com.garamgaebi.garamgaebi.src.main.networking_game.NetworkingGameCard
 
-class NetworkingGameCardVPAdapter(private val dataList: List<String>):  RecyclerView.Adapter<NetworkingGameCardVPAdapter.ViewHolder>() {
+class NetworkingGameCardVPAdapter(private val dataList: List<String>, private val number: Int):  RecyclerView.Adapter<NetworkingGameCardVPAdapter.ViewHolder>() {
 
 
-    inner class ViewHolder(val binding: ItemGameCardVpBinding) :RecyclerView.ViewHolder(binding.root){
-        fun bind(data: String, position: Int){
+    inner class ViewHolder(val binding: ItemGameCardVpBinding)
+        :RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("SuspiciousIndentation")
+        fun bind(data : String, position: Int){
             Glide.with(binding.activityItemGameCardBlankImg.context)
                 .load(data)
                 .into(binding.activityItemGameCardBlankImg)
@@ -21,16 +24,36 @@ class NetworkingGameCardVPAdapter(private val dataList: List<String>):  Recycler
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemGameCardVpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return when(viewType){
+            ORIGIN -> {
+                val binding = ItemGameCardVpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return ViewHolder(binding)
+            }
+
+            else -> {
+                val binding = ItemGameCardVpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return ViewHolder(binding)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataList[position], position)
+        when(holder){
+            else -> {
+                holder.bind(dataList[number], position)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return dataList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when(position){
+            number -> ORIGIN
+            else -> ORIGIN
+        }
     }
 
 

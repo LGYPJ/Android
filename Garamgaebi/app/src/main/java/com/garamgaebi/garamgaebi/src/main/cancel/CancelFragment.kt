@@ -119,7 +119,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                 binding.activityCancelDeadlineDetailTv.text = data.endDate
 
                 //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
-                if(data.fee == 0){
+                if(data.fee.toString() == "0"){
                     with(binding){
                         activityCancelBankTv.visibility = GONE
                         activityCancelBankDownBtn.visibility = GONE

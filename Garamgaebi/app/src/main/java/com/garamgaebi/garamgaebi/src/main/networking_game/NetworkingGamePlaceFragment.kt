@@ -44,17 +44,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     lateinit var fadeInAnim : Animation
     lateinit var shadow_fade_in : Animation
 
-    /*private var networkingGameCardList: ArrayList<NetworkingGameCard> = arrayListOf(
-        NetworkingGameCard("나에게 가천대는"),
-        NetworkingGameCard("나에게 UMC는"),
-        NetworkingGameCard("나에게 신디는"),
-        NetworkingGameCard("나에게 짱구는"),
-        NetworkingGameCard("나에게 로건은"),
-        NetworkingGameCard("나에게 찹도는"),
-        NetworkingGameCard("나에게 코코아는"),
-        NetworkingGameCard("나에게 줄리아는"),
-    )*/
-    private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+    //private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
     //private var index = -1
 
     //뷰모델
@@ -130,7 +120,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
             launch {
                 viewModel.postGameMember()
-
             }
             launch {
                 viewModel.getGameMember()
@@ -139,18 +128,123 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 viewModel.sendMessage()
             }
         }
-
         viewModel.getImage()
+        viewModel.postGameMember()
+        viewModel.postMember.observe(viewLifecycleOwner, Observer {
+            var index = it.result.currentImgIdx
+            Log.d("current", index.toString())
+            viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
+                val networkingGameProfile2 =
+                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
+                binding.activityGameProfileRv.apply {
+                    adapter = networkingGameProfile2
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    networkingGameProfile2.notifyDataSetChanged()
+                }
+                //카드 뷰페이저2 get images api 연결
+                viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                    val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
+                    binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
+                    binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                    binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
+                    networkingGameCardVPAdapter.notifyDataSetChanged()
 
-            val networkingGameProfile2 =
-                NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-            binding.activityGameProfileRv.apply {
-                adapter = networkingGameProfile2
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                networkingGameProfile2.notifyDataSetChanged()
-            }
+                })
+                //
+
+                //시작하기 버튼
+                binding.activityGameCardStartBtn.setOnClickListener {
+                    front_anim.setTarget(front)
+                    back_anim.setTarget(back)
+                    front_anim.start()
+                    back_anim.start()
+                    binding.activityGameCardStartBtn.isEnabled = false
+
+                    //viewModel.patchGameCurrentIdx()
+
+                    //시작하기 버튼 누르면 뷰페이저 보이게
+                    binding.activityGameCardBackImg.visibility = View.VISIBLE
+                    //index ++
+                    //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
+                    //index + 1
+                    CoroutineScope(Dispatchers.Main).launch {
+                        launch {
+                            delay(1400)
+                            //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
+                            fadeInAnim =
+                                AnimationUtils.loadAnimation(context, R.anim.activity_game_fade_in)
+                            binding.activityGameCardBackVp.offscreenPageLimit = 1
+
+                        }
+                    }
+
+                }
+
+                // 다음 버튼 눌렀을때
+                binding.activityGamePlaceCardNextBtn.setOnClickListener {
+                    index++
+                    CoroutineScope(Dispatchers.Main).launch{
+                        launch {
+                            viewModel.patchGameCurrentIdx()
+                        }
+                        launch {
+                            viewModel.sendCurrentIdxMessage()
+                        }
+                    }
+                    //카드 currentIdx가 30일때 next 버튼 활성화 X
+                    Log.d("current", index.toString())
+                    val networkingGameProfile =
+                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
+                    binding.activityGameProfileRv.apply {
+                        adapter = networkingGameProfile
+                        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        Log.d("index1", index.toString())
+                        (layoutManager as LinearLayoutManager).scrollToPosition(index)
+                        networkingGameProfile.notifyDataSetChanged()
+                    }
+
+                    //카드 뷰페이저2 get images api 연결
+                    viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                        val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
+                        binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
+                        binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+                        binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
+                        networkingGameCardVPAdapter.notifyDataSetChanged()
+
+                    })
+
+
+
+                }
+            })
+
+        })
+
+        /*viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+               // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
+                Log.d("current", index.toString())
+                val networkingGameProfile2 =
+                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
+                binding.activityGameProfileRv.apply {
+                    adapter = networkingGameProfile2
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    networkingGameProfile2.notifyDataSetChanged()
+                }
+                //카드 뷰페이저2 get images api 연결
+                viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                    val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
+                    binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
+                    binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+                    binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
+                    networkingGameCardVPAdapter.notifyDataSetChanged()
+
+                })
+            //
+
             //시작하기 버튼
             binding.activityGameCardStartBtn.setOnClickListener {
                 front_anim.setTarget(front)
@@ -159,10 +253,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 back_anim.start()
                 binding.activityGameCardStartBtn.isEnabled = false
 
+                //viewModel.patchGameCurrentIdx()
+
                 //시작하기 버튼 누르면 뷰페이저 보이게
                 binding.activityGameCardBackImg.visibility = View.VISIBLE
                 //index ++
                 //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
+                //index + 1
                 CoroutineScope(Dispatchers.Main).launch {
                     launch {
                         delay(1400)
@@ -173,18 +270,12 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                     }
                 }
-                val networkingGameProfile1 =
-                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-                binding.activityGameProfileRv.apply {
-                    adapter = networkingGameProfile1
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    networkingGameProfile1.notifyDataSetChanged()
-                }
 
             }
 
                 // 다음 버튼 눌렀을때
                 binding.activityGamePlaceCardNextBtn.setOnClickListener {
+                    index++
                     CoroutineScope(Dispatchers.Main).launch{
                         launch {
                             viewModel.patchGameCurrentIdx()
@@ -193,24 +284,22 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             viewModel.sendCurrentIdxMessage()
                         }
                     }
-                    index + 1
-                    val networkingGameProfile =
-                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-                    binding.activityGameProfileRv.apply {
-                        adapter = networkingGameProfile
-                        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        //카드 currentIdx가 30일때 next 버튼 활성화 X
+                        Log.d("current", index.toString())
+                        val networkingGameProfile =
+                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
+                        binding.activityGameProfileRv.apply {
+                            adapter = networkingGameProfile
+                            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            Log.d("index1", index.toString())
+                            (layoutManager as LinearLayoutManager).scrollToPosition(index)
+                            networkingGameProfile.notifyDataSetChanged()
+                        }
 
-                    Log.d("index", index.toString())
-
-
-                    (layoutManager as LinearLayoutManager).scrollToPosition(index)
-                    networkingGameProfile.notifyDataSetChanged()
                         //카드 뷰페이저2 get images api 연결
-
-                        viewModel.getImg.observe(viewLifecycleOwner, Observer {
-                            Log.d("img", it[0])
-                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it)
-                            binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it)
+                        viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
+                            binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
                             binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
                             binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
@@ -218,9 +307,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                         })
 
-                }
+
+
             }
-        })
+        })*/
 
         //카드 뷰페이저 양 옆 overlap
         val MIN_SCALE = 0.9f
@@ -229,6 +319,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             if(position < -1){
                 page.setBackgroundResource(R.color.game_card_white)
                 page.alpha =1f
+                //page.animation = fadeInAnim
                 page.translationX = pageWidth * 0.9f * position
                 ViewCompat.setTranslationZ(page, position)
                 val  scaleFactor = (MIN_SCALE
@@ -258,7 +349,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             else if(position <= 1){
                 page.setBackgroundResource(R.color.game_card_white)
                 //시작하기 누르고 2초뒤에 0.7초간 뒤에 뷰페이저 fadein 효과
-                page.animation = fadeInAnim
+                //page.animation = fadeInAnim
                 page.alpha = 1f
                 page.translationX = pageWidth * 0.9f * -position
                 ViewCompat.setTranslationZ(page, -position)
@@ -294,12 +385,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     }
 
-    /*fun onBackPressed() {
-       Log.d("disconnect", "wow")
-
-    }*/
-
-
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -319,15 +404,18 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         viewModel.disconnectStomp()
                     }
                 }
-                viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
 
-                    val networkingGameProfile =
-                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-                    binding.activityGameProfileRv.apply {
-                        adapter = networkingGameProfile
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    }
+                viewModel.deleteMember.observe(viewLifecycleOwner, Observer {
+                    val index1 = it.result.currentImgIdx
+                    viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                        val networkingGameProfile =
+                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index1)
+                        binding.activityGameProfileRv.apply {
+                            adapter = networkingGameProfile
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        }
+                    })
                 })
                 (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
             }
