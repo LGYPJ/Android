@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
@@ -172,6 +173,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
+
             if (result == null) {
             } else if(result.isEmpty()){
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE

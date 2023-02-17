@@ -13,6 +13,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/whiteForBackground"
+
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +45,9 @@
                 android:id="@+id/activity_education_et_institutionDesc"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:background="@{viewModel.institutionFirst || viewModel.institutionIsValid ? (viewModel.institutionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:maxLines="1"
+                android:maxLength="22"
+                android:background="@{(viewModel.institutionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.institutionFocusing ? "" : viewModel.institutionHint}'
                 android:paddingStart="12dp"
@@ -55,19 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_education_tv_institutionTitle" />
-            <TextView
-                android:id="@+id/caution_input_institution_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.institutionState}"
-                android:textColor="@color/redForText"
-                android:visibility="@{viewModel.institutionFirst || viewModel.institutionIsValid ? View.INVISIBLE : View.VISIBLE}"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/activity_education_et_institutionDesc"
-                app:layout_constraintTop_toBottomOf="@id/activity_education_et_institutionDesc" />
-
-            <TextView
+             <TextView
                 android:id="@+id/activity_education_institution_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +89,9 @@
                 android:id="@+id/activity_education_et_majorDesc"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:background="@{viewModel.majorFirst || viewModel.majorIsValid ? (viewModel.majorFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:maxLines="1"
+                android:maxLength="22"
+                android:background="@{(viewModel.majorFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) }"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.majorFocusing ? "" : viewModel.majorHint}'
                 android:paddingStart="12dp"
@@ -109,18 +103,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_majorTitle" />
-            <TextView
-                android:id="@+id/caution_input_major_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/caution_input_22"
-                android:textColor="@color/redForText"
-                android:visibility="@{viewModel.majorFirst || viewModel.majorIsValid ? View.INVISIBLE : View.VISIBLE}"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/activity_education_et_majorDesc"
-                app:layout_constraintTop_toBottomOf="@id/activity_education_et_majorDesc" />
-            <TextView
+              <TextView
                 android:id="@+id/activity_education_tv_major_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -238,7 +221,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/learning"
-                android:textColor="#8A8A8A"
+                android:textColor="@{viewModel.checkBox ? @color/black80 : @color/gray8a}"
                 app:layout_constraintStart_toEndOf="@id/activity_education_checkbox_rl"
                 app:layout_constraintTop_toBottomOf="@id/activity_education_et_startPeriod"/>
         <androidx.appcompat.widget.AppCompatButton
@@ -251,14 +234,14 @@
             android:textColor="@color/blueForBtn"
             android:textSize="16sp"
             android:outlineProvider="none"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/activity_education_save_btn"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_education_save_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
             android:background="@{(!viewModel.institutionFirst &amp;&amp; !viewModel.majorFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.institutionIsValid &amp;&amp; viewModel.majorIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
@@ -269,7 +252,7 @@
             android:clickable="@{(!viewModel.institutionFirst &amp;&amp; !viewModel.majorFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.institutionIsValid &amp;&amp; viewModel.majorIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
             app:layout_constraintStart_toEndOf="@id/activity_education_remove_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

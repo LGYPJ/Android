@@ -104,9 +104,26 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
 
         //유효성 끝
         binding.activityEducationCheckboxDesc.setOnClickListener {
-            viewModel.endDate.value = "현재"
-            viewModel.isLearning.value = "TRUE"
-            viewModel.checkBox.value = true
+            if(viewModel.checkBox.value == false) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+            }else{
+                viewModel.endDate.value = ""
+                viewModel.isLearning.value = "FALSE"
+                viewModel.checkBox.value = false
+            }
+        }
+        binding.activityEducationCheckboxRl.setOnClickListener {
+            if(viewModel.checkBox.value == false) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+            }else{
+                viewModel.endDate.value = ""
+                viewModel.isLearning.value = "FALSE"
+                viewModel.checkBox.value = false
+            }
         }
 
         binding.activityEducationRemoveBtn.setOnClickListener {
@@ -128,9 +145,8 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         //기존의 정보 입력이 되어 있기에 첫 입력 예외 x
         viewModel.institutionFirst.value = false
         viewModel.majorFirst.value = false
-        viewModel.startFocusing.value = true
+
         viewModel.startFirst.value = false
-        viewModel.endFocusing.value = true
         viewModel.endFirst.value = false
 
 
@@ -144,6 +160,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     DatePickerDialogFragment(it1) {
                         val arr = it.split(".")
                         binding.activityEducationEtStartPeriod.setText(arr[0]+"."+arr[1])
+                        viewModel.startFocusing.value = false
                     }
                 }
             orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
@@ -166,6 +183,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                             viewModel.endDate.value = (arr[0] + "." + arr[1])
                             viewModel.isLearning.value = "FALSE"
                         }
+                        viewModel.endFocusing.value = false
                     }
                 }
             orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)

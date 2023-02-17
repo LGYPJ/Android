@@ -73,6 +73,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:maxLines="1"
             android:background="@{viewModel.emailFirst || viewModel.emailIsValid ? (viewModel.emailFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
@@ -138,14 +139,14 @@
             android:src="@drawable/ic_arrow_bottom_14dp"
             app:layout_constraintBottom_toBottomOf="@+id/activity_servicecenter_et_option"
             app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_option"
-            app:layout_constraintTop_toTopOf="@id/activity_servicecenter_et_option"></ImageView>
-
+            app:layout_constraintTop_toTopOf="@id/activity_servicecenter_et_option"/>
         <EditText
             android:id="@+id/activity_servicecenter_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
             android:layout_marginTop="14dp"
-            android:background="@{viewModel.contentFirst || viewModel.contentIsValid ? (viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+            android:maxLength="100"
+            android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
             android:hint='@{viewModel.contentFocusing ? "" : @string/input_content}'
             android:padding="11dp"
@@ -189,7 +190,7 @@
                 android:layout_height="16dp"
                 android:background="@drawable/ic_checkbox_16dp"
                 android:button="@android:color/transparent"
-                android:checked="@={viewModel.agree}"></CheckBox>
+                android:checked="@={viewModel.agree}"/>
         </RelativeLayout>
 
         <TextView
@@ -202,7 +203,7 @@
             android:text="@string/email_checkbox_desc"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_servicecenter_checkbox_rl"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_servicecenter_send_btn"
@@ -217,7 +218,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_content"
             app:layout_constraintStart_toStartOf="@id/activity_servicecenter_et_content"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_checkbox_desc"></androidx.appcompat.widget.AppCompatButton>
+            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_checkbox_desc"/>
 
         <TextView
             android:id="@+id/activity_servicecenter_tv_logout"
@@ -254,5 +255,4 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -7,7 +7,6 @@
         <variable
             name="snsViewModel"
             type="com.garamgaebi.garamgaebi.viewModel.SNSViewModel" />
-
         <variable
             name="common"
             type="com.garamgaebi.garamgaebi.common.GaramgaebiFunction" />
@@ -17,7 +16,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/whiteForBackground"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_sns_info"
@@ -47,8 +48,10 @@
                 android:id="@+id/activity_sns_et_name"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:background="@{snsViewModel.typeFirst || snsViewModel.snsTypeIsValid ? (snsViewModel.snsTypeFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:background="@{(snsViewModel.snsTypeFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:gravity="center_vertical"
+                android:maxLines="1"
+                android:maxLength="22"
                 android:hint='@{snsViewModel.snsTypeFocusing ? "" : snsViewModel.typeInputDesc}'
                 android:paddingStart="12dp"
                 android:text="@={snsViewModel.snsType}"
@@ -59,18 +62,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle"
                 app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsTypeFocusing,snsViewModel.typeFirst,check)}" />
-
-            <TextView
-                android:id="@+id/activity_sns_tv_nameState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@{snsViewModel.typeState}"
-                android:textColor="@color/redForText"
-                android:textSize="14sp"
-                android:visibility="@{snsViewModel.typeFirst || snsViewModel.snsTypeIsValid ? View.INVISIBLE : View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="@id/activity_sns_et_name"
-                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_name" />
 
             <TextView
                 android:id="@+id/activity_sns_et_name_length"
@@ -104,6 +95,8 @@
                 android:layout_height="48dp"
                 android:background="@{snsViewModel.addressFirst || snsViewModel.snsAddressIsValid ? (snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
                 android:gravity="center_vertical"
+                android:maxLines="1"
+                android:maxLength="140"
                 android:hint='@{snsViewModel.snsAddressFocusing ? "" : snsViewModel.addressInputDesc}'
                 android:paddingStart="12dp"
                 android:text="@={snsViewModel.snsAddress}"
@@ -132,7 +125,7 @@
                 android:id="@+id/activity_sns_remove_btn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginEnd="3dp"
+                android:layout_marginEnd="6dp"
                 android:layout_marginBottom="68dp"
                 android:background="@drawable/basic_blue_white_btn_layout"
                 android:outlineProvider="none"
@@ -141,23 +134,21 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/activity_sns_save_btn"
-                app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.AppCompatButton>
-
+                app:layout_constraintStart_toStartOf="parent"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/activity_sns_save_btn"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="68dp"
-                android:background="@{(!snsViewModel.typeFirst &amp;&amp; !snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-                android:clickable="@{(!snsViewModel.typeFirst &amp;&amp; !snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
+                android:background="@{(!snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+                android:clickable="@{(!snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
                 android:outlineProvider="none"
                 android:text="@string/save"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"></androidx.appcompat.widget.AppCompatButton>
-
+                app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
