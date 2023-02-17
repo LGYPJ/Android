@@ -14,6 +14,7 @@ import com.garamgaebi.garamgaebi.adapter.GatheringMyMeetingLastRVAdapter
 import com.garamgaebi.garamgaebi.adapter.GatheringMyMeetingScheduledRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -39,9 +40,10 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
        
 
         val viewModel by viewModels<GatheringViewModel>()
-        viewModel.getGatheringProgramReady(26)
 
-        viewModel.getGatheringProgramClosed(26)
+        viewModel.getGatheringProgramReady(myMemberIdx)
+        viewModel.getGatheringProgramClosed(myMemberIdx)
+
 
 
         viewModel.programReady.observe(viewLifecycleOwner, Observer {

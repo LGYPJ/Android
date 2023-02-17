@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.databinding.ActivitySplashBinding
+import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         CoroutineScope(Dispatchers.Default).launch {
             launch {
                 delay(1500)
-                startActivity(Intent(this@SplashActivity, RegisterActivity::class.java))
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
             }
         }
