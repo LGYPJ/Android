@@ -74,6 +74,10 @@ class NetworkingGameViewModel: ViewModel() {
     val getMemberRe : LiveData<List<GameMemberGetResultRe>>
     get() = _getMemberRe
 
+    private val _patchCurrent = MutableLiveData<GameCurrentIdxResponse>()
+    val patchCurrent : LiveData<GameCurrentIdxResponse>
+    get() = _patchCurrent
+
 
     val number : MutableLiveData<Int?> = MutableLiveData(-1)
 
@@ -130,6 +134,7 @@ class NetworkingGameViewModel: ViewModel() {
     fun getImage(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = gameRepository.getGameImage(20)
+            Log.d("img", response.body()?.result.toString())
             if(response.isSuccessful){
                 _getImg.postValue(response.body()?.result)
             }else{
@@ -143,6 +148,14 @@ class NetworkingGameViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = roomId?.let { GameCurrentIdxRequest(it) }
                 ?.let { gameRepository.patchGameCurrentIdx(it) }
+            if (response != null) {
+                if(response.isSuccessful){
+                     _patchCurrent.postValue(response.body())
+                }
+                else{
+                    Log.d("error", response.message())
+                }
+            }
         }
     }
 

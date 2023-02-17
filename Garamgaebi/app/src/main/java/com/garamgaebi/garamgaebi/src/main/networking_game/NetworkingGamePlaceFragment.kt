@@ -161,7 +161,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                 //시작하기 버튼 누르면 뷰페이저 보이게
                 binding.activityGameCardBackImg.visibility = View.VISIBLE
-                index ++
+                //index ++
                 //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
                 CoroutineScope(Dispatchers.Main).launch {
                     launch {
@@ -193,7 +193,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             viewModel.sendCurrentIdxMessage()
                         }
                     }
-                    index++
+                    index + 1
                     val networkingGameProfile =
                         NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
                     binding.activityGameProfileRv.apply {
