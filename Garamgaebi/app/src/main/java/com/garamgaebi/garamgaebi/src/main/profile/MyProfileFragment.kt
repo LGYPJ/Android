@@ -15,9 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.bumptech.glide.Glide
-import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.BR
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
@@ -29,7 +30,15 @@ import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import kotlinx.android.synthetic.main.fragment_myprofile.*
+import java.lang.String
+import kotlin.Int
+import kotlin.apply
+import kotlin.let
+import kotlin.with
 
+
+@Suppress("UNREACHABLE_CODE")
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     private lateinit var callback: OnBackPressedCallback
@@ -42,6 +51,15 @@ class MyProfileFragment :
         savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
+
+        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
+//            viewModel.getProfileInfo(myMemberIdx)
+//            viewModel.getSNSInfo(myMemberIdx)
+//            viewModel.getCareerInfo(myMemberIdx)
+//            viewModel.getEducationInfo(myMemberIdx)
+                binding.activityMyProfileTvIntro.text = "dd"
+            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
+        })
     }
     override fun initViewModel() {
         super.initViewModel()
@@ -65,11 +83,12 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
-        binding.textIdChanger.setText(myMemberIdx.toString())
-        binding.textIdChangerBtn.setOnClickListener {
-            myMemberIdx = binding.textIdChanger.text.toString().toInt()
-            activity?.finish()
-        }
+
+//        binding.textIdChanger.setText(myMemberIdx.toString())
+//        binding.textIdChangerBtn.setOnClickListener {
+//            myMemberIdx = binding.textIdChanger.text.toString().toInt()
+//            activity?.finish()
+//        }
         with(viewModel) {
             getProfileInfo(myMemberIdx)
 
@@ -98,7 +117,7 @@ class MyProfileFragment :
                         activityMyProfileTvSchool.text = result.result.belong
                         activityMyProfileTvIntro.text = result.result.content
 
-                        if(result.result.profileUrl != null){
+                        if(result.result.profileUrl != null && !result.result.profileUrl.equals("null")){
                             activity?.let { it1 ->
                                 Glide.with(it1).load(result.result.profileUrl)
                                     .into(activityMyProfileIvProfile)
@@ -131,57 +150,74 @@ class MyProfileFragment :
             //SNS 정보 어댑터 연결
             getSNSInfo(myMemberIdx)
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                val snsAdapter = activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
-                binding.activityMyProfileRVSns.apply {
-                    adapter = snsAdapter
+                if(it ==null){
 
-                    layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
-                snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
-                    override fun onClick(position: Int) {
+                }else {
+                    val snsAdapter =
+                        activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+                    binding.activityMyProfileRVSns.apply {
+                        adapter = snsAdapter
+
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     }
-                })
+                    snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
+                        override fun onClick(position: Int) {
+                        }
+                    })
+                }
             })
             //경력 정보 어댑터 연결
             getCareerInfo(myMemberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                val careerAdapter = activity?.let { it1 ->
-                    CareerMyRVAdapter(it,
-                        it1.applicationContext)
-                }
-                dividerItemDecoration = DividerItemDecoration(
-                    binding.activityMyProfileRVCareer.context,
-                    LinearLayoutManager(requireContext()).orientation
-                )
-                binding.activityMyProfileRVCareer.apply {
-                    adapter = careerAdapter
-                    Log.d("career_adapter_list_size", it.size.toString())
-                    layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
-                careerAdapter?.setOnItemClickListener(object : CareerMyRVAdapter.OnItemClickListener {
-                    override fun onClick(position: Int) {
+                if(it ==null){
+
+                }else {
+                    val careerAdapter = activity?.let { it1 ->
+                        CareerMyRVAdapter(
+                            it,
+                            it1.applicationContext
+                        )
                     }
-                })
+                    dividerItemDecoration = DividerItemDecoration(
+                        binding.activityMyProfileRVCareer.context,
+                        LinearLayoutManager(requireContext()).orientation
+                    )
+                    binding.activityMyProfileRVCareer.apply {
+                        adapter = careerAdapter
+                        Log.d("career_adapter_list_size", it.size.toString())
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    }
+                    careerAdapter?.setOnItemClickListener(object :
+                        CareerMyRVAdapter.OnItemClickListener {
+                        override fun onClick(position: Int) {
+                        }
+                    })
+                }
                 })
             //교육 정보 어댑터 연결
             getEducationInfo(myMemberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                val eduAdapter = activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
-                dividerItemDecoration = DividerItemDecoration(
-                    binding.activityMyProfileRVEdu.context,
-                    LinearLayoutManager(requireContext()).orientation
-                )
-                binding.activityMyProfileRVEdu.apply {
-                    adapter = eduAdapter
-                    layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
-                eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
-                    override fun onClick(position: Int) {
+                if(it ==null){
+
+                }else {
+                    val eduAdapter =
+                        activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
+                    dividerItemDecoration = DividerItemDecoration(
+                        binding.activityMyProfileRVEdu.context,
+                        LinearLayoutManager(requireContext()).orientation
+                    )
+                    binding.activityMyProfileRVEdu.apply {
+                        adapter = eduAdapter
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     }
-                })
+                    eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
+                        override fun onClick(position: Int) {
+                        }
+                    })
+                }
             })
         }
 
@@ -210,12 +246,6 @@ class MyProfileFragment :
             activityMyProfileBtnEditProfile.setOnClickListener{
                 goEditFragment()
             }
-            //test 상대 프로필
-//            activityMyProfileIvProfile.setOnClickListener {
-//                val intent = Intent(activity,ContainerActivity::class.java)
-//                intent.putExtra("someoneProfile",true) //데이터 넣기
-//                startActivity(intent)
-//            }
         }
     }
     //내 프로필 편집 화면으로 이동
@@ -230,17 +260,11 @@ class MyProfileFragment :
         intent.putExtra("servicecenter",true) //데이터 넣기
         startActivity(intent)
     }
-    //탈퇴 화면으로 이동
-    fun goWithdrawalFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("withdrawal",true) //데이터 넣기
-        startActivity(intent)
-    }
 
     //sns 추가 버튼
     fun goAddSNSFragment(){
-        binding.activityMyProfileRVCareer.visibility = View.VISIBLE
-        binding.activityMyProfileTvCareerDesc.visibility = View.GONE
+        binding.activityMyProfileRVSns.visibility = View.VISIBLE
+        binding.activityMyProfileTvSnsDesc.visibility = View.GONE
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("sns",true) //데이터 넣기
         startActivity(intent)

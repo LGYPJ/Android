@@ -219,10 +219,15 @@ class ProfileEditFragment :
                     "Error"
                 )
             )
-            activity?.let { it1 ->
-                Glide.with(it1)
-                    .load(GaramgaebiApplication.sSharedPreferences.getString("myImage", ""))
-                    .into(activityEditProfileIvProfile)
+            var myProfileImage = GaramgaebiApplication.sSharedPreferences.getString("myImage", "")
+            if (myProfileImage != null) {
+                if(myProfileImage.isNotEmpty()) {
+                    activity?.let { it1 ->
+                        Glide.with(it1)
+                            .load(myProfileImage)
+                            .into(activityEditProfileIvProfile)
+                    }
+                }
             }
             activityEditProfileIvProfile.clipToOutline = true
 
@@ -241,7 +246,10 @@ class ProfileEditFragment :
                 viewModel.getCheckEditProfileInfo(myMemberIdx)
         }
 
-        // 유효성 확인
+
+
+
+    // 유효성 확인
         viewModel.nickName.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 

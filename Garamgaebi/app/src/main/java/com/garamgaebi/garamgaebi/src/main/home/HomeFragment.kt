@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
@@ -53,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                 constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
             } else {
@@ -94,7 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.networking.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeNetworkingResult>
             val networkingRVAdapter : HomeNetworkingRVAdapter
-            if(result.isEmpty()) {
+            if(it == null) {
                 binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             } else {
                 networkingRVAdapter = HomeNetworkingRVAdapter(result)
@@ -134,7 +135,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeUserResult>
             val userRVAdapter : HomeUserItemRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
             } else {
                 userRVAdapter = HomeUserItemRVAdapter(result)
@@ -162,7 +163,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
-            if (result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
             } else {
                 myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)

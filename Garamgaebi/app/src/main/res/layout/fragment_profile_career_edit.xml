@@ -10,6 +10,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/whiteForBackground"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +43,9 @@
                 android:id="@+id/activity_career_et_companyDesc"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:background="@{viewModel.companyFirst || viewModel.companyIsValid ? (viewModel.companyFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:background="@{(viewModel.companyFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
+                android:maxLines="1"
+                android:maxLength="22"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.companyFocusing ? "" : viewModel.companyHint}'
                 android:paddingStart="12dp"
@@ -53,17 +58,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_career_tv_companyTitle" />
 
-            <TextView
-                android:id="@+id/caution_input_company_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.companyState}"
-                android:textColor="@color/redForText"
-                android:visibility="@{viewModel.companyFirst || viewModel.companyIsValid ? View.INVISIBLE : View.VISIBLE}"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/activity_career_et_companyDesc"
-                app:layout_constraintTop_toBottomOf="@id/activity_career_et_companyDesc" />
             <TextView
                 android:id="@+id/activity_career_tv_company_length"
                 android:layout_width="wrap_content"
@@ -94,7 +88,9 @@
                 android:id="@+id/activity_career_et_position"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:background="@{viewModel.positionFirst || viewModel.positionIsValid ? (viewModel.positionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                android:background="@{(viewModel.positionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
+                android:maxLines="1"
+                android:maxLength="22"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.positionFocusing ? "" : viewModel.positionHint}'
                 android:paddingStart="12dp"
@@ -106,17 +102,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_positionTitle" />
-            <TextView
-                android:id="@+id/caution_input_position_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.positionState}"
-                android:textColor="@color/redForText"
-                android:visibility="@{viewModel.positionFirst || viewModel.positionIsValid ? View.INVISIBLE : View.VISIBLE}"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/activity_career_et_position"
-                app:layout_constraintTop_toBottomOf="@id/activity_career_et_position" />
             <TextView
                 android:id="@+id/activity_career_tv_position_length"
                 android:layout_width="wrap_content"
@@ -142,7 +127,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_career_et_position" />
 
-            <TextView
+            <EditText
                 android:id="@+id/activity_career_et_startPeriod"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -155,6 +140,7 @@
                 android:textColorHint="@color/grayForBtn"
                 android:textSize="14sp"
                 android:text="@={viewModel.startDate}"
+                app:onFocusing="@{(check) -> viewModel.showDatePicker(viewModel.startFocusing,viewModel.startFirst,viewModel.showStart,check)}"
                 android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@id/activity_career_tv_period"
                 app:layout_constraintStart_toStartOf="parent"
@@ -182,7 +168,7 @@
                 app:layout_constraintStart_toEndOf="@id/activity_career_et_startPeriod"
                 app:layout_constraintTop_toTopOf="@id/activity_career_et_startPeriod"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/activity_career_et_endPeriod"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
@@ -194,7 +180,8 @@
                 android:textColor="@color/black80"
                 android:textColorHint="@color/grayForBtn"
                 android:textSize="14sp"
-                android:text=""
+                android:text="@={viewModel.endDate}"
+                app:onFocusing="@{(check) -> viewModel.showDatePicker(viewModel.endFocusing,viewModel.endFirst,viewModel.showEnd,check)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/activity_career_tv_period"
                 app:layout_constraintTop_toBottomOf="@+id/activity_career_tv_periodTitle" />
@@ -236,7 +223,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/working"
-                android:textColor="#8A8A8A"
+                android:textColor="@{viewModel.checkBox ? @color/black80 : @color/gray8a}"
                 app:layout_constraintStart_toEndOf="@id/activity_career_checkbox_rl"
                 app:layout_constraintTop_toBottomOf="@id/activity_career_et_startPeriod"/>
             <androidx.appcompat.widget.AppCompatButton
@@ -249,7 +236,7 @@
             android:textColor="@color/blueForBtn"
             android:textSize="16sp"
             android:outlineProvider="none"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/activity_career_save_btn"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -257,15 +244,15 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/activity_career_save_btn"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="68dp"
-                android:background="@{(!viewModel.companyFirst &amp;&amp; !viewModel.positionFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+                android:background="@{(viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
                 android:text="@string/save"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:outlineProvider="none"
-                android:clickable="@{(!viewModel.companyFirst &amp;&amp; !viewModel.positionFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
+                android:clickable="@{(viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
                 app:layout_constraintStart_toEndOf="@id/activity_career_remove_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

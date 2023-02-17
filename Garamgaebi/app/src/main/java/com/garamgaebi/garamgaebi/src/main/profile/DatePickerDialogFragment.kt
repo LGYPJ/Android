@@ -30,8 +30,15 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            pickerYear.maxValue = 2100
-            pickerYear.minValue = 1900
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("yyyy.MM")
+            val formatterForYear = DateTimeFormatter.ofPattern("yyyy")
+
+            var formatted = current.format(formatter)
+
+
+            pickerYear.maxValue = current.format(formatterForYear).toInt()
+            pickerYear.minValue = 1950
             pickerMonth.maxValue = 12
             pickerMonth.minValue = 1
 
@@ -41,21 +48,19 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
                 itemClick(date)
                 dialog?.dismiss()
             }
+            var arr : List<String>
+            if(date.isNotEmpty() && !(date.equals("Error") || date.equals("현재"))) {
+                arr = date.split(".")
+                setYearMonth(arr[0], arr[1])
+            }else{
+                arr = formatted.split(".")
+                setYearMonth(arr[0], arr[1])
+            }
+            Log.d("date뭐냐",arr.toString())
         }
-
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM")
-        var formatted = current.format(formatter)
-        var arr : List<String>
-        if(date.isNotEmpty() && !(date.equals("Error") || date.equals("현재"))) {
-            arr = date.split(".")
-            setYearMonth(arr[0], arr[1])
-        }else{
-            arr = formatted.split(".")
-            setYearMonth(arr[0], arr[1])
-        }
-        Log.d("date뭐냐",arr.toString())
-
-
     }
-}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //false로 설정해 주면 화면밖 혹은 뒤로가기 버튼시 다이얼로그라 dismiss 되지 않는다.
+        isCancelable = false
+    }}

@@ -28,7 +28,10 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                 val editCareerPosition = data.position
                 val editCareerIsWorking = data.isWorking
                 val editCareerStartDate = data.startDate
-                val editCareerEndDate = data.endDate
+                var editCareerEndDate = data.endDate
+                if(data.endDate.isNullOrBlank() && data.isWorking.equals("TRUE")){
+                    editCareerEndDate = "현재"
+                }
                 Log.d("career_edit_button", "success$editCareerEndDate")
 
                 GaramgaebiApplication.sSharedPreferences

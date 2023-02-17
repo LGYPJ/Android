@@ -80,6 +80,29 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         }
 
         //유효성 끝
+        //유효성 끝
+        binding.activityEducationCheckboxDesc.setOnClickListener {
+            if(viewModel.checkBox.value == false) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+            }else{
+                viewModel.endDate.value = ""
+                viewModel.isLearning.value = "FALSE"
+                viewModel.checkBox.value = false
+            }
+        }
+        binding.activityEducationCheckboxRl.setOnClickListener {
+            if(viewModel.checkBox.value == false) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+            }else{
+                viewModel.endDate.value = ""
+                viewModel.isLearning.value = "FALSE"
+                viewModel.checkBox.value = false
+            }
+        }
 
         binding.activityEducationSaveBtn.setOnClickListener {
             viewModel.postEducationInfo()
@@ -92,6 +115,9 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
 
         //재직 정보 date picker
         binding.activityEducationEtStartPeriod.setOnClickListener {
+            binding.activityEducationEtInstitutionDesc.clearFocus()
+            binding.activityEducationEtMajorDesc.clearFocus()
+
             viewModel.startFocusing.value = true
             viewModel.startFirst.value = false
 
@@ -100,13 +126,18 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                     DatePickerDialogFragment(it1) {
                         val arr = it.split(".")
                         binding.activityEducationEtStartPeriod.setText(arr[0]+"."+arr[1])
+                        viewModel.startFocusing.value = false
                     }
                 }
             orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
         binding.activityEducationEtEndPeriod.setOnClickListener {
+            binding.activityEducationEtInstitutionDesc.clearFocus()
+            binding.activityEducationEtMajorDesc.clearFocus()
+
             viewModel.endFocusing.value = true
             viewModel.endFirst.value = false
+
             val orderBottomDialogFragment: DatePickerDialogFragment? =
                 viewModel.endDate.value?.let { it1 ->
                     DatePickerDialogFragment(it1) {
@@ -122,6 +153,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                             viewModel.endDate.value = (arr[0] + "." + arr[1])
                             viewModel.isLearning.value = "FALSE"
                         }
+                        viewModel.endFocusing.value = false
                     }
                 }
             orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)

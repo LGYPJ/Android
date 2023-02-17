@@ -9,9 +9,13 @@
             type="com.garamgaebi.garamgaebi.viewModel.ProfileViewModel" />
 
     </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/whiteForBackground"
+    >
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -62,14 +66,14 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/activity_edit_profile_tv_nickTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_nickTitle"></TextView>
+            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_nickTitle"/>
 
         <EditText
             android:id="@+id/activity_edit_profile_et_nick"
             android:layout_width="0dp"
             android:layout_height="48dp"
-
             android:layout_marginTop="0dp"
+            android:maxLines="1"
             android:background="@{viewModel.nameFirst || viewModel.nickNameIsValid ? (viewModel.nameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
@@ -116,16 +120,17 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/activity_edit_profile_tv_teamTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_teamTitle"></TextView>
+            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_teamTitle"/>
 
         <EditText
             android:id="@+id/activity_edit_profile_et_team"
             android:layout_width="0dp"
             android:layout_height="48dp"
-
             android:layout_marginTop="0dp"
-            android:background="@{viewModel.oneLineFirst || viewModel.belongIsValid ? (viewModel.oneLineFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+            android:background="@{(viewModel.oneLineFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:bufferType="spannable"
+            android:maxLines="1"
+            android:maxLength="18"
             android:gravity="center_vertical"
             android:hint='@{viewModel.oneLineFocusing ? "" : @string/oneLine_intro_hint}'
             android:paddingStart="12dp"
@@ -133,21 +138,11 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
+            app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.oneLineFocusing,viewModel.oneLineFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_teamTitle" />
 
-        <TextView
-            android:id="@+id/activity_team_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@{@string/input_18}"
-            android:textSize="10sp"
-            android:textColor="@color/redForText"
-            android:visibility="@{viewModel.oneLineFirst || viewModel.belongIsValid ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_team" />
 
         <TextView
             android:id="@+id/activity_content_et_name_length"
@@ -183,13 +178,14 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/activity_edit_profile_tv_emailTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_emailTitle"></TextView>
+            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_emailTitle"/>
 
         <EditText
             android:id="@+id/activity_edit_profile_et_email"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="0dp"
+            android:maxLines="1"
             android:background="@{viewModel.emailFirst || viewModel.emailIsValid ? (viewModel.emailFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
@@ -211,6 +207,7 @@
             android:layout_marginTop="4dp"
             android:text="@{@string/email_wrong_state}"
             android:textSize="10sp"
+            android:textColor="@color/redForText"
             android:visibility="@{viewModel.emailFirst || viewModel.emailIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_email" />
@@ -232,7 +229,8 @@
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="0dp"
-            android:background="@{viewModel.introFirst || viewModel.introIsValid ? (viewModel.introFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+            android:maxLength="100"
+            android:background="@{(viewModel.introFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:bufferType="spannable"
             android:gravity="top"
             android:hint='@{viewModel.introFocusing ? "" : @string/input_100}'
@@ -265,17 +263,17 @@
         android:layout_width="379dp"
         android:layout_height="48dp"
         android:layout_marginBottom="68dp"
-        android:text="저장하기"
+        android:text="@string/save"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:background="@{(!viewModel.emailFirst &amp;&amp; !viewModel.nameFirst &amp;&amp; !viewModel.oneLineFirst &amp;&amp; viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.belongIsValid  &amp;&amp; viewModel.introIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+        android:background="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.belongIsValid  &amp;&amp; viewModel.introIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
         android:outlineProvider="none"
-        android:clickable="@{(!viewModel.emailFirst &amp;&amp; !viewModel.nameFirst &amp;&amp; !viewModel.oneLineFirst &amp;&amp; viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.belongIsValid &amp;&amp; viewModel.introIsValid) ? true : false}"
+        android:clickable="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.belongIsValid &amp;&amp; viewModel.introIsValid) ? true : false}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    </layout>
 
 
