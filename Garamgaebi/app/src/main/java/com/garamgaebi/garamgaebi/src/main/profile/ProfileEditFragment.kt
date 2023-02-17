@@ -16,6 +16,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,12 +43,6 @@ import java.io.File
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
     private lateinit var callback: OnBackPressedCallback
-
-    var nickState:Int = 0
-    var emailState:Int = 0
-    var teamState:Int = 0
-
-
 
     @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
@@ -163,6 +158,7 @@ class ProfileEditFragment :
 //
 //        })
 //    }
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -303,6 +299,22 @@ class ProfileEditFragment :
         }
 
 
+    binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+        hideKeyboard()
+        false
+    })
+
+}
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
 }
 

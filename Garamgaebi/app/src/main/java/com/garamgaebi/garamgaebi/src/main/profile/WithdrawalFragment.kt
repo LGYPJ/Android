@@ -1,11 +1,13 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +24,7 @@ class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal) {
     var containerActivity: ContainerActivity? = null
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var myEmail = GaramgaebiApplication.sSharedPreferences.getString("mySchoolEmail","not@gachon.ac.kr")
@@ -52,6 +54,7 @@ class WithdrawalFragment :
             }else{
                 binding.activityContentEtNameLength.visibility = View.GONE
                 viewModel.contentIsValid.value=true
+                viewModel.contentFirst.value=false
 
             }
 
@@ -91,18 +94,22 @@ class WithdrawalFragment :
                     0 -> {
                         Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
                         binding.activityWithdrawalEtOption.setText("이용이 불편해서")
+                        viewModel.categoryFocusing.value = false
                     }
                     1 -> {
                         Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
                         binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
+                        viewModel.categoryFocusing.value = false
                     }
                     2 -> {
                         Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
                         binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
+                        viewModel.categoryFocusing.value = false
                     }
                     3 -> {
                         Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
                         binding.activityWithdrawalEtOption.setText("기타")
+                        viewModel.categoryFocusing.value = false
                     }
 
                 }
@@ -110,9 +117,22 @@ class WithdrawalFragment :
             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
 
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
     }
-
-
-    //뒤로가기 버튼 눌렀을 때
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
 }
 

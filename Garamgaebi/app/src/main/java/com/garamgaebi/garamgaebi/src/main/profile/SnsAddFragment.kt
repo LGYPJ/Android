@@ -1,8 +1,11 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.marginStart
@@ -18,6 +21,7 @@ import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
     private lateinit var callback: OnBackPressedCallback
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -110,6 +114,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                             1 -> {
                                 Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
                                 viewModel.snsType.value = "블로그"
+                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
                                 //viewModel.addressInputDesc.value =
                                     getString(R.string.sns_type_dialog_blog_desc)
                                 //viewModel.linkState.value =
@@ -118,6 +123,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                             2 -> {
                                 Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
                                 viewModel.snsType.value = "깃허브"
+                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
                                 //viewModel.addressInputDesc.value =
                                     getString(R.string.sns_type_dialog_github_desc)
                                 //viewModel.linkState.value =
@@ -148,6 +154,22 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             }else{
 
             }
+        }
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
+    }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 }

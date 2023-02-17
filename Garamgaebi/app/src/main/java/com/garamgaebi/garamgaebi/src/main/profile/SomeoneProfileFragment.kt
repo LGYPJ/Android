@@ -21,8 +21,10 @@ import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
+import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import java.util.Comparator
 
 
 class SomeoneProfileFragment :
@@ -102,14 +104,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             //SNS 정보 어댑터 연결
             getSNSInfo(memberIdx)
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it.isEmpty()){
+
+                if(it == null || it.size <= 1){
                     binding.activitySomeoneProfileClSnsTitle.visibility = GONE
                     binding.activitySomeoneProfileClSnsDesc.visibility = GONE
                 }
                 val snsAdapter = activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
                 binding.activitySomeoneProfileRVSns.apply {
                     adapter = snsAdapter
-
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 }
@@ -119,12 +121,19 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //경력 정보 어댑터 연결
-            //getCareerInfo(memberIdx)
+            getCareerInfo(memberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it.isEmpty()){
+
+
+
+                if(it == null || it.size <= 1){
                     binding.activitySomeoneProfileClCareerTitle.visibility = GONE
                     binding.activitySomeoneProfileClCareerDesc.visibility = GONE
                 }
+                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
+
+                it.sortWith(byEndDate)
+
                 val careerAdapter = activity?.let { it1 ->
                     CareerSomeoneRVAdapter(it,
                         it1.applicationContext)
@@ -149,9 +158,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //교육 정보 어댑터 연결
-            //getEducationInfo(memberIdx)
+            getEducationInfo(memberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it.isEmpty()){
+                if(it == null || it.size <= 1){
                     binding.activitySomeoneProfileClEduTitle.visibility = GONE
                     binding.activitySomeoneProfileClEduDesc.visibility = GONE
                 }

@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,5 +38,15 @@ class ServiceCenterOrderBottomdialogFragment (val itemClick: (Int) -> Unit) :
             itemClick(3)
             dialog?.dismiss()
         }
+    }
+
+    override fun dismiss() {
+        itemClick(0)
+        super.dismiss()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        itemClick(0)
+        super.onCancel(dialog)
     }
 }

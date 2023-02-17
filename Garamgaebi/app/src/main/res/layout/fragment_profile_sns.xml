@@ -16,8 +16,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteForBackground"
+    android:id="@+id/container_layout"
     android:clickable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_sns_info"

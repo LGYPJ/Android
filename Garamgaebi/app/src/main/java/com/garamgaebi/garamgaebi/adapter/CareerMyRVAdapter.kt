@@ -21,6 +21,9 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
         @SuppressLint("SetTextI18n")
         fun bind(data: CareerData) {
             binding.item = data
+            if(data.endDate.isNullOrBlank() || data.isWorking.equals("TRUE")){
+                binding.activityMyprofileCareerListItemTvEndPeriod.text = "현재"
+            }
             binding.activityMyprofileCareerListItemIvEdit.setOnClickListener {
                 // 경력 편집
                 val careerIdx = data.careerIdx
@@ -29,9 +32,12 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                 val editCareerIsWorking = data.isWorking
                 val editCareerStartDate = data.startDate
                 var editCareerEndDate = data.endDate
-                if(data.endDate.isNullOrBlank() && data.isWorking.equals("TRUE")){
+                if(data.endDate.isNullOrBlank() || data.isWorking.equals("TRUE")){
                     editCareerEndDate = "현재"
+                    Log.d("datessss",editCareerStartDate + "이랑" + editCareerEndDate)
                 }
+                Log.d("datessss",editCareerStartDate + "이랑" + editCareerEndDate)
+
                 Log.d("career_edit_button", "success$editCareerEndDate")
 
                 GaramgaebiApplication.sSharedPreferences

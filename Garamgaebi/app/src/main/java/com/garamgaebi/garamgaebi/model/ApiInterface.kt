@@ -129,6 +129,11 @@ interface ApiInterface {
         @Body request: QnAData
     ): Response<QnADataResponse>
 
+    //로그아웃
+    @POST("/member/logout")
+    suspend fun getCheckLogout(
+        @Body requset : LogoutToken
+    ):Response<LogOutResponse>
     //프로필 편집 저장/수정
     @Multipart
     @POST("/profile/edit/{memberIdx}")

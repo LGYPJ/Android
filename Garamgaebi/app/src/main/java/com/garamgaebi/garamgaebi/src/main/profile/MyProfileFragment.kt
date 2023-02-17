@@ -26,12 +26,14 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
+import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_myprofile.*
 import java.lang.String
+import java.util.Comparator
 import kotlin.Int
 import kotlin.apply
 import kotlin.let
@@ -168,6 +170,13 @@ class MyProfileFragment :
                 if(it ==null){
 
                 }else {
+                    var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
+
+//                    var CareerArray : ArrayList<CareerData>
+//                    it.sortWith(Comparator { first: CareerData, second: CareerData ->
+//                            first.endDate.compareTo(second.endDate)
+//                    })
+
                     val careerAdapter = activity?.let { it1 ->
                         CareerMyRVAdapter(
                             it,
@@ -297,8 +306,8 @@ class MyProfileFragment :
         Log.d("onResume","yes__")
         viewModel.getProfileInfo(myMemberIdx)
         viewModel.getSNSInfo(myMemberIdx)
-        //viewModel.getCareerInfo(myMemberIdx)
-        //viewModel.getEducationInfo(myMemberIdx)
+        viewModel.getCareerInfo(myMemberIdx)
+        viewModel.getEducationInfo(myMemberIdx)
 
         super.onResume()
     }

@@ -12,7 +12,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/container_layout"
+        android:background="@color/whiteForBackground"
+        android:clickable="true"
+        android:focusableInTouchMode="true">
 
         <ScrollView
             android:id="@+id/activity_network_charged_scroll"

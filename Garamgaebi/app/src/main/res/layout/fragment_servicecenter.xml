@@ -16,8 +16,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_servicecenter_info"
@@ -118,7 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
-            android:background="@{viewModel.categoryFirst || viewModel.categoryIsValid? (viewModel.categoryFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_gray_border_layout}"
+            android:background="@{(viewModel.categoryFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:clickable="false"
             android:gravity="center_vertical"
             android:hint="@string/choose_why"

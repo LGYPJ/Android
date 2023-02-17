@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.launch
@@ -82,6 +84,24 @@ class ServiceCenterViewModel : ViewModel(){
             if(response.isSuccessful){
                 _qna.postValue(response.body())
                 Log.d("QnA_success", response.toString())
+            }
+            else {
+                //response.body()?.message?.let { Log.d("error", it) }
+            }
+        }
+    }
+
+    private val _logout = MutableLiveData<LogOutResponse>()
+    val logout : LiveData<LogOutResponse>
+        get() = _logout
+    //QnA 문의
+    fun postLogout() {
+        viewModelScope.launch {
+            val response = profileRepository.getCheckLogout(LogoutToken(X_ACCESS_TOKEN, X_REFRESH_TOKEN))
+            //Log.d("sns_add", response.body().toString())
+            if(response.isSuccessful){
+                _logout.postValue(response.body())
+                Log.d("Logout_success", response.toString())
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }
