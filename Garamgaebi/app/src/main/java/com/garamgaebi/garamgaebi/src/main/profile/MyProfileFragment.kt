@@ -52,14 +52,14 @@ class MyProfileFragment :
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
 
-        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
-//            viewModel.getProfileInfo(myMemberIdx)
-//            viewModel.getSNSInfo(myMemberIdx)
-//            viewModel.getCareerInfo(myMemberIdx)
-//            viewModel.getEducationInfo(myMemberIdx)
-                binding.activityMyProfileTvIntro.text = "dd"
-            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
-        })
+//        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
+////            viewModel.getProfileInfo(myMemberIdx)
+////            viewModel.getSNSInfo(myMemberIdx)
+////            viewModel.getCareerInfo(myMemberIdx)
+////            viewModel.getEducationInfo(myMemberIdx)
+//                binding.activityMyProfileTvIntro.text = "dd"
+//            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
+//        })
     }
     override fun initViewModel() {
         super.initViewModel()
@@ -258,8 +258,6 @@ class MyProfileFragment :
 
     //sns 추가 버튼
     fun goAddSNSFragment(){
-        binding.activityMyProfileRVSns.visibility = View.VISIBLE
-        binding.activityMyProfileTvSnsDesc.visibility = View.GONE
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("sns",true) //데이터 넣기
         startActivity(intent)

@@ -12,6 +12,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.NotificationItemRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentNotificationBinding
 import com.garamgaebi.garamgaebi.model.NotificationList
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -23,7 +24,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(FragmentN
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel by viewModels<HomeViewModel>()
-        viewModel.getNotification(22)
+        viewModel.getNotification(myMemberIdx)
         var notificationRVAdapter = NotificationItemRVAdapter(arrayListOf())
         //hasNext 저장 용도
         val editor = GaramgaebiApplication.sSharedPreferences.edit()

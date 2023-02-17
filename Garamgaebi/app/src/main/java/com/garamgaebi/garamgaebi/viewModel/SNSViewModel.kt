@@ -62,8 +62,12 @@ class SNSViewModel : ViewModel(){
         get() = _add
     //SNS 추가
     fun postSNSInfo() {
+        var toAddress : String = snsAddress.value.toString()
+        if(snsType.value.equals("인스타그램")){
+            toAddress = "@$toAddress"
+        }
         viewModelScope.launch {
-            val response = profileRepository.getCheckAddSNS(AddSNSData(myMemberIdx,snsAddress.value.toString(),snsType.value.toString()))
+            val response = profileRepository.getCheckAddSNS(AddSNSData(myMemberIdx,toAddress,snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _add.postValue(response.body())
@@ -81,8 +85,13 @@ class SNSViewModel : ViewModel(){
 
     //SNS 수정
     fun patchSNSInfo() {
+        var toAddress : String = snsAddress.value.toString()
+        if(snsType.value.equals("인스타그램")){
+            toAddress = "@$toAddress"
+
+        }
         viewModelScope.launch {
-            val response = profileRepository.patchSNS(SNSData(snsIdx,snsAddress.value.toString(),snsType.value.toString()))
+            val response = profileRepository.patchSNS(SNSData(snsIdx,toAddress,snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _patch.postValue(response.body())

@@ -16,6 +16,7 @@ import com.garamgaebi.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.garamgaebi.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.HomeNetworkingResult
 import com.garamgaebi.garamgaebi.model.HomeProgramResult
@@ -220,7 +221,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
         // 읽지 않은 알림 존재 여부
-        viewModel.getNotificationUnread(22)
+        viewModel.getNotificationUnread(myMemberIdx)
         viewModel.notificationUnread.observe(viewLifecycleOwner, Observer {
             if(it.result.isUnreadExist)
                 binding.fragmentHomeIvNotificationPoint.visibility = View.VISIBLE
