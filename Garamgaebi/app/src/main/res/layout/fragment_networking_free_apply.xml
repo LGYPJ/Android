@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="item"
             type="com.garamgaebi.garamgaebi.viewModel.ApplyViewModel" />
@@ -161,10 +162,11 @@
             android:textColor="@color/black80"
             android:paddingStart="12dp"
             android:textColorHint="@color/seminar_light_gray"
-            android:background="@drawable/et_seminat_apply"
+            android:background="@{item.nameFirst || item.nameIsValid ? (item.nameFocusing ?@drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            app:onFocusing="@{(check) -> item.setBoolean(item.nameFocusing , item.nameFirst, check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_free_apply_name"
             app:layout_constraintStart_toStartOf="parent" />
@@ -173,12 +175,12 @@
             android:id="@+id/activity_network_free_apply_not_correct_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apply_not_name"
+            android:text="@{item.nameState}"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/seminar_red"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="@{item.nameFirst || item.nameIsValid? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_free_apply_name_tv"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -206,7 +208,8 @@
             android:text="@={item.inputNickName}"
             android:paddingStart="12dp"
             android:textColorHint="@color/seminar_light_gray"
-            android:background="@drawable/et_seminat_apply"
+            android:background="@{item.nicknameFirst || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+            app:onFocusing="@{(check) -> item.setBoolean(item.nicknameFocusing , item.nicknameFirst, check)}"
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -218,11 +221,11 @@
             android:id="@+id/activity_network_free_apply_not_correct_nickname_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apply_not_nickname"
+            android:text="@{item.nicknameState}"
             android:layout_marginTop="4dp"
             android:textColor="@color/seminar_red"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="@{item.nicknameFirst || item.nicknameIsValid? View.INVISIBLE : View.VISIBLE}"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_free_apply_nickname_tv"
             app:layout_constraintStart_toStartOf="parent" />
@@ -252,9 +255,9 @@
             android:textColor="@color/black"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-
             android:textColorHint="@color/seminar_light_gray"
-            android:background="@drawable/et_seminat_apply"
+            android:background="@{item.phoneFirst || item.phoneIsValid ? (item.phoneFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+            app:onFocusing="@{(check) -> item.setBoolean(item.phoneFocusing , item.phoneFirst, check)}"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_free_apply_phone"
@@ -264,12 +267,12 @@
             android:id="@+id/activity_network_free_apply_not_correct_phone_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apply_not_phone"
+            android:text="@{item.phoneState}"
             android:layout_marginStart="23dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/seminar_red"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="@{item.phoneFirst || item.phoneIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@+id/activity_network_free_apply_phone_tv"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -278,7 +281,8 @@
             android:id="@+id/activity_network_free_apply_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="@drawable/btn_seminar_apply_free"
+            android:background="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:clickable="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid ) ? true : false}"
             android:text="@string/origin_apply"
             android:textColor="@color/white"
             android:textSize="18sp"
