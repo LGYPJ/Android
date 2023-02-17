@@ -28,13 +28,13 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
             checkTvAgree()
         }
         binding.fragmentCompleteBtnNext.setOnClickListener {
-            viewModel.postRegister(viewModel.getRegisterRequest())
-            viewModel.register.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess) {
+            //viewModel.postRegister(viewModel.getRegisterRequest())
+            //viewModel.register.observe(viewLifecycleOwner, Observer {
+            //    if(it.isSuccess) {
                     startActivity(Intent(registerActivity, MainActivity::class.java))
                     ActivityCompat.finishAffinity(registerActivity)
-                }
-            })
+            //    }
+            //})
 
         }
 

@@ -33,7 +33,7 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
             }
             finish()
         }*/
-        UserApiClient.instance.unlink { error ->
+        /*UserApiClient.instance.unlink { error ->
             if (error != null) {
                 Log.d("kakao", "회원 탈퇴 실패 $error")
             } else {
@@ -43,9 +43,16 @@ class RegisterLoginActivity : BaseActivity<ActivityRegisterLoginBinding>(
                 }
                 finish()
             }
-        }
+        }*/
         binding.fragmentLoginKakao.setOnClickListener {
-            kakaoLogin()
+            Intent(this, RegisterActivity::class.java).run{
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                putExtra("login",true)
+                //putExtra("email", userInfo.kakaoAccount?.email)
+                startActivity(this)
+                finish()
+            }
+            //kakaoLogin()
         }
     }
     private fun kakaoLogin() {
