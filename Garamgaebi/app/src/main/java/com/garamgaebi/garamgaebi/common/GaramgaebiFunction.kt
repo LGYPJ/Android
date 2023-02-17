@@ -94,6 +94,4 @@ class GaramgaebiFunction {
         return formatted == startDate
     }
 
-
-
 }

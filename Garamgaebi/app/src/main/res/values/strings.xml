@@ -159,7 +159,7 @@
     <string name="sns_add_type">SNS 종류</string>
     <string name="sns_add_type_desc">표시할 이름을 입력해주세요 (예:블로그, 깃허브 등)</string>
     <string name="sns_add_link">링크</string>
-    <string name="sns_add_link_desc">https://</string>
+    <string name="sns_add_link_desc">링크를 입력해주세요</string>
 
     <string name="sns_type_dialog_1">인스타그램</string>
     <string name="sns_type_dialog_2">블로그</string>

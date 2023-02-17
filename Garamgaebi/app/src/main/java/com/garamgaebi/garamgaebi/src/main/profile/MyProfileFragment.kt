@@ -26,12 +26,14 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
+import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_myprofile.*
 import java.lang.String
+import java.util.Comparator
 import kotlin.Int
 import kotlin.apply
 import kotlin.let
@@ -52,14 +54,14 @@ class MyProfileFragment :
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
 
-        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
-//            viewModel.getProfileInfo(myMemberIdx)
-//            viewModel.getSNSInfo(myMemberIdx)
-//            viewModel.getCareerInfo(myMemberIdx)
-//            viewModel.getEducationInfo(myMemberIdx)
-                binding.activityMyProfileTvIntro.text = "dd"
-            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
-        })
+//        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
+////            viewModel.getProfileInfo(myMemberIdx)
+////            viewModel.getSNSInfo(myMemberIdx)
+////            viewModel.getCareerInfo(myMemberIdx)
+////            viewModel.getEducationInfo(myMemberIdx)
+//                binding.activityMyProfileTvIntro.text = "dd"
+//            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
+//        })
     }
     override fun initViewModel() {
         super.initViewModel()
@@ -168,6 +170,13 @@ class MyProfileFragment :
                 if(it ==null){
 
                 }else {
+                    var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
+
+//                    var CareerArray : ArrayList<CareerData>
+//                    it.sortWith(Comparator { first: CareerData, second: CareerData ->
+//                            first.endDate.compareTo(second.endDate)
+//                    })
+
                     val careerAdapter = activity?.let { it1 ->
                         CareerMyRVAdapter(
                             it,
@@ -258,8 +267,6 @@ class MyProfileFragment :
 
     //sns 추가 버튼
     fun goAddSNSFragment(){
-        binding.activityMyProfileRVSns.visibility = View.VISIBLE
-        binding.activityMyProfileTvSnsDesc.visibility = View.GONE
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("sns",true) //데이터 넣기
         startActivity(intent)
@@ -299,8 +306,8 @@ class MyProfileFragment :
         Log.d("onResume","yes__")
         viewModel.getProfileInfo(myMemberIdx)
         viewModel.getSNSInfo(myMemberIdx)
-        //viewModel.getCareerInfo(myMemberIdx)
-        //viewModel.getEducationInfo(myMemberIdx)
+        viewModel.getCareerInfo(myMemberIdx)
+        viewModel.getEducationInfo(myMemberIdx)
 
         super.onResume()
     }

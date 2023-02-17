@@ -16,6 +16,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,12 +44,6 @@ class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
     private lateinit var callback: OnBackPressedCallback
 
-    var nickState:Int = 0
-    var emailState:Int = 0
-    var teamState:Int = 0
-
-
-
     @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -65,26 +60,27 @@ class ProfileEditFragment :
                 ?.let { ImageDecoder.decodeBitmap(it) }
             binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
             binding.activityEditProfileIvProfile.setImageResource(R.drawable.basic_gray_border_layout)
-            Log.d("testt",file.name)
-            Log.d("testt2",imageUri.toString())
-            Log.d("testt3",bitmap.toString())
+            Log.d("image_1_file_name",file.name)
+            Log.d("image_2_image_uri",imageUri.toString())
+            Log.d("image_3_image_bitmap",bitmap.toString())
 
             activity?.let { Glide.with(it).load(imageUri).fitCenter().apply(RequestOptions().override(80,80)).into(binding.activityEditProfileIvProfile) }
 
 
             //sendImage(body)
 
-            //binding.activityEditProfileIvProfile.setImageURI(file)
+            binding.activityEditProfileIvProfile.setImageURI(imageUri)
+            //binding.activityEditProfileIvProfile.setBackgroundResource(imageUri)
 
-//                        activity?.let { it1 ->
-//                            Glide.with(it1)
-//                                .load(imageUri.toString())
-//                                .into(binding.activityEditProfileIvProfile)
-//                        }
+                        activity?.let { it1 ->
+                            Glide.with(it1)
+                                .load(imageUri.toString())
+                                .into(binding.activityEditProfileIvProfile)
+                        }
             binding.activityEditProfileIvProfile.clipToOutline = true
 
 
-            Log.d("testt_",binding.activityEditProfileIvProfile.resources.toString())
+            Log.d("image_4_resource",binding.activityEditProfileIvProfile.resources.toString())
 
         }
     }
@@ -162,6 +158,7 @@ class ProfileEditFragment :
 //
 //        })
 //    }
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -302,6 +299,22 @@ class ProfileEditFragment :
         }
 
 
+    binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+        hideKeyboard()
+        false
+    })
+
+}
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
 }
 

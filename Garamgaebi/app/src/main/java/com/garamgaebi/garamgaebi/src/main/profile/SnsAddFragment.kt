@@ -1,10 +1,14 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -17,6 +21,7 @@ import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
     private lateinit var callback: OnBackPressedCallback
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,15 +38,29 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
-
+            viewModel.snsAddress.value =""
             when(it){
                 "인스타그램" -> {
+                    binding.instaChar.text = "@"
+                    binding.activitySnsEtLinkDesc.setPadding(70,0,0,0)
+                    binding.instaChar.visibility = View.VISIBLE
                 }
                 "블로그" -> {
+                    binding.instaChar.visibility = View.GONE
+                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+
                 }
                 "깃허브" -> {
+                    binding.instaChar.visibility = View.GONE
+                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+
+
                 }
                 else -> {
+                    binding.instaChar.visibility = View.GONE
+                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+
+
                     viewModel.typeState.value = getString(R.string.caution_input_22)
                     viewModel.snsTypeIsValid.value = it.length < 22  && it.isNotEmpty()
                 }
@@ -52,6 +71,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.snsAddress.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             //유효성 확인
+
             viewModel.snsAddressIsValid.value = it.length < 45 && it.isNotEmpty()
 
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
@@ -87,24 +107,26 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                 Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
                                 viewModel.snsType.value = "인스타그램"
                                 viewModel.addressInputDesc.value =
-                                    getString(R.string.sns_type_dialog_insta_desc)
-                                viewModel.linkState.value =
+                                    " " + getString(R.string.sns_add_link_desc)
+                                //viewModel.linkState.value =
                                     getString(R.string.sns_type_dialog_insta_state)
                             }
                             1 -> {
                                 Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
                                 viewModel.snsType.value = "블로그"
-                                viewModel.addressInputDesc.value =
+                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+                                //viewModel.addressInputDesc.value =
                                     getString(R.string.sns_type_dialog_blog_desc)
-                                viewModel.linkState.value =
+                                //viewModel.linkState.value =
                                     getString(R.string.sns_type_dialog_blog_state)
                             }
                             2 -> {
                                 Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
                                 viewModel.snsType.value = "깃허브"
-                                viewModel.addressInputDesc.value =
+                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+                                //viewModel.addressInputDesc.value =
                                     getString(R.string.sns_type_dialog_github_desc)
-                                viewModel.linkState.value =
+                                //viewModel.linkState.value =
                                     getString(R.string.sns_type_dialog_github_state)
 
                             }
@@ -116,7 +138,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                 viewModel.addressInputDesc.value =
                                     getString(R.string.sns_address_dialog_etc_desc)
 
-                                viewModel.linkState.value =
+                                //viewModel.linkState.value =
                                     getString(R.string.sns_type_dialog_etc_state)
                                 // fragment
                                 binding.activitySnsEtNameLength.visibility = View.VISIBLE
@@ -132,6 +154,22 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             }else{
 
             }
+        }
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
+    }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 }

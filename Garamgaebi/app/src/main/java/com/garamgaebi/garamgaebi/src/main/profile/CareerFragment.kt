@@ -24,7 +24,7 @@ import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 
 class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
     private lateinit var callback: OnBackPressedCallback
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -193,6 +193,21 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             (activity as ContainerActivity).onBackPressed()
             Log.d("career_add_button","success"+viewModel.endDate.value.toString())
         }
-    }
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
 
+    }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
 }

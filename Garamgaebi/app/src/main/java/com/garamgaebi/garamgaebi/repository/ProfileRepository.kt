@@ -11,6 +11,8 @@ class ProfileRepository {
     suspend fun patchSNS(snsData: SNSData) = profileClient.patchSNS(snsData)
     suspend fun deleteSNS(snsIdx: Int) = profileClient.deleteSNS(snsIdx)
 
+    suspend fun getCheckLogout(tokens : LogoutToken) = profileClient.getCheckLogout(tokens)
+
     suspend fun getCheckQnA(qnsData: QnAData) = profileClient.getCheckQnA(qnsData)
     suspend fun getCheckAddEducation(educationData: AddEducationData) = profileClient.getCheckAddEducation(educationData)
     suspend fun patchEducation(educationData: EducationData) = profileClient.patchEducation(educationData)

@@ -2,11 +2,12 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.View.OnTouchListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,14 +16,15 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.viewModel.EditTextViewModel
+import com.garamgaebi.garamgaebi.src.main.register.RegisterLoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
+
 
 class ServiceCenterFragment :
     BaseBindingFragment<FragmentServicecenterBinding>(R.layout.fragment_servicecenter) {
     var containerActivity: ContainerActivity? = null
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //뒤로가기
@@ -89,7 +91,8 @@ class ServiceCenterFragment :
 
         //로그아웃 이동
         binding.activityServicecenterTvLogout.setOnClickListener {
-            //startActivity(Intent(this,WithdrawalActivity::class.java))
+            viewModel.postLogout()
+            activity?.startActivity(Intent(activity,RegisterLoginActivity::class.java))
             //로그아웃으로 이동
         }
 
@@ -103,18 +106,26 @@ class ServiceCenterFragment :
                     0 -> {
                         Toast.makeText(activity, "이용 문의", Toast.LENGTH_SHORT).show()
                         binding.activityServicecenterEtOption.setText("이용문의")
+                        viewModel.categoryFocusing.value = false
+
                     }
                     1 -> {
                         Toast.makeText(activity, "오류신고", Toast.LENGTH_SHORT).show()
                         binding.activityServicecenterEtOption.setText("오류신고")
+                        viewModel.categoryFocusing.value = false
+
                     }
                     2 -> {
                         Toast.makeText(activity, "서비스 제안", Toast.LENGTH_SHORT).show()
                         binding.activityServicecenterEtOption.setText("서비스 제안")
+                        viewModel.categoryFocusing.value = false
+
                     }
                     3 -> {
                         Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
                         binding.activityServicecenterEtOption.setText("기타")
+                        viewModel.categoryFocusing.value = false
+
                     }
                 }
                 if(viewModel.category.value?.isNotEmpty() == true){
@@ -123,7 +134,23 @@ class ServiceCenterFragment :
             }
             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
         }
+        binding.containerLayout.setOnTouchListener(OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
       }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)

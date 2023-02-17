@@ -34,6 +34,19 @@ data class QnADataResponse(
     val result : Boolean
 ):BaseResponse()
 
+//로그아웃
+data class LogOutResponse(
+    val result : memberInfo
+):BaseResponse()
+
+data class LogoutToken(
+    val accessToken : String,
+    val refreshToken : String
+)
+data class memberInfo(
+    val memberInfo:String
+)
+
 //교육 추가
 data class AddEducationData (
     val memberIdx : Int = 0,

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
@@ -126,6 +127,22 @@ class RegisterAuthenticationFragment :
             registerActivity.setFragment(REGISTER_NICKNAME)
         }
 
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
+    }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)

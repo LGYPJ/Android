@@ -1,9 +1,11 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +18,7 @@ import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 
 class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit),ConfirmDialogInterface{
     private lateinit var callback: OnBackPressedCallback
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -165,6 +167,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                 binding.activityCareerEtEndPeriod.setText(arr[0] + "." + arr[1])
                                 viewModel.endDate.value = (arr[0] + "." + arr[1])
                                 viewModel.isWorking.value = "FALSE"
+                                Log.d("api_career_이상,", viewModel.isWorking.value!!)
                             }
                             viewModel.endFocusing.value = false
                         }
@@ -229,6 +232,22 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         viewModel.startFirst.value = false
         viewModel.endFirst.value = false
 
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
+
+    }
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            // 프래그먼트기 때문에 getActivity() 사용
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
     //뒤로가기
     override fun onYesButtonClick(id: Int) {

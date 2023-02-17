@@ -82,6 +82,15 @@ class EducationViewModel : ViewModel(){
 
     }
 
+    var showStart = MutableLiveData<Boolean>(false)
+    var showEnd = MutableLiveData<Boolean>(false)
+    fun showDatePicker(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,show:MutableLiveData<Boolean>,check : Boolean){
+        data.value = check
+        first.value = false
+        show.value = true
+    }
+
+
     //유효성 끝
 
     private val _add = MutableLiveData<AddEducationDataResponse>()

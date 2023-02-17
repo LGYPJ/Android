@@ -8,6 +8,9 @@
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_layout"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteForBackground"
@@ -127,7 +130,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_et_majorDesc" />
 
-        <TextView
+        <EditText
             android:id="@+id/activity_education_et_startPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -140,6 +143,8 @@
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
             android:text="@={viewModel.startDate}"
+            app:onFocusing="@{(check) -> viewModel.showDatePicker(viewModel.endFocusing,viewModel.startFirst,viewModel.showStart,check)}"
+
             android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@id/activity_education_tv_period"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +172,7 @@
             app:layout_constraintStart_toEndOf="@id/activity_education_et_startPeriod"
             app:layout_constraintTop_toTopOf="@id/activity_education_et_startPeriod"/>
 
-        <TextView
+        <EditText
             android:id="@+id/activity_education_et_endPeriod"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -179,7 +184,8 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            android:text=""
+            android:text="@={viewModel.endDate}"
+            app:onFocusing="@{(check) -> viewModel.showDatePicker(viewModel.endFocusing,viewModel.endFirst,viewModel.showEnd,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_education_tv_period"
             app:layout_constraintTop_toBottomOf="@+id/activity_education_tv_periodTitle" />
