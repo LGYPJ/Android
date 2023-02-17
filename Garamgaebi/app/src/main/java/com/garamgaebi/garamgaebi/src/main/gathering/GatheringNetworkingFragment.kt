@@ -14,7 +14,6 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.garamgaebi.garamgaebi.model.GatheringNetworkingClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
 
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
@@ -48,6 +47,9 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                 binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
                 binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
 
+            }
+            if(it.result.isOpen == "BEFORE_OPEN"){
+                binding.fragmentGatheringNetworkingClThisMonth.isEnabled = false
             }
             val program = it.result.programIdx
             binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {

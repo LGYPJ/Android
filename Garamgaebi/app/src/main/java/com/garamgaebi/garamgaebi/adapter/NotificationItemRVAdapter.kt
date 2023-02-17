@@ -68,8 +68,10 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
             "COLLECTIONS" -> R.drawable.ic_item_fragment_notification_gathering
             "SOON_CLOSE" -> R.drawable.ic_item_fragment_notification_deadline
             "APPLY_COMPLETE" -> R.drawable.ic_item_fragment_notification_complete
-            "APPLY_CANCEL_COMPLETE"  -> R.drawable.ic_item_fragment_notification_complete
-            else -> R.drawable.ic_item_fragment_notification_gathering
+            "APPLY_CANCEL_COMPLETE" -> R.drawable.ic_item_fragment_notification_cancel_complete
+            "NON_DEPOSIT_CANCEL" -> R.drawable.ic_item_fragment_notification_cancel_complete
+            "REFUND_COMPLETE" -> R.drawable.ic_item_fragment_notification_refund_complete
+            else -> R.drawable.ic_item_fragment_notification_complete
         }
     }
     private fun setTitle(type : String) : String {
@@ -78,7 +80,9 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
             "SOON_CLOSE" -> "마감임박"
             "APPLY_COMPLETE" -> "신청완료"
             "APPLY_CANCEL_COMPLETE" -> "신청취소완료"
-            else -> "모아보기"
+            "NON_DEPOSIT_CANCEL" -> "미입금취소"
+            "REFUND_COMPLETE" -> "환불완료"
+            else -> "신청확정"
         }
     }
 

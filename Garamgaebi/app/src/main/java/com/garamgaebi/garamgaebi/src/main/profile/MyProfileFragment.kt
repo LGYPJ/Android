@@ -83,12 +83,6 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         var dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
-
-//        binding.textIdChanger.setText(myMemberIdx.toString())
-//        binding.textIdChangerBtn.setOnClickListener {
-//            myMemberIdx = binding.textIdChanger.text.toString().toInt()
-//            activity?.finish()
-//        }
         with(viewModel) {
             getProfileInfo(myMemberIdx)
 
@@ -167,6 +161,7 @@ class MyProfileFragment :
                     })
                 }
             })
+
             //경력 정보 어댑터 연결
             getCareerInfo(myMemberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
@@ -304,8 +299,8 @@ class MyProfileFragment :
         Log.d("onResume","yes__")
         viewModel.getProfileInfo(myMemberIdx)
         viewModel.getSNSInfo(myMemberIdx)
-        viewModel.getCareerInfo(myMemberIdx)
-        viewModel.getEducationInfo(myMemberIdx)
+        //viewModel.getCareerInfo(myMemberIdx)
+        //viewModel.getEducationInfo(myMemberIdx)
 
         super.onResume()
     }

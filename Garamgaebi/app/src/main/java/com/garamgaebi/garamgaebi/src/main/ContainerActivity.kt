@@ -37,6 +37,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
+            //프래그먼트에서 back
+            /*val fragmentList = supportFragmentManager.fragments
+            for (fragment in fragmentList) {
+                if (fragment is onBackPressedListener) {
+                    (fragment as onBackPressedListener).onBackPressed()
+                    return@setOnClickListener
+                }
+            }*/
+
             if(isSeminar()){
                 if(intent.getStringExtra("goseminar") == "goseminar"){
                     val intent = Intent(this, MainActivity::class.java)
@@ -89,6 +98,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onBackPressed() {
         super.onBackPressed()
+        //프래그먼트에서 back
+        /*val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is onBackPressedListener) {
+                (fragment as onBackPressedListener).onBackPressed()
+                return
+            }
+        }*/
+
         if(isIceBreaking()){
             binding.activityContainerToolbarTv.text = "아이스브레이킹"
         }
@@ -214,7 +232,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
             //신디 추가 네트워킹 유료 신청
-            18 -> {
+            20 -> {
                 transaction.replace(R.id.activity_seminar_frame, NetworkingChargedApplyFragment(), "networkingCharged").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }
@@ -435,6 +453,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         return returnValue
     }
 
+    /*interface onBackPressedListener {
+        fun onBackPressed()
+    }*/
 
 
-    }
+}

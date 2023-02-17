@@ -1,4 +1,4 @@
-package com.garamgaebi.garamgaebi.src.main.seminar.data
+package com.garamgaebi.garamgaebi.model
 
 
 import com.garamgaebi.garamgaebi.common.BaseResponse
@@ -49,8 +49,8 @@ data class SeminarParticipantsResponse(
 ):BaseResponse()
 
 data class SeminarParticipantsResult (
-   val participantList : List<SeminarResult>,
-   val isApply : Boolean
+    val participantList : List<SeminarResult>,
+    val isApply : Boolean
 )
 
 data class SeminarResult(

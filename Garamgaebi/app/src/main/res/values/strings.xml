@@ -21,9 +21,9 @@
     <string name="kakao_login">카카오 로그인</string>
     <string name="apple">APPLE</string>
 
-    <string name="nickName">닉네임</string>
+    <string name="nickName">닉네임을 입력해주세요</string>
     <string name="edit">편집</string>
-    <string name="belong">소속</string>
+    <string name="belong">소속을 입력해주세요</string>
     <string name="sns">SNS</string>
     <string name="career">경력</string>
     <string name="company">회사</string>
@@ -41,9 +41,10 @@
     <string name="oneLine_intro">한 줄 소개</string>
     <string name="oneLine_intro_hint">한 줄 소개를 입력해주세요 (예: 프리랜서 백엔드 개발자)</string>
     <string name="intro">자기소개</string>
-    <string name="email">이메일</string>
+    <string name="email">이메일을 입력해주세요</string>
     <string name="doing">하기</string>
     <string name="working_period">재직 기간</string>
+    <string name="education_period">교육 기간</string>
     <string name="start_date">시작년월</string>
     <string name="end_date">종료년월</string>
     <string name="profile_save">프로필 저장</string>
@@ -92,10 +93,11 @@
     <!-- Register_NickName -->
     <string name="register_nickname_desc">가람개비에서 사용할\n당신의 닉네임을 설정해주세요</string>
     <string name="register_input_nickname_desc">닉네임을 입력해주세요 (최대 8글자)</string>
-    <string name="register_nickname_state">닉네임 조건</string>
+    <string name="register_nickname_length">8자 이내로 입력해주세요</string>
+    <string name="register_nickname_invalid">사용할 수 없는 닉네임입니다</string>
 
     <!-- Register_Authentication-->
-    <string name="school_certification">가천대생 인증</string>
+    <string name="school_certification">가천대생 인증을 진행해주세요</string>
     <string name="school_certification_desc">가람개비 사용을위해서는 가천대생 인증이 필요해요\n가천대학교 이메일 인증을 진행해주세요</string>
     <string name="send_email">이메일 발송하기</string>
     <string name="re_send_email">이메일 재발송하기(%s분 %s초)</string>
@@ -109,11 +111,14 @@
     <!-- Register_Email -->
     <string name="register_email_desc">프로필에 기재할\n이메일 주소를 알려주세요</string>
     <string name="register_input_email_desc">이메일 주소를 입력주세요</string>
-    <string name="register_email_state">이메일 조건</string>
+    <string name="register_email_state">이메일 형식이 올바르지 않습니다</string>
     <string name="register_email_gachon">\@gachon.ac.kr</string>
 
     <!-- Register_Belong -->
-    <string name="register_belong_desc">자신을 표현해봐요</string>
+    <string name="register_belong_desc">프로필에 기재할\n본인의 소속을 알려주세요</string>
+    <string name="register_belong_career">본인의 경력을\n적어주세요</string>
+    <string name="register_belong_edu">본인이 받은 교육을\n적어주세요</string>
+    <string name="register_belong_profile_save">프로필 저장</string>
 
     <!-- Register_Career -->
     <string name="caution_input_22">22자 이내로 작성해주세요</string>
@@ -122,6 +127,7 @@
     <string name="register_input_position_desc">직함을 입력주세요(예: 백엔드 개발자)</string>
     <string name="register_no_career">아직 경력이 없으신가요?</string>
     <string name="register_go_education">교육 입력하기</string>
+    <string name="register_belong_length">/22</string>
 
     <!-- Register_Education -->
     <string name="register_education_desc">가장 최근에 소속되었던\n교육기관을 알려주세요</string>

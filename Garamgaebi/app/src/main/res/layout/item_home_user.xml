@@ -13,13 +13,11 @@
         app:sriv_right_top_corner_radius="12dp"
         app:sriv_left_bottom_corner_radius="0dp"
         app:sriv_right_bottom_corner_radius="0dp"
-        app:sriv_oval="false"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/item_fragment_home_user_profile_default"
         android:background="@drawable/fragment_home_user_iv_border"
-        android:src="@drawable/ic_launcher_background"
-        android:backgroundTint="@color/grayD9"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import com.kakao.sdk.common.KakaoSdk
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
     val API_URL = "https://garamgaebi.shop/"
+
 
     // 테스트 서버 주소
     // val API_URL = "http://dev-api.test.com/"
@@ -45,7 +47,7 @@ class GaramgaebiApplication : Application() {
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
-
+        KakaoSdk.init(this, "f660903d82252a06c824795c15178d2b")
         // 레트로핏 인스턴스 생성
         initRetrofitInstance()
         settingScreenPortrait()

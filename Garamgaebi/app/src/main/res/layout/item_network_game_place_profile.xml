@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingEnd="24dp">
 
     <FrameLayout
         android:id="@+id/item_network_game_profile_frame"
@@ -16,6 +17,7 @@
             android:id="@+id/item_network_game_profile_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:src="@drawable/activity_item_network_game_profile_border" />
 
         <androidx.cardview.widget.CardView
@@ -30,11 +32,11 @@
                 android:id="@+id/item_network_game_profile_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:background="@drawable/ic_network_game_profile"/>
 
 
         </androidx.cardview.widget.CardView>
-
 
     </FrameLayout>
 

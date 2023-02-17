@@ -14,7 +14,6 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.home.GatheringItemDecoration
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
 
 /**
@@ -56,6 +55,11 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                 binding.fragmentGatheringSeminarThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
             }
             val program = it.result.programIdx
+
+            if(it.result.isOpen == "BEFORE_OPEN"){
+                binding.fragmentGatheringSeminarClThisMonth.isEnabled = false
+            }
+
             binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
                 //세미나 메인 화면으로
                 GaramgaebiApplication.sSharedPreferences

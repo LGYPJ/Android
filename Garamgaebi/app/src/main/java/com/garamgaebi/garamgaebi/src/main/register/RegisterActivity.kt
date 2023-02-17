@@ -2,15 +2,35 @@ package com.garamgaebi.garamgaebi.src.main.register
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
+import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
+        val viewModel by viewModels<RegisterViewModel>()
+
+        if(intent.getBooleanExtra("login", false)){
+            setFragment(REGISTER_AUTH)
+            Log.d("kakao", "${intent.getStringExtra("email")}")
+            viewModel.socialEmail.value = intent.getStringExtra("email")
+        }
+        else
+            setFragment(REGISTER_INTRO)
+            //테스트용
+            //setFragment(REGISTER_INTRO)
+            //setFragment(REGISTER_AUTH)
+            //setFragment(REGISTER_NICKNAME)
+            //setFragment(REGISTER_EMAIL)
+            //setFragment(REGISTER_ORG)
+            //setFragment(REGISTER_COMPLETE)
+
         Log.d("register","onCreate")
-        setFragment(REGISTER_INTRO)
+
     }
     fun setFragment(int : Int) {
         val trans = supportFragmentManager.beginTransaction()
@@ -18,11 +38,11 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             REGISTER_INTRO -> {
                 trans.replace(R.id.activity_register_frm, RegisterIntroFragment())
             }
-            REGISTER_LOGIN -> {
+            /*REGISTER_LOGIN -> {
                 trans.replace(R.id.activity_register_frm, RegisterLoginFragment()).addToBackStack(null)
-            }
+            }*/
             REGISTER_AUTH -> {
-                trans.replace(R.id.activity_register_frm, RegisterAuthenticationFragment()).addToBackStack(null)
+                trans.replace(R.id.activity_register_frm, RegisterAuthenticationFragment())
             }
             REGISTER_NICKNAME -> {
                 trans.replace(R.id.activity_register_frm, RegisterNicknameFragment()).addToBackStack(null)
@@ -34,7 +54,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
                 trans.replace(R.id.activity_register_frm, RegisterOrganizationFragment()).addToBackStack(null)
             }
             REGISTER_EDU -> {
-                Log.d("eduactivity","edu")
                 trans.replace(R.id.activity_register_frm, RegisterEducationFragment()).addToBackStack(null)
             }
             REGISTER_CAREER -> {

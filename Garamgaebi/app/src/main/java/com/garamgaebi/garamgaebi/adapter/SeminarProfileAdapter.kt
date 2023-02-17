@@ -12,7 +12,7 @@ import com.garamgaebi.garamgaebi.common.ORIGIN
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBinding
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileGrayBinding
-import com.garamgaebi.garamgaebi.src.main.seminar.data.SeminarResult
+import com.garamgaebi.garamgaebi.model.SeminarResult
 
 
 class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

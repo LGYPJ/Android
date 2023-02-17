@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.databinding.DialogSeminarPreviewBinding
-import com.garamgaebi.garamgaebi.src.main.seminar.data.PresentationResult
+import com.garamgaebi.garamgaebi.model.PresentationResult
 
 class SeminarPreviewDialog(private val present : List<PresentationResult>):DialogFragment() {
      private lateinit var binding : DialogSeminarPreviewBinding
@@ -43,29 +43,15 @@ class SeminarPreviewDialog(private val present : List<PresentationResult>):Dialo
         Glide.with(binding.dialogSeminarProfileImg.context)
             .load(data.profileImgUrl)
             .into(binding.dialogSeminarProfileImg)
-        binding.dialogFragmentSeminarNameTv.text = data.nickname
-        Log.d("imgwhy", data.nickname)
-        binding.dialogFragmentSeminarJobTv.text =data.organization
-        binding.dialogFragmentSeminarTitleTv.text = data.title
-        binding.dialogFragmentSeminarContentTv.text = data.content
-        binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
+        with(binding){
+            dialogFragmentSeminarNameTv.text = data.nickname
+            dialogFragmentSeminarJobTv.text =data.organization
+            dialogFragmentSeminarTitleTv.text = data.title
+            dialogFragmentSeminarContentTv.text = data.content
+            dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
+        }
 
-        /*viewModel.getSeminarDetail()
-        viewModel.presentation.observe(viewLifecycleOwner, Observer {
-            //val position = arguments?.getInt("presentationDialog", 0)
-            Log.d("presentwhy1", position.toString())
-            val data = it.result[position]
-            Glide.with(binding.dialogSeminarProfileImg.context)
-                .load(data.profileImgUrl)
-                .into(binding.dialogSeminarProfileImg)
-            binding.dialogFragmentSeminarNameTv.text = data.nickname
-            Log.d("imgwhy", data.nickname)
-            binding.dialogFragmentSeminarJobTv.text =data.organization
-            binding.dialogFragmentSeminarTitleTv.text = data.title
-            binding.dialogFragmentSeminarContentTv.text = data.content
-            binding.dialogFragmentSeminarPresentReferenceDetailTv.text = data.presentationUrl
 
-        })*/
         binding.dialogFragmentSeminarCloseBtn.setOnClickListener {
            dismiss()
         }
