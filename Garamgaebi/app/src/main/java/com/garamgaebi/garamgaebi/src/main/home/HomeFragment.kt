@@ -16,6 +16,7 @@ import com.garamgaebi.garamgaebi.adapter.HomeSeminarRVAdapter
 import com.garamgaebi.garamgaebi.adapter.HomeUserItemRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.HomeNetworkingResult
 import com.garamgaebi.garamgaebi.model.HomeProgramResult
@@ -30,14 +31,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
+        /*// 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
         with(binding) {
             fragmentHomeClSeminarBlank.visibility = View.VISIBLE
             fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             fragmentHomeClUserBlank.visibility = View.VISIBLE
             fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-        }
+        }*/
+
 
         // 뷰페이저 간격 조절을 위한 변수
         val pagerWidth = resources.displayMetrics.widthPixels
@@ -55,7 +57,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             val result = it.result as ArrayList<HomeSeminarResult>
             val seminarRVAdapter : HomeSeminarRVAdapter
             if(result == null) {
-
             }
             else if (result.isEmpty()) {
                 binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
@@ -169,7 +170,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         })
 
         // 내 모임
-        viewModel.getHomeProgram(22)
+        viewModel.getHomeProgram(myMemberIdx)
         viewModel.program.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<HomeProgramResult>
             val myMeetingRVAdapter: HomeMyMeetingRVAdapter
@@ -220,7 +221,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
         // 읽지 않은 알림 존재 여부
-        viewModel.getNotificationUnread(22)
+        viewModel.getNotificationUnread(myMemberIdx)
         viewModel.notificationUnread.observe(viewLifecycleOwner, Observer {
             if(it.result.isUnreadExist)
                 binding.fragmentHomeIvNotificationPoint.visibility = View.VISIBLE

@@ -5,6 +5,15 @@
     android:layout_height="184dp"
     android:background="@drawable/fragment_home_user_profile_border">
 
+    <ImageView
+        android:id="@+id/item_home_user_iv_profile_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_item_fragment_home_user_profile_default"
+        app:layout_constraintBottom_toBottomOf="@+id/item_home_user_iv_profile"
+        app:layout_constraintEnd_toEndOf="@+id/item_home_user_iv_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_home_user_iv_profile" />
     <com.joooonho.SelectableRoundedImageView
         android:id="@+id/item_home_user_iv_profile"
         android:layout_width="match_parent"
@@ -13,10 +22,9 @@
         app:sriv_right_top_corner_radius="12dp"
         app:sriv_left_bottom_corner_radius="0dp"
         app:sriv_right_bottom_corner_radius="0dp"
-        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/item_fragment_home_user_profile_default"
+        android:elevation="-1dp"
         android:background="@drawable/fragment_home_user_iv_border"
         app:layout_constraintTop_toTopOf="parent" />
 
