@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
 import com.garamgaebi.garamgaebi.model.HomeUserResult
 
@@ -14,7 +15,12 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
             with(binding) {
-                Glide.with(itemView).load(data.profileUrl)
+                if(data.profileUrl == "")
+                    Glide.with(itemView)
+                        .load(R.drawable.item_fragment_home_user_profile_default)
+                        .into(itemHomeUserIvProfile)
+                else Glide.with(itemView)
+                    .load(data.profileUrl)
                     .into(itemHomeUserIvProfile)
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName

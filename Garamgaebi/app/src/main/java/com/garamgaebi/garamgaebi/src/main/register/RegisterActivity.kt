@@ -42,7 +42,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
                 trans.replace(R.id.activity_register_frm, RegisterLoginFragment()).addToBackStack(null)
             }*/
             REGISTER_AUTH -> {
-                trans.replace(R.id.activity_register_frm, RegisterAuthenticationFragment()).addToBackStack(null)
+                trans.replace(R.id.activity_register_frm, RegisterAuthenticationFragment())
             }
             REGISTER_NICKNAME -> {
                 trans.replace(R.id.activity_register_frm, RegisterNicknameFragment()).addToBackStack(null)
@@ -54,7 +54,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
                 trans.replace(R.id.activity_register_frm, RegisterOrganizationFragment()).addToBackStack(null)
             }
             REGISTER_EDU -> {
-                Log.d("eduactivity","edu")
                 trans.replace(R.id.activity_register_frm, RegisterEducationFragment()).addToBackStack(null)
             }
             REGISTER_CAREER -> {
