@@ -31,6 +31,7 @@
                 android:id="@+id/item_profile_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:src="@drawable/activity_seminar_profile_img_blue"/>
 
 
