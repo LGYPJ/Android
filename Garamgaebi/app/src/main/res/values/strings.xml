@@ -93,8 +93,7 @@
     <!-- Register_NickName -->
     <string name="register_nickname_desc">가람개비에서 사용할\n당신의 닉네임을 설정해주세요</string>
     <string name="register_input_nickname_desc">닉네임을 입력해주세요 (최대 8글자)</string>
-    <string name="register_nickname_length">8자 이내로 입력해주세요</string>
-    <string name="register_nickname_invalid">사용할 수 없는 닉네임입니다</string>
+    <string name="register_nickname_invalid">8자이내, 한/영문, 숫자만 사용 가능합니다</string>
 
     <!-- Register_Authentication-->
     <string name="school_certification">가천대생 인증을 진행해주세요</string>
@@ -138,7 +137,7 @@
 
     <!-- Register_Complete -->
     <string name="register_complete">가입이\n완료되었습니다</string>
-    <string name="register_welcome_user">사용자님, 환영합니다</string>
+    <string name="register_welcome_user">환영합니다</string>
     <string name="register_agree_all">전체 동의하기</string>
     <string name="register_agree_over_14">(필수) 만 14세 이상이에요</string>
     <string name="register_agree_term">(필수) 이용약관 및 개인정보수집이용 동의</string>

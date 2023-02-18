@@ -54,23 +54,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         // 뷰모델
         val viewModel by viewModels<HomeViewModel>()
 
-        var logo = binding.logo
-
-        val sDefaultInterpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
-
-        fun imageViewRotate(){
-            val currentDegree = logo.rotation
-            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+720f)
-            anim.interpolator = AccelerateInterpolator()
-            anim.duration = 1000
-
-            anim.start()
-        }
-        logo.setOnClickListener {
-            imageViewRotate()
-            viewModel.getHomeUser()
-        }
-
         // 세미나
         viewModel.getHomeSeminar()
         viewModel.seminar.observe(viewLifecycleOwner, Observer {
@@ -157,8 +140,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
         })
 
-        var adapterFirst : Boolean = true
-
         // 유저 프로필 11명
         viewModel.getHomeUser()
         viewModel.user.observe(viewLifecycleOwner, Observer {
@@ -174,11 +155,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                }
-
-                if(adapterFirst){
-                    binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
-                    adapterFirst = false
+                    addItemDecoration(HomeUserItemDecoration(requireContext()))
                 }
                 binding.fragmentHomeClUserBlank.visibility = View.GONE
                 // 리사이클러뷰 클릭 리스너

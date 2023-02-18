@@ -36,10 +36,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         imageViewRotate()
 
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             launch {
                 delay(2000)
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashActivity, RegisterActivity::class.java))
                 finish()
             }
         }
