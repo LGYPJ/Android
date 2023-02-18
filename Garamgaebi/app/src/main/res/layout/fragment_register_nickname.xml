@@ -71,10 +71,10 @@
             android:id="@+id/fragment_nickname_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{viewModel.nickname.length()>8 ? @string/register_nickname_length : (viewModel.isNickNameValid() || viewModel.nickname.length()==0) ? "" : @string/register_nickname_invalid}'
+            android:text="@{@string/register_nickname_invalid}"
             android:textColor="@color/redForText"
             android:textSize="10sp"
-            android:visibility="@{viewModel.isNickNameValid() || viewModel.nickname.length()==0 ? View.INVISIBLE : View.VISIBLE }"
+            android:visibility="@{(viewModel.isNickNameValid() || viewModel.nickname.length() == 0) ? View.INVISIBLE : View.VISIBLE }"
             app:layout_constraintTop_toBottomOf="@id/fragment_nickname_et_email"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="4dp"

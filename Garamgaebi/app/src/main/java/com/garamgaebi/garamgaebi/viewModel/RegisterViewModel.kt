@@ -28,27 +28,27 @@ class RegisterViewModel : ViewModel(){
     val profileEmail = MutableLiveData<String>("")
     val company = MutableLiveData<String>("")
     val position = MutableLiveData<String>("")
-    val careerStartDate = MutableLiveData<String>("")
+    /*val careerStartDate = MutableLiveData<String>("")
     val careerEndDate = MutableLiveData<String>("")
-    val careerCheckBox = MutableLiveData<Boolean>(false)
+    val careerCheckBox = MutableLiveData<Boolean>(false)*/
     val institution = MutableLiveData<String>("")
     val major = MutableLiveData<String>("")
-    val eduStartDate = MutableLiveData<String>("")
+    /*val eduStartDate = MutableLiveData<String>("")
     val eduEndDate = MutableLiveData<String>("")
-    val eduCheckBox = MutableLiveData<Boolean>(false)
+    val eduCheckBox = MutableLiveData<Boolean>(false)*/
 
     val emailFocusing = MutableLiveData<Boolean>(false)
     val authNumFocusing = MutableLiveData<Boolean>(false)
     val nicknameFocusing = MutableLiveData<Boolean>(false)
     val profileEmailFocusing = MutableLiveData<Boolean>(false)
-    val companyFocusing = MutableLiveData<Boolean>(false)
+    /*val companyFocusing = MutableLiveData<Boolean>(false)
     val positionFocusing = MutableLiveData<Boolean>(false)
     val careerStartDateFocusing = MutableLiveData<Boolean>(false)
     val careerEndDateFocusing = MutableLiveData<Boolean>(false)
     val institutionFocusing = MutableLiveData<Boolean>(false)
     val majorFocusing = MutableLiveData<Boolean>(false)
     val eduStartDateFocusing = MutableLiveData<Boolean>(false)
-    val eduEndDateFocusing = MutableLiveData<Boolean>(false)
+    val eduEndDateFocusing = MutableLiveData<Boolean>(false)*/
 
 
     val timerFirst = MutableLiveData<Boolean>(true)
@@ -61,14 +61,14 @@ class RegisterViewModel : ViewModel(){
     val isCompleteAuth = MutableLiveData<Boolean>(false)
     val isNickNameValid = MutableLiveData<Boolean>(false)
     val isProfileEmailValid = MutableLiveData<Boolean>(false)
-    val isCompanyValid = MutableLiveData<Boolean>(false)
+/*    val isCompanyValid = MutableLiveData<Boolean>(false)
     val isPositionValid = MutableLiveData<Boolean>(false)
     val isCareerStartDateValid = MutableLiveData<Boolean>(false)
     val isCareerEndDateValid = MutableLiveData<Boolean>(false)
     val isInstitutionValid = MutableLiveData<Boolean>(false)
     val isMajorValid = MutableLiveData<Boolean>(false)
     val isEduStartDateValid = MutableLiveData<Boolean>(false)
-    val isEduEndDateValid = MutableLiveData<Boolean>(false)
+    val isEduEndDateValid = MutableLiveData<Boolean>(false)*/
     val isWorking = MutableLiveData<String>("")
     val isLearning = MutableLiveData<String>("")
 
