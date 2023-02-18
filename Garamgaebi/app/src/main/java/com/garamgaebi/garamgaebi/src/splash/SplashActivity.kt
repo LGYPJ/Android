@@ -27,9 +27,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
         fun imageViewRotate(){
             val currentDegree = logo.rotation
-            var anim = ObjectAnimator.ofFloat(logo, View.ROTATION, currentDegree, currentDegree+90f)
+            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+720f)
             anim.interpolator = AccelerateInterpolator()
-            anim.setDuration(1500)
+            anim.duration = 2000
 
             anim.start()
         }
@@ -38,7 +38,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
         CoroutineScope(Dispatchers.Default).launch {
             launch {
-                delay(1500)
+                delay(2000)
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
             }
