@@ -60,9 +60,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         fun imageViewRotate(){
             val currentDegree = logo.rotation
-            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+90f)
+            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+720f)
             anim.interpolator = AccelerateInterpolator()
-                anim.setDuration(1000)
+            anim.duration = 1000
 
             anim.start()
         }

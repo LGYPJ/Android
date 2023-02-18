@@ -213,10 +213,12 @@
     <!-- seminar -->
     <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
     <string name="seminar_select_bank">은행을 선택해주세요</string>
-    <string name="no_seminar">이번 달은 세미나가 없습니다</string>
+    <string name="no_seminar">예정된 세미나가 없습니다\n다음 세미나를 기대해주세요:)</string>
+    <string name="no_seminar_this_month">이번 달은 세미나가 없습니다</string>
+    <string name="no_seminar_scheduled">예정된 세미나가 없습니다</string>
+    <string name="no_seminar_last">마감된 세미나가 없습니다</string>
     <string name="scheduled_seminar">예정된 세미나</string>
     <string name="last_seminar">마감된 세미나</string>
-    <string name="no_last_seminar">마감된 세미나가 없습니다</string>
 
     <string name="seminar_name">신디</string>
     <string name="seminar_job">재학생</string>
@@ -268,7 +270,10 @@
     <string name="networking_icebreaking_info1">아이스브레이킹 참여는</string>
     <string name="networking_icebreaking_info2">네트워킹 당일 정해진 시간에 오픈합니다.</string>
     <string name="networking_apply">참가하기</string>
-    <string name="no_networking">이번 달은 네트워킹이 없습니다</string>
+    <string name="no_networking">예정된 네트워킹이 없습니다\n다음 네트워킹을 기대해주세요:)</string>
+    <string name="no_networking_this_month">이번 달은 네트워킹이 없습니다</string>
+    <string name="no_networking_scheduled">예정된 네트워킹이 없습니다</string>
+    <string name="no_networking_last">마감된 네트워킹이 없습니다</string>
     <string name="scheduled_networking">예정된 네트워킹</string>
     <string name="last_networking">지난 네트워킹</string>
     <string name="networking_icebreaking_active1">네트워킹에 함께 참여한 사람들과</string>
@@ -283,5 +288,7 @@
     <string name="last_meeting">지난 모임</string>
     <string name="networking_this_month">이번 달 네트워킹</string>
     <string name="seminar_this_month">이번 달 세미나</string>
+    <string name="no_my_meeting_scheduled">예정된 내 모임이 없습니다</string>
+    <string name="no_my_meeting_last">지난 내 모임이 없습니다</string>
 
 </resources>

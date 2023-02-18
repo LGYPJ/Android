@@ -34,34 +34,32 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
         viewModel.getGatheringNetworkingClosed()
 
         viewModel.networkingThisMonth.observe(viewLifecycleOwner, Observer{
-            val result = it.result
-            if (result == null) {
+            if (it.result == null) {
                 binding.fragmentGatheringNetworkingThisMonthClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringNetworkingClThisMonth.visibility = View.GONE
             } else {
                 binding.fragmentGatheringNetworkingThisMonthClBlank.visibility = View.GONE
                 binding.fragmentGatheringNetworkingClThisMonth.visibility = View.VISIBLE
 
-                binding.fragmentGatheringNetworkingThisMonthTvName.text = result.title
-                binding.fragmentGatheringNetworkingThisMonthTvDateData.text = GaramgaebiFunction().getDateYMD(result.date)
-                binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = result.location
-                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(result.date)
+                binding.fragmentGatheringNetworkingThisMonthTvName.text = it.result.title
+                binding.fragmentGatheringNetworkingThisMonthTvDateData.text = GaramgaebiFunction().getDateYMD(it.result.date)
+                binding.fragmentGatheringNetworkingThisMonthTvPlaceData.text = it.result.location
+                binding.fragmentGatheringNetworkingThisMonthTvDDay.text = GaramgaebiFunction().getDDay(it.result.date)
+                if(it.result.isOpen == "BEFORE_OPEN"){
+                    binding.fragmentGatheringNetworkingClThisMonth.isEnabled = false
+                }
+                val program = it.result.programIdx
+                binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putInt("programIdx", program)
+                        .apply()
+                    //네트워킹 메인 프래그먼트로!
+                    startActivity(Intent(context, ContainerActivity::class.java)
+                        .putExtra("networking", true)
+                        .putExtra("gonetworking", "gonetworking"))
+                }
+            }
 
-            }
-            if(it.result.isOpen == "BEFORE_OPEN"){
-                binding.fragmentGatheringNetworkingClThisMonth.isEnabled = false
-            }
-            val program = it.result.programIdx
-            binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("programIdx", program)
-                    .apply()
-                //네트워킹 메인 프래그먼트로!
-                val intent = Intent(context, ContainerActivity::class.java)
-                intent.putExtra("networking", true)
-                intent.putExtra("gonetworking", "gonetworking")
-                startActivity(intent)
-            }
         })
         // 예정된
         viewModel.networkingNextMonth.observe(viewLifecycleOwner, Observer{
@@ -83,7 +81,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
         viewModel.networkingClosed.observe(viewLifecycleOwner, Observer{
             val result = it.result as ArrayList<GatheringNetworkingClosedResult>
             val networkingDeadlineAdapter : GatheringNetworkingDeadlineRVAdapter
-            if (result.isEmpty()) {
+            if (result == null) {
                 binding.fragmentGatheringNetworkingClosedClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringNetworkingRvDeadline.visibility = View.GONE
             }
@@ -103,10 +101,9 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                                 .edit().putInt("programIdx", program)
                                 .apply()
                             //네트워킹 메인 프래그먼트로!
-                            val intent = Intent(context, ContainerActivity::class.java)
-                            intent.putExtra("networking", true)
-                            intent.putExtra("gonetworking", "gonetworking")
-                            startActivity(intent)
+                            startActivity(Intent(context, ContainerActivity::class.java)
+                                .putExtra("networking", true)
+                                .putExtra("gonetworking", "gonetworking"))
                         }
                     })
                 }
