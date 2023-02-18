@@ -18,7 +18,7 @@ class NetworkingGameCardVPAdapter(private val dataList: List<String>, private va
             Glide.with(binding.activityItemGameCardBlankImg.context)
                 .load(data)
                 .into(binding.activityItemGameCardBlankImg)
-            //binding.activityItemGameCardTv.text = data.result
+
 
         }
     }
@@ -49,12 +49,12 @@ class NetworkingGameCardVPAdapter(private val dataList: List<String>, private va
         return dataList.size
     }
 
-    override fun getItemViewType(position: Int): Int {
+    /*override fun getItemViewType(position: Int): Int {
         return when(position){
-            number -> ORIGIN
+            number-> ORIGIN
             else -> ORIGIN
         }
-    }
+    }*/
 
 
 }
