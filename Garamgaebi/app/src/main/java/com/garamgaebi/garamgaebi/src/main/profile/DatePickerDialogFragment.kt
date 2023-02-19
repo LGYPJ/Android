@@ -18,7 +18,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
     var dateYear:Int = 0
     var dateMonth:Int = 0
     val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyy.MM")
+    val formatter = DateTimeFormatter.ofPattern("yyyy/MM")
     val formatterForYear = DateTimeFormatter.ofPattern("yyyy")
     val formatterForMonth = DateTimeFormatter.ofPattern("MM")
     override fun onCreateView(
@@ -58,10 +58,10 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
             }
             var arr : List<String>
             if(date.isNotEmpty() && !(date.equals("Error") || date.equals("현재"))) {
-                arr = date.split(".")
+                arr = date.split("/")
                 setYearMonth(arr[0], arr[1])
             }else{
-                arr = formatted.split(".")
+                arr = formatted.split("/")
                 setYearMonth(arr[0], arr[1])
             }
             Log.d("date뭐냐",arr.toString())
@@ -78,7 +78,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
         dateYear = current.format(formatterForYear).toInt()
         dateMonth = current.format(formatterForMonth).toInt()
 
-        date = String.format("%4d.%02d", dateYear, dateMonth)
+        date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
         Log.d("data_what",date.toString())
 
@@ -89,7 +89,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
         dateYear = current.format(formatterForYear).toInt()
         dateMonth = current.format(formatterForMonth).toInt()
 
-        date = String.format("%4d.%02d", dateYear, dateMonth)
+        date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
         Log.d("data_what",date.toString())
         super.onCancel(dialog)

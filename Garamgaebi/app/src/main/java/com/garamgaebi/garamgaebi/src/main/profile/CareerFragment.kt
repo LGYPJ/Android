@@ -21,10 +21,13 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
     private lateinit var callback: OnBackPressedCallback
-    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
+    @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -102,8 +105,8 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.startDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.startDate.value = (arr[0] + "." + arr[1])
+                            val arr = it.split("/")
+                            viewModel.startDate.value = (arr[0] + "/" + arr[1])
                             viewModel.startFocusing.value = false
                         }
                     }
@@ -132,16 +135,16 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.endDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.endDate.value = arr[0] + "." + arr[1]
+                            val arr = it.split("/")
+                            viewModel.endDate.value = arr[0] + "/" + arr[1]
                             if (GaramgaebiFunction().checkNow(it)) {
                                 binding.activityCareerCheckbox.isChecked = true
                                 binding.activityCareerEtEndPeriod.setText("현재")
                                 viewModel.isWorking.value = "TRUE"
                             } else {
                                 binding.activityCareerCheckbox.isChecked = false
-                                binding.activityCareerEtEndPeriod.setText(arr[0] + "." + arr[1])
-                                viewModel.endDate.value = (arr[0] + "." + arr[1])
+                                binding.activityCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                viewModel.endDate.value = (arr[0] + "/" + arr[1])
                                 viewModel.isWorking.value = "FALSE"
                             }
                             viewModel.endFocusing.value = false
@@ -155,7 +158,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             Log.d("career_showEnd_true","히히")
         })
 
-
         //hint 설정
         with(viewModel){
             companyHint.value = getString(R.string.register_input_company_desc)
@@ -165,40 +167,62 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
 
         //유효성 끝
 
-        binding.activityCareerCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isWorking.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isWorking.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-        binding.activityCareerCheckboxRl.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isWorking.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isWorking.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
+        disposables
+            .add(
+                binding
+                    .activityCareerSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postCareerInfo()
+                        Log.d("career_add_button","success"+viewModel.endDate.value.toString())
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityCareerCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isWorking.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isWorking.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityCareerCheckboxRl
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isWorking.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isWorking.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
 
-        binding.activityCareerSaveBtn.setOnClickListener {
-            viewModel.postCareerInfo()
-            (activity as ContainerActivity).onBackPressed()
-            Log.d("career_add_button","success"+viewModel.endDate.value.toString())
-        }
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false
         })
 
     }
+
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용

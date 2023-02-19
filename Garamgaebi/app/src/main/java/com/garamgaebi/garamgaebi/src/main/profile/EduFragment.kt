@@ -15,6 +15,8 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layout.fragment_profile_education) {
     @SuppressLint("ClickableViewAccessibility")
@@ -94,8 +96,8 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.startDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.startDate.value = (arr[0] + "." + arr[1])
+                            val arr = it.split("/")
+                            viewModel.startDate.value = (arr[0] + "/" + arr[1])
                             viewModel.startFocusing.value = false
                         }
                     }
@@ -124,16 +126,16 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.endDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.endDate.value = arr[0] + "." + arr[1]
+                            val arr = it.split("/")
+                            viewModel.endDate.value = arr[0] + "/" + arr[1]
                             if (GaramgaebiFunction().checkNow(it)) {
                                 binding.activityEducationCheckbox.isChecked = true
                                 binding.activityEducationEtEndPeriod.setText("현재")
                                 viewModel.isLearning.value = "TRUE"
                             } else {
                                 binding.activityEducationCheckbox.isChecked = false
-                                binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
-                                viewModel.endDate.value = (arr[0] + "." + arr[1])
+                                binding.activityEducationEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                viewModel.endDate.value = (arr[0] + "/" + arr[1])
                                 viewModel.isLearning.value = "FALSE"
                             }
                             viewModel.endFocusing.value = false
@@ -157,35 +159,56 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         }
 
         //유효성 끝
-        //유효성 끝
-        binding.activityEducationCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isLearning.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-        binding.activityEducationCheckboxRl.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isLearning.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
 
-        binding.activityEducationSaveBtn.setOnClickListener {
-            viewModel.postEducationInfo()
-            (activity as ContainerActivity).onBackPressed()
-            Log.d("career_add_button","success"+viewModel.endDate.value.toString())
-        }
+        disposables
+            .add(
+                binding
+                    .activityEducationSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postEducationInfo()
+                        Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityEducationCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isLearning.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isLearning.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityEducationCheckboxRl
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isLearning.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isLearning.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false

@@ -34,11 +34,14 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
+import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
@@ -254,26 +257,35 @@ class ProfileEditFragment :
         }
 
         //프로필 사진 변경을 위한,,,
-        binding.activityEditProfileIvProfile.setOnClickListener {
-//            var photoPickerIntent = Intent(Intent.ACTION_PICK)
-//            photoPickerIntent.type = "image/*"
-//            startForResult.launch(photoPickerIntent)
-             selectGallery()
-            Log.d("test---","아얏")
-        }
+        disposables
+            .add(
+                binding
+                    .activityEditProfileIvProfile
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        selectGallery()
+                        Log.d("test---","아얏")
+                    }, { it.printStackTrace() })
+            )
 
         //편집 정보 저장하기 버튼 클릭이벤트
-        binding.activityEducationSaveBtn.setOnClickListener {
-            //회원정보 편집 저장 기능 추가
-            Log.d("image_edit_ss",bodyPart.toString())
+        disposables
+            .add(
+                binding
+                    .activityEducationSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        //회원정보 편집 저장 기능 추가
+                        Log.d("image_edit_ss",bodyPart.toString())
 
-            viewModel.img = null
-            Log.d("image_edit_ss","??")
-            viewModel.getCheckEditProfileInfo(myMemberIdx, null)
-        }
-
-
-
+                        viewModel.img = null
+                        Log.d("image_edit_ss","??")
+                        viewModel.getCheckEditProfileInfo(myMemberIdx, null)
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
 
         // 유효성 확인
         viewModel.nickName.observe(viewLifecycleOwner, Observer {

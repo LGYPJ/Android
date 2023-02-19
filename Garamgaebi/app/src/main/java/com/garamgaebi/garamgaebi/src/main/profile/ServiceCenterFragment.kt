@@ -18,6 +18,8 @@ import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterLoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 
 class ServiceCenterFragment :
@@ -72,68 +74,104 @@ class ServiceCenterFragment :
         }
 
         //동의 체크박스 클릭 이벤트
-        binding.activityServicecenterCheckboxDesc.setOnClickListener {
-            var preCheck = binding.activityServicecenterCheckbox.isChecked
-            viewModel.agree.value = !preCheck
-        }
+        disposables
+            .add(
+                binding
+                    .activityServicecenterCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        var preCheck = binding.activityServicecenterCheckbox.isChecked
+                        viewModel.agree.value = !preCheck
+                    }, { it.printStackTrace() })
+            )
 
-        binding.activityServicecenterSendBtn.setOnClickListener {
-
-                viewModel.postQna()
-                (activity as ContainerActivity).onBackPressed()
-        }
+        disposables
+            .add(
+                binding
+                    .activityServicecenterSendBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postQna()
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
 
         //회원탈퇴 이동
-        binding.activityServicecenterTvWithdrawal.setOnClickListener {
-            containerActivity!!.openFragmentOnFrameLayout(15)
-            containerActivity!!.goWithdrawal()
-        }
+        disposables
+            .add(
+                binding
+                    .activityServicecenterSendBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        containerActivity!!.openFragmentOnFrameLayout(15)
+                        containerActivity!!.goWithdrawal()
+                    }, { it.printStackTrace() })
+            )
+
 
         //로그아웃 이동
-        binding.activityServicecenterTvLogout.setOnClickListener {
-            viewModel.postLogout()
-            activity?.startActivity(Intent(activity,RegisterLoginActivity::class.java))
-            //로그아웃으로 이동
-        }
+        disposables
+            .add(
+                binding
+                    .activityServicecenterTvLogout
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postLogout()
+                        activity?.startActivity(Intent(activity,RegisterLoginActivity::class.java))
+                        //로그아웃으로 이동
+                    }, { it.printStackTrace() })
+            )
+
+        disposables
+            .add(
+                binding
+                    .activityServicecenterEtOption
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.categoryFocusing.value = true
+                        viewModel.categoryFirst.value = false
+
+                        val orderBottomDialogFragment: ServiceCenterOrderBottomdialogFragment = ServiceCenterOrderBottomdialogFragment {
+                            when (it) {
+                                0 -> {
+                                    Toast.makeText(activity, "이용 문의", Toast.LENGTH_SHORT).show()
+                                    binding.activityServicecenterEtOption.setText("이용문의")
+                                    viewModel.categoryFocusing.value = false
+
+                                }
+                                1 -> {
+                                    Toast.makeText(activity, "오류신고", Toast.LENGTH_SHORT).show()
+                                    binding.activityServicecenterEtOption.setText("오류신고")
+                                    viewModel.categoryFocusing.value = false
+
+                                }
+                                2 -> {
+                                    Toast.makeText(activity, "서비스 제안", Toast.LENGTH_SHORT).show()
+                                    binding.activityServicecenterEtOption.setText("서비스 제안")
+                                    viewModel.categoryFocusing.value = false
+
+                                }
+                                3 -> {
+                                    Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
+                                    binding.activityServicecenterEtOption.setText("기타")
+                                    viewModel.categoryFocusing.value = false
+
+                                }
+                            }
+                            if(viewModel.category.value?.isNotEmpty() == true){
+                                viewModel.categoryIsValid.value = true
+                            }
+                        }
+                        orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+                    }, { it.printStackTrace() })
+            )
 
 
-        binding.activityServicecenterEtOption.setOnClickListener {
-            viewModel.categoryFocusing.value = true
-            viewModel.categoryFirst.value = false
-
-            val orderBottomDialogFragment: ServiceCenterOrderBottomdialogFragment = ServiceCenterOrderBottomdialogFragment {
-                when (it) {
-                    0 -> {
-                        Toast.makeText(activity, "이용 문의", Toast.LENGTH_SHORT).show()
-                        binding.activityServicecenterEtOption.setText("이용문의")
-                        viewModel.categoryFocusing.value = false
-
-                    }
-                    1 -> {
-                        Toast.makeText(activity, "오류신고", Toast.LENGTH_SHORT).show()
-                        binding.activityServicecenterEtOption.setText("오류신고")
-                        viewModel.categoryFocusing.value = false
-
-                    }
-                    2 -> {
-                        Toast.makeText(activity, "서비스 제안", Toast.LENGTH_SHORT).show()
-                        binding.activityServicecenterEtOption.setText("서비스 제안")
-                        viewModel.categoryFocusing.value = false
-
-                    }
-                    3 -> {
-                        Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
-                        binding.activityServicecenterEtOption.setText("기타")
-                        viewModel.categoryFocusing.value = false
-
-                    }
-                }
-                if(viewModel.category.value?.isNotEmpty() == true){
-                    viewModel.categoryIsValid.value = true
-                }
-            }
-            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-        }
         binding.containerLayout.setOnTouchListener(OnTouchListener { v, event ->
             hideKeyboard()
             false
