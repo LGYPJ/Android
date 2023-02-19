@@ -31,7 +31,6 @@ import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_myprofile.*
 import java.lang.String
 import java.util.Comparator
 import kotlin.Int

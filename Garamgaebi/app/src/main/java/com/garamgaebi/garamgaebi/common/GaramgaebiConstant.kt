@@ -8,6 +8,11 @@ const val THIS_MONTH = 1
 const val READY = 2
 const val CLOSED = 3
 
+// 모아보기
+const val NUM_TABS = 3
+const val GATHERING_SEMINAR = 0
+const val GATHERING_NETWORKING = 1
+const val GATHERING_MY = 2
 
 //참가자
 const val BLUE = 1
