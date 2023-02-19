@@ -10,6 +10,9 @@
     <!--갤러리 권한-->
     <uses-permission android:name="android.permission.CAMERA"/>
 
+
+
+
     <application
         android:name="com.garamgaebi.garamgaebi.common.GaramgaebiApplication"
         android:allowBackup="false"
@@ -20,6 +23,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+
         <activity android:name=".src.main.register.RegisterLoginActivity"
             android:exported="true">
         </activity>
@@ -69,7 +73,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible"
-            android:launchMode="singleInstance"
             />
     </application>
 

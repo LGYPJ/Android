@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,9 @@ class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext
         @SuppressLint("SetTextI18n")
         fun bind(data: EducationData) {
             binding.item = data
+            if(data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")){
+                binding.activityMyprofileEduListItemTvEndPeriod.text = "현재"
+            }
             binding.activityMyprofileEduListItemIvEdit.setOnClickListener{
                     // 교육 편집
                     val educationIdx = data.educationIdx
@@ -28,8 +32,11 @@ class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext
                     val editEduMajor = data.major
                     val editEduIsLearning = data.isLearning
                     val editEduStartDate = data.startDate
-                    val editEduEndDate = data.endDate
-
+                    var editEduEndDate = data.endDate
+                if(data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")){
+                    editEduEndDate = "현재"
+                    Log.d("datessss",editEduStartDate + "이랑" + editEduEndDate)
+                }
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putString("EduInstitutionForEdit", editEduInstitution)
                         .putString("EduMajorForEdit", editEduMajor)

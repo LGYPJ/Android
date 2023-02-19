@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -131,12 +132,35 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         }
 
         binding.activityEducationRemoveBtn.setOnClickListener {
-            val dialog = ConfirmDialog(this, getString(R.string.delete_done), 1)
+            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                when (it) {
+                    -1 -> {
+
+                        Log.d("edu_remove_button","close")
+
+                    }
+                    1 -> {
+                        //경력 삭제
+                        viewModel.deleteEducationInfo()
+                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                            when(it2){
+                                1 -> {
+
+                                    Log.d("edu_remove_button","close")
+
+                                }
+                                2->{
+                                    (activity as ContainerActivity).onBackPressed()
+                                }
+                            }
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                    }
+                }
+            }
             // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog.isCancelable = false
-            dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            //경력 삭제
-            viewModel.deleteEducationInfo()
+            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
             Log.d("edu_remove_button","success")
         }
         binding.activityEducationSaveBtn.setOnClickListener {
@@ -278,6 +302,5 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         }
     }
     override fun onYesButtonClick(id: Int) {
-        (activity as ContainerActivity).onBackPressed()
     }
 }

@@ -9,7 +9,13 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMember
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.net.HttpCookie.parse
 
 class ProfileViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
@@ -88,13 +94,22 @@ class ProfileViewModel : ViewModel(){
     private val _profileEdit = MutableLiveData<EditProfileDataResponse>()
     val profileEdit : LiveData<EditProfileDataResponse>
         get() = _profileEdit
-    lateinit var img : MultipartBody.Part
+    var img : MultipartBody.Part? = null
 
-    fun getCheckEditProfileInfo(memberIdx : Int) {
+    fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
+        val infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value.toString()}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${intro.value.toString()}}").toString()
+//        val info = RequestBody.create("application/json".toMediaTypeOrNull(),infoJson)
+        val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
+        Log.d("img_edit2", infoJson.toString())
+        Log.d("img_edit2", info.toString())
+
+
         viewModelScope.launch {
+//            val response = profileRepository.getCheckEditProfileInfo(
+//                EditProfileInfoData(myMemberIdx,nickName.value.toString(),belong.value.toString(),email.value.toString(),intro.value.toString()
+//                ),img)
             val response = profileRepository.getCheckEditProfileInfo(
-                EditProfileInfoData(myMemberIdx,nickName.value.toString(),belong.value.toString(),email.value.toString(),intro.value.toString()
-                ),img)
+                info,img)
             Log.d("present_edit", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {

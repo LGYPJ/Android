@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.model
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -134,12 +135,13 @@ interface ApiInterface {
     suspend fun getCheckLogout(
         @Body requset : LogoutToken
     ):Response<LogOutResponse>
+
     //프로필 편집 저장/수정
     @Multipart
-    @POST("/profile/edit/{memberIdx}")
+    @POST("/profile/edit")
     suspend fun getCheckEditProfile(
-        @Part info : EditProfileInfoData,
-        @Part image : MultipartBody.Part
+        @Part("info")info : RequestBody,
+        @Part image : MultipartBody.Part?
     ):Response<EditProfileDataResponse>
 
     //교육 추가

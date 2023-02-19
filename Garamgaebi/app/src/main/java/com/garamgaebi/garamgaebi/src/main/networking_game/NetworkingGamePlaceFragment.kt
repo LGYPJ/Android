@@ -76,19 +76,20 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 previousValue = currentValue
             }
             animator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(p0: Animator) {
                     beginFakeDrag()
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(p0: Animator) {
                     endFakeDrag()
                 }
 
-                override fun onAnimationCancel(animation: Animator?) { /* Ignored */
+                override fun onAnimationCancel(p0: Animator) { /* Ignored */
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) { /* Ignored */
+                override fun onAnimationRepeat(p0: Animator) { /* Ignored */
                 }
+
             })
             animator.interpolator = interpolator
             animator.duration = duration

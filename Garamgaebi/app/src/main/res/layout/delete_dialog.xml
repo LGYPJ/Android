@@ -5,8 +5,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="270dp"
-        android:layout_height="wrap_content"
+        android:layout_width="312dp"
+        android:layout_height="144dp"
         android:background="@drawable/radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -14,43 +14,45 @@
         app:layout_constraintBottom_toBottomOf="parent">
     <TextView
         android:id="@+id/delete_done"
-        android:layout_width="238dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete_done"
+        android:text="@string/delete_q"
         android:textColor="@color/black80"
-        android:textSize="16sp"
-        android:layout_margin="16dp"
+        android:textSize="24sp"
+        android:layout_margin="24dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/divider"
         />
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray_close"
-            app:layout_constraintTop_toBottomOf="@id/delete_done"
-            app:layout_constraintBottom_toTopOf="@id/close"
-            >
-        </View>
+
+        <TextView
+            android:id="@+id/no"
+            android:layout_width="63dp"
+            android:layout_height="40dp"
+            android:text="@string/no"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/close"
+            />
+
     <TextView
         android:id="@+id/close"
-        android:layout_width="188dp"
-        android:layout_height="wrap_content"
-        android:text="@string/close"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:text="@string/yes"
         android:gravity="center"
-        android:layout_marginBottom="11dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginEnd="41dp"
-        android:textSize="16sp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="@color/blue_close"
-        app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
     />
     </androidx.constraintlayout.widget.ConstraintLayout>

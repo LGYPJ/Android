@@ -31,6 +31,11 @@ import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+
 import java.lang.String
 import java.util.Comparator
 import kotlin.Int
@@ -52,15 +57,6 @@ class MyProfileFragment :
         savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
-
-//        binding.swiperefreshlayout.setOnRefreshListener(OnRefreshListener { /* swipe 시 진행할 동작 */
-////            viewModel.getProfileInfo(myMemberIdx)
-////            viewModel.getSNSInfo(myMemberIdx)
-////            viewModel.getCareerInfo(myMemberIdx)
-////            viewModel.getEducationInfo(myMemberIdx)
-//                binding.activityMyProfileTvIntro.text = "dd"
-//            /* 업데이트가 끝났음을 알림 */binding.swiperefreshlayout.isRefreshing = false
-//        })
     }
     override fun initViewModel() {
         super.initViewModel()
@@ -142,86 +138,86 @@ class MyProfileFragment :
                 Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
 
             }
-            //SNS 정보 어댑터 연결
-            getSNSInfo(myMemberIdx)
-            snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it ==null){
-
-                }else {
-                    val snsAdapter =
-                        activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
-                    binding.activityMyProfileRVSns.apply {
-                        adapter = snsAdapter
-
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    }
-                    snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
-                        override fun onClick(position: Int) {
-                        }
-                    })
-                }
-            })
-
-            //경력 정보 어댑터 연결
-            getCareerInfo(myMemberIdx)
-            careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it ==null){
-
-                }else {
-                    var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
-
-//                    var CareerArray : ArrayList<CareerData>
-//                    it.sortWith(Comparator { first: CareerData, second: CareerData ->
-//                            first.endDate.compareTo(second.endDate)
+//            //SNS 정보 어댑터 연결
+//            getSNSInfo(myMemberIdx)
+//            snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+//                if(it ==null){
+//
+//                }else {
+//                    val snsAdapter =
+//                        activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+//                    binding.activityMyProfileRVSns.apply {
+//                        adapter = snsAdapter
+//
+//                        layoutManager =
+//                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                    }
+//                    snsAdapter?.setOnItemClickListener(object : SnsMyRVAdapter.OnItemClickListener {
+//                        override fun onClick(position: Int) {
+//                        }
 //                    })
-
-                    val careerAdapter = activity?.let { it1 ->
-                        CareerMyRVAdapter(
-                            it,
-                            it1.applicationContext
-                        )
-                    }
-                    dividerItemDecoration = DividerItemDecoration(
-                        binding.activityMyProfileRVCareer.context,
-                        LinearLayoutManager(requireContext()).orientation
-                    )
-                    binding.activityMyProfileRVCareer.apply {
-                        adapter = careerAdapter
-                        Log.d("career_adapter_list_size", it.size.toString())
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    }
-                    careerAdapter?.setOnItemClickListener(object :
-                        CareerMyRVAdapter.OnItemClickListener {
-                        override fun onClick(position: Int) {
-                        }
-                    })
-                }
-                })
-            //교육 정보 어댑터 연결
-            getEducationInfo(myMemberIdx)
-            educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it ==null){
-
-                }else {
-                    val eduAdapter =
-                        activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
-                    dividerItemDecoration = DividerItemDecoration(
-                        binding.activityMyProfileRVEdu.context,
-                        LinearLayoutManager(requireContext()).orientation
-                    )
-                    binding.activityMyProfileRVEdu.apply {
-                        adapter = eduAdapter
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    }
-                    eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
-                        override fun onClick(position: Int) {
-                        }
-                    })
-                }
-            })
+//                }
+//            })
+//
+//            //경력 정보 어댑터 연결
+//            getCareerInfo(myMemberIdx)
+//            careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+//                if(it ==null){
+//
+//                }else {
+//                    var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
+//
+////                    var CareerArray : ArrayList<CareerData>
+////                    it.sortWith(Comparator { first: CareerData, second: CareerData ->
+////                            first.endDate.compareTo(second.endDate)
+////                    })
+//
+//                    val careerAdapter = activity?.let { it1 ->
+//                        CareerMyRVAdapter(
+//                            it,
+//                            it1.applicationContext
+//                        )
+//                    }
+//                    dividerItemDecoration = DividerItemDecoration(
+//                        binding.activityMyProfileRVCareer.context,
+//                        LinearLayoutManager(requireContext()).orientation
+//                    )
+//                    binding.activityMyProfileRVCareer.apply {
+//                        adapter = careerAdapter
+//                        Log.d("career_adapter_list_size", it.size.toString())
+//                        layoutManager =
+//                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                    }
+//                    careerAdapter?.setOnItemClickListener(object :
+//                        CareerMyRVAdapter.OnItemClickListener {
+//                        override fun onClick(position: Int) {
+//                        }
+//                    })
+//                }
+//                })
+//            //교육 정보 어댑터 연결
+//            getEducationInfo(myMemberIdx)
+//            educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+//                if(it ==null){
+//
+//                }else {
+//                    val eduAdapter =
+//                        activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
+//                    dividerItemDecoration = DividerItemDecoration(
+//                        binding.activityMyProfileRVEdu.context,
+//                        LinearLayoutManager(requireContext()).orientation
+//                    )
+//                    binding.activityMyProfileRVEdu.apply {
+//                        adapter = eduAdapter
+//                        layoutManager =
+//                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                    }
+//                    eduAdapter?.setOnItemClickListener(object : EduMyRVAdapter.OnItemClickListener {
+//                        override fun onClick(position: Int) {
+//                        }
+//                    })
+//                }
+//            })
         }
 
         with(binding){
@@ -271,12 +267,6 @@ class MyProfileFragment :
         startActivity(intent)
     }
 
-    fun goEditSNSFragment(data:SNSData){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("snsEdit",true) //데이터 넣기
-        startActivity(intent)
-    }
-
     //career 추가 버튼
     fun goAddCareerFragment(){
         Log.d("ff","gogo")
@@ -303,14 +293,124 @@ class MyProfileFragment :
 
     override fun onResume() {
         Log.d("onResume","yes__")
-        viewModel.getProfileInfo(myMemberIdx)
-        viewModel.getSNSInfo(myMemberIdx)
-        viewModel.getCareerInfo(myMemberIdx)
-        viewModel.getEducationInfo(myMemberIdx)
-
         super.onResume()
+
+        GlobalScope.launch {
+            val y = setDataView()
+            val x = updateData()
+        }
+    }
+    suspend fun setDataView():Int {
+        val value: Int = GlobalScope.async(Dispatchers.Main) {
+            var total = 1
+            with(viewModel) {
+                var dividerItemDecoration = DividerItemDecoration(
+                    binding.activityMyProfileRVSns.context,
+                    LinearLayoutManager(requireContext()).orientation
+                )
+
+                //SNS 정보 어댑터 연결
+                getSNSInfo(myMemberIdx)
+                snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                    if (it == null) {
+
+                    } else {
+                        val snsAdapter =
+                            activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+                        binding.activityMyProfileRVSns.apply {
+                            adapter = snsAdapter
+
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        }
+                        snsAdapter?.setOnItemClickListener(object :
+                            SnsMyRVAdapter.OnItemClickListener {
+                            override fun onClick(position: Int) {
+                            }
+                        })
+                    }
+                })
+
+                //경력 정보 어댑터 연결
+                getCareerInfo(myMemberIdx)
+                careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                    if (it == null) {
+
+                    } else {
+                        var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate }
+
+//                    var CareerArray : ArrayList<CareerData>
+//                    it.sortWith(Comparator { first: CareerData, second: CareerData ->
+//                            first.endDate.compareTo(second.endDate)
+//                    })
+
+                        val careerAdapter = activity?.let { it1 ->
+                            CareerMyRVAdapter(
+                                it,
+                                it1.applicationContext
+                            )
+                        }
+                        dividerItemDecoration = DividerItemDecoration(
+                            binding.activityMyProfileRVCareer.context,
+                            LinearLayoutManager(requireContext()).orientation
+                        )
+                        binding.activityMyProfileRVCareer.apply {
+                            adapter = careerAdapter
+                            Log.d("career_adapter_list_size", it.size.toString())
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        }
+                        careerAdapter?.setOnItemClickListener(object :
+                            CareerMyRVAdapter.OnItemClickListener {
+                            override fun onClick(position: Int) {
+                            }
+                        })
+                    }
+                })
+                //교육 정보 어댑터 연결
+                getEducationInfo(myMemberIdx)
+                educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                    if (it == null) {
+
+                    } else {
+                        val eduAdapter =
+                            activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
+                        dividerItemDecoration = DividerItemDecoration(
+                            binding.activityMyProfileRVEdu.context,
+                            LinearLayoutManager(requireContext()).orientation
+                        )
+                        binding.activityMyProfileRVEdu.apply {
+                            adapter = eduAdapter
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        }
+                        eduAdapter?.setOnItemClickListener(object :
+                            EduMyRVAdapter.OnItemClickListener {
+                            override fun onClick(position: Int) {
+                            }
+                        })
+                    }
+                })
+            }
+            total
+        }.await()
+        return value
     }
 
+    suspend fun updateData():Int {
+        val value: Int = GlobalScope.async(Dispatchers.IO) {
+            var total = 1
+            with(viewModel) {
+                viewModel.getProfileInfo(myMemberIdx)
+                viewModel.getSNSInfo(myMemberIdx)
+                viewModel.getCareerInfo(myMemberIdx)
+                viewModel.getEducationInfo(myMemberIdx)
+            }
+
+            total
+        }.await()
+        return value
+    }
 
     override fun onDetach() {
         super.onDetach()

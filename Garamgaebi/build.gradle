@@ -8,6 +8,7 @@ buildscript {
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
     dependencies {
+
         classpath 'com.android.tools.build:gradle:7.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
