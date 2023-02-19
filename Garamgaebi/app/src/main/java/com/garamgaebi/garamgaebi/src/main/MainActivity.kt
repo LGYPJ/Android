@@ -1,9 +1,13 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
@@ -19,6 +23,8 @@ import com.garamgaebi.garamgaebi.model.LoginResponse
 
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
+import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
+import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,37 +39,37 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     var data = mutableListOf<GatheringProgramResult>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         // 임시 로그인
-        val client = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
-        client.postLogin(LoginRequest("cindy1769@gachon.ac.kr"))
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                            putString(X_ACCESS_TOKEN, response.body()?.result?.accessToken)
-                            putString(X_REFRESH_TOKEN, response.body()?.result?.refreshToken)
-                            response.body()?.result?.let { putInt("memberIdx", it.memberIdx) }
-                            apply()
-                        }
-                    }
-                }
+        //Log.d("fireBase", getFcmToken())
+        val viewModel by viewModels<HomeViewModel>()
+        // login false일때 테스트용
+        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
+        // 자동 로그인
+        if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
+            viewModel.postLogin(LoginRequest("cindy1769@gachon.ac.kr",
+                GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Log.e("login", "Error", t)
+            viewModel.login.observe(this, Observer {
+                if(it.isSuccess) {
+                    GaramgaebiApplication.sSharedPreferences.edit()
+                        .putString(X_ACCESS_TOKEN, it.result.accessToken)
+                        .putString(X_REFRESH_TOKEN, it.result.refreshToken)
+                        .putInt("memberIdx", it.result.memberIdx)
+                        .apply()
+                    GaramgaebiApplication.myMemberIdx = it.result.memberIdx
+                } else {
+                    Log.d("register", "login fail ${it.errorMessage}")
                 }
             })
+        } else {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
         setBottomNavi()
-
-        /** FCM설정, Token값 가져오기 */
-        MyFirebaseMessagingService().getFirebaseToken()
-        /** DynamicLink 수신확인 */
-        initDynamicLink()
-
+        checkDynamicLink()
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
@@ -262,6 +268,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
             Log.d("firebaseToken", dataStr)
         }
+    }
+
+    /*private fun getFcmToken() : String{
+        *//** FCM설정, Token값 가져오기 *//*
+        return MyFirebaseMessagingService().getFirebaseToken()
+    }*/
+    private fun checkDynamicLink() {
+        MyFirebaseMessagingService().getFirebaseToken()
+        /** DynamicLink 수신확인 */
+        initDynamicLink()
     }
 }
 

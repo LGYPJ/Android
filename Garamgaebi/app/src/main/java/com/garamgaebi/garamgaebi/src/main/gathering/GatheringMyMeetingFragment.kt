@@ -25,10 +25,6 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
     var data = MutableLiveData<GatheringProgramResult>()
     var myMeetingScheduledAdapter : GatheringMyMeetingScheduledRVAdapter? = null
 
-    //뷰모델
-    private val viewModel by viewModels<GatheringViewModel>()
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
@@ -80,7 +76,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         viewModel.programClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringProgramResult>
             val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
-            if (result.isEmpty()) {
+            if (result == null) {
                 binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
             } else {

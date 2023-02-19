@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import com.garamgaebi.garamgaebi.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,7 +48,7 @@ class GaramgaebiApplication : Application() {
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
-        KakaoSdk.init(this, "f660903d82252a06c824795c15178d2b")
+        KakaoSdk.init(this, "${BuildConfig.KAKAO_API_KEY}")
         // 레트로핏 인스턴스 생성
         initRetrofitInstance()
         settingScreenPortrait()

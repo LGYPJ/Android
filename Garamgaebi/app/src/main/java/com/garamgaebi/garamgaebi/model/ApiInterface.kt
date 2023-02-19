@@ -226,7 +226,7 @@ interface ApiInterface {
 
     //MemberController
     @POST("/member/login")
-    fun postLogin(@Body loginRequest: LoginRequest) : Call<LoginResponse>
+    suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
     //ApplyController
 
