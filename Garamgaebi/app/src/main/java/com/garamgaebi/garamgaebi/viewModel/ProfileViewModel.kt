@@ -114,8 +114,10 @@ class ProfileViewModel : ViewModel(){
             Log.d("present_edit", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
-                Log.d("success_edit", response.message())
-                _profileEdit.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    Log.d("success_edit", response.message())
+                    _profileEdit.value = (response.body())
+                }
             }
             else {
                 Log.d("error_edit", response.message())
@@ -138,8 +140,10 @@ class ProfileViewModel : ViewModel(){
             Log.d("present0", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
-                Log.d("success", response.message())
-                _profileInfo.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    Log.d("success", response.message())
+                    _profileInfo.value = (response.body())
+                }
             }
             else {
                 Log.d("error", response.message())
@@ -161,9 +165,10 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getSNSInfo(memberIdx)
             Log.d("api_sns", response.body().toString())
 
-            if (response.isSuccessful) {
-                //_snsInfo.postValue(response.body())
-                _snsInfoArray.postValue(response.body()?.result as ArrayList<SNSData>?)
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _snsInfoArray.value = (response.body()?.result as ArrayList<SNSData>?)
+                }
             }
             else {
                 Log.d("error", response.message())
@@ -185,8 +190,11 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getEducationInfo(memberIdx)
             Log.d("api_edu", response.body().toString())
 
-            if (response.isSuccessful) {
-                _educationInfoArray.postValue(response.body()?.result as ArrayList<EducationData>)
+            if (response.isSuccessful && response.body() != null) {
+                //_networking.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _educationInfoArray.value = response.body()?.result as ArrayList<EducationData>
+                }
             }
             else {
                 Log.d("error", response.message())
@@ -208,8 +216,10 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getCareerInfo(memberIdx)
             Log.d("api_career", response.body().toString())
 
-            if (response.isSuccessful) {
-                _careerInfoArray.postValue(response.body()?.result as ArrayList<CareerData>)
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _careerInfoArray.value = (response.body()?.result as ArrayList<CareerData>)
+                }
             }
             else {
                 Log.d("error", response.message())
