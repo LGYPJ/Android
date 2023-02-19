@@ -8,9 +8,11 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment(){
     protected lateinit var binding: T
+    var disposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,4 +35,11 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     protected open fun initViewModel() {}
     protected open fun initListener() {}
     protected open fun afterViewCreated() {}
+
+    override fun onStop() {
+        super.onStop()
+        if(disposables.size() > 0){
+            disposables.clear()
+        }
+    }
 }

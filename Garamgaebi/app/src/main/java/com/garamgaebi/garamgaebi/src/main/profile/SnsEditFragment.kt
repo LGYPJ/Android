@@ -19,6 +19,8 @@ import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.layout.fragment_profile_sns_edit),
     ConfirmDialogInterface
@@ -34,16 +36,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
         binding.lifecycleOwner = this
 
         binding.snsViewModel = viewModel
-
-        //내 sns 정보 view에 설정
-        val snsIdx = GaramgaebiApplication.sSharedPreferences.getInt("SNSIdxForEdit",-1)
-        val originAddress = GaramgaebiApplication.sSharedPreferences.getString("SNSAddressForEdit","Error")
-        val originType = GaramgaebiApplication.sSharedPreferences.getString("SNSTypeForEdit","Error")
-        Log.d("go_edit_sns",snsIdx.toString()+ originAddress + originType)
-
-        viewModel.snsIdx = snsIdx
-        viewModel.snsType.value = originType
-        viewModel.snsAddress.value = originAddress
 
         var viewFirst : Boolean = true
 
@@ -93,111 +85,153 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
         })
 
+        //내 sns 정보 view에 설정
+        val snsIdx = GaramgaebiApplication.sSharedPreferences.getInt("SNSIdxForEdit",-1)
+        var originAddress = GaramgaebiApplication.sSharedPreferences.getString("SNSAddressForEdit","Error")
+        val originType = GaramgaebiApplication.sSharedPreferences.getString("SNSTypeForEdit","Error")
+        Log.d("go_edit_sns",snsIdx.toString()+ originAddress + originType)
 
-        binding.activitySnsSaveBtn.setOnClickListener {
-            //편집 저장하기
-            viewModel.patchSNSInfo()
-            (activity as ContainerActivity).onBackPressed()
 
-            Log.d("sns_edit_button","success")
+        if (originType != null) {
+            if(originType.equals("인스타그램") || originType.equals("인스타") ||originType.lowercase().equals("instagram") || originType.lowercase().equals("insta"))
+                if (originAddress != null) {
+                    originAddress = originAddress.substring(1)
+                    binding.instaChar.text = "@"
+                    binding.activitySnsEtLinkDesc.setPadding(70, 0, 0, 0)
+                    binding.instaChar.visibility = View.VISIBLE
+                    viewModel.addressInputDesc.value =
+                        " " + getString(R.string.sns_add_link_desc)
+                }
         }
-        binding.activitySnsRemoveBtn.setOnClickListener {
-            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
-                when (it) {
-                    -1 -> {
 
-                        Log.d("sns_edit_button","close")
+        viewModel.snsIdx = snsIdx
+        viewModel.snsType.value = originType
+        viewModel.snsAddress.value = originAddress
 
-                    }
-                    1 -> {
-                        //경력 삭제
-                        viewModel.deleteSNSInfo()
-                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                            when(it2){
-                                1 -> {
+
+        disposables
+            .add(
+                binding
+                    .activitySnsSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.patchSNSInfo()
+                        Log.d("sns_add_button","success")
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+
+        disposables
+            .add(
+                binding
+                    .activitySnsRemoveBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                            when (it) {
+                                -1 -> {
 
                                     Log.d("sns_edit_button","close")
 
                                 }
-                                2->{
-                                    (activity as ContainerActivity).onBackPressed()
+                                1 -> {
+                                    //경력 삭제
+                                    viewModel.deleteSNSInfo()
+                                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                                        when(it2){
+                                            1 -> {
+
+                                                Log.d("sns_edit_button","close")
+
+                                            }
+                                            2->{
+                                                (activity as ContainerActivity).onBackPressed()
+                                            }
+                                        }
+                                    }
+                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                                 }
                             }
                         }
                         // 알림창이 띄워져있는 동안 배경 클릭 막기
-                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-                    }
-                }
-            }
-            // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            Log.d("sns_edit_button","success")
-        }
-        //dialog 띄우기
-        binding.activitySnsEtName.isFocusable = false
-        binding.activitySnsEtName.isFocusableInTouchMode = false
-
+                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                        Log.d("sns_edit_button","success")
+                    }, { it.printStackTrace() })
+            )
         var editType : Boolean = true
 
-        binding.activitySnsEtName.setOnClickListener {
+        disposables
+            .add(
+                binding
+                    .activitySnsEtName
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
 
-            if(editType) {
+                        if(editType) {
 
-                val orderBottomDialogFragment: SnsOrderBottomDialogFragment =
-                    SnsOrderBottomDialogFragment {
-                        when (it) {
-                            0 -> {
-                                Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "인스타그램"
-                                viewModel.addressInputDesc.value =
-                                    " " + getString(R.string.sns_add_link_desc)
-                                //viewModel.linkState.value =
-                                getString(R.string.sns_type_dialog_insta_state)
-                            }
-                            1 -> {
-                                Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "블로그"
-                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+                            val orderBottomDialogFragment: SnsOrderBottomDialogFragment =
+                                SnsOrderBottomDialogFragment {
+                                    when (it) {
+                                        0 -> {
+                                            Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "인스타그램"
+                                            viewModel.addressInputDesc.value =
+                                                " " + getString(R.string.sns_add_link_desc)
+                                            //viewModel.linkState.value =
+                                            getString(R.string.sns_type_dialog_insta_state)
+                                        }
+                                        1 -> {
+                                            Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "블로그"
+                                            viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
 //                                viewModel.addressInputDesc.value =
 //                                    getString(R.string.sns_type_dialog_blog_desc)
 //                                viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_blog_state)
-                            }
-                            2 -> {
-                                Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "깃허브"
-                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+                                            getString(R.string.sns_type_dialog_blog_state)
+                                        }
+                                        2 -> {
+                                            Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "깃허브"
+                                            viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
 //                                viewModel.addressInputDesc.value =
 //                                    getString(R.string.sns_type_dialog_github_desc)
 //                                viewModel.linkState.value =
 //                                    getString(R.string.sns_type_dialog_github_state)
 
-                            }
-                            3 -> {
-                                Toast.makeText(activity, "직접 입력", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = ""
-                                viewModel.typeInputDesc.value =
-                                    getString(R.string.sns_type_dialog_etc_desc)
-                                viewModel.addressInputDesc.value =
-                                    getString(R.string.sns_address_dialog_etc_desc)
+                                        }
+                                        3 -> {
+                                            Toast.makeText(activity, "직접 입력", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = ""
+                                            viewModel.typeInputDesc.value =
+                                                getString(R.string.sns_type_dialog_etc_desc)
+                                            viewModel.addressInputDesc.value =
+                                                getString(R.string.sns_address_dialog_etc_desc)
 
-                                //viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_etc_state)
-                                // fragment
-                                binding.activitySnsEtNameLength.visibility = View.VISIBLE
-                                binding.activitySnsEtName.isFocusable = true
-                                binding.activitySnsEtName.isFocusableInTouchMode = true
+                                            //viewModel.linkState.value =
+                                            getString(R.string.sns_type_dialog_etc_state)
+                                            // fragment
+                                            binding.activitySnsEtNameLength.visibility = View.VISIBLE
+                                            binding.activitySnsEtName.isFocusable = true
+                                            binding.activitySnsEtName.isFocusableInTouchMode = true
 
-                                editType = false
-                            }
+                                            editType = false
+                                        }
+                                    }
+
+                                }
+                            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+                        }else{
+
                         }
+                    }, { it.printStackTrace() })
+            )
 
-                    }
-                orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-            }else{
-
-            }
-        }
+        binding.activitySnsEtName.isFocusable = false
+        binding.activitySnsEtName.isFocusableInTouchMode = false
 
 
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->

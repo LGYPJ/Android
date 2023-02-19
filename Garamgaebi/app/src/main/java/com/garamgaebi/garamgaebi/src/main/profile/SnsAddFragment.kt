@@ -17,6 +17,8 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
@@ -83,11 +85,20 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
 
 
-        binding.activitySnsSaveBtn.setOnClickListener {
-            viewModel.postSNSInfo()
-            (activity as ContainerActivity).onBackPressed()
-            Log.d("sns_add_button","success")
-        }
+        disposables
+            .add(
+                binding
+                    .activitySnsSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postSNSInfo()
+                        Log.d("sns_add_button","success")
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+
+
         viewModel.linkState.value = getString(R.string.sns_type_dialog_etc_state)
         binding.activitySnsEtLinkDesc.setOnClickListener {
         }
@@ -97,64 +108,73 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         binding.activitySnsEtName.isFocusableInTouchMode = false
 
         var editType : Boolean = true
-        binding.activitySnsEtName.setOnClickListener {
+        disposables
+            .add(
+                binding
+                    .activitySnsEtName
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
 
-            if(editType) {
-                val orderBottomDialogFragment: SnsOrderBottomDialogFragment =
-                    SnsOrderBottomDialogFragment {
-                        when (it) {
-                            0 -> {
-                                Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "인스타그램"
-                                viewModel.addressInputDesc.value =
-                                    " " + getString(R.string.sns_add_link_desc)
-                                //viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_insta_state)
-                            }
-                            1 -> {
-                                Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "블로그"
-                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
-                                //viewModel.addressInputDesc.value =
-                                    getString(R.string.sns_type_dialog_blog_desc)
-                                //viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_blog_state)
-                            }
-                            2 -> {
-                                Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = "깃허브"
-                                viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
-                                //viewModel.addressInputDesc.value =
-                                    getString(R.string.sns_type_dialog_github_desc)
-                                //viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_github_state)
+                        if(editType) {
 
-                            }
-                            3 -> {
-                                Toast.makeText(activity, "직접 입력", Toast.LENGTH_SHORT).show()
-                                viewModel.snsType.value = ""
-                                viewModel.typeInputDesc.value =
-                                    getString(R.string.sns_type_dialog_etc_desc)
-                                viewModel.addressInputDesc.value =
-                                    getString(R.string.sns_address_dialog_etc_desc)
+                            val orderBottomDialogFragment: SnsOrderBottomDialogFragment =
+                                SnsOrderBottomDialogFragment {
+                                    when (it) {
+                                        0 -> {
+                                            Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "인스타그램"
+                                            viewModel.addressInputDesc.value =
+                                                " " + getString(R.string.sns_add_link_desc)
+                                            //viewModel.linkState.value =
+                                            getString(R.string.sns_type_dialog_insta_state)
+                                        }
+                                        1 -> {
+                                            Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "블로그"
+                                            viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+//                                viewModel.addressInputDesc.value =
+//                                    getString(R.string.sns_type_dialog_blog_desc)
+//                                viewModel.linkState.value =
+                                            getString(R.string.sns_type_dialog_blog_state)
+                                        }
+                                        2 -> {
+                                            Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = "깃허브"
+                                            viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
+//                                viewModel.addressInputDesc.value =
+//                                    getString(R.string.sns_type_dialog_github_desc)
+//                                viewModel.linkState.value =
+//                                    getString(R.string.sns_type_dialog_github_state)
 
-                                //viewModel.linkState.value =
-                                    getString(R.string.sns_type_dialog_etc_state)
-                                // fragment
-                                binding.activitySnsEtNameLength.visibility = View.VISIBLE
-                                binding.activitySnsEtName.isFocusable = true
-                                binding.activitySnsEtName.isFocusableInTouchMode = true
+                                        }
+                                        3 -> {
+                                            Toast.makeText(activity, "직접 입력", Toast.LENGTH_SHORT).show()
+                                            viewModel.snsType.value = ""
+                                            viewModel.typeInputDesc.value =
+                                                getString(R.string.sns_type_dialog_etc_desc)
+                                            viewModel.addressInputDesc.value =
+                                                getString(R.string.sns_address_dialog_etc_desc)
 
-                                editType = false
-                            }
+                                            //viewModel.linkState.value =
+                                            getString(R.string.sns_type_dialog_etc_state)
+                                            // fragment
+                                            binding.activitySnsEtNameLength.visibility = View.VISIBLE
+                                            binding.activitySnsEtName.isFocusable = true
+                                            binding.activitySnsEtName.isFocusableInTouchMode = true
+
+                                            editType = false
+                                        }
+                                    }
+
+                                }
+                            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+                        }else{
+
                         }
+                    }, { it.printStackTrace() })
+            )
 
-                    }
-                orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-            }else{
-
-            }
-        }
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false

@@ -65,7 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grayAe"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:visibility="visible"
             android:text='@{viewModel.institution.length() +"/22"}'
             app:layout_constraintEnd_toEndOf="@id/activity_education_et_institutionDesc"
@@ -110,7 +111,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grayAe"
-            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textSize="12sp"
             android:visibility="visible"
             android:text='@{viewModel.major.length() +"/22"}'
             app:layout_constraintEnd_toEndOf="@id/activity_education_et_majorDesc"

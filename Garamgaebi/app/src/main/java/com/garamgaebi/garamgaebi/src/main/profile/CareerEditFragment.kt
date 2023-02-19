@@ -16,6 +16,8 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit),ConfirmDialogInterface{
     private lateinit var callback: OnBackPressedCallback
@@ -127,8 +129,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.startDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.startDate.value = (arr[0] + "." + arr[1])
+                            val arr = it.split("/")
+                            viewModel.startDate.value = (arr[0] + "/" + arr[1])
                             viewModel.startFocusing.value = false
                         }
                     }
@@ -157,16 +159,16 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.endDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.endDate.value = arr[0] + "." + arr[1]
+                            val arr = it.split("/")
+                            viewModel.endDate.value = arr[0] + "/" + arr[1]
                             if (GaramgaebiFunction().checkNow(it)) {
                                 binding.activityCareerCheckbox.isChecked = true
                                 binding.activityCareerEtEndPeriod.setText("현재")
                                 viewModel.isWorking.value = "TRUE"
                             } else {
                                 binding.activityCareerCheckbox.isChecked = false
-                                binding.activityCareerEtEndPeriod.setText(arr[0] + "." + arr[1])
-                                viewModel.endDate.value = (arr[0] + "." + arr[1])
+                                binding.activityCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                viewModel.endDate.value = (arr[0] + "/" + arr[1])
                                 viewModel.isWorking.value = "FALSE"
                                 Log.d("api_career_이상,", viewModel.isWorking.value!!)
                             }
@@ -188,69 +190,95 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
         //유효성 끝
 
-        binding.activityCareerCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isWorking.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isWorking.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-        binding.activityCareerCheckboxRl.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isWorking.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isWorking.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-
-        binding.activityCareerRemoveBtn.setOnClickListener {
-            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
-                when (it) {
-                -1 -> {
-
-                    Log.d("career_remove_button","close")
-
-                }
-                1 -> {
-                    //경력 삭제
-                    viewModel.deleteCareerInfo()
-                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                        when(it2){
-                            1 -> {
-
-                                Log.d("career_remove_button","close")
-
-                            }
-                            2->{
-                                (activity as ContainerActivity).onBackPressed()
-                            }
+        disposables
+            .add(
+                binding
+                    .activityCareerSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postCareerInfo()
+                        Log.d("career_add_button","success"+viewModel.endDate.value.toString())
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityCareerCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isWorking.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isWorking.value = "FALSE"
+                            viewModel.checkBox.value = false
                         }
-                    }
-                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityCareerCheckboxRl
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isWorking.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isWorking.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityCareerRemoveBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                                when (it) {
+                                    -1 -> {
+
+                                        Log.d("career_remove_button","close")
+
+                                    }
+                                    1 -> {
+                                        //경력 삭제
+                                        viewModel.deleteCareerInfo()
+                                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                                            when(it2){
+                                                1 -> {
+
+                                                    Log.d("career_remove_button","close")
+
+                                                }
+                                                2->{
+                                                    (activity as ContainerActivity).onBackPressed()
+                                                }
+                                            }
+                                        }
+                                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
 
 
-                }
-            }
-            }
-            // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            Log.d("career_remove_button","success")
-        }
-        binding.activityCareerSaveBtn.setOnClickListener {
-            //경력 편집 저장
-            viewModel.patchCareerInfo()
-            (activity as ContainerActivity).onBackPressed()
-            Log.d("career_add_button","success")
-        }
+                                    }
+                                }
+                            }
+                            // 알림창이 띄워져있는 동안 배경 클릭 막기
+                            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                            Log.d("career_remove_button","success")
+                    }, { it.printStackTrace() })
+            )
 
         //기존의 정보 입력이 되어 있기에 첫 입력 예외 x
         viewModel.companyFirst.value = false

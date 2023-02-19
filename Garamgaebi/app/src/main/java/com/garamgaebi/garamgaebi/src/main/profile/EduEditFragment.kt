@@ -15,6 +15,8 @@ import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding>(R.layout.fragment_profile_education_edit),ConfirmDialogInterface {
     @SuppressLint("ClickableViewAccessibility")
@@ -107,69 +109,6 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             majorHint.value = getString(R.string.caution_input_22)
         }
 
-        //유효성 끝
-        binding.activityEducationCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isLearning.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-        binding.activityEducationCheckboxRl.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
-                viewModel.endDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.checkBox.value = true
-            }else{
-                viewModel.endDate.value = ""
-                viewModel.isLearning.value = "FALSE"
-                viewModel.checkBox.value = false
-            }
-        }
-
-        binding.activityEducationRemoveBtn.setOnClickListener {
-            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
-                when (it) {
-                    -1 -> {
-
-                        Log.d("edu_remove_button","close")
-
-                    }
-                    1 -> {
-                        //경력 삭제
-                        viewModel.deleteEducationInfo()
-                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                            when(it2){
-                                1 -> {
-
-                                    Log.d("edu_remove_button","close")
-
-                                }
-                                2->{
-                                    (activity as ContainerActivity).onBackPressed()
-                                }
-                            }
-                        }
-                        // 알림창이 띄워져있는 동안 배경 클릭 막기
-                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-                    }
-                }
-            }
-            // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            Log.d("edu_remove_button","success")
-        }
-        binding.activityEducationSaveBtn.setOnClickListener {
-            //경력 편집 저장
-            viewModel.patchEducationInfo()
-            (activity as ContainerActivity).onBackPressed()
-            Log.d("edu_add_button","success")
-        }
-
 
         //시작년월 입력감지
         viewModel.startDate.observe(viewLifecycleOwner, Observer {
@@ -222,8 +161,8 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.startDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.startDate.value = (arr[0] + "." + arr[1])
+                            val arr = it.split("/")
+                            viewModel.startDate.value = (arr[0] + "/" + arr[1])
                             viewModel.startFocusing.value = false
                         }
                     }
@@ -252,16 +191,16 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 val orderBottomDialogFragment: DatePickerDialogFragment? =
                     viewModel.endDate.value?.let { it1 ->
                         DatePickerDialogFragment(it1) {
-                            val arr = it.split(".")
-                            viewModel.endDate.value = arr[0] + "." + arr[1]
+                            val arr = it.split("/")
+                            viewModel.endDate.value = arr[0] + "/" + arr[1]
                             if (GaramgaebiFunction().checkNow(it)) {
                                 binding.activityEducationCheckbox.isChecked = true
                                 binding.activityEducationEtEndPeriod.setText("현재")
                                 viewModel.isLearning.value = "TRUE"
                             } else {
                                 binding.activityEducationCheckbox.isChecked = false
-                                binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
-                                viewModel.endDate.value = (arr[0] + "." + arr[1])
+                                binding.activityEducationEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                viewModel.endDate.value = (arr[0] + "/" + arr[1])
                                 viewModel.isLearning.value = "FALSE"
                             }
                             viewModel.endFocusing.value = false
@@ -275,7 +214,99 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             Log.d("career_showEnd_true","히히")
         })
 
+        //유효성 끝
 
+
+        disposables
+            .add(
+                binding
+                    .activityEducationSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.postEducationInfo()
+                        Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityEducationCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isLearning.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isLearning.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityEducationCheckboxRl
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if (viewModel.checkBox.value == false) {
+                            viewModel.endDate.value = "현재"
+                            viewModel.isLearning.value = "TRUE"
+                            viewModel.checkBox.value = true
+                        } else {
+                            viewModel.endDate.value = ""
+                            viewModel.isLearning.value = "FALSE"
+                            viewModel.checkBox.value = false
+                        }
+                    }, { it.printStackTrace() })
+            )
+
+        disposables
+            .add(
+                binding
+                    .activityEducationRemoveBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                            when (it) {
+                                -1 -> {
+
+                                    Log.d("edu_remove_button","close")
+
+                                }
+                                1 -> {
+                                    //경력 삭제
+                                    viewModel.deleteEducationInfo()
+                                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                                        when(it2){
+                                            1 -> {
+
+                                                Log.d("edu_remove_button","close")
+
+                                            }
+                                            2->{
+                                                (activity as ContainerActivity).onBackPressed()
+                                            }
+                                        }
+                                    }
+                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+
+
+                                }
+                            }
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                        Log.d("edu_remove_button","success")
+                    }, { it.printStackTrace() })
+            )
 
         //기존의 정보 입력이 되어 있기에 첫 입력 예외 x
         viewModel.institutionFirst.value = false

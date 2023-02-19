@@ -19,6 +19,8 @@ import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EditTextViewModel
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal) {
@@ -79,43 +81,55 @@ class WithdrawalFragment :
 
 
         //동의 체크박스 클릭 이벤트
-        binding.activityWithdrawalTvCheckboxDesc.setOnClickListener {
-            var preCheck = binding.activityWithdrawalCheckbox.isChecked
-            viewModel.agree.value = !preCheck
+        disposables
+            .add(
+                binding
+                    .activityWithdrawalTvCheckboxDesc
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        var preCheck = binding.activityWithdrawalCheckbox.isChecked
+                        viewModel.agree.value = !preCheck
+                    }, { it.printStackTrace() })
+            )
+        disposables
+            .add(
+                binding
+                    .activityWithdrawalEtOption
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        viewModel.categoryFocusing.value = true
+                        viewModel.categoryFirst.value = false
 
-        }
+                        val orderBottomDialogFragment: WithdrawalOrderBottomDialogFragment = WithdrawalOrderBottomDialogFragment {
+                            when (it) {
+                                0 -> {
+                                    Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
+                                    binding.activityWithdrawalEtOption.setText("이용이 불편해서")
+                                    viewModel.categoryFocusing.value = false
+                                }
+                                1 -> {
+                                    Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
+                                    binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
+                                    viewModel.categoryFocusing.value = false
+                                }
+                                2 -> {
+                                    Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
+                                    binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
+                                    viewModel.categoryFocusing.value = false
+                                }
+                                3 -> {
+                                    Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
+                                    binding.activityWithdrawalEtOption.setText("기타")
+                                    viewModel.categoryFocusing.value = false
+                                }
 
-        binding.activityWithdrawalEtOption.setOnClickListener {
-            viewModel.categoryFocusing.value = true
-            viewModel.categoryFirst.value = false
-
-            val orderBottomDialogFragment: WithdrawalOrderBottomDialogFragment = WithdrawalOrderBottomDialogFragment {
-                when (it) {
-                    0 -> {
-                        Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
-                        binding.activityWithdrawalEtOption.setText("이용이 불편해서")
-                        viewModel.categoryFocusing.value = false
-                    }
-                    1 -> {
-                        Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
-                        binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
-                        viewModel.categoryFocusing.value = false
-                    }
-                    2 -> {
-                        Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
-                        binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
-                        viewModel.categoryFocusing.value = false
-                    }
-                    3 -> {
-                        Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
-                        binding.activityWithdrawalEtOption.setText("기타")
-                        viewModel.categoryFocusing.value = false
-                    }
-
-                }
-            }
-            orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
-        }
+                            }
+                        }
+                        orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
+                    }, { it.printStackTrace() })
+            )
 
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
