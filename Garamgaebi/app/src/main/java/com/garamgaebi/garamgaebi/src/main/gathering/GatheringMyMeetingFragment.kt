@@ -36,9 +36,6 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
-
-       
-
         val viewModel by viewModels<GatheringViewModel>()
 
         viewModel.getGatheringProgramReady(myMemberIdx)
@@ -69,11 +66,10 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     override fun onMoreClick(position: Int, v: View) {
                         val program = it.result[position].programIdx
                         val type = it.result[position].type
-                        with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                            putInt("programIdx", program)
-                            putString("type", type)
-                            apply()
-                        }
+                        GaramgaebiApplication.sSharedPreferences.edit()
+                            .putInt("programIdx", program)
+                            .putString("type", type)
+                            .apply()
                         showPopupScheduled(v)
                     }
                 })
@@ -102,11 +98,10 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     override fun onMoreClick(position: Int, v: View) {
                         val program = it.result[position].programIdx
                         val type = it.result[position].type
-                        with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                            putInt("programIdx", program)
-                            putString("type", type)
-                            apply()
-                        }
+                        GaramgaebiApplication.sSharedPreferences.edit()
+                            .putInt("programIdx", program)
+                            .putString("type", type)
+                            .apply()
                         showPopupLast(v)
                     }
                 })

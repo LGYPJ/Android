@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_width="wrap_content"
-                        android:text="예정된 세미나가 없습니다\n다음 세미나를 기대해주세요:)"
+                        android:text="@string/no_seminar"
                         android:textAlignment="center"
                         android:textColor="@color/home_seminar_blank"
                         android:textSize="14sp"
@@ -290,7 +290,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_width="wrap_content"
-                        android:text="예정된 네트워킹이 없습니다\n다음 네트워킹을 기대해주세요:)"
+                        android:text="@string/no_networking"
                         android:textAlignment="center"
                         android:textColor="@color/home_networking_blank"
                         android:textSize="14sp"
@@ -307,16 +307,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/logo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
                 <TextView
                     android:id="@+id/fragment_home_tv_user"
                     android:layout_height="wrap_content"

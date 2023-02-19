@@ -2,7 +2,11 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+<<<<<<< HEAD
     id 'org.jetbrains.kotlin.android'
+=======
+    id 'kotlin-parcelize'
+>>>>>>> 037bdd93adf06923b12aada584bed26192b16928
 }
 
 Properties properties = new Properties()

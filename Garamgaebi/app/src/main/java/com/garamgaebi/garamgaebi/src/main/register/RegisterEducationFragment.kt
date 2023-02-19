@@ -9,12 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.REGISTER_CAREER
-import com.garamgaebi.garamgaebi.common.REGISTER_COMPLETE
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEducationBinding
 import com.garamgaebi.garamgaebi.src.main.profile.DatePickerDialogFragment
+import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 
@@ -23,11 +21,15 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel by viewModels<RegisterViewModel>()
+        val viewModel by viewModels<EducationViewModel>()
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
+        binding.viewModel = viewModel
 
         binding.fragmentEducationSaveBtn.setOnClickListener {
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putBoolean("isCareer", false)
+                .apply()
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentEducationTvGoCareer.setOnClickListener {
@@ -35,98 +37,146 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             registerActivity.setFragment(REGISTER_CAREER)
         }
         // 유효성 확인
+        // 유효성 확인
+
+        //교육 기관 입력 감지
         viewModel.institution.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.isInstitutionValid.value = it.length < 22 && it.isNotEmpty()
-            Log.d("career_company_true",viewModel.isCompanyValid.value.toString())
+            viewModel.institutionIsValid.value = it.length < 22 && it.isNotEmpty()
+            Log.d("edu_institution_true",viewModel.institutionIsValid.value.toString())
         })
+
+        //전공 입력 감지
         viewModel.major.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.isMajorValid.value = it.length < 22 && it.isNotEmpty()
+            viewModel.majorIsValid.value = it.length < 22 && it.isNotEmpty()
 
-            Log.d("career_position_true",viewModel.isPositionValid.value.toString())
+            Log.d("edu_major_true",viewModel.majorIsValid.value.toString())
         })
-        viewModel.eduStartDate.observe(viewLifecycleOwner, Observer {
+
+        //시작년월 입력감지
+        viewModel.startDate.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.isEduStartDateValid.value = it.isNotEmpty()
+            viewModel.startDateIsValid.value = it.isNotEmpty()
 
-            if(viewModel.eduEndDate.value?.isNotEmpty() == true) {
-                if (it < viewModel.eduEndDate.value.toString()) {
-                    viewModel.isEduStartDateValid.value = true
-                    viewModel.isEduEndDateValid.value = true
+            if(viewModel.endDate.value?.isNotEmpty() == true) {
+                if (it < viewModel.endDate.value.toString()) {
+                    viewModel.startDateIsValid.value = true
+                    viewModel.endDateIsValid.value = true
                 } else {
-                    viewModel.isEduStartDateValid.value = false
-                    viewModel.isEduEndDateValid.value = false
+                    viewModel.startDateIsValid.value = false
+                    viewModel.endDateIsValid.value = false
                 }
             }
-            Log.d("career_startDate_true",viewModel.isEduStartDateValid.value.toString())
+            Log.d("edu_startDate_true",viewModel.startDateIsValid.value.toString())
         })
 
-        viewModel.eduEndDate.observe(viewLifecycleOwner, Observer {
+        //종료년월 입력감지
+        viewModel.endDate.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.isEduEndDateValid.value = it.isNotEmpty()
+            viewModel.endDateIsValid.value = it.isNotEmpty()
 
-            if(viewModel.eduStartDate.value?.isNotEmpty() == true) {
-                if (it > viewModel.eduStartDate.value.toString()) {
-                    viewModel.isEduEndDateValid.value = true
-                    viewModel.isEduStartDateValid.value = true
+            if(viewModel.startDate.value?.isNotEmpty() == true) {
+                if (it > viewModel.startDate.value.toString()) {
+                    viewModel.endDateIsValid.value = true
+                    viewModel.startDateIsValid.value = true
                 } else {
-                    viewModel.isEduEndDateValid.value = false
-                    viewModel.isEduStartDateValid.value = false
+                    viewModel.endDateIsValid.value = false
+                    viewModel.startDateIsValid.value = false
                 }
             }
 
-            Log.d("career_endDate_true",viewModel.isCareerEndDateValid.value.toString())
+            Log.d("edu_endDate_true",viewModel.endDateIsValid.value.toString())
         })
 
-        //재직 정보 date picker
-        binding.activityEducationEtStartPeriod.setOnClickListener {
-            viewModel.careerStartDateFocusing.value = true
+        //시작년월 달력 show 여부 감지
+        viewModel.showStart.observe(viewLifecycleOwner, Observer {
+            binding.viewModel = viewModel
+            if(it == true) {
+                binding.fragmentEducationEtInstitution.clearFocus()
+                binding.fragmentEducationEtMajor.clearFocus()
+                binding.activityEducationEtStartPeriod.clearFocus()
+                binding.activityEducationEtEndPeriod.clearFocus()
 
-            val orderBottomDialogFragment: DatePickerDialogFragment? =
-                viewModel.careerStartDate.value?.let { it1 ->
-                    DatePickerDialogFragment(it1) {
-                        val arr = it.split(".")
-                        binding.activityEducationEtStartPeriod.setText(arr[0]+"."+arr[1])
-                    }
-                }
-            orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
-        }
-        binding.activityEducationEtEndPeriod.setOnClickListener {
-            viewModel.careerEndDateFocusing.value = true
-            val orderBottomDialogFragment: DatePickerDialogFragment? =
-                viewModel.careerEndDate.value?.let { it1 ->
-                    DatePickerDialogFragment(it1) {
-                        val arr = it.split(".")
-                        viewModel.careerEndDate.value = arr[0] + "." + arr[1]
-                        if (GaramgaebiFunction().checkNow(it)) {
-                            binding.activityEducationCheckbox.isChecked = true
-                            binding.activityEducationEtEndPeriod.text = "현재"
-                            viewModel.isWorking.value = "TRUE"
-                        } else {
-                            binding.activityEducationCheckbox.isChecked = false
-                            binding.activityEducationEtEndPeriod.text = arr[0] + "." + arr[1]
-                            viewModel.careerEndDate.value = (arr[0] + "." + arr[1])
-                            viewModel.isWorking.value = "FALSE"
+                viewModel.startFocusing.value = true
+                viewModel.startFirst.value = false
+                val orderBottomDialogFragment: DatePickerDialogFragment? =
+                    viewModel.startDate.value?.let { it1 ->
+                        DatePickerDialogFragment(it1) {
+                            val arr = it.split(".")
+                            viewModel.startDate.value = (arr[0] + "." + arr[1])
+                            viewModel.startFocusing.value = false
                         }
                     }
-                }
-            orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
-
-        }
-        binding.activityEducationCheckboxCl.setOnClickListener {
-            if(viewModel.eduCheckBox.value == false) {
-                viewModel.eduEndDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.eduCheckBox.value = true
+                orderBottomDialogFragment?.show(
+                    parentFragmentManager,
+                    orderBottomDialogFragment.tag
+                )
+                viewModel.showStart.value = false
             }else{
-                viewModel.eduEndDate.value = ""
+                Log.d("career_showStart_true","no")
+            }
+            Log.d("career_showStart_true","히히")
+        })
+
+        //종료년월 갈력 show 감지
+        viewModel.showEnd.observe(viewLifecycleOwner, Observer {
+            binding.viewModel = viewModel
+            if(it == true) {
+                binding.fragmentEducationEtInstitution.clearFocus()
+                binding.fragmentEducationEtMajor.clearFocus()
+                binding.activityEducationEtStartPeriod.clearFocus()
+                binding.activityEducationEtEndPeriod.clearFocus()
+
+                viewModel.endFocusing.value = true
+                viewModel.endFirst.value = false
+                val orderBottomDialogFragment: DatePickerDialogFragment? =
+                    viewModel.endDate.value?.let { it1 ->
+                        DatePickerDialogFragment(it1) {
+                            val arr = it.split(".")
+                            viewModel.endDate.value = arr[0] + "." + arr[1]
+                            if (GaramgaebiFunction().checkNow(it)) {
+                                binding.activityEducationCheckbox.isChecked = true
+                                binding.activityEducationEtEndPeriod.setText("현재")
+                                viewModel.isLearning.value = "TRUE"
+                            } else {
+                                binding.activityEducationCheckbox.isChecked = false
+                                binding.activityEducationEtEndPeriod.setText(arr[0] + "." + arr[1])
+                                viewModel.endDate.value = (arr[0] + "." + arr[1])
+                                viewModel.isLearning.value = "FALSE"
+                            }
+                            viewModel.endFocusing.value = false
+                        }
+                    }
+                orderBottomDialogFragment?.show(parentFragmentManager, orderBottomDialogFragment.tag)
+                viewModel.showEnd.value = false
+            }else{
+                Log.d("career_showEnd_true","하하")
+            }
+            Log.d("career_showEnd_true","히히")
+        })
+
+        binding.activityEducationCheckboxCl.setOnClickListener {
+            if(viewModel.checkBox.value == false) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+            }else{
+                viewModel.endDate.value = ""
                 viewModel.isLearning.value = "FALSE"
-                viewModel.eduCheckBox.value = false
+                viewModel.checkBox.value = false
             }
         }
+        with(viewModel){
+            institutionHint.value = getString(R.string.register_input_institution_desc)
+            majorHint.value = getString(R.string.register_input_major)
+
+            institutionState.value = getString(R.string.caution_input_22)
+            majorHint.value = getString(R.string.caution_input_22)
+        }
+
 
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()

@@ -95,8 +95,7 @@
     <!-- Register_NickName -->
     <string name="register_nickname_desc">가람개비에서 사용할\n당신의 닉네임을 설정해주세요</string>
     <string name="register_input_nickname_desc">닉네임을 입력해주세요 (최대 8글자)</string>
-    <string name="register_nickname_length">8자 이내로 입력해주세요</string>
-    <string name="register_nickname_invalid">사용할 수 없는 닉네임입니다</string>
+    <string name="register_nickname_invalid">8자이내, 한/영문, 숫자만 사용 가능합니다</string>
 
     <!-- Register_Authentication-->
     <string name="school_certification">가천대생 인증을 진행해주세요</string>
@@ -140,7 +139,7 @@
 
     <!-- Register_Complete -->
     <string name="register_complete">가입이\n완료되었습니다</string>
-    <string name="register_welcome_user">사용자님, 환영합니다</string>
+    <string name="register_welcome_user">환영합니다</string>
     <string name="register_agree_all">전체 동의하기</string>
     <string name="register_agree_over_14">(필수) 만 14세 이상이에요</string>
     <string name="register_agree_term">(필수) 이용약관 및 개인정보수집이용 동의</string>
@@ -216,10 +215,12 @@
     <!-- seminar -->
     <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
     <string name="seminar_select_bank">은행을 선택해주세요</string>
-    <string name="no_seminar">이번 달은 세미나가 없습니다</string>
+    <string name="no_seminar">예정된 세미나가 없습니다\n다음 세미나를 기대해주세요:)</string>
+    <string name="no_seminar_this_month">이번 달은 세미나가 없습니다</string>
+    <string name="no_seminar_scheduled">예정된 세미나가 없습니다</string>
+    <string name="no_seminar_last">마감된 세미나가 없습니다</string>
     <string name="scheduled_seminar">예정된 세미나</string>
     <string name="last_seminar">마감된 세미나</string>
-    <string name="no_last_seminar">마감된 세미나가 없습니다</string>
 
     <string name="seminar_name">신디</string>
     <string name="seminar_job">재학생</string>
@@ -271,7 +272,10 @@
     <string name="networking_icebreaking_info1">아이스브레이킹 참여는</string>
     <string name="networking_icebreaking_info2">네트워킹 당일 정해진 시간에 오픈합니다.</string>
     <string name="networking_apply">참가하기</string>
-    <string name="no_networking">이번 달은 네트워킹이 없습니다</string>
+    <string name="no_networking">예정된 네트워킹이 없습니다\n다음 네트워킹을 기대해주세요:)</string>
+    <string name="no_networking_this_month">이번 달은 네트워킹이 없습니다</string>
+    <string name="no_networking_scheduled">예정된 네트워킹이 없습니다</string>
+    <string name="no_networking_last">마감된 네트워킹이 없습니다</string>
     <string name="scheduled_networking">예정된 네트워킹</string>
     <string name="last_networking">지난 네트워킹</string>
     <string name="networking_icebreaking_active1">네트워킹에 함께 참여한 사람들과</string>
@@ -286,5 +290,7 @@
     <string name="last_meeting">지난 모임</string>
     <string name="networking_this_month">이번 달 네트워킹</string>
     <string name="seminar_this_month">이번 달 세미나</string>
+    <string name="no_my_meeting_scheduled">예정된 내 모임이 없습니다</string>
+    <string name="no_my_meeting_last">지난 내 모임이 없습니다</string>
 
 </resources>

@@ -27,7 +27,7 @@ class NetworkingGameViewModel: ViewModel() {
     //memberIdx
     private val memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)
     //currentIdx
-    private val currentIdx = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+    //private val currentIdx = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
 
     private val gameRepository = GameRepository()
 
@@ -78,17 +78,15 @@ class NetworkingGameViewModel: ViewModel() {
     val patchCurrent : LiveData<GameCurrentIdxResponse>
     get() = _patchCurrent
 
-    private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+    //private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
 
-
-    val number : MutableLiveData<Int?> = MutableLiveData(-1)
 
     // room 조회
     fun getRoomId(){
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.Main){
             val response = gameRepository.getGameRoom(20)
             if(response.isSuccessful){
-                _getRoom.postValue(response.body())
+                _getRoom.value = response.body()
             }
             else{
                 Log.d("error", response.message())
@@ -98,12 +96,12 @@ class NetworkingGameViewModel: ViewModel() {
 
     // 게임방 유저 등록 post (game/member)
     fun postGameMember(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = roomId?.let { GameMemberPostRequest(it, memberIdx ) }
                 ?.let { gameRepository.postGameMember(it) }
             if (response != null) {
                 if(response.isSuccessful){
-                    _postMember.postValue(response.body())
+                    _postMember.value = response.body()
                     // currrentIdx 보내는 거
                     /*response.body()?.result?.currentImgIdx?.let {
                         GaramgaebiApplication.sSharedPreferences
@@ -119,12 +117,12 @@ class NetworkingGameViewModel: ViewModel() {
 
     //delete
     fun postDeleteMember(){
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.Main){
             val response = roomId?.let { GameMemberDeleteRequest(it, memberIdx) }
                 ?.let { gameRepository.deleteGameMember(it) }
             if (response != null) {
                 if(response.isSuccessful){
-                    _deleteMember.postValue(response.body())
+                    _deleteMember.value = response.body()
                 } else{
                     Log.d("error", response.message())
                 }
@@ -134,11 +132,11 @@ class NetworkingGameViewModel: ViewModel() {
 
     //image
     fun getImage(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = gameRepository.getGameImage(20)
             Log.d("img", response.body()?.result.toString())
             if(response.isSuccessful){
-                _getImg.postValue(response.body()?.result)
+                _getImg.value = response.body()?.result
             }else{
                 Log.d("error", response.message())
             }
@@ -147,12 +145,12 @@ class NetworkingGameViewModel: ViewModel() {
 
     //current-idx
     fun patchGameCurrentIdx(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = roomId?.let { GameCurrentIdxRequest(it) }
                 ?.let { gameRepository.patchGameCurrentIdx(it) }
             if (response != null) {
                 if(response.isSuccessful){
-                     _patchCurrent.postValue(response.body())
+                    _patchCurrent.value = response.body()
                 }
                 else{
                     Log.d("error", response.message())
@@ -163,13 +161,13 @@ class NetworkingGameViewModel: ViewModel() {
 
     // 현재 유저 조회 post  (game/members)
     fun getGameMember(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val response = roomId?.let { GameMemberGetRequest(it) }
                 ?.let { gameRepository.getGameMember(it) }
 
             if (response != null) {
                 if(response.isSuccessful){
-                    _getMember.postValue(response.body()?.result)
+                    _getMember.value = response.body()?.result
                     Log.d("gameMember", response.body()?.result.toString())
                     //_profile.postValue(false)
                     //number.value = number.value?.plus(1)
@@ -209,7 +207,7 @@ class NetworkingGameViewModel: ViewModel() {
             .subscribe {stompMessage ->
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
                 getGameMember()
-                postGameMember()
+
             }
     }
 

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -53,23 +54,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         // 뷰모델
         val viewModel by viewModels<HomeViewModel>()
-
-        var logo = binding.logo
-
-        val sDefaultInterpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
-
-        fun imageViewRotate(){
-            val currentDegree = logo.rotation
-            var anim = ObjectAnimator.ofFloat(logo,View.ROTATION, currentDegree, currentDegree+90f)
-            anim.interpolator = AccelerateInterpolator()
-                anim.setDuration(1000)
-
-            anim.start()
-        }
-        logo.setOnClickListener {
-            imageViewRotate()
-            viewModel.getHomeUser()
-        }
 
         // 세미나
         viewModel.getHomeSeminar()
@@ -157,8 +141,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
         })
 
-        var adapterFirst : Boolean = true
-
         // 유저 프로필 11명
         viewModel.getHomeUser()
         viewModel.user.observe(viewLifecycleOwner, Observer {
@@ -174,11 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 binding.fragmentHomeRvUser.apply {
                     adapter = userRVAdapter
                     layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                }
-
-                if(adapterFirst){
-                    binding.fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
-                    adapterFirst = false
+                    addItemDecoration(HomeUserItemDecoration(requireContext()))
                 }
                 binding.fragmentHomeClUserBlank.visibility = View.GONE
                 // 리사이클러뷰 클릭 리스너
@@ -257,13 +235,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
-            (activity as MainActivity).goGatheringSeminar()
+            Log.d("goGatheringSeminarBtn", "goGatheringSeminarBtn")
             goGathering()
+            (activity as MainActivity).goGatheringSeminar()
         }
         // 모아보기 네트워킹 이동
         binding.fragmentHomeClGatheringNetworking.setOnClickListener {
-            (activity as MainActivity).goGatheringNetworking()
+            Log.d("goGatheringNetworkingBtn", "goGatheringNetworkingBtn")
             goGathering()
+            (activity as MainActivity).goGatheringNetworking()
         }
 
         // 세미나 도움말
@@ -279,12 +259,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
     }
     private fun goGathering() {
-        val findFragment = parentFragmentManager.findFragmentByTag("gathering")
-        parentFragmentManager.fragments.forEach { fm ->
-            parentFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
-        }
-        findFragment?.let {
-            parentFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        Log.d("goGathering", "goGathering")
+        with(parentFragmentManager) {
+            beginTransaction().hide(parentFragmentManager.findFragmentByTag("home")!!)
+                .hide(parentFragmentManager.findFragmentByTag("myProfile")!!)
+                .show(parentFragmentManager.findFragmentByTag("gathering")!!).commitAllowingStateLoss()
         }
     }
 
