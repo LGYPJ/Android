@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -234,13 +235,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {
-            (activity as MainActivity).goGatheringSeminar()
+            Log.d("goGatheringSeminarBtn", "goGatheringSeminarBtn")
             goGathering()
+            (activity as MainActivity).goGatheringSeminar()
         }
         // 모아보기 네트워킹 이동
         binding.fragmentHomeClGatheringNetworking.setOnClickListener {
-            (activity as MainActivity).goGatheringNetworking()
+            Log.d("goGatheringNetworkingBtn", "goGatheringNetworkingBtn")
             goGathering()
+            (activity as MainActivity).goGatheringNetworking()
         }
 
         // 세미나 도움말
@@ -256,12 +259,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
     }
     private fun goGathering() {
-        val findFragment = parentFragmentManager.findFragmentByTag("gathering")
-        parentFragmentManager.fragments.forEach { fm ->
-            parentFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
-        }
-        findFragment?.let {
-            parentFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        Log.d("goGathering", "goGathering")
+        with(parentFragmentManager) {
+            beginTransaction().hide(parentFragmentManager.findFragmentByTag("home")!!)
+                .hide(parentFragmentManager.findFragmentByTag("myProfile")!!)
+                .show(parentFragmentManager.findFragmentByTag("gathering")!!).commitAllowingStateLoss()
         }
     }
 

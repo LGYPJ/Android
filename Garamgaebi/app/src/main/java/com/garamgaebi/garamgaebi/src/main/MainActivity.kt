@@ -115,24 +115,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     fun goGatheringSeminar() {
-        gatheringFragment!!.setVPSeminar()
         binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+        gatheringFragment!!.setVPSeminar()
     }
 
     fun goGatheringNetworking() {
-        gatheringFragment!!.setVPNetworking()
         binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
+        gatheringFragment!!.setVPNetworking()
     }
 
     private fun goGathering() {
-        val findFragment = supportFragmentManager.findFragmentByTag("gathering")
-        supportFragmentManager.fragments.forEach { fm ->
-            supportFragmentManager.beginTransaction().hide(fm).commitAllowingStateLoss()
-        }
-        findFragment?.let {
-            // 프래그먼트 상태 정보가 있는 경우, 보여주기만
-            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
-        }
+        supportFragmentManager.beginTransaction()
+            .hide(homeFragment!!)
+            .show(gatheringFragment!!)
+            .hide(myProfileFragment!!)
+            .commitAllowingStateLoss()
     }
 
     //뒤로가기 이슈 해결 코드....
