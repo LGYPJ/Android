@@ -9,6 +9,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMember
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
 import com.garamgaebi.garamgaebi.src.main.profile.DatePickerDialogFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CareerViewModel : ViewModel(){
@@ -90,12 +91,14 @@ class CareerViewModel : ViewModel(){
         get() = _add
     //Career 추가
     fun postCareerInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckAddCareer(AddCareerData(myMemberIdx,company.value.toString(), position.value.toString(), isWorking.value.toString(),
             startDate.value.toString(), endDate.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _add.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _add.value = response.body()
+                }
                 Log.d("career_add_success", response.toString() + "마지막날"+endDate.value.toString())
             }
             else {
@@ -109,12 +112,14 @@ class CareerViewModel : ViewModel(){
         get() = _patch
     //경력 수정
     fun patchCareerInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.patchCareer(CareerData(careerIdx,company.value.toString(), position.value.toString(), isWorking.value.toString(),
                 startDate.value.toString(), endDate.value.toString()))
             Log.d("career_patch_success", isWorking.value.toString())
-            if(response.isSuccessful){
-                _patch.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _patch.value = response.body()
+                }
                 Log.d("career_patch_success", response.body().toString())
             }
             else {
@@ -128,11 +133,13 @@ class CareerViewModel : ViewModel(){
         get() = _delete
     //경력 삭제
     fun deleteCareerInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.deleteCareer(careerIdx)
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _delete.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _delete.value = response.body()
+                }
                 Log.d("career_delete_success", response.body().toString())
             }
             else {

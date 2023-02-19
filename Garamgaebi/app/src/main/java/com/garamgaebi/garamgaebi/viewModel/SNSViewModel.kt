@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SNSViewModel : ViewModel(){
@@ -66,11 +67,13 @@ class SNSViewModel : ViewModel(){
         if(snsType.value.equals("인스타그램")){
             toAddress = "@$toAddress"
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckAddSNS(AddSNSData(myMemberIdx,toAddress,snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _add.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _add.value = response.body()
+                }
                 Log.d("sns_add_success", response.body().toString())
             }
             else {
@@ -90,11 +93,13 @@ class SNSViewModel : ViewModel(){
             toAddress = "@$toAddress"
 
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.patchSNS(SNSData(snsIdx,toAddress,snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _patch.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _patch.value = response.body()
+                }
                 Log.d("sns_patch_success", response.body().toString())
             }
             else {
@@ -108,11 +113,13 @@ class SNSViewModel : ViewModel(){
         get() = _delete
     //SNS 삭제
     fun deleteSNSInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.deleteSNS(snsIdx)
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _delete.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _delete.value = response.body()
+                }
                 Log.d("sns_delete_success", response.body().toString())
             }
             else {

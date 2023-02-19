@@ -105,7 +105,7 @@ class ProfileViewModel : ViewModel(){
         Log.d("img_edit2", info.toString())
 
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 //            val response = profileRepository.getCheckEditProfileInfo(
 //                EditProfileInfoData(myMemberIdx,nickName.value.toString(),belong.value.toString(),email.value.toString(),intro.value.toString()
 //                ),img)
@@ -135,7 +135,7 @@ class ProfileViewModel : ViewModel(){
         get() = _myContent
 
     fun getProfileInfo(memberIdx : Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getProfileInfo(memberIdx)
             Log.d("present0", response.body().toString())
 
