@@ -58,7 +58,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:maxLines="1"
-            android:hint='@{viewModel.nicknameFocusing? "" :@string/register_input_nickname_desc}'
+            android:hint='@{@string/register_input_nickname_desc}'
             android:text="@={viewModel.nickname}"
             android:textSize="14sp"
             android:textColorHint="@color/grayD9"

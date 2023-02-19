@@ -79,7 +79,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:background="@{(viewModel.companyFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
-            android:hint='@{viewModel.companyFocusing ? "" : viewModel.companyHint}'
+            android:hint='@{viewModel.companyHint}'
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.companyFocusing,viewModel.companyFirst,check)}"
             android:text="@={viewModel.company}"
             android:inputType="textEmailAddress"
@@ -118,7 +118,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:background="@{(viewModel.positionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
-            android:hint='@{viewModel.positionFocusing ? "" : viewModel.positionHint}'
+            android:hint='@{viewModel.positionHint}'
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.positionFocusing,viewModel.positionFirst,check)}"
             android:text="@={viewModel.position}"
             android:inputType="textEmailAddress"

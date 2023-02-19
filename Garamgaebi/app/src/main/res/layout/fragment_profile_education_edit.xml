@@ -51,7 +51,7 @@
                 android:maxLength="22"
                 android:background="@{(viewModel.institutionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:gravity="center_vertical"
-                android:hint='@{viewModel.institutionFocusing ? "" : viewModel.institutionHint}'
+                android:hint='@{viewModel.institutionHint}'
                 android:paddingStart="12dp"
                 android:text="@={viewModel.institution}"
                 android:textColor="@color/black80"
@@ -96,7 +96,7 @@
                 android:maxLength="22"
                 android:background="@{(viewModel.majorFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) }"
                 android:gravity="center_vertical"
-                android:hint='@{viewModel.majorFocusing ? "" : viewModel.majorHint}'
+                android:hint='@{viewModel.majorHint}'
                 android:paddingStart="12dp"
                 android:text="@={viewModel.major}"
                 android:textColor="@color/black80"

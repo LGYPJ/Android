@@ -279,7 +279,6 @@ class ProfileEditFragment :
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
                         Log.d("image_edit_ss",bodyPart.toString())
-
                         viewModel.img = null
                         Log.d("image_edit_ss","??")
                         viewModel.getCheckEditProfileInfo(myMemberIdx, null)

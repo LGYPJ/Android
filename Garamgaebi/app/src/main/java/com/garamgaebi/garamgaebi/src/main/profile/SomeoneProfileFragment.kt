@@ -39,12 +39,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         return super.onCreateView(inflater, container, savedInstanceState)
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var memberIdx = -1
         memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
         Log.d("멤버idx",memberIdx.toString())
         var viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        viewModel.getProfileInfo(memberIdx)
+//        viewModel.getProfileInfo(memberIdx)
 
         with(viewModel) {
             profileInfo.observe(viewLifecycleOwner, Observer {
@@ -67,6 +68,12 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                     .into(activitySomeoneProfileIvProfile)
                             }
                         }
+                        if (result.result.belong == null) {
+                            activitySomeoneProfileTvSchool.visibility = View.GONE
+                        }else{
+                            activitySomeoneProfileTvSchool.visibility = VISIBLE
+                        }
+
                         if (result.result.content == null) {
                             activitySomeoneProfileTvIntro.visibility = View.GONE
                         }else{
@@ -99,13 +106,17 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 binding.activitySomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
             }
             //SNS 정보 어댑터 연결
-            getSNSInfo(memberIdx)
+            //getSNSInfo(memberIdx)
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
 
-                if(it == null || it.size <= 1){
+                if(it == null || it.size < 1){
                     binding.activitySomeoneProfileClSnsTitle.visibility = GONE
                     binding.activitySomeoneProfileClSnsDesc.visibility = GONE
+                }else{
+                    binding.activitySomeoneProfileClSnsTitle.visibility = VISIBLE
+                    binding.activitySomeoneProfileClSnsDesc.visibility = VISIBLE
                 }
+
                 val snsAdapter = activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
                 binding.activitySomeoneProfileRVSns.apply {
                     adapter = snsAdapter
@@ -118,18 +129,20 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //경력 정보 어댑터 연결
-            getCareerInfo(memberIdx)
+            //getCareerInfo(memberIdx)
             careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
 
 
-
-                if(it == null || it.size <= 1){
+                if(it == null || it.size < 1){
                     binding.activitySomeoneProfileClCareerTitle.visibility = GONE
                     binding.activitySomeoneProfileClCareerDesc.visibility = GONE
+                }else{
+                    binding.activitySomeoneProfileClCareerTitle.visibility = VISIBLE
+                    binding.activitySomeoneProfileClCareerDesc.visibility = VISIBLE
                 }
-                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
-
-                it.sortWith(byEndDate)
+//                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
+//
+//                it.sortWith(byEndDate)
 
                 val careerAdapter = activity?.let { it1 ->
                     CareerSomeoneRVAdapter(it,
@@ -155,11 +168,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 })
             })
             //교육 정보 어댑터 연결
-            getEducationInfo(memberIdx)
+//            getEducationInfo(memberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
-                if(it == null || it.size <= 1){
+                if(it == null || it.size < 1){
                     binding.activitySomeoneProfileClEduTitle.visibility = GONE
                     binding.activitySomeoneProfileClEduDesc.visibility = GONE
+                }else{
+                    binding.activitySomeoneProfileClEduTitle.visibility = VISIBLE
+                    binding.activitySomeoneProfileClEduDesc.visibility = VISIBLE
                 }
                 val eduAdapter = activity?.let { it1 -> EduSomeoneRVAdapter(it, it1.applicationContext) }
                 dividerItemDecoration =
@@ -180,7 +196,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }
                 })
             })
+            viewModel.getProfileInfo(memberIdx)
+            getEducationInfo(memberIdx)
+            getCareerInfo(memberIdx)
+            getSNSInfo(memberIdx)
         }
+
+
         super.onViewCreated(view, savedInstanceState)
 
     }
