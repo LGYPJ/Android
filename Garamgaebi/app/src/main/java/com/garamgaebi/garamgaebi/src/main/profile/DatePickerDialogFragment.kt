@@ -52,7 +52,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
             pickerMonth.minValue = 1
 
             datePickerBtn.setOnClickListener {
-                date = String.format("%4d.%02d", pickerYear.value, pickerMonth.value)
+                date = String.format("%4d/%02d", pickerYear.value, pickerMonth.value)
                 itemClick(date)
                 dialog?.dismiss()
             }

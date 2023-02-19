@@ -102,7 +102,7 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterSendBtn
+                    .activityServicecenterTvWithdrawal
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({

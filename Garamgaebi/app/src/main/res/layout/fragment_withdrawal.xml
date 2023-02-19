@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <variable
@@ -9,14 +10,13 @@
             name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/container_layout"
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteForBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/whiteForBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_withdrawal_info"
@@ -82,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_titleTitle" />
 
         <TextView
-            android:id="@+id/activity_withdrawal_tv_periodTitle"
+            android:id="@+id/activity_withdrawal_tv_reasonTitle"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
@@ -108,7 +108,7 @@
             android:text="@={viewModel.category}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_periodTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_reasonTitle" />
 
         <ImageView
             android:id="@+id/activity_withdrawal_iv_option"
@@ -139,19 +139,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_et_option"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <TextView
             android:id="@+id/activity_content_et_name_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grayD9"
-            android:textSize="14sp"
-            android:visibility="invisible"
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:gravity="center"
             android:text='@{viewModel.content.length() +"/100"}'
+            android:textColor="@color/grayAe"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/activity_withdrawal_tv_reasonTitle"
             app:layout_constraintEnd_toEndOf="@id/activity_withdrawal_et_content"
-            app:layout_constraintBottom_toBottomOf="@id/activity_withdrawal_et_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="12dp"
-            />
+            app:layout_constraintTop_toTopOf="@id/activity_withdrawal_tv_reasonTitle" />
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/activity_withdrawal_checkbox_rl"
             android:layout_width="16dp"

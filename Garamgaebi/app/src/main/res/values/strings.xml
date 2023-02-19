@@ -21,7 +21,7 @@
     <string name="kakao_login">카카오 로그인</string>
     <string name="apple">APPLE</string>
 
-    <string name="nickName">닉네임을 입력해주세요</string>
+    <string name="nickName">닉네임</string>
     <string name="edit">편집</string>
     <string name="belong">소속을 입력해주세요</string>
     <string name="sns">SNS</string>
@@ -41,7 +41,7 @@
     <string name="oneLine_intro">한 줄 소개</string>
     <string name="oneLine_intro_hint">18자 이내로 입력해주세요 (예: 프리랜서 백엔드 개발자)</string>
     <string name="intro">자기소개</string>
-    <string name="email">이메일을 입력해주세요</string>
+    <string name="email">이메일</string>
     <string name="doing">하기</string>
     <string name="working_period">재직 기간</string>
     <string name="education_period">교육 기간</string>

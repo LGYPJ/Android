@@ -68,8 +68,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grayAe"
-            android:textSize="14sp"
-            android:visibility="visible"
+            android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible"
             android:text='@{viewModel.company.length() +"/22"}'
             app:layout_constraintEnd_toEndOf="@id/activity_career_et_companyDesc"
             app:layout_constraintBottom_toTopOf="@id/activity_career_et_companyDesc"
@@ -112,7 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grayAe"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:visibility="visible"
             android:text='@{viewModel.position.length() +"/22"}'
             app:layout_constraintEnd_toEndOf="@id/activity_career_et_position"
