@@ -28,20 +28,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                 }
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName
-                if(data.belong == null) {
-                    itemHomeUserTvBelong.visibility = View.GONE
-                    itemHomeUserTvOrg.visibility = View.VISIBLE
-                    itemHomeUserTvMajor.visibility = View.VISIBLE
-                    itemHomeUserTvOrg.text = data.group
-                    itemHomeUserTvMajor.text = data.detail
-                } else {
-                    itemHomeUserTvBelong.visibility = View.VISIBLE
-                    itemHomeUserTvOrg.visibility = View.GONE
-                    itemHomeUserTvMajor.visibility = View.GONE
-                    itemHomeUserTvBelong.text = data.belong
-                    itemHomeUserTvOrg.text = ""
-                    itemHomeUserTvMajor.text = ""
-                }
+                itemHomeUserTvBelong.text = data.belong
             }
 
         }
