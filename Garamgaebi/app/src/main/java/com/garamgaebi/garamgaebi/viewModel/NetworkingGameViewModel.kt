@@ -207,7 +207,6 @@ class NetworkingGameViewModel: ViewModel() {
             .subscribe {stompMessage ->
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
                 getGameMember()
-
             }
     }
 
