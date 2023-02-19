@@ -48,7 +48,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 when (it) {
                     "인스타그램" -> {
                         binding.instaChar.text = "@"
-                        binding.activitySnsEtLinkDesc.setPadding(70, 0, 0, 0)
+                        binding.activitySnsEtLinkDesc.setPadding(65, 0, 0, 0)
                         binding.instaChar.visibility = View.VISIBLE
                     }
                     "블로그" -> {
@@ -97,7 +97,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 if (originAddress != null) {
                     originAddress = originAddress.substring(1)
                     binding.instaChar.text = "@"
-                    binding.activitySnsEtLinkDesc.setPadding(70, 0, 0, 0)
+                    binding.activitySnsEtLinkDesc.setPadding(65, 0, 0, 0)
                     binding.instaChar.visibility = View.VISIBLE
                     viewModel.addressInputDesc.value =
                         " " + getString(R.string.sns_add_link_desc)

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.HomeRepository
 import kotlinx.coroutines.Dispatchers
@@ -83,7 +84,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getHomeUser()
             Log.d("getHomeUser", "$response")
             if (response.isSuccessful && response.body() != null) {
-                (response.body()!!.result as ArrayList).removeIf{it.memberIdx == 22}
+                (response.body()!!.result as ArrayList).removeIf{it.memberIdx == myMemberIdx}
                 if ((response.body()!!.result as ArrayList).size == 11) {
                     (response.body()!!.result as ArrayList).removeAt(10)
                 }

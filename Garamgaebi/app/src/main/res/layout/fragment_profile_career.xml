@@ -52,7 +52,7 @@
             android:maxLines="1"
             android:maxLength="22"
             android:gravity="center_vertical"
-            android:hint='@{viewModel.companyFocusing ? "" : viewModel.companyHint}'
+            android:hint='@{viewModel.companyHint}'
             android:paddingStart="12dp"
             android:text="@={viewModel.company}"
             android:textColor="@color/black80"
@@ -96,7 +96,7 @@
             android:layout_height="48dp"
             android:background="@{(viewModel.positionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="center_vertical"
-            android:hint='@{viewModel.positionFocusing ? "" : viewModel.positionHint}'
+            android:hint='@{viewModel.positionHint}'
             android:paddingStart="12dp"
             android:maxLines="1"
             android:maxLength="22"

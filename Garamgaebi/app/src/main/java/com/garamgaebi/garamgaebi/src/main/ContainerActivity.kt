@@ -244,6 +244,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = "네트워킹"
             }
 
+
         }
         transaction.commit()
         for(fragment: Fragment in supportFragmentManager.fragments) {

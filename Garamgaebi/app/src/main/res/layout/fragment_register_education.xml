@@ -77,7 +77,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint='@{viewModel.institutionFocusing ? "" : viewModel.institutionHint}'
+            android:hint='@{viewModel.institutionHint}'
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.institutionFocusing,viewModel.institutionFirst,check)}"
             android:text="@={viewModel.institution}"
             android:textColorHint="@color/grayD9"
@@ -115,7 +115,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint='@{viewModel.majorFocusing ? "" : viewModel.majorHint}'
+            android:hint='@{viewModel.majorHint}'
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.majorFocusing,viewModel.majorFirst,check)}"
             android:text="@={viewModel.major}"
             android:textColorHint="@color/grayD9"

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EducationViewModel : ViewModel(){
@@ -99,12 +100,14 @@ class EducationViewModel : ViewModel(){
 
     //Education 추가
     fun postEducationInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckAddEducation(AddEducationData(myMemberIdx, institution.value.toString(), major.value.toString(), isLearning.value.toString(),
             startDate.value.toString(), endDate.value.toString()))
             Log.d("education_add", response.toString())
-            if(response.isSuccessful){
-                _add.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _add.value = response.body()
+                }
                 Log.d("education_add_success", response.body().toString())
             }
             else {
@@ -118,12 +121,14 @@ class EducationViewModel : ViewModel(){
         get() = _patch
     //교육 수정
     fun patchEducationInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.patchEducation(EducationData(educationIdx, institution.value.toString(), major.value.toString(), isLearning.value.toString(),
                 startDate.value.toString(), endDate.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _patch.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _patch.value = response.body()
+                }
                 Log.d("education_patch_success", response.body().toString())
             }
             else {
@@ -137,11 +142,13 @@ class EducationViewModel : ViewModel(){
         get() = _delete
     //교육 삭제
     fun deleteEducationInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.deleteEducation(educationIdx)
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _delete.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _delete.value = response.body()
+                }
                 Log.d("education_delete_success", response.body().toString())
             }
             else {

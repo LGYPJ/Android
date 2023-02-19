@@ -9,6 +9,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ServiceCenterViewModel : ViewModel(){
@@ -78,11 +79,13 @@ class ServiceCenterViewModel : ViewModel(){
         get() = _qna
     //QnA 문의
     fun postQna() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckQnA(QnAData(1,email.value.toString(), category.value.toString(), content.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _qna.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _qna.value = response.body()
+                }
                 Log.d("QnA_success", response.toString())
             }
             else {
@@ -96,11 +99,13 @@ class ServiceCenterViewModel : ViewModel(){
         get() = _logout
     //QnA 문의
     fun postLogout() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckLogout(LogoutToken(X_ACCESS_TOKEN, X_REFRESH_TOKEN))
             //Log.d("sns_add", response.body().toString())
-            if(response.isSuccessful){
-                _logout.postValue(response.body())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _logout.value = response.body()
+                }
                 Log.d("Logout_success", response.toString())
             }
             else {

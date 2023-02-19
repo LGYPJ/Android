@@ -3,8 +3,6 @@ package com.garamgaebi.garamgaebi.src.main.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +15,6 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.viewModel.EditTextViewModel
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit

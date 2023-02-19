@@ -81,7 +81,7 @@
             android:background="@{viewModel.emailFirst || viewModel.emailIsValid ? (viewModel.emailFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             android:bufferType="spannable"
             android:gravity="center_vertical"
-            android:hint='@{viewModel.emailFocusing ? "" : viewModel.emailHint}'
+            android:hint='@{viewModel.emailHint}'
             android:paddingStart="12dp"
             android:text="@={viewModel.email}"
             android:textColor="@color/black80"
@@ -152,7 +152,7 @@
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
-            android:hint='@{viewModel.contentFocusing ? "" : @string/input_content}'
+            android:hint='@{@string/input_content}'
             android:padding="11dp"
             android:paddingStart="12dp"
             android:text="@={viewModel.content}"

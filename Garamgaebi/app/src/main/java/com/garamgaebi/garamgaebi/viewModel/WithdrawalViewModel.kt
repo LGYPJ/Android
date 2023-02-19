@@ -72,11 +72,13 @@ class WithdrawalViewModel : ViewModel(){
 
     //회원탈퇴 문의
     fun postWithdarwal() {
-//        viewModelScope.launch {
+//        viewModelScope.launch(Dispatchers.IO) {
 //            val response = profileRepository.getWi(QnAData(1,email.value.toString(), category.value.toString(), content.value.toString()))
 //            //Log.d("sns_add", response.body().toString())
-//            if(response.isSuccessful){
-//                _withdrawal.postValue(response.body())
+//            if (response.isSuccessful && response.body() != null) {
+//                viewModelScope.launch(Dispatchers.Main) {
+//                    _withdrawal.value = response.body()
+//                }
 //                Log.d("QnA_success", response.toString())
 //            }
 //            else {

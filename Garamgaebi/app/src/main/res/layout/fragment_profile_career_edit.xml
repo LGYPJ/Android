@@ -48,7 +48,7 @@
                 android:maxLines="1"
                 android:maxLength="22"
                 android:gravity="center_vertical"
-                android:hint='@{viewModel.companyFocusing ? "" : viewModel.companyHint}'
+                android:hint='@{viewModel.companyHint}'
                 android:paddingStart="12dp"
                 android:text="@={viewModel.company}"
                 android:textColor="@color/black80"
@@ -94,7 +94,7 @@
                 android:maxLines="1"
                 android:maxLength="22"
                 android:gravity="center_vertical"
-                android:hint='@{viewModel.positionFocusing ? "" : viewModel.positionHint}'
+                android:hint='@{viewModel.positionHint}'
                 android:paddingStart="12dp"
                 android:text="@={viewModel.position}"
                 android:textColor="@color/black80"

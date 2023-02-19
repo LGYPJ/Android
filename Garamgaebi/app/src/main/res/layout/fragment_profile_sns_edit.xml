@@ -55,7 +55,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:maxLength="22"
-                android:hint='@{snsViewModel.snsTypeFocusing ? "" : snsViewModel.typeInputDesc}'
+                android:hint='@{snsViewModel.typeInputDesc}'
                 android:paddingStart="12dp"
                 android:text="@={snsViewModel.snsType}"
                 android:textColor="@color/black80"
@@ -99,7 +99,7 @@
                 android:layout_height="48dp"
                 android:background="@{(snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:gravity="center_vertical"
-                android:hint='@{snsViewModel.snsAddressFocusing ? "" : snsViewModel.addressInputDesc}'
+                android:hint='@{snsViewModel.addressInputDesc}'
                 android:maxLength="140"
                 android:maxLines="1"
                 android:paddingStart="12dp"

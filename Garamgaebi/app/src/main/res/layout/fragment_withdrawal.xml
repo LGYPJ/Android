@@ -127,7 +127,7 @@
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
-            android:hint='@{viewModel.contentFocusing ? "" : @string/input_content}'
+            android:hint='@{@string/input_content}'
             android:padding="11dp"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
