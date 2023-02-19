@@ -49,12 +49,12 @@ class NetworkingGameCardVPAdapter(private val dataList: List<String>, private va
         return dataList.size
     }
 
-    /*override fun getItemViewType(position: Int): Int {
+    override fun getItemViewType(position: Int): Int {
         return when(position){
             number-> ORIGIN
             else -> ORIGIN
         }
-    }*/
+    }
 
 
 }

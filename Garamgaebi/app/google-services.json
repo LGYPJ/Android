@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "133759092985",
+    "project_id": "garamgaebi",
+    "storage_bucket": "garamgaebi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133759092985:android:ca30360e0d6282dba1fa28",
+        "android_client_info": {
+          "package_name": "com.garamgaebi.garamgaebi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133759092985-9g12bqfgbnd709srjt10qltmrjq3419s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj4Nd1iz26ME7rO5y8ygo6axQ07ns1_Og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133759092985-9g12bqfgbnd709srjt10qltmrjq3419s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

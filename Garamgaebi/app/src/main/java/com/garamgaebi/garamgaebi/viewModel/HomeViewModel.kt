@@ -47,12 +47,14 @@ class HomeViewModel : ViewModel(){
     }
 
     fun getHomeSeminar() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeSeminar()
             Log.d("getHomeSeminar", "$response")
             response.code()
             if (response.isSuccessful && response.body() != null) {
-                _seminar.value = response.body()
+                viewModelScope.launch(Dispatchers.Main) {
+                    _seminar.value = response.body()
+                }
                 Log.d("getHomeSeminar", "${response.body()}")
             }
             else {
@@ -61,13 +63,15 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun getHomeNetworking() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeNetworking()
             Log.d("getHomeNetworking", "$response")
 
             if (response.isSuccessful && response.body() != null) {
                 //_networking.postValue(response.body())
-                _networking.value = response.body()
+                viewModelScope.launch(Dispatchers.Main) {
+                    _networking.value = response.body()
+                }
                 Log.d("getHomeNetworking", "${response.body()}")
             } else {
                 Log.d("error", "getHomeNetworking : "+response.message())
@@ -83,7 +87,10 @@ class HomeViewModel : ViewModel(){
                 if ((response.body()!!.result as ArrayList).size == 11) {
                     (response.body()!!.result as ArrayList).removeAt(10)
                 }
-                _user.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _user.value = response.body()
+                }
+
                 Log.d("getHomeUser", "${response.body()}")
             } else {
                 Log.d("error", "getHomeUser : "+response.message())
@@ -97,7 +104,10 @@ class HomeViewModel : ViewModel(){
             Log.d("getHomeProgram", "$response")
 
             if (response.isSuccessful && response.body() != null) {
-                _program.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _program.value = response.body()
+                }
+
                 Log.d("getHomeProgram", "${response.body()}")
             } else {
                 Log.d("error", "getHomeProgram : "+response.message())
@@ -109,9 +119,11 @@ class HomeViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getNotificationScroll(memberIdx, lastNotificationIdx)
             Log.d("getNotification", "$response")
-
             if (response.isSuccessful && response.body() != null) {
-                _notificationScroll.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _notificationScroll.value = response.body()
+                }
+
                 Log.d("getNotification", "${response.body()}")
             }
             else {
@@ -125,7 +137,10 @@ class HomeViewModel : ViewModel(){
             Log.d("getNotification", "$response")
 
             if (response.isSuccessful && response.body() != null) {
-                _notification.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _notification.value = response.body()
+                }
+
                 Log.d("getNotification", "${response.body()}")
             }
             else {
@@ -139,7 +154,9 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.getNotificationUnread(memberIdx)
             Log.d("getNotificationUnread", "$response")
             if (response.isSuccessful && response.body()?.result != null) {
-                _notificationUnread.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main) {
+                    _notificationUnread.value = response.body()
+                }
                 Log.d("getNotificationUnread", "${response.body()}")
             }
             else {

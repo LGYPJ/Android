@@ -144,7 +144,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
                     val people = data.size
                     val networkingGameProfile2 =
-                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index % people)
+                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
                     binding.activityGameProfileRv.apply {
                         adapter = networkingGameProfile2
                         layoutManager =
@@ -152,6 +152,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         networkingGameProfile2.notifyDataSetChanged()
                     }
                     //
+                    viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                        val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
+                        binding.activityGameCardBackVp.adapter =
+                            NetworkingGameCardVPAdapter(it, index)
+                        binding.activityGameCardBackVp.orientation =
+                            ViewPager2.ORIENTATION_HORIZONTAL
+
 
                     //시작하기 버튼
                     binding.activityGameCardStartBtn.setOnClickListener {
@@ -165,7 +172,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         binding.activityGameCardBackImg.visibility = View.VISIBLE
 
                         //카드 뷰페이저2 get images api 연결
-                        viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
+                        /*viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
                             val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
                             binding.activityGameCardBackVp.adapter =
                                 NetworkingGameCardVPAdapter(it, index)
@@ -175,7 +182,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
                             networkingGameCardVPAdapter.notifyDataSetChanged()
 
-                        })
+                        })*/
                         //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
                         //index + 1
                         CoroutineScope(Dispatchers.Main).launch {
@@ -220,21 +227,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             networkingGameProfile.notifyDataSetChanged()
                         }
 
-                        //카드 뷰페이저2 get images api 연결
-                        viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
-                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.adapter =
-                                NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.orientation =
-                                ViewPager2.ORIENTATION_HORIZONTAL
-
-                            binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
+                            //뷰페이저 하나만 넘어가는 거 해결
+                            var tab =  binding.activityGameCardBackVp.currentItem
+                            tab++
+                            binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
                             networkingGameCardVPAdapter.notifyDataSetChanged()
 
-                        })
 
 
                     }
+                    })
                 })
             }
 
