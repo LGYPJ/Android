@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
@@ -21,7 +22,13 @@ import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
-
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            // 뒤로가기 클릭 시 실행시킬 코드 입력
+            onBackPressed()
+            Log.e("뒤로가기", "뒤로가기 클릭")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

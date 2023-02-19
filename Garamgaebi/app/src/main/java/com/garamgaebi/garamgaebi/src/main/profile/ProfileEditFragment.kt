@@ -43,26 +43,32 @@ import java.io.File
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
     private lateinit var callback: OnBackPressedCallback
+    private var bodyPart : MultipartBody.Part? = null
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){ result ->
+        Log.d("image_result_code",result.resultCode.toString())
+
         if(result.resultCode == Activity.RESULT_OK){
             val imageUri = result.data?.data ?: return@registerForActivityResult
 
             val file = File(activity?.let { absolutelyPath(imageUri, it) })
+            Log.d("image_result_file",file.toString())
+
             val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val body = MultipartBody.Part.createFormData("profile", file.name, requestFile)
+            Log.d("image_result_request",requestFile.toString())
 
+            bodyPart = MultipartBody.Part.createFormData("profile", file.name, requestFile)
+            Log.d("image_result_multipart",bodyPart.toString())
 
-            val bitmap = context?.let { ImageDecoder.createSource(it.contentResolver,imageUri) }
-                ?.let { ImageDecoder.decodeBitmap(it) }
-            binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
+//            val bitmap = context?.let { ImageDecoder.createSource(it.contentResolver,imageUri) }
+//                ?.let { ImageDecoder.decodeBitmap(it) }
+            //binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
             binding.activityEditProfileIvProfile.setImageResource(R.drawable.basic_gray_border_layout)
             Log.d("image_1_file_name",file.name)
             Log.d("image_2_image_uri",imageUri.toString())
-            Log.d("image_3_image_bitmap",bitmap.toString())
+            //Log.d("image_3_image_bitmap",bitmap.toString())
 
             activity?.let { Glide.with(it).load(imageUri).fitCenter().apply(RequestOptions().override(80,80)).into(binding.activityEditProfileIvProfile) }
 
@@ -72,15 +78,18 @@ class ProfileEditFragment :
             binding.activityEditProfileIvProfile.setImageURI(imageUri)
             //binding.activityEditProfileIvProfile.setBackgroundResource(imageUri)
 
-                        activity?.let { it1 ->
-                            Glide.with(it1)
-                                .load(imageUri.toString())
-                                .into(binding.activityEditProfileIvProfile)
-                        }
+            activity?.let { it1 ->
+                Glide.with(it1)
+                    .load(imageUri.toString())
+                    .into(binding.activityEditProfileIvProfile)
+            }
             binding.activityEditProfileIvProfile.clipToOutline = true
 
 
             Log.d("image_4_resource",binding.activityEditProfileIvProfile.resources.toString())
+
+        }else{
+            Log.d("image_4_resourcedd",binding.activityEditProfileIvProfile.resources.toString())
 
         }
     }
@@ -142,7 +151,7 @@ class ProfileEditFragment :
         return result!!
     }
 
-//    fun sendImage(body: MultipartBody.Part){
+    //    fun sendImage(body: MultipartBody.Part){
 //        retrofit.sendImage(body).enqueue(object: Callback<String>{
 //            override fun onResponse(call: Call<String>, response: Response<String>) {
 //                if(response.isSuccessful){
@@ -158,16 +167,29 @@ class ProfileEditFragment :
 //
 //        })
 //    }
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            var imageUrl = it.data?.data
+            Log.d("img","성공")
+        }else{
+            Log.d("img","실패")
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+
         Log.d("viewcreated","yes")
         val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-    //val viewModels by viewModels<ProfileViewModel>()
+        //val viewModels by viewModels<ProfileViewModel>()
 
 
         with(binding) {
@@ -233,20 +255,27 @@ class ProfileEditFragment :
 
         //프로필 사진 변경을 위한,,,
         binding.activityEditProfileIvProfile.setOnClickListener {
-            selectGallery()
+//            var photoPickerIntent = Intent(Intent.ACTION_PICK)
+//            photoPickerIntent.type = "image/*"
+//            startForResult.launch(photoPickerIntent)
+             selectGallery()
             Log.d("test---","아얏")
         }
 
         //편집 정보 저장하기 버튼 클릭이벤트
         binding.activityEducationSaveBtn.setOnClickListener {
-                //회원정보 편집 저장 기능 추가
-                viewModel.getCheckEditProfileInfo(myMemberIdx)
+            //회원정보 편집 저장 기능 추가
+            Log.d("image_edit_ss",bodyPart.toString())
+
+            viewModel.img = null
+            Log.d("image_edit_ss","??")
+            viewModel.getCheckEditProfileInfo(myMemberIdx, null)
         }
 
 
 
 
-    // 유효성 확인
+        // 유효성 확인
         viewModel.nickName.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
@@ -280,7 +309,7 @@ class ProfileEditFragment :
             binding.viewModel = viewModel
 
             //email 유효성 검사 부분
-            viewModel.emailIsValid.value = it.length < 22 && it.isNotEmpty() && it.contains("@")
+            viewModel.emailIsValid.value = it.length < 45 && it.isNotEmpty() && it.contains("@")
             Log.d("profile_email_true",viewModel.emailIsValid.value.toString())
         })
 
@@ -292,19 +321,14 @@ class ProfileEditFragment :
             Log.d("profile_intro_true",viewModel.introIsValid.value.toString())
         })
 
-        binding.activityEducationSaveBtn.setOnClickListener {
-            //편집하기 버튼
-           // viewModel.postEducationInfo()
-            Log.d("profile_edit_button","success")
-        }
 
 
-    binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
-        hideKeyboard()
-        false
-    })
+        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+            hideKeyboard()
+            false
+        })
 
-}
+    }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용

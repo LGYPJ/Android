@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.R
@@ -211,12 +212,37 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         }
 
         binding.activityCareerRemoveBtn.setOnClickListener {
-            val dialog = ConfirmDialog(this, getString(R.string.delete_done), 1)
+            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                when (it) {
+                -1 -> {
+
+                    Log.d("career_remove_button","close")
+
+                }
+                1 -> {
+                    //경력 삭제
+                    viewModel.deleteCareerInfo()
+                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                        when(it2){
+                            1 -> {
+
+                                Log.d("career_remove_button","close")
+
+                            }
+                            2->{
+                                (activity as ContainerActivity).onBackPressed()
+                            }
+                        }
+                    }
+                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+
+
+                }
+            }
+            }
             // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog.isCancelable = false
-            dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            //경력 삭제
-            viewModel.deleteCareerInfo()
+            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
             Log.d("career_remove_button","success")
         }
         binding.activityCareerSaveBtn.setOnClickListener {
@@ -251,7 +277,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
     }
     //뒤로가기
     override fun onYesButtonClick(id: Int) {
-        (activity as ContainerActivity).onBackPressed()
+
     }
 
 }

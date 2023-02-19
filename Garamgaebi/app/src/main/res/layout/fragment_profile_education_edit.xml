@@ -65,7 +65,7 @@
                 android:id="@+id/activity_education_institution_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grayD9"
+                android:textColor="@color/grayAe"
                 android:textSize="14sp"
                 android:visibility="visible"
                 android:text='@{viewModel.institution.length() +"/22"}'
@@ -109,7 +109,7 @@
                 android:id="@+id/activity_education_tv_major_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grayD9"
+                android:textColor="@color/grayAe"
                 android:textSize="14sp"
                 android:visibility="visible"
                 android:text='@{viewModel.major.length() +"/22"}'

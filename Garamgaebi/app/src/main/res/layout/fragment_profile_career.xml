@@ -67,7 +67,7 @@
             android:id="@+id/activity_career_tv_company_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/grayD9"
+            android:textColor="@color/grayAe"
             android:textSize="14sp"
             android:visibility="visible"
             android:text='@{viewModel.company.length() +"/22"}'
@@ -111,7 +111,7 @@
             android:id="@+id/activity_career_tv_position_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/grayD9"
+            android:textColor="@color/grayAe"
             android:textSize="14sp"
             android:visibility="visible"
             android:text='@{viewModel.position.length() +"/22"}'

@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text='@{snsViewModel.snsType.length() +"/22"}'
-                android:textColor="@color/grayD9"
+                android:textColor="@color/grayAe"
                 android:textSize="14sp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@id/activity_sns_et_name"

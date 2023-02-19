@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.repository
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.model.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class ProfileRepository {
     private val profileClient = GaramgaebiApplication.sRetrofit.create(ApiInterface::class.java)
@@ -22,7 +23,7 @@ class ProfileRepository {
     suspend fun patchCareer(careerData: CareerData) = profileClient.patchCareer(careerData)
     suspend fun deleteCareer(careerIdx: Int) = profileClient.deleteCareer(careerIdx)
     suspend fun getProfileInfo(memberIdx: Int) = profileClient.getProfileInfo(memberIdx)
-    suspend fun getCheckEditProfileInfo(editProfileData: EditProfileInfoData, image : MultipartBody.Part) = profileClient.getCheckEditProfile(editProfileData,image)
+    suspend fun getCheckEditProfileInfo(editProfileData: RequestBody, image : MultipartBody.Part?) = profileClient.getCheckEditProfile(editProfileData,image)
     suspend fun getSNSInfo(memberIdx: Int) = profileClient.getSNSInfo(memberIdx)
     //프로필 추천
     suspend fun getEducationInfo(memberIdx: Int) = profileClient.getEducationInfo(memberIdx)

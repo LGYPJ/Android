@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -101,12 +102,36 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             Log.d("sns_edit_button","success")
         }
         binding.activitySnsRemoveBtn.setOnClickListener {
-            val dialog = ConfirmDialog(this, getString(R.string.delete_done), 1)
+            val dialog: DialogFragment? = ConfirmDialog(this,getString(R.string.delete_q), 1) { it ->
+                when (it) {
+                    -1 -> {
+
+                        Log.d("sns_edit_button","close")
+
+                    }
+                    1 -> {
+                        //경력 삭제
+                        viewModel.deleteSNSInfo()
+                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
+                            when(it2){
+                                1 -> {
+
+                                    Log.d("sns_edit_button","close")
+
+                                }
+                                2->{
+                                    (activity as ContainerActivity).onBackPressed()
+                                }
+                            }
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                    }
+                }
+            }
             // 알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog.isCancelable = false
-            dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-            viewModel.deleteSNSInfo()
-            Log.d("sns_remove_button","success")
+            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+            Log.d("sns_edit_button","success")
         }
         //dialog 띄우기
         binding.activitySnsEtName.isFocusable = false
@@ -194,6 +219,5 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
          }
          //삭제 확인 버튼
     override fun onYesButtonClick(id: Int) {
-        (activity as ContainerActivity).onBackPressed()
     }
 }
