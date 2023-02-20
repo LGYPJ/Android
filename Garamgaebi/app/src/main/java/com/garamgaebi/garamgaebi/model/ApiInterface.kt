@@ -133,8 +133,14 @@ interface ApiInterface {
     //로그아웃
     @POST("/member/logout")
     suspend fun getCheckLogout(
-        @Body requset : LogoutToken
+        @Body request : LogoutToken
     ):Response<LogOutResponse>
+
+    //회원탈퇴
+    @POST("/member/member-inactived")
+    suspend fun getCheckWithdrawal(
+        @Body request : InactiveMember
+    ):Response<WithdrawalResponse>
 
     //프로필 편집 저장/수정
     @Multipart

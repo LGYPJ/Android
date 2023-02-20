@@ -13,18 +13,28 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container_layout"
-    android:clickable="true"
-    android:focusableInTouchMode="true"
+
     android:background="@color/whiteForBackground"
     >
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:background="@color/whiteForBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="16dp"
+        android:id="@+id/container_layout"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +50,8 @@
             app:civ_border_width="0dp"
             app:civ_border_color="#000000"
             android:src="@drawable/default_profile"
-            app:layout_constraintStart_toStartOf="@id/parent_container"
-            app:layout_constraintTop_toTopOf="@id/parent_container" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/activity_edit_profile_ivplus"
@@ -254,26 +264,28 @@
             app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_et_intro"
             app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_tv_introTitle"
             />
+        <Button
+            android:id="@+id/activity_education_save_btn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="68dp"
+
+            android:layout_marginTop="40dp"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.introIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:outlineProvider="none"
+            android:clickable="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.introIsValid) ? true : false}"
+            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_intro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/activity_education_save_btn"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="68dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/save"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:background="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.introIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-        android:outlineProvider="none"
-        android:clickable="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.introIsValid) ? true : false}"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
     </layout>
 
 

@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class WithdrawalViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
@@ -66,24 +70,24 @@ class WithdrawalViewModel : ViewModel(){
     }
 
 
-    private val _withdrawal = MutableLiveData<QnADataResponse>()
-    val withdrawal : LiveData<QnADataResponse>
+    private val _withdrawal = MutableLiveData<WithdrawalResponse>()
+    val withdrawal : LiveData<WithdrawalResponse>
         get() = _withdrawal
 
     //회원탈퇴 문의
     fun postWithdarwal() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val response = profileRepository.getWi(QnAData(1,email.value.toString(), category.value.toString(), content.value.toString()))
-//            //Log.d("sns_add", response.body().toString())
-//            if (response.isSuccessful && response.body() != null) {
-//                viewModelScope.launch(Dispatchers.Main) {
-//                    _withdrawal.value = response.body()
-//                }
-//                Log.d("QnA_success", response.toString())
-//            }
-//            else {
-//                //response.body()?.message?.let { Log.d("error", it) }
-//            }
-//        }
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = profileRepository.getCheckWithdrawal(InactiveMember(myMemberIdx,  content.value.toString(),category.value.toString()))
+            //Log.d("sns_add", response.body().toString())
+            if (response.isSuccessful && response.body() != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _withdrawal.value = response.body()
+                }
+                Log.d("QnA_success", response.toString())
+            }
+            else {
+                //response.body()?.message?.let { Log.d("error", it) }
+            }
+        }
     }
 }

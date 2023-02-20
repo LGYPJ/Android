@@ -10,28 +10,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.garamgaebi.garamgaebi.databinding.FragmentDatepickerDialogBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
 
 class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit) :
     BottomSheetDialogFragment() {
     lateinit var binding: FragmentDatepickerDialogBinding
-    var dateYear:Int = 0
-    var dateMonth:Int = 0
-    val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyy/MM")
-    val formatterForYear = DateTimeFormatter.ofPattern("yyyy")
-    val formatterForMonth = DateTimeFormatter.ofPattern("MM")
+    private var dateYear:Int = 0
+    private var dateMonth:Int = 0
+    private val current: LocalDateTime = LocalDateTime.now()
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM")
+    private val formatterForYear: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy")
+    private val formatterForMonth: DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDatepickerDialogBinding.inflate(inflater, container, false)
         return binding.root
 
     }
-    fun setYearMonth(year:String,month:String){
-        binding.pickerYear.value = year.toInt()
+    private fun setYearMonth(year:String, month:String){
+        year.toInt().also { binding.pickerYear.value = it }
         binding.pickerMonth.value = month.toInt()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
         with(binding) {
 
 
-            var formatted = current.format(formatter)
+            val formatted = current.format(formatter)
             pickerYear.value = current.format(formatterForYear).toInt()
             pickerMonth.value = current.format(formatterForMonth).toInt()
 
@@ -56,8 +55,8 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
                 itemClick(date)
                 dialog?.dismiss()
             }
-            var arr : List<String>
-            if(date.isNotEmpty() && !(date.equals("Error") || date.equals("현재"))) {
+            val arr : List<String>
+            if(date.isNotEmpty() && !(date == "Error" || date == "현재")) {
                 arr = date.split("/")
                 setYearMonth(arr[0], arr[1])
             }else{
@@ -74,13 +73,12 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
     }
 
     override fun dismiss() {
-        var formatted = current.format(formatter)
         dateYear = current.format(formatterForYear).toInt()
         dateMonth = current.format(formatterForMonth).toInt()
 
         date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
-        Log.d("data_what",date.toString())
+        Log.d("data_what",date)
 
         super.dismiss()
     }
@@ -91,7 +89,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
 
         date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
-        Log.d("data_what",date.toString())
+        Log.d("data_what",date)
         super.onCancel(dialog)
     }
 

@@ -33,7 +33,18 @@ data class QnAData (
 data class QnADataResponse(
     val result : Boolean
 ):BaseResponse()
+data class WithdrawalResponse(
+    val result : InactiveSuccess
+):BaseResponse()
 
+data class InactiveSuccess(
+    val inactive_success : Boolean
+)
+data class InactiveMember(
+    val memberIdx : Int,
+    val content: String,
+    val category : String
+)
 //로그아웃
 data class LogOutResponse(
     val result : memberInfo
