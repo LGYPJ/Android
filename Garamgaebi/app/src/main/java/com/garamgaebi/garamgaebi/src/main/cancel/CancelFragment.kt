@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
@@ -27,7 +28,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.activityCancelApplyBtn.isEnabled = false
+        //binding.activityCancelApplyBtn.isEnabled = false
 
         binding.activityCancelBankTv.text = "은행"
 
@@ -187,6 +188,8 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         }
         return returnValue;
     }
+
+
     private fun isButton():Boolean {
         var returnValue = false
         if(isBank()&&isPay()){
@@ -195,6 +198,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         return returnValue;
 
     }
+
 
     // 유료 프로그램일때 신청취소
     private fun isCharged(){

@@ -22,9 +22,6 @@ class SeminarViewModel : ViewModel(){
     val presentation : LiveData<SeminarPresentResponse>
     get() = _presentation
 
-    /*private val _present = MutableLiveData<ArrayList<PresentationResult>>()
-    val present : LiveData<ArrayList<PresentationResult>>
-    get() = _present*/
 
     private val _seminarParticipants = MutableLiveData<List<SeminarResult>>()
     val seminarParticipants : LiveData<List<SeminarResult>>
@@ -40,7 +37,10 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("programIdx", 0))
             Log.d("seminarPresent", response.body().toString())
             if (response.isSuccessful) {
-                _presentation.postValue(response.body())
+                viewModelScope.launch(Dispatchers.Main){
+                    _presentation.value = response.body()
+                }
+                //_presentation.postValue(response.body())
                 //_present.postValue(response.body()?.result as ArrayList<PresentationResult>?)
             }
             else {
@@ -53,7 +53,10 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
-                _seminarParticipants.postValue(response.body()?.result?.participantList)
+                viewModelScope.launch(Dispatchers.Main){
+                    _seminarParticipants.value = response.body()?.result?.participantList
+                }
+                //_seminarParticipants.postValue(response.body()?.result?.participantList)
             }
             else {
                 Log.d("error", response.message())
@@ -66,38 +69,14 @@ class SeminarViewModel : ViewModel(){
             val response = seminarRepository.getSeminarDetail(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
-                //date 가공
-                /*val time = response.body()?.result?.date
-                val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-                val date = LocalDateTime.parse(time, pattern)
-                val pattern2 = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시 mm분", Locale.KOREA)
-                if(date.format(pattern2)!!.contains("00분")){
-                    val pattern3 = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시", Locale.KOREA)
-                    response.body()?.result?.date = date.format(pattern3)
+                viewModelScope.launch(Dispatchers.Main){
+                    //날짜 데이터 변환
+                    response.body()?.result?.date =
+                        response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
+                    response.body()?.result?.endDate =
+                        response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
+                    _info.value = response.body()
                 }
-                else{
-                    response.body()?.result?.date = date.format(pattern2)
-                }
-
-                //endDate 가공
-                val endTime = response.body()?.result?.endDate
-                val patternEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-                val dateEnd = LocalDateTime.parse(endTime, patternEnd)
-                val pattern2End = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시 mm분", Locale.KOREA)
-                if(date.format(pattern2End)!!.contains("00분")){
-                    val pattern3End = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시", Locale.KOREA)
-                    response.body()?.result?.endDate = dateEnd.format(pattern3End)
-                }
-                else{
-                    response.body()?.result?.endDate = dateEnd.format(pattern2End)
-                }*/
-                //날짜 데이터 변환
-                response.body()?.result?.date =
-                    response.body()?.result?.date?.let { GaramgaebiFunction().getDate(it) }.toString()
-                response.body()?.result?.endDate =
-                    response.body()?.result?.endDate?.let { GaramgaebiFunction().getDate(it) }.toString()
-
-                _info.postValue(response.body())
             }
             else{
                 Log.d("error", response.message())
@@ -105,17 +84,4 @@ class SeminarViewModel : ViewModel(){
         }
     }
 
-    /*fun feeFree(money : String): String {
-        return pay.value.toString()
-    }
-
-    fun convertFee(money : String):String{
-        return "$money 원"
-    }*/
-
-    /*fun convertDate(date: String?): String? {
-        val dateFormat = "yyyy-MM-dd hh:mm '시'"
-        val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.getDefault())
-        return simpleDateFormat.format(date)
-    }*/
 }

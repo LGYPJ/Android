@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="2dp"
-                        android:text="@{Integer.toString(item.networkingInfo.result.fee).equals(0) ? item.convertFee(Integer.toString(item.networkingInfo.result.fee)) : item.feeFree(Integer.toString(item.networkingInfo.result.fee))}"
+                        android:text="@{Integer.toString(item.networkingInfo.result.fee).equals(0) ? item.feeFree(Integer.toString(item.networkingInfo.result.fee)) : item.convertFee(Integer.toString(item.networkingInfo.result.fee))}"
                         android:textColor="@color/black80"
                         android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@+id/activity_network_charged_pay_tv"
@@ -178,7 +178,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@{item.nameFirst || item.nameIsValid ? (item.nameFocusing ?@drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                    android:background="@{item.inputName.length() == 0 || item.nameIsValid ? (item.nameFocusing ?@drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
                     android:hint="@string/origin_name_input"
                     android:paddingStart="12dp"
                     android:text="@={item.inputName}"
@@ -199,7 +199,7 @@
                     android:text="@{item.nameState}"
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
-                    android:visibility="@{item.nameFirst || item.nameIsValid? View.INVISIBLE : View.VISIBLE}"
+                    android:visibility="@{item.inputName.length() == 0 || item.nameIsValid? View.INVISIBLE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
 
@@ -224,7 +224,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@{item.nicknameFirst || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                    android:background="@{item.inputNickName.length() == 0 || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
                     android:hint="@string/origin_nickname_input"
                     android:paddingStart="12dp"
                     android:text="@={item.inputNickName}"
@@ -245,7 +245,7 @@
                     android:text="@{item.nicknameState}"
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
-                    android:visibility="@{item.nicknameFirst || item.nicknameIsValid? View.INVISIBLE : View.VISIBLE}"
+                    android:visibility="@{item.inputNickName.length() == 0 || item.nicknameIsValid? View.INVISIBLE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
 
@@ -270,7 +270,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@{item.phoneFirst || item.phoneIsValid ? (item.phoneFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                    android:background="@{item.inputPhone.length() == 0 || item.phoneIsValid ? (item.phoneFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
                     android:hint="@string/origin_phone_input"
                     android:paddingStart="12dp"
                     android:text="@={item.inputPhone}"
@@ -291,7 +291,7 @@
                     android:text="@{item.phoneState}"
                     android:textColor="@color/seminar_red"
                     android:textSize="12sp"
-                    android:visibility="@{item.phoneFirst || item.phoneIsValid ? View.INVISIBLE : View.VISIBLE}"
+                    android:visibility="@{item.inputPhone.length() == 0 || item.phoneIsValid ? View.INVISIBLE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv" />
 
