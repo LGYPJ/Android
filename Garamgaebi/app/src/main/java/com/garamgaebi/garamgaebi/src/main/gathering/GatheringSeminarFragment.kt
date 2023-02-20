@@ -93,7 +93,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         viewModel.seminarClosed.observe(viewLifecycleOwner, Observer {
             val result = it.result as ArrayList<GatheringSeminarClosedResult>
             val seminarDeadlineAdapter : GatheringSeminarDeadlineRVAdapter
-            if(result.isEmpty()) {
+            if(result == null) {
                 binding.fragmentGatheringSeminarClosedClBlank.visibility = View.VISIBLE
                 binding.fragmentGatheringSeminarRvClosed.visibility = View.GONE
             } else {

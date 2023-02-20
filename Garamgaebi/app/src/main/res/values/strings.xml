@@ -11,6 +11,26 @@
     <string name="trueString">TRUE</string>
     <string name="falseString">FALSE</string>
 
+    <string name="default_notification_channel_id">high_importance_channel</string>
+
+    <string name="networkingUpCase">NETWORKING</string>
+    <string name="seminarUpCase">SEMINAR</string>
+
+    <string name="collection">COLLECTION</string>
+    <string name="soon_close">SOON_CLOSE</string>
+    <string name="apply_complete">APPLY_COMPLETE</string>
+    <string name="apply_cancel_complete">APPLY_CANCEL_COMPLETE</string>
+    <string name="non_deposit_cancel">NON_DEPOSIT_CANCEL</string>
+    <string name="refund_complete">REFUND_COMPLETE</string>
+    <string name="apply_confirm">APPLY_CONFIRM</string>
+    <string name="noti_collection">모아보기</string>
+    <string name="noti_soon_close">마감임박</string>
+    <string name="noti_apply_complete">신청완료</string>
+    <string name="noti_apply_cancel_complete">신청취소완료</string>
+    <string name="noti_non_deposit_cancel">미입금취소</string>
+    <string name="noti_refund_complete">환불완료</string>
+    <string name="noti_apply_confirm">신청확정</string>
+
     <string name="add">추가</string>
     <string name="now">현재</string>
     <string name="example">example</string>

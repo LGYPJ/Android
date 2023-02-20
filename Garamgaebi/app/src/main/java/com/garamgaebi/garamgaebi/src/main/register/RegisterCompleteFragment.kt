@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -17,10 +18,12 @@ import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.DialogRegisterTermBinding
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCompleteBinding
+import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.src.main.home.RegisterTermDialog
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
+import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
@@ -29,6 +32,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val registerViewModel by viewModels<RegisterViewModel>()
+        val homeViewModel by viewModels<HomeViewModel>()
 
         if (registerViewModel.nickname.value!!.length > 4) {
             binding.fragmentCompleteTvDesc.text =
@@ -45,21 +49,38 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
             checkTvAgree()
         }
         binding.fragmentCompleteBtnNext.setOnClickListener {
-            /*registerViewModel.postRegister(registerViewModel.getRegisterRequest())
-            registerViewModel.register.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess) {
-                    GaramgaebiApplication.myMemberIdx = it.result.memberIdx
+            registerViewModel.postRegister(registerViewModel.getRegisterRequest())
+            registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
+                if(registerIt.isSuccess) {
+                    GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
+                    // 교육 or 경력
                     if(GaramgaebiApplication.sSharedPreferences.getBoolean("isCareer", false)){
                         val viewModel by viewModels<CareerViewModel>()
                         viewModel.postCareerInfo()
                     } else {
                         val viewModel by viewModels<EducationViewModel>()
                         viewModel.postEducationInfo()
-                    }*/
-                    startActivity(Intent(registerActivity, MainActivity::class.java))
-                    ActivityCompat.finishAffinity(registerActivity)
-            //    }
-            //})
+                    }
+                    // 로그인
+                    homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
+                        GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
+                    homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
+                        if(homeIt.isSuccess) {
+                            GaramgaebiApplication.sSharedPreferences.edit()
+                                .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
+                                .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
+                                .putInt("memberIdx", homeIt.result.memberIdx)
+                                .apply()
+                            GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
+                            startActivity(Intent(registerActivity, MainActivity::class.java))
+                            ActivityCompat.finishAffinity(registerActivity)
+                        } else {
+                            Log.d("register", "login fail ${homeIt.errorMessage}")
+                        }
+                    })
+
+                }
+            })
 
         }
 

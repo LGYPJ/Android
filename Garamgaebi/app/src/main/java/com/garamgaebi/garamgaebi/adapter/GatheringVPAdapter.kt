@@ -13,7 +13,7 @@ import com.garamgaebi.garamgaebi.src.main.gathering.GatheringMyMeetingFragment
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringNetworkingFragment
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringSeminarFragment
 
-class GatheringVPAdapter(fragment: FragmentManager, lifecycle : Lifecycle) : FragmentStateAdapter(fragment, lifecycle) {
+class GatheringVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = NUM_TABS
 
     override fun createFragment(position: Int): Fragment {

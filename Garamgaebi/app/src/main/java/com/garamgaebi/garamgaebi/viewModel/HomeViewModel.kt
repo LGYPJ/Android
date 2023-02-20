@@ -43,6 +43,10 @@ class HomeViewModel : ViewModel(){
     val notificationUnread : LiveData<NotificationUnreadResponse>
         get() = _notificationUnread
 
+    private val _login = MutableLiveData<LoginResponse>()
+    val login : LiveData<LoginResponse>
+        get() = _login
+
     init{
         getNotificationUnread(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
     }
@@ -162,6 +166,20 @@ class HomeViewModel : ViewModel(){
             }
             else {
                 Log.d("error", "getNotificationUnread : "+response.message())
+            }
+        }
+    }
+
+    fun postLogin(loginRequest: LoginRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = homeRepository.postLogin(loginRequest)
+            Log.d("postLogin", "$response")
+            if (response.isSuccessful && response.body()?.result != null) {
+                _login.postValue(response.body())
+                Log.d("postLogin", "${response.body()}")
+            }
+            else {
+                Log.d("error", "postLogin : "+response.message())
             }
         }
     }
