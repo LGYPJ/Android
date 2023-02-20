@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
+import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterLoginActivity
@@ -41,7 +43,7 @@ class ServiceCenterFragment :
             binding.viewModel = viewModel
 
             //email 유효성 검사 부분
-            viewModel.emailIsValid.value = it.length < 22 && it.isNotEmpty() && it.contains("@")
+            viewModel.emailIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty() && it.contains("@")
             Log.d("qna_email_true",viewModel.emailIsValid.value.toString())
         })
 
@@ -55,7 +57,7 @@ class ServiceCenterFragment :
         viewModel.content.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.contentIsValid.value = it.length < 100
+            viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100
 
             Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })

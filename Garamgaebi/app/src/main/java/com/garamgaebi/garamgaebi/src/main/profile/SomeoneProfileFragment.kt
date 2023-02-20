@@ -52,35 +52,31 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 val result = it as ProfileDataResponse
 
 
-                if (result == null) {
+                with(binding) {
 
-                } else {
-                    with(binding) {
+                    activitySomeoneProfileTvUsername.text = result.result.nickName
+                    activitySomeoneProfileTvEmail.text = result.result.profileEmail
+                    activitySomeoneProfileTvSchool.text = result.result.belong
+                    activitySomeoneProfileTvIntro.text = result.result.content
 
-                        activitySomeoneProfileTvUsername.text = result.result.nickName
-                        activitySomeoneProfileTvEmail.text = result.result.profileEmail
-                        activitySomeoneProfileTvSchool.text = result.result.belong
-                        activitySomeoneProfileTvIntro.text = result.result.content
-
-                        if(result.result.profileUrl != null){
-                            activity?.let { it1 ->
-                                Glide.with(it1).load(result.result.profileUrl)
-                                    .into(activitySomeoneProfileIvProfile)
-                            }
-                        }
-                        if (result.result.belong == null) {
-                            activitySomeoneProfileTvSchool.visibility = View.GONE
-                        }else{
-                            activitySomeoneProfileTvSchool.visibility = VISIBLE
-                        }
-
-                        if (result.result.content == null) {
-                            activitySomeoneProfileTvIntro.visibility = View.GONE
-                        }else{
-                            activitySomeoneProfileTvIntro.visibility = VISIBLE
+                    if(result.result.profileUrl != null){
+                        activity?.let { it1 ->
+                            Glide.with(it1).load(result.result.profileUrl)
+                                .into(activitySomeoneProfileIvProfile)
                         }
                     }
 
+                    if (result.result.belong == null) {
+                        activitySomeoneProfileTvSchool.visibility = View.GONE
+                    }else{
+                        activitySomeoneProfileTvSchool.visibility = VISIBLE
+                    }
+
+                    if (result.result.content == null) {
+                        activitySomeoneProfileTvIntro.visibility = View.GONE
+                    }else{
+                        activitySomeoneProfileTvIntro.visibility = VISIBLE
+                    }
                 }
             })
 
@@ -196,7 +192,8 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }
                 })
             })
-            viewModel.getProfileInfo(memberIdx)
+
+            getProfileInfo(memberIdx)
             getEducationInfo(memberIdx)
             getCareerInfo(memberIdx)
             getSNSInfo(memberIdx)

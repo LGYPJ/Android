@@ -1,17 +1,12 @@
 package com.garamgaebi.garamgaebi.src.main.home
 
-import android.animation.ObjectAnimator
-import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.garamgaebi.garamgaebi.R
@@ -24,12 +19,7 @@ import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
-import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import java.util.Comparator
+import kotlinx.coroutines.*
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
@@ -37,14 +27,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //    lateinit var viewModel: HomeViewModel
     val viewModel by viewModels<HomeViewModel>()
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
-        Log.d("onResume","yes__")
         super.onResume()
-
+//        GlobalScope.launch {
+//            val x = setDataView()
+//            val y = updateData()
+//        }
     }
 
-    suspend fun setDataView():Int {
-        val value: Int = GlobalScope.async(Dispatchers.Main) {
+    private suspend fun setDataView():Int {
+        val value: Int = withContext(Dispatchers.Main) {
             var total = 1
             with(viewModel) {
                 // 뷰페이저 간격 조절을 위한 변수
@@ -60,16 +53,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 세미나
                 viewModel.seminar.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeSeminarResult>
-                    val seminarRVAdapter : HomeSeminarRVAdapter
-                    if(result == null) {
+                    val seminarRVAdapter: HomeSeminarRVAdapter
+                    if (result == null) {
                         binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-                        constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-                    }
-                    else if (result.isEmpty()) {
+                        constraintsConnect(
+                            binding.fragmentHomeTvNetworking,
+                            binding.fragmentHomeClSeminarBlank
+                        )
+                    } else if (result.isEmpty()) {
                         binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-                        constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
-                    }
-                    else {
+                        constraintsConnect(
+                            binding.fragmentHomeTvNetworking,
+                            binding.fragmentHomeClSeminarBlank
+                        )
+                    } else {
                         seminarRVAdapter = HomeSeminarRVAdapter(result)
                         binding.fragmentHomeVpSeminar.apply {
                             adapter = seminarRVAdapter
@@ -81,18 +78,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             }
                             addItemDecoration(HomeVPItemDecoration(requireContext()))
                         }
-                        constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeVpSeminar)
+                        constraintsConnect(
+                            binding.fragmentHomeTvNetworking,
+                            binding.fragmentHomeVpSeminar
+                        )
                         binding.fragmentHomeClSeminarBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
-                        seminarRVAdapter.setOnItemClickListener(object : HomeSeminarRVAdapter.OnItemClickListener{
+                        seminarRVAdapter.setOnItemClickListener(object :
+                            HomeSeminarRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
-                                if(it.result[position].isOpen == "OPEN"){
+                                if (it.result[position].isOpen == "OPEN") {
                                     GaramgaebiApplication.sSharedPreferences
                                         .edit().putInt("programIdx", it.result[position].programIdx)
                                         .apply()
                                     //세미나 메인 프래그먼트로!
-                                    startActivity(Intent(requireContext(), ContainerActivity::class.java)
-                                        .putExtra("seminar", true))
+                                    startActivity(
+                                        Intent(requireContext(), ContainerActivity::class.java)
+                                            .putExtra("seminar", true)
+                                    )
                                 }
                             }
                         })
@@ -102,18 +105,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 // 네트워킹
                 viewModel.networking.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeNetworkingResult>
-                    val networkingRVAdapter : HomeNetworkingRVAdapter
-                    if(result == null) {
+                    val networkingRVAdapter: HomeNetworkingRVAdapter
+                    if (result == null) {
                         binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-                    } else if(result.isEmpty()) {
+                    } else if (result.isEmpty()) {
                         binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-                    }
-                    else {
+                    } else {
                         networkingRVAdapter = HomeNetworkingRVAdapter(result)
                         binding.fragmentHomeVpNetworking.apply {
                             adapter = networkingRVAdapter
                             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                            registerOnPageChangeCallback(object :
+                                ViewPager2.OnPageChangeCallback() {
                                 override fun onPageSelected(position: Int) {
                                     super.onPageSelected(position)
                                 }
@@ -126,7 +129,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         }
                         binding.fragmentHomeClNetworkingBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
-                        networkingRVAdapter.setOnItemClickListener(object : HomeNetworkingRVAdapter.OnItemClickListener{
+                        networkingRVAdapter.setOnItemClickListener(object :
+                            HomeNetworkingRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
                                 val program = it.result[position].programIdx
                                 GaramgaebiApplication.sSharedPreferences
@@ -145,24 +149,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 viewModel.getHomeUser()
                 viewModel.user.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeUserResult>
-                    val userRVAdapter : HomeUserItemRVAdapter
-                    if(result == null) {
+                    val userRVAdapter: HomeUserItemRVAdapter
+                    if (result == null) {
                         binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-                    } else if(result.isEmpty()) {
+                    } else if (result.isEmpty()) {
                         binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-                    }
-                    else {
+                    } else {
                         userRVAdapter = HomeUserItemRVAdapter(result)
                         binding.fragmentHomeRvUser.apply {
                             adapter = userRVAdapter
-                            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                            layoutManager =
+                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                             addItemDecoration(HomeUserItemDecoration(requireContext()))
                         }
                         binding.fragmentHomeClUserBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
-                        userRVAdapter.setOnItemClickListener(object : HomeUserItemRVAdapter.OnItemClickListener{
+                        userRVAdapter.setOnItemClickListener(object :
+                            HomeUserItemRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
-                                GaramgaebiApplication.sSharedPreferences.edit().putInt("userMemberIdx",result[position].memberIdx).apply()
+                                GaramgaebiApplication.sSharedPreferences.edit()
+                                    .putInt("userMemberIdx", result[position].memberIdx).apply()
 
                                 val intent = Intent(context, ContainerActivity::class.java)
                                 intent.putExtra("someoneProfile", true)
@@ -179,10 +185,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
                     if (result == null) {
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-                    } else if(result.isEmpty()){
+                    } else if (result.isEmpty()) {
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-                    }
-                    else {
+                    } else {
                         myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
                         binding.fragmentHomeRvMyMeeting.apply {
                             adapter = myMeetingRVAdapter
@@ -201,13 +206,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                     .apply()
 
                                 //세미나 메인 프래그먼트로!
-                                if(it.result[position].type == "SEMINAR"){
+                                if (it.result[position].type == "SEMINAR") {
                                     val intent = Intent(context, ContainerActivity::class.java)
                                     intent.putExtra("seminar", true)
                                     startActivity(intent)
                                 }
                                 //네트워킹 메인 프래그먼트로
-                                if(it.result[position].type == "NETWORKING"){
+                                if (it.result[position].type == "NETWORKING") {
                                     val intent = Intent(context, ContainerActivity::class.java)
                                     intent.putExtra("networking", true)
                                     startActivity(intent)
@@ -225,31 +230,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
                 // 읽지 않은 알림 존재 여부
                 viewModel.notificationUnread.observe(viewLifecycleOwner, Observer {
-                    if(it.result.isUnreadExist)
+                    if (it.result.isUnreadExist)
                         binding.fragmentHomeIvNotificationPoint.visibility = View.VISIBLE
                     else
                         binding.fragmentHomeIvNotificationPoint.visibility = View.GONE
                 })
             }
             total
-        }.await()
+        }
         return value
     }
-    suspend fun updateData():Int {
-        val value: Int = GlobalScope.async(Dispatchers.IO) {
-            var total = 1
+    private suspend fun updateData():Int {
+        val value: Int = withContext(Dispatchers.IO) {
+            val total = 1
             with(viewModel) {
                 // 세미나
-                viewModel.getHomeSeminar()
+                getHomeSeminar()
                 // 네트워킹
-                viewModel.getHomeNetworking()
+                getHomeNetworking()
                 // 내 모임
-                viewModel.getHomeProgram(myMemberIdx)
+                getHomeProgram(myMemberIdx)
                 // 읽지 않은 알림 존재 여부
-                viewModel.getNotificationUnread(myMemberIdx)
-         }
+                getNotificationUnread(myMemberIdx)
+            }
             total
-        }.await()
+        }
         return value
     }
 
@@ -259,6 +264,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //            val y = setDataView()
 //            val x = updateData()
 //        }
+
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
         with(binding) {
@@ -441,12 +447,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 })
             }
         })
-        // 알림 이동
-        binding.fragmentHomeIvNotification.setOnClickListener {
-            val target = Intent(context, ContainerActivity::class.java)
-            target.putExtra("notification", true)
-            startActivity(target)
-        }
 
         // 읽지 않은 알림 존재 여부
         viewModel.getNotificationUnread(myMemberIdx)
@@ -456,6 +456,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             else
                 binding.fragmentHomeIvNotificationPoint.visibility = View.GONE
         })
+
+                // 알림 이동
+        binding.fragmentHomeIvNotification.setOnClickListener {
+            val target = Intent(context, ContainerActivity::class.java)
+            target.putExtra("notification", true)
+            startActivity(target)
+        }
 
         // 모아보기 세미나 이동
         binding.fragmentHomeClGatheringSeminar.setOnClickListener {

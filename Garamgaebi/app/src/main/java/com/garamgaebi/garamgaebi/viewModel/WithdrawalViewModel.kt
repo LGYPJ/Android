@@ -75,7 +75,7 @@ class WithdrawalViewModel : ViewModel(){
         get() = _withdrawal
 
     //회원탈퇴 문의
-    fun postWithdarwal() {
+    fun postWithdrawal() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckWithdrawal(InactiveMember(myMemberIdx,  content.value.toString(),category.value.toString()))
             //Log.d("sns_add", response.body().toString())

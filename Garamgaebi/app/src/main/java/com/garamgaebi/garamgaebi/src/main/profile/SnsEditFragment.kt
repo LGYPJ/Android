@@ -68,7 +68,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
 
                         viewModel.typeState.value = getString(R.string.caution_input_22)
-                        viewModel.snsTypeIsValid.value = it.length < 22 && it.isNotEmpty()
+                        viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                     }
 
                 }
@@ -80,7 +80,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
         viewModel.snsAddress.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             //유효성 확인
-            viewModel.snsAddressIsValid.value = it.length < 45 && it.isNotEmpty()
+            viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
 
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
         })

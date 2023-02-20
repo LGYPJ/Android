@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.garamgaebi.garamgaebi.common.MINIMUM_YEAR
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.garamgaebi.garamgaebi.databinding.FragmentDatepickerDialogBinding
 import java.time.LocalDateTime
@@ -46,7 +47,7 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
             dateMonth = pickerMonth.value
 
             pickerYear.maxValue = current.format(formatterForYear).toInt()
-            pickerYear.minValue = 1950
+            pickerYear.minValue = MINIMUM_YEAR
             pickerMonth.maxValue = 12
             pickerMonth.minValue = 1
 

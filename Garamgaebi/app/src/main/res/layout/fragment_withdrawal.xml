@@ -105,7 +105,7 @@
             android:textSize="14sp"
             android:hint="@string/withdrawal_reason_desc"
             android:gravity="center_vertical"
-            android:text="@={viewModel.category}"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_reasonTitle" />
