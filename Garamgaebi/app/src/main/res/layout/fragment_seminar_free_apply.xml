@@ -21,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_seminar_free_apply_info"
-            android:layout_width="358dp"
+            android:layout_width="match_parent"
             android:layout_height="137dp"
             android:background="@drawable/btn_seminar_present"
             android:layout_marginTop="16dp"
@@ -158,7 +158,7 @@
 
         <EditText
             android:id="@+id/activity_seminar_free_apply_name_tv"
-            android:layout_width="358dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/origin_name_input"
             android:text="@={item.inputName}"
@@ -204,13 +204,15 @@
 
         <EditText
             android:id="@+id/activity_seminar_free_apply_nickname_tv"
-            android:layout_width="358dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/origin_nickname_input"
             android:textSize="16sp"
             android:text="@={item.inputNickName}"
             android:textColor="@color/black80"
             android:paddingStart="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:textColorHint="@color/seminar_light_gray"
             android:background="@{item.nicknameFirst || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
             app:onFocusing="@{(check) -> item.setBoolean(item.nicknameFocusing , item.nicknameFirst, check)}"
@@ -248,7 +250,7 @@
 
         <EditText
             android:id="@+id/activity_seminar_free_apply_phone_tv"
-            android:layout_width="358dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/origin_phone_input"
             android:textSize="16sp"

@@ -183,10 +183,4 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         return value
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
-    }
-
-
 }
