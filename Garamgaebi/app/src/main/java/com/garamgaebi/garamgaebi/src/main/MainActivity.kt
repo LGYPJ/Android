@@ -148,7 +148,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //뒤로가기 이슈 해결 코드....
-    fun onMove(int: Int) {
+    /*fun onMove(int: Int) {
         super.onStart()
         when(int){
             1 -> {
@@ -184,9 +184,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
             }
         }
-    }
+    }*/
    // 뒤로가기 이슈 해결 코드,,,
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         if(isHome()){
             onMove(2)
@@ -214,7 +214,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
 
 
-    }
+    }*/
 
     fun getHelpFrame() {
         Log.d("getHelpFrame", "getHelpFrame")

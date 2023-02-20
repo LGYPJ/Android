@@ -22,13 +22,6 @@ import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            // 뒤로가기 클릭 시 실행시킬 코드 입력
-            onBackPressed()
-            Log.e("뒤로가기", "뒤로가기 클릭")
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +37,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            //프래그먼트에서 back
-            /*val fragmentList = supportFragmentManager.fragments
-            for (fragment in fragmentList) {
-                if (fragment is onBackPressedListener) {
-                    (fragment as onBackPressedListener).onBackPressed()
-                    return@setOnClickListener
-                }
-            }*/
+            onBackPressed()
 
-            if(isSeminar()){
+            /*if(isSeminar()){
                 if(intent.getStringExtra("goseminar") == "goseminar"){
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("goseminar1", "goseminar1")
@@ -98,23 +84,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
             else{
                 onBackPressed()
-            }
+            }*/
         }
 
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        //프래그먼트에서 back
-        /*val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is onBackPressedListener) {
-                (fragment as onBackPressedListener).onBackPressed()
-                return
-            }
-        }*/
 
-        if(isIceBreaking()){
+        /*if(isIceBreaking()){
             binding.activityContainerToolbarTv.text = "아이스브레이킹"
         }
         if(isNetworking()){
@@ -164,7 +142,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(isNotifi()){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }
+        }*/
     }
 
 
@@ -304,13 +282,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("seminar", false)){
             binding.activityContainerToolbarTv.text = "세미나"
-            /*val seminar = intent.getIntExtra("HomeSeminarIdx", 0)
-            val bundle = Bundle()
-            bundle.putInt("HomeSeminarIdx", seminar)
-            val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
             openFragmentOnFrameLayout(1)
         }
         if(intent.getBooleanExtra("cancel", false)){
