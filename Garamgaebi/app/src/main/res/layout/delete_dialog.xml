@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/delete_q"
         android:textColor="@color/black80"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:layout_margin="24dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"

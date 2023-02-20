@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,6 @@
                 android:text="@string/cs_info"
                 android:textColor="@color/black80"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_tv_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -109,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/reason"
             android:textColor="@color/black80"
             android:textSize="16sp"
@@ -148,7 +147,7 @@
             android:id="@+id/activity_servicecenter_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="12dp"
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
@@ -183,11 +182,11 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="16dp"
-
+            android:layout_marginTop="10dp"
             android:background="@drawable/activity_servicecenter_checkbox_container"
             android:clipToOutline="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/activity_servicecenter_checkbox_desc">
+            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content">
 
             <CheckBox
                 android:id="@+id/activity_servicecenter_checkbox"
@@ -201,10 +200,11 @@
         <TextView
             android:id="@+id/activity_servicecenter_checkbox_desc"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
+            android:textSize="14sp"
             android:text="@string/email_checkbox_desc"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_servicecenter_checkbox_rl"
