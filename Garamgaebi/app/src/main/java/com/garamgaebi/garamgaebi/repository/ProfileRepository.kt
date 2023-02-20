@@ -13,6 +13,7 @@ class ProfileRepository {
     suspend fun deleteSNS(snsIdx: Int) = profileClient.deleteSNS(snsIdx)
 
     suspend fun getCheckLogout(tokens : LogoutToken) = profileClient.getCheckLogout(tokens)
+    suspend fun getCheckWithdrawal(member : InactiveMember) = profileClient.getCheckWithdrawal(member)
 
     suspend fun getCheckQnA(qnsData: QnAData) = profileClient.getCheckQnA(qnsData)
     suspend fun getCheckAddEducation(educationData: AddEducationData) = profileClient.getCheckAddEducation(educationData)

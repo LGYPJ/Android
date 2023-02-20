@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.ConfirmDialog
+import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -20,7 +23,8 @@ import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
 
 class WithdrawalFragment :
-    BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal) {
+    BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
+    ConfirmDialogInterface {
     var containerActivity: ContainerActivity? = null
 
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
@@ -28,10 +32,6 @@ class WithdrawalFragment :
         super.onViewCreated(view, savedInstanceState)
         var myEmail = GaramgaebiApplication.sSharedPreferences.getString("mySchoolEmail","not@gachon.ac.kr")
 
-        binding.activityWithdrawalSendBtn.setOnClickListener {
-                //탈퇴 기능 추가
-                (activity as ContainerActivity).onBackPressed()
-        }
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
         binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
@@ -105,16 +105,19 @@ class WithdrawalFragment :
                                     Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("이용이 불편해서")
                                     viewModel.categoryFocusing.value = false
+
                                 }
                                 1 -> {
                                     Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
                                     viewModel.categoryFocusing.value = false
+
                                 }
                                 2 -> {
                                     Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
                                     viewModel.categoryFocusing.value = false
+
                                 }
                                 3 -> {
                                     Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
@@ -127,7 +130,48 @@ class WithdrawalFragment :
                         orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
                     }, { it.printStackTrace() })
             )
+        disposables
+            .add(
+                binding
+                    .activityWithdrawalSendBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        val dialog: DialogFragment? = ConfirmDialog(this,"탈퇴하시겠습니까?", 1) { it ->
+                            when (it) {
+                                -1 -> {
 
+                                    Log.d("withdrawal_button","close")
+
+                                }
+                                1 -> {
+                                    //탈퇴
+                                    viewModel.postWithdarwal()
+                                    val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
+                                        when(it2){
+                                            1 -> {
+
+                                                Log.d("withdrawal_button","close")
+                                                (activity as ContainerActivity).onBackPressed()
+
+                                            }
+                                            2->{
+                                                (activity as ContainerActivity).onBackPressed()
+                                            }
+                                        }
+                                    }
+                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+
+
+                                }
+                            }
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                        Log.d("career_remove_button","success")
+                    }, { it.printStackTrace() })
+            )
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false
@@ -144,6 +188,10 @@ class WithdrawalFragment :
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
+    }
+
+    override fun onYesButtonClick(id: Int) {
+        TODO("Not yet implemented")
     }
 }
 

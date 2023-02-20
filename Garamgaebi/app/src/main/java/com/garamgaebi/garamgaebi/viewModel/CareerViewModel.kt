@@ -135,7 +135,6 @@ class CareerViewModel : ViewModel(){
     fun deleteCareerInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.deleteCareer(careerIdx)
-            //Log.d("sns_add", response.body().toString())
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _delete.value = response.body()

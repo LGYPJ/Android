@@ -226,7 +226,7 @@ class ProfileEditFragment :
             activityEditProfileEtTeam.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myBelong",
-                    "Error"
+                    ""
                 )
             )
             activityEditProfileEtEmail.setText(
@@ -238,9 +238,10 @@ class ProfileEditFragment :
             activityEditProfileEtIntro.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myIntro",
-                    "Error"
+                    ""
                 )
             )
+
             var myProfileImage = GaramgaebiApplication.sSharedPreferences.getString("myImage", "")
             if (myProfileImage != null) {
                 if(myProfileImage.isNotEmpty()) {
@@ -256,35 +257,6 @@ class ProfileEditFragment :
 
         }
 
-        //프로필 사진 변경을 위한,,,
-        disposables
-            .add(
-                binding
-                    .activityEditProfileIvProfile
-                    .clicks()
-                    .throttleFirst(300, TimeUnit.MILLISECONDS)
-                    .subscribe({
-                        selectGallery()
-                        Log.d("test---","아얏")
-                    }, { it.printStackTrace() })
-            )
-
-        //편집 정보 저장하기 버튼 클릭이벤트
-        disposables
-            .add(
-                binding
-                    .activityEducationSaveBtn
-                    .clicks()
-                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
-                    .subscribe({
-                        //회원정보 편집 저장 기능 추가
-                        Log.d("image_edit_ss",bodyPart.toString())
-                        viewModel.img = null
-                        Log.d("image_edit_ss","??")
-                        viewModel.getCheckEditProfileInfo(myMemberIdx, null)
-                        (activity as ContainerActivity).onBackPressed()
-                    }, { it.printStackTrace() })
-            )
 
         // 유효성 확인
         viewModel.nickName.observe(viewLifecycleOwner, Observer {
@@ -331,7 +303,35 @@ class ProfileEditFragment :
 
             Log.d("profile_intro_true",viewModel.introIsValid.value.toString())
         })
+//프로필 사진 변경을 위한,,,
+        disposables
+            .add(
+                binding
+                    .activityEditProfileIvProfile
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        selectGallery()
+                        Log.d("test---","아얏")
+                    }, { it.printStackTrace() })
+            )
 
+        //편집 정보 저장하기 버튼 클릭이벤트
+        disposables
+            .add(
+                binding
+                    .activityEducationSaveBtn
+                    .clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        //회원정보 편집 저장 기능 추가
+                        Log.d("image_edit_ss",bodyPart.toString())
+                        //viewModel.img = null
+                        Log.d("image_edit_ss","??")
+                        viewModel.getCheckEditProfileInfo(myMemberIdx, null)
+                        (activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
 
 
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -341,7 +341,11 @@ class ProfileEditFragment :
 
     }
     private fun hideKeyboard() {
+        Log.d("image_edit_ss","??ㅈㅈ")
+
         if (activity != null && requireActivity().currentFocus != null) {
+            Log.d("image_edit_ss","??22")
+
             // 프래그먼트기 때문에 getActivity() 사용
             val inputManager: InputMethodManager =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

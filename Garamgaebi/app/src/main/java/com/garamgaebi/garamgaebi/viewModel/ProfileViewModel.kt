@@ -98,11 +98,13 @@ class ProfileViewModel : ViewModel(){
     var img : MultipartBody.Part? = null
 
     fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
-        val infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value.toString()}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${intro.value.toString()}}").toString()
+        Log.d("image_edit1", intro.value.toString())
+        val infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value.toString()}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value.toString()}\"}").toString()
 //        val info = RequestBody.create("application/json".toMediaTypeOrNull(),infoJson)
+        Log.d("image_edit1", "우악악")
         val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("img_edit2", infoJson.toString())
-        Log.d("img_edit2", info.toString())
+        Log.d("image_edit2", infoJson.toString())
+        Log.d("image_edit3", info.toString())
 
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -111,7 +113,7 @@ class ProfileViewModel : ViewModel(){
 //                ),img)
             val response = profileRepository.getCheckEditProfileInfo(
                 info,img)
-            Log.d("present_edit", response.body().toString())
+            Log.d("image_edit4", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {
