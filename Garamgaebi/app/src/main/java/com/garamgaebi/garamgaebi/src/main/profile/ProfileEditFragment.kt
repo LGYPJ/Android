@@ -33,6 +33,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
@@ -56,20 +57,26 @@ class ProfileEditFragment :
         if(result.resultCode == Activity.RESULT_OK){
             val imageUri = result.data?.data ?: return@registerForActivityResult
 
-            val file = File(activity?.let { absolutelyPath(imageUri, it) })
+            val file = activity?.let { absolutelyPath(imageUri, it) }?.let { File(it) }
             Log.d("image_result_file",file.toString())
 
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
             Log.d("image_result_request",requestFile.toString())
 
-            bodyPart = MultipartBody.Part.createFormData("profile", file.name, requestFile)
+            bodyPart = requestFile?.let {
+                MultipartBody.Part.createFormData("profile", file.name,
+                    it
+                )
+            }
             Log.d("image_result_multipart",bodyPart.toString())
 
 //            val bitmap = context?.let { ImageDecoder.createSource(it.contentResolver,imageUri) }
 //                ?.let { ImageDecoder.decodeBitmap(it) }
             //binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
             binding.activityEditProfileIvProfile.setImageResource(R.drawable.basic_gray_border_layout)
-            Log.d("image_1_file_name",file.name)
+            if (file != null) {
+                Log.d("image_1_file_name",file.name)
+            }
             Log.d("image_2_image_uri",imageUri.toString())
             //Log.d("image_3_image_bitmap",bitmap.toString())
 
@@ -202,7 +209,7 @@ class ProfileEditFragment :
             )
             viewModel.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myBelong",
-                "Error"
+                ""
             )
             viewModel.email.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myEmail",
@@ -292,14 +299,14 @@ class ProfileEditFragment :
             binding.viewModel = viewModel
 
             //email 유효성 검사 부분
-            viewModel.emailIsValid.value = it.length < 45 && it.isNotEmpty() && it.contains("@")
+            viewModel.emailIsValid.value = Patterns.EMAIL_ADDRESS.matcher(it).matches()
             Log.d("profile_email_true",viewModel.emailIsValid.value.toString())
         })
 
         viewModel.intro.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.introIsValid.value = it.length < 100
+            viewModel.introIsValid.value = it.length < INPUT_TEXT_LENGTH_100
 
             Log.d("profile_intro_true",viewModel.introIsValid.value.toString())
         })

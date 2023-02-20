@@ -11,6 +11,7 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
@@ -39,14 +40,14 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             //교육 기관 입력 감지
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                institutionIsValid.value = it.length < 22 && it.isNotEmpty()
+                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
 
             //전공 입력 감지
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                majorIsValid.value = it.length < 22 && it.isNotEmpty()
+                majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
 

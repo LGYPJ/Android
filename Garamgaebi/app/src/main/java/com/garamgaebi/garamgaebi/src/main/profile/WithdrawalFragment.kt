@@ -12,10 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.ConfirmDialog
-import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
@@ -47,7 +44,7 @@ class WithdrawalFragment :
             if(it.isNotEmpty())
                 viewModel.categoryIsValid.value = true
 
-            if(it.equals("기타")){
+            if(it.equals("ETC")){
                 binding.activityContentEtNameLength.visibility = View.VISIBLE
                 viewModel.content.value=""
             }else{
@@ -63,7 +60,7 @@ class WithdrawalFragment :
         viewModel.content.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.contentIsValid.value = it.length < 100 && it.isNotEmpty()
+            viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
 
             Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
@@ -105,24 +102,27 @@ class WithdrawalFragment :
                                     Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("이용이 불편해서")
                                     viewModel.categoryFocusing.value = false
-
+                                    viewModel.category.value = "UNCOMFORTABLE"
                                 }
                                 1 -> {
                                     Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
                                     viewModel.categoryFocusing.value = false
-
+                                    viewModel.category.value = "UNUSED"
                                 }
                                 2 -> {
                                     Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
                                     viewModel.categoryFocusing.value = false
+                                    viewModel.category.value = "CONTENT_LACK"
 
                                 }
                                 3 -> {
                                     Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
                                     binding.activityWithdrawalEtOption.setText("기타")
                                     viewModel.categoryFocusing.value = false
+                                    viewModel.category.value = "ETC"
+
                                 }
 
                             }
@@ -146,7 +146,7 @@ class WithdrawalFragment :
                                 }
                                 1 -> {
                                     //탈퇴
-                                    viewModel.postWithdarwal()
+                                    viewModel.postWithdrawal()
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
                                         when(it2){
                                             1 -> {

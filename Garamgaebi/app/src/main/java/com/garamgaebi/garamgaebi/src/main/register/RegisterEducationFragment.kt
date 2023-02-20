@@ -42,14 +42,14 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
         //교육 기관 입력 감지
         viewModel.institution.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.institutionIsValid.value = it.length < 22 && it.isNotEmpty()
+            viewModel.institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
             Log.d("edu_institution_true",viewModel.institutionIsValid.value.toString())
         })
 
         //전공 입력 감지
         viewModel.major.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.majorIsValid.value = it.length < 22 && it.isNotEmpty()
+            viewModel.majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
 
             Log.d("edu_major_true",viewModel.majorIsValid.value.toString())
         })
