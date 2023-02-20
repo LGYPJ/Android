@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -75,13 +76,45 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // 알림에 대한 UI 정보, 작업
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher) // 아이콘 설정
             .setContentTitle(remoteMessage.notification?.title.toString()) // 제목
             .setContentText(remoteMessage.notification?.body.toString()) // 메시지 내용
             .setAutoCancel(true) // 알람클릭시 삭제여부
             //.setSound(soundUri)  // 알림 소리
             .setContentIntent(pendingTarget) // 알림 실행 시 Intent
 
+        when(remoteMessage.notification?.title.toString()) {
+            getString(R.string.collection) -> {
+                notificationBuilder.setContentTitle("모아보기")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_gathering)
+            }
+            getString(R.string.soon_close) -> {
+                notificationBuilder.setContentTitle("마감임박")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_deadline)
+            }
+            getString(R.string.apply_complete) -> {
+                notificationBuilder.setContentTitle("신청완료")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_complete)
+            }
+            getString(R.string.apply_cancel_complete) -> {
+                notificationBuilder.setContentTitle("신청취소완료")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_cancel_complete)
+            }
+            getString(R.string.non_deposit_cancel) -> {
+                notificationBuilder.setContentTitle("미입금취소")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_cancel_complete)
+
+            }
+            getString(R.string.refund_complete) -> {
+                notificationBuilder.setContentTitle("환불완료")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_refund_complete)
+            }
+            getString(R.string.apply_confirm) -> {
+                notificationBuilder.setContentTitle("신청확정")
+                    .setSmallIcon(R.drawable.ic_item_fragment_notification_complete)
+            }
+            else -> {
+            }
+        }
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // 오레오 버전 이후에는 채널이 필요
