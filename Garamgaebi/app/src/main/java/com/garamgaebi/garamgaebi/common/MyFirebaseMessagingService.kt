@@ -66,7 +66,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         for(key in remoteMessage.data.keys){
             target.putExtra(key, remoteMessage.data.getValue(key))
         }
-        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
+        Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
+        if(remoteMessage.data["programType"] == getString(R.string.seminarUpCase)) {
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putInt("programIdx", remoteMessage.data["programIdx"]!!.toInt())
+                .apply()
+            target.putExtra("seminar", true)
+        } else {
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putInt("programIdx", remoteMessage.data["programIdx"]!!.toInt())
+                .apply()
+            target.putExtra("networking", true)
+        }
+        //target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
+
         val pendingTarget = PendingIntent.getActivity(this, uniId, target, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 채널 이름

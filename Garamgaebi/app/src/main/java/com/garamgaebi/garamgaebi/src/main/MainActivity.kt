@@ -42,7 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        // 임시 로그인
         //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
