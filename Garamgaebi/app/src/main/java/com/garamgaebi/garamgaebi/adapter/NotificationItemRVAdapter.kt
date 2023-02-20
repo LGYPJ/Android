@@ -71,6 +71,7 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
             "APPLY_CANCEL_COMPLETE" -> R.drawable.ic_item_fragment_notification_cancel_complete
             "NON_DEPOSIT_CANCEL" -> R.drawable.ic_item_fragment_notification_cancel_complete
             "REFUND_COMPLETE" -> R.drawable.ic_item_fragment_notification_refund_complete
+            "APPLY_COMFIRM" -> R.drawable.ic_item_fragment_notification_complete
             else -> R.drawable.ic_item_fragment_notification_complete
         }
     }
@@ -82,7 +83,8 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
             "APPLY_CANCEL_COMPLETE" -> "신청취소완료"
             "NON_DEPOSIT_CANCEL" -> "미입금취소"
             "REFUND_COMPLETE" -> "환불완료"
-            else -> "신청확정"
+            "APPLY_COMFIRM" -> "신청확정"
+            else -> "모아보기"
         }
     }
 

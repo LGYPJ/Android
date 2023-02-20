@@ -17,14 +17,18 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         fun bind(data: HomeUserResult){
             with(binding) {
                 Log.d("homeuser", "${data.profileUrl}")
-                if(data.profileUrl == null)
+                if(data.profileUrl == null) {
                     itemHomeUserIvProfileDefault.visibility = View.VISIBLE
+                    Glide.with(itemView)
+                        .load(R.drawable.ic_transparent)
+                        .into(itemHomeUserIvProfile)
+                }
                 else {
                     itemHomeUserIvProfileDefault.visibility = View.GONE
                     Glide.with(itemView)
-                    .load(data.profileUrl)
-                    .centerCrop()
-                    .into(itemHomeUserIvProfile)
+                        .load(data.profileUrl)
+                        .centerCrop()
+                        .into(itemHomeUserIvProfile)
                 }
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName

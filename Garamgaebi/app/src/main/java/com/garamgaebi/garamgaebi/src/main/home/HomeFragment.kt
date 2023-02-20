@@ -260,10 +260,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        GlobalScope.launch {
-//            val y = setDataView()
-//            val x = updateData()
-//        }
 
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)

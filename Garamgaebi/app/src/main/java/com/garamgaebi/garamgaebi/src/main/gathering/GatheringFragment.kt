@@ -18,7 +18,7 @@ class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheri
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gatheringVPAdapter = GatheringVPAdapter(parentFragmentManager, requireActivity().lifecycle)
+        val gatheringVPAdapter = GatheringVPAdapter(this)
         binding.fragmentGatheringVp.adapter =  gatheringVPAdapter
         val tabArray = arrayOf("세미나", "네트워킹", "내 모임")
         TabLayoutMediator(binding.fragmentGatheringTl, binding.fragmentGatheringVp) { tab, position ->
