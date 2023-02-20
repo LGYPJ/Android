@@ -60,12 +60,12 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             // 유효성 확인
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                institutionIsValid.value = it.length < 22 && it.isNotEmpty()
+                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                majorIsValid.value = it.length < 22 && it.isNotEmpty()
+                majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
             startDate.observe(viewLifecycleOwner) {

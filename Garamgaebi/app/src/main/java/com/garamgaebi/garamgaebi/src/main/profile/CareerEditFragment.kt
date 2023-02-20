@@ -60,14 +60,14 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             //회사 입력 감지
             company.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                companyIsValid.value = it.length < 22 && it.isNotEmpty()
+                companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("career_company_true", companyIsValid.value.toString())
             }
 
             //직함 입력 감지
             position.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                positionIsValid.value = it.length < 22 && it.isNotEmpty()
+                positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 

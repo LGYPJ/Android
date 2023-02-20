@@ -71,7 +71,7 @@ class MyProfileFragment :
                         activityMyProfileTvSchool.text = result.result.belong
                         activityMyProfileTvIntro.text = result.result.content
 
-                        if (result.result.profileUrl != "null") {
+                        if (result.result.profileUrl != "null" && result.result.profileUrl != null) {
                             activity?.let { it1 ->
                                 Glide.with(it1).load(result.result.profileUrl)
                                     .into(activityMyProfileIvProfile)
@@ -79,12 +79,12 @@ class MyProfileFragment :
                         }
                         activityMyProfileIvProfile.clipToOutline = true
 
-                        if (result.result.content == "") {
+                        if (result.result.content == "" || result.result.content == null) {
                             activityMyProfileTvIntro.visibility = View.GONE
                         } else {
                             activityMyProfileTvIntro.visibility = View.VISIBLE
                         }
-                        if (result.result.belong == "") {
+                        if (result.result.belong == "" || result.result.belong == null) {
                             activityMyProfileTvSchool.visibility = View.GONE
                         } else {
                             activityMyProfileTvSchool.visibility = View.VISIBLE

@@ -41,13 +41,13 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
         //회사 입력 감지
         viewModel.company.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.companyIsValid.value = it.length < 22 && it.isNotEmpty()
+            viewModel.companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
             Log.d("career_company_true",viewModel.companyIsValid.value.toString())
         })
         //직함 입력 감지
         viewModel.position.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.positionIsValid.value = it.length < 22 && it.isNotEmpty()
+            viewModel.positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
 
             Log.d("career_position_true",viewModel.positionIsValid.value.toString())
         })

@@ -35,3 +35,13 @@ const val REGISTER_ORG = 5
 const val REGISTER_EDU = 6
 const val REGISTER_CAREER = 7
 const val REGISTER_COMPLETE = 8
+
+//프로필
+
+const val INPUT_TEXT_LENGTH = 23
+const val INPUT_TEXT_LENGTH_100 = 101
+const val SNS_ADDRESS = 46
+
+//DatePicker
+const val MINIMUM_YEAR = 1950
+
