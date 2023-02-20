@@ -39,7 +39,7 @@ class GaramgaebiApplication : Application() {
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
 
-        var myMemberIdx: Int = 39
+        var myMemberIdx: Int = 26
 
     }
 
@@ -47,7 +47,7 @@ class GaramgaebiApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         sSharedPreferences =
-            applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
+            applicationContext.getSharedPreferences("GARAMGAEBI_APP", MODE_PRIVATE)
         KakaoSdk.init(this, "${BuildConfig.KAKAO_API_KEY}")
         // 레트로핏 인스턴스 생성
         initRetrofitInstance()
