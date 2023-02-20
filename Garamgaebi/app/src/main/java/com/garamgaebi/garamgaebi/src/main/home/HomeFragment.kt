@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -26,30 +27,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
 //    lateinit var viewModel: HomeViewModel
     val viewModel by viewModels<HomeViewModel>()
-
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
-//        GlobalScope.launch {
-//            val y = updateData()
-//        }
+        GlobalScope.launch {
+            val y = updateData()
+        }
         super.onResume()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private suspend fun setDataView():Int {
         val value: Int = withContext(Dispatchers.Main) {
             var total = 1
             with(viewModel) {
-                // 뷰페이저 간격 조절을 위한 변수
-                val pagerWidth = resources.displayMetrics.widthPixels
-                    .minus(resources.getDimensionPixelOffset(R.dimen.exceptionHomeItemWidth))
-                val pageMargin = resources.getDimensionPixelOffset(R.dimen.homeItemMargin)
-                val screenWidth = resources.displayMetrics.widthPixels
-                val offsetPx = screenWidth - pagerWidth - pageMargin
 
                 // 뷰모델
                 //viewModel by viewModels<HomeViewModel>()
 
                 // 세미나
+                var seminarFirst = true
                 viewModel.seminar.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeSeminarResult>
                     val seminarRVAdapter: HomeSeminarRVAdapter
@@ -61,21 +57,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         )
                     } else if (result.isEmpty()) {
                         binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-                        constraintsConnect(
-                            binding.fragmentHomeTvNetworking,
-                            binding.fragmentHomeClSeminarBlank
-                        )
+                            constraintsConnect(
+                                binding.fragmentHomeTvNetworking,
+                                binding.fragmentHomeClSeminarBlank
+                            )
                     } else {
                         seminarRVAdapter = HomeSeminarRVAdapter(result)
                         binding.fragmentHomeVpSeminar.apply {
                             adapter = seminarRVAdapter
-                            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                            offscreenPageLimit = 1
-//                             간격 조절
-                            setPageTransformer { page, position ->
-                                page.translationX = position * -offsetPx
-                            }
-                            addItemDecoration(HomeVPItemDecoration(requireContext()))
                         }
                         constraintsConnect(
                             binding.fragmentHomeTvNetworking,
@@ -113,18 +102,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         networkingRVAdapter = HomeNetworkingRVAdapter(result)
                         binding.fragmentHomeVpNetworking.apply {
                             adapter = networkingRVAdapter
-                            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                            registerOnPageChangeCallback(object :
-                                ViewPager2.OnPageChangeCallback() {
-                                override fun onPageSelected(position: Int) {
-                                    super.onPageSelected(position)
-                                }
-                            })
-                            offscreenPageLimit = 1
-                            setPageTransformer { page, position ->
-                                page.translationX = position * -offsetPx
-                            }
-                            addItemDecoration(HomeVPItemDecoration(requireContext()))
                         }
                         binding.fragmentHomeClNetworkingBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
@@ -159,7 +136,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             adapter = userRVAdapter
                             layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            addItemDecoration(HomeUserItemDecoration(requireContext()))
+//                            addItemDecoration(HomeUserItemDecoration(requireContext()))
                         }
                         binding.fragmentHomeClUserBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
@@ -192,7 +169,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             adapter = myMeetingRVAdapter
                             layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-                            addItemDecoration(HomeMyMeetingItemDecoration())
+//                            addItemDecoration(HomeMyMeetingItemDecoration())
                         }
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
@@ -259,6 +236,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 뷰페이저 간격 조절을 위한 변수
+        val pagerWidth = resources.displayMetrics.widthPixels
+            .minus(resources.getDimensionPixelOffset(R.dimen.exceptionHomeItemWidth))
+        val pageMargin = resources.getDimensionPixelOffset(R.dimen.homeItemMargin)
+        val screenWidth = resources.displayMetrics.widthPixels
+        val offsetPx = screenWidth - pagerWidth - pageMargin
 
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
@@ -267,16 +250,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             fragmentHomeClUserBlank.visibility = View.VISIBLE
             fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-        }
 
-//        with(binding){
-//            fragmentHomeVpSeminar.addItemDecoration(HomeVPItemDecoration(requireContext()))
-//            fragmentHomeVpNetworking.addItemDecoration(HomeVPItemDecoration(requireContext()))
-//            fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
-//            fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
-//            fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
-//
-//        }
+            fragmentHomeVpSeminar.apply {
+                orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                offscreenPageLimit = 1
+//                             간격 조절
+                setPageTransformer { page, position ->
+                    page.translationX = position * -offsetPx
+                }
+                addItemDecoration(HomeVPItemDecoration(requireContext()))
+            }
+            fragmentHomeVpNetworking.apply {
+                orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                offscreenPageLimit = 1
+                setPageTransformer { page, position ->
+                    page.translationX = position * -offsetPx
+                }
+                addItemDecoration(HomeVPItemDecoration(requireContext()))
+            }
+            fragmentHomeRvUser.addItemDecoration(HomeUserItemDecoration(requireContext()))
+            fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
+
+        }
         GlobalScope.launch {
             val x = setDataView()
             val y = updateData()

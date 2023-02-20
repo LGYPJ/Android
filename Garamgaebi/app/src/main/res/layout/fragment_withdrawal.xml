@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +56,8 @@
         <TextView
             android:id="@+id/activity_withdrawal_tv_titleTitle"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
             android:text="@string/account_email"
             android:textColor="@color/black80"
@@ -70,6 +70,7 @@
             android:id="@+id/activity_withdrawal_tv_titleDesc"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/activity_withdrawal_email"
             android:bufferType="spannable"
             android:gravity="center_vertical"
@@ -84,8 +85,8 @@
         <TextView
             android:id="@+id/activity_withdrawal_tv_reasonTitle"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
             android:text="@string/withdrawal_reason"
             android:textColor="@color/black80"
@@ -98,6 +99,7 @@
             android:id="@+id/activity_withdrawal_et_option"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="@{(viewModel.categoryFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:paddingStart="12dp"
             android:textColor="@color/black80"
@@ -123,7 +125,7 @@
             android:id="@+id/activity_withdrawal_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="16dp"
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
@@ -157,11 +159,11 @@
             android:id="@+id/activity_withdrawal_checkbox_rl"
             android:layout_width="16dp"
             android:layout_height="16dp"
-
+            android:layout_marginTop="10dp"
             android:background="@drawable/activity_servicecenter_checkbox_container"
             android:clipToOutline="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/activity_withdrawal_tv_checkboxDesc">
+            app:layout_constraintTop_toBottomOf="@id/activity_withdrawal_et_content">
 
             <CheckBox
                 android:id="@+id/activity_withdrawal_checkbox"
@@ -175,9 +177,10 @@
         <TextView
             android:id="@+id/activity_withdrawal_tv_checkboxDesc"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
             android:gravity="center_vertical"
             android:text="@string/withdrawal_desc"
             android:textColor="#8A8A8A"
