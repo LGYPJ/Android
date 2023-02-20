@@ -72,7 +72,6 @@ class EducationViewModel : ViewModel(){
 
     //유효성 문구
     var institutionState = MutableLiveData<String>("")
-    var majorState = MutableLiveData<String>("")
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false

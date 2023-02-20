@@ -131,6 +131,7 @@ class CareerViewModel : ViewModel(){
     private val _delete = MutableLiveData<BooleanResponse>()
     val delete : LiveData<BooleanResponse>
         get() = _delete
+
     //경력 삭제
     fun deleteCareerInfo() {
         viewModelScope.launch(Dispatchers.IO) {
