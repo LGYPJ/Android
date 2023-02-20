@@ -35,14 +35,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*// 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
+        // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
         constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
         with(binding) {
             fragmentHomeClSeminarBlank.visibility = View.VISIBLE
             fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
             fragmentHomeClUserBlank.visibility = View.VISIBLE
             fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-        }*/
+        }
 
 
         // 뷰페이저 간격 조절을 위한 변수

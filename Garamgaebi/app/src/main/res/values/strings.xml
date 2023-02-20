@@ -11,6 +11,11 @@
     <string name="trueString">TRUE</string>
     <string name="falseString">FALSE</string>
 
+    <string name="default_notification_channel_id">high_importance_channel</string>
+
+    <string name="networkingUpCase">NETWORKING</string>
+    <string name="seminarUpCase">SEMINAR</string>
+
     <string name="add">추가</string>
     <string name="now">현재</string>
     <string name="example">example</string>

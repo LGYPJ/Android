@@ -49,6 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
         // 자동 로그인
         if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
+            Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(LoginRequest("cindy1769@gachon.ac.kr",
                 GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
@@ -69,7 +70,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
 
         setBottomNavi()
-        checkDynamicLink()
+        getFcmToken()
+        initDynamicLink()
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
@@ -270,14 +272,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    /*private fun getFcmToken() : String{
-        *//** FCM설정, Token값 가져오기 *//*
-        return MyFirebaseMessagingService().getFirebaseToken()
-    }*/
-    private fun checkDynamicLink() {
+    private fun getFcmToken(){
+        /** FCM설정, Token값 가져오기 */
         MyFirebaseMessagingService().getFirebaseToken()
-        /** DynamicLink 수신확인 */
-        initDynamicLink()
     }
 }
 

@@ -23,7 +23,9 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.project.Splash"
         tools:ignore="AllowBackup">
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
         <activity android:name=".src.main.register.RegisterLoginActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">

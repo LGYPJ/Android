@@ -3,8 +3,9 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
+    id 'kotlin-parcelize'
+
 }
 
 Properties properties = new Properties()
@@ -19,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.garamgaebi.garamgaebi"
         minSdkVersion 27
-        targetSdkVersion 32
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
@@ -74,6 +75,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     // 카카오 로그인
     implementation "com.kakao.sdk:v2-user:2.12.1"

@@ -5,11 +5,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -34,9 +34,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     /** 메시지 수신 메서드(포그라운드) */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
         // Notification 메시지를 수신할 경우
         // remoteMessage.notification?.body!! 여기에 내용이 저장되있음
-        // Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
+        Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
 
         //받은 remoteMessage의 값 출력해보기. 데이터메세지 / 알림메세지
         Log.d(TAG, "Message data : ${remoteMessage.data}")
@@ -45,8 +46,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if(remoteMessage.data.isNotEmpty()){
             //알림생성
             sendNotification(remoteMessage)
-            Log.d(TAG, remoteMessage.data["title"].toString())
-            Log.d(TAG, remoteMessage.data["body"].toString())
+            Log.d(TAG, remoteMessage.from!!)
+            Log.d(TAG, remoteMessage.data["notificationType"].toString())
+            Log.d(TAG, remoteMessage.data["content"].toString())
         }else {
             Log.e(TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
@@ -58,13 +60,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
         // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
-        val intent = Intent(this, MainActivity::class.java)
+        val target = Intent(this, ContainerActivity::class.java)
         //각 key, value 추가
         for(key in remoteMessage.data.keys){
-            intent.putExtra(key, remoteMessage.data.getValue(key))
+            target.putExtra(key, remoteMessage.data.getValue(key))
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
-        val pendingIntent = PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_ONE_SHOT)
+        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
+        val pendingTarget = PendingIntent.getActivity(this, uniId, target, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 채널 이름
         val channelId = "my_channel"
@@ -74,11 +76,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // 알림에 대한 UI 정보, 작업
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher) // 아이콘 설정
-            .setContentTitle(remoteMessage.data["title"].toString()) // 제목
-            .setContentText(remoteMessage.data["body"].toString()) // 메시지 내용
+            .setContentTitle(remoteMessage.notification?.title.toString()) // 제목
+            .setContentText(remoteMessage.notification?.body.toString()) // 메시지 내용
             .setAutoCancel(true) // 알람클릭시 삭제여부
             //.setSound(soundUri)  // 알림 소리
-            .setContentIntent(pendingIntent) // 알림 실행 시 Intent
+            .setContentIntent(pendingTarget) // 알림 실행 시 Intent
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -97,7 +99,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //비동기 방식
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             Log.d(TAG, "token=${it}")
+            GaramgaebiApplication.sSharedPreferences.edit()
+                .putString("pushToken", it).apply()
         }
+
 
 //		  //동기방식
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
