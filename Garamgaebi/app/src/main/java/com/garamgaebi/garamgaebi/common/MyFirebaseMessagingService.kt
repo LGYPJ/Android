@@ -142,10 +142,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //                Log.e(TAG, "token=${deviceToken}")
 //            })
     }
-
-    fun setNotificationBuilder() {
-
-    }
 }
 
 /**

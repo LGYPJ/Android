@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.FIRST
-import com.garamgaebi.garamgaebi.common.REGISTER_LOGIN
 import com.garamgaebi.garamgaebi.common.SECOND
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
 
@@ -43,7 +42,7 @@ class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(Fragmen
             if(binding.fragmentRegisterIntroBtn.text == getString(R.string.next)) {
                 binding.fragmentIntroVp.currentItem = 1
             } else {
-                startActivity(Intent(registerActivity, RegisterLoginActivity::class.java))
+                startActivity(Intent(registerActivity, LoginActivity::class.java))
             }
         }
     }

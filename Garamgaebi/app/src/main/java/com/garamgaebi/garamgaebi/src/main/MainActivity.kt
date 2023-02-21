@@ -45,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
-        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
+        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", false).apply()
         // 자동 로그인
         if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
             Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
@@ -66,6 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             })
         } else {
             startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
         }
 
         setBottomNavi()

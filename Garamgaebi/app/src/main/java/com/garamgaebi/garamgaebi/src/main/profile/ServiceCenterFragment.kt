@@ -20,7 +20,7 @@ import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.register.RegisterLoginActivity
+import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
@@ -126,7 +126,7 @@ class ServiceCenterFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         viewModel.postLogout()
-                        activity?.startActivity(Intent(activity,RegisterLoginActivity::class.java))
+                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
             )
