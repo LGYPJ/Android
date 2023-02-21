@@ -147,7 +147,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //뒤로가기 이슈 해결 코드....
-    fun onMove(int: Int) {
+    /*fun onMove(int: Int) {
         super.onStart()
         when(int){
             1 -> {
@@ -183,9 +183,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
             }
         }
-    }
+    }*/
    // 뒤로가기 이슈 해결 코드,,,
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         if(isHome()){
             onMove(2)
@@ -213,7 +213,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
 
 
-    }
+    }*/
 
     fun getHelpFrame() {
         Log.d("getHelpFrame", "getHelpFrame")
@@ -268,7 +268,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
             }
             Log.d("firebaseToken", dataStr)
+
+            // notificationType을 받아서 세미나/네트워킹으로 이동
+            if(dynamicLinkData.getString("programType", "") == getString(R.string.seminarUpCase)) {
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
+                    .apply()
+                startActivity(Intent(this, ContainerActivity::class.java)
+                    .putExtra("seminar", true))
+            } else {
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
+                    .apply()
+                startActivity(Intent(this, ContainerActivity::class.java)
+                    .putExtra("networking", true))
+            }
         }
+
     }
 
     private fun getFcmToken(){

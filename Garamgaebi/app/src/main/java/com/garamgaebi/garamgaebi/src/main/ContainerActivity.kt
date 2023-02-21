@@ -24,13 +24,6 @@ import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            // 뒤로가기 클릭 시 실행시킬 코드 입력
-            onBackPressed()
-            Log.e("뒤로가기", "뒤로가기 클릭")
-        }
-    }
 
 
 
@@ -48,61 +41,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            //프래그먼트에서 back
-            /*val fragmentList = supportFragmentManager.fragments
-            for (fragment in fragmentList) {
-                if (fragment is onBackPressedListener) {
-                    (fragment as onBackPressedListener).onBackPressed()
-                    return@setOnClickListener
-                }
-            }*/
-
-            if(isSeminar()){
-                if(intent.getStringExtra("goseminar") == "goseminar"){
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("goseminar1", "goseminar1")
-                    startActivity(intent)
-                    intent.removeExtra("goseminar")
-                }
-                if(intent.getStringExtra("gathering-seminar")=="gathering-seminar"){
-                    intent.putExtra("gathering-seminar1", "gathering-seminar1")
-                    startActivity(intent)
-                    intent.removeExtra("gathering-seminar")
-                }
-                else{
-                    finish()
-                }
-            }
-            if(isNetworking()){
-                if(intent.getStringExtra("gathering-networking")=="gathering-networking"){
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("networking1", "networking1")
-                    startActivity(intent)
-                    intent.removeExtra("gathering-networking")
-                }
-                if(intent.getStringExtra("gonetworking") == "gonetworking"){
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("gonetworking1", "gonetworking1")
-                    startActivity(intent)
-                    intent.removeExtra("gonetworking")
-                }
-                /*else{
-                    finish()
-                }*/
-            }
-            if(isCancel()){
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("meeting", "meeting")
-                startActivity(intent)
-            }
+            onBackPressed()
             //알림
-            if(isNotifi()){
+            /*if(isNotifi()){
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
             else{
                 onBackPressed()
-            }
+            }*/
         }
 
     }
@@ -126,56 +73,72 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     .apply()
             }
 
+//            if (isIceBreaking()) {
+//                binding.activityContainerToolbarTv.text = "아이스브레이킹"
+//            }
+//            if (isNetworking()) {
+//                binding.activityContainerToolbarTv.text = "네트워킹"
+//                //뒤로가기
+//                if (intent.getStringExtra("gathering-networking") == "gathering-networking") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("networking1", "networking1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gathering-networking")
+//                }
+//                if (intent.getStringExtra("gonetworking") == "gonetworking") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("gonetworking1", "gonetworking1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gonetworking")
+//                }
+//                /*else{
+//                finish()
+//            }*/
+//
+//            }
+//            if (isSeminar()) {
+//                binding.activityContainerToolbarTv.text = "세미나"
+//                //뒤로가기
+//                if (intent.getStringExtra("goseminar") == "goseminar") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("goseminar1", "goseminar1")
+//                    startActivity(intent)
+//                    intent.removeExtra("goseminar")
+//                }
+//                if (intent.getStringExtra("gathering-seminar") == "gathering-seminar") {
+//                    intent.putExtra("gathering-seminar1", "gathering-seminar1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gathering-seminar")
+//                } else {
+//                    finish()
+//                }
+//            }
+//            if (isCancel()) {
+//                val intent = Intent(this, MainActivity::class.java)
+//                intent.putExtra("meeting", "meeting")
+//                startActivity(intent)
+//            }
+//            //알림
+//            if (isNotifi()) {
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//            }
+
+
             if (isIceBreaking()) {
                 binding.activityContainerToolbarTv.text = "아이스브레이킹"
             }
             if (isNetworking()) {
                 binding.activityContainerToolbarTv.text = "네트워킹"
-                //뒤로가기
-                if (intent.getStringExtra("gathering-networking") == "gathering-networking") {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("networking1", "networking1")
-                    startActivity(intent)
-                    intent.removeExtra("gathering-networking")
-                }
-                if (intent.getStringExtra("gonetworking") == "gonetworking") {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("gonetworking1", "gonetworking1")
-                    startActivity(intent)
-                    intent.removeExtra("gonetworking")
-                }
-                /*else{
-                finish()
-            }*/
-
             }
             if (isSeminar()) {
                 binding.activityContainerToolbarTv.text = "세미나"
-                //뒤로가기
-                if (intent.getStringExtra("goseminar") == "goseminar") {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("goseminar1", "goseminar1")
-                    startActivity(intent)
-                    intent.removeExtra("goseminar")
-                }
-                if (intent.getStringExtra("gathering-seminar") == "gathering-seminar") {
-                    intent.putExtra("gathering-seminar1", "gathering-seminar1")
-                    startActivity(intent)
-                    intent.removeExtra("gathering-seminar")
-                } else {
-                    finish()
-                }
-            }
-            if (isCancel()) {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("meeting", "meeting")
-                startActivity(intent)
             }
             //알림
-            if (isNotifi()) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
+            /*if(isNotifi()){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }*/
         }
     }
 
@@ -316,13 +279,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("seminar", false)){
             binding.activityContainerToolbarTv.text = "세미나"
-            /*val seminar = intent.getIntExtra("HomeSeminarIdx", 0)
-            val bundle = Bundle()
-            bundle.putInt("HomeSeminarIdx", seminar)
-            val seminarFragment = SeminarFragment()
-            seminarFragment.arguments = bundle
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.activity_seminar_frame, seminarFragment).commit()*/
             openFragmentOnFrameLayout(1)
         }
         if(intent.getBooleanExtra("cancel", false)){
