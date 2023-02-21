@@ -1,19 +1,13 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
@@ -35,73 +29,16 @@ class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     var containerActivity: ContainerActivity? = null
 
-    lateinit var viewModel: ProfileViewModel
-
+    private val viewModel: ProfileViewModel by lazy {
+        ViewModelProvider(this)[ProfileViewModel::class.java]
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         binding.lifecycleOwner = this
-
         binding.setVariable(BR.profileViewModel,viewModel)
+
         val dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-
-//        with(viewModel) {
-//            getProfileInfo(myMemberIdx)
-//            profileInfo.observe(viewLifecycleOwner) {
-//                binding.profileViewModel = viewModel
-//                val result = it as ProfileDataResponse
-//                GaramgaebiApplication.sSharedPreferences
-//                    .edit().putString("nickname", result.result.nickName)
-//                    .apply()
-//                if (result == null) {
-//
-//                } else {
-//
-//                    with(binding) {
-//
-//                        Log.d("image_before", result.result.profileUrl)
-//
-//                        if(result.result.profileUrl != null) {
-//                            CoroutineScope(Dispatchers.Main).launch {
-//                                val bitmap = withContext(Dispatchers.IO) {
-//                                    GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
-//                                }
-//                                binding.activityMyProfileIvProfile.setImageBitmap(bitmap)
-//                            }
-//                            activityMyProfileIvProfile.clipToOutline = true
-//                        }
-//
-//                        GaramgaebiApplication.sSharedPreferences
-//                            .edit().putString("myNickName", result.result.nickName)
-//                            .putString("myBelong", result.result.belong)
-//                            .putString("myEmail", result.result.profileEmail)
-//                            .putString("myIntro", result.result.content)
-//                            .putString("myImage", result.result.profileUrl)
-//                            .apply()
-//                        //Log.d("myImage", result.result.profileUrl + "h")
-//                        activityMyProfileTvUsername.text = result.result.nickName
-//                        activityMyProfileTvEmail.text = result.result.profileEmail
-//                        activityMyProfileTvSchool.text = result.result.belong
-//                        activityMyProfileTvIntro.text = result.result.content
-//
-//                        if (result.result.content == "" || result.result.content == null) {
-//                            activityMyProfileTvIntro.visibility = View.GONE
-//                        } else {
-//                            activityMyProfileTvIntro.visibility = View.VISIBLE
-//                        }
-//                        if (result.result.belong == "" || result.result.belong == null) {
-//                            activityMyProfileTvSchool.visibility = View.GONE
-//                        } else {
-//                            activityMyProfileTvSchool.visibility = View.VISIBLE
-//                        }
-//
-//                    }
-//
-//                }
-//            }
-       // }
-
         with(binding){
             activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
             activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
@@ -126,7 +63,10 @@ class MyProfileFragment :
                 goEditFragment()
             }
         }
+
+
     }
+
     //내 프로필 편집 화면으로 이동
     private fun goEditFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)

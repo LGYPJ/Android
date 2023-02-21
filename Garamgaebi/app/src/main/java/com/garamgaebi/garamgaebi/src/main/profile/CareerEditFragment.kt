@@ -204,14 +204,15 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                         }
                     }, { it.printStackTrace() })
             )
+
         disposables
             .add(
                 binding
-                    .activityCareerCheckboxRl
+                    .activityCareerCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isWorking.value = "TRUE"
                             viewModel.checkBox.value = true

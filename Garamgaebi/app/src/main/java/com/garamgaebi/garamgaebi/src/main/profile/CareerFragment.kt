@@ -170,6 +170,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                             viewModel.endDate.value = "현재"
                             viewModel.isWorking.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isWorking.value = "FALSE"
@@ -180,18 +181,19 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityCareerCheckboxRl
+                    .activityCareerCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isWorking.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isWorking.value = "FALSE"
-                            viewModel.checkBox.value = false
+                           viewModel.checkBox.value = false
                         }
                     }, { it.printStackTrace() })
             )

@@ -233,11 +233,11 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         disposables
             .add(
                 binding
-                    .activityEducationCheckboxRl
+                    .activityEducationCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true
