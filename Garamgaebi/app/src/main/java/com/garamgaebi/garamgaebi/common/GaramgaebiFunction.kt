@@ -1,8 +1,18 @@
 package com.garamgaebi.garamgaebi.common
 
+import android.content.ContentResolver
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,19 +35,43 @@ class GaramgaebiFunction {
         }
     }
 
-    //editText focus Listener
-//    var onFocusChangeListener =
-//        OnFocusChangeListener { view, isFocused ->
-//            val origin = view.background
-//            if(isFocused){
-//                view.setBackgroundResource(R.drawable.basic_black_border_layout)
-//            }else{
-//                view.background = origin
-//            }
-//        }
-    interface OnFocusLostListener {
-        fun onFocusLost(view: EditText,boolean: Boolean)
+    fun getBitmapFromURL(src: String): Bitmap? {
+        return try {
+            val url = URL(src)
+            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input: InputStream = connection.inputStream
+            BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
     }
+    object ImageLoader {
+        suspend fun loadImage(imageUrl: String): Bitmap? {
+            val bmp: Bitmap? = null
+            try {
+                val url = URL(imageUrl)
+                val stream = url.openStream()
+
+                return BitmapFactory.decodeStream(stream)
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return bmp
+        }
+    }
+
+    fun checkFirstChar(isValid: MutableLiveData<Boolean>, it:String){
+        if(it.isNotEmpty()){
+            if(it.toCharArray()[0] == ' ')
+                isValid.value = false
+        }
+    }
+
     interface OnFocusingListener {
         fun onFocusing(boolean: Boolean)
     }

@@ -61,11 +61,15 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(institutionIsValid, it)
+
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(majorIsValid, it)
+
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
             startDate.observe(viewLifecycleOwner) {

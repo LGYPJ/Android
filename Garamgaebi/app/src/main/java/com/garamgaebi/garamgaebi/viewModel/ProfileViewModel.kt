@@ -113,16 +113,17 @@ class ProfileViewModel : ViewModel(){
 //                ),img)
             val response = profileRepository.getCheckEditProfileInfo(
                 info,img)
-            Log.d("image_edit4", response.body().toString())
+            Log.d("image_edit5", response.toString())
+            Log.d("image_edit6", img.toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {
-                    Log.d("success_edit", response.message())
+                    Log.d("image_success_edit", response.body().toString())
                     _profileEdit.value = (response.body())
                 }
             }
             else {
-                Log.d("error_edit", response.message())
+                Log.d("image_error_edit", response.message())
             }
         }
     }
@@ -140,6 +141,7 @@ class ProfileViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getProfileInfo(memberIdx)
             Log.d("present0", response.body().toString())
+            Log.d("image_get", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {

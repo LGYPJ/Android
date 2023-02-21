@@ -2,117 +2,122 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.ImageDecoder
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
+import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
+import java.io.InputStream
 import java.util.concurrent.TimeUnit
 
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
-    private lateinit var callback: OnBackPressedCallback
-    private var bodyPart : MultipartBody.Part? = null
 
+
+    @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
-        Log.d("image_result_code",result.resultCode.toString())
-
-        if(result.resultCode == Activity.RESULT_OK){
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
+            imageUri.scheme?.let {
+                /**
+                 * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
+                 */
+                findImageFileNameFromUri(imageUri)
 
-            val file = activity?.let { absolutelyPath(imageUri, it) }?.let { File(it) }
-            Log.d("image_result_file",file.toString())
+                /**
+                 * 사용자가 갤러리에서 이미지를 선택했다면
+                 */
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putBoolean("EditImage", true)
+                    .apply()
 
-            val requestFile = file?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }
-            Log.d("image_result_request",requestFile.toString())
-
-            bodyPart = requestFile?.let {
-                MultipartBody.Part.createFormData("profile", file.name,
-                    it
-                )
             }
-            Log.d("image_result_multipart",bodyPart.toString())
-
-//            val bitmap = context?.let { ImageDecoder.createSource(it.contentResolver,imageUri) }
-//                ?.let { ImageDecoder.decodeBitmap(it) }
-            //binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
-            binding.activityEditProfileIvProfile.setImageResource(R.drawable.basic_gray_border_layout)
-            if (file != null) {
-                Log.d("image_1_file_name",file.name)
-            }
-            Log.d("image_2_image_uri",imageUri.toString())
-            //Log.d("image_3_image_bitmap",bitmap.toString())
-
-            activity?.let { Glide.with(it).load(imageUri).fitCenter().apply(RequestOptions().override(80,80)).into(binding.activityEditProfileIvProfile) }
-
-
-            //sendImage(body)
-
-            binding.activityEditProfileIvProfile.setImageURI(imageUri)
-            //binding.activityEditProfileIvProfile.setBackgroundResource(imageUri)
-
-            activity?.let { it1 ->
-                Glide.with(it1)
-                    .load(imageUri.toString())
-                    .into(binding.activityEditProfileIvProfile)
-            }
-            binding.activityEditProfileIvProfile.clipToOutline = true
-
-
-            Log.d("image_4_resource",binding.activityEditProfileIvProfile.resources.toString())
-
-        }else{
-            Log.d("image_4_resourcedd",binding.activityEditProfileIvProfile.resources.toString())
-
         }
     }
-    companion object{
+
+    /**
+     * 갤러리에서 사용자가 선택한 이미지의 절대경로를 얻어오는 함수
+     */
+    @SuppressLint("Range", "Recycle")
+    private fun findImageFileNameFromUri(tempUri: Uri): Boolean {
+        var flag = false
+        //실제 Image 파일이 위치하는 곳(절대디렉토리)
+        val imageDBColumn = arrayOf("_data")
+        val cursor: Cursor?
+        // try {
+        //Primary Key 값을 추출
+        val imagePK = ContentUris.parseId(tempUri).toString()
+        //Image DB에 쿼리를 날린다.
+        cursor = requireActivity().contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            imageDBColumn,
+            MediaStore.Images.Media._ID + "=?", arrayOf(imagePK),
+            null, null
+        )
+        cursor?.let {
+            it.moveToFirst()
+            FileUpLoad.setFileToUpLoad(it.getString(it.getColumnIndex("_data")))
+            flag = true
+        } ?: run {
+            flag = false
+        }
+        return flag
+    }
+
+    companion object {
         const val REQ_GALLERY = 1
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+    private val viewModel: ProfileViewModel by lazy {
+        ViewModelProvider(this)[ProfileViewModel::class.java]
     }
     @RequiresApi(Build.VERSION_CODES.P)
-    private fun selectGallery(){
-        val writePermission = activity?.let {
+    private fun selectGallery() {
+        val writePermission = requireActivity().let {
             ContextCompat.checkSelfPermission(
                 it,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -125,104 +130,98 @@ class ProfileEditFragment :
             )
         }
 
-        if(writePermission == PackageManager.PERMISSION_DENIED ||
-            readPermission == PackageManager.PERMISSION_DENIED){
+        if (writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED
+        ) {
             activity?.let {
                 ActivityCompat.requestPermissions(
                     it,
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    arrayOf(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
                     REQ_GALLERY
                 )
             }
-        }else{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(
+        } else {
+
+            val target = Intent(Intent.ACTION_PICK)
+            target.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 "image/*"
             )
-            Log.d("왜안돼","어")
-            imageResult.launch(intent)
+            imageResult.launch(target)
         }
 
 
-
-    }
-    // 절대경로 변환
-
-    fun absolutelyPath(path: Uri?, context : Context): String {
-        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-
-        var result = c?.getString(index!!)
-
-        return result!!
     }
 
-    //    fun sendImage(body: MultipartBody.Part){
-//        retrofit.sendImage(body).enqueue(object: Callback<String>{
-//            override fun onResponse(call: Call<String>, response: Response<String>) {
-//                if(response.isSuccessful){
-//                    Toast.makeText(this@MainActivity, "이미지 전송 성공", Toast.LENGTH_SHORT).show()
-//                }else{
-//                    Toast.makeText(this@MainActivity, "이미지 전송 실패", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<String>, t: Throwable) {
-//                Log.d("testt", t.message.toString())
-//            }
-//
-//        })
-//    }
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode == Activity.RESULT_OK){
-            var imageUrl = it.data?.data
-            Log.d("img","성공")
-        }else{
-            Log.d("img","실패")
+    private val TAG = "TAG-EDIT-CP"
+
+    override fun onResume() {
+        Log.e(TAG, "resume")
+
+        super.onResume()
+        /**
+         * 사용자가 갤러리에서 이미지를 선택했다면
+         */
+    }
+
+    override fun onPause() {
+        GaramgaebiApplication.sSharedPreferences
+            .edit().putString("myNickName", viewModel.nickName.value)
+            .putString("myBelong", viewModel.belong.value)
+            .putString("myEmail", viewModel.email.value)
+            .putString("myIntro", viewModel.intro.value)
+            .apply()
+
+        //사진 편집 후 중단된 경우
+        if(!GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage",false)){
+            GaramgaebiApplication.sSharedPreferences
+                .edit().putString("myNickName", viewModel.nickName.value)
+                .putString("myBelong", viewModel.belong.value)
+                .putString("myEmail", viewModel.email.value)
+                .putString("myIntro", viewModel.intro.value)
+                .putString("myImage", viewModel.image.value)
+                .apply()
         }
-    }
+        Log.e(TAG, "onpause")
 
-    @SuppressLint("ClickableViewAccessibility")
+        super.onPause()
+    }
+    @SuppressLint("ClickableViewAccessibility", "UseRequireInsteadOfGet", "WrongThread",
+        "SuspiciousIndentation"
+    )
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e(TAG, "viewcreated")
 
-
-
-
-        Log.d("viewcreated","yes")
-        val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        binding.setVariable(BR.viewModel,viewModel)
-        binding.viewModel = viewModel
+        binding.setVariable(BR.viewModel, viewModel)
         binding.lifecycleOwner = this
-        //val viewModels by viewModels<ProfileViewModel>()
-
 
         with(binding) {
-            viewModel.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
+            viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myNickName",
                 "Error"
             )
-            viewModel.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
+            viewModel!!.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myBelong",
                 ""
             )
-            viewModel.email.value = GaramgaebiApplication.sSharedPreferences.getString(
+            viewModel!!.email.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myEmail",
                 "Error"
             )
-            viewModel.intro.value = GaramgaebiApplication.sSharedPreferences.getString(
+            viewModel!!.intro.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myIntro",
                 ""
             )
-            viewModel.image.value = GaramgaebiApplication.sSharedPreferences.getString(
+            viewModel!!.image.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myImage",
                 "Error"
             )
+            Log.d("image_viewModel",viewModel!!.image.value.toString())
 
             activityEditProfileEtNick.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
@@ -248,20 +247,26 @@ class ProfileEditFragment :
                     ""
                 )
             )
+            var myProfileImage = GaramgaebiApplication.sSharedPreferences.getString("myImage", "error")
+            var editImage = GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage", false)
 
-            var myProfileImage = GaramgaebiApplication.sSharedPreferences.getString("myImage", "")
-            if (myProfileImage != null) {
-                if(myProfileImage.isNotEmpty()) {
-                    activity?.let { it1 ->
-                        Glide.with(it1)
-                            .load(myProfileImage)
-                            .into(activityEditProfileIvProfile)
+            if (myProfileImage !="error" && myProfileImage != null && !editImage) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val bitmap = withContext(Dispatchers.IO) {
+                            GaramgaebiFunction.ImageLoader.loadImage(myProfileImage)
+                        }
+                        binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
                     }
+           }else if(editImage){
+                if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {
+                    Log.e(TAG, FileUpLoad.getFileToUpLoad())
+                    binding.activityEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
+                } else {
+                    Log.e(TAG, "image Empty")
                 }
+            } else {
+
             }
-            activityEditProfileIvProfile.clipToOutline = true
-
-
         }
 
 
@@ -269,17 +274,19 @@ class ProfileEditFragment :
         viewModel.nickName.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-
             if(it.length > 8){
                 viewModel.nameState.value = getString(R.string.edit_profile_hint)
                 viewModel.nickNameIsValid.value = false
             }else if(it.isNotEmpty()){
                 if(it!=null  && it.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*".toRegex())) {
-                    System.out.println("특수 문자가 없습니다.");
+                    System.out.println("특수문자가 없습니다.");
                     viewModel.nickNameIsValid.value = true
                 }else {
                     System.out.println("특수문자가 있습니다.");
                     viewModel.nameState.value = getString(R.string.wrong_nick_name)
+                    viewModel.nickNameIsValid.value = false
+                }
+                if(it.toCharArray()[0] == ' '){
                     viewModel.nickNameIsValid.value = false
                 }
 
@@ -292,7 +299,8 @@ class ProfileEditFragment :
         })
         viewModel.belong.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.belongIsValid.value = it.length < 18 && it.isNotEmpty()
+            viewModel.belongIsValid.value = it.length < 19
+            GaramgaebiFunction().checkFirstChar(viewModel.belongIsValid, it)
             Log.d("profile_belong_true",viewModel.belongIsValid.value.toString())
         })
         viewModel.email.observe(viewLifecycleOwner, Observer {
@@ -306,11 +314,13 @@ class ProfileEditFragment :
         viewModel.intro.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.introIsValid.value = it.length < INPUT_TEXT_LENGTH_100
+            viewModel.introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
+            GaramgaebiFunction().checkFirstChar(viewModel.introIsValid, it)
 
             Log.d("profile_intro_true",viewModel.introIsValid.value.toString())
         })
-//프로필 사진 변경을 위한,,,
+
+        //프로필 사진 변경을 위한,,,
         disposables
             .add(
                 binding
@@ -332,27 +342,58 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        Log.d("image_edit_ss",bodyPart.toString())
-                        //viewModel.img = null
-                        Log.d("image_edit_ss","??")
-                        viewModel.getCheckEditProfileInfo(myMemberIdx, null)
+                        var editImage = GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage", false)
+
+                        if(editImage) {
+
+                        val requestFile = FileUpLoad.getFileToUpLoad()
+                            .toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                        val body = MultipartBody.Part.createFormData("image", FileUpLoad.getFileToUpLoad()+".png",requestFile)
+                            Log.d("image_edit_ss",body.toString())
+
+
+                        var inputStream : InputStream? = null
+                        try {
+                            inputStream =
+                                context?.contentResolver?.openInputStream(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))!!
+                        }catch(e : IOException) {
+                            e.printStackTrace();
+                        }
+                        var bitmap = BitmapFactory.decodeStream(inputStream);
+                        var byteArrayOutputStream : ByteArrayOutputStream? = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+
+                        var requestBody = byteArrayOutputStream?.let { RequestBody.create("multipart/form-data".toMediaTypeOrNull(), it.toByteArray()) };
+                        var uploadFile = requestBody?.let {
+                            MultipartBody.Part.createFormData("image", FileUpLoad.getFileToUpLoad()+".png",
+                                it
+                            )
+                        }
+                        Log.d("image_edit_sswwww",uploadFile.toString())
+
+                            viewModel.getCheckEditProfileInfo(myMemberIdx, uploadFile)
+
+                        }else{
+                            viewModel.getCheckEditProfileInfo(myMemberIdx, null)
+
+                        }
+
                         (activity as ContainerActivity).onBackPressed()
+
                     }, { it.printStackTrace() })
             )
 
 
+
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
+            Log.d("image_source",binding.activityEditProfileIvProfile.resources.toString())
             false
         })
 
     }
     private fun hideKeyboard() {
-        Log.d("image_edit_ss","??ㅈㅈ")
-
         if (activity != null && requireActivity().currentFocus != null) {
-            Log.d("image_edit_ss","??22")
-
             // 프래그먼트기 때문에 getActivity() 사용
             val inputManager: InputMethodManager =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

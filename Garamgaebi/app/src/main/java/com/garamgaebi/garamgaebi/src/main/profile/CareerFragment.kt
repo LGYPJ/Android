@@ -38,6 +38,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             company.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(companyIsValid, it)
                 Log.d("career_company_true", companyIsValid.value.toString())
             }
 
@@ -45,6 +46,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             position.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(positionIsValid, it)
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
