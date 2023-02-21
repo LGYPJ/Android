@@ -268,7 +268,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
             }
             Log.d("firebaseToken", dataStr)
+
+            // notificationType을 받아서 세미나/네트워킹으로 이동
+            if(dynamicLinkData.getString("programType", "") == getString(R.string.seminarUpCase)) {
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
+                    .apply()
+                startActivity(Intent(this, ContainerActivity::class.java)
+                    .putExtra("seminar", true))
+            } else {
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
+                    .apply()
+                startActivity(Intent(this, ContainerActivity::class.java)
+                    .putExtra("networking", true))
+            }
         }
+
     }
 
     private fun getFcmToken(){

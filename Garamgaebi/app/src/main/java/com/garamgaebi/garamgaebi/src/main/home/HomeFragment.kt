@@ -113,9 +113,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                     .edit().putInt("programIdx", program)
                                     .apply()
                                 //네트워킹 메인 프래그먼트로!
-                                val intent = Intent(context, ContainerActivity::class.java)
-                                intent.putExtra("networking", true)
-                                startActivity(intent)
+                                startActivity(Intent(context, ContainerActivity::class.java)
+                                    .putExtra("networking", true))
                             }
                         })
                     }

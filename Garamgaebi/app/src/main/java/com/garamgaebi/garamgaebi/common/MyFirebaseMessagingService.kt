@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -38,18 +39,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         // Notification 메시지를 수신할 경우
         // remoteMessage.notification?.body!! 여기에 내용이 저장되있음
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
+        //Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
 
         //받은 remoteMessage의 값 출력해보기. 데이터메세지 / 알림메세지
         Log.d(TAG, "Message data : ${remoteMessage.data}")
-        Log.d(TAG, "Message noti : ${remoteMessage.notification}")
+        //Log.d(TAG, "Message noti : ${remoteMessage.notification}")
 
         if(remoteMessage.data.isNotEmpty()){
             //알림생성
             sendNotification(remoteMessage)
             Log.d(TAG, remoteMessage.from!!)
-            Log.d(TAG, remoteMessage.data["notificationType"].toString())
-            Log.d(TAG, remoteMessage.data["content"].toString())
         }else {
             Log.e(TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
@@ -61,71 +60,54 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
         // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
-        val target = Intent(this, ContainerActivity::class.java)
+        val target = Intent(this, MainActivity::class.java)
         //각 key, value 추가
         for(key in remoteMessage.data.keys){
             target.putExtra(key, remoteMessage.data.getValue(key))
         }
         Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
-        if(remoteMessage.data["programType"] == getString(R.string.seminarUpCase)) {
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putInt("programIdx", remoteMessage.data["programIdx"]!!.toInt())
-                .apply()
-            target.putExtra("seminar", true)
-        } else {
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putInt("programIdx", remoteMessage.data["programIdx"]!!.toInt())
-                .apply()
-            target.putExtra("networking", true)
-        }
-        //target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
+        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
 
         val pendingTarget = PendingIntent.getActivity(this, uniId, target, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 채널 이름
         val channelId = "my_channel"
-        // 알림 소리
-        //val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         // 알림에 대한 UI 정보, 작업
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setContentTitle(remoteMessage.notification?.title.toString()) // 제목
-            .setContentText(remoteMessage.notification?.body.toString()) // 메시지 내용
+            .setContentText(remoteMessage.data["content"]) // 메시지 내용
             .setAutoCancel(true) // 알람클릭시 삭제여부
-            //.setSound(soundUri)  // 알림 소리
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))  // 알림 소리
             .setContentIntent(pendingTarget) // 알림 실행 시 Intent
 
-        when(remoteMessage.notification?.title.toString()) {
+        when(remoteMessage.data["notificationType"]) {
             getString(R.string.collection) -> {
-                notificationBuilder.setContentTitle("모아보기")
+                notificationBuilder.setContentTitle(getString(R.string.noti_collection))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_gathering)
             }
             getString(R.string.soon_close) -> {
-                notificationBuilder.setContentTitle("마감임박")
+                notificationBuilder.setContentTitle(getString(R.string.noti_soon_close))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_deadline)
             }
             getString(R.string.apply_complete) -> {
-                notificationBuilder.setContentTitle("신청완료")
+                notificationBuilder.setContentTitle(getString(R.string.noti_apply_complete))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_complete)
             }
             getString(R.string.apply_cancel_complete) -> {
-                notificationBuilder.setContentTitle("신청취소완료")
+                notificationBuilder.setContentTitle(getString(R.string.noti_apply_cancel_complete))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_cancel_complete)
             }
             getString(R.string.non_deposit_cancel) -> {
-                notificationBuilder.setContentTitle("미입금취소")
+                notificationBuilder.setContentTitle(getString(R.string.noti_non_deposit_cancel))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_cancel_complete)
-
             }
             getString(R.string.refund_complete) -> {
-                notificationBuilder.setContentTitle("환불완료")
+                notificationBuilder.setContentTitle(getString(R.string.noti_refund_complete))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_refund_complete)
             }
             getString(R.string.apply_confirm) -> {
-                notificationBuilder.setContentTitle("신청확정")
+                notificationBuilder.setContentTitle(getString(R.string.noti_apply_confirm))
                     .setSmallIcon(R.drawable.ic_item_fragment_notification_complete)
-            }
-            else -> {
             }
         }
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -159,6 +141,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //                var deviceToken = task.result
 //                Log.e(TAG, "token=${deviceToken}")
 //            })
+    }
+
+    fun setNotificationBuilder() {
+
     }
 }
 
