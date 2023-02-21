@@ -115,7 +115,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
         // 알림 생성
-        startActivity(target)
+        //startActivity(target)
         notificationManager.notify(uniId, notificationBuilder.build())
     }
 
