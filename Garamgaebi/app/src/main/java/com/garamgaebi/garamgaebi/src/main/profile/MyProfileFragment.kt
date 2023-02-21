@@ -265,9 +265,6 @@ class MyProfileFragment :
         }
         return value
     }
-    override fun onDetach() {
-        super.onDetach()
-    }
 }
 
 

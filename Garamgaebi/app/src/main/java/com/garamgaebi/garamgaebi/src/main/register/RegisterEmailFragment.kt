@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
@@ -24,10 +26,10 @@ class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(
         super.onViewCreated(view, savedInstanceState)
 
 
-        val viewModel by viewModels<RegisterViewModel>()
+        val viewModel by activityViewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
-
+        Log.d("registerEmail", "${viewModel.nickname.value}")
         viewModel.profileEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             viewModel.isProfileEmailValid.value = viewModel.checkProfileEmail()
@@ -35,35 +37,6 @@ class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(
         binding.fragmentEmailBtn.setOnClickListener {
             registerActivity.setFragment(REGISTER_ORG)
         }
-
-        /*// et에 따라 닉네임 조건 tv 변경
-        binding.fragmentEmailEtEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(checkEmail()) {
-                    binding.fragmentEmailTvState.apply {
-                        visibility = View.VISIBLE
-                        text = "사용 가능한 이메일입니다"
-                        setTextColor(registerActivity.getColor(R.color.blueForBtn))
-                    }
-                    binding.fragmentEmailBtn.apply {
-                        setBackgroundResource(R.drawable.register_btn_color_enable)
-                        isEnabled = true
-                    }
-                } else {
-                    binding.fragmentEmailTvState.apply {
-                        visibility = View.VISIBLE
-                        text = "이메일 형식이 올바르지 않습니다"
-                        setTextColor(registerActivity.getColor(R.color.redForText))
-                    }
-                    binding.fragmentEmailBtn.apply {
-                        setBackgroundResource(R.drawable.register_btn_color)
-                        isEnabled = false
-                    }
-                }
-            }
-        })*/
 
         binding.fragmentEmailBtn.setOnClickListener {
             registerActivity.setFragment(REGISTER_ORG)
