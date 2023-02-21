@@ -55,117 +55,11 @@ import java.util.concurrent.TimeUnit
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
 
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    private val imageResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data ?: return@registerForActivityResult
-            imageUri.scheme?.let {
-                /**
-                 * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
-                 */
-                findImageFileNameFromUri(imageUri)
-
-                /**
-                 * 사용자가 갤러리에서 이미지를 선택했다면
-                 */
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putBoolean("EditImage", true)
-                    .apply()
-
-            }
-        }
-    }
-
-    /**
-     * 갤러리에서 사용자가 선택한 이미지의 절대경로를 얻어오는 함수
-     */
-    @SuppressLint("Range", "Recycle")
-    private fun findImageFileNameFromUri(tempUri: Uri): Boolean {
-        var flag = false
-        //실제 Image 파일이 위치하는 곳(절대디렉토리)
-        val imageDBColumn = arrayOf("_data")
-        val cursor: Cursor?
-        // try {
-        //Primary Key 값을 추출
-        val imagePK = ContentUris.parseId(tempUri).toString()
-        //Image DB에 쿼리를 날린다.
-        cursor = requireActivity().contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            imageDBColumn,
-            MediaStore.Images.Media._ID + "=?", arrayOf(imagePK),
-            null, null
-        )
-        cursor?.let {
-            it.moveToFirst()
-            FileUpLoad.setFileToUpLoad(it.getString(it.getColumnIndex("_data")))
-            flag = true
-        } ?: run {
-            flag = false
-        }
-        return flag
-    }
-
-    companion object {
-        const val REQ_GALLERY = 1
-    }
-
     private val viewModel: ProfileViewModel by lazy {
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun selectGallery() {
-        val writePermission = requireActivity().let {
-            ContextCompat.checkSelfPermission(
-                it,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        }
-        val readPermission = activity?.let {
-            ContextCompat.checkSelfPermission(
-                it,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        }
-
-        if (writePermission == PackageManager.PERMISSION_DENIED ||
-            readPermission == PackageManager.PERMISSION_DENIED
-        ) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it,
-                    arrayOf(
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE
-                    ),
-                    REQ_GALLERY
-                )
-            }
-        } else {
-
-            val target = Intent(Intent.ACTION_PICK)
-            target.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/*"
-            )
-            imageResult.launch(target)
-        }
-
-
-    }
 
     private val TAG = "TAG-EDIT-CP"
-
-    override fun onResume() {
-        Log.e(TAG, "resume")
-
-        super.onResume()
-        /**
-         * 사용자가 갤러리에서 이미지를 선택했다면
-         */
-    }
 
     override fun onPause() {
         GaramgaebiApplication.sSharedPreferences
@@ -178,11 +72,7 @@ class ProfileEditFragment :
         //사진 편집 후 중단된 경우
         if(!GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage",false)){
             GaramgaebiApplication.sSharedPreferences
-                .edit().putString("myNickName", viewModel.nickName.value)
-                .putString("myBelong", viewModel.belong.value)
-                .putString("myEmail", viewModel.email.value)
-                .putString("myIntro", viewModel.intro.value)
-                .putString("myImage", viewModel.image.value)
+                .edit().putString("myImage", viewModel.image.value)
                 .apply()
         }
         Log.e(TAG, "onpause")
@@ -269,58 +159,60 @@ class ProfileEditFragment :
             }
         }
 
+        with(viewModel) {
 
-        // 유효성 확인
-        viewModel.nickName.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
+            // 유효성 확인
+            nickName.observe(viewLifecycleOwner, Observer {
+                binding.viewModel = viewModel
 
-            if(it.length > 8){
-                viewModel.nameState.value = getString(R.string.edit_profile_hint)
-                viewModel.nickNameIsValid.value = false
-            }else if(it.isNotEmpty()){
-                if(it!=null  && it.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*".toRegex())) {
-                    System.out.println("특수문자가 없습니다.");
-                    viewModel.nickNameIsValid.value = true
-                }else {
-                    System.out.println("특수문자가 있습니다.");
-                    viewModel.nameState.value = getString(R.string.wrong_nick_name)
-                    viewModel.nickNameIsValid.value = false
+                if (it.length > 8) {
+                    nameState.value = getString(R.string.edit_profile_hint)
+                    nickNameIsValid.value = false
+                } else if (it.isNotEmpty()) {
+                    if (it != null && it.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*".toRegex())) {
+                        System.out.println("특수문자가 없습니다.");
+                        nickNameIsValid.value = true
+                    } else {
+                        System.out.println("특수문자가 있습니다.");
+                        nameState.value = getString(R.string.wrong_nick_name)
+                        nickNameIsValid.value = false
+                    }
+                    if (it.toCharArray()[0] == ' ') {
+                        nickNameIsValid.value = false
+                    }
+
+                } else if (it.isEmpty()) {
+                    nameState.value = getString(R.string.edit_profile_hint)
+                    nickNameIsValid.value = false
                 }
-                if(it.toCharArray()[0] == ' '){
-                    viewModel.nickNameIsValid.value = false
-                }
 
-            }else if(it.isEmpty()){
-                viewModel.nameState.value = getString(R.string.edit_profile_hint)
-                viewModel.nickNameIsValid.value = false
-            }
+                Log.d("profile_nickName_true", nickNameIsValid.value.toString())
+            })
+                belong.observe(viewLifecycleOwner, Observer {
+                binding.viewModel = viewModel
+                belongIsValid.value = it.length < 19
+                GaramgaebiFunction().checkFirstChar(belongIsValid, it)
+                Log.d("profile_belong_true", belongIsValid.value.toString())
+            })
+            email.observe(viewLifecycleOwner, Observer {
+                binding.viewModel = viewModel
 
-            Log.d("profile_nickName_true",viewModel.nickNameIsValid.value.toString())
-        })
-        viewModel.belong.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
-            viewModel.belongIsValid.value = it.length < 19
-            GaramgaebiFunction().checkFirstChar(viewModel.belongIsValid, it)
-            Log.d("profile_belong_true",viewModel.belongIsValid.value.toString())
-        })
-        viewModel.email.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
+                //email 유효성 검사 부분
+                viewModel.emailIsValid.value = Patterns.EMAIL_ADDRESS.matcher(it).matches()
+                Log.d("profile_email_true", emailIsValid.value.toString())
+            })
 
-            //email 유효성 검사 부분
-            viewModel.emailIsValid.value = Patterns.EMAIL_ADDRESS.matcher(it).matches()
-            Log.d("profile_email_true",viewModel.emailIsValid.value.toString())
-        })
+            intro.observe(viewLifecycleOwner, Observer {
+                binding.viewModel = viewModel
 
-        viewModel.intro.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
+                introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
+                GaramgaebiFunction().checkFirstChar(introIsValid, it)
 
-            viewModel.introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
-            GaramgaebiFunction().checkFirstChar(viewModel.introIsValid, it)
+                Log.d("profile_intro_true", introIsValid.value.toString())
+            })
+        }
 
-            Log.d("profile_intro_true",viewModel.introIsValid.value.toString())
-        })
-
-        //프로필 사진 변경을 위한,,,
+        //프로필 사진 변경을 위한 클릭리스너
         disposables
             .add(
                 binding
@@ -390,6 +282,102 @@ class ProfileEditFragment :
             Log.d("image_source",binding.activityEditProfileIvProfile.resources.toString())
             false
         })
+
+    }
+    @RequiresApi(Build.VERSION_CODES.P)
+    private val imageResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data ?: return@registerForActivityResult
+            imageUri.scheme?.let {
+                /**
+                 * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
+                 */
+                findImageFileNameFromUri(imageUri)
+
+                /**
+                 * 사용자가 갤러리에서 이미지를 선택했다면
+                 */
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putBoolean("EditImage", true)
+                    .apply()
+
+            }
+        }
+    }
+
+    /**
+     * 갤러리에서 사용자가 선택한 이미지의 절대경로를 얻어오는 함수
+     */
+    @SuppressLint("Range", "Recycle")
+    private fun findImageFileNameFromUri(tempUri: Uri): Boolean {
+        var flag = false
+        //실제 Image 파일이 위치하는 곳(절대디렉토리)
+        val imageDBColumn = arrayOf("_data")
+        val cursor: Cursor?
+        // try {
+        //Primary Key 값을 추출
+        val imagePK = ContentUris.parseId(tempUri).toString()
+        //Image DB에 쿼리를 날린다.
+        cursor = requireActivity().contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            imageDBColumn,
+            MediaStore.Images.Media._ID + "=?", arrayOf(imagePK),
+            null, null
+        )
+        cursor?.let {
+            it.moveToFirst()
+            FileUpLoad.setFileToUpLoad(it.getString(it.getColumnIndex("_data")))
+            flag = true
+        } ?: run {
+            flag = false
+        }
+        return flag
+    }
+
+    companion object {
+        const val REQ_GALLERY = 1
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun selectGallery() {
+        val writePermission = requireActivity().let {
+            ContextCompat.checkSelfPermission(
+                it,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        }
+        val readPermission = activity?.let {
+            ContextCompat.checkSelfPermission(
+                it,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+
+        if (writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED
+        ) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    REQ_GALLERY
+                )
+            }
+        } else {
+
+            val target = Intent(Intent.ACTION_PICK)
+            target.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                "image/*"
+            )
+            imageResult.launch(target)
+        }
+
 
     }
     private fun hideKeyboard() {

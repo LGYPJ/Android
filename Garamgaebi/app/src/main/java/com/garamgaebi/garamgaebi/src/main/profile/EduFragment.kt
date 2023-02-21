@@ -172,6 +172,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isLearning.value = "FALSE"
@@ -182,14 +183,15 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityEducationCheckboxRl
+                    .activityEducationCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isLearning.value = "FALSE"
