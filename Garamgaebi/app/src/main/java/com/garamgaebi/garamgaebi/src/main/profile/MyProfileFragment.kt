@@ -22,6 +22,7 @@ import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -32,7 +33,6 @@ import kotlinx.coroutines.*
 @Suppress("UNREACHABLE_CODE")
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
-    private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
     lateinit var viewModel: ProfileViewModel
@@ -46,67 +46,61 @@ class MyProfileFragment :
         binding.setVariable(BR.profileViewModel,viewModel)
         val dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
 
-        with(viewModel) {
-            getProfileInfo(myMemberIdx)
-            profileInfo.observe(viewLifecycleOwner) {
-                binding.profileViewModel = viewModel
-                val result = it as ProfileDataResponse
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putString("nickname", result.result.nickName)
-                    .apply()
-                if (result == null) {
-
-                } else {
-                    with(binding) {
-                        GaramgaebiApplication.sSharedPreferences
-                            .edit().putString("myNickName", result.result.nickName)
-                            .putString("myBelong", result.result.belong)
-                            .putString("myEmail", result.result.profileEmail)
-                            .putString("myIntro", result.result.content)
-                            .putString("myImage", result.result.profileUrl)
-                            .apply()
-                        Log.d("myImage", result.result.profileUrl + "h")
-                        activityMyProfileTvUsername.text = result.result.nickName
-                        activityMyProfileTvEmail.text = result.result.profileEmail
-                        activityMyProfileTvSchool.text = result.result.belong
-                        activityMyProfileTvIntro.text = result.result.content
-
-                        if (result.result.profileUrl != "null" && result.result.profileUrl != null) {
-                            activity?.let { it1 ->
-                                Glide.with(it1).load(result.result.profileUrl)
-                                    .into(activityMyProfileIvProfile)
-                            }
-                        }
-                        activityMyProfileIvProfile.clipToOutline = true
-
-                        if (result.result.content == "" || result.result.content == null) {
-                            activityMyProfileTvIntro.visibility = View.GONE
-                        } else {
-                            activityMyProfileTvIntro.visibility = View.VISIBLE
-                        }
-                        if (result.result.belong == "" || result.result.belong == null) {
-                            activityMyProfileTvSchool.visibility = View.GONE
-                        } else {
-                            activityMyProfileTvSchool.visibility = View.VISIBLE
-                        }
-
-                    }
-
-                }
-            }
-            binding.activityMyProfileTvEmail.setOnClickListener {
-                val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-                // 새로운 ClipData 객체로 데이터 복사하기
-                val clip: ClipData =
-                    ClipData.newPlainText("sns_address", this.email.value)
-
-                // 새로운 클립 객체를 클립보드에 배치합니다.
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
-
-            }
-        }
+//        with(viewModel) {
+//            getProfileInfo(myMemberIdx)
+//            profileInfo.observe(viewLifecycleOwner) {
+//                binding.profileViewModel = viewModel
+//                val result = it as ProfileDataResponse
+//                GaramgaebiApplication.sSharedPreferences
+//                    .edit().putString("nickname", result.result.nickName)
+//                    .apply()
+//                if (result == null) {
+//
+//                } else {
+//
+//                    with(binding) {
+//
+//                        Log.d("image_before", result.result.profileUrl)
+//
+//                        if(result.result.profileUrl != null) {
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                val bitmap = withContext(Dispatchers.IO) {
+//                                    GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+//                                }
+//                                binding.activityMyProfileIvProfile.setImageBitmap(bitmap)
+//                            }
+//                            activityMyProfileIvProfile.clipToOutline = true
+//                        }
+//
+//                        GaramgaebiApplication.sSharedPreferences
+//                            .edit().putString("myNickName", result.result.nickName)
+//                            .putString("myBelong", result.result.belong)
+//                            .putString("myEmail", result.result.profileEmail)
+//                            .putString("myIntro", result.result.content)
+//                            .putString("myImage", result.result.profileUrl)
+//                            .apply()
+//                        //Log.d("myImage", result.result.profileUrl + "h")
+//                        activityMyProfileTvUsername.text = result.result.nickName
+//                        activityMyProfileTvEmail.text = result.result.profileEmail
+//                        activityMyProfileTvSchool.text = result.result.belong
+//                        activityMyProfileTvIntro.text = result.result.content
+//
+//                        if (result.result.content == "" || result.result.content == null) {
+//                            activityMyProfileTvIntro.visibility = View.GONE
+//                        } else {
+//                            activityMyProfileTvIntro.visibility = View.VISIBLE
+//                        }
+//                        if (result.result.belong == "" || result.result.belong == null) {
+//                            activityMyProfileTvSchool.visibility = View.GONE
+//                        } else {
+//                            activityMyProfileTvSchool.visibility = View.VISIBLE
+//                        }
+//
+//                    }
+//
+//                }
+//            }
+       // }
 
         with(binding){
             activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
@@ -183,7 +177,60 @@ class MyProfileFragment :
                     binding.activityMyProfileRVSns.context,
                     LinearLayoutManager(requireContext()).orientation
                 )
+                getProfileInfo(myMemberIdx)
+                profileInfo.observe(viewLifecycleOwner) {
+                    binding.profileViewModel = viewModel
+                    val result = it as ProfileDataResponse
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putString("nickname", result.result.nickName)
+                        .apply()
+                    if (result == null) {
 
+                    } else {
+
+                        with(binding) {
+
+                            Log.d("image_beforeㅍㅍㅍ", result.result.profileUrl)
+
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putString("myNickName", result.result.nickName)
+                                .putString("myBelong", result.result.belong)
+                                .putString("myEmail", result.result.profileEmail)
+                                .putString("myIntro", result.result.content)
+                                .putString("myImage", result.result.profileUrl)
+                                .apply()
+                            //Log.d("myImage", result.result.profileUrl + "h")
+                            activityMyProfileTvUsername.text = result.result.nickName
+                            activityMyProfileTvEmail.text = result.result.profileEmail
+                            activityMyProfileTvSchool.text = result.result.belong
+                            activityMyProfileTvIntro.text = result.result.content
+
+                            if (result.result.content == "" || result.result.content == null) {
+                                activityMyProfileTvIntro.visibility = View.GONE
+                            } else {
+                                activityMyProfileTvIntro.visibility = View.VISIBLE
+                            }
+                            if (result.result.belong == "" || result.result.belong == null) {
+                                activityMyProfileTvSchool.visibility = View.GONE
+                            } else {
+                                activityMyProfileTvSchool.visibility = View.VISIBLE
+                            }
+                            var loop = false
+                            if (result.result.profileUrl != null) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    val bitmap = withContext(Dispatchers.IO) {
+                                        GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+                                    }
+                                    binding.activityMyProfileIvProfile.setImageBitmap(bitmap)
+                                    Log.d("image_url", result.result.profileUrl)
+                                    loop = true
+                                }
+                                activityMyProfileIvProfile.clipToOutline = true
+                            }
+
+                        }
+                    }
+                    }
                 //SNS 정보 어댑터 연결
                 getSNSInfo(myMemberIdx)
                 snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
@@ -280,7 +327,6 @@ class MyProfileFragment :
     }
     override fun onDetach() {
         super.onDetach()
-        callback.remove()
     }
 }
 

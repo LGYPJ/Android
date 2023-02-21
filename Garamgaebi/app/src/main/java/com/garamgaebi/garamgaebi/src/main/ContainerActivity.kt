@@ -2,12 +2,14 @@ package com.garamgaebi.garamgaebi.src.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.ActivityContainerBinding
 import com.garamgaebi.garamgaebi.src.main.cancel.CancelFragment
 import com.garamgaebi.garamgaebi.src.main.networking.NetworkingFragment
@@ -22,6 +24,8 @@ import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,22 +55,91 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if(isWithdrawal()){
+            openFragmentOnFrameLayout(14)
+            binding.activityContainerToolbarTv.text = "고객 센터"
+        }else {
+            super.onBackPressed()
+            //프래그먼트에서 back
+            /*val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is onBackPressedListener) {
+                (fragment as onBackPressedListener).onBackPressed()
+                return
+            }
+        }*/
+            if (isProfileEdit()) {
+                GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", false)
+                    .apply()
+            }
 
-        if(isIceBreaking()){
-            binding.activityContainerToolbarTv.text = "아이스브레이킹"
-        }
-        if(isNetworking()){
-            binding.activityContainerToolbarTv.text ="네트워킹"
-        }
-        if(isSeminar()){
-            binding.activityContainerToolbarTv.text = "세미나"
-        }
-        //알림
-        /*if(isNotifi()){
+//            if (isIceBreaking()) {
+//                binding.activityContainerToolbarTv.text = "아이스브레이킹"
+//            }
+//            if (isNetworking()) {
+//                binding.activityContainerToolbarTv.text = "네트워킹"
+//                //뒤로가기
+//                if (intent.getStringExtra("gathering-networking") == "gathering-networking") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("networking1", "networking1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gathering-networking")
+//                }
+//                if (intent.getStringExtra("gonetworking") == "gonetworking") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("gonetworking1", "gonetworking1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gonetworking")
+//                }
+//                /*else{
+//                finish()
+//            }*/
+//
+//            }
+//            if (isSeminar()) {
+//                binding.activityContainerToolbarTv.text = "세미나"
+//                //뒤로가기
+//                if (intent.getStringExtra("goseminar") == "goseminar") {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("goseminar1", "goseminar1")
+//                    startActivity(intent)
+//                    intent.removeExtra("goseminar")
+//                }
+//                if (intent.getStringExtra("gathering-seminar") == "gathering-seminar") {
+//                    intent.putExtra("gathering-seminar1", "gathering-seminar1")
+//                    startActivity(intent)
+//                    intent.removeExtra("gathering-seminar")
+//                } else {
+//                    finish()
+//                }
+//            }
+//            if (isCancel()) {
+//                val intent = Intent(this, MainActivity::class.java)
+//                intent.putExtra("meeting", "meeting")
+//                startActivity(intent)
+//            }
+//            //알림
+//            if (isNotifi()) {
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//            }
+
+
+            if (isIceBreaking()) {
+                binding.activityContainerToolbarTv.text = "아이스브레이킹"
+            }
+            if (isNetworking()) {
+                binding.activityContainerToolbarTv.text = "네트워킹"
+            }
+            if (isSeminar()) {
+                binding.activityContainerToolbarTv.text = "세미나"
+            }
+            //알림
+            /*if(isNotifi()){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }*/
+        }
     }
 
 
@@ -286,7 +359,27 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     }
     //안드로이드 뒤로가기 버튼 눌렀을때
+    fun isProfileEdit ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is ProfileEditFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 
+    fun isWithdrawal ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is WithdrawalFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 
     fun isIceBreaking ():Boolean {
         var returnValue = false
@@ -355,10 +448,5 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
-    /*interface onBackPressedListener {
-        fun onBackPressed()
-    }*/
-
 
 }

@@ -41,7 +41,7 @@ class WithdrawalFragment :
 
         viewModel.category.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            if(it.isNotEmpty())
+            if(it.isNotEmpty() && (it.toCharArray()[0] != ' '))
                 viewModel.categoryIsValid.value = true
 
             if(it.equals("ETC")){
@@ -61,6 +61,7 @@ class WithdrawalFragment :
             binding.viewModel = viewModel
 
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
+            GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
 
             Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
