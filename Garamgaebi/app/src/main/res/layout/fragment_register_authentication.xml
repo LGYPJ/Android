@@ -74,6 +74,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:maxLines="1"
+            android:inputType="text"
             android:background="@{viewModel.emailFocusing? @drawable/register_et_border_selected : @drawable/register_et_border}"
             android:text="@={viewModel.uniEmail}"
             android:textSize="14sp"

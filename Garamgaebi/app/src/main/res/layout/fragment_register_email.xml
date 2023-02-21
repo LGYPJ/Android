@@ -64,6 +64,7 @@
             android:textColorHint="@color/grayD9"
             android:textSize="14sp"
             android:paddingStart="16dp"
+            android:maxLines="1"
             android:background="@{(viewModel.checkProfileEmail() || viewModel.profileEmail.length() == 0) ? (viewModel.profileEmailFocusing ? @drawable/register_et_border_selected : @drawable/register_et_border) : @drawable/basic_red_border_layout}"
             app:layout_constraintTop_toBottomOf="@id/fragment_email_desc" />
 

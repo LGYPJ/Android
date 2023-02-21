@@ -10,6 +10,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
@@ -31,15 +32,16 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
     lateinit var registerActivity : RegisterActivity
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val registerViewModel by viewModels<RegisterViewModel>()
-        val homeViewModel by viewModels<HomeViewModel>()
+        val registerViewModel by activityViewModels<RegisterViewModel>()
+        val homeViewModel by activityViewModels<HomeViewModel>()
 
+        Log.d("registerComplete", "${registerViewModel.nickname.value}")
         if (registerViewModel.nickname.value!!.length > 4) {
             binding.fragmentCompleteTvDesc.text =
-                registerViewModel.nickname.value+",\n"+getString(R.string.register_welcome_user)
+                "${registerViewModel.nickname.value},\n${getString(R.string.register_welcome_user)}"
         } else {
             binding.fragmentCompleteTvDesc.text =
-                registerViewModel.nickname.value+","+getString(R.string.register_welcome_user)
+                "${registerViewModel.nickname.value}, ${getString(R.string.register_welcome_user)}"
         }
 
         binding.fragmentCompleteCbPersonal.setOnClickListener {
@@ -55,10 +57,10 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                     GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
                     // 교육 or 경력
                     if(GaramgaebiApplication.sSharedPreferences.getBoolean("isCareer", false)){
-                        val viewModel by viewModels<CareerViewModel>()
+                        val viewModel by activityViewModels<CareerViewModel>()
                         viewModel.postCareerInfo()
                     } else {
-                        val viewModel by viewModels<EducationViewModel>()
+                        val viewModel by activityViewModels<EducationViewModel>()
                         viewModel.postEducationInfo()
                     }
                     // 로그인

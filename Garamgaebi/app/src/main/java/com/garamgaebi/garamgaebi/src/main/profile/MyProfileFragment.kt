@@ -32,7 +32,6 @@ import kotlinx.coroutines.*
 @Suppress("UNREACHABLE_CODE")
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
-    private lateinit var callback: OnBackPressedCallback
     var containerActivity: ContainerActivity? = null
 
     lateinit var viewModel: ProfileViewModel
@@ -277,10 +276,6 @@ class MyProfileFragment :
             total
         }
         return value
-    }
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
     }
 }
 

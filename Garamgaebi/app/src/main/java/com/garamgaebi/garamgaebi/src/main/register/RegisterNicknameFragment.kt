@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
@@ -22,7 +23,7 @@ class RegisterNicknameFragment : BaseBindingFragment<FragmentRegisterNicknameBin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel by viewModels<RegisterViewModel>()
+        val viewModel by activityViewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
 
