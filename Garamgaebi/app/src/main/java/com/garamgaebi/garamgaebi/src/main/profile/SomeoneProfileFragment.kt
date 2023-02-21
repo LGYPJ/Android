@@ -20,10 +20,15 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Comparator
 
 
@@ -60,9 +65,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     activitySomeoneProfileTvIntro.text = result.result.content
 
                     if(result.result.profileUrl != null){
-                        activity?.let { it1 ->
-                            Glide.with(it1).load(result.result.profileUrl)
-                                .into(activitySomeoneProfileIvProfile)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val bitmap = withContext(Dispatchers.IO){
+                                GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+                            }
+                            binding.activitySomeoneProfileIvProfile.setImageBitmap(bitmap)
                         }
                     }
 
