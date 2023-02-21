@@ -43,13 +43,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             onBackPressed()
             //알림
-            /*if(isNotifi()){
+            if(isNotifi()){
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
             else{
                 onBackPressed()
-            }*/
+            }
         }
 
     }
@@ -135,10 +135,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = "세미나"
             }
             //알림
-            /*if(isNotifi()){
+            if(isNotifi()){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }*/
+            }
         }
     }
 
