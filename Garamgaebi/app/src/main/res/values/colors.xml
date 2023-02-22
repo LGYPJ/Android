@@ -85,6 +85,11 @@
     <color name="cancel_bank_white">#F9F9F9</color>
     <color name="cancel_dialog_tv_black">#001E2F</color>
     <color name="cancel_dialog_tv_blue">#1B72C0</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
 
 </resources>

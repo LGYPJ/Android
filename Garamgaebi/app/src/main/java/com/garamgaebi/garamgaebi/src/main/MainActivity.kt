@@ -17,6 +17,7 @@ import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.LoginRequest
@@ -39,24 +40,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             homeFragment!!.updateNotificationUnread()
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
-        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", false).apply()
+        sSharedPreferences.edit().putString("socialLogin", "cindy1769@gachon.ac.kr").apply()
         // 자동 로그인
-        if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
-            Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
-            viewModel.postLogin(LoginRequest("cindy1769@gachon.ac.kr",
-                GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
-
+        if(sSharedPreferences.getString("socialLogin", "") == "") {
+            startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
+        } else {
+            Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
+            viewModel.postLogin(
+                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!, "")
+            )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
-                    GaramgaebiApplication.sSharedPreferences.edit()
+                    sSharedPreferences.edit()
                         .putString(X_ACCESS_TOKEN, it.result.accessToken)
                         .putString(X_REFRESH_TOKEN, it.result.refreshToken)
                         .putInt("memberIdx", it.result.memberIdx)
@@ -66,9 +68,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     Log.d("register", "login fail ${it.errorMessage}")
                 }
             })
-        } else {
-            startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
         }
 
         setBottomNavi()
