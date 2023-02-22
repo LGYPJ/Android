@@ -23,9 +23,13 @@ import com.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
+import com.garamgaebi.garamgaebi.model.GameCurrentIdxRequest
+import com.garamgaebi.garamgaebi.model.GameMemberDeleteRequest
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,14 +42,15 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     private lateinit var callback: OnBackPressedCallback
 
+    private val memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)
+    private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
+
     lateinit var front_anim: AnimatorSet
     lateinit var back_anim: AnimatorSet
     //시작하기 누르고 2초뒤에 0.7초간 뒤에 뷰페이저 fadein 효과
     lateinit var fadeInAnim : Animation
     lateinit var shadow_fade_in : Animation
 
-    //private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
-    //private var index = -1
 
     //뷰모델
     private val viewModel by viewModels<NetworkingGameViewModel>()
@@ -134,24 +139,38 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         }
         viewModel.getImage()
 
-        viewModel.postMember.observe(viewLifecycleOwner, Observer {
-            if(it.result == null){
-
-            }else {
+        viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
+                //입장하면 currentMemberIdx받기
                 var index = it.result.currentImgIdx
+                val currentIndex = it.result.currentMemberIdx
+
+                GaramgaebiApplication.sSharedPreferences
+                    .edit().putInt("FirstCurrentUserId", currentIndex)
+                    .apply()
+
+                Log.d("first", GaramgaebiApplication.sSharedPreferences.getInt("FirstCurrentUserId", 0).toString())
+
+                //currentIndex를 최초 입장시 서버에서 memberIdx로 변환해줄 예정 -> data에서 자신의 currentMemberIdx로 자신의 index(currentIndex)를 받음
                 Log.d("current", index.toString())
+                Log.d("currentIndex", currentIndex.toString())
                 viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                    // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
-                    val people = data.size
+                    // index 찾기 성공,,,,,,,,
+                    var currentId = data.indexOf(data.find { gameMemberGetResult ->
+                        gameMemberGetResult.memberIdx == currentIndex
+                    })
+                    // 프로필
                     val networkingGameProfile2 =
-                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
+                        NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, -1)
                     binding.activityGameProfileRv.apply {
                         adapter = networkingGameProfile2
                         layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        networkingGameProfile2.notifyDataSetChanged()
                     }
-                    //
+
+                    //memberList data 저장
+                    setPref("data", data)
+
+                    // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
                     viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
                         val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
                         binding.activityGameCardBackVp.adapter =
@@ -171,18 +190,18 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         //시작하기 버튼 누르면 뷰페이저 보이게
                         binding.activityGameCardBackImg.visibility = View.VISIBLE
 
-                        //카드 뷰페이저2 get images api 연결
-                        /*viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
-                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.adapter =
-                                NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.orientation =
-                                ViewPager2.ORIENTATION_HORIZONTAL
+                        // 프로필
+                        val networkingGameProfile3 =
+                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId)
+                        binding.activityGameProfileRv.apply {
+                            adapter = networkingGameProfile3
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            // currentMemberIdx로 스크롤
+                            (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
+                            networkingGameProfile2.notifyDataSetChanged()
+                        }
 
-                            binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
-                            networkingGameCardVPAdapter.notifyDataSetChanged()
-
-                        })*/
                         //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
                         //index + 1
                         CoroutineScope(Dispatchers.Main).launch {
@@ -203,133 +222,91 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                     // 다음 버튼 눌렀을때
                     binding.activityGamePlaceCardNextBtn.setOnClickListener {
+
+                        val last = data.lastIndex
+                        Log.d("last", last.toString())
+                        if(data[currentId].memberIdx == data[last].memberIdx){
+                            currentId = 0
+                            val nextId = data[currentId].memberIdx
+                            Log.d("nextId", nextId.toString())
+                            Log.d("currentId", currentId.toString())
+                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putInt("currentUserId", nextId)
+                                .apply()
+
+                            CoroutineScope(Dispatchers.Main).launch{
+                                launch {
+                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
+                                    roomId?.let { it1 ->
+                                        GameCurrentIdxRequest(
+                                            it1, nextId)
+                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
+                                }
+                                launch {
+                                    viewModel.sendCurrentIdxMessage(nextId)
+                                }
+                            }
+                        }
+                        else{
+                            val nextId = data[currentId++].memberIdx
+                            Log.d("nextId", nextId.toString())
+                            Log.d("currentId", currentId.toString())
+                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putInt("currentUserId", nextId)
+                                .apply()
+
+                            CoroutineScope(Dispatchers.Main).launch{
+                                launch {
+                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
+                                    roomId?.let { it1 ->
+                                        GameCurrentIdxRequest(
+                                            it1, nextId)
+                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
+                                }
+                                launch {
+                                    viewModel.sendCurrentIdxMessage(nextId)
+                                }
+                            }
+                        }
+
                         index++
-                        CoroutineScope(Dispatchers.Main).launch {
-                            launch {
-                                viewModel.patchGameCurrentIdx()
-                            }
-                            launch {
-                                viewModel.sendCurrentIdxMessage()
-                            }
-                        }
-                        //카드 currentIdx가 30일때 next 버튼 활성화 X
-                        Log.d("current", index.toString())
-                        val networkingGameProfile =
-                            NetworkingGameProfileAdapter(
-                                data as ArrayList<GameMemberGetResult>,
-                                index % people
-                            )
-                        binding.activityGameProfileRv.apply {
-                            adapter = networkingGameProfile
-                            layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            (layoutManager as LinearLayoutManager).scrollToPosition(index % people)
-                            networkingGameProfile.notifyDataSetChanged()
-                        }
-
-                            //뷰페이저 하나만 넘어가는 거 해결
-                            var tab =  binding.activityGameCardBackVp.currentItem
-                            tab++
-                            binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                            networkingGameCardVPAdapter.notifyDataSetChanged()
-
+                        Log.d("index", index.toString())
+                        //뷰페이저 하나만 넘어가는 거 해결
+                        var tab =  binding.activityGameCardBackVp.currentItem
+                        tab++
+                        Log.d("tab", tab.toString())
+                        binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                        networkingGameCardVPAdapter.notifyDataSetChanged()
 
 
                     }
+
+
+                        viewModel.message.observe(viewLifecycleOwner, Observer {
+                            val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
+                                gameMemberGetResult.memberIdx.toString() == it.message
+                            })
+                            Log.d("currentId2", currentId2.toString())
+                            val networkingGameProfile =
+                                NetworkingGameProfileAdapter(
+                                    data as ArrayList<GameMemberGetResult>,
+                                    currentId2
+                                )
+                            binding.activityGameProfileRv.apply {
+                                adapter = networkingGameProfile
+                                layoutManager =
+                                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                                (layoutManager as LinearLayoutManager).scrollToPosition(currentId2)
+                                networkingGameProfile.notifyDataSetChanged()
+                            }
+                        })
                     })
                 })
-            }
 
         })
 
-        /*viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-               // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
-                Log.d("current", index.toString())
-                val networkingGameProfile2 =
-                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-                binding.activityGameProfileRv.apply {
-                    adapter = networkingGameProfile2
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    networkingGameProfile2.notifyDataSetChanged()
-                }
-                //카드 뷰페이저2 get images api 연결
-                viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
-                    val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
-                    binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
-                    binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-                    binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
-                    networkingGameCardVPAdapter.notifyDataSetChanged()
-
-                })
-            //
-
-            //시작하기 버튼
-            binding.activityGameCardStartBtn.setOnClickListener {
-                front_anim.setTarget(front)
-                back_anim.setTarget(back)
-                front_anim.start()
-                back_anim.start()
-                binding.activityGameCardStartBtn.isEnabled = false
-
-                //viewModel.patchGameCurrentIdx()
-
-                //시작하기 버튼 누르면 뷰페이저 보이게
-                binding.activityGameCardBackImg.visibility = View.VISIBLE
-                //index ++
-                //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
-                //index + 1
-                CoroutineScope(Dispatchers.Main).launch {
-                    launch {
-                        delay(1400)
-                        //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
-                        fadeInAnim =
-                            AnimationUtils.loadAnimation(context, R.anim.activity_game_fade_in)
-                        binding.activityGameCardBackVp.offscreenPageLimit = 1
-
-                    }
-                }
-
-            }
-
-                // 다음 버튼 눌렀을때
-                binding.activityGamePlaceCardNextBtn.setOnClickListener {
-                    index++
-                    CoroutineScope(Dispatchers.Main).launch{
-                        launch {
-                            viewModel.patchGameCurrentIdx()
-                        }
-                        launch {
-                            viewModel.sendCurrentIdxMessage()
-                        }
-                    }
-                        //카드 currentIdx가 30일때 next 버튼 활성화 X
-                        Log.d("current", index.toString())
-                        val networkingGameProfile =
-                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index)
-                        binding.activityGameProfileRv.apply {
-                            adapter = networkingGameProfile
-                            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            Log.d("index1", index.toString())
-                            (layoutManager as LinearLayoutManager).scrollToPosition(index)
-                            networkingGameProfile.notifyDataSetChanged()
-                        }
-
-                        //카드 뷰페이저2 get images api 연결
-                        viewModel.getImg.observe(viewLifecycleOwner, Observer { it ->
-                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.adapter = NetworkingGameCardVPAdapter(it, index)
-                            binding.activityGameCardBackVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-                            binding.activityGameCardBackVp.setCurrentItemWithDuration(index, 400)
-                            networkingGameCardVPAdapter.notifyDataSetChanged()
-
-                        })
-
-
-
-            }
-        })*/
 
         //카드 뷰페이저 양 옆 overlap
         val MIN_SCALE = 0.9f
@@ -399,12 +376,12 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         //뷰페이저 스와이프 불가능하게
         binding.activityGameCardBackVp.run { isUserInputEnabled = false }
 
-        // 뒤로가기 눌렀을때 delete
 
 
     }
 
-    //화면전환
+    //화면전환 뒤로가기할때 delete & disconnect
+    @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
@@ -413,11 +390,55 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 (activity as ContainerActivity).openFragmentOnFrameLayout(7)
                 CoroutineScope(Dispatchers.Main).launch {
                     launch {
-                        viewModel.postDeleteMember()
+                        // 퇴장유저가 자신 차례가 아닌경우(self.memberID != currentUserID)
+                        if(memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)){
+                            roomId?.let { GameMemberDeleteRequest(it, -1) }
+                                ?.let { viewModel.postDeleteMember(it) }
+                        }
+                        // 퇴장유저가 자신 차례인 경우(self.memberID == currentUserID)
+                        val memberList = getPref("data")
+
+                        // nextMemberIdx에 userList에서 자신의 memberId를 찾고 그 다음 사람을 보냄
+                        if(memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)){
+
+                            //혼자 참여라면 -1주고 퇴장
+                            if(memberList.size == 1){
+                                roomId?.let { GameMemberDeleteRequest(it, -1) }
+                                    ?.let { viewModel.postDeleteMember(it) }
+
+                            }
+
+                            var currentId = memberList.indexOf(memberList.find { gameMemberGetResult ->
+                                gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)
+                            })
+                            val lastIndex = memberList.lastIndex
+                            if(memberList[currentId].memberIdx == memberList[lastIndex].memberIdx){
+                                currentId = 0
+                                val nextId = memberList[currentId].memberIdx
+                                GaramgaebiApplication.sSharedPreferences
+                                    .edit().putInt("deleteNext", currentId)
+                                    .apply()
+
+                                roomId?.let {
+                                    GameMemberDeleteRequest(
+                                        it, nextId)
+                                }?.let { viewModel.postDeleteMember(it) }
+                            }
+                            else{
+                                val nextId = memberList[currentId + 1].memberIdx
+                                GaramgaebiApplication.sSharedPreferences
+                                    .edit().putInt("deleteNext", currentId + 1)
+                                    .apply()
+
+                                roomId?.let {
+                                    GameMemberDeleteRequest(
+                                        it, nextId)
+                                }?.let { viewModel.postDeleteMember(it) }
+                            }
+                        }
                     }
                     launch {
                         viewModel.sendDeleteMessage()
-
                     }
                     launch {
                         viewModel.getGameMember()
@@ -426,17 +447,45 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         viewModel.disconnectStomp()
                     }
                 }
+                viewModel.message.observe(viewLifecycleOwner, Observer {
+                val deleteCurrent = it.message
                 viewModel.deleteMember.observe(viewLifecycleOwner, Observer {
-                    val index1 = it.result.currentImgIdx
                     viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                        val networkingGameProfile =
-                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, index1)
-                        binding.activityGameProfileRv.apply {
-                            adapter = networkingGameProfile
-                            layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        // 퇴장멤버ID == currentID -> 스크롤
+                        val memberList = getPref("data")
+                        Log.d("memberList", memberList.toString())
+                        if(deleteCurrent == GaramgaebiApplication.sSharedPreferences.getInt("deleteNext", 0).toString()){
+                            var currentId = memberList.indexOf(memberList.find { gameMemberGetResult ->
+                                gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("deleteNext", 0)
+                            })
+                            //
+                            val lastIndex = memberList.size - 1
+                            if(memberList[currentId].memberIdx == memberList[lastIndex].memberIdx){
+                                currentId = 0
+                                val networkingGameProfile =
+                                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId)
+                                binding.activityGameProfileRv.apply {
+                                    adapter = networkingGameProfile
+                                    layoutManager =
+                                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                                    (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
+                                    networkingGameProfile.notifyDataSetChanged()
+                                }
+                            }
+                            else{
+                                val networkingGameProfile =
+                                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId + 1)
+                                binding.activityGameProfileRv.apply {
+                                    adapter = networkingGameProfile
+                                    layoutManager =
+                                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                                    (layoutManager as LinearLayoutManager).scrollToPosition(currentId + 1)
+                                    networkingGameProfile.notifyDataSetChanged()
+                                }
+                            }
                         }
                     })
+                })
                 })
                 (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
             }
@@ -450,6 +499,26 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         callback.handleOnBackPressed()
         callback.remove()
 
+    }
+
+    //memberList data 저장
+    fun setPref(key:String, values: List<GameMemberGetResult>){
+        val gson = Gson()
+        val json = gson.toJson(values)
+        GaramgaebiApplication.sSharedPreferences
+            .edit().putString(key, json)
+            .apply()
+    }
+
+    //memberList data 저장 값 불러옴
+    fun getPref(key: String): List<GameMemberGetResult> {
+        val json = GaramgaebiApplication.sSharedPreferences.getString(key, null)
+        val gson = Gson()
+
+        return gson.fromJson(
+            json,
+            object : TypeToken<List<GameMemberGetResult?>>() {}.type
+        )
     }
 
 }
