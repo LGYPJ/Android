@@ -7,6 +7,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -158,6 +160,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     var currentId = data.indexOf(data.find { gameMemberGetResult ->
                         gameMemberGetResult.memberIdx == currentIndex
                     })
+                    Log.d("currentId", currentId.toString())
                     // 프로필
                     val networkingGameProfile2 =
                         NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, -1)
@@ -200,6 +203,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             // currentMemberIdx로 스크롤
                             (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
                             networkingGameProfile2.notifyDataSetChanged()
+                        }
+                        // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
+                        if(memberIdx == data[currentId].memberIdx){
+                            binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
                         }
 
                         //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
@@ -251,7 +258,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         else{
                             val nextId = data[currentId++].memberIdx
                             Log.d("nextId", nextId.toString())
-                            Log.d("currentId", currentId.toString())
+                            Log.d("currentIdelse", currentId.toString())
                             // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
                             GaramgaebiApplication.sSharedPreferences
                                 .edit().putInt("currentUserId", nextId)
@@ -270,6 +277,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                 }
                             }
                         }
+                        //
+                        //
 
                         index++
                         Log.d("index", index.toString())
@@ -282,12 +291,20 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
                     }
-
-
-                        viewModel.message.observe(viewLifecycleOwner, Observer {
+                        viewModel.patchMessage.observe(viewLifecycleOwner, Observer {
                             val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
                                 gameMemberGetResult.memberIdx.toString() == it.message
                             })
+                            //val currentId3 = currentId2 + 1
+                            Log.d("message", it.message)
+
+                            // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
+                            if(currentId2 != -1){
+                                if(memberIdx == data[currentId2].memberIdx){
+                                   binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
+                               }
+                            }
+                            //Log.d("member", data[currentId2].memberIdx.toString())
                             Log.d("currentId2", currentId2.toString())
                             val networkingGameProfile =
                                 NetworkingGameProfileAdapter(
@@ -302,6 +319,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                 networkingGameProfile.notifyDataSetChanged()
                             }
                         })
+
                     })
                 })
 

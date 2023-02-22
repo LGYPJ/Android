@@ -38,6 +38,10 @@ class NetworkingGameViewModel: ViewModel() {
     val message: LiveData<MessageV0>
         get() = _message
 
+    private val _patchMessage = MutableLiveData<Message>()
+    val patchMessage : LiveData<Message>
+    get() = _patchMessage
+
     private val _postMember = MutableLiveData<GameMemberPostResponse>()
     val postMember : LiveData<GameMemberPostResponse>
     get() = _postMember
@@ -208,8 +212,10 @@ class NetworkingGameViewModel: ViewModel() {
         val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
             .subscribe {stompMessage ->
                 val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
+                val message = gson.fromJson(stompMessage.payload, Message::class.java)
                 _message.postValue(messageV0)
                 getGameMember()
+                _patchMessage.postValue(message)
                 /*if (patchCurrentReq != null) {
                     patchGameCurrentIdx(patchCurrentReq)
                 }*/
@@ -265,8 +271,8 @@ class NetworkingGameViewModel: ViewModel() {
 
     fun sendCurrentIdxMessage(next : Int){
         // userList에서 자신의 memberIdx를 찾고 그 다음 사람을 message에..!
-        val messageVO = roomId?.let { MessageV0("NEXT", it,"zzangu", next.toString(),"") }
-        val messageJson: String = gson.toJson(messageVO)
+        val message = roomId?.let { Message("NEXT", it,"zzangu", next.toString(),"") }
+        val messageJson: String = gson.toJson(message)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
     }
