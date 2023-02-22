@@ -8,6 +8,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.garamgaebi.garamgaebi.R
@@ -230,7 +231,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         return value
     }
     fun updateNotificationUnread() {
-        viewModel.getNotificationUnread(myMemberIdx)
+        Log.d("firebaseUpdateNotifiUnread", "firebaseUpdateNotifiUnread")
+        lifecycleScope.launch {
+            viewModel.getNotificationUnread(myMemberIdx)
+        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

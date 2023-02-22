@@ -1,14 +1,17 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
-import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -16,27 +19,26 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
-import com.garamgaebi.garamgaebi.model.ApiInterface
-import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.model.LoginRequest
-import com.garamgaebi.garamgaebi.model.LoginResponse
-
+import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+    private val myFirebaseMessagingService = MyFirebaseMessagingService()
 
-    //private var gatheringProgramResponse = MutableLiveData<GatheringProgramResponse>()
-    var data = mutableListOf<GatheringProgramResult>()
+    private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("firebasePushBroadcast", "firebasePushBroadcast")
+            homeFragment!!.updateNotificationUnread()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -45,7 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
-        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
+        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", false).apply()
         // 자동 로그인
         if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
             Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
@@ -71,6 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         setBottomNavi()
         getFcmToken()
+        LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
         initDynamicLink()
     }
 
@@ -150,6 +153,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
+    private fun getFcmToken(){
+        /** FCM설정, Token값 가져오기 */
+        myFirebaseMessagingService.getFirebaseToken()
+    }
+
     /** DynamicLink */
     fun initDynamicLink() {
         val dynamicLinkData = intent.extras
@@ -177,9 +185,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     }
 
-    private fun getFcmToken(){
-        /** FCM설정, Token값 가져오기 */
-        MyFirebaseMessagingService().getFirebaseToken()
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
     }
 }
 

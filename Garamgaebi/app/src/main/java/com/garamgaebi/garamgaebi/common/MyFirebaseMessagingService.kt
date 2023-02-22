@@ -5,10 +5,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessaging
@@ -45,8 +47,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if(remoteMessage.data.isNotEmpty()){
             //알림생성
             sendNotification(remoteMessage)
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent("fcmPushListener"))
             Log.d(FIREBASE_TAG, remoteMessage.from!!)
-        }else {
+        } else {
             Log.e(FIREBASE_TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
     }
@@ -56,15 +59,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // RequestCode, Id를 고유값으로 지정하여 알림이 개별 표시
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
-        // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
+
         val target = Intent(this, MainActivity::class.java)
+        target.action = "fcmPushClickListener"
+
         //각 key, value 추가
         for(key in remoteMessage.data.keys){
             target.putExtra(key, remoteMessage.data.getValue(key))
         }
         Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
-        target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
+        // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
         val pendingTarget = PendingIntent.getActivity(this, uniId, target, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 채널 이름
@@ -76,6 +82,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true) // 알람클릭시 삭제여부
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))  // 알림 소리
             .setContentIntent(pendingTarget) // 알림 실행 시 Intent
+
 
         when(remoteMessage.data["notificationType"]) {
             getString(R.string.collection) -> {
@@ -115,7 +122,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
         // 알림 생성
-        //startActivity(target)
         notificationManager.notify(uniId, notificationBuilder.build())
     }
 

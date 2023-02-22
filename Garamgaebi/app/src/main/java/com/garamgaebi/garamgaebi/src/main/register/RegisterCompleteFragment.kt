@@ -72,6 +72,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
                                 .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
                                 .putInt("memberIdx", homeIt.result.memberIdx)
+                                .putBoolean("login", true)
                                 .apply()
                             GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
                             startActivity(Intent(registerActivity, MainActivity::class.java))
