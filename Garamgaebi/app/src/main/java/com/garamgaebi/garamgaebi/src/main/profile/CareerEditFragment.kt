@@ -61,6 +61,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             company.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(companyIsValid, it)
+
                 Log.d("career_company_true", companyIsValid.value.toString())
             }
 
@@ -68,6 +70,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             position.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(positionIsValid, it)
+
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
@@ -200,14 +204,15 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                         }
                     }, { it.printStackTrace() })
             )
+
         disposables
             .add(
                 binding
-                    .activityCareerCheckboxRl
+                    .activityCareerCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isWorking.value = "TRUE"
                             viewModel.checkBox.value = true

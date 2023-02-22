@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
@@ -14,11 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.register.RegisterLoginActivity
+import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
@@ -43,13 +45,13 @@ class ServiceCenterFragment :
             binding.viewModel = viewModel
 
             //email 유효성 검사 부분
-            viewModel.emailIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty() && it.contains("@")
+            viewModel.emailIsValid.value = Patterns.EMAIL_ADDRESS.matcher(it).matches()
             Log.d("qna_email_true",viewModel.emailIsValid.value.toString())
         })
 
         viewModel.category.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            if(it.isNotEmpty())
+            if(it.isNotEmpty() && (it.toCharArray()[0] != ' '))
                 viewModel.categoryIsValid.value = true
 
             Log.d("qna_category_true",viewModel.categoryIsValid.value.toString())
@@ -58,6 +60,7 @@ class ServiceCenterFragment :
             binding.viewModel = viewModel
 
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100
+            GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
 
             Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
@@ -123,7 +126,7 @@ class ServiceCenterFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         viewModel.postLogout()
-                        activity?.startActivity(Intent(activity,RegisterLoginActivity::class.java))
+                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
             )

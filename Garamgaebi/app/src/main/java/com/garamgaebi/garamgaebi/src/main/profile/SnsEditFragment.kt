@@ -43,6 +43,8 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
+            GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
+
             if(!viewFirst) {
                 viewModel.snsAddress.value = ""
                 when (it) {
@@ -69,6 +71,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                         viewModel.typeState.value = getString(R.string.caution_input_22)
                         viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                        GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
                     }
 
                 }
@@ -81,6 +84,8 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             binding.snsViewModel = viewModel
             //유효성 확인
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
+            GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
+
 
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
         })

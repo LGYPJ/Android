@@ -1,14 +1,17 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
-import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -16,27 +19,26 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
-import com.garamgaebi.garamgaebi.model.ApiInterface
-import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.model.LoginRequest
-import com.garamgaebi.garamgaebi.model.LoginResponse
-
+import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+    private val myFirebaseMessagingService = MyFirebaseMessagingService()
 
-    //private var gatheringProgramResponse = MutableLiveData<GatheringProgramResponse>()
-    var data = mutableListOf<GatheringProgramResult>()
+    private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("firebasePushBroadcast", "firebasePushBroadcast")
+            homeFragment!!.updateNotificationUnread()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -45,7 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
-        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
+        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", false).apply()
         // 자동 로그인
         if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
             Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
@@ -66,10 +68,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             })
         } else {
             startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
         }
 
         setBottomNavi()
         getFcmToken()
+        LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
         initDynamicLink()
     }
 
@@ -138,83 +142,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         gatheringFragment!!.setVPNetworking()
     }
 
-    private fun goGathering() {
-        supportFragmentManager.beginTransaction()
-            .hide(homeFragment!!)
-            .show(gatheringFragment!!)
-            .hide(myProfileFragment!!)
-            .commitAllowingStateLoss()
-    }
-
-    //뒤로가기 이슈 해결 코드....
-    /*fun onMove(int: Int) {
-        super.onStart()
-        when(int){
-            1 -> {
-                goGathering()
-                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
-                gatheringFragment!!.setVPmy()
-                intent.removeExtra("meeting")
-                intent.removeExtra("networking1")
-            }
-            2 -> {
-                if(isHome()){
-                    gatheringFragment!!.setVPSeminar()
-
-                }
-                if(isProfile()){
-                    gatheringFragment!!.setVPSeminar()
-                }
-            }
-            3 -> {
-                goGathering()
-                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
-                gatheringFragment!!.setVPSeminar()
-                intent.removeExtra("goseminar1")
-                intent.removeExtra("gathering-seminar1")
-            }
-            4 -> {
-                goGathering()
-                binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_gathering
-                gatheringFragment!!.setVPNetworking()
-                intent.removeExtra("gonetworking1")
-            }
-            else -> {
-
-            }
-        }
-    }*/
-   // 뒤로가기 이슈 해결 코드,,,
-    /*override fun onStart() {
-        super.onStart()
-        if(isHome()){
-            onMove(2)
-        }
-        if(isProfile()){
-            onMove(2)
-        }
-        if(isGathering()){
-            if(intent.getStringExtra("networking1") == "networking1"){
-                onMove(1)
-            }
-            if (intent.getStringExtra("meeting") == "meeting") {
-                onMove(1)
-            }
-            if(intent.getStringExtra("goseminar1")=="goseminar1"){
-                onMove(3)
-            }
-            if(intent.getStringExtra("gonetworking1")== "gonetworking1"){
-                onMove(4)
-            }
-            if(intent.getStringExtra("gathering-seminar1") == "gathering-seminar1"){
-                onMove(3)
-            }
-
-        }
-
-
-    }*/
-
     fun getHelpFrame() {
         Log.d("getHelpFrame", "getHelpFrame")
         binding.activityMainHelpFrm.visibility = View.VISIBLE
@@ -226,49 +153,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun isGathering ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is GatheringFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
-    fun isHome ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is HomeFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
-    }
-
-    fun isProfile ():Boolean {
-        var returnValue = false
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is MyProfileFragment) {
-                returnValue = true
-            }
-        }
-        return returnValue
+    private fun getFcmToken(){
+        /** FCM설정, Token값 가져오기 */
+        myFirebaseMessagingService.getFirebaseToken()
     }
 
     /** DynamicLink */
-    private fun initDynamicLink() {
+    fun initDynamicLink() {
         val dynamicLinkData = intent.extras
         if (dynamicLinkData != null) {
             var dataStr = "DynamicLink 수신받은 값\n"
             for (key in dynamicLinkData.keySet()) {
                 dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
             }
-            Log.d("firebaseToken", dataStr)
-
+            Log.d("firebaseService", dataStr)
             // notificationType을 받아서 세미나/네트워킹으로 이동
             if(dynamicLinkData.getString("programType", "") == getString(R.string.seminarUpCase)) {
                 GaramgaebiApplication.sSharedPreferences
@@ -287,9 +185,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     }
 
-    private fun getFcmToken(){
-        /** FCM설정, Token값 가져오기 */
-        MyFirebaseMessagingService().getFirebaseToken()
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
     }
 }
 

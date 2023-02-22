@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
@@ -23,34 +24,16 @@ class RegisterAuthenticationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel by viewModels<RegisterViewModel>()
+        val viewModel by activityViewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
 
+        // 이메일 editText 변화
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             viewModel.isEmailValid.value = viewModel.checkEmail()
         })
-        //// 이메일 발송 버튼 drawable, 활성화 여부
-        //binding.fragmentAuthenticationEtEmail.addTextChangedListener(object : TextWatcher {
-        //    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        //    override fun afterTextChanged(p0: Editable?) {}
-        //    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        //        if (checkEmail()) {
-        //            binding.fragmentAuthenticationBtnEmail.setBackgroundResource(R.drawable.register_btn_color_enable)
-        //            registerViewModel.isEmailValid.value = true
-        //            binding.registerViewModel = registerViewModel
-        //            Log.d("registerEmail", "isEmailValid ${registerViewModel.isEmailValid.value}")
-        //        } else {
-        //            binding.fragmentAuthenticationBtnEmail.setBackgroundResource(R.drawable.register_btn_color)
-        //            registerViewModel.isEmailValid.value = false
-        //            binding.registerViewModel = registerViewModel
-        //            Log.d("registerEmail", "isEmailValid ${registerViewModel.isEmailValid.value}")
-        //        }
-        //    }
-        //})
-//
-//
+
         // 이메일 발송 버튼 클릭
         with(binding) {
             fragmentAuthenticationBtnEmail.setOnClickListener {
@@ -68,25 +51,11 @@ class RegisterAuthenticationFragment :
             }
         }
 
+        // 인증번호 editText 변화
         viewModel.authNum.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             viewModel.isNumValid.value = viewModel.checkAuthNum()
         })
-
-        //// 인증번호 버튼 drawable, 활성화 여부
-        //binding.fragmentAuthenticationEtNum.addTextChangedListener(object : TextWatcher {
-        //    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        //    override fun afterTextChanged(p0: Editable?) {}
-        //    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        //        if (binding.fragmentAuthenticationEtNum.text.length == 6) {
-        //            binding.fragmentAuthenticationBtnNum.setBackgroundResource(R.drawable.register_btn_color_enable)
-        //            registerViewModel.isNumValid.value = true
-        //        } else {
-        //            binding.fragmentAuthenticationBtnNum.setBackgroundResource(R.drawable.register_btn_color)
-        //            registerViewModel.isNumValid.value = false
-        //        }
-        //    }
-        //})
 
         // 인증번호 버튼 클릭
         binding.fragmentAuthenticationBtnNum.setOnClickListener {
@@ -98,7 +67,9 @@ class RegisterAuthenticationFragment :
                 postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
             }
         }
+
         with(viewModel) {
+            // 인증번호 검사
             emailVerify.observe(viewLifecycleOwner, Observer {
                 Log.d("registerEmailAuthBtnResult", "${it.isSuccess}")
                 if (it.isSuccess) {

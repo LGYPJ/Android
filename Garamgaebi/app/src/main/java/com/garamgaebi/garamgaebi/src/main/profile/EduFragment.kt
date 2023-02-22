@@ -40,7 +40,8 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             //교육 기관 입력 감지
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH
+                GaramgaebiFunction().checkFirstChar(institutionIsValid, it)
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
 
@@ -48,6 +49,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(majorIsValid, it)
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
 
@@ -170,6 +172,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isLearning.value = "FALSE"
@@ -180,14 +183,15 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityEducationCheckboxRl
+                    .activityEducationCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true
+                            viewModel.endFirst.value = false
                         } else {
                             viewModel.endDate.value = ""
                             viewModel.isLearning.value = "FALSE"

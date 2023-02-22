@@ -61,11 +61,15 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(institutionIsValid, it)
+
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(majorIsValid, it)
+
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
             startDate.observe(viewLifecycleOwner) {
@@ -229,11 +233,11 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         disposables
             .add(
                 binding
-                    .activityEducationCheckboxRl
+                    .activityEducationCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if (viewModel.checkBox.value == false) {
+                        if (viewModel.checkBox.value == true) {
                             viewModel.endDate.value = "현재"
                             viewModel.isLearning.value = "TRUE"
                             viewModel.checkBox.value = true

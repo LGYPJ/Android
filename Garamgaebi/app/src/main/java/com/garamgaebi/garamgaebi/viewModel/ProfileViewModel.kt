@@ -98,31 +98,21 @@ class ProfileViewModel : ViewModel(){
     var img : MultipartBody.Part? = null
 
     fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
-        Log.d("image_edit1", intro.value.toString())
         val infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value.toString()}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value.toString()}\"}").toString()
-//        val info = RequestBody.create("application/json".toMediaTypeOrNull(),infoJson)
-        Log.d("image_edit1", "우악악")
         val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("image_edit2", infoJson.toString())
-        Log.d("image_edit3", info.toString())
 
 
         viewModelScope.launch(Dispatchers.IO) {
-//            val response = profileRepository.getCheckEditProfileInfo(
-//                EditProfileInfoData(myMemberIdx,nickName.value.toString(),belong.value.toString(),email.value.toString(),intro.value.toString()
-//                ),img)
             val response = profileRepository.getCheckEditProfileInfo(
                 info,img)
-            Log.d("image_edit4", response.body().toString())
-
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {
-                    Log.d("success_edit", response.message())
+                    Log.d("image_success_edit", response.body().toString())
                     _profileEdit.value = (response.body())
                 }
             }
             else {
-                Log.d("error_edit", response.message())
+                Log.d("image_error_edit", response.message())
             }
         }
     }
@@ -140,6 +130,7 @@ class ProfileViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getProfileInfo(memberIdx)
             Log.d("present0", response.body().toString())
+            Log.d("image_get", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {

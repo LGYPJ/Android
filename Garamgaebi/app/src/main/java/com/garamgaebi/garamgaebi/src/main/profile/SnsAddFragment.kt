@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
 import com.garamgaebi.garamgaebi.common.SNS_ADDRESS
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
@@ -42,6 +43,8 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
+            GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
+
             viewModel.snsAddress.value =""
             when(it){
                 "인스타그램" -> {
@@ -66,7 +69,9 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)
-                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH  && it.isNotEmpty()
+                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH
+                    GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
+
                 }
             }
             Log.d("sns_type_true",it.isNotEmpty().toString())
@@ -76,11 +81,9 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             //유효성 확인
 
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
+            GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
-            Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
-            Log.d("sns_address_first",viewModel.addressFirst.value.toString())
-            Log.d("sns_type_true",viewModel.snsTypeIsValid.value.toString())
-            Log.d("sns_type_first",viewModel.typeFirst.value.toString())
+
         })
 
         disposables

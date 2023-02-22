@@ -8,6 +8,20 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
+//    suspend fun <T> sendRequest(apiCall: suspend () -> T): T {
+//        return try {
+//            apiCall()
+//        } catch (e: TokenExpiredException) {
+//            renewAccessToken()
+//            apiCall()
+//        }
+//    }
+//    private suspend fun renewAccessToken() {
+//        val accessToken = tokenApi.renewAccessToken(tokenStore.refreshToken)
+//        tokenStore.accessToken = accessToken
+//    }
+
+
     //NotificationController 알림 컨트롤러
     @GET("/notification/{member-idx}")
     suspend fun getNotification(

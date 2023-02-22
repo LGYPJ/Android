@@ -24,6 +24,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/black80"
                 android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 >
@@ -48,6 +49,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@{item.startDate}"
                 android:textSize="14sp"
+                android:ellipsize="end"
                 android:textColor="@color/grayText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_myprofile_career_list_item_tvContent"
