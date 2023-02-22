@@ -66,13 +66,14 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                     // 로그인
                     homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
                         GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
+
                     homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
                         if(homeIt.isSuccess) {
                             GaramgaebiApplication.sSharedPreferences.edit()
                                 .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
                                 .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
                                 .putInt("memberIdx", homeIt.result.memberIdx)
-                                .putBoolean("login", true)
+                                .putString("socialLogin", registerViewModel.socialEmail.value)
                                 .apply()
                             GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
                             startActivity(Intent(registerActivity, MainActivity::class.java))
