@@ -65,8 +65,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             if (fragment is onBackPressedListener) {
                 (fragment as onBackPressedListener).onBackPressed()
                 return
-            }
-        }*/
+            }*/
+        }
             if (isProfileEdit()) {
                 GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", false)
                     .apply()
