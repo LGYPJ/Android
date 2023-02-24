@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -19,6 +20,7 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
@@ -46,7 +48,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             when(it){
                 "인스타그램" -> {
                     binding.instaChar.text = "@"
-                    binding.activitySnsEtLinkDesc.setPadding(65,0,0,0)
+                    binding.activitySnsEtLinkDesc.setPadding(70,0,0,0)
                     binding.instaChar.visibility = View.VISIBLE
                 }
                 "블로그" -> {
@@ -78,6 +80,10 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             //유효성 확인
 
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
+
+            if (viewModel.snsType.value == "인스타그램"){
+                viewModel.snsAddressIsValid.value = Pattern.matches("^(?=.*\\d)|(?=.*[~`!@#$%\\^&*()-])|(?=.*[a-zA-Z])|(?=.*[0-9]).{0,46}$", it.toString())
+            }
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
 
