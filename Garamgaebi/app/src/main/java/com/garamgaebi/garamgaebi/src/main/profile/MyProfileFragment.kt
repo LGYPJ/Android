@@ -38,12 +38,9 @@ class MyProfileFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = this
-<<<<<<< HEAD
         binding.setVariable(BR.profileViewModel,viewModel)
         viewModel.getProfileInfo(myMemberIdx)
-=======
-        binding.setVariable(BR.profileViewModel, viewModel)
->>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
+
 
         val dividerItemDecoration = DividerItemDecoration(
             binding.activityMyProfileRVSns.context,
@@ -101,8 +98,6 @@ class MyProfileFragment :
         startActivity(intent)
     }
 
-<<<<<<< HEAD
-=======
     //sns 추가 버튼
     private fun goAddSNSFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
@@ -124,7 +119,6 @@ class MyProfileFragment :
         startActivity(intent)
     }
 
->>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
@@ -268,47 +262,13 @@ class MyProfileFragment :
         }
     }
 
-<<<<<<< HEAD
-    //sns 추가 버튼
-    private fun goAddSNSFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("sns",true) //데이터 넣기
-        startActivity(intent)
-    }
 
-    //career 추가 버튼
-    private fun goAddCareerFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("career",true) //데이터 넣기
-        startActivity(intent)
-    }
-
-    //edu 추가 버튼
-    private fun goAddEduFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("edu",true) //데이터 넣기
-        startActivity(intent)
-    }
-
-
-    private suspend fun updateData():Int {
-        val value: Int = withContext(Dispatchers.IO) {
-            val total = 1
-            with(viewModel) {
-                getProfileInfo(myMemberIdx)
-                getSNSInfo(myMemberIdx)
-                getCareerInfo(myMemberIdx)
-                getEducationInfo(myMemberIdx)
-            }
-            total
-=======
     private fun updateData() {
         with(viewModel) {
             getProfileInfo(myMemberIdx)
             getSNSInfo(myMemberIdx)
             getCareerInfo(myMemberIdx)
             getEducationInfo(myMemberIdx)
->>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
         }
     }
 }
