@@ -51,7 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         getFcmToken()
         // login false일때 테스트용
 
-        sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
+        sSharedPreferences.edit().putString("socialLogin", "1109min@naver.com").apply()
         //sSharedPreferences.edit().putString("socialLogin", "").apply()
         // 자동 로그인
         if(sSharedPreferences.getString("socialLogin", "") == "") {
@@ -111,7 +111,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .hide(gatheringFragment!!)
                         .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
-                    val fragment = supportFragmentManager.findFragmentById(R.layout.fragment_home) as Fragment
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {

@@ -40,7 +40,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             //교육 기관 입력 감지
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH
+                institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 GaramgaebiFunction().checkFirstChar(institutionIsValid, it)
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
