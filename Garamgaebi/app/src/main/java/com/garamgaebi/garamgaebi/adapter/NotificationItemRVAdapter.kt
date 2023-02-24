@@ -11,9 +11,9 @@ import com.garamgaebi.garamgaebi.databinding.ItemNotificationBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNotificationProgressBarBinding
 import com.garamgaebi.garamgaebi.model.NotificationList
 
-class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList>) : RecyclerView.Adapter<NotificationItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
-    inner class NotificationViewHolder( val binding: ItemNotificationBinding):
+    inner class ViewHolder(val binding: ItemNotificationBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: NotificationList){
             with(binding) {
@@ -29,30 +29,16 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
 
         }
     }
-    inner class ProgressBarViewHolder(val binding: ItemNotificationProgressBarBinding)
-        : RecyclerView.ViewHolder(binding.root) {
-        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
-            RV_ITEM -> {
-                val binding = ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                NotificationViewHolder(binding)
-            }
-            else -> {
-                val binding = ItemNotificationProgressBarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ProgressBarViewHolder(binding)
-            }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is NotificationViewHolder) {
-                holder.bind(dataList[position])
-                holder.binding.root.setOnClickListener {
-                    itemClickListener.onClick(dataList ,position)
-                }
-        } else {}
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataList[position])
+        holder.binding.root.setOnClickListener {
+            itemClickListener.onClick(dataList ,position)
+        }
     }
 
     override fun getItemCount(): Int = dataList.size
@@ -91,19 +77,10 @@ class NotificationItemRVAdapter(private val dataList: ArrayList<NotificationList
     fun getLastItemId(count : Int) : Int{
         return dataList[count].notificationIdx
     }
-    override fun getItemViewType(position: Int): Int {
-        // 알림과 프로그레스바 아이템뷰를 구분
-        return when (dataList[position].notificationIdx) {
-            -2 -> PROGRESSBAR
-            else -> RV_ITEM
-        }
-    }
     fun setList(list: ArrayList<NotificationList>) {
         dataList.addAll(list)
-        dataList.add(NotificationList("",false,-2,"",-1,""))
     }
-    fun deleteLoading(){
-        Log.d("scrollEndDeleteIndex", "${dataList.lastIndex}")
-        dataList.removeAt(dataList.lastIndex) // 로딩이 완료되면 프로그레스바를 지움
+    fun refresh() {
+        dataList.clear()
     }
 }
