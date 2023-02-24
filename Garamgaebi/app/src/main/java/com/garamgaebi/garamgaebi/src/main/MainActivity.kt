@@ -17,6 +17,7 @@ import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
@@ -43,10 +44,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-
         val viewModel by viewModels<HomeViewModel>()
+        getFcmToken()
         // login false일때 테스트용
-        sSharedPreferences.edit().putString("socialLogin", "cindy1769@gachon.ac.kr").apply()
+        sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
+        //sSharedPreferences.edit().putString("socialLogin", "").apply()
         // 자동 로그인
         if(sSharedPreferences.getString("socialLogin", "") == "") {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -54,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!, "")
+                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!, sSharedPreferences.getString("pushToken", "")!!)
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
@@ -63,17 +65,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .putString(X_REFRESH_TOKEN, it.result.refreshToken)
                         .putInt("memberIdx", it.result.memberIdx)
                         .apply()
-                    GaramgaebiApplication.myMemberIdx = it.result.memberIdx
+                    myMemberIdx = it.result.memberIdx
+                    Log.d("sort", "$myMemberIdx")
+                    setBottomNavi()
+                    LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
+                    initDynamicLink()
                 } else {
                     Log.d("register", "login fail ${it.errorMessage}")
                 }
             })
         }
-
-        setBottomNavi()
-        getFcmToken()
-        LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
-        initDynamicLink()
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
@@ -168,13 +169,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Log.d("firebaseService", dataStr)
             // notificationType을 받아서 세미나/네트워킹으로 이동
             if(dynamicLinkData.getString("programType", "") == getString(R.string.seminarUpCase)) {
-                GaramgaebiApplication.sSharedPreferences
+                sSharedPreferences
                     .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
                     .apply()
                 startActivity(Intent(this, ContainerActivity::class.java)
                     .putExtra("seminar", true))
             } else {
-                GaramgaebiApplication.sSharedPreferences
+                sSharedPreferences
                     .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
                     .apply()
                 startActivity(Intent(this, ContainerActivity::class.java)

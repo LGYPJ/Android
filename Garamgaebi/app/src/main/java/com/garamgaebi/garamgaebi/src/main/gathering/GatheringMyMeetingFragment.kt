@@ -27,7 +27,6 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
     //리사이클러뷰 갱신
     var data = MutableLiveData<GatheringProgramResult>()
     private  val viewModel by viewModels<GatheringViewModel>()
-    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +35,11 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
 
+        binding.fragmentGatheringMyMeetingRvScheduled.addItemDecoration(GatheringItemDecoration())
+        binding.fragmentGatheringMyMeetingRvLast.addItemDecoration(GatheringItemDecoration())
+        CoroutineScope(Dispatchers.IO).launch {
+            setDataView()
+        }
     }
 
     private fun showPopupScheduled(v: View) {
@@ -80,23 +84,17 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         return item != null
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        GlobalScope.launch {
-            val x = setDataView()
-            val y = updateData()
+        CoroutineScope(Dispatchers.IO).launch {
+            updateData()
         }
     }
 
-    private suspend fun setDataView():Int {
-        val value: Int = withContext(Dispatchers.Main) {
-            val total = 1
+    private suspend fun setDataView() {
+        withContext(Dispatchers.Main) {
             with(viewModel){
                 //예정된 모임
-                binding.fragmentGatheringMyMeetingRvScheduled.apply {
-                    addItemDecoration(GatheringItemDecoration())
-                }
                 getGatheringProgramReady(myMemberIdx)
                 programReady.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<GatheringProgramResult>
@@ -132,14 +130,11 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 })
 
                 // 지난 모임
-                binding.fragmentGatheringMyMeetingRvLast.apply {
-                    addItemDecoration(GatheringItemDecoration())
-                }
                 getGatheringProgramClosed(myMemberIdx)
                 programClosed.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<GatheringProgramResult>
                     val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
-                    if (result == null) {
+                    if (result.isEmpty()) {
                         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
                         binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
                     } else {
@@ -167,20 +162,15 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 })
 
             }
-            total
         }
-        return value
     }
 
-    private suspend fun updateData():Int {
-        val value: Int = withContext(Dispatchers.IO) {
-            val total = 1
+    private suspend fun updateData() {
+        withContext(Dispatchers.IO) {
             with(viewModel) {
                 getGatheringProgramReady(myMemberIdx)
             }
-            total
         }
-        return value
     }
 
 }
