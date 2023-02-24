@@ -11,10 +11,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment(){
+abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment() {
     protected lateinit var binding: T
     private lateinit var callback: OnBackPressedCallback
     var disposables = CompositeDisposable()
+   // lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +41,13 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
 
     override fun onStop() {
         super.onStop()
-        if(disposables.size() > 0){
+        if (disposables.size() > 0) {
             disposables.clear()
         }
+    }
+
+    override fun onDestroy() {
+        //keyboardVisibilityUtils.detachKeyboardListeners()
+        super.onDestroy()
     }
 }

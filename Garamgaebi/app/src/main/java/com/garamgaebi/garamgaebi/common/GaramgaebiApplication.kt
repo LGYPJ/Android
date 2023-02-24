@@ -39,8 +39,7 @@ class GaramgaebiApplication : Application() {
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
 
-        var myMemberIdx: Int = -1
-
+        var myMemberIdx: Int = 49
     }
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.

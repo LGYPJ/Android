@@ -13,10 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
-import com.garamgaebi.garamgaebi.common.SNS_ADDRESS
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
@@ -25,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
-    private lateinit var callback: OnBackPressedCallback
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -181,6 +178,17 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             false
         })
 
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//            })
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

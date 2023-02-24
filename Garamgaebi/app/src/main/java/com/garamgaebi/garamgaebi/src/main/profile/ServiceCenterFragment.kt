@@ -10,14 +10,12 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
-import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
@@ -29,7 +27,6 @@ import java.util.concurrent.TimeUnit
 class ServiceCenterFragment :
     BaseBindingFragment<FragmentServicecenterBinding>(R.layout.fragment_servicecenter) {
     var containerActivity: ContainerActivity? = null
-
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -181,11 +178,23 @@ class ServiceCenterFragment :
             hideKeyboard()
             false
         })
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//                binding.cvBottom.visibility = View.GONE
+//            },
+//                onHideKeyboard = { ->
+//                    binding.cvBottom.visibility = View.VISIBLE
+//                }
+//            )
 
       }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용
+            binding.cvBottom.visibility = View.VISIBLE
             val inputManager: InputMethodManager =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(
@@ -198,6 +207,9 @@ class ServiceCenterFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
+    }
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
 

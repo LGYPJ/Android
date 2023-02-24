@@ -7,8 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
 import com.garamgaebi.garamgaebi.model.HomeUserResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
@@ -25,10 +30,18 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                 }
                 else {
                     itemHomeUserIvProfileDefault.visibility = View.GONE
+
                     Glide.with(itemView)
                         .load(data.profileUrl)
                         .centerCrop()
                         .into(itemHomeUserIvProfile)
+
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        val bitmap = withContext(Dispatchers.IO) {
+//                            GaramgaebiFunction.ImageLoader.loadImage(data.profileUrl)
+//                        }
+//                        binding.itemHomeUserIvProfile.setImageBitmap(bitmap)
+//                    }
                 }
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName

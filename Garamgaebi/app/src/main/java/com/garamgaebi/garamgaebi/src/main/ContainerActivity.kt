@@ -217,7 +217,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onStart() {
         super.onStart()
-        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
         Log.d("title_onstart","됨")
         if(isSeminarCharged()){
             binding.activityContainerToolbarTv.text = "세미나"

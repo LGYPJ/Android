@@ -73,7 +73,9 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" /> <!-- firebase -->
+            android:windowSoftInputMode="stateVisible"
+            />
+
         <service
             android:name="com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService"
             android:enabled="true"

@@ -69,6 +69,8 @@ class GaramgaebiFunction {
         if(it.isNotEmpty()){
             if(it.toCharArray()[0] == ' ')
                 isValid.value = false
+            if(it.contains('\n'))
+                isValid.value = false
         }
     }
 

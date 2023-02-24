@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
@@ -47,6 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // login false일때 테스트용
+
         sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
         //sSharedPreferences.edit().putString("socialLogin", "").apply()
         // 자동 로그인
@@ -65,6 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .putString(X_REFRESH_TOKEN, it.result.refreshToken)
                         .putInt("memberIdx", it.result.memberIdx)
                         .apply()
+
                     myMemberIdx = it.result.memberIdx
                     Log.d("sort", "$myMemberIdx")
                     setBottomNavi()
@@ -78,6 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
+    @SuppressLint("ResourceType")
     private fun setBottomNavi() {
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
@@ -105,6 +111,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .hide(gatheringFragment!!)
                         .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
+                    val fragment = supportFragmentManager.findFragmentById(R.layout.fragment_home) as Fragment
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {

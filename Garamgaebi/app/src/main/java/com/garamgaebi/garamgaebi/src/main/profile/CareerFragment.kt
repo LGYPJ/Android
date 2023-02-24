@@ -12,6 +12,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
@@ -202,9 +203,16 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             hideKeyboard()
             false
         }
-
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//            })
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+    }
     private fun hideKeyboard() {
 
         if (activity != null && requireActivity().currentFocus != null) {

@@ -29,16 +29,19 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[CareerViewModel::class.java]
-        binding.setVariable(BR.viewModel,viewModel)
+        binding.setVariable(BR.viewModel, viewModel)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         //원본 데이터
         setOriginData()
 
-        Log.d("go_edit_career",careerIdx.toString() + originCompany + originPosition + originNow + originStart + originEnd)
+        Log.d(
+            "go_edit_career",
+            careerIdx.toString() + originCompany + originPosition + originNow + originStart + originEnd
+        )
 
-            viewModel.careerIdx = careerIdx
+        viewModel.careerIdx = careerIdx
 
         with(viewModel) {
             company.value = originCompany
@@ -117,7 +120,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     startFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
                         startDate.value?.let { it1 ->
-                            DatePickerDialogFragment(it1) {it2 ->
+                            DatePickerDialogFragment(it1) { it2 ->
                                 val arr = it2.split("/")
                                 startDate.value = (arr[0] + "/" + arr[1])
                                 startFocusing.value = false
@@ -142,7 +145,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     endFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
                         endDate.value?.let { it1 ->
-                            DatePickerDialogFragment(it1) {it2->
+                            DatePickerDialogFragment(it1) { it2 ->
                                 val arr = it2.split("/")
                                 endDate.value = arr[0] + "/" + arr[1]
                                 if (GaramgaebiFunction().checkNow(it2)) {
@@ -181,7 +184,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         viewModel.patchCareerInfo()
-                        Log.d("career_add_button","success"+viewModel.endDate.value.toString())
+                        Log.d("career_add_button", "success" + viewModel.endDate.value.toString())
                         (activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
@@ -232,32 +235,42 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                            val dialog = ConfirmDialog(this,getString(R.string.delete_q), 1) {
-                                when (it) {
-                                    -1 -> {
-                                        Log.d("career_remove_button","close")
-                                    }
-                                    1 -> {
-                                        //경력 삭제
-                                        viewModel.deleteCareerInfo()
-                                        val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                                            when(it2){
-                                                1 -> {
-                                                    Log.d("career_remove_button","close")
-                                                }
-                                                2->{
-                                                    (activity as ContainerActivity).onBackPressed()
-                                                }
+                        val dialog = ConfirmDialog(this, getString(R.string.delete_q), 1) {
+                            when (it) {
+                                -1 -> {
+                                    Log.d("career_remove_button", "close")
+                                }
+                                1 -> {
+                                    //경력 삭제
+                                    viewModel.deleteCareerInfo()
+                                    val dialog = ConfirmDialog(
+                                        this,
+                                        getString(R.string.delete_done),
+                                        -1
+                                    ) { it2 ->
+                                        when (it2) {
+                                            1 -> {
+                                                Log.d("career_remove_button", "close")
+                                            }
+                                            2 -> {
+                                                (activity as ContainerActivity).onBackPressed()
                                             }
                                         }
-                                        // 알림창이 띄워져있는 동안 배경 클릭 막기
-                                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                                     }
+                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                                    dialog.show(
+                                        activity?.supportFragmentManager!!,
+                                        "com.example.garamgaebi.common.ConfirmDialog"
+                                    )
                                 }
                             }
-                            // 알림창이 띄워져있는 동안 배경 클릭 막기
-                        dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-                            Log.d("career_remove_button","success")
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog.show(
+                            activity?.supportFragmentManager!!,
+                            "com.example.garamgaebi.common.ConfirmDialog"
+                        )
+                        Log.d("career_remove_button", "success")
                     }, { it.printStackTrace() })
             )
 
@@ -265,6 +278,12 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             hideKeyboard()
             false
         }
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//            })
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
