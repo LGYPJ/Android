@@ -60,7 +60,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!, sSharedPreferences.getString("pushToken", "")!!)
+                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!,
+                    sSharedPreferences.getString("pushToken", "")!!)
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
