@@ -112,7 +112,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .hide(gatheringFragment!!)
                         .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
-                    val fragment = supportFragmentManager.findFragmentById(R.layout.fragment_home) as Fragment
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {
@@ -129,8 +128,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .hide(gatheringFragment!!)
                         .show(myProfileFragment!!)
                         .commitAllowingStateLoss()
-
-
                     return@setOnItemSelectedListener true
                 }
                 else -> false
