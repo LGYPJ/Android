@@ -119,8 +119,8 @@ class RegisterViewModel : ViewModel(){
             val response = registerRepository.postRegister(request)
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
-                _register.postValue(response.body())
                 Log.d("postRegister", "${response.body()}")
+                _register.postValue(response.body())
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }

@@ -4,8 +4,7 @@ import com.garamgaebi.garamgaebi.common.BaseResponse
 
 //member post
 data class GameMemberPostRequest(
-    val roomId : String,
-    val memberIdx : Int
+    val roomId : String
 )
 
 data class GameMemberPostResponse(
@@ -14,23 +13,23 @@ data class GameMemberPostResponse(
 
 data class GameMemberPostResult(
     val message : String,
-    val currentImgIdx : Int
+    val currentImgIdx : Int,
+    val currentMemberIdx: Int
 )
 
 //member delete
 data class GameMemberDeleteRequest(
     val roomId : String,
-    val memberIdx : Int
+    val nextMemberIdx : Int
 )
 
 data class GameMemberDeleteResponse(
-    val result : GameMemberDeleteResult
-)
+    val result : String
+):BaseResponse()
 
-data class GameMemberDeleteResult(
-    val message: String,
-    val currentImgIdx : Int
-)
+/*data class GameMemberDeleteResult(
+    val result : String
+):BaseResponse()*/
 
 //room
 data class GameRoomResponse(
@@ -48,9 +47,7 @@ data class GameImagesResponse(
     val result : List<String>
 ):BaseResponse()
 
-/*data class GameImagesResult(
-    val img : String
-)*/
+
 //member get
 data class GameMemberGetRequest(
     val roomId : String
@@ -66,10 +63,10 @@ data class GameMemberGetResult(
     val profileUrl : String
 )
 
-data class GameMemberGetResultRe(
+/*data class GameMemberGetResultRe(
     val result : GameMemberGetResult,
     val next : Boolean = false
-)
+)*/
 
 
 // /game/current-idx
@@ -78,5 +75,6 @@ data class GameCurrentIdxResponse(
 ):BaseResponse()
 
 data class GameCurrentIdxRequest(
-    val roomId: String
+    val roomId: String,
+    val nextMemberIdx : Int
 )

@@ -247,7 +247,6 @@ interface ApiInterface {
     //MemberController
     @POST("/member/login")
     suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
-
     //ApplyController
 
     //신청 취소 post

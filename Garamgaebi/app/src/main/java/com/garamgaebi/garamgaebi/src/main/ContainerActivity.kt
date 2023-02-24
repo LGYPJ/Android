@@ -41,15 +41,14 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            onBackPressed()
             //알림
-            /*if(isNotifi()){
+            if(isNotifi()){
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
             else{
                 onBackPressed()
-            }*/
+            }
         }
 
     }
@@ -66,26 +65,26 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             if (fragment is onBackPressedListener) {
                 (fragment as onBackPressedListener).onBackPressed()
                 return
-            }
-        }*/
+            }*/
+        }
             if (isProfileEdit()) {
                 GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", false)
                     .apply()
             }
-            if (isIceBreaking()) {
-                binding.activityContainerToolbarTv.text = "아이스브레이킹"
-            }
-            if (isNetworking()) {
-                binding.activityContainerToolbarTv.text = "네트워킹"
-            }
-            if (isSeminar()) {
-                binding.activityContainerToolbarTv.text = "세미나"
-            }
-            //알림
-            /*if(isNotifi()){
+
+        if(isIceBreaking()){
+            binding.activityContainerToolbarTv.text = "아이스브레이킹"
+        }
+        if(isNetworking()){
+            binding.activityContainerToolbarTv.text ="네트워킹"
+        }
+        if(isSeminar()){
+            binding.activityContainerToolbarTv.text = "세미나"
+        }
+        //알림
+        if(isNotifi()){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }*/
         }
     }
 

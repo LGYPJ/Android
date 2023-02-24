@@ -5,13 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
+import android.content.IntentSender
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -22,16 +22,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * 1. Notification: 앱이 실행중(포그라운드)일 떄만 푸시 알림이 옴
      * 2. Data: 실행중이거나 백그라운드(앱이 실행중이지 않을때) 알림이 옴 -> TODO: 대부분 사용하는 방식 */
 
-    private val TAG = "FirebaseService"
-
+    private val FIREBASE_TAG = "FirebaseService"
     /** Token 생성 메서드(FirebaseInstanceIdService 사라짐) */
     override fun onNewToken(token: String) {
-        Log.d(TAG, "new Token: $token")
+        Log.d(FIREBASE_TAG, "new Token: $token")
 
         // 토큰 값을 따로 저장
         val editor = GaramgaebiApplication.sSharedPreferences.edit()
         editor.putString("pushToken", token).apply()
-        Log.i(TAG, "성공적으로 토큰을 저장함")
+        Log.i(FIREBASE_TAG, "성공적으로 토큰을 저장함")
     }
 
     /** 메시지 수신 메서드(포그라운드) */
@@ -42,15 +41,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
 
         //받은 remoteMessage의 값 출력해보기. 데이터메세지 / 알림메세지
-        Log.d(TAG, "Message data : ${remoteMessage.data}")
+        Log.d(FIREBASE_TAG, "Message data : ${remoteMessage.data}")
         //Log.d(TAG, "Message noti : ${remoteMessage.notification}")
 
         if(remoteMessage.data.isNotEmpty()){
             //알림생성
             sendNotification(remoteMessage)
-            Log.d(TAG, remoteMessage.from!!)
-        }else {
-            Log.e(TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent("fcmPushListener"))
+            Log.d(FIREBASE_TAG, remoteMessage.from!!)
+        } else {
+            Log.e(FIREBASE_TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
     }
 
@@ -59,15 +59,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // RequestCode, Id를 고유값으로 지정하여 알림이 개별 표시
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
-        // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
+
         val target = Intent(this, MainActivity::class.java)
+        target.action = "fcmPushClickListener"
+
         //각 key, value 추가
         for(key in remoteMessage.data.keys){
             target.putExtra(key, remoteMessage.data.getValue(key))
         }
         Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
-        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
+        target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
+        // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
         val pendingTarget = PendingIntent.getActivity(this, uniId, target, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 채널 이름
@@ -79,6 +82,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true) // 알람클릭시 삭제여부
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))  // 알림 소리
             .setContentIntent(pendingTarget) // 알림 실행 시 Intent
+
 
         when(remoteMessage.data["notificationType"]) {
             getString(R.string.collection) -> {
@@ -117,7 +121,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(channelId, "Notice", NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
         }
-
         // 알림 생성
         notificationManager.notify(uniId, notificationBuilder.build())
     }
@@ -126,7 +129,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     fun getFirebaseToken() {
         //비동기 방식
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            Log.d(TAG, "token=${it}")
+            Log.d(FIREBASE_TAG, "token=${it}")
             GaramgaebiApplication.sSharedPreferences.edit()
                 .putString("pushToken", it).apply()
         }

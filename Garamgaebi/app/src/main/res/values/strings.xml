@@ -312,5 +312,8 @@
     <string name="seminar_this_month">이번 달 세미나</string>
     <string name="no_my_meeting_scheduled">예정된 내 모임이 없습니다</string>
     <string name="no_my_meeting_last">지난 내 모임이 없습니다</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

@@ -38,6 +38,10 @@ class NetworkingGameViewModel: ViewModel() {
     val message: LiveData<MessageV0>
         get() = _message
 
+    private val _patchMessage = MutableLiveData<Message>()
+    val patchMessage : LiveData<Message>
+    get() = _patchMessage
+
     private val _postMember = MutableLiveData<GameMemberPostResponse>()
     val postMember : LiveData<GameMemberPostResponse>
     get() = _postMember
@@ -66,17 +70,21 @@ class NetworkingGameViewModel: ViewModel() {
     val getMember : LiveData<List<GameMemberGetResult>>
     get() = _getMember
 
+    private val _getMemberIndex = MutableLiveData<GameMemberGetResult>()
+    val getMemberIndex : LiveData<GameMemberGetResult>
+    get() = _getMemberIndex
+
+
+
     private val _getMemberReq = MutableLiveData<GameMemberGetRequest>()
     val getMemberReq : LiveData<GameMemberGetRequest>
     get() = _getMemberReq
 
-    private val _getMemberRe = MutableLiveData<List<GameMemberGetResultRe>>()
-    val getMemberRe : LiveData<List<GameMemberGetResultRe>>
-    get() = _getMemberRe
-
     private val _patchCurrent = MutableLiveData<GameCurrentIdxResponse>()
     val patchCurrent : LiveData<GameCurrentIdxResponse>
     get() = _patchCurrent
+
+    private val patchCurrentReq : GameCurrentIdxRequest ?= null
 
     //private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
 
@@ -97,7 +105,7 @@ class NetworkingGameViewModel: ViewModel() {
     // 게임방 유저 등록 post (game/member)
     fun postGameMember(){
         viewModelScope.launch(Dispatchers.Main) {
-            val response = roomId?.let { GameMemberPostRequest(it, memberIdx ) }
+            val response = roomId?.let { GameMemberPostRequest(it ) }
                 ?.let { gameRepository.postGameMember(it) }
             if (response != null) {
                 if(response.isSuccessful){
@@ -116,10 +124,9 @@ class NetworkingGameViewModel: ViewModel() {
     }
 
     //delete
-    fun postDeleteMember(){
+    fun postDeleteMember(gameMemberDeleteRequest: GameMemberDeleteRequest){
         viewModelScope.launch(Dispatchers.Main){
-            val response = roomId?.let { GameMemberDeleteRequest(it, memberIdx) }
-                ?.let { gameRepository.deleteGameMember(it) }
+            val response = gameRepository.deleteGameMember(gameMemberDeleteRequest)
             if (response != null) {
                 if(response.isSuccessful){
                     _deleteMember.value = response.body()
@@ -144,10 +151,9 @@ class NetworkingGameViewModel: ViewModel() {
     }
 
     //current-idx
-    fun patchGameCurrentIdx(){
+    fun patchGameCurrentIdx(gameCurrentIdxRequest: GameCurrentIdxRequest){
         viewModelScope.launch(Dispatchers.Main) {
-            val response = roomId?.let { GameCurrentIdxRequest(it) }
-                ?.let { gameRepository.patchGameCurrentIdx(it) }
+           val response = gameRepository.patchGameCurrentIdx(gameCurrentIdxRequest)
             if (response != null) {
                 if(response.isSuccessful){
                     _patchCurrent.value = response.body()
@@ -205,8 +211,14 @@ class NetworkingGameViewModel: ViewModel() {
         // 구독
         val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
             .subscribe {stompMessage ->
-                //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
+                val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
+                val message = gson.fromJson(stompMessage.payload, Message::class.java)
+                _message.postValue(messageV0)
                 getGameMember()
+                _patchMessage.postValue(message)
+                /*if (patchCurrentReq != null) {
+                    patchGameCurrentIdx(patchCurrentReq)
+                }*/
             }
     }
 
@@ -250,16 +262,17 @@ class NetworkingGameViewModel: ViewModel() {
         Log.i("send", "send messageData : $messageJson")
     }
 
-    fun sendDeleteMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
-        val messageVO = roomId?.let { MessageV0("EXIT", it,"zzangu", "","") }
+    fun sendDeleteMessage() {
+        val messageVO = roomId?.let { MessageV0("EXIT", it,"zzangu", memberIdx.toString(),"") }
         val messageJson: String = gson.toJson(messageVO)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
     }
 
-    fun sendCurrentIdxMessage(){
-        val messageVO = roomId?.let { MessageV0("TALK", it,"zzangu", "NEXT","") }
-        val messageJson: String = gson.toJson(messageVO)
+    fun sendCurrentIdxMessage(next : Int){
+        // userList에서 자신의 memberIdx를 찾고 그 다음 사람을 message에..!
+        val message = roomId?.let { Message("NEXT", it,"zzangu", next.toString(),"") }
+        val messageJson: String = gson.toJson(message)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
     }

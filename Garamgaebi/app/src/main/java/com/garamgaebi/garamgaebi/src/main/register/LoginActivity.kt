@@ -3,8 +3,15 @@ package com.garamgaebi.garamgaebi.src.main.register
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.common.BaseActivity
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.ActivityLoginBinding
+import com.garamgaebi.garamgaebi.model.LoginRequest
+import com.garamgaebi.garamgaebi.src.main.MainActivity
+import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause

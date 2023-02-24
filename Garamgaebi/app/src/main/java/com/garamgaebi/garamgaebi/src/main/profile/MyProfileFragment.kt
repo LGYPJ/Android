@@ -33,35 +33,46 @@ class MyProfileFragment :
     private val viewModel: ProfileViewModel by lazy {
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = this
+<<<<<<< HEAD
         binding.setVariable(BR.profileViewModel,viewModel)
         viewModel.getProfileInfo(myMemberIdx)
+=======
+        binding.setVariable(BR.profileViewModel, viewModel)
+>>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
 
-        val dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
-        with(binding){
+        val dividerItemDecoration = DividerItemDecoration(
+            binding.activityMyProfileRVSns.context,
+            LinearLayoutManager(requireContext()).orientation
+        )
+        with(binding) {
             activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
             activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
             activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
-            activityMyProfileBtnSnsAdd.setOnClickListener{
+            CoroutineScope(Dispatchers.IO).launch {
+                setDataView()
+            }
+            activityMyProfileBtnSnsAdd.setOnClickListener {
                 goAddSNSFragment()
             }
 
-            activityMyProfileBtnCareerAdd.setOnClickListener{
+            activityMyProfileBtnCareerAdd.setOnClickListener {
                 goAddCareerFragment()
             }
 
-            activityMyProfileBtnEduAdd.setOnClickListener{
+            activityMyProfileBtnEduAdd.setOnClickListener {
                 goAddEduFragment()
             }
 
-            activityMyProfileIvCs.setOnClickListener{
+            activityMyProfileIvCs.setOnClickListener {
                 goServiceCenterFragment()
             }
 
-            activityMyProfileBtnEditProfile.setOnClickListener{
+            activityMyProfileBtnEditProfile.setOnClickListener {
                 goEditFragment()
             }
 
@@ -82,24 +93,48 @@ class MyProfileFragment :
         intent.putExtra("edit", true) //데이터 넣기
         startActivity(intent)
     }
+
     //고객센터 화면으로 이동
-    private fun goServiceCenterFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("servicecenter",true) //데이터 넣기
+    private fun goServiceCenterFragment() {
+        val intent = Intent(activity, ContainerActivity::class.java)
+        intent.putExtra("servicecenter", true) //데이터 넣기
         startActivity(intent)
     }
 
+<<<<<<< HEAD
+=======
+    //sns 추가 버튼
+    private fun goAddSNSFragment() {
+        val intent = Intent(activity, ContainerActivity::class.java)
+        intent.putExtra("sns", true) //데이터 넣기
+        startActivity(intent)
+    }
+
+    //career 추가 버튼
+    private fun goAddCareerFragment() {
+        val intent = Intent(activity, ContainerActivity::class.java)
+        intent.putExtra("career", true) //데이터 넣기
+        startActivity(intent)
+    }
+
+    //edu 추가 버튼
+    private fun goAddEduFragment() {
+        val intent = Intent(activity, ContainerActivity::class.java)
+        intent.putExtra("edu", true) //데이터 넣기
+        startActivity(intent)
+    }
+
+>>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        GlobalScope.launch {
-            val x = setDataView()
-            val y = updateData()
+        CoroutineScope(Dispatchers.IO).launch {
+            updateData()
         }
     }
-    private suspend fun setDataView():Int {
-        val value: Int = withContext(Dispatchers.Main) {
-            val total = 1
+
+    private suspend fun setDataView() {
+        withContext(Dispatchers.Main) {
             with(viewModel) {
                 var dividerItemDecoration = DividerItemDecoration(
                     binding.activityMyProfileRVSns.context,
@@ -115,6 +150,7 @@ class MyProfileFragment :
                     } else {
 
                         with(binding) {
+
                             GaramgaebiApplication.sSharedPreferences
                                 .edit().putString("myNickName", result.result.nickName)
                                 .putString("myBelong", result.result.belong)
@@ -152,7 +188,7 @@ class MyProfileFragment :
 
                         }
                     }
-                    }
+                }
                 //SNS 정보 어댑터 연결
                 //getSNSInfo(myMemberIdx)
                 snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
@@ -207,7 +243,7 @@ class MyProfileFragment :
                 //교육 정보 어댑터 연결
                 //getEducationInfo(myMemberIdx)
                 educationInfoArray.observe(viewLifecycleOwner) {
-                    if(it == null) {
+                    if (it == null) {
 
                     } else {
                         val eduAdapter =
@@ -229,11 +265,10 @@ class MyProfileFragment :
                     }
                 }
             }
-            total
         }
-        return value
     }
 
+<<<<<<< HEAD
     //sns 추가 버튼
     private fun goAddSNSFragment(){
         val intent = Intent(activity,ContainerActivity::class.java)
@@ -266,8 +301,15 @@ class MyProfileFragment :
                 getEducationInfo(myMemberIdx)
             }
             total
+=======
+    private fun updateData() {
+        with(viewModel) {
+            getProfileInfo(myMemberIdx)
+            getSNSInfo(myMemberIdx)
+            getCareerInfo(myMemberIdx)
+            getEducationInfo(myMemberIdx)
+>>>>>>> cf8aef85a5b47ef8a21fa55b104d4c78037d6c40
         }
-        return value
     }
 }
 
