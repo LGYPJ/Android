@@ -28,11 +28,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH_100
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
@@ -282,8 +279,18 @@ class ProfileEditFragment :
             Log.d("image_source",binding.activityEditProfileIvProfile.resources.toString())
             false
         })
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//            })
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

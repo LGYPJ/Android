@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
@@ -37,6 +38,7 @@ class MyProfileFragment :
 
         binding.lifecycleOwner = this
         binding.setVariable(BR.profileViewModel,viewModel)
+        viewModel.getProfileInfo(myMemberIdx)
 
         val dividerItemDecoration = DividerItemDecoration(binding.activityMyProfileRVSns.context, LinearLayoutManager(requireContext()).orientation)
         with(binding){
@@ -62,7 +64,14 @@ class MyProfileFragment :
             activityMyProfileBtnEditProfile.setOnClickListener{
                 goEditFragment()
             }
+
+            refreshLayout.setOnRefreshListener {
+                    viewModel.getProfileInfo(myMemberIdx)
+                    binding.refreshLayout.isRefreshing = false
+            }
         }
+
+
 
 
     }
@@ -77,27 +86,6 @@ class MyProfileFragment :
     private fun goServiceCenterFragment(){
         val intent = Intent(activity,ContainerActivity::class.java)
         intent.putExtra("servicecenter",true) //데이터 넣기
-        startActivity(intent)
-    }
-
-    //sns 추가 버튼
-    private fun goAddSNSFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("sns",true) //데이터 넣기
-        startActivity(intent)
-    }
-
-    //career 추가 버튼
-    private fun goAddCareerFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("career",true) //데이터 넣기
-        startActivity(intent)
-    }
-
-    //edu 추가 버튼
-    private fun goAddEduFragment(){
-        val intent = Intent(activity,ContainerActivity::class.java)
-        intent.putExtra("edu",true) //데이터 넣기
         startActivity(intent)
     }
 
@@ -117,21 +105,16 @@ class MyProfileFragment :
                     binding.activityMyProfileRVSns.context,
                     LinearLayoutManager(requireContext()).orientation
                 )
-                getProfileInfo(myMemberIdx)
+
+                //getProfileInfo(myMemberIdx)
                 profileInfo.observe(viewLifecycleOwner) {
                     binding.profileViewModel = viewModel
                     val result = it as ProfileDataResponse
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putString("nickname", result.result.nickName)
-                        .apply()
                     if (result == null) {
 
                     } else {
 
                         with(binding) {
-
-                            Log.d("image_beforeㅍㅍㅍ", result.result.profileUrl)
-
                             GaramgaebiApplication.sSharedPreferences
                                 .edit().putString("myNickName", result.result.nickName)
                                 .putString("myBelong", result.result.belong)
@@ -139,7 +122,7 @@ class MyProfileFragment :
                                 .putString("myIntro", result.result.content)
                                 .putString("myImage", result.result.profileUrl)
                                 .apply()
-                            //Log.d("myImage", result.result.profileUrl + "h")
+
                             activityMyProfileTvUsername.text = result.result.nickName
                             activityMyProfileTvEmail.text = result.result.profileEmail
                             activityMyProfileTvSchool.text = result.result.belong
@@ -155,7 +138,7 @@ class MyProfileFragment :
                             } else {
                                 activityMyProfileTvSchool.visibility = View.VISIBLE
                             }
-                            var loop = false
+
                             if (result.result.profileUrl != null) {
                                 CoroutineScope(Dispatchers.Main).launch {
                                     val bitmap = withContext(Dispatchers.IO) {
@@ -163,7 +146,6 @@ class MyProfileFragment :
                                     }
                                     binding.activityMyProfileIvProfile.setImageBitmap(bitmap)
                                     Log.d("image_url", result.result.profileUrl)
-                                    loop = true
                                 }
                                 activityMyProfileIvProfile.clipToOutline = true
                             }
@@ -172,7 +154,7 @@ class MyProfileFragment :
                     }
                     }
                 //SNS 정보 어댑터 연결
-                getSNSInfo(myMemberIdx)
+                //getSNSInfo(myMemberIdx)
                 snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
                     if (it == null) {
 
@@ -194,7 +176,7 @@ class MyProfileFragment :
                 })
 
                 //경력 정보 어댑터 연결
-                getCareerInfo(myMemberIdx)
+               //getCareerInfo(myMemberIdx)
                 careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
                     if (it == null) {
 
@@ -223,7 +205,7 @@ class MyProfileFragment :
                     }
                 })
                 //교육 정보 어댑터 연결
-                getEducationInfo(myMemberIdx)
+                //getEducationInfo(myMemberIdx)
                 educationInfoArray.observe(viewLifecycleOwner) {
                     if(it == null) {
 
@@ -251,6 +233,28 @@ class MyProfileFragment :
         }
         return value
     }
+
+    //sns 추가 버튼
+    private fun goAddSNSFragment(){
+        val intent = Intent(activity,ContainerActivity::class.java)
+        intent.putExtra("sns",true) //데이터 넣기
+        startActivity(intent)
+    }
+
+    //career 추가 버튼
+    private fun goAddCareerFragment(){
+        val intent = Intent(activity,ContainerActivity::class.java)
+        intent.putExtra("career",true) //데이터 넣기
+        startActivity(intent)
+    }
+
+    //edu 추가 버튼
+    private fun goAddEduFragment(){
+        val intent = Intent(activity,ContainerActivity::class.java)
+        intent.putExtra("edu",true) //데이터 넣기
+        startActivity(intent)
+    }
+
 
     private suspend fun updateData():Int {
         val value: Int = withContext(Dispatchers.IO) {

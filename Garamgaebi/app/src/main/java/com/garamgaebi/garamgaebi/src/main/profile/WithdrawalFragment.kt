@@ -177,6 +177,15 @@ class WithdrawalFragment :
             hideKeyboard()
             false
         })
+//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+//            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+//            },
+//            onHideKeyboard = { ->
+//            }
+//        )
 
     }
     private fun hideKeyboard() {

@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <data>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.garamgaebi.garamgaebi.viewModel.EducationViewModel" />
           </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
+        android:id="@+id/sv_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/whiteForBackground"
@@ -109,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/grayAe"
                   android:textStyle="bold"
-                  android:textSize="14sp"
+                  android:textSize="12sp"
                 android:visibility="visible"
                 android:text='@{viewModel.major.length() +"/22"}'
                 app:layout_constraintEnd_toEndOf="@id/activity_education_et_majorDesc"
@@ -254,4 +260,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

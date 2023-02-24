@@ -1,12 +1,15 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.R
@@ -37,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     //private var gatheringProgramResponse = MutableLiveData<GatheringProgramResponse>()
     var data = mutableListOf<GatheringProgramResult>()
+    val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -45,11 +49,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //Log.d("fireBase", getFcmToken())
         val viewModel by viewModels<HomeViewModel>()
         // login false일때 테스트용
-        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", false).apply()
+        GaramgaebiApplication.sSharedPreferences.edit().putBoolean("login", true).apply()
         // 자동 로그인
         if(GaramgaebiApplication.sSharedPreferences.getBoolean("login", false)) {
             Log.d("fireBaseTokenInLogin", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
-            viewModel.postLogin(LoginRequest("cindy1769@gachon.ac.kr",
+            viewModel.postLogin(LoginRequest("1109min@gachon.ac.kr",
                 GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
             viewModel.login.observe(this, Observer {
@@ -59,7 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .putString(X_REFRESH_TOKEN, it.result.refreshToken)
                         .putInt("memberIdx", it.result.memberIdx)
                         .apply()
-                    GaramgaebiApplication.myMemberIdx = it.result.memberIdx
+//                    GaramgaebiApplication.myMemberIdx = it.result.memberIdx
                 } else {
                     Log.d("register", "login fail ${it.errorMessage}")
                 }
@@ -75,6 +79,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
+    @SuppressLint("ResourceType")
     private fun setBottomNavi() {
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
@@ -102,6 +107,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .hide(gatheringFragment!!)
                         .hide(myProfileFragment!!)
                         .commitAllowingStateLoss()
+                    val fragment = supportFragmentManager.findFragmentById(R.layout.fragment_home) as Fragment
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {

@@ -29,10 +29,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
     val viewModel by viewModels<HomeViewModel>()
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
+        Log.d("resumeㄷㄷㄷ","무넌데")
         GlobalScope.launch {
             val y = updateData()
         }
         super.onResume()
+    }
+    fun getUsers(){
+        viewModel.getHomeUser()
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -119,9 +123,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         })
                     }
                 })
-
-                // 유저 프로필 11명
                 viewModel.getHomeUser()
+                // 유저 프로필 11명
                 viewModel.user.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeUserResult>
                     val userRVAdapter: HomeUserItemRVAdapter
@@ -227,6 +230,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 getHomeProgram(myMemberIdx)
                 // 읽지 않은 알림 존재 여부
                 getNotificationUnread(myMemberIdx)
+
+                getHomeUser()
+
             }
             total
         }
