@@ -24,8 +24,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //val keyHash = Utility.getKeyHash(this)
-        //Log.d("kakao", "hash $keyHash")
+        val keyHash = Utility.getKeyHash(this)
+        Log.d("kakao", "hash $keyHash")
         /*UserApiClient.instance.logout { error ->
             if (error != null) {
                 Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()

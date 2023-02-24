@@ -64,6 +64,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                         viewModel.postEducationInfo()
                     }
                     // 로그인
+                    Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
                     homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
                         GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
