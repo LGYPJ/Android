@@ -17,14 +17,15 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.REGISTER_EMAIL
 import com.garamgaebi.garamgaebi.common.REGISTER_ORG
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEmailBinding
+import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 
 class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(R.layout.fragment_register_email) {
     lateinit var registerActivity : RegisterActivity
+    val careerViewModel by activityViewModels<CareerViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val viewModel by activityViewModels<RegisterViewModel>()
         binding.lifecycleOwner = this

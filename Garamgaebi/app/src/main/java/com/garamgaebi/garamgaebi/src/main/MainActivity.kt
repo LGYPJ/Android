@@ -11,13 +11,10 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
@@ -49,10 +46,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
-        // login false일때 테스트용
+        // 로그인 테스트용
+        //sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
+        sSharedPreferences.edit().putString("socialLogin", "").apply()
 
-        sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
-        //sSharedPreferences.edit().putString("socialLogin", "").apply()
         // 자동 로그인
         if(sSharedPreferences.getString("socialLogin", "") == "") {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -60,8 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!,
-                    sSharedPreferences.getString("pushToken", "")!!)
+                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!,"")
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
