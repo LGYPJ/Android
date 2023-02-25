@@ -125,7 +125,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
             )
         )
         viewModel.login.observe(this, Observer {
-            if (it.isSuccess) flag = true
+            if (it.isSuccess) {
+                flag = true
+                GaramgaebiApplication.sSharedPreferences.edit().putString("socialEmail", socialEmail).apply()
+            }
             else Log.d("register", "login fail ${it.errorMessage}")
         })
         return flag
