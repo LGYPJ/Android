@@ -1,23 +1,16 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.databinding.DialogRegisterTermBinding
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCompleteBinding
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.MainActivity
@@ -26,6 +19,9 @@ import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
     (FragmentRegisterCompleteBinding::bind, R.layout.fragment_register_complete){
@@ -50,45 +46,48 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         binding.fragmentCompleteTvPersonal.setOnClickListener {
             checkTvAgree()
         }
-        binding.fragmentCompleteBtnNext.setOnClickListener {
-            registerViewModel.postRegister(registerViewModel.getRegisterRequest())
-            registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
-                if(registerIt.isSuccess) {
-                    GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
-                    // 교육 or 경력
-                    if(GaramgaebiApplication.sSharedPreferences.getBoolean("isCareer", false)){
-                        val viewModel by activityViewModels<CareerViewModel>()
-                        viewModel.postCareerInfo()
-                    } else {
-                        val viewModel by activityViewModels<EducationViewModel>()
-                        viewModel.postEducationInfo()
-                    }
-                    // 로그인
-                    Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
-                    homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
-                        GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
+        CompositeDisposable()
+            .add(
+                binding.fragmentCompleteBtnNext.clicks()
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        registerViewModel.postRegister(registerViewModel.getRegisterRequest())
+                        registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
+                            if(registerIt.isSuccess) {
+                                GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
+                                // 교육 or 경력
+                                if(GaramgaebiApplication.sSharedPreferences.getBoolean("isCareer", false)){
+                                    val viewModel by activityViewModels<CareerViewModel>()
+                                    viewModel.postCareerInfo()
+                                } else {
+                                    val viewModel by activityViewModels<EducationViewModel>()
+                                    viewModel.postEducationInfo()
+                                }
+                                // 로그인
+                                Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
+                                homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
+                                    GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
-                    homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
-                        if(homeIt.isSuccess) {
-                            GaramgaebiApplication.sSharedPreferences.edit()
-                                .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
-                                .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
-                                .putInt("memberIdx", homeIt.result.memberIdx)
-                                .putString("socialLogin", registerViewModel.socialEmail.value)
-                                .apply()
-                            GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
-                            startActivity(Intent(registerActivity, MainActivity::class.java))
-                            ActivityCompat.finishAffinity(registerActivity)
-                        } else {
-                            Log.d("register", "login fail ${homeIt.errorMessage}")
-                        }
-                    })
+                                homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
+                                    if(homeIt.isSuccess) {
+                                        GaramgaebiApplication.sSharedPreferences.edit()
+                                            .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
+                                            .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
+                                            .putInt("memberIdx", homeIt.result.memberIdx)
+                                            .putString("socialLogin", registerViewModel.socialEmail.value)
+                                            .apply()
+                                        GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
+                                        startActivity(Intent(registerActivity, MainActivity::class.java))
+                                        ActivityCompat.finishAffinity(registerActivity)
+                                    } else {
+                                        Log.d("register", "login fail ${homeIt.errorMessage}")
+                                    }
+                                })
 
-                }
-            })
-
-        }
-
+                            }
+                        })
+                    }, { it.printStackTrace() })
+            )
     }
     private fun checkTvAgree() {
         if(binding.fragmentCompleteCbPersonal.isChecked){

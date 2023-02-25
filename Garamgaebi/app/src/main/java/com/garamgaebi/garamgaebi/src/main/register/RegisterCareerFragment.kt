@@ -14,10 +14,12 @@ import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterCareerBinding
 import com.garamgaebi.garamgaebi.src.main.profile.DatePickerDialogFragment
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
+import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 
 class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding>(R.layout.fragment_register_career) {
     lateinit var registerActivity:RegisterActivity
+    private val eduViewModel by activityViewModels<EducationViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -190,6 +192,20 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
+    }
+
+    override fun onResume() {
+        with(eduViewModel) {
+            institutionFirst.value = true
+            majorFirst.value = true
+            startFirst.value = true
+            endFirst.value = true
+            institution.value = ""
+            major.value = ""
+            startDate.value = ""
+            endDate.value = ""
+        }
+        super.onResume()
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)

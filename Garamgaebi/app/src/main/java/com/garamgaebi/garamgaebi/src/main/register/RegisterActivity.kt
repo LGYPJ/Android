@@ -19,16 +19,15 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             Log.d("kakao", "${intent.getStringExtra("email")}")
             viewModel.socialEmail.value = intent.getStringExtra("email")
         }
-        else
+        else {
             setFragment(REGISTER_INTRO)
             //테스트용
-            //setFragment(REGISTER_INTRO
             //setFragment(REGISTER_AUTH)
             //setFragment(REGISTER_NICKNAME)
             //setFragment(REGISTER_EMAIL)
             //setFragment(REGISTER_ORG)
             //setFragment(REGISTER_COMPLETE)
-
+        }
         Log.d("register","onCreate")
 
     }

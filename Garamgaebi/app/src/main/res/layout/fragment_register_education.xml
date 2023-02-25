@@ -251,7 +251,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/register_go_education"
+            android:text="@string/register_go_career"
             android:textColor="#2294FF"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/fragment_education_save_btn"
