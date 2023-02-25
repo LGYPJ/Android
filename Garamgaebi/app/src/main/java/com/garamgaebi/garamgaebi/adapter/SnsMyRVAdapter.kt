@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -33,6 +34,8 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Con
 
                 // 새로운 클립 객체를 클립보드에 배치합니다.
                 clipboard.setPrimaryClip(clip)
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                 Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
 
             }

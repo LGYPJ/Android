@@ -31,6 +31,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +133,7 @@
             android:layout_width="0dp"
             android:layout_height="152dp"
             android:layout_marginTop="16dp"
+            android:inputType="text"
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
@@ -191,21 +193,27 @@
             android:text="@string/withdrawal_desc"
             android:textColor="#8A8A8A"
             app:layout_constraintStart_toEndOf="@id/activity_withdrawal_checkbox_rl"
-            app:layout_constraintTop_toBottomOf="@id/activity_withdrawal_et_content"/>
+            app:layout_constraintTop_toBottomOf="@id/activity_withdrawal_et_content"
+            />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_withdrawal_send_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginBottom="68dp"
-            android:outlineProvider="none"
+
+            app:layout_constraintVertical_chainStyle="spread_inside"
             android:background="@{(!viewModel.categoryFirst &amp;&amp; !viewModel.contentFirst &amp;&amp; viewModel.categoryIsValid  &amp;&amp; viewModel.contentIsValid  &amp;&amp; viewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+            android:clickable="@{(viewModel.categoryIsValid &amp;&amp; viewModel.contentIsValid &amp;&amp; viewModel.agree) ? true : false}"
+            android:outlineProvider="none"
             android:text="@{@string/withdrawal + @string/doing}"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:clickable="@{(viewModel.categoryIsValid &amp;&amp; viewModel.contentIsValid &amp;&amp; viewModel.agree) ? true : false}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/activity_withdrawal_tv_checkboxDesc">
+
         </androidx.appcompat.widget.AppCompatButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

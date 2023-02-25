@@ -1,9 +1,14 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -71,6 +76,20 @@ class MyProfileFragment :
 
             activityMyProfileBtnEditProfile.setOnClickListener {
                 goEditFragment()
+            }
+
+            activityMyProfileTvEmail.setOnClickListener {
+                val clipboard = requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                // 새로운 ClipData 객체로 데이터 복사하기
+                val clip: ClipData =
+                    ClipData.newPlainText("email_address", activityMyProfileTvEmail.text)
+
+                // 새로운 클립 객체를 클립보드에 배치합니다.
+                clipboard.setPrimaryClip(clip)
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
             }
 
             refreshLayout.setOnRefreshListener {

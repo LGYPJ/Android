@@ -34,11 +34,7 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                 var editCareerEndDate = data.endDate
                 if(data.endDate.isNullOrBlank() || data.isWorking.equals("TRUE")){
                     editCareerEndDate = "현재"
-                    Log.d("datessss",editCareerStartDate + "이랑" + editCareerEndDate)
                 }
-                Log.d("datessss",editCareerStartDate + "이랑" + editCareerEndDate)
-
-                Log.d("career_edit_button", "success$editCareerEndDate")
 
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putString("CareerCompanyForEdit", editCareerCompany)
@@ -49,7 +45,7 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                     .putInt("CareerIdxForEdit", careerIdx)
                     .apply()
 
-                //SNS 편집 프래그먼트로!
+                //경력 편집 프래그먼트로!
                 val intent = Intent(it.context, ContainerActivity::class.java)
                 intent.putExtra("careerEdit", true)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

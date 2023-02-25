@@ -47,9 +47,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        //sSharedPreferences.edit().putString("socialLogin", "fkdlwls613@naver.com").apply()
-        sSharedPreferences.edit().putString("socialLogin", "").apply()
-
+        sSharedPreferences.edit().putString("socialLogin", "1109min@naver.com").apply()
+        //sSharedPreferences.edit().putString("socialLogin", "").apply()
+        
         // 자동 로그인
         if(sSharedPreferences.getString("socialLogin", "") == "") {
             startActivity(Intent(this, RegisterActivity::class.java))

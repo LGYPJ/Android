@@ -21,6 +21,7 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.layout.fragment_profile_sns_edit),
     ConfirmDialogInterface
@@ -84,6 +85,9 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             binding.snsViewModel = viewModel
             //유효성 확인
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
+            if (viewModel.snsType.value == "인스타그램"){
+                viewModel.snsAddressIsValid.value = Pattern.matches("^(?=.*\\d)|(?=.*[~`!@#$%\\^&*()-])|(?=.*[a-zA-Z])|(?=.*[0-9]).{0,46}$", it.toString())
+            }
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
 
@@ -243,15 +247,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             hideKeyboard()
             false
         })
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            },
-//            onHideKeyboard = { ->
-//            }
-//        )
 
     }
          private fun hideKeyboard() {

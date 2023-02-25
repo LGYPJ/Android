@@ -155,6 +155,7 @@
             android:layout_height="152dp"
             android:layout_marginTop="12dp"
             android:maxLength="100"
+            android:inputType="text"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
             android:hint='@{@string/input_content}'
@@ -236,45 +237,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_send_btn"
             >
-        <TextView
-            android:id="@+id/activity_servicecenter_tv_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            android:textColor="#AEAEAE"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="3.5dp"
-            app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_between"
-            app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_between"
-            app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_between" />
 
-        <TextView
-            android:id="@+id/activity_servicecenter_tv_between"
-            android:layout_width="8dp"
-            android:layout_height="1dp"
-            android:background="@color/grayForBtn"
-            android:backgroundTint="#AEAEAE"
-            android:layout_marginBottom="3.5dp"
-            app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_withdrawal"
-            app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_withdrawal"
-            app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_withdrawal" />
+            <TextView
+                android:id="@+id/activity_servicecenter_tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3.5dp"
+                android:text="@string/logout"
+                android:textColor="#AEAEAE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_between"
+                app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_between"
+                app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_between" />
 
-        <TextView
-            android:id="@+id/activity_servicecenter_tv_withdrawal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/회원탈퇴"
-            android:textColor="#AEAEAE"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/activity_servicecenter_tv_between"
+                android:layout_width="8dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="3.5dp"
+                android:background="@color/grayForBtn"
+                android:backgroundTint="#AEAEAE"
+                app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_withdrawal"
+                app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_withdrawal"
+                app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_withdrawal" />
+
+            <TextView
+                android:id="@+id/activity_servicecenter_tv_withdrawal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/회원탈퇴"
+                android:textColor="#AEAEAE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
