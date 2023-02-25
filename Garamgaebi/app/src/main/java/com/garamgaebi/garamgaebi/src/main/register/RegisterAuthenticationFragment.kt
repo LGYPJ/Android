@@ -17,59 +17,32 @@ import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBindi
 import com.garamgaebi.garamgaebi.model.RegisterEmailVerifyRequest
 import com.garamgaebi.garamgaebi.model.RegisterSendEmailRequest
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class RegisterAuthenticationFragment :
     BaseBindingFragment<FragmentRegisterAuthenticationBinding>(R.layout.fragment_register_authentication) {
     lateinit var registerActivity: RegisterActivity
+    val viewModel by activityViewModels<RegisterViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel by activityViewModels<RegisterViewModel>()
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
 
-        // 이메일 editText 변화
+        // 이메일 editText
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             viewModel.isEmailValid.value = viewModel.checkEmail()
         })
-
-        // 이메일 발송 버튼 클릭
-        with(binding) {
-            fragmentAuthenticationBtnEmail.setOnClickListener {
-                binding.viewModel = viewModel
-                with(viewModel) {
-                    timerStart()
-                    emailSent.value = viewModel.getEmail(registerActivity)
-                    Log.d("registerEmail", emailSent.value!!)
-                    postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
-                }
-                fragmentAuthenticationEtEmail.clearFocus()
-                fragmentAuthenticationEtNum.clearFocus()
-                fragmentAuthenticationEtNum.visibility = VISIBLE
-                fragmentAuthenticationBtnNum.visibility = VISIBLE
-            }
-        }
-
-        // 인증번호 editText 변화
+        // 인증번호 editText
         viewModel.authNum.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             viewModel.isNumValid.value = viewModel.checkAuthNum()
         })
 
-        // 인증번호 버튼 클릭
-        binding.fragmentAuthenticationBtnNum.setOnClickListener {
-            binding.viewModel = viewModel
-            with(viewModel) {
-                Log.d("이메일 인증버튼", "이메일 인증버튼")
-                authNumSent.value = authNum.value
-                Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
-                postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
-            }
-        }
-
         with(viewModel) {
-            // 인증번호 검사
+            // 인증번호 검사 api
             emailVerify.observe(viewLifecycleOwner, Observer {
                 Log.d("registerEmailAuthBtnResult", "${it.isSuccess}")
                 if (it.isSuccess) {
@@ -98,6 +71,43 @@ class RegisterAuthenticationFragment :
             registerActivity.setFragment(REGISTER_NICKNAME)
         }
 
+        CompositeDisposable().apply {
+            // 이메일 발송
+            add(
+                binding.fragmentAuthenticationBtnEmail.clicks()
+                    .throttleFirst(2000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        binding.viewModel = viewModel
+                        with(viewModel) {
+                            timerStart()
+                            emailSent.value = viewModel.getEmail(registerActivity)
+                            Log.d("registerEmail", emailSent.value!!)
+                            postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                        }
+                        with(binding) {
+                            fragmentAuthenticationEtEmail.clearFocus()
+                            fragmentAuthenticationEtNum.clearFocus()
+                            fragmentAuthenticationEtNum.visibility = VISIBLE
+                            fragmentAuthenticationBtnNum.visibility = VISIBLE
+                        }
+                    }, { it.printStackTrace() })
+            )
+            // 인증번호 검사 api call
+            add(
+                binding.fragmentAuthenticationBtnNum.clicks()
+                    .throttleFirst(2000, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        binding.viewModel = viewModel
+                        with(viewModel) {
+                            Log.d("이메일 인증버튼", "이메일 인증버튼")
+                            authNumSent.value = authNum.value
+                            Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
+                            postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
+                        }
+                    }, { it.printStackTrace() })
+            )
+        }
+
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false
@@ -118,6 +128,11 @@ class RegisterAuthenticationFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         registerActivity = context as RegisterActivity
+    }
+
+    override fun onResume() {
+        viewModel.nickname.value = ""
+        super.onResume()
     }
 }
 
