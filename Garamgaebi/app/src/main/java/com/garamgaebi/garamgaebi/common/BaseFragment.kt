@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.garamgaebi.garamgaebi.util.LoadingDialog
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 // Fragment의 기본을 작성, 뷰 바인딩 활용
 abstract class BaseFragment<B : ViewBinding>(
@@ -21,6 +22,7 @@ abstract class BaseFragment<B : ViewBinding>(
     lateinit var mLoadingDialog: LoadingDialog
 
     protected val binding get() = _binding!!
+    var disposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,5 +53,12 @@ abstract class BaseFragment<B : ViewBinding>(
             mLoadingDialog.dismiss()
         }
     }
+    override fun onStop() {
+        super.onStop()
+        if (disposables.size() > 0) {
+            disposables.clear()
+        }
+    }
+
 
 }

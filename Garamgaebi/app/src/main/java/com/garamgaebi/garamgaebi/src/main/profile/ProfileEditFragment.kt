@@ -18,6 +18,7 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -34,10 +35,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -207,6 +205,15 @@ class ProfileEditFragment :
 
                 Log.d("profile_intro_true", introIsValid.value.toString())
             })
+
+            profileEdit.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+
+                if (profileEdit.value?.result?.memberIdx == myMemberIdx){
+                    (activity as ContainerActivity).onBackPressed()
+                }
+
+            }
         }
 
         //프로필 사진 변경을 위한 클릭리스너
@@ -233,41 +240,67 @@ class ProfileEditFragment :
                         //회원정보 편집 저장 기능 추가
                         var editImage = GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage", false)
 
-                        if(editImage) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val job1 = async(Dispatchers.IO) {
 
-                        val requestFile = FileUpLoad.getFileToUpLoad()
-                            .toRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        val body = MultipartBody.Part.createFormData("image", FileUpLoad.getFileToUpLoad()+".png",requestFile)
-                            Log.d("image_edit_ss",body.toString())
+                                if (editImage) {
+
+                                    val requestFile = FileUpLoad.getFileToUpLoad()
+                                        .toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                                    val body = MultipartBody.Part.createFormData(
+                                        "image",
+                                        FileUpLoad.getFileToUpLoad() + ".png",
+                                        requestFile
+                                    )
+                                    Log.d("image_edit_ss", body.toString())
 
 
-                        var inputStream : InputStream? = null
-                        try {
-                            inputStream =
-                                context?.contentResolver?.openInputStream(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))!!
-                        }catch(e : IOException) {
-                            e.printStackTrace();
+                                    var inputStream: InputStream? = null
+                                    try {
+                                        inputStream =
+                                            context?.contentResolver?.openInputStream(
+                                                Uri.fromFile(
+                                                    File(
+                                                        FileUpLoad.getFileToUpLoad()
+                                                    )
+                                                )
+                                            )!!
+                                    } catch (e: IOException) {
+                                        e.printStackTrace();
+                                    }
+                                    var bitmap = BitmapFactory.decodeStream(inputStream);
+                                    var byteArrayOutputStream: ByteArrayOutputStream? =
+                                        ByteArrayOutputStream()
+                                    bitmap.compress(
+                                        Bitmap.CompressFormat.JPEG,
+                                        20,
+                                        byteArrayOutputStream
+                                    )
+
+                                    var requestBody = byteArrayOutputStream?.let {
+                                        RequestBody.create(
+                                            "multipart/form-data".toMediaTypeOrNull(),
+                                            it.toByteArray()
+                                        )
+                                    };
+                                    var uploadFile = requestBody?.let {
+                                        MultipartBody.Part.createFormData(
+                                            "image", FileUpLoad.getFileToUpLoad() + ".png",
+                                            it
+                                        )
+                                    }
+                                        viewModel.getCheckEditProfileInfo(myMemberIdx, uploadFile)
+                                        1
+                                } else {
+                                        viewModel.getCheckEditProfileInfo(myMemberIdx, null)
+                                        1
+                                }
+                            }
+
+                            val result1 = job1.await()
+                            Toast.makeText(binding.root.context, "저장 완료", Toast.LENGTH_SHORT).show()
+                            // (activity as ContainerActivity).onBackPressed()
                         }
-                        var bitmap = BitmapFactory.decodeStream(inputStream);
-                        var byteArrayOutputStream : ByteArrayOutputStream? = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
-
-                        var requestBody = byteArrayOutputStream?.let { RequestBody.create("multipart/form-data".toMediaTypeOrNull(), it.toByteArray()) };
-                        var uploadFile = requestBody?.let {
-                            MultipartBody.Part.createFormData("image", FileUpLoad.getFileToUpLoad()+".png",
-                                it
-                            )
-                        }
-                        Log.d("image_edit_sswwww",uploadFile.toString())
-
-                            viewModel.getCheckEditProfileInfo(myMemberIdx, uploadFile)
-
-                        }else{
-                            viewModel.getCheckEditProfileInfo(myMemberIdx, null)
-
-                        }
-
-                        (activity as ContainerActivity).onBackPressed()
 
                     }, { it.printStackTrace() })
             )

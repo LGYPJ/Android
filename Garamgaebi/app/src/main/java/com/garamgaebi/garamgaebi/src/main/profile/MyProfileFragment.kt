@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -39,6 +40,7 @@ class MyProfileFragment :
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

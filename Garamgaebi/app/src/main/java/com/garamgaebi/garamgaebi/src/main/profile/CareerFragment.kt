@@ -210,9 +210,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
 //                }
 //            })
     }
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
     private fun hideKeyboard() {
 
         if (activity != null && requireActivity().currentFocus != null) {

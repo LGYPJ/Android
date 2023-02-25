@@ -19,6 +19,8 @@ import com.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
 import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel) {
 
@@ -74,31 +76,37 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         }
 
-        binding.activityCancelApplyBtn.setOnClickListener {
-            //신청 완료 api
-            GaramgaebiApplication.sSharedPreferences.getString("bank", null)
-                ?.let { it1 ->
-                    CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
-                        it1, binding.activityCancelPayEt.toString())
-                }?.let { it2 -> viewModel.postCancel(it2) }
 
-            viewModel.cancel.observe(viewLifecycleOwner, Observer {
-                Log.d("cancel", it.toString())
-                if(it.isSuccess){
-                    //showDialog()
-                    activity?.let {
-                        CancelCompleteDialog().show(
-                            it.supportFragmentManager, "CancelCompleteDialog"
-                        )
-                    }
-                    CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        disposables
+            .add(
+                binding
+                    .activityCancelApplyBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        //신청 완료 api
+                        GaramgaebiApplication.sSharedPreferences.getString("bank", null)
+                            ?.let { it1 ->
+                                CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                                    it1, binding.activityCancelPayEt.toString())
+                            }?.let { it2 -> viewModel.postCancel(it2) }
 
-                }
+                        viewModel.cancel.observe(viewLifecycleOwner, Observer {
+                            Log.d("cancel", it.toString())
+                            if(it.isSuccess){
+                                //showDialog()
+                                activity?.let {
+                                    CancelCompleteDialog().show(
+                                        it.supportFragmentManager, "CancelCompleteDialog"
+                                    )
+                                }
+                                CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            })
+                            }
 
-
-        }
+                        })
+                    }, { it.printStackTrace() })
+            )
 
         //type에 따라 상세보기 뷰모델 달라짐!
         //세미나 상세보기 뷰모델로

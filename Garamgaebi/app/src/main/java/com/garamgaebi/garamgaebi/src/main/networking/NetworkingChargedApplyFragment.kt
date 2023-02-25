@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
@@ -17,6 +18,8 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingChargedApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChargedApplyBinding>(R.layout.fragment_networking_charged_apply) {
@@ -60,18 +63,25 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         }
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
-        binding.activityNetworkChargedApplyBtn.setOnClickListener {
-            //신청 등록 api
-            viewModel.postEnroll()
-            viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                binding.item = viewModel
-                if(it.isSuccess){
-                    //네트워킹 메인 화면으로
-                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
-            })
-        }
+        disposables
+            .add(
+                binding
+                    .activityNetworkChargedApplyBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        //신청 등록 api
+                        viewModel.postEnroll()
+                        viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                            binding.item = viewModel
+                            if(it.isSuccess){
+                                //네트워킹 메인 화면으로
+                                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                                requireActivity().supportFragmentManager.popBackStack()
+                            }
+                        })
+                    }, { it.printStackTrace() })
+            )
 
         viewModel.getNetworking()
         viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
