@@ -14,6 +14,8 @@ import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.FIRST
 import com.garamgaebi.garamgaebi.common.SECOND
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterIntroBinding
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(FragmentRegisterIntroBinding::bind, R.layout.fragment_register_intro) {
     lateinit var registerActivity : RegisterActivity
@@ -38,13 +40,21 @@ class RegisterIntroFragment : BaseFragment<FragmentRegisterIntroBinding>(Fragmen
             }
         })
         // 버튼 클릭 리스너
-        binding.fragmentRegisterIntroBtn.setOnClickListener {
-            if(binding.fragmentRegisterIntroBtn.text == getString(R.string.next)) {
-                binding.fragmentIntroVp.currentItem = 1
-            } else {
-                startActivity(Intent(registerActivity, LoginActivity::class.java))
-            }
-        }
+        disposables
+            .add(
+                binding
+                    .fragmentRegisterIntroBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if(binding.fragmentRegisterIntroBtn.text == getString(R.string.next)) {
+                            binding.fragmentIntroVp.currentItem = 1
+                        } else {
+                            startActivity(Intent(registerActivity, LoginActivity::class.java))
+                        }
+                    }, { it.printStackTrace() })
+            )
+
     }
     inner class IntroViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = 2

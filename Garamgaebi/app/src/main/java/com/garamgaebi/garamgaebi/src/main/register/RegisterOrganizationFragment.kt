@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.garamgaebi.garamgaebi.R
@@ -11,6 +12,8 @@ import com.garamgaebi.garamgaebi.common.REGISTER_EDU
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterOrganizationBinding
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import java.util.concurrent.TimeUnit
 
 class RegisterOrganizationFragment : BaseFragment<FragmentRegisterOrganizationBinding>
     (FragmentRegisterOrganizationBinding::bind, R.layout.fragment_register_organization) {
@@ -22,36 +25,60 @@ class RegisterOrganizationFragment : BaseFragment<FragmentRegisterOrganizationBi
         var flag = true
         // career 클릭
         with(binding) {
-            fragmentOrganizationBtnCareer.setOnClickListener {
-                // career
-                fragmentOrganizationBtnCareer.setBackgroundResource(R.drawable.fragment_organization_btn_selected)
-                // edu
-                fragmentOrganizationBtnEdu.setBackgroundResource(R.drawable.register_et_border)
 
-                flag = true
-                fragmentOrganizationBtnNext.isEnabled = true
-                fragmentOrganizationBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
-            }
+            // career 클릭
+            disposables
+                .add(
+                    binding
+                        .fragmentOrganizationBtnCareer
+                        .clicks()
+                        .throttleFirst(300, TimeUnit.MILLISECONDS)
+                        .subscribe({
+                            // career
+                            fragmentOrganizationBtnCareer.setBackgroundResource(R.drawable.fragment_organization_btn_selected)
+                            // edu
+                            fragmentOrganizationBtnEdu.setBackgroundResource(R.drawable.register_et_border)
+
+                            flag = true
+                            fragmentOrganizationBtnNext.isEnabled = true
+                            fragmentOrganizationBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
+                        }, { it.printStackTrace() })
+                )
+
             // edu 클릭
-            binding.fragmentOrganizationBtnEdu.setOnClickListener {
-                // edu
-                fragmentOrganizationBtnEdu.setBackgroundResource(R.drawable.fragment_organization_btn_selected)
-                // career
-                fragmentOrganizationBtnCareer.setBackgroundResource(R.drawable.register_et_border)
+            disposables
+                .add(
+                    binding
+                        .fragmentOrganizationBtnEdu
+                        .clicks()
+                        .throttleFirst(300, TimeUnit.MILLISECONDS)
+                        .subscribe({
+                            // edu
+                            fragmentOrganizationBtnEdu.setBackgroundResource(R.drawable.fragment_organization_btn_selected)
+                            // career
+                            fragmentOrganizationBtnCareer.setBackgroundResource(R.drawable.register_et_border)
 
-                flag = false
-                fragmentOrganizationBtnNext.isEnabled = true
-                fragmentOrganizationBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
-            }
+                            flag = false
+                            fragmentOrganizationBtnNext.isEnabled = true
+                            fragmentOrganizationBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
+                        }, { it.printStackTrace() })
+                )
 
-            fragmentOrganizationBtnNext.setOnClickListener {
-                if(flag) {
-                    registerActivity.setFragment(REGISTER_CAREER)
-                } else {
-                    registerActivity.setFragment(REGISTER_EDU)
-                }
+            disposables
+                .add(
+                    binding
+                        .fragmentOrganizationBtnNext
+                        .clicks()
+                        .throttleFirst(300, TimeUnit.MILLISECONDS)
+                        .subscribe({
+                            if(flag) {
+                                registerActivity.setFragment(REGISTER_CAREER)
+                            } else {
+                                registerActivity.setFragment(REGISTER_EDU)
+                            }
+                        }, { it.printStackTrace() })
+                )
 
-            }
         }
 
     }

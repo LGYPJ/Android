@@ -32,10 +32,12 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBinding>(FragmentNetworkingGamePlaceBinding::bind, R.layout.fragment_networking_game_place) {
 
@@ -183,114 +185,128 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
                     //시작하기 버튼
-                    binding.activityGameCardStartBtn.setOnClickListener {
-                        front_anim.setTarget(front)
-                        back_anim.setTarget(back)
-                        front_anim.start()
-                        back_anim.start()
-                        binding.activityGameCardStartBtn.isEnabled = false
+                        disposables
+                            .add(
+                                binding
+                                    .activityGameCardStartBtn
+                                    .clicks()
+                                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                                    .subscribe({
+                                        front_anim.setTarget(front)
+                                        back_anim.setTarget(back)
+                                        front_anim.start()
+                                        back_anim.start()
+                                        binding.activityGameCardStartBtn.isEnabled = false
 
-                        //시작하기 버튼 누르면 뷰페이저 보이게
-                        binding.activityGameCardBackImg.visibility = View.VISIBLE
+                                        //시작하기 버튼 누르면 뷰페이저 보이게
+                                        binding.activityGameCardBackImg.visibility = View.VISIBLE
 
-                        // 프로필
-                        val networkingGameProfile3 =
-                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId)
-                        binding.activityGameProfileRv.apply {
-                            adapter = networkingGameProfile3
-                            layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            // currentMemberIdx로 스크롤
-                            (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
-                            networkingGameProfile2.notifyDataSetChanged()
-                        }
-                        // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
-                        if(memberIdx == data[currentId].memberIdx){
-                            binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
-                        }
+                                        // 프로필
+                                        val networkingGameProfile3 =
+                                            NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId)
+                                        binding.activityGameProfileRv.apply {
+                                            adapter = networkingGameProfile3
+                                            layoutManager =
+                                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                                            // currentMemberIdx로 스크롤
+                                            (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
+                                            networkingGameProfile2.notifyDataSetChanged()
+                                        }
+                                        // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
+                                        if(memberIdx == data[currentId].memberIdx){
+                                            binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
+                                        }
 
-                        //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
-                        //index + 1
-                        CoroutineScope(Dispatchers.Main).launch {
-                            launch {
-                                delay(1400)
-                                //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
-                                fadeInAnim =
-                                    AnimationUtils.loadAnimation(
-                                        context,
-                                        R.anim.activity_game_fade_in
-                                    )
-                                binding.activityGameCardBackVp.offscreenPageLimit = 1
+                                        //시작하기 버튼 누르고 2초 뒤에 뒤에 카드 생성
+                                        //index + 1
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            launch {
+                                                delay(1400)
+                                                //시작하기 누르고 2초뒤에 0.5초간 뒤에 뷰페이저 fadein 효과
+                                                fadeInAnim =
+                                                    AnimationUtils.loadAnimation(
+                                                        context,
+                                                        R.anim.activity_game_fade_in
+                                                    )
+                                                binding.activityGameCardBackVp.offscreenPageLimit = 1
 
-                            }
-                        }
+                                            }
+                                        }
+                                    }, { it.printStackTrace() })
+                            )
 
-                    }
 
                     // 다음 버튼 눌렀을때
-                    binding.activityGamePlaceCardNextBtn.setOnClickListener {
+                        //시작하기 버튼
+                        disposables
+                            .add(
+                                binding
+                                    .activityGamePlaceCardNextBtn
+                                    .clicks()
+                                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                                    .subscribe({
 
-                        val last = data.lastIndex
-                        Log.d("last", last.toString())
-                        if(data[currentId].memberIdx == data[last].memberIdx){
-                            currentId = 0
-                            val nextId = data[currentId].memberIdx
-                            Log.d("nextId", nextId.toString())
-                            Log.d("currentId", currentId.toString())
-                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
-                            GaramgaebiApplication.sSharedPreferences
-                                .edit().putInt("currentUserId", nextId)
-                                .apply()
+                                        val last = data.lastIndex
+                                        Log.d("last", last.toString())
+                                        if(data[currentId].memberIdx == data[last].memberIdx){
+                                            currentId = 0
+                                            val nextId = data[currentId].memberIdx
+                                            Log.d("nextId", nextId.toString())
+                                            Log.d("currentId", currentId.toString())
+                                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
+                                            GaramgaebiApplication.sSharedPreferences
+                                                .edit().putInt("currentUserId", nextId)
+                                                .apply()
 
-                            CoroutineScope(Dispatchers.Main).launch{
-                                launch {
-                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
-                                    roomId?.let { it1 ->
-                                        GameCurrentIdxRequest(
-                                            it1, nextId)
-                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                                }
-                                launch {
-                                    viewModel.sendCurrentIdxMessage(nextId)
-                                }
-                            }
-                        }
-                        else{
-                            val nextId = data[currentId++].memberIdx
-                            Log.d("nextId", nextId.toString())
-                            Log.d("currentIdelse", currentId.toString())
-                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
-                            GaramgaebiApplication.sSharedPreferences
-                                .edit().putInt("currentUserId", nextId)
-                                .apply()
+                                            CoroutineScope(Dispatchers.Main).launch{
+                                                launch {
+                                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
+                                                    roomId?.let { it1 ->
+                                                        GameCurrentIdxRequest(
+                                                            it1, nextId)
+                                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
+                                                }
+                                                launch {
+                                                    viewModel.sendCurrentIdxMessage(nextId)
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            val nextId = data[currentId++].memberIdx
+                                            Log.d("nextId", nextId.toString())
+                                            Log.d("currentIdelse", currentId.toString())
+                                            // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
+                                            GaramgaebiApplication.sSharedPreferences
+                                                .edit().putInt("currentUserId", nextId)
+                                                .apply()
 
-                            CoroutineScope(Dispatchers.Main).launch{
-                                launch {
-                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
-                                    roomId?.let { it1 ->
-                                        GameCurrentIdxRequest(
-                                            it1, nextId)
-                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                                }
-                                launch {
-                                    viewModel.sendCurrentIdxMessage(nextId)
-                                }
-                            }
-                        }
-                        //
-                        //
+                                            CoroutineScope(Dispatchers.Main).launch{
+                                                launch {
+                                                    // PATCH(NEXT때 보냈던 memberIdx를 보냄)
+                                                    roomId?.let { it1 ->
+                                                        GameCurrentIdxRequest(
+                                                            it1, nextId)
+                                                    }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
+                                                }
+                                                launch {
+                                                    viewModel.sendCurrentIdxMessage(nextId)
+                                                }
+                                            }
+                                        }
+                                        //
+                                        //
 
-                        index++
-                        Log.d("index", index.toString())
-                        //뷰페이저 하나만 넘어가는 거 해결
-                        var tab =  binding.activityGameCardBackVp.currentItem
-                        tab++
-                        Log.d("tab", tab.toString())
-                        binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                        networkingGameCardVPAdapter.notifyDataSetChanged()
+                                        index++
+                                        Log.d("index", index.toString())
+                                        //뷰페이저 하나만 넘어가는 거 해결
+                                        var tab =  binding.activityGameCardBackVp.currentItem
+                                        tab++
+                                        Log.d("tab", tab.toString())
+                                        binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                                        networkingGameCardVPAdapter.notifyDataSetChanged()
+                                    }, { it.printStackTrace() })
+                            )
 
-
-                    }
                         viewModel.patchMessage.observe(viewLifecycleOwner, Observer {
                             val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
                                 gameMemberGetResult.memberIdx.toString() == it.message
