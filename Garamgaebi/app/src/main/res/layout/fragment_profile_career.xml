@@ -105,6 +105,7 @@
             android:paddingStart="12dp"
             android:maxLines="1"
             android:maxLength="22"
+            android:inputType="text"
             android:text="@={viewModel.position}"
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"

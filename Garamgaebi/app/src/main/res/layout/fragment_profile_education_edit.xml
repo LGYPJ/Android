@@ -52,6 +52,7 @@
                 android:layout_height="48dp"
                 android:maxLines="1"
                 android:maxLength="22"
+                android:inputType="text"
                 android:background="@{(viewModel.institutionFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.institutionHint}'
@@ -97,6 +98,7 @@
                 android:layout_height="48dp"
                 android:maxLines="1"
                 android:maxLength="22"
+                android:inputType="text"
                 android:background="@{(viewModel.majorFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) }"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.majorHint}'

@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,6 +16,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
@@ -53,25 +55,19 @@ class WithdrawalFragment :
                 viewModel.contentFirst.value=false
 
             }
-
-
-            Log.d("qna_category_true",viewModel.categoryIsValid.value.toString())
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
-
-            Log.d("qna_content_true",viewModel.contentIsValid.value.toString())
         })
         viewModel.agree.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-
             viewModel.agreeIsValid.value = binding.activityWithdrawalCheckbox.isChecked
-
-            Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
+
+
 
 
 
@@ -148,6 +144,10 @@ class WithdrawalFragment :
                                 1 -> {
                                     //탈퇴
                                     viewModel.postWithdrawal()
+                                    activity?.startActivity(
+                                        Intent(activity,
+                                            LoginActivity::class.java)
+                                    )
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
                                         when(it2){
                                             1 -> {
@@ -177,15 +177,6 @@ class WithdrawalFragment :
             hideKeyboard()
             false
         })
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            },
-//            onHideKeyboard = { ->
-//            }
-//        )
 
     }
     private fun hideKeyboard() {

@@ -208,6 +208,8 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
                 // 새로운 클립 객체를 클립보드에 배치합니다.
                 clipboard.setPrimaryClip(clip)
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                 Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
             }
 

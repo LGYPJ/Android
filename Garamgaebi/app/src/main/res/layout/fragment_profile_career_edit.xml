@@ -52,6 +52,7 @@
                 android:background="@{(viewModel.companyFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
                 android:maxLines="1"
                 android:maxLength="22"
+                android:inputType="text"
                 android:gravity="center_vertical"
                 android:hint='@{viewModel.companyHint}'
                 android:paddingStart="12dp"
@@ -105,6 +106,7 @@
                 android:textColor="@color/black80"
                 android:textColorHint="@color/grayForBtn"
                 android:textSize="14sp"
+                android:inputType="text"
                 app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.positionFocusing,viewModel.positionFirst,check)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
