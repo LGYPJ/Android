@@ -148,6 +148,11 @@ class WithdrawalFragment :
                                         Intent(activity,
                                             LoginActivity::class.java)
                                     )
+                                    GaramgaebiApplication.sSharedPreferences.edit()
+                                        .putInt("memberIdx", -1)
+                                        .putString("socialEmail", "")
+                                        .apply()
+                                    GaramgaebiApplication.myMemberIdx = -1
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
                                         when(it2){
                                             1 -> {
