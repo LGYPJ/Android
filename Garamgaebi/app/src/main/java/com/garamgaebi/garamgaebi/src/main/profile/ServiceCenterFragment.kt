@@ -124,6 +124,11 @@ class ServiceCenterFragment :
                     .subscribe({
                         viewModel.postLogout()
                         activity?.startActivity(Intent(activity,LoginActivity::class.java))
+                        GaramgaebiApplication.sSharedPreferences.edit()
+                            .putInt("memberIdx", -1)
+                            .putString("socialEmail", "")
+                        GaramgaebiApplication.myMemberIdx = -1
+
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
             )

@@ -42,6 +42,22 @@ class RegisterAuthenticationFragment :
         })
 
         with(viewModel) {
+            // 이메일 인증
+            sendEmail.observe(viewLifecycleOwner, Observer {
+                if(it.isSuccess) {
+                    with(binding) {
+                        fragmentAuthenticationEtEmail.clearFocus()
+                        fragmentAuthenticationEtNum.clearFocus()
+                        fragmentAuthenticationEtNum.visibility = VISIBLE
+                        fragmentAuthenticationBtnNum.visibility = VISIBLE
+                        isEmailDuplicated.value = false
+                        timerStart()
+                    }
+                } else {
+                    isEmailDuplicated.value = true
+                }
+            })
+
             // 인증번호 검사 api
             emailVerify.observe(viewLifecycleOwner, Observer {
                 Log.d("registerEmailAuthBtnResult", "${it.isSuccess}")
@@ -79,16 +95,9 @@ class RegisterAuthenticationFragment :
                     .subscribe({
                         binding.viewModel = viewModel
                         with(viewModel) {
-                            timerStart()
                             emailSent.value = viewModel.getEmail(registerActivity)
                             Log.d("registerEmail", emailSent.value!!)
                             postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
-                        }
-                        with(binding) {
-                            fragmentAuthenticationEtEmail.clearFocus()
-                            fragmentAuthenticationEtNum.clearFocus()
-                            fragmentAuthenticationEtNum.visibility = VISIBLE
-                            fragmentAuthenticationBtnNum.visibility = VISIBLE
                         }
                     }, { it.printStackTrace() })
             )

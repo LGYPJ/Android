@@ -47,17 +47,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        sSharedPreferences.edit().putString("socialLogin", "1109min@naver.com").apply()
-        //sSharedPreferences.edit().putString("socialLogin", "").apply()
+        sSharedPreferences.edit().putString("socialEmail", "1109min@naver.com").apply()
+        //sSharedPreferences.edit().putString("socialEmail", "").apply()
         
         // 자동 로그인
-        if(sSharedPreferences.getString("socialLogin", "") == "") {
+        if(sSharedPreferences.getString("socialEmail", "") == "") {
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialLogin", "")!!,"")
+                LoginRequest(sSharedPreferences.getString("socialEmail", "")!!,"")
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
