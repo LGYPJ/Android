@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+duration: 애니메이션의 한 사이클 동안 지속되는 시간 (밀리초 단위)
+fromDegrees: 회전 애니메이션의 시작 각도
+pivotX, pivotY: 회전 중심점의 위치 (백분율로 지정 가능)
+repeatCount: 애니메이션을 반복하는 횟수 (infinite로 지정하면 무한 반복)
+toDegrees: 회전 애니메이션의 끝 각도
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="1000"
+        android:fromDegrees="0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="infinite"
+        android:toDegrees="360" />
+</set>

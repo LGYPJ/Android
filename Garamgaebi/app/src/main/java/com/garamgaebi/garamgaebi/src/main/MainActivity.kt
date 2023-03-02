@@ -26,6 +26,7 @@ import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
+import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 
 
@@ -34,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
     private val myFirebaseMessagingService = MyFirebaseMessagingService()
-
     private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.d("firebasePushBroadcast", "firebasePushBroadcast")
@@ -49,9 +49,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 로그인 테스트용
         sSharedPreferences.edit().putString("socialEmail", "1109min@naver.com").apply()
         //sSharedPreferences.edit().putString("socialEmail", "").apply()
-        
+        showLoadingDialog(this)
         // 자동 로그인
         if(sSharedPreferences.getString("socialEmail", "") == "") {
+            dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
@@ -129,8 +130,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 else -> false
             }
         }
-
-
     }
 
     fun goGatheringSeminar() {
