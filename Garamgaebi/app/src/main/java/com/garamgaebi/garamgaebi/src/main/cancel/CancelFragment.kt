@@ -76,6 +76,20 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         }
 
+        viewModel.cancel.observe(viewLifecycleOwner, Observer {
+            Log.d("cancel", it.toString())
+            if(it.isSuccess){
+                //showDialog()
+                activity?.let {
+                    CancelCompleteDialog().show(
+                        it.supportFragmentManager, "CancelCompleteDialog"
+                    )
+                }
+                CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            }
+
+        })
 
         disposables
             .add(
@@ -84,6 +98,8 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
+                        Log.d("canceldd", it.toString())
+
                         //신청 완료 api
                         GaramgaebiApplication.sSharedPreferences.getString("bank", null)
                             ?.let { it1 ->
@@ -91,20 +107,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                                     it1, binding.activityCancelPayEt.toString())
                             }?.let { it2 -> viewModel.postCancel(it2) }
 
-                        viewModel.cancel.observe(viewLifecycleOwner, Observer {
-                            Log.d("cancel", it.toString())
-                            if(it.isSuccess){
-                                //showDialog()
-                                activity?.let {
-                                    CancelCompleteDialog().show(
-                                        it.supportFragmentManager, "CancelCompleteDialog"
-                                    )
-                                }
-                                CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-                            }
-
-                        })
                     }, { it.printStackTrace() })
             )
 

@@ -53,6 +53,15 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
 
+            _add.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+
+                if (_add.value?.result == true){
+                    (activity as ContainerActivity).onBackPressed()
+                }
+
+            }
+
             //시작년월 입력감지
             startDate.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -158,7 +167,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                     .subscribe({
                         viewModel.postEducationInfo()
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
-                        (activity as ContainerActivity).onBackPressed()
+                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
         disposables

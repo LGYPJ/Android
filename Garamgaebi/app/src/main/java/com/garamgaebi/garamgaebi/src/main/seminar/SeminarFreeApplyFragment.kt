@@ -94,7 +94,7 @@ class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(Fr
     // 이름 형식 맞나
     fun isName(name : String) : Boolean {
         var returnValue = false
-        val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
+        val regex = "^[가-힣a-zA-Z]{1,20}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(name)
         if (m.matches()) {

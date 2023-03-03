@@ -86,7 +86,7 @@ class CareerViewModel : ViewModel(){
 
     //유효성 끝
 
-    private val _add = MutableLiveData<AddCareerDataResponse>()
+    val _add = MutableLiveData<AddCareerDataResponse>()
     val add : LiveData<AddCareerDataResponse>
         get() = _add
     //Career 추가
@@ -107,7 +107,7 @@ class CareerViewModel : ViewModel(){
         }
     }
 
-    private val _patch = MutableLiveData<BooleanResponse>()
+    val _patch = MutableLiveData<BooleanResponse>()
     val patch : LiveData<BooleanResponse>
         get() = _patch
     //경력 수정

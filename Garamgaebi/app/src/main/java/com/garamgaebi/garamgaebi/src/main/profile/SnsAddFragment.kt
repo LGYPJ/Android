@@ -82,12 +82,26 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
 
             if (viewModel.snsType.value == "인스타그램"){
-                viewModel.snsAddressIsValid.value = Pattern.matches("^(?=.*\\d)|(?=.*[~`!@#$%\\^&*()-])|(?=.*[a-zA-Z])|(?=.*[0-9]).{0,46}$", it.toString())
+                viewModel.snsAddressIsValid.value = Pattern.matches("^[0-9a-zA-Z_]([0-9-a-zA-Z._-]){0,46}$", it)
+                if(it.isNotEmpty()){
+                    if(it.toCharArray()[0] == '.' || it.toCharArray()[it.length-1] == '.')
+                        viewModel.snsAddressIsValid.value = false
+                }
             }
+
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
 
         })
+
+        viewModel._add.observe(viewLifecycleOwner) {
+            binding.snsViewModel = viewModel
+
+            if (viewModel._add.value?.result == true){
+                (activity as ContainerActivity).onBackPressed()
+            }
+
+        }
 
         disposables
             .add(
@@ -98,7 +112,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     .subscribe({
                         viewModel.postSNSInfo()
                         Log.d("sns_add_button","success")
-                        (activity as ContainerActivity).onBackPressed()
+                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
 

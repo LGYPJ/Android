@@ -51,6 +51,15 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
+            _add.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+
+                if (_add.value?.result == true){
+                    (activity as ContainerActivity).onBackPressed()
+                }
+
+            }
+
             //시작년월 입력 감지
             startDate.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -157,7 +166,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                     .subscribe({
                         viewModel.postCareerInfo()
                         Log.d("career_add_button","success"+viewModel.endDate.value.toString())
-                        (activity as ContainerActivity).onBackPressed()
+                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
         disposables

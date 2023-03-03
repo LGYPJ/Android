@@ -71,6 +71,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             }
                             binding.activitySomeoneProfileIvProfile.setImageBitmap(bitmap)
                         }
+//                        Glide.with(requireActivity())
+//                            .load(result.result.profileUrl)
+//                            .centerCrop()
+//                            .into(binding.activitySomeoneProfileIvProfile)
+
                     }
 
                     if (result.result.belong == null) {

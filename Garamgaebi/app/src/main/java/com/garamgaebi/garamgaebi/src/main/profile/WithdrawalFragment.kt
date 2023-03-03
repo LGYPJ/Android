@@ -59,6 +59,7 @@ class WithdrawalFragment :
         viewModel.content.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
+            Log.d("content","되냐")
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
         })

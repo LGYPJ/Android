@@ -95,10 +95,12 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                             SeminarProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
                                 //상대방 프로필로 이동
-                                if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
-                                    containerActivity!!.openFragmentOnFrameLayout(13)
+                                if(position ==0){
+                                    containerActivity!!.openFragmentOnFrameLayout(11)
                                 }
                                 if(position != 0){
+                                    GaramgaebiApplication.sSharedPreferences.edit()
+                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                 }
                             }
@@ -136,6 +138,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     } )
                 })
 
+                binding.activitySeminarFreeApplyBtn.visibility = GONE
                 //세미나 상세 정보
                 getSeminarDetail()
                 info.observe(viewLifecycleOwner, Observer {
@@ -162,6 +165,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                                 activitySeminarFreeApplyBtn.text = "마감"
                                 activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
                                 activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                                binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
                                 activitySeminarFreeApplyBtn.isEnabled = false
                             }
                         }
@@ -171,6 +175,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                                 activitySeminarFreeApplyBtn.text = "마감"
                                 activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
                                 activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                                binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
                                 activitySeminarFreeApplyBtn.isEnabled = false
                             }
                         }
@@ -180,6 +185,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                                 activitySeminarFreeApplyBtn.text = "신청하기"
                                 activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.white))
                                 activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                                binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
                                 activitySeminarFreeApplyBtn.isEnabled = true
                             }
                         }
