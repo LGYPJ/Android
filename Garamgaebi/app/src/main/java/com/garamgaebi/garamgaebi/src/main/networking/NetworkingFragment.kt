@@ -97,6 +97,8 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                 }
                                 if(position != 0){
+                                    GaramgaebiApplication.sSharedPreferences.edit()
+                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                 }
                             }
@@ -124,6 +126,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
 
                 //네트워킹 상세정보
                 getNetworkingInfo()
+                binding.activityNetworkApplyBtn.visibility = GONE
                 networkingInfo.observe(viewLifecycleOwner, Observer {
                     // 시작 date변환 -> 저장
                     val item = it.result
@@ -170,6 +173,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                 activityNetworkApplyBtn.isEnabled = true
                             }
                         }
+                        binding.activityNetworkApplyBtn.visibility = VISIBLE
                     }
                     //유료
                     else {

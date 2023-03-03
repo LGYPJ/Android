@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.loganVer
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
 import com.garamgaebi.garamgaebi.model.HomeUserResult
@@ -26,6 +28,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                     itemHomeUserIvProfileDefault.visibility = View.VISIBLE
                     Glide.with(itemView)
                         .load(R.drawable.ic_transparent)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(itemHomeUserIvProfile)
                 }
                 else {
@@ -33,6 +36,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
 
                     Glide.with(itemView)
                         .load(data.profileUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .centerCrop()
                         .into(itemHomeUserIvProfile)
 

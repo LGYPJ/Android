@@ -139,6 +139,18 @@
             app:layout_constraintTop_toTopOf="@id/activity_sns_et_linkDesc"
             app:layout_constraintBottom_toBottomOf="@id/activity_sns_et_linkDesc" />
 
+        <TextView
+            android:id="@+id/link_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sns_type_dialog_insta_desc"
+            android:visibility="@{!snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsType.equals(@string/sns_type_dialog_1) &amp;&amp; !snsViewModel.snsAddress.isEmpty() ? View.VISIBLE : View.GONE}"
+            android:textColor="@color/redForText"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/activity_sns_et_linkDesc"
+            app:layout_constraintTop_toBottomOf="@id/activity_sns_et_linkDesc"
+            />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_sns_save_btn"
             android:layout_width="match_parent"

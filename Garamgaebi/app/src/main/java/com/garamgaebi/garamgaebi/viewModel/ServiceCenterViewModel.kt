@@ -94,7 +94,7 @@ class ServiceCenterViewModel : ViewModel(){
         }
     }
 
-    private val _logout = MutableLiveData<LogOutResponse>()
+    val _logout = MutableLiveData<LogOutResponse>()
     val logout : LiveData<LogOutResponse>
         get() = _logout
     //QnA 문의

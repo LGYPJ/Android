@@ -72,6 +72,16 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
 
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
+
+            _patch.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+
+                if (_patch.value?.result == true){
+                    (activity as ContainerActivity).onBackPressed()
+                }
+
+            }
+
             startDate.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 startDateIsValid.value = it.isNotEmpty()
@@ -209,7 +219,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     .subscribe({
                         viewModel.patchEducationInfo()
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
-                        (activity as ContainerActivity).onBackPressed()
+                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
         disposables

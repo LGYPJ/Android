@@ -93,7 +93,7 @@ class EducationViewModel : ViewModel(){
 
     //유효성 끝
 
-    private val _add = MutableLiveData<AddEducationDataResponse>()
+    val _add = MutableLiveData<AddEducationDataResponse>()
     val add : LiveData<AddEducationDataResponse>
         get() = _add
 
@@ -115,7 +115,7 @@ class EducationViewModel : ViewModel(){
         }
     }
 
-    private val _patch = MutableLiveData<BooleanResponse>()
+    val _patch = MutableLiveData<BooleanResponse>()
     val patch : LiveData<BooleanResponse>
         get() = _patch
     //교육 수정
