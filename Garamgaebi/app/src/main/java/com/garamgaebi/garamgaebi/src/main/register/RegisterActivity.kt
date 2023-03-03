@@ -16,13 +16,13 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
 
         if(intent.getBooleanExtra("login", false)){
             setFragment(REGISTER_AUTH)
-            Log.d("kakao", "${intent.getStringExtra("email")}")
-            viewModel.socialEmail.value = intent.getStringExtra("email")
+            Log.d("kakao", "${intent.getStringExtra("id")}")
+            viewModel.socialId.value = intent.getStringExtra("id")
         }
         else {
-            //setFragment(REGISTER_INTRO)
+            setFragment(REGISTER_INTRO)
             //테스트용
-            setFragment(REGISTER_AUTH)
+            //setFragment(REGISTER_AUTH)
             //setFragment(REGISTER_NICKNAME)
             //setFragment(REGISTER_EMAIL)
             //setFragment(REGISTER_ORG)

@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 class RegisterViewModel : ViewModel(){
     private val registerRepository = RegisterRepository()
 
-    val socialEmail = MutableLiveData<String>("")
+    val socialId = MutableLiveData<String>("")
     val uniEmail = MutableLiveData<String>("")
     val authNum = MutableLiveData<String>("")
     val emailSent = MutableLiveData<String>("")
@@ -138,6 +138,6 @@ class RegisterViewModel : ViewModel(){
     }
 
     fun getRegisterRequest() : RegisterRequest {
-        return RegisterRequest(nickname.value!!, profileEmail.value!!, socialEmail.value!!, emailSent.value!!, "ACTIVE")
+        return RegisterRequest(nickname.value!!, profileEmail.value!!, socialId.value!!, emailSent.value!!, "ACTIVE")
     }
 }

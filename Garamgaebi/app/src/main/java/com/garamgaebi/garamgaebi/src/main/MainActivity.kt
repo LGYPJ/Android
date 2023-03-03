@@ -47,18 +47,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        sSharedPreferences.edit().putString("socialEmail", "1109min@naver.com").apply()
-        //sSharedPreferences.edit().putString("socialEmail", "").apply()
+        sSharedPreferences.edit().putString("id", "1109min@naver.com").apply()
+        //sSharedPreferences.edit().putString("id", "").apply()
         showLoadingDialog(this)
         // 자동 로그인
-        if(sSharedPreferences.getString("socialEmail", "") == "") {
+        if(sSharedPreferences.getString("id", "") == "") {
             dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialEmail", "")!!,"")
+                LoginRequest(sSharedPreferences.getString("id", "")!!,"")
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
@@ -69,7 +69,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .apply()
 
                     myMemberIdx = it.result.memberIdx
-                    Log.d("sort", "$myMemberIdx")
                     setBottomNavi()
                     LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                     initDynamicLink()

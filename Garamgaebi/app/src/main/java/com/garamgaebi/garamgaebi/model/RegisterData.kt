@@ -27,7 +27,7 @@ data class RegisterResult(
 data class RegisterRequest(
     val nickname : String,
     val profileEmail : String,
-    val socialEmail : String,
+    val socialId : String,
     val uniEmail : String,
     val status : String
 )

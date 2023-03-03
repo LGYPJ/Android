@@ -174,12 +174,12 @@ class HomeViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.postLogin(loginRequest)
             Log.d("postLogin", "$response")
-            if (response.isSuccessful && response.body()?.result != null) {
+            if (response.isSuccessful) {
                 _login.postValue(response.body())
                 Log.d("postLogin", "${response.body()}")
             }
             else {
-                Log.d("error", "postLogin : "+response.message())
+                Log.d("error", "postLogin : ${response.message()}")
             }
         }
     }

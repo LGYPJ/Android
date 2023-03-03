@@ -97,36 +97,27 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         UserApiClient.instance.me { userInfo, error ->
             if (error != null) {
                 Log.d("TAG", "사용자 정보 요청 실패 ${error.cause}")
-            } else if (userInfo != null) {
-                if(checkAlreadyRegister(userInfo.kakaoAccount?.email!!)) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                } else {
-                    startActivity(
-                        Intent(this, RegisterActivity::class.java)
-                            .putExtra("login", true)
-                            .putExtra("email", userInfo.kakaoAccount?.email)
-                    )
-                }
+            }
+            else if (userInfo != null) {
+                Log.d("kakaoId", "${userInfo.id}")
+                viewModel.postLogin(LoginRequest(
+                        userInfo.id.toString(),
+                        GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
+                ))
+                viewModel.login.observe(this, Observer {
+                    if (it.isSuccess) {
+                        GaramgaebiApplication.sSharedPreferences.edit().putString("id", userInfo.id.toString()).apply()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    } else {
+                        startActivity(
+                            Intent(this, RegisterActivity::class.java)
+                                .putExtra("login", true)
+                                .putExtra("id", userInfo.id)
+                        )
+                    }
+                })
             }
         }
-    }
-
-    private fun checkAlreadyRegister(socialEmail: String): Boolean {
-        var flag = false
-        viewModel.postLogin(
-            LoginRequest(
-                socialEmail,
-                GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
-            )
-        )
-        viewModel.login.observe(this, Observer {
-            if (it.isSuccess) {
-                flag = true
-                GaramgaebiApplication.sSharedPreferences.edit().putString("socialEmail", socialEmail).apply()
-            }
-            else Log.d("register", "login fail ${it.errorMessage}")
-        })
-        return flag
     }
 }
