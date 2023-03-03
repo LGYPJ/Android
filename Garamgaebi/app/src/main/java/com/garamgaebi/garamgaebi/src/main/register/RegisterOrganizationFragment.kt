@@ -93,6 +93,7 @@ class RegisterOrganizationFragment : BaseFragment<FragmentRegisterOrganizationBi
             position.value = ""
             startDate.value = ""
             endDate.value = ""
+            checkBox.value = false
         }
         with(eduViewModel) {
             institutionFirst.value = true
@@ -103,6 +104,7 @@ class RegisterOrganizationFragment : BaseFragment<FragmentRegisterOrganizationBi
             major.value = ""
             startDate.value = ""
             endDate.value = ""
+            checkBox.value = false
         }
         super.onResume()
     }

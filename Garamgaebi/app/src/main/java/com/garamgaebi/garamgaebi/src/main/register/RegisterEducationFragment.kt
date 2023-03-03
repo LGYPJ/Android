@@ -29,7 +29,6 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        //유효성 검사
         with(viewModel) {
             institutionHint.value = getString(R.string.register_input_institution_desc)
             majorHint.value = getString(R.string.register_input_major)
@@ -43,6 +42,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             institution.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 institutionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(institutionIsValid, it)
                 Log.d("edu_institution_true", institutionIsValid.value.toString())
             }
 
@@ -50,6 +50,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             major.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 majorIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
+                GaramgaebiFunction().checkFirstChar(majorIsValid, it)
                 Log.d("edu_major_true", majorIsValid.value.toString())
             }
 
@@ -161,22 +162,24 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
         }
 
         binding.activityEducationCheckbox.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
+            if (viewModel.checkBox.value == true) {
+                viewModel.endDate.value = "현재"
+                viewModel.isLearning.value = "TRUE"
+                viewModel.checkBox.value = true
+                viewModel.endFirst.value = false
+            } else {
                 viewModel.endDate.value = ""
                 viewModel.isLearning.value = "FALSE"
                 viewModel.checkBox.value = false
-            }else{
-                viewModel.endDate.value = "현재"
-                viewModel.isLearning.value = "TRUE"
-                viewModel.checkBox.value = true
             }
         }
         binding.activityEducationCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
+            if (viewModel.checkBox.value == false) {
                 viewModel.endDate.value = "현재"
                 viewModel.isLearning.value = "TRUE"
                 viewModel.checkBox.value = true
-            }else{
+                viewModel.endFirst.value = false
+            } else {
                 viewModel.endDate.value = ""
                 viewModel.isLearning.value = "FALSE"
                 viewModel.checkBox.value = false
@@ -210,6 +213,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             position.value = ""
             startDate.value = ""
             endDate.value = ""
+            checkBox.value = false
         }
         super.onResume()
     }

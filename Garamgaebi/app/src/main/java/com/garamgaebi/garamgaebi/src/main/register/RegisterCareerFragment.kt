@@ -142,22 +142,24 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
         }
 
         binding.activityCareerCheckbox.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
+            if (viewModel.checkBox.value == true) {
+                viewModel.endDate.value = "현재"
+                viewModel.isWorking.value = "TRUE"
+                viewModel.checkBox.value = true
+                viewModel.endFirst.value = false
+            } else {
                 viewModel.endDate.value = ""
                 viewModel.isWorking.value = "FALSE"
                 viewModel.checkBox.value = false
-            }else{
-                viewModel.endDate.value = "현재"
-                viewModel.isWorking.value = "TRUE"
-                viewModel.checkBox.value = true
             }
         }
         binding.activityCareerCheckboxDesc.setOnClickListener {
-            if(viewModel.checkBox.value == false) {
+            if (viewModel.checkBox.value == false) {
                 viewModel.endDate.value = "현재"
                 viewModel.isWorking.value = "TRUE"
                 viewModel.checkBox.value = true
-            }else{
+                viewModel.endFirst.value = false
+            } else {
                 viewModel.endDate.value = ""
                 viewModel.isWorking.value = "FALSE"
                 viewModel.checkBox.value = false
@@ -204,6 +206,7 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
             major.value = ""
             startDate.value = ""
             endDate.value = ""
+            checkBox.value = false
         }
         super.onResume()
     }
