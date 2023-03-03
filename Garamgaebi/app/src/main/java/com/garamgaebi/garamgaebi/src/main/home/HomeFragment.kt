@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.loganVer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.*
@@ -161,6 +163,17 @@ class HomeFragment :
                             layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                         }
+
+                        //테스트
+                        if(loganVer) {
+                            var anim = AnimationUtils.loadLayoutAnimation(
+                                requireContext(),
+                                R.anim.anim_slide
+                            )
+                            binding.fragmentHomeRvUser.layoutAnimation = anim
+                            binding.fragmentHomeRvUser.scheduleLayoutAnimation()
+                        }
+
                         binding.fragmentHomeClUserBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
                         userRVAdapter.setOnItemClickListener(object :

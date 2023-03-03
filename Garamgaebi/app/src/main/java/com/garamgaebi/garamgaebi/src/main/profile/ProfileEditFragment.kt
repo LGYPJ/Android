@@ -211,6 +211,8 @@ class ProfileEditFragment :
 
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
                     (activity as ContainerActivity).onBackPressed()
+                    Log.d("profile_edit_true", "ㅠㅜ하하")
+
                 }
 
             }
@@ -273,7 +275,7 @@ class ProfileEditFragment :
                                         ByteArrayOutputStream()
                                     bitmap.compress(
                                         Bitmap.CompressFormat.JPEG,
-                                        20,
+                                        100,
                                         byteArrayOutputStream
                                     )
 
@@ -285,7 +287,7 @@ class ProfileEditFragment :
                                     };
                                     var uploadFile = requestBody?.let {
                                         MultipartBody.Part.createFormData(
-                                            "image", FileUpLoad.getFileToUpLoad() + ".png",
+                                            "image", FileUpLoad.getFileToUpLoad() + ".jpeg",
                                             it
                                         )
                                     }

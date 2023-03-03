@@ -9,6 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +24,7 @@ import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.loganVer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
@@ -40,9 +43,39 @@ class MyProfileFragment :
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
 
+    fun loganVersion(){
+        var anim_small: Animation? = null
+        var anim_center: Animation? = null
+        anim_small = AnimationUtils.loadAnimation(requireActivity(), R.anim.scale_big)
+        anim_center = AnimationUtils.loadAnimation(requireActivity(), R.anim.translate_center)
+
+        var anim_up = AnimationUtils.loadAnimation(requireActivity(), R.anim.move_bottom_up)
+        var anim_down = AnimationUtils.loadAnimation(requireActivity(), R.anim.move_bottom_down)
+        var anim_down2 = AnimationUtils.loadAnimation(requireActivity(), R.anim.move_bottom_down2)
+        var anim_down3 = AnimationUtils.loadAnimation(requireActivity(), R.anim.move_bottom_down3)
+
+        var anim_in = AnimationUtils.loadAnimation(requireActivity(),R.anim.fab_open)
+        var anim_out = AnimationUtils.loadAnimation(requireActivity(),R.anim.fab_close)
+
+        CoroutineScope(Dispatchers.Main).launch {
+//            binding.conSky.startAnimation(anim_down2)
+//            binding.profileInfo.startAnimation(anim_down)
+//            binding.activityMyProfileIvProfile.startAnimation(anim_down3)
+//
+//            binding.activityMyProfileTvUsername.startAnimation(anim_in)
+//            binding.activityMyProfileTvEmail.startAnimation(anim_in)
+//            binding.activityMyProfileTvIntro.startAnimation(anim_in)
+//            binding.activityMyProfileTvSchool.startAnimation(anim_in)
+//            binding.activityMyProfileBtnEditProfile.startAnimation(anim_in)
+
+        }
+
+    }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding.lifecycleOwner = this
         binding.setVariable(BR.profileViewModel,viewModel)
@@ -143,8 +176,11 @@ class MyProfileFragment :
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
+
         CoroutineScope(Dispatchers.IO).launch {
             updateData()
+            if(loganVer)
+                loganVersion()
         }
     }
 

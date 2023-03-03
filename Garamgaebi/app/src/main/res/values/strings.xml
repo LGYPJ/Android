@@ -187,7 +187,7 @@
     <string name="sns_type_dialog_2">블로그</string>
     <string name="sns_type_dialog_3">깃허브</string>
     <string name="sns_type_dialog_4">직접 입력</string>
-    <string name="sns_type_dialog_insta_desc">인스타그램 계정을 입력해주세요</string>
+    <string name="sns_type_dialog_insta_desc">영문문자, 숫자, -, _, . 사용 가능합니다</string>
     <string name="sns_type_dialog_blog_desc">블로그 주소를 입력해주세요</string>
     <string name="sns_type_dialog_github_desc">깃허브 Username을 입력해주세요</string>
     <string name="sns_address_dialog_etc_desc">링크를 직접 입력해주세요</string>

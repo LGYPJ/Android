@@ -11,11 +11,13 @@ import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
@@ -25,7 +27,8 @@ import java.util.concurrent.TimeUnit
 
 
 class ServiceCenterFragment :
-    BaseBindingFragment<FragmentServicecenterBinding>(R.layout.fragment_servicecenter) {
+    BaseBindingFragment<FragmentServicecenterBinding>(R.layout.fragment_servicecenter),
+    ConfirmDialogInterface {
     var containerActivity: ContainerActivity? = null
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +71,19 @@ class ServiceCenterFragment :
 
             Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
+
+//        viewModel._logout.observe(viewLifecycleOwner,Observer{
+//            if(!it.result.memberInfo.equals(myMemberIdx)) {
+//                activity?.startActivity(
+//                    Intent(
+//                        activity,
+//                        LoginActivity::class.java
+//                    )
+//                )
+//            }else{
+//                //error
+//            }
+//        })
 
         with(viewModel){
             emailHint.value = getString(R.string.response_email_desc)
@@ -122,8 +138,28 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.postLogout()
-                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
+
+                        val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 1) { it ->
+                            when (it) {
+                                -1 -> {
+                                    Log.d("logout_button", "close")
+                                    (activity as ContainerActivity).onBackPressed()
+                                }
+                                1 -> {
+                                    //로그아웃
+                                    viewModel.postLogout()
+                                    activity?.startActivity(
+                                        Intent(
+                                            activity,
+                                            LoginActivity::class.java
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                        // 알림창이 띄워져있는 동안 배경 클릭 막기
+                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                        Log.d("logout_button","success")
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
             )
@@ -210,6 +246,10 @@ class ServiceCenterFragment :
     }
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onYesButtonClick(id: Int) {
+        TODO("Not yet implemented")
     }
 }
 

@@ -58,7 +58,7 @@ class SNSViewModel : ViewModel(){
     }
 
 
-    private val _add = MutableLiveData<AddSNSDataResponse>()
+    val _add = MutableLiveData<AddSNSDataResponse>()
     val add : LiveData<AddSNSDataResponse>
         get() = _add
     //SNS 추가
@@ -82,7 +82,7 @@ class SNSViewModel : ViewModel(){
         }
     }
 
-    private val _patch = MutableLiveData<BooleanResponse>()
+    val _patch = MutableLiveData<BooleanResponse>()
     val patch : LiveData<BooleanResponse>
         get() = _patch
 

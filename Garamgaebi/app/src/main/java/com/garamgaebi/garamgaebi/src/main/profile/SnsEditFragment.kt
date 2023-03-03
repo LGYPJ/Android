@@ -86,13 +86,22 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             //유효성 확인
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
             if (viewModel.snsType.value == "인스타그램"){
-                viewModel.snsAddressIsValid.value = Pattern.matches("^(?=.*\\d)|(?=.*[~`!@#$%\\^&*()-])|(?=.*[a-zA-Z])|(?=.*[0-9]).{0,46}$", it.toString())
+                viewModel.snsAddressIsValid.value = Pattern.matches("^[0-9a-zA-Z_]([0-9-a-zA-Z._-]){0,46}$", it)
             }
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
 
             Log.d("sns_address_true",viewModel.snsAddressIsValid.value.toString())
         })
+
+        viewModel._patch.observe(viewLifecycleOwner) {
+            binding.snsViewModel = viewModel
+
+            if (viewModel._patch.value?.result == true){
+                (activity as ContainerActivity).onBackPressed()
+            }
+
+        }
 
         //내 sns 정보 view에 설정
         val snsIdx = GaramgaebiApplication.sSharedPreferences.getInt("SNSIdxForEdit",-1)
@@ -127,7 +136,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .subscribe({
                         viewModel.patchSNSInfo()
                         Log.d("sns_add_button","success")
-                        (activity as ContainerActivity).onBackPressed()
+                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
 
