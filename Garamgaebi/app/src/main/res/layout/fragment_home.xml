@@ -71,6 +71,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:background="@color/white"
                 android:id="@+id/fragment_home_cl_meeting"
+                android:clipToPadding="false"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <!-- 세미나-->
@@ -97,19 +98,16 @@
                     app:layout_constraintStart_toEndOf="@id/fragment_home_tv_seminar"
                     app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_seminar" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/fragment_home_tv_seminar_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fragment_home_seminar_help"
-                    android:elevation="8dp"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
+                    android:src="@drawable/fragment_home_seminar_help"
+                    android:elevation="10dp"
+                    android:background="@android:color/transparent"
+                    android:paddingTop="4dp"
                     android:visibility="gone"
-                    android:text="@string/home_seminar_help_dialog"
-                    android:textAlignment="center"
-                    android:textColor="@color/blueForBtn"
-                    android:textSize="12sp"
+                    app:realtimeBlurRadius="10dp"
                     android:layout_marginStart="-26dp"
                     app:layout_constraintStart_toStartOf="@id/fragment_home_iv_seminar_help_btn"
                     app:layout_constraintTop_toBottomOf="@+id/fragment_home_iv_seminar_help_btn" />
@@ -208,19 +206,15 @@
                     app:layout_constraintBottom_toBottomOf="@+id/fragment_home_tv_networking"
                     app:layout_constraintStart_toEndOf="@id/fragment_home_tv_networking"
                     app:layout_constraintTop_toTopOf="@+id/fragment_home_tv_networking" />
-                <TextView
+                <ImageView
                     android:id="@+id/fragment_home_tv_networking_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fragment_home_networking_help"
-                    android:elevation="8dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingTop="8dp"
+                    android:src="@drawable/fragment_home_networking_help"
+                    android:background="@android:color/transparent"
+                    android:elevation="12dp"
+                    android:paddingTop="4dp"
                     android:layout_marginStart="-26dp"
-                    android:text="@string/home_networking_help_dialog"
-                    android:textColor="@color/blueForBtn"
-                    android:textSize="12sp"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@+id/fragment_home_iv_networking_help_btn"
                     app:layout_constraintTop_toBottomOf="@+id/fragment_home_iv_networking_help_btn" />
