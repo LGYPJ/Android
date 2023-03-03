@@ -14,6 +14,6 @@ data class LoginResult(
 )
 
 data class LoginRequest(
-    var socialEmail : String,
+    val identifier : String,
     val fcmToken: String
 )
