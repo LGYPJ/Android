@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     val viewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("kakao", "hash $keyHash")
         UserApiClient.instance.logout { error ->
@@ -48,14 +48,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 finish()
             }
         }*/
-        CompositeDisposable()
+        /*CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         kakaoLogin()
                     }, { it.printStackTrace() })
-            )
+            )*/
     }
 
     private fun kakaoLogin() {
@@ -67,7 +67,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "카카오계정으로 로그인 실패 ${error}")
             } else if (token != null) {
                 Log.d("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                getUserInfo()
+                postLogin(token.accessToken)
             }
         }
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
@@ -85,7 +85,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
                     Log.d("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    getUserInfo()
+                    postLogin(token.accessToken)
                 }
             }
         } else {
@@ -93,31 +93,26 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         }
     }
 
-    private fun getUserInfo() {
-        UserApiClient.instance.me { userInfo, error ->
-            if (error != null) {
-                Log.d("TAG", "사용자 정보 요청 실패 ${error.cause}")
+    private fun postLogin(token : String) {
+        viewModel.postLogin(
+            LoginRequest(
+                token,
+                GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
+            )
+        )
+        viewModel.login.observe(this, Observer {
+            if (it.isSuccess) {
+                GaramgaebiApplication.sSharedPreferences.edit()
+                    .putString("kakaoToken", token).apply()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(
+                    Intent(this, RegisterActivity::class.java)
+                        .putExtra("login", true)
+                        .putExtra("kakaoToken", token)
+                )
             }
-            else if (userInfo != null) {
-                Log.d("kakaoId", "${userInfo.id}")
-                viewModel.postLogin(LoginRequest(
-                        userInfo.id.toString(),
-                        GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
-                ))
-                viewModel.login.observe(this, Observer {
-                    if (it.isSuccess) {
-                        GaramgaebiApplication.sSharedPreferences.edit().putString("id", userInfo.id.toString()).apply()
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
-                    } else {
-                        startActivity(
-                            Intent(this, RegisterActivity::class.java)
-                                .putExtra("login", true)
-                                .putExtra("id", userInfo.id)
-                        )
-                    }
-                })
-            }
-        }
+        })
     }
 }

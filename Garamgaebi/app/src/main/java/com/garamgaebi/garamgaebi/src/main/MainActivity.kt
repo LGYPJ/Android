@@ -47,18 +47,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        sSharedPreferences.edit().putString("id", "1109min@naver.com").apply()
-        //sSharedPreferences.edit().putString("id", "").apply()
+        //sSharedPreferences.edit().putString("kakaoToken", "").apply()
+        Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         showLoadingDialog(this)
         // 자동 로그인
-        if(sSharedPreferences.getString("id", "") == "") {
+        if(sSharedPreferences.getString("kakaoToken", "") == "") {
             dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("id", "")!!,"")
+                LoginRequest(sSharedPreferences.getString("kakaoToken", "")!!,"")
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
@@ -73,7 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                     initDynamicLink()
                 } else {
-                    Log.d("register", "login fail ${it.errorMessage}")
+                    Log.d("login", "login fail ${it.errorMessage}")
                 }
             })
         }

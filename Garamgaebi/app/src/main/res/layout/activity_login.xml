@@ -10,11 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name_korean"
-        android:textColor="@color/black80"
+        android:textColor="@color/blueForBtn"
         android:textSize="36sp"
         android:textStyle="bold"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="164dp"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/app_desc_2"
         android:textColor="@color/black80"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_login_kakao"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_login_subtitle" />
 
