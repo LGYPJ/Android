@@ -16,4 +16,6 @@ class HomeRepository {
     suspend fun getNotificationUnread(memberIdx: Int) = homeClient.getNotificationUnread(memberIdx)
     suspend fun postLogin(request: LoginRequest) = homeClient.postLogin(request)
 
+    fun postLoginForRefresh(request: LoginRequest) = homeClient.postLoginForRefresh(request)
+
 }

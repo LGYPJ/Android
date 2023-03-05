@@ -6,8 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
+import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,15 +23,19 @@ import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
+import androidx.core.view.WindowInsetsControllerCompat
 
 class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
     ConfirmDialogInterface {
     var containerActivity: ContainerActivity? = null
+    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         var myEmail = GaramgaebiApplication.sSharedPreferences.getString("mySchoolEmail","not@gachon.ac.kr")
 
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
@@ -184,9 +191,21 @@ class WithdrawalFragment :
             false
         })
 
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+              //  binding.activityWithdrawalSendBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+              //  binding.activityWithdrawalSendBtn.visibility = View.VISIBLE
+            }
+        )
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
+
             // 프래그먼트기 때문에 getActivity() 사용
             val inputManager: InputMethodManager =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -197,6 +216,11 @@ class WithdrawalFragment :
         }
     }
 
+
+    override fun onDestroy() {
+        keyboardVisibilityUtils.detachKeyboardListeners()
+        super.onDestroy()
+    }
     override fun onYesButtonClick(id: Int) {
         TODO("Not yet implemented")
     }

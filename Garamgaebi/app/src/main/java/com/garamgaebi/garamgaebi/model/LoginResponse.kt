@@ -5,6 +5,8 @@ import com.garamgaebi.garamgaebi.common.BaseResponse
 data class LoginResponse(
     val result: LoginResult
 ) : BaseResponse()
+
+
 data class LoginResult(
     val accessToken: String,
     val grantType: String,

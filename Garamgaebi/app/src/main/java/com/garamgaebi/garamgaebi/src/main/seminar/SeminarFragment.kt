@@ -95,8 +95,8 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                             SeminarProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
                                 //상대방 프로필로 이동
-                                if(position ==0){
-                                    containerActivity!!.openFragmentOnFrameLayout(11)
+                                if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                    containerActivity!!.openFragmentOnFrameLayout(12)
                                 }
                                 if(position != 0){
                                     GaramgaebiApplication.sSharedPreferences.edit()
