@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 class RegisterViewModel : ViewModel(){
     private val registerRepository = RegisterRepository()
 
-    val socialId = MutableLiveData<String>("")
+    val socialToken = MutableLiveData<String>("")
     val uniEmail = MutableLiveData<String>("")
     val authNum = MutableLiveData<String>("")
     val emailSent = MutableLiveData<String>("")
@@ -46,12 +46,12 @@ class RegisterViewModel : ViewModel(){
     var timerCount = MutableLiveData<Int>(180)
     lateinit var timer : Job
 
-    private val _emailVerify = MutableLiveData<RegisterEmailResponse>()
-    val emailVerify  : LiveData<RegisterEmailResponse>
+    private val _emailVerify = MutableLiveData<RegisterEmailVerifyResponse>()
+    val emailVerify  : LiveData<RegisterEmailVerifyResponse>
         get() = _emailVerify
 
-    private val _sendEmail = MutableLiveData<RegisterEmailResponse>()
-    val sendEmail  : LiveData<RegisterEmailResponse>
+    private val _sendEmail = MutableLiveData<RegisterSendEmailResponse>()
+    val sendEmail  : LiveData<RegisterSendEmailResponse>
         get() = _sendEmail
 
     private val _register = MutableLiveData<RegisterResponse>()
@@ -138,6 +138,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     fun getRegisterRequest() : RegisterRequest {
-        return RegisterRequest(nickname.value!!, profileEmail.value!!, socialId.value!!, emailSent.value!!, "ACTIVE")
+        Log.d("register", "${nickname.value}, ${profileEmail.value}, ${socialToken.value}, ${emailSent.value}, ACTIVE")
+        return RegisterRequest(nickname.value!!, profileEmail.value!!, socialToken.value!!, emailSent.value!!, "ACTIVE")
     }
 }

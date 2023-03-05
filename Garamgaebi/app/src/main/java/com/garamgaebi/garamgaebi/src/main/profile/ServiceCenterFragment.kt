@@ -150,6 +150,10 @@ class ServiceCenterFragment :
                                     //로그아웃
                                     viewModel.postLogout()
                                     activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                                    sSharedPreferences.edit()
+                                        .putInt("memberIdx", -1)
+                                        .putString("kakaoToken", "")
+                                        .apply()
                                 }
                             }
                         }

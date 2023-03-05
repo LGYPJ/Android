@@ -151,7 +151,7 @@ class WithdrawalFragment :
                                     )
                                     GaramgaebiApplication.sSharedPreferences.edit()
                                         .putInt("memberIdx", -1)
-                                        .putString("id", "")
+                                        .putString("kakaoToken", "")
                                         .apply()
                                     GaramgaebiApplication.myMemberIdx = -1
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->

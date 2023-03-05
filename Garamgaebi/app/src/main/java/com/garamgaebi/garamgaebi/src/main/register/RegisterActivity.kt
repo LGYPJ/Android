@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.src.main.register
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
@@ -12,12 +13,13 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
-        val viewModel by viewModels<RegisterViewModel>()
+        val viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+
 
         if(intent.getBooleanExtra("login", false)){
             setFragment(REGISTER_AUTH)
-            Log.d("kakao", "${intent.getStringExtra("id")}")
-            viewModel.socialId.value = intent.getStringExtra("id")
+            Log.d("kakaoRegister", "${intent.getStringExtra("kakaoToken")}")
+            viewModel.socialToken.value = intent.getStringExtra("kakaoToken")
         }
         else {
             setFragment(REGISTER_INTRO)
