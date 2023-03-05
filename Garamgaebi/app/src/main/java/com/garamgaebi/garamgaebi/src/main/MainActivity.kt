@@ -48,7 +48,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         getFcmToken()
         // 로그인 테스트용
         //sSharedPreferences.edit().putString("kakaoToken", "").apply()
-        Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
+        //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         showLoadingDialog(this)
         // 자동 로그인
         if(sSharedPreferences.getString("kakaoToken", "") == "") {
