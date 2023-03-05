@@ -18,6 +18,7 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
@@ -148,12 +149,11 @@ class ServiceCenterFragment :
                                 1 -> {
                                     //로그아웃
                                     viewModel.postLogout()
-                                    activity?.startActivity(
-                                        Intent(
-                                            activity,
-                                            LoginActivity::class.java
-                                        )
-                                    )
+                                    activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                                    sSharedPreferences.edit()
+                                        .putInt("memberIdx", -1)
+                                        .putString("kakaoToken", "")
+                                        .apply()
                                 }
                             }
                         }

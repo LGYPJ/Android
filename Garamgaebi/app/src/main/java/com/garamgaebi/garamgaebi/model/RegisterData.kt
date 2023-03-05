@@ -2,12 +2,16 @@ package com.garamgaebi.garamgaebi.model
 
 import com.garamgaebi.garamgaebi.common.BaseResponse
 
-data class RegisterEmailResponse(
-    val result: RegisterEmailResult
+data class RegisterEmailVerifyResponse(
+    val result: RegisterEmailVerifyResult
 ) : BaseResponse()
-data class RegisterEmailResult(
+data class RegisterEmailVerifyResult(
     val message : String = ""
 )
+data class RegisterSendEmailResponse(
+    val result: Boolean = false
+) : BaseResponse()
+
 
 data class RegisterSendEmailRequest(
     val email : String = ""
@@ -27,7 +31,7 @@ data class RegisterResult(
 data class RegisterRequest(
     val nickname : String,
     val profileEmail : String,
-    val socialEmail : String,
+    val accessToken : String,
     val uniEmail : String,
     val status : String
 )

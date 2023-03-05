@@ -26,6 +26,7 @@ import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
+import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 
 
@@ -34,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
     private val myFirebaseMessagingService = MyFirebaseMessagingService()
-
     private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.d("firebasePushBroadcast", "firebasePushBroadcast")
@@ -47,17 +47,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        sSharedPreferences.edit().putString("socialEmail", "1109min@naver.com").apply()
-        //sSharedPreferences.edit().putString("socialEmail", "").apply()
-        
+        //sSharedPreferences.edit().putString("kakaoToken", "").apply()
+        //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
+        showLoadingDialog(this)
         // 자동 로그인
-        if(sSharedPreferences.getString("socialEmail", "") == "") {
+        if(sSharedPreferences.getString("kakaoToken", "") == "") {
+            dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("socialEmail", "")!!,"")
+                LoginRequest(sSharedPreferences.getString("kakaoToken", "")!!,"")
             )
             viewModel.login.observe(this, Observer {
                 if(it.isSuccess) {
@@ -68,12 +69,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .apply()
 
                     myMemberIdx = it.result.memberIdx
-                    Log.d("sort", "$myMemberIdx")
                     setBottomNavi()
                     LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                     initDynamicLink()
                 } else {
-                    Log.d("register", "login fail ${it.errorMessage}")
+                    Log.d("login", "login fail ${it.errorMessage}")
                 }
             })
         }
@@ -129,8 +129,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 else -> false
             }
         }
-
-
     }
 
     fun goGatheringSeminar() {

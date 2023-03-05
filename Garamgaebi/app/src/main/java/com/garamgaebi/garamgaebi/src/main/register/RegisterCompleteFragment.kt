@@ -65,7 +65,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 }
                                 // 로그인
                                 Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
-                                homeViewModel.postLogin(LoginRequest(registerViewModel.socialEmail.value!!,
+                                homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
                                     GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
 
                                 homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
@@ -74,7 +74,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                             .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
                                             .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
                                             .putInt("memberIdx", homeIt.result.memberIdx)
-                                            .putString("socialEmail", registerViewModel.socialEmail.value)
+                                            .putString("kakaoToken", registerViewModel.socialToken.value)
                                             .apply()
                                         GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
                                         startActivity(Intent(registerActivity, MainActivity::class.java))

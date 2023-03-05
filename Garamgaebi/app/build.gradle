@@ -72,6 +72,10 @@ dependencies {
 
     //splash
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+    //blurImageView
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+
     // firebase
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -146,7 +150,6 @@ dependencies {
 
     //gson
     implementation 'com.google.code.gson:gson:2.9.0'
-
 
     //okhttp3
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'

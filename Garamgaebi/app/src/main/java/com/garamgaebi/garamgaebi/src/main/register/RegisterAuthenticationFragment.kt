@@ -42,7 +42,7 @@ class RegisterAuthenticationFragment :
         })
 
         with(viewModel) {
-            // 이메일 인증
+            // 이메일 인증번호 보내기
             sendEmail.observe(viewLifecycleOwner, Observer {
                 if(it.isSuccess) {
                     with(binding) {

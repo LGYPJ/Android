@@ -72,10 +72,10 @@ interface ApiInterface {
 
     // EmailController 이메일 컨트롤러
     @POST("/email/verify")
-    suspend fun postEmailVerify(@Body request: RegisterEmailVerifyRequest) : Response<RegisterEmailResponse>
+    suspend fun postEmailVerify(@Body request: RegisterEmailVerifyRequest) : Response<RegisterEmailVerifyResponse>
 
     @POST("/email/sendEmail")
-    suspend fun postSendEmail(@Body request : RegisterSendEmailRequest) : Response<RegisterEmailResponse>
+    suspend fun postSendEmail(@Body request : RegisterSendEmailRequest) : Response<RegisterSendEmailResponse>
 
     //NetworkingController 네트워킹 컨트롤러
 
@@ -237,7 +237,7 @@ interface ApiInterface {
     //MemberController 멤버 컨트롤러
 
     //멤버 추가
-    @POST("/member/post")
+    @POST("/member/post/kakao")
     suspend fun postMember(@Body registerRequest: RegisterRequest) : Response<RegisterResponse>
 
     //멤버 활동중 수정
@@ -245,7 +245,7 @@ interface ApiInterface {
 
 
     //MemberController
-    @POST("/member/login")
+    @POST("/member/login/kakao")
     suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
     @POST("/member/login")

@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     val viewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("kakao", "hash $keyHash")
         UserApiClient.instance.logout { error ->
@@ -67,7 +67,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "카카오계정으로 로그인 실패 ${error}")
             } else if (token != null) {
                 Log.d("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                getUserInfo()
+                postLogin(token.accessToken)
             }
         }
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
@@ -85,7 +85,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
                     Log.d("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    getUserInfo()
+                    postLogin(token.accessToken)
                 }
             }
         } else {
@@ -93,40 +93,26 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         }
     }
 
-    private fun getUserInfo() {
-        UserApiClient.instance.me { userInfo, error ->
-            if (error != null) {
-                Log.d("TAG", "사용자 정보 요청 실패 ${error.cause}")
-            } else if (userInfo != null) {
-                if(checkAlreadyRegister(userInfo.kakaoAccount?.email!!)) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                } else {
-                    startActivity(
-                        Intent(this, RegisterActivity::class.java)
-                            .putExtra("login", true)
-                            .putExtra("email", userInfo.kakaoAccount?.email)
-                    )
-                }
-            }
-        }
-    }
-
-    private fun checkAlreadyRegister(socialEmail: String): Boolean {
-        var flag = false
+    private fun postLogin(token : String) {
         viewModel.postLogin(
             LoginRequest(
-                socialEmail,
+                token,
                 GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
             )
         )
         viewModel.login.observe(this, Observer {
             if (it.isSuccess) {
-                flag = true
-                GaramgaebiApplication.sSharedPreferences.edit().putString("socialEmail", socialEmail).apply()
+                GaramgaebiApplication.sSharedPreferences.edit()
+                    .putString("kakaoToken", token).apply()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(
+                    Intent(this, RegisterActivity::class.java)
+                        .putExtra("login", true)
+                        .putExtra("kakaoToken", token)
+                )
             }
-            else Log.d("register", "login fail ${it.errorMessage}")
         })
-        return flag
     }
 }
