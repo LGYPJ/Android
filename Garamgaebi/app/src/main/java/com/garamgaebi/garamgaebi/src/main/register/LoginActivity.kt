@@ -48,14 +48,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 finish()
             }
         }*/
-        /*CompositeDisposable()
+        CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         kakaoLogin()
                     }, { it.printStackTrace() })
-            )*/
+            )
     }
 
     private fun kakaoLogin() {
