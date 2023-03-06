@@ -59,40 +59,40 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
                 with(binding) {
 
-                    activitySomeoneProfileTvUsername.text = result.result.nickName
-                    activitySomeoneProfileTvEmail.text = result.result.profileEmail
-                    activitySomeoneProfileTvSchool.text = result.result.belong
-                    activitySomeoneProfileTvIntro.text = result.result.content
+                    fragmentSomeoneProfileTvUsername.text = result.result.nickName
+                    fragmentSomeoneProfileTvEmail.text = result.result.profileEmail
+                    fragmentSomeoneProfileTvSchool.text = result.result.belong
+                    fragmentSomeoneProfileTvIntro.text = result.result.content
 
                     if(result.result.profileUrl != null){
                         CoroutineScope(Dispatchers.Main).launch {
                             val bitmap = withContext(Dispatchers.IO){
                                 GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
                             }
-                            binding.activitySomeoneProfileIvProfile.setImageBitmap(bitmap)
+                            binding.fragmentSomeoneProfileIvProfile.setImageBitmap(bitmap)
                         }
 //                        Glide.with(requireActivity())
 //                            .load(result.result.profileUrl)
 //                            .centerCrop()
-//                            .into(binding.activitySomeoneProfileIvProfile)
+//                            .into(binding.fragmentSomeoneProfileIvProfile)
 
                     }
 
                     if (result.result.belong == null) {
-                        activitySomeoneProfileTvSchool.visibility = View.GONE
+                        fragmentSomeoneProfileTvSchool.visibility = View.GONE
                     }else{
-                        activitySomeoneProfileTvSchool.visibility = VISIBLE
+                        fragmentSomeoneProfileTvSchool.visibility = VISIBLE
                     }
 
                     if (result.result.content == null) {
-                        activitySomeoneProfileTvIntro.visibility = View.GONE
+                        fragmentSomeoneProfileTvIntro.visibility = View.GONE
                     }else{
-                        activitySomeoneProfileTvIntro.visibility = VISIBLE
+                        fragmentSomeoneProfileTvIntro.visibility = VISIBLE
                     }
                 }
             })
 
-            binding.activitySomeoneProfileTvEmail.setOnClickListener {
+            binding.fragmentSomeoneProfileTvEmail.setOnClickListener {
                 val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
                 // 새로운 ClipData 객체로 데이터 복사하기
@@ -111,22 +111,22 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         ?.let { DividerItemDecoratorForLastItem(it) }
                 };
             if (dividerItemDecoration != null) {
-                binding.activitySomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
+                binding.fragmentSomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
             }
             //SNS 정보 어댑터 연결
             //getSNSInfo(memberIdx)
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
 
                 if(it == null || it.size < 1){
-                    binding.activitySomeoneProfileClSnsTitle.visibility = GONE
-                    binding.activitySomeoneProfileClSnsDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileClSnsTitle.visibility = GONE
+                    binding.fragmentSomeoneProfileClSnsDesc.visibility = GONE
                 }else{
-                    binding.activitySomeoneProfileClSnsTitle.visibility = VISIBLE
-                    binding.activitySomeoneProfileClSnsDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClSnsTitle.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClSnsDesc.visibility = VISIBLE
                 }
 
                 val snsAdapter = activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
-                binding.activitySomeoneProfileRVSns.apply {
+                binding.fragmentSomeoneProfileRVSns.apply {
                     adapter = snsAdapter
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -142,11 +142,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
 
                 if(it == null || it.size < 1){
-                    binding.activitySomeoneProfileClCareerTitle.visibility = GONE
-                    binding.activitySomeoneProfileClCareerDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileClCareerTitle.visibility = GONE
+                    binding.fragmentSomeoneProfileClCareerDesc.visibility = GONE
                 }else{
-                    binding.activitySomeoneProfileClCareerTitle.visibility = VISIBLE
-                    binding.activitySomeoneProfileClCareerDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClCareerTitle.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClCareerDesc.visibility = VISIBLE
                 }
 //                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
 //
@@ -162,9 +162,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             ?.let { DividerItemDecoratorForLastItem(it) }
                     };
                 if (dividerItemDecoration != null) {
-                    binding.activitySomeoneProfileRVCareer.addItemDecoration(dividerItemDecoration!!)
+                    binding.fragmentSomeoneProfileRVCareer.addItemDecoration(dividerItemDecoration!!)
                 }
-                binding.activitySomeoneProfileRVCareer.apply {
+                binding.fragmentSomeoneProfileRVCareer.apply {
                     adapter = careerAdapter
                     Log.d("career_adapter_list_size", it.size.toString())
                     layoutManager =
@@ -179,11 +179,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 //            getEducationInfo(memberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 if(it == null || it.size < 1){
-                    binding.activitySomeoneProfileClEduTitle.visibility = GONE
-                    binding.activitySomeoneProfileClEduDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileClEduTitle.visibility = GONE
+                    binding.fragmentSomeoneProfileClEduDesc.visibility = GONE
                 }else{
-                    binding.activitySomeoneProfileClEduTitle.visibility = VISIBLE
-                    binding.activitySomeoneProfileClEduDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClEduTitle.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileClEduDesc.visibility = VISIBLE
                 }
                 val eduAdapter = activity?.let { it1 -> EduSomeoneRVAdapter(it, it1.applicationContext) }
                 dividerItemDecoration =
@@ -192,9 +192,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             ?.let { DividerItemDecoratorForLastItem(it) }
                     };
                 if (dividerItemDecoration != null) {
-                    binding.activitySomeoneProfileRVEdu.addItemDecoration(dividerItemDecoration!!)
+                    binding.fragmentSomeoneProfileRVEdu.addItemDecoration(dividerItemDecoration!!)
                 }
-                binding.activitySomeoneProfileRVEdu.apply {
+                binding.fragmentSomeoneProfileRVEdu.apply {
                     adapter = eduAdapter
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -204,12 +204,12 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }
                 })
             })
-            binding.activitySomeoneProfileTvEmail.setOnClickListener {
+            binding.fragmentSomeoneProfileTvEmail.setOnClickListener {
                 val clipboard = requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
                 // 새로운 ClipData 객체로 데이터 복사하기
                 val clip: ClipData =
-                    ClipData.newPlainText("email_address",  binding.activitySomeoneProfileTvEmail.text)
+                    ClipData.newPlainText("email_address",  binding.fragmentSomeoneProfileTvEmail.text)
 
                 // 새로운 클립 객체를 클립보드에 배치합니다.
                 clipboard.setPrimaryClip(clip)

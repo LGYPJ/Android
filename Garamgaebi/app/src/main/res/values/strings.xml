@@ -225,6 +225,12 @@
     <string name="reason">문의 사유</string>
     <string name="choose_why">질문 유형을 선택해주세요</string>
 
+    <string name="serviceCenter_type_desc">문의 유형을 선택해주세요</string>
+    <string name="serviceCenter_type_dialog_1">이용문의</string>
+    <string name="serviceCenter_type_dialog_2">오류신고</string>
+    <string name="serviceCenter_type_dialog_3">서비스 제안</string>
+    <string name="serviceCenter_type_dialog_4">기타</string>
+
     <!-- withdrawal -->
     <string name="withdrawal">탈퇴</string>
     <string name="withdrawal_caution">탈퇴 시 유의사항</string>
@@ -233,6 +239,14 @@
     <string name="withdrawal_reason_desc">탈퇴 사유를 선택해주세요</string>
     <string name="input_content">내용을 적어주세요</string>
     <string name="withdrawal_desc">회원 탈퇴에 관한 모든 내용을 숙지하고,\n회원 탈퇴를 신청합니다.</string>
+
+    <string name="withdrawal_type">회원 탈퇴에 관한 모든 내용을 숙지하고,\n회원 탈퇴를 신청합니다.</string>
+    <string name="withdrawal_dialog_1">이용이 불편해서</string>
+    <string name="withdrawal_dialog_2">사용 빈도가 낮아서</string>
+    <string name="withdrawal_dialog_3">콘텐츠 내용이 부족해서</string>
+    <string name="withdrawal_dialog_4">기타</string>
+
+
     <!-- seminar -->
     <string name="seminar_input_account_number">계좌번호를 입력해주세요</string>
     <string name="seminar_select_bank">은행을 선택해주세요</string>

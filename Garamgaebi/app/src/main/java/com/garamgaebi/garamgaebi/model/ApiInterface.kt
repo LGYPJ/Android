@@ -247,6 +247,10 @@ interface ApiInterface {
     //MemberController
     @POST("/member/login/kakao")
     suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
+
+    @POST("/member/login")
+    fun postLoginForRefresh(@Body loginRequest: LoginRequest) : Call<LoginResponse>
+
     //ApplyController
 
     //신청 취소 post

@@ -1,25 +1,37 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalOrderBottomDialogBinding
+import com.garamgaebi.garamgaebi.databinding.FragmentOrderBottomDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SNSTypeBottomdialogFragment (val itemClick: (Int) -> Unit) : BottomSheetDialogFragment() {
-    lateinit var binding: FragmentWithdrawalOrderBottomDialogBinding
+
+class OrderBottomDialogFragment (val array : Array<String>, val itemClick: (Int) -> Unit) :
+    BottomSheetDialogFragment() {
+    lateinit var binding: FragmentOrderBottomDialogBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWithdrawalOrderBottomDialogBinding.inflate(inflater, container, false)
+        binding = FragmentOrderBottomDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(binding){
+            fragmentDialogTvTitle.text = array[0]
+            fragmentDialogTvQuestion.text = array[1]
+            fragmentDialogTvReport.text = array[2]
+            fragmentDialogTvService.text = array[3]
+            fragmentDialogTvEtc.text = array[4]
+
+        }
         binding.fragmentDialogTvQuestion.setOnClickListener {
             itemClick(0)
             dialog?.dismiss()
@@ -36,5 +48,14 @@ class SNSTypeBottomdialogFragment (val itemClick: (Int) -> Unit) : BottomSheetDi
             itemClick(3)
             dialog?.dismiss()
         }
+    }
+    override fun dismiss() {
+        itemClick(0)
+        super.dismiss()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        itemClick(0)
+        super.onCancel(dialog)
     }
 }

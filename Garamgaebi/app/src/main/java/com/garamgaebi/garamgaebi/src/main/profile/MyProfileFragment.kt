@@ -60,13 +60,13 @@ class MyProfileFragment :
         CoroutineScope(Dispatchers.Main).launch {
 //            binding.conSky.startAnimation(anim_down2)
 //            binding.profileInfo.startAnimation(anim_down)
-//            binding.activityMyProfileIvProfile.startAnimation(anim_down3)
+//            binding.fragmentMyProfileIvProfile.startAnimation(anim_down3)
 //
-//            binding.activityMyProfileTvUsername.startAnimation(anim_in)
-//            binding.activityMyProfileTvEmail.startAnimation(anim_in)
-//            binding.activityMyProfileTvIntro.startAnimation(anim_in)
-//            binding.activityMyProfileTvSchool.startAnimation(anim_in)
-//            binding.activityMyProfileBtnEditProfile.startAnimation(anim_in)
+//            binding.fragmentMyProfileTvUsername.startAnimation(anim_in)
+//            binding.fragmentMyProfileTvEmail.startAnimation(anim_in)
+//            binding.fragmentMyProfileTvIntro.startAnimation(anim_in)
+//            binding.fragmentMyProfileTvSchool.startAnimation(anim_in)
+//            binding.fragmentMyProfileBtnEditProfile.startAnimation(anim_in)
 
         }
 
@@ -83,42 +83,42 @@ class MyProfileFragment :
 
 
         val dividerItemDecoration = DividerItemDecoration(
-            binding.activityMyProfileRVSns.context,
+            binding.fragmentMyProfileRVSns.context,
             LinearLayoutManager(requireContext()).orientation
         )
         with(binding) {
-            activityMyProfileRVSns.addItemDecoration(dividerItemDecoration)
-            activityMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
-            activityMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
+            fragmentMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+            fragmentMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+            fragmentMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
             CoroutineScope(Dispatchers.IO).launch {
                 setDataView()
             }
-            activityMyProfileBtnSnsAdd.setOnClickListener {
+            fragmentMyProfileBtnSnsAdd.setOnClickListener {
                 goAddSNSFragment()
             }
 
-            activityMyProfileBtnCareerAdd.setOnClickListener {
+            fragmentMyProfileBtnCareerAdd.setOnClickListener {
                 goAddCareerFragment()
             }
 
-            activityMyProfileBtnEduAdd.setOnClickListener {
+            fragmentMyProfileBtnEduAdd.setOnClickListener {
                 goAddEduFragment()
             }
 
-            activityMyProfileIvCs.setOnClickListener {
+            fragmentMyProfileIvCs.setOnClickListener {
                 goServiceCenterFragment()
             }
 
-            activityMyProfileBtnEditProfile.setOnClickListener {
+            fragmentMyProfileBtnEditProfile.setOnClickListener {
                 goEditFragment()
             }
 
-            activityMyProfileTvEmail.setOnClickListener {
+            fragmentMyProfileTvEmail.setOnClickListener {
                 val clipboard = requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
                 // 새로운 ClipData 객체로 데이터 복사하기
                 val clip: ClipData =
-                    ClipData.newPlainText("email_address", activityMyProfileTvEmail.text)
+                    ClipData.newPlainText("email_address", fragmentMyProfileTvEmail.text)
 
                 // 새로운 클립 객체를 클립보드에 배치합니다.
                 clipboard.setPrimaryClip(clip)
@@ -188,7 +188,7 @@ class MyProfileFragment :
         withContext(Dispatchers.Main) {
             with(viewModel) {
                 var dividerItemDecoration = DividerItemDecoration(
-                    binding.activityMyProfileRVSns.context,
+                    binding.fragmentMyProfileRVSns.context,
                     LinearLayoutManager(requireContext()).orientation
                 )
 
@@ -210,20 +210,20 @@ class MyProfileFragment :
                                 .putString("myImage", result.result.profileUrl)
                                 .apply()
 
-                            activityMyProfileTvUsername.text = result.result.nickName
-                            activityMyProfileTvEmail.text = result.result.profileEmail
-                            activityMyProfileTvSchool.text = result.result.belong
-                            activityMyProfileTvIntro.text = result.result.content
+                            fragmentMyProfileTvUsername.text = result.result.nickName
+                            fragmentMyProfileTvEmail.text = result.result.profileEmail
+                            fragmentMyProfileTvSchool.text = result.result.belong
+                            fragmentMyProfileTvIntro.text = result.result.content
 
                             if (result.result.content == "" || result.result.content == null) {
-                                activityMyProfileTvIntro.visibility = View.GONE
+                                fragmentMyProfileTvIntro.visibility = View.GONE
                             } else {
-                                activityMyProfileTvIntro.visibility = View.VISIBLE
+                                fragmentMyProfileTvIntro.visibility = View.VISIBLE
                             }
                             if (result.result.belong == "" || result.result.belong == null) {
-                                activityMyProfileTvSchool.visibility = View.GONE
+                                fragmentMyProfileTvSchool.visibility = View.GONE
                             } else {
-                                activityMyProfileTvSchool.visibility = View.VISIBLE
+                                fragmentMyProfileTvSchool.visibility = View.VISIBLE
                             }
 
                             if (result.result.profileUrl != null) {
@@ -231,10 +231,10 @@ class MyProfileFragment :
                                     val bitmap = withContext(Dispatchers.IO) {
                                         GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
                                     }
-                                    binding.activityMyProfileIvProfile.setImageBitmap(bitmap)
+                                    binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
                                     Log.d("image_url", result.result.profileUrl)
                                 }
-                                activityMyProfileIvProfile.clipToOutline = true
+                                fragmentMyProfileIvProfile.clipToOutline = true
                             }
 
                         }
@@ -248,7 +248,7 @@ class MyProfileFragment :
                     } else {
                         val snsAdapter =
                             activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
-                        binding.activityMyProfileRVSns.apply {
+                        binding.fragmentMyProfileRVSns.apply {
                             adapter = snsAdapter
 
                             layoutManager =
@@ -275,10 +275,10 @@ class MyProfileFragment :
                             )
                         }
                         dividerItemDecoration = DividerItemDecoration(
-                            binding.activityMyProfileRVCareer.context,
+                            binding.fragmentMyProfileRVCareer.context,
                             LinearLayoutManager(requireContext()).orientation
                         )
-                        binding.activityMyProfileRVCareer.apply {
+                        binding.fragmentMyProfileRVCareer.apply {
                             adapter = careerAdapter
                             Log.d("career_adapter_list_size", it.size.toString())
                             layoutManager =
@@ -300,10 +300,10 @@ class MyProfileFragment :
                         val eduAdapter =
                             activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
                         dividerItemDecoration = DividerItemDecoration(
-                            binding.activityMyProfileRVEdu.context,
+                            binding.fragmentMyProfileRVEdu.context,
                             LinearLayoutManager(requireContext()).orientation
                         )
-                        binding.activityMyProfileRVEdu.apply {
+                        binding.fragmentMyProfileRVEdu.apply {
                             adapter = eduAdapter
                             layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

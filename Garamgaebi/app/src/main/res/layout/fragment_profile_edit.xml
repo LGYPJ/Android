@@ -37,7 +37,7 @@
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/activity_edit_profile_ivProfile"
+            android:id="@+id/fragment_edit_profile_ivProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
@@ -49,15 +49,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/activity_edit_profile_ivplus"
+            android:id="@+id/fragment_edit_profile_ivplus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_circle_22dp"
-            app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_ivProfile"
-            app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_ivProfile" />
+            app:layout_constraintBottom_toBottomOf="@id/fragment_edit_profile_ivProfile"
+            app:layout_constraintEnd_toEndOf="@id/fragment_edit_profile_ivProfile" />
 
         <TextView
-            android:id="@+id/activity_edit_profile_tv_nickTitle"
+            android:id="@+id/fragment_edit_profile_tv_nickTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -66,7 +66,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_ivProfile" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_ivProfile" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,11 +75,11 @@
             android:textColor="@color/blueForBtn"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/activity_edit_profile_tv_nickTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_nickTitle"/>
+            app:layout_constraintStart_toEndOf="@id/fragment_edit_profile_tv_nickTitle"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_profile_tv_nickTitle"/>
 
         <EditText
-            android:id="@+id/activity_edit_profile_et_nick"
+            android:id="@+id/fragment_edit_profile_et_nick"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -96,7 +96,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_nickTitle"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_profile_tv_nickTitle"
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.nameFocusing,viewModel.nameFirst,check)}" />
 
         <TextView
@@ -109,10 +109,10 @@
             android:textColor="@color/redForText"
             android:visibility="@{viewModel.nameFirst || viewModel.nickNameIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_nick" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_nick" />
 
         <TextView
-            android:id="@+id/activity_edit_profile_tv_teamTitle"
+            android:id="@+id/fragment_edit_profile_tv_teamTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -121,11 +121,11 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_email" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_email" />
 
 
         <EditText
-            android:id="@+id/activity_edit_profile_et_team"
+            android:id="@+id/fragment_edit_profile_et_team"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -144,7 +144,7 @@
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.oneLineFocusing,viewModel.oneLineFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_teamTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_profile_tv_teamTitle" />
 
 
         <TextView
@@ -157,13 +157,13 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_tv_teamTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_teamTitle"
-            app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_et_team"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_edit_profile_tv_teamTitle"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_profile_tv_teamTitle"
+            app:layout_constraintEnd_toEndOf="@id/fragment_edit_profile_et_team"
             />
 
         <TextView
-            android:id="@+id/activity_edit_profile_tv_emailTitle"
+            android:id="@+id/fragment_edit_profile_tv_emailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -172,7 +172,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_nick" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_nick" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -181,11 +181,11 @@
             android:textColor="@color/blueForBtn"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/activity_edit_profile_tv_emailTitle"
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_emailTitle"/>
+            app:layout_constraintStart_toEndOf="@id/fragment_edit_profile_tv_emailTitle"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_profile_tv_emailTitle"/>
 
         <EditText
-            android:id="@+id/activity_edit_profile_et_email"
+            android:id="@+id/fragment_edit_profile_et_email"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -203,7 +203,7 @@
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.emailFocusing,viewModel.emailFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_emailTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_profile_tv_emailTitle" />
 
         <TextView
             android:id="@+id/activity_email_state"
@@ -215,10 +215,10 @@
             android:textColor="@color/redForText"
             android:visibility="@{viewModel.emailFirst || viewModel.emailIsValid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_email" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_email" />
 
         <TextView
-            android:id="@+id/activity_edit_profile_tv_introTitle"
+            android:id="@+id/fragment_edit_profile_tv_introTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -227,10 +227,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_team" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_team" />
 
         <EditText
-            android:id="@+id/activity_edit_profile_et_intro"
+            android:id="@+id/fragment_edit_profile_et_intro"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="8dp"
@@ -248,9 +248,9 @@
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.introFocusing,viewModel.introFirst,check)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_edit_profile_tv_introTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_profile_tv_introTitle" />
         <TextView
-            android:id="@+id/activity_edit_profile_et_intro_length"
+            android:id="@+id/fragment_edit_profile_et_intro_length"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:textColor="@color/grayAe"
@@ -259,9 +259,9 @@
             android:gravity="center"
             android:textStyle="bold"
             android:text='@{viewModel.intro.length() +"/100"}'
-            app:layout_constraintTop_toTopOf="@id/activity_edit_profile_tv_introTitle"
-            app:layout_constraintEnd_toEndOf="@id/activity_edit_profile_et_intro"
-            app:layout_constraintBottom_toBottomOf="@id/activity_edit_profile_tv_introTitle"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_profile_tv_introTitle"
+            app:layout_constraintEnd_toEndOf="@id/fragment_edit_profile_et_intro"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_edit_profile_tv_introTitle"
             />
         <Button
             android:id="@+id/activity_education_save_btn"
@@ -276,7 +276,7 @@
             android:background="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid  &amp;&amp; viewModel.introIsValid &amp;&amp; viewModel.belongIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:outlineProvider="none"
             android:clickable="@{(viewModel.emailIsValid &amp;&amp; viewModel.nickNameIsValid &amp;&amp; viewModel.introIsValid &amp;&amp; viewModel.belongIsValid) ? true : false}"
-            app:layout_constraintTop_toBottomOf="@id/activity_edit_profile_et_intro"
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_profile_et_intro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

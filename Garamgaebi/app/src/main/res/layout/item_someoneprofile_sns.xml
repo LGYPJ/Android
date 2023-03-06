@@ -41,7 +41,7 @@
             android:textStyle="normal"
             android:textSize="14sp"
             android:textColor="@color/blueForBtn"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_someoneprofile_sns_list_item_tvName"
             >

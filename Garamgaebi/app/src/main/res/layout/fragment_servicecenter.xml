@@ -30,7 +30,7 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/activity_servicecenter_info"
+            android:id="@+id/fragment_servicecenter_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/activity_servicecenter_tv_title"
+                android:id="@+id/fragment_servicecenter_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/serviceCenter_information"
@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/activity_servicecenter_tv_desc"
+                android:id="@+id/fragment_servicecenter_tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -60,11 +60,11 @@
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_tv_title" />
+                app:layout_constraintTop_toBottomOf="@id/fragment_servicecenter_tv_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/activity_servicecenter_tv_email_title"
+            android:id="@+id/fragment_servicecenter_tv_email_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -74,7 +74,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_info" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_servicecenter_info" />
 
         <EditText
             android:id="@+id/activity_sevicecenter_tv_email"
@@ -93,8 +93,8 @@
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/activity_servicecenter_tv_email_title"
-            app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_tv_email_title"
+            app:layout_constraintStart_toStartOf="@+id/fragment_servicecenter_tv_email_title"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_servicecenter_tv_email_title"
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.emailFocusing,viewModel.emailFirst,check)}" />
 
         <TextView
@@ -110,7 +110,7 @@
             app:layout_constraintTop_toBottomOf="@id/activity_sevicecenter_tv_email" />
 
         <TextView
-            android:id="@+id/activity_servicecenter_tv_option_title"
+            android:id="@+id/fragment_servicecenter_tv_option_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -123,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@id/activity_sevicecenter_tv_email" />
 
         <TextView
-            android:id="@+id/activity_servicecenter_et_option"
+            android:id="@+id/fragment_servicecenter_et_option"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
@@ -137,20 +137,20 @@
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/activity_sevicecenter_tv_email"
-            app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_option_title"
-            app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_tv_option_title" />
+            app:layout_constraintStart_toStartOf="@id/fragment_servicecenter_tv_option_title"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_servicecenter_tv_option_title" />
 
         <ImageView
-            android:id="@+id/activity_servicecenter_iv_option"
+            android:id="@+id/fragment_servicecenter_iv_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="19.51dp"
             android:src="@drawable/ic_arrow_bottom_14dp"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_servicecenter_et_option"
-            app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_option"
-            app:layout_constraintTop_toTopOf="@id/activity_servicecenter_et_option"/>
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_servicecenter_et_option"
+            app:layout_constraintEnd_toEndOf="@id/fragment_servicecenter_et_option"
+            app:layout_constraintTop_toTopOf="@id/fragment_servicecenter_et_option"/>
         <EditText
-            android:id="@+id/activity_servicecenter_et_content"
+            android:id="@+id/fragment_servicecenter_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
             android:layout_marginTop="12dp"
@@ -165,9 +165,9 @@
             android:textColor="@color/black80"
             android:textColorHint="@color/grayForBtn"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/activity_servicecenter_et_option"
-            app:layout_constraintStart_toStartOf="@+id/activity_servicecenter_et_option"
-            app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_et_option"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_servicecenter_et_option"
+            app:layout_constraintStart_toStartOf="@+id/fragment_servicecenter_et_option"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_servicecenter_et_option"
             app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.contentFocusing,viewModel.contentFirst,check)}" />
 
         <TextView
@@ -180,23 +180,23 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="@id/activity_servicecenter_tv_option_title"
-            app:layout_constraintBottom_toBottomOf="@id/activity_servicecenter_tv_option_title"
-            app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_option" />
+            app:layout_constraintTop_toTopOf="@id/fragment_servicecenter_tv_option_title"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_servicecenter_tv_option_title"
+            app:layout_constraintEnd_toEndOf="@id/fragment_servicecenter_et_option" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/activity_servicecenter_checkbox_rl"
+            android:id="@+id/fragment_servicecenter_checkbox_rl"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/activity_servicecenter_checkbox_container"
+            android:background="@drawable/fragment_servicecenter_checkbox_container"
             android:clipToOutline="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content">
+            app:layout_constraintTop_toBottomOf="@id/fragment_servicecenter_et_content">
 
             <CheckBox
-                android:id="@+id/activity_servicecenter_checkbox"
+                android:id="@+id/fragment_servicecenter_checkbox"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/ic_checkbox_16dp"
@@ -205,7 +205,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/activity_servicecenter_checkbox_desc"
+            android:id="@+id/fragment_servicecenter_checkbox_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -214,11 +214,11 @@
             android:textSize="14sp"
             android:text="@string/email_checkbox_desc"
             android:textColor="#8A8A8A"
-            app:layout_constraintStart_toEndOf="@id/activity_servicecenter_checkbox_rl"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_et_content"/>
+            app:layout_constraintStart_toEndOf="@id/fragment_servicecenter_checkbox_rl"
+            app:layout_constraintTop_toBottomOf="@id/fragment_servicecenter_et_content"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_servicecenter_send_btn"
+            android:id="@+id/fragment_servicecenter_send_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="40dp"
@@ -228,9 +228,9 @@
             android:text="@string/send"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_et_content"
-            app:layout_constraintStart_toStartOf="@id/activity_servicecenter_et_content"
-            app:layout_constraintTop_toBottomOf="@id/activity_servicecenter_checkbox_desc"/>
+            app:layout_constraintEnd_toEndOf="@id/fragment_servicecenter_et_content"
+            app:layout_constraintStart_toStartOf="@id/fragment_servicecenter_et_content"
+            app:layout_constraintTop_toBottomOf="@id/fragment_servicecenter_checkbox_desc"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cv_bottom"
@@ -242,11 +242,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_servicecenter_send_btn"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_servicecenter_send_btn"
             >
 
             <TextView
-                android:id="@+id/activity_servicecenter_tv_logout"
+                android:id="@+id/fragment_servicecenter_tv_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3.5dp"
@@ -254,23 +254,23 @@
                 android:textColor="#AEAEAE"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_between"
-                app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_between"
-                app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_between" />
+                app:layout_constraintBottom_toTopOf="@id/fragment_servicecenter_tv_between"
+                app:layout_constraintEnd_toEndOf="@id/fragment_servicecenter_tv_between"
+                app:layout_constraintStart_toStartOf="@id/fragment_servicecenter_tv_between" />
 
             <TextView
-                android:id="@+id/activity_servicecenter_tv_between"
+                android:id="@+id/fragment_servicecenter_tv_between"
                 android:layout_width="8dp"
                 android:layout_height="1dp"
                 android:layout_marginBottom="3.5dp"
                 android:background="@color/grayForBtn"
                 android:backgroundTint="#AEAEAE"
-                app:layout_constraintBottom_toTopOf="@id/activity_servicecenter_tv_withdrawal"
-                app:layout_constraintEnd_toEndOf="@id/activity_servicecenter_tv_withdrawal"
-                app:layout_constraintStart_toStartOf="@id/activity_servicecenter_tv_withdrawal" />
+                app:layout_constraintBottom_toTopOf="@id/fragment_servicecenter_tv_withdrawal"
+                app:layout_constraintEnd_toEndOf="@id/fragment_servicecenter_tv_withdrawal"
+                app:layout_constraintStart_toStartOf="@id/fragment_servicecenter_tv_withdrawal" />
 
             <TextView
-                android:id="@+id/activity_servicecenter_tv_withdrawal"
+                android:id="@+id/fragment_servicecenter_tv_withdrawal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/회원탈퇴"

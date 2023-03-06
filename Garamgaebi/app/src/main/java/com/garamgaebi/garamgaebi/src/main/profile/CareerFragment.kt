@@ -96,7 +96,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             showStart.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityCareerEtStartPeriod.clearFocus()
+                    binding.fragmentCareerEtStartPeriod.clearFocus()
                     startFocusing.value = true
                     startFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -122,7 +122,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             showEnd.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityCareerEtEndPeriod.clearFocus()
+                    binding.fragmentCareerEtEndPeriod.clearFocus()
                     endFocusing.value = true
                     endFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -131,12 +131,12 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                                 val arr = it2.split("/")
                                 viewModel.endDate.value = arr[0] + "/" + arr[1]
                                 if (GaramgaebiFunction().checkNow(it2)) {
-                                    binding.activityCareerCheckbox.isChecked = true
-                                    binding.activityCareerEtEndPeriod.setText("현재")
+                                    binding.fragmentCareerCheckbox.isChecked = true
+                                    binding.fragmentCareerEtEndPeriod.setText("현재")
                                     isWorking.value = "TRUE"
                                 } else {
-                                    binding.activityCareerCheckbox.isChecked = false
-                                    binding.activityCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                    binding.fragmentCareerCheckbox.isChecked = false
+                                    binding.fragmentCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
                                     endDate.value = (arr[0] + "/" + arr[1])
                                     isWorking.value = "FALSE"
                                 }
@@ -160,7 +160,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityCareerSaveBtn
+                    .fragmentCareerSaveBtn
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -172,7 +172,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityCareerCheckboxDesc
+                    .fragmentCareerCheckboxDesc
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -191,7 +191,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityCareerCheckbox
+                    .fragmentCareerCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({

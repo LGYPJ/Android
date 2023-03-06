@@ -98,7 +98,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             showStart.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityEducationEtStartPeriod.clearFocus()
+                    binding.fragmentEducationEtStartPeriod.clearFocus()
                     startFocusing.value = true
                     startFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -124,7 +124,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             showEnd.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityEducationEtEndPeriod.clearFocus()
+                    binding.fragmentEducationEtEndPeriod.clearFocus()
                     endFocusing.value = true
                     endFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -133,12 +133,12 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                                 val arr = it2.split("/")
                                 endDate.value = arr[0] + "/" + arr[1]
                                 if (GaramgaebiFunction().checkNow(it2)) {
-                                    binding.activityEducationCheckbox.isChecked = true
-                                    binding.activityEducationEtEndPeriod.setText("현재")
+                                    binding.fragmentEducationCheckbox.isChecked = true
+                                    binding.fragmentEducationEtEndPeriod.setText("현재")
                                     isLearning.value = "TRUE"
                                 } else {
-                                    binding.activityEducationCheckbox.isChecked = false
-                                    binding.activityEducationEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                    binding.fragmentEducationCheckbox.isChecked = false
+                                    binding.fragmentEducationEtEndPeriod.setText(arr[0] + "/" + arr[1])
                                     endDate.value = (arr[0] + "/" + arr[1])
                                     isLearning.value = "FALSE"
                                 }
@@ -161,7 +161,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityEducationSaveBtn
+                    .fragmentEducationSaveBtn
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -173,7 +173,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityEducationCheckboxDesc
+                    .fragmentEducationCheckboxDesc
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -192,7 +192,7 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         disposables
             .add(
                 binding
-                    .activityEducationCheckbox
+                    .fragmentEducationCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({

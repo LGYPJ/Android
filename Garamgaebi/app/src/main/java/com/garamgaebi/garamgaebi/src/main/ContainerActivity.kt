@@ -1,11 +1,14 @@
 package com.garamgaebi.garamgaebi.src.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
@@ -139,6 +142,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 //binding.activityContainerToolbarTv.text = "회원탈퇴"
+
                 Log.d("회워탈퇴",binding.activityContainerToolbarTv.text.toString())
             }
 
@@ -264,6 +268,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(intent.getBooleanExtra("withdrawal", false)){
             openFragmentOnFrameLayout(15)
             binding.activityContainerToolbarTv.text = "회원 탈퇴"
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
         if(intent.getBooleanExtra("notification", false)) {
             openFragmentOnFrameLayout(16)

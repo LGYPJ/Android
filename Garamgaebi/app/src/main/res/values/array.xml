@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string-array name="question_option">
-    <item>이용문의</item>
-    <item>오류신고</item>
-    <item>서비스 제안</item>
-    <item>기타</item>
+    <item>@string/serviceCenter_type_desc</item>
+    <item>@string/serviceCenter_type_dialog_1</item>
+    <item>@string/serviceCenter_type_dialog_2</item>
+    <item>@string/serviceCenter_type_dialog_3</item>
+    <item>@string/serviceCenter_type_dialog_4</item>
 </string-array>
+
+    <string-array name="withdrawal_option">
+        <item>@string/withdrawal_reason_desc</item>
+        <item>@string/withdrawal_dialog_1</item>
+        <item>@string/withdrawal_dialog_2</item>
+        <item>@string/withdrawal_dialog_3</item>
+        <item>@string/withdrawal_dialog_4</item>
+    </string-array>
+
+    <string-array name="sns_option">
+        <item>@string/sns_add_type</item>
+        <item>@string/sns_type_dialog_1</item>
+        <item>@string/sns_type_dialog_2</item>
+        <item>@string/sns_type_dialog_3</item>
+        <item>@string/sns_type_dialog_4</item>
+    </string-array>
 </resources>

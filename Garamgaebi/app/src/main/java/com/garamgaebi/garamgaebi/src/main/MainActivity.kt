@@ -51,8 +51,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         showLoadingDialog(this)
         // 자동 로그인
+        Log.d("what", sSharedPreferences.getString("kakaoToken", "")!!+"whatthefuck "+sSharedPreferences.getString(X_ACCESS_TOKEN, ""))
+
         if(sSharedPreferences.getString("kakaoToken", "") == "") {
             dismissLoadingDialog()
+
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
