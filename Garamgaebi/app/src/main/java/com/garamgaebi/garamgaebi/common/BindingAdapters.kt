@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 
 object BindingAdapters {
     @JvmStatic
-    @BindingAdapter("app:onFocusing")
+    @BindingAdapter("onFocusing")
     fun EditText.onFocusing(callback: GaramgaebiFunction.OnFocusingListener) {
         setOnFocusChangeListener { _, hasFocus ->
             Log.d("focus_check","adapter")

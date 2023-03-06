@@ -68,7 +68,7 @@ class ServiceCenterFragment :
         viewModel.agree.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 
-            viewModel.agreeIsValid.value = binding.activityServicecenterCheckbox.isChecked
+            viewModel.agreeIsValid.value = binding.fragmentServicecenterCheckbox.isChecked
 
             Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
@@ -96,11 +96,11 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterCheckboxDesc
+                    .fragmentServicecenterCheckboxDesc
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        var preCheck = binding.activityServicecenterCheckbox.isChecked
+                        var preCheck = binding.fragmentServicecenterCheckbox.isChecked
                         viewModel.agree.value = !preCheck
                     }, { it.printStackTrace() })
             )
@@ -108,7 +108,7 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterSendBtn
+                    .fragmentServicecenterSendBtn
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -121,7 +121,7 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterTvWithdrawal
+                    .fragmentServicecenterTvWithdrawal
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -135,7 +135,7 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterTvLogout
+                    .fragmentServicecenterTvLogout
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -167,36 +167,37 @@ class ServiceCenterFragment :
         disposables
             .add(
                 binding
-                    .activityServicecenterEtOption
+                    .fragmentServicecenterEtOption
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
 
-                        val orderBottomDialogFragment: ServiceCenterOrderBottomdialogFragment = ServiceCenterOrderBottomdialogFragment {
-                            when (it) {
+                        val orderBottomDialogFragment: OrderBottomDialogFragment =
+                            OrderBottomDialogFragment(resources.getStringArray(R.array.question_option)) {
+                        when (it) {
                                 0 -> {
                                     Toast.makeText(activity, "이용 문의", Toast.LENGTH_SHORT).show()
-                                    binding.activityServicecenterEtOption.setText("이용문의")
+                                    binding.fragmentServicecenterEtOption.setText("이용문의")
                                     viewModel.categoryFocusing.value = false
 
                                 }
                                 1 -> {
                                     Toast.makeText(activity, "오류신고", Toast.LENGTH_SHORT).show()
-                                    binding.activityServicecenterEtOption.setText("오류신고")
+                                    binding.fragmentServicecenterEtOption.setText("오류신고")
                                     viewModel.categoryFocusing.value = false
 
                                 }
                                 2 -> {
                                     Toast.makeText(activity, "서비스 제안", Toast.LENGTH_SHORT).show()
-                                    binding.activityServicecenterEtOption.setText("서비스 제안")
+                                    binding.fragmentServicecenterEtOption.setText("서비스 제안")
                                     viewModel.categoryFocusing.value = false
 
                                 }
                                 3 -> {
                                     Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
-                                    binding.activityServicecenterEtOption.setText("기타")
+                                    binding.fragmentServicecenterEtOption.setText("기타")
                                     viewModel.categoryFocusing.value = false
 
                                 }

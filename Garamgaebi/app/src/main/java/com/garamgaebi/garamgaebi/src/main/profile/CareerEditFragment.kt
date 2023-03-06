@@ -124,7 +124,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             showStart.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityCareerEtStartPeriod.clearFocus()
+                    binding.fragmentCareerEtStartPeriod.clearFocus()
                     startFocusing.value = true
                     startFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -149,7 +149,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             showEnd.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it == true) {
-                    binding.activityCareerEtEndPeriod.clearFocus()
+                    binding.fragmentCareerEtEndPeriod.clearFocus()
                     endFocusing.value = true
                     endFirst.value = false
                     val orderBottomDialogFragment: DatePickerDialogFragment? =
@@ -158,12 +158,12 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                 val arr = it2.split("/")
                                 endDate.value = arr[0] + "/" + arr[1]
                                 if (GaramgaebiFunction().checkNow(it2)) {
-                                    binding.activityCareerCheckbox.isChecked = true
-                                    binding.activityCareerEtEndPeriod.setText("현재")
+                                    binding.fragmentCareerCheckbox.isChecked = true
+                                    binding.fragmentCareerEtEndPeriod.setText("현재")
                                     isWorking.value = "TRUE"
                                 } else {
-                                    binding.activityCareerCheckbox.isChecked = false
-                                    binding.activityCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
+                                    binding.fragmentCareerCheckbox.isChecked = false
+                                    binding.fragmentCareerEtEndPeriod.setText(arr[0] + "/" + arr[1])
                                     endDate.value = (arr[0] + "/" + arr[1])
                                     isWorking.value = "FALSE"
                                     Log.d("api_career_이상,", viewModel.isWorking.value!!)
@@ -188,7 +188,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         disposables
             .add(
                 binding
-                    .activityCareerSaveBtn
+                    .fragmentCareerSaveBtn
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -201,7 +201,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         disposables
             .add(
                 binding
-                    .activityCareerCheckboxDesc
+                    .fragmentCareerCheckboxDesc
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -220,7 +220,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         disposables
             .add(
                 binding
-                    .activityCareerCheckbox
+                    .fragmentCareerCheckbox
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -240,7 +240,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         disposables
             .add(
                 binding
-                    .activityCareerRemoveBtn
+                    .fragmentCareerRemoveBtn
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -319,11 +319,11 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             GaramgaebiApplication.sSharedPreferences.getString("CareerEndDateForEdit","Error").toString()
 
         with(binding){
-            activityCareerCheckbox.isChecked = originNow == "TRUE"
+            fragmentCareerCheckbox.isChecked = originNow == "TRUE"
             viewModel!!.checkBox.value = originNow == "TRUE"
-            activityCareerEtEndPeriod.setText(originEnd)
+            fragmentCareerEtEndPeriod.setText(originEnd)
             if(originNow == "TRUE"){
-                activityCareerEtEndPeriod.setText("현재")
+                fragmentCareerEtEndPeriod.setText("현재")
             }
             Log.d("career_checkbox_true", originNow)
         }

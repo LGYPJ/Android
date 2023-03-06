@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.src.main.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -45,26 +46,29 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
 
             viewModel.snsAddress.value =""
+            binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+
             when(it){
-                "인스타그램" -> {
+                    "인스타그램" -> {
                     binding.instaChar.text = "@"
-                    binding.activitySnsEtLinkDesc.setPadding(70,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(70,0,0,0)
                     binding.instaChar.visibility = View.VISIBLE
+                    binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
                 "블로그" -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
 
                 }
                 "깃허브" -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
 
 
                 }
                 else -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.activitySnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)
@@ -106,7 +110,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         disposables
             .add(
                 binding
-                    .activitySnsSaveBtn
+                    .fragmentSnsSaveBtn
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -118,26 +122,26 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
 
         viewModel.linkState.value = getString(R.string.sns_type_dialog_etc_state)
-        binding.activitySnsEtLinkDesc.setOnClickListener {
+        binding.fragmentSnsEtLinkDesc.setOnClickListener {
         }
 
         //dialog 띄우기
-        binding.activitySnsEtName.isFocusable = false
-        binding.activitySnsEtName.isFocusableInTouchMode = false
+        binding.fragmentSnsEtName.isFocusable = false
+        binding.fragmentSnsEtName.isFocusableInTouchMode = false
 
         var editType : Boolean = true
         disposables
             .add(
                 binding
-                    .activitySnsEtName
+                    .fragmentSnsEtName
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
 
                         if(editType) {
 
-                            val orderBottomDialogFragment: SnsOrderBottomDialogFragment =
-                                SnsOrderBottomDialogFragment {
+                            val orderBottomDialogFragment: OrderBottomDialogFragment =
+                                OrderBottomDialogFragment(resources.getStringArray(R.array.sns_option)) {
                                     when (it) {
                                         0 -> {
                                             Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
@@ -177,9 +181,9 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                             //viewModel.linkState.value =
                                             getString(R.string.sns_type_dialog_etc_state)
                                             // fragment
-                                            binding.activitySnsEtNameLength.visibility = View.VISIBLE
-                                            binding.activitySnsEtName.isFocusable = true
-                                            binding.activitySnsEtName.isFocusableInTouchMode = true
+                                            binding.fragmentSnsEtNameLength.visibility = View.VISIBLE
+                                            binding.fragmentSnsEtName.isFocusable = true
+                                            binding.fragmentSnsEtName.isFocusableInTouchMode = true
 
                                             editType = false
                                         }

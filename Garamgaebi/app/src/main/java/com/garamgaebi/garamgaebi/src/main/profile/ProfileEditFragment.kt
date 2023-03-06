@@ -108,25 +108,25 @@ class ProfileEditFragment :
             )
             Log.d("image_viewModel",viewModel!!.image.value.toString())
 
-            activityEditProfileEtNick.setText(
+            fragmentEditProfileEtNick.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myNickName",
                     "Error"
                 )
             )
-            activityEditProfileEtTeam.setText(
+            fragmentEditProfileEtTeam.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myBelong",
                     ""
                 )
             )
-            activityEditProfileEtEmail.setText(
+            fragmentEditProfileEtEmail.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myEmail",
                     "Error"
                 )
             )
-            activityEditProfileEtIntro.setText(
+            fragmentEditProfileEtIntro.setText(
                 GaramgaebiApplication.sSharedPreferences.getString(
                     "myIntro",
                     ""
@@ -140,12 +140,12 @@ class ProfileEditFragment :
                         val bitmap = withContext(Dispatchers.IO) {
                             GaramgaebiFunction.ImageLoader.loadImage(myProfileImage)
                         }
-                        binding.activityEditProfileIvProfile.setImageBitmap(bitmap)
+                        binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
                     }
            }else if(editImage){
                 if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {
                     Log.e(TAG, FileUpLoad.getFileToUpLoad())
-                    binding.activityEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
+                    binding.fragmentEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
                 } else {
                     Log.e(TAG, "image Empty")
                 }
@@ -222,7 +222,7 @@ class ProfileEditFragment :
         disposables
             .add(
                 binding
-                    .activityEditProfileIvProfile
+                    .fragmentEditProfileIvProfile
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -311,7 +311,7 @@ class ProfileEditFragment :
 
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
-            Log.d("image_source",binding.activityEditProfileIvProfile.resources.toString())
+            Log.d("image_source",binding.fragmentEditProfileIvProfile.resources.toString())
             false
         })
 //        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,

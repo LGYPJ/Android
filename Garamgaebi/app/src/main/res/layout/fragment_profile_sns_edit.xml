@@ -27,7 +27,7 @@ android:fillViewport="true"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/activity_sns_info"
+            android:id="@+id/fragment_sns_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@ android:fillViewport="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/activity_sns_tv_nameTitle"
+                android:id="@+id/fragment_sns_tv_nameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="center_vertical"
@@ -51,7 +51,7 @@ android:fillViewport="true"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/activity_sns_et_name"
+                android:id="@+id/fragment_sns_et_name"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:background="@{(snsViewModel.snsTypeFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
@@ -66,11 +66,11 @@ android:fillViewport="true"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_nameTitle"
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_tv_nameTitle"
                 app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsTypeFocusing,snsViewModel.typeFirst,check)}" />
 
             <TextView
-                android:id="@+id/activity_sns_et_name_length"
+                android:id="@+id/fragment_sns_et_name_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -79,12 +79,12 @@ android:fillViewport="true"
                 android:textColor="@color/grayAe"
                 android:textSize="12sp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/activity_sns_et_name"
-                app:layout_constraintEnd_toEndOf="@id/activity_sns_et_name" />
+                app:layout_constraintBottom_toTopOf="@id/fragment_sns_et_name"
+                app:layout_constraintEnd_toEndOf="@id/fragment_sns_et_name" />
 
 
             <TextView
-                android:id="@+id/activity_sns_tv_linkTitle"
+                android:id="@+id/fragment_sns_tv_linkTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="16dp"
@@ -94,10 +94,10 @@ android:fillViewport="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_name" />
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_et_name" />
 
             <EditText
-                android:id="@+id/activity_sns_et_linkDesc"
+                android:id="@+id/fragment_sns_et_linkDesc"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:background="@{(snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
@@ -112,7 +112,7 @@ android:fillViewport="true"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_sns_tv_linkTitle"
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_tv_linkTitle"
                 app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsAddressFocusing,snsViewModel.addressFirst,check)}" />
 
 
@@ -126,9 +126,9 @@ android:fillViewport="true"
                 android:textColor="@color/black80"
                 android:textSize="14sp"
                 android:padding="12dp"
-                app:layout_constraintStart_toStartOf="@id/activity_sns_et_linkDesc"
-                app:layout_constraintTop_toTopOf="@id/activity_sns_et_linkDesc"
-                app:layout_constraintBottom_toBottomOf="@id/activity_sns_et_linkDesc" />
+                app:layout_constraintStart_toStartOf="@id/fragment_sns_et_linkDesc"
+                app:layout_constraintTop_toTopOf="@id/fragment_sns_et_linkDesc"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_sns_et_linkDesc" />
 
             <TextView
                 android:id="@+id/link_state"
@@ -138,12 +138,12 @@ android:fillViewport="true"
                 android:visibility="@{!snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsType.equals(@string/sns_type_dialog_1) &amp;&amp; !snsViewModel.snsAddress.isEmpty() ? View.VISIBLE : View.GONE}"
                 android:textColor="@color/redForText"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/activity_sns_et_linkDesc"
-                app:layout_constraintTop_toBottomOf="@id/activity_sns_et_linkDesc"
+                app:layout_constraintStart_toStartOf="@id/fragment_sns_et_linkDesc"
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_et_linkDesc"
                 />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/activity_sns_remove_btn"
+                android:id="@+id/fragment_sns_remove_btn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="6dp"
@@ -154,10 +154,10 @@ android:fillViewport="true"
                 android:textColor="@color/blueForBtn"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/activity_sns_save_btn"
+                app:layout_constraintEnd_toStartOf="@id/fragment_sns_save_btn"
                 app:layout_constraintStart_toStartOf="parent"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/activity_sns_save_btn"
+                android:id="@+id/fragment_sns_save_btn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="68dp"
@@ -169,7 +169,7 @@ android:fillViewport="true"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/activity_sns_remove_btn"/>
+                app:layout_constraintStart_toEndOf="@id/fragment_sns_remove_btn"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

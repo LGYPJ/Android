@@ -72,7 +72,7 @@ class WithdrawalFragment :
         })
         viewModel.agree.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
-            viewModel.agreeIsValid.value = binding.activityWithdrawalCheckbox.isChecked
+            viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
         })
 
 
@@ -83,48 +83,49 @@ class WithdrawalFragment :
         disposables
             .add(
                 binding
-                    .activityWithdrawalTvCheckboxDesc
+                    .fragmentWithdrawalTvCheckboxDesc
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        var preCheck = binding.activityWithdrawalCheckbox.isChecked
+                        var preCheck = binding.fragmentWithdrawalCheckbox.isChecked
                         viewModel.agree.value = !preCheck
                     }, { it.printStackTrace() })
             )
         disposables
             .add(
                 binding
-                    .activityWithdrawalEtOption
+                    .fragmentWithdrawalEtOption
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
 
-                        val orderBottomDialogFragment: WithdrawalOrderBottomDialogFragment = WithdrawalOrderBottomDialogFragment {
+                        val orderBottomDialogFragment: OrderBottomDialogFragment =
+                            OrderBottomDialogFragment(resources.getStringArray(R.array.withdrawal_option)) {
                             when (it) {
                                 0 -> {
                                     Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
-                                    binding.activityWithdrawalEtOption.setText("이용이 불편해서")
+                                    binding.fragmentWithdrawalEtOption.setText("이용이 불편해서")
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "UNCOMFORTABLE"
                                 }
                                 1 -> {
                                     Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
-                                    binding.activityWithdrawalEtOption.setText("사용 빈도가 낮아서")
+                                    binding.fragmentWithdrawalEtOption.setText("사용 빈도가 낮아서")
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "UNUSED"
                                 }
                                 2 -> {
                                     Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
-                                    binding.activityWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
+                                    binding.fragmentWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "CONTENT_LACK"
 
                                 }
                                 3 -> {
                                     Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
-                                    binding.activityWithdrawalEtOption.setText("기타")
+                                    binding.fragmentWithdrawalEtOption.setText("기타")
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "ETC"
 
@@ -138,7 +139,7 @@ class WithdrawalFragment :
         disposables
             .add(
                 binding
-                    .activityWithdrawalSendBtn
+                    .fragmentWithdrawalSendBtn
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
@@ -196,10 +197,10 @@ class WithdrawalFragment :
                 binding.svRoot.run {
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
-              //  binding.activityWithdrawalSendBtn.visibility = View.GONE
+              //  binding.fragmentWithdrawalSendBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-              //  binding.activityWithdrawalSendBtn.visibility = View.VISIBLE
+              //  binding.fragmentWithdrawalSendBtn.visibility = View.VISIBLE
             }
         )
     }
