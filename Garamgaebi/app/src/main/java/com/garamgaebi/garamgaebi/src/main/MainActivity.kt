@@ -15,12 +15,14 @@ import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
+import com.garamgaebi.garamgaebi.model.AutoLoginRequest
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
@@ -36,6 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
     private val myFirebaseMessagingService = MyFirebaseMessagingService()
+    val viewModel by viewModels<HomeViewModel>()
     private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.d("firebasePushBroadcast", "firebasePushBroadcast")
@@ -45,26 +48,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
-        // 로그인 테스트용
-        //sSharedPreferences.edit().putString("kakaoToken", "v94f_lxHug9coseYMjrldGI1dJDBLhLH6oVfHYOCCiolUgAAAYa1-81H").apply()
-        //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         showLoadingDialog(this)
+        // 로그인 액티비티에서 넘어왔는지
+        if(sSharedPreferences.getBoolean("fromLoginActivity", false)) {
+            setBottomNavi()
+            LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
+            initDynamicLink()
+            sSharedPreferences.edit().putBoolean("fromLoginActivity", false).apply()
+        } else {
+            autoLogin()
+        }
+    }
+    private fun autoLogin() {
+        // 로그인 테스트용
+        //sSharedPreferences.edit().putString("kakaoToken", "zzsIaFG9guYlScDRIQnM0mJJHe4hkFavwlAE1YkaCj10mQAAAYa8gfsP").apply()
+        //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         // 자동 로그인
         Log.d("what", sSharedPreferences.getString("kakaoToken", "")!!+"whatthefuck "+sSharedPreferences.getString(X_ACCESS_TOKEN, ""))
 
         if(sSharedPreferences.getString("kakaoToken", "") == "") {
             dismissLoadingDialog()
-
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
-            viewModel.postLogin(
-                LoginRequest(sSharedPreferences.getString("kakaoToken", "")!!,"")
+            viewModel.postAutoLogin(
+                AutoLoginRequest(X_REFRESH_TOKEN)
             )
-            viewModel.login.observe(this, Observer {
+            viewModel.autoLogin.observe(this, Observer {
                 if(it.isSuccess) {
                     sSharedPreferences.edit()
                         .putString(X_ACCESS_TOKEN, it.result.accessToken)
@@ -84,7 +96,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             })
         }
     }
-
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
     @SuppressLint("ResourceType")
     private fun setBottomNavi() {

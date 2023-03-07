@@ -79,7 +79,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         return@loginWithKakaoTalk
                     }
-
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
@@ -102,7 +101,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         viewModel.login.observe(this, Observer {
             if (it.isSuccess) {
                 GaramgaebiApplication.sSharedPreferences.edit()
-                    .putString("kakaoToken", token).apply()
+                    .putString("kakaoToken", token)
+                    .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.accessToken)
+                    .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.refreshToken)
+                    .putBoolean("fromLoginActivity", true)
+                    .putInt("memberIdx", it.result.memberIdx)
+                    .apply()
+                GaramgaebiApplication.myMemberIdx = it.result.memberIdx
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {

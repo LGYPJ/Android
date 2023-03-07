@@ -47,6 +47,10 @@ class HomeViewModel : ViewModel(){
     val login : LiveData<LoginResponse>
         get() = _login
 
+    private val _autoLogin = MutableLiveData<LoginResponse>()
+    val autoLogin : LiveData<LoginResponse>
+        get() = _autoLogin
+
     init{
         getNotificationUnread(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
     }
@@ -54,7 +58,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeSeminar() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeSeminar()
-            Log.d("getHomeSeminar", "$response")
+            Log.d("getHomeSeminar", "$response\n${response.code()}")
             response.code()
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
@@ -70,7 +74,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeNetworking() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeNetworking()
-            Log.d("getHomeNetworking", "$response")
+            Log.d("getHomeNetworking", "$response\n${response.code()}")
 
             if (response.isSuccessful && response.body() != null) {
                 //_networking.postValue(response.body())
@@ -86,7 +90,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeUser() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeUser()
-            Log.d("getHomeUser", "$response")
+            Log.d("getHomeUser", "$response\n${response.code()}")
             if (response.isSuccessful && response.body() != null) {
                 (response.body()!!.result as ArrayList).removeIf{it.memberIdx == myMemberIdx}
                 if ((response.body()!!.result as ArrayList).size == 11) {
@@ -106,7 +110,7 @@ class HomeViewModel : ViewModel(){
     fun getHomeProgram(memberIdx : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeProgram(memberIdx)
-            Log.d("getHomeProgram", "$response")
+            Log.d("getHomeProgram", "$response\n${response.code()}")
 
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
@@ -123,7 +127,7 @@ class HomeViewModel : ViewModel(){
     fun getNotificationScroll(memberIdx : Int ,lastNotificationIdx : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getNotificationScroll(memberIdx, lastNotificationIdx)
-            Log.d("getNotification", "$response")
+            Log.d("getNotification", "$response\n${response.code()}")
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _notificationScroll.value = response.body()
@@ -139,7 +143,7 @@ class HomeViewModel : ViewModel(){
     fun getNotification(memberIdx : Int) {
         viewModelScope.launch (Dispatchers.IO){
             val response = homeRepository.getNotification(memberIdx)
-            Log.d("getNotification", "$response")
+            Log.d("getNotification", "$response\n${response.code()}")
 
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
@@ -157,7 +161,7 @@ class HomeViewModel : ViewModel(){
     fun getNotificationUnread(memberIdx: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getNotificationUnread(memberIdx)
-            Log.d("getNotificationUnread", "$response")
+            Log.d("getNotificationUnread", "$response\n${response.code()}")
             if (response.isSuccessful && response.body()?.result != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _notificationUnread.value = response.body()
@@ -173,7 +177,21 @@ class HomeViewModel : ViewModel(){
     fun postLogin(loginRequest: LoginRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.postLogin(loginRequest)
-            Log.d("postLogin", "$response")
+            Log.d("postLogin", "$response\n${response.code()}")
+            if (response.isSuccessful) {
+                _login.postValue(response.body())
+                Log.d("postLogin", "${response.body()}")
+            }
+            else {
+                Log.d("error", "postLogin : ${response.message()}")
+            }
+        }
+    }
+
+    fun postAutoLogin(autoLoginRequest: AutoLoginRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = homeRepository.postAutoLogin(autoLoginRequest)
+            Log.d("postLogin", "$response\n${response.code()}")
             if (response.isSuccessful) {
                 _login.postValue(response.body())
                 Log.d("postLogin", "${response.body()}")

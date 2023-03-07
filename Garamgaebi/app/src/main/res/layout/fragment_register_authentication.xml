@@ -104,6 +104,7 @@
             android:layout_marginTop="14dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:elevation="0dp"
             android:background="@{viewModel.isTimerRunning() ? @drawable/fragment_auth_btn_send :(viewModel.isEmailValid() ? @drawable/register_btn_color_enable : @drawable/register_btn_color)}"
             android:clickable="@{viewModel.isEmailValid() ? true : false}"
             android:text="@{viewModel.isCompleteAuth() ? @string/email_auth_complete : viewModel.isTimerRunning() ? String.format(@string/re_send_email, viewModel.timerCount/60, viewModel.timerCount%60) : viewModel.timerFirst ? @string/send_email : @string/re_send_email_time_zero}"
@@ -166,6 +167,7 @@
             android:backgroundTint="@{(viewModel.isNumValid() &amp;&amp; viewModel.isTimerRunning()) ? @color/blueForBtn : @color/grayD9}"
             android:enabled="@{(viewModel.isNumValid() &amp;&amp; viewModel.isTimerRunning())? true : false}"
             android:text="@string/certification_num_check"
+            android:elevation="0dp"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:visibility="invisible"
@@ -179,6 +181,7 @@
             android:layout_margin="16dp"
             android:background="@{viewModel.isCompleteAuth() ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/next"
+            android:elevation="0dp"
             android:textColor="@color/white"
             android:enabled="@{viewModel.isCompleteAuth() ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent" />
