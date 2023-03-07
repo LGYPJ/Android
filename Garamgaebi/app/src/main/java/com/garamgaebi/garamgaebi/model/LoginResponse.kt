@@ -12,7 +12,7 @@ data class LoginResult(
     val grantType: String,
     val memberIdx: Int,
     val refreshToken: String,
-    val refreshTokenExpirationTime: Int
+    val refreshTokenExpirationTime: Long
 )
 
 data class LoginRequest(

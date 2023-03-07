@@ -193,7 +193,7 @@ class HomeViewModel : ViewModel(){
             val response = homeRepository.postAutoLogin(autoLoginRequest)
             Log.d("postLogin", "$response\n${response.code()}")
             if (response.isSuccessful) {
-                _login.postValue(response.body())
+                _autoLogin.postValue(response.body())
                 Log.d("postLogin", "${response.body()}")
             }
             else {
