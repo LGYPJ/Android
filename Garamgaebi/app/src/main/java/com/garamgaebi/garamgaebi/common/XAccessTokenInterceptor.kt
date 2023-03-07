@@ -39,7 +39,7 @@ class XAccessTokenInterceptor : Interceptor {
 
     private fun refreshToken(): String? {
         val refreshToken = sSharedPreferences.getString(X_REFRESH_TOKEN, null) ?: return null
-        val autoLoginRequest = AutoLoginRequest(X_REFRESH_TOKEN)
+        val autoLoginRequest = AutoLoginRequest(refreshToken)
 
         // refresh token이 없는 경우 갱신 실패로 처리
         val homeRepository = HomeRepository()
