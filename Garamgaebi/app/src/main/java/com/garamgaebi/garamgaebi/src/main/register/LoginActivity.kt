@@ -59,7 +59,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     }
 
     private fun kakaoLogin() {
-
         // 카카오계정으로 로그인 공통 callback 구성
         // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -112,6 +111,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                         .putExtra("login", true)
                         .putExtra("kakaoToken", token)
                 )
+                finish()
             }
         })
     }

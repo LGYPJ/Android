@@ -33,95 +33,15 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
+        /*binding.fragmentGatheringMyMeetingClScheduledBlank.visibility = View.VISIBLE
         binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
         binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
-        binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
+        binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE*/
 
         binding.fragmentGatheringMyMeetingRvScheduled.addItemDecoration(GatheringItemDecoration())
         binding.fragmentGatheringMyMeetingRvLast.addItemDecoration(GatheringItemDecoration())
         CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-                with(viewModel) {
-                    //예정된 모임
-                    getGatheringProgramReady(myMemberIdx)
-                    programReady.observe(viewLifecycleOwner, Observer {
-                        val result = it.result as ArrayList<GatheringProgramResult>
-                        val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
-
-                        if (result.isEmpty()) {
-                            binding.fragmentGatheringMyMeetingClScheduledBlank.visibility =
-                                View.VISIBLE
-                            binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
-                        } else {
-                            binding.fragmentGatheringMyMeetingClScheduledBlank.visibility =
-                                View.GONE
-                            binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.VISIBLE
-
-                            myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(result)
-                            binding.fragmentGatheringMyMeetingRvScheduled.apply {
-                                removeItemDecoration(GatheringItemDecoration())
-                                adapter = myMeetingScheduledAdapter
-                                layoutManager =
-                                    LinearLayoutManager(
-                                        activity,
-                                        LinearLayoutManager.VERTICAL,
-                                        false
-                                    )
-                            }
-                            myMeetingScheduledAdapter!!.setOnItemClickListener(object :
-                                GatheringMyMeetingScheduledRVAdapter.OnItemClickListener {
-                                override fun onMoreClick(position: Int, v: View) {
-                                    val program = it.result[position].programIdx
-                                    val type = it.result[position].type
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("programIdx", program)
-                                        .putString("type", type)
-                                        .apply()
-                                    showPopupScheduled(v)
-                                }
-                            })
-                        }
-                    })
-
-                    // 지난 모임
-                    getGatheringProgramClosed(myMemberIdx)
-                    programClosed.observe(viewLifecycleOwner, Observer {
-                        val result = it.result as ArrayList<GatheringProgramResult>
-                        val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
-                        if (result.isEmpty()) {
-                            binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
-                            binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
-                        } else {
-                            myMeetingLastAdapter = GatheringMyMeetingLastRVAdapter(result)
-                            binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.GONE
-                            binding.fragmentGatheringMyMeetingRvLast.visibility = View.VISIBLE
-                            binding.fragmentGatheringMyMeetingRvLast.apply {
-                                adapter = myMeetingLastAdapter
-                                layoutManager =
-                                    LinearLayoutManager(
-                                        activity,
-                                        LinearLayoutManager.VERTICAL,
-                                        false
-                                    )
-                            }
-                            myMeetingLastAdapter.setOnItemClickListener(object :
-                                GatheringMyMeetingLastRVAdapter.OnItemClickListener {
-                                override fun onMoreClick(position: Int, v: View) {
-                                    val program = it.result[position].programIdx
-                                    val type = it.result[position].type
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("programIdx", program)
-                                        .putString("type", type)
-                                        .apply()
-                                    showPopupLast(v)
-                                }
-                            })
-                        }
-                    })
-
-                }
-            }
+            setView()
         }
     }
 
@@ -169,27 +89,95 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
             }
             R.id.cancel -> {
                 //신청 취소 프래그먼트로!
-                val intent =
-                    startActivity(
-                        Intent(context, ContainerActivity::class.java)
-                            .putExtra("cancel", true)
-                    )
+                startActivity(
+                    Intent(context, ContainerActivity::class.java)
+                        .putExtra("cancel", true)
+                )
             }
         }
         return item != null
     }
+    private suspend fun setView() {
+        withContext(Dispatchers.Main) {
+            with(viewModel) {
+                //예정된 모임
+                getGatheringProgramReady(myMemberIdx)
+                programReady.observe(viewLifecycleOwner, Observer {
+                    val result = it.result as ArrayList<GatheringProgramResult>
+                    val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
 
-    override fun onResume() {
-        super.onResume()
-        CoroutineScope(Dispatchers.IO).launch {
-            updateData()
+                    if (result.isEmpty()) {
+                        binding.fragmentGatheringMyMeetingClScheduledBlank.visibility =
+                            View.VISIBLE
+                        binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
+                    } else {
+                        binding.fragmentGatheringMyMeetingClScheduledBlank.visibility =
+                            View.GONE
+                        binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.VISIBLE
+
+                        myMeetingScheduledAdapter = GatheringMyMeetingScheduledRVAdapter(result)
+                        binding.fragmentGatheringMyMeetingRvScheduled.apply {
+                            removeItemDecoration(GatheringItemDecoration())
+                            adapter = myMeetingScheduledAdapter
+                            layoutManager =
+                                LinearLayoutManager(
+                                    activity,
+                                    LinearLayoutManager.VERTICAL,
+                                    false
+                                )
+                        }
+                        myMeetingScheduledAdapter!!.setOnItemClickListener(object :
+                            GatheringMyMeetingScheduledRVAdapter.OnItemClickListener {
+                            override fun onMoreClick(position: Int, v: View) {
+                                val program = it.result[position].programIdx
+                                val type = it.result[position].type
+                                GaramgaebiApplication.sSharedPreferences.edit()
+                                    .putInt("programIdx", program)
+                                    .putString("type", type)
+                                    .apply()
+                                showPopupScheduled(v)
+                            }
+                        })
+                    }
+                })
+
+                // 지난 모임
+                getGatheringProgramClosed(myMemberIdx)
+                programClosed.observe(viewLifecycleOwner, Observer {
+                    val result = it.result as ArrayList<GatheringProgramResult>
+                    val myMeetingLastAdapter: GatheringMyMeetingLastRVAdapter
+                    if (result.isEmpty()) {
+                        binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.VISIBLE
+                        binding.fragmentGatheringMyMeetingRvLast.visibility = View.GONE
+                    } else {
+                        myMeetingLastAdapter = GatheringMyMeetingLastRVAdapter(result)
+                        binding.fragmentGatheringMyMeetingClLastBlank.visibility = View.GONE
+                        binding.fragmentGatheringMyMeetingRvLast.visibility = View.VISIBLE
+                        binding.fragmentGatheringMyMeetingRvLast.apply {
+                            adapter = myMeetingLastAdapter
+                            layoutManager =
+                                LinearLayoutManager(
+                                    activity,
+                                    LinearLayoutManager.VERTICAL,
+                                    false
+                                )
+                        }
+                        myMeetingLastAdapter.setOnItemClickListener(object :
+                            GatheringMyMeetingLastRVAdapter.OnItemClickListener {
+                            override fun onMoreClick(position: Int, v: View) {
+                                val program = it.result[position].programIdx
+                                val type = it.result[position].type
+                                GaramgaebiApplication.sSharedPreferences.edit()
+                                    .putInt("programIdx", program)
+                                    .putString("type", type)
+                                    .apply()
+                                showPopupLast(v)
+                            }
+                        })
+                    }
+                })
+
+            }
         }
     }
-
-    private suspend fun updateData() {
-        withContext(Dispatchers.IO) {
-            viewModel.getGatheringProgramReady(myMemberIdx)
-        }
-    }
-
 }
