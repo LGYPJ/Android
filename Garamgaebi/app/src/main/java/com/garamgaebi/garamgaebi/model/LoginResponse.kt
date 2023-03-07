@@ -19,3 +19,7 @@ data class LoginRequest(
     val accessToken : String,
     val fcmToken: String
 )
+
+data class AutoLoginRequest (
+    val refreshToken : String
+)

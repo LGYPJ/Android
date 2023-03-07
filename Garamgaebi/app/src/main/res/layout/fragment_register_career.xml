@@ -268,6 +268,7 @@
             android:background="@{(viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:clickable="@{(!viewModel.companyFirst &amp;&amp; !viewModel.positionFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid &amp;&amp; viewModel.startDateIsValid &amp;&amp; viewModel.endDateIsValid) ? true : false}"
             android:outlineProvider="none"
+            android:elevation="0dp"
             android:text="@string/register_belong_profile_save"
             android:textColor="@color/white"
             android:textSize="16sp"

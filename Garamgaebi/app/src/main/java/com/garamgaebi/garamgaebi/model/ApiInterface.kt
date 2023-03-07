@@ -248,8 +248,11 @@ interface ApiInterface {
     @POST("/member/login/kakao")
     suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
-    @POST("/member/login")
-    fun postLoginForRefresh(@Body loginRequest: LoginRequest) : Call<LoginResponse>
+    @POST("/memeber/login/auto")
+    suspend fun postAutoLogin(@Body autoLoginRequest : AutoLoginRequest) : Response<LoginResponse>
+
+    @POST("/member/login/auto")
+    fun postLoginForRefresh(@Body loginRequest: AutoLoginRequest) : Call<LoginResponse>
 
     //ApplyController
 

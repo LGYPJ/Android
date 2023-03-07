@@ -89,6 +89,7 @@
             android:background="@{viewModel.isNickNameValid() ? @drawable/register_btn_color_enable : @drawable/register_btn_color}"
             android:stateListAnimator="@null"
             android:text="@string/next"
+            android:elevation="0dp"
             android:enabled="@{viewModel.isNickNameValid() ? true : false}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />

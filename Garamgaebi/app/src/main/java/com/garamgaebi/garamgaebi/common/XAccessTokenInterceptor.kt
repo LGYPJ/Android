@@ -4,6 +4,7 @@ import android.util.Log
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
+import com.garamgaebi.garamgaebi.model.AutoLoginRequest
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.repository.HomeRepository
 import okhttp3.*
@@ -38,11 +39,11 @@ class XAccessTokenInterceptor : Interceptor {
 
     private fun refreshToken(): String? {
         val refreshToken = sSharedPreferences.getString(X_REFRESH_TOKEN, null) ?: return null
-        val loginRequest = LoginRequest(sSharedPreferences.getString("kakaoToken", "")!!,"")
+        val autoLoginRequest = AutoLoginRequest(X_REFRESH_TOKEN)
 
         // refresh token이 없는 경우 갱신 실패로 처리
         val homeRepository = HomeRepository()
-        val call = homeRepository.postLoginForRefresh(loginRequest)
+        val call = homeRepository.postLoginForRefresh(autoLoginRequest)
         Log.d("refresh0","????")
 
         try {
@@ -51,7 +52,7 @@ class XAccessTokenInterceptor : Interceptor {
 
             if (response.isSuccessful) {
                 val loginResponse = response.body()
-
+                Log.d("refresh","$loginResponse")
                 // 새로운 access token 추출
                 val newAccessToken = loginResponse?.result!!.accessToken
                 Log.d("refresh2",newAccessToken)
