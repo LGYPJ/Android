@@ -64,9 +64,9 @@ class XAccessTokenInterceptor : Interceptor {
                 // 추출된 access token이 null이 아니면 반환
                 if (!newAccessToken.isNullOrEmpty()) {
                     Log.d("refresh3",newAccessToken)
-
                     return "Bearer $newAccessToken"
                 }
+
             } else {
                 // API 호출이 실패한 경우 로그를 출력
                 Log.e("XAccessTokenInterceptor11", "Failed to refresh access token. Response code: ${response.code()}")
@@ -78,5 +78,4 @@ class XAccessTokenInterceptor : Interceptor {
 
         return null
     }
-
 }

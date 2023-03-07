@@ -9,15 +9,11 @@ object BindingAdapters {
     @BindingAdapter("onFocusing")
     fun EditText.onFocusing(callback: GaramgaebiFunction.OnFocusingListener) {
         setOnFocusChangeListener { _, hasFocus ->
-            Log.d("focus_check","adapter")
             if (!hasFocus) {
                 callback.onFocusing(false)
-                Log.d("focus_check","adapter2")
             } else {
                 callback.onFocusing(true)
-                Log.d("focus_check","adapter3")
             }
-
         }
     }
 }
