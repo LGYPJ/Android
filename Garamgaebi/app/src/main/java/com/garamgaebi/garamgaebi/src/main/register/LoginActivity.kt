@@ -30,24 +30,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("kakao", "hash $keyHash")
-        UserApiClient.instance.logout { error ->
+        /*UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.d("kakao", "로그아웃 실패 $error")
             } else {
                 Log.d("kakao", "로그아웃 성공")
             }
-        }
-        /*UserApiClient.instance.unlink { error ->
+        }*/
+        UserApiClient.instance.unlink { error ->
             if (error != null) {
                 Log.d("kakao", "회원 탈퇴 실패 $error")
             } else {
                 Log.d("kakao", "회원 탈퇴 성공")
-                Intent(this, RegisterActivity::class.java).run {
-                    startActivity(addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                }
-                finish()
             }
-        }*/
+        }
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()

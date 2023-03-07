@@ -248,7 +248,7 @@ interface ApiInterface {
     @POST("/member/login/kakao")
     suspend fun postLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
-    @POST("/memeber/login/auto")
+    @POST("/member/login/auto")
     suspend fun postAutoLogin(@Body autoLoginRequest : AutoLoginRequest) : Response<LoginResponse>
 
     @POST("/member/login/auto")

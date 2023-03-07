@@ -67,15 +67,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 자동 로그인
         Log.d("what", sSharedPreferences.getString("kakaoToken", "")!!+"whatthefuck "+sSharedPreferences.getString(X_ACCESS_TOKEN, ""))
 
-        if(sSharedPreferences.getString("kakaoToken", "") == "") {
+        if(sSharedPreferences.getString(X_REFRESH_TOKEN, "") == "") {
             dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         } else {
             Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
-            viewModel.postAutoLogin(
-                AutoLoginRequest(X_REFRESH_TOKEN)
-            )
+            viewModel.postAutoLogin(AutoLoginRequest(sSharedPreferences.getString(X_REFRESH_TOKEN, "")!!))
             viewModel.autoLogin.observe(this, Observer {
                 if(it.isSuccess) {
                     sSharedPreferences.edit()
