@@ -39,7 +39,7 @@ class XAccessTokenInterceptor : Interceptor {
 
     private fun refreshToken(): String? {
         val refreshToken = sSharedPreferences.getString(X_REFRESH_TOKEN, null) ?: return null
-        val autoLoginRequest = AutoLoginRequest(X_REFRESH_TOKEN)
+        val autoLoginRequest = AutoLoginRequest(refreshToken)
 
         // refresh token이 없는 경우 갱신 실패로 처리
         val homeRepository = HomeRepository()
@@ -65,9 +65,9 @@ class XAccessTokenInterceptor : Interceptor {
                 // 추출된 access token이 null이 아니면 반환
                 if (!newAccessToken.isNullOrEmpty()) {
                     Log.d("refresh3",newAccessToken)
-
                     return "Bearer $newAccessToken"
                 }
+
             } else {
                 // API 호출이 실패한 경우 로그를 출력
                 Log.e("XAccessTokenInterceptor11", "Failed to refresh access token. Response code: ${response.code()}")
@@ -79,5 +79,4 @@ class XAccessTokenInterceptor : Interceptor {
 
         return null
     }
-
 }

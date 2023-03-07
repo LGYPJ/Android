@@ -153,6 +153,8 @@ class ServiceCenterFragment :
                                     sSharedPreferences.edit()
                                         .putInt("memberIdx", -1)
                                         .putString("kakaoToken", "")
+                                        .putString(GaramgaebiApplication.X_ACCESS_TOKEN,"")
+                                        .putString(GaramgaebiApplication.X_REFRESH_TOKEN, "")
                                         .apply()
                                 }
                             }
