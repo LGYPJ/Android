@@ -25,6 +25,7 @@ import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
+import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
@@ -47,7 +48,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val viewModel by viewModels<HomeViewModel>()
         getFcmToken()
         // 로그인 테스트용
-        //sSharedPreferences.edit().putString("kakaoToken", "").apply()
+        //sSharedPreferences.edit().putString("kakaoToken", "v94f_lxHug9coseYMjrldGI1dJDBLhLH6oVfHYOCCiolUgAAAYa1-81H").apply()
         //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
         showLoadingDialog(this)
         // 자동 로그인
@@ -70,13 +71,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         .putString(X_REFRESH_TOKEN, it.result.refreshToken)
                         .putInt("memberIdx", it.result.memberIdx)
                         .apply()
-
                     myMemberIdx = it.result.memberIdx
                     setBottomNavi()
                     LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                     initDynamicLink()
                 } else {
                     Log.d("login", "login fail ${it.errorMessage}")
+                    dismissLoadingDialog()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
             })
         }
