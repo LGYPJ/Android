@@ -40,51 +40,59 @@ class NetworkingGameViewModel: ViewModel() {
 
     private val _patchMessage = MutableLiveData<Message>()
     val patchMessage : LiveData<Message>
-    get() = _patchMessage
+        get() = _patchMessage
 
     private val _postMember = MutableLiveData<GameMemberPostResponse>()
     val postMember : LiveData<GameMemberPostResponse>
-    get() = _postMember
+        get() = _postMember
 
     private val _postMemberReq = MutableLiveData<GameMemberPostRequest>()
     val postMemberReq : LiveData<GameMemberPostRequest>
-    get() = _postMemberReq
+        get() = _postMemberReq
 
     private val _deleteMember = MutableLiveData<GameMemberDeleteResponse>()
     val deleteMember : LiveData<GameMemberDeleteResponse>
-    get() = _deleteMember
+        get() = _deleteMember
 
     private val _deleteMemberReq = MutableLiveData<GameMemberDeleteRequest>()
     val deleteMemberReq : LiveData<GameMemberDeleteRequest>
-    get() = _deleteMemberReq
+        get() = _deleteMemberReq
 
     private val _getRoom = MutableLiveData<GameRoomResponse>()
     val getRoom : LiveData<GameRoomResponse>
-    get() = _getRoom
+        get() = _getRoom
 
     private val _getImg = MutableLiveData<List<String>>()
     val getImg : LiveData<List<String>>
-    get() = _getImg
+        get() = _getImg
 
     private val _getMember = MutableLiveData<List<GameMemberGetResult>>()
     val getMember : LiveData<List<GameMemberGetResult>>
-    get() = _getMember
+        get() = _getMember
 
     private val _getMemberIndex = MutableLiveData<GameMemberGetResult>()
     val getMemberIndex : LiveData<GameMemberGetResult>
-    get() = _getMemberIndex
+        get() = _getMemberIndex
 
 
 
     private val _getMemberReq = MutableLiveData<GameMemberGetRequest>()
     val getMemberReq : LiveData<GameMemberGetRequest>
-    get() = _getMemberReq
+        get() = _getMemberReq
 
     private val _patchCurrent = MutableLiveData<GameCurrentIdxResponse>()
     val patchCurrent : LiveData<GameCurrentIdxResponse>
-    get() = _patchCurrent
+        get() = _patchCurrent
 
     private val patchCurrentReq : GameCurrentIdxRequest ?= null
+
+    //index증가
+    private val _index = MutableLiveData<Int>()
+    val index : LiveData<Int>
+        get() = _index
+
+    private val indexIncrease : Int ?= null
+
 
     //private var index = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
 
@@ -153,7 +161,7 @@ class NetworkingGameViewModel: ViewModel() {
     //current-idx
     fun patchGameCurrentIdx(gameCurrentIdxRequest: GameCurrentIdxRequest){
         viewModelScope.launch(Dispatchers.Main) {
-           val response = gameRepository.patchGameCurrentIdx(gameCurrentIdxRequest)
+            val response = gameRepository.patchGameCurrentIdx(gameCurrentIdxRequest)
             if (response != null) {
                 if(response.isSuccessful){
                     _patchCurrent.value = response.body()
@@ -184,41 +192,58 @@ class NetworkingGameViewModel: ViewModel() {
         }
     }
 
+    //index 증가 함수
+    fun indexIncrease(){
+        viewModelScope.launch(Dispatchers.Main) {
+            val img = gameRepository.getGameImage(20)
+
+        }
+    }
+
     fun connectStomp() {
-            mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
-            mStompClient.connect()
-            val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
-                when (lifecycleEvent.type) {
-                    LifecycleEvent.Type.OPENED -> Log.i(
-                        "socket",
-                        "Stomp connection opened"
-                    )
-                    LifecycleEvent.Type.ERROR -> { Log.i(
-                        "socket", "Error",
-                        lifecycleEvent.exception
-                    )
-                    }
-                    LifecycleEvent.Type.CLOSED -> Log.i(
-                        "socket",
-                        "Stomp connection closed"
-                    )
-                    LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.i(
-                        "socket",
-                        "FAILED_SERVER_HEARTBEAT"
-                    )
+        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
+        mStompClient.connect()
+        val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
+            when (lifecycleEvent.type) {
+                LifecycleEvent.Type.OPENED -> Log.i(
+                    "socket",
+                    "Stomp connection opened"
+                )
+                LifecycleEvent.Type.ERROR -> { Log.i(
+                    "socket", "Error",
+                    lifecycleEvent.exception
+                )
                 }
+                LifecycleEvent.Type.CLOSED -> Log.i(
+                    "socket",
+                    "Stomp connection closed"
+                )
+                LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.i(
+                    "socket",
+                    "FAILED_SERVER_HEARTBEAT"
+                )
             }
+        }
         // 구독
         val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
             .subscribe {stompMessage ->
                 val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
                 val message = gson.fromJson(stompMessage.payload, Message::class.java)
-                _message.postValue(messageV0)
-                getGameMember()
-                _patchMessage.postValue(message)
-                /*if (patchCurrentReq != null) {
-                    patchGameCurrentIdx(patchCurrentReq)
-                }*/
+                if(messageV0.type == "ENTER"){
+                    _message.postValue(messageV0)
+                    getGameMember()
+                }
+                if(messageV0.type == "EXIT"){
+                    _message.postValue(messageV0)
+                    getGameMember()
+                }
+                if(message.type == "NEXT"){
+                    Log.d("patchMessage", "whywhy")
+                    _patchMessage.postValue(message)
+                    /*if (patchCurrentReq != null) {
+                        patchGameCurrentIdx(patchCurrentReq)
+                    }*/
+                }
             }
     }
 
@@ -245,12 +270,15 @@ class NetworkingGameViewModel: ViewModel() {
                 )
             }
         }
-
         // 구독
         val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
             .subscribe {stompMessage ->
                 //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                patchGameCurrentIdx()
+                val message = gson.fromJson(stompMessage.payload, Message::class.java)
+                _patchMessage.postValue(message)
+                if (patchCurrentReq != null) {
+                    patchGameCurrentIdx(patchCurrentReq)
+                }
             }
     }*/
 
