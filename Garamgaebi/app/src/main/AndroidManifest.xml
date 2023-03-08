@@ -73,7 +73,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible"
+            android:windowSoftInputMode="adjustResize"
             />
 
         <service

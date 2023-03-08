@@ -175,6 +175,7 @@ class ServiceCenterFragment :
                     .subscribe({
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
+                        binding.fragmentServicecenterEtContent.clearFocus()
 
                         val orderBottomDialogFragment: OrderBottomDialogFragment =
                             OrderBottomDialogFragment(resources.getStringArray(R.array.question_option)) {
