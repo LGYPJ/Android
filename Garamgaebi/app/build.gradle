@@ -10,7 +10,7 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def kakaoApiKey = properties.getProperty('kakao_api_key')
+def kakaoApiKey = properties.getProperty('kakao_native_key')
 
 android {
     compileSdk 32
@@ -83,7 +83,7 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     // 카카오 로그인
-    implementation "com.kakao.sdk:v2-user:2.12.1"
+    implementation "com.kakao.sdk:v2-user:2.13.0"
     
     // https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
