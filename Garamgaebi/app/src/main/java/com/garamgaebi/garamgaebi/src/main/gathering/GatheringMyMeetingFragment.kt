@@ -180,4 +180,17 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        CoroutineScope(Dispatchers.IO).launch {
+            updateData()
+        }
+    }
+
+    private suspend fun updateData() {
+        withContext(Dispatchers.IO) {
+            viewModel.getGatheringProgramReady(myMemberIdx)
+        }
+    }
 }
