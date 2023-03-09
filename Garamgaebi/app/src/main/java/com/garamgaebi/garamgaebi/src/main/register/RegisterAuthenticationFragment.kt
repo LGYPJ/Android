@@ -55,6 +55,7 @@ class RegisterAuthenticationFragment :
                     }
                 } else {
                     isEmailDuplicated.value = true
+                    uniEmailDuplicated.value = uniEmail.value
                 }
             })
 

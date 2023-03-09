@@ -18,6 +18,9 @@ class XAccessTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         val jwtToken: String? = "Bearer " + sSharedPreferences.getString(X_ACCESS_TOKEN, null)
+        Log.d("interceptor_aT", "${sSharedPreferences.getString(X_ACCESS_TOKEN, null)}")
+        Log.d("interceptor_rT", "${sSharedPreferences.getString(X_REFRESH_TOKEN, null)}")
+
         //val jwtToken: String? = "Bearer " + "        eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNjc2MDQ3MjkwIiwiYXV0aCI6IlJPTEVfVVNFUiIsIm1lbWJlcklkeCI6MywiZXhwIjoxNjc4MDQyNDg2fQ.BbSdEk752Rnch5Q5RiGwBHfcjyt51phqf4np06k7CkA"
         if (jwtToken != null) {
             builder.addHeader("Authorization", jwtToken)

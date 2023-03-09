@@ -43,12 +43,12 @@ abstract class BaseFragment<B : ViewBinding>(
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun showLoadingDialog(context: Context) {
+    suspend fun showLoadingDialog(context: Context) {
         mLoadingDialog = LoadingDialog(context)
         mLoadingDialog.show()
     }
 
-    fun dismissLoadingDialog() {
+    suspend fun dismissLoadingDialog() {
         if (mLoadingDialog.isShowing) {
             mLoadingDialog.dismiss()
         }

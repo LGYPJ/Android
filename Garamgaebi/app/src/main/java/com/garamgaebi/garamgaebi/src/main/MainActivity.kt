@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
@@ -23,13 +22,11 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedP
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.AutoLoginRequest
-import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
 import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
-import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 
 
@@ -65,8 +62,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         //sSharedPreferences.edit().putString(X_REFRESH_TOKEN, "").apply()
         //Log.d("login", "${sSharedPreferences.getString(X_REFRESH_TOKEN, "")}")
         // 자동 로그인
-        Log.d("what", sSharedPreferences.getString("kakaoToken", "")!!+"whatthefuck "+sSharedPreferences.getString(X_ACCESS_TOKEN, ""))
-
         if(sSharedPreferences.getString(X_REFRESH_TOKEN, "") == "") {
             dismissLoadingDialog()
             startActivity(Intent(this, RegisterActivity::class.java))

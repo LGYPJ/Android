@@ -36,7 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         val offsetPx = screenWidth - pagerWidth - pageMargin
 
         // 서버 꺼졌을 때 예외처리 하기 위해 시작할 때 뷰
-        constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
+        //constraintsConnect(binding.fragmentHomeTvNetworking, binding.fragmentHomeClSeminarBlank)
         with(binding) {
             fragmentHomeClSeminarBlank.visibility = View.VISIBLE
             fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
@@ -107,7 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         CoroutineScope(Dispatchers.IO).launch {
             updateData()
             Log.d("home","dialog dismiss")
-            (requireActivity() as MainActivity).mLoadingDialog.dismiss()
+            (requireActivity() as MainActivity).dismissLoadingDialog()
         }
         super.onResume()
     }

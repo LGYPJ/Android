@@ -21,6 +21,7 @@ class RegisterViewModel : ViewModel(){
 
     val socialToken = MutableLiveData<String>("")
     val uniEmail = MutableLiveData<String>("")
+    val uniEmailDuplicated = MutableLiveData<String>("")
     val authNum = MutableLiveData<String>("")
     val emailSent = MutableLiveData<String>("")
     val authNumSent = MutableLiveData<String>("")
