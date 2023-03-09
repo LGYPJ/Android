@@ -42,6 +42,8 @@ const val INPUT_TEXT_LENGTH = 23
 const val INPUT_TEXT_LENGTH_100 = 101
 const val SNS_ADDRESS = 46
 
+var IMAGE_ORIENTATION = 0
+
 //DatePicker
 const val MINIMUM_YEAR = 1950
 
