@@ -62,8 +62,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
     private fun autoLogin() {
         // 로그인 테스트용
-        //sSharedPreferences.edit().putString("kakaoToken", "zzsIaFG9guYlScDRIQnM0mJJHe4hkFavwlAE1YkaCj10mQAAAYa8gfsP").apply()
-        //Log.d("login", "${sSharedPreferences.getString("kakaoToken", "")}")
+        //sSharedPreferences.edit().putString(X_REFRESH_TOKEN, "").apply()
+        //Log.d("login", "${sSharedPreferences.getString(X_REFRESH_TOKEN, "")}")
         // 자동 로그인
         Log.d("what", sSharedPreferences.getString("kakaoToken", "")!!+"whatthefuck "+sSharedPreferences.getString(X_ACCESS_TOKEN, ""))
 
