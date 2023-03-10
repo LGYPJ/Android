@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.src.main.profile
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.BaseFragment
@@ -25,11 +30,12 @@ import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import com.google.android.datatransport.runtime.dagger.multibindings.StringKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Comparator
+import java.util.*
 
 
 class SomeoneProfileFragment :
@@ -65,16 +71,18 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     fragmentSomeoneProfileTvIntro.text = result.result.content
 
                     if(result.result.profileUrl != null){
-                        CoroutineScope(Dispatchers.Main).launch {
-                            val bitmap = withContext(Dispatchers.IO){
-                                GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
-                            }
-                            binding.fragmentSomeoneProfileIvProfile.setImageBitmap(bitmap)
-                        }
-//                        Glide.with(requireActivity())
-//                            .load(result.result.profileUrl)
-//                            .centerCrop()
-//                            .into(binding.fragmentSomeoneProfileIvProfile)
+//                        CoroutineScope(Dispatchers.Main).launch {
+//                            val bitmap = withContext(Dispatchers.IO){
+//                                GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+//                            }
+//                            binding.fragmentSomeoneProfileIvProfile.setImageBitmap(bitmap)
+//                        }
+                        //Glide.get()
+                        Glide.with(requireActivity())
+                            .load(result.result.profileUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(binding.fragmentSomeoneProfileIvProfile)
 
                     }
 

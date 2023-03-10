@@ -29,6 +29,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                     Glide.with(itemView)
                         .load(R.drawable.ic_transparent)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(itemHomeUserIvProfile)
                 }
                 else {
