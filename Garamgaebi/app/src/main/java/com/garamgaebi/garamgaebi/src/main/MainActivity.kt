@@ -83,6 +83,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 } else {
                     Log.d("login", "login fail ${it.errorMessage}")
                     dismissLoadingDialog()
+                    sSharedPreferences.edit()
+                        .putString(X_ACCESS_TOKEN, "")
+                        .putString(X_REFRESH_TOKEN, "")
+                        .putInt("memberIdx", -1)
+                        .apply()
+                    myMemberIdx = -1
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }

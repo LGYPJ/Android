@@ -36,10 +36,10 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         binding.fragmentGatheringSeminarClosedClBlank.visibility = View.VISIBLE
         binding.fragmentGatheringSeminarRvClosed.visibility = View.GONE*/
         binding.fragmentGatheringSeminarRvClosed.addItemDecoration(GatheringItemDecoration())
+        //showLoadingDialog(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
-            showLoadingDialog(requireContext())
             setView()
-            dismissLoadingDialog()
+            //dismissLoadingDialog()
         }
     }
     private suspend fun setView() {
