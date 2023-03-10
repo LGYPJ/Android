@@ -37,13 +37,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "로그아웃 성공")
             }
         }*/
-        UserApiClient.instance.unlink { error ->
+        /*UserApiClient.instance.unlink { error ->
             if (error != null) {
                 Log.d("kakao", "회원 탈퇴 실패 $error")
             } else {
                 Log.d("kakao", "회원 탈퇴 성공")
             }
-        }
+        }*/
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
@@ -96,8 +96,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         )
         viewModel.login.observe(this, Observer {
             if (it.isSuccess) {
+                Log.d("loginActivity", "login success")
                 GaramgaebiApplication.sSharedPreferences.edit()
-                    .putString("kakaoToken", token)
                     .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.accessToken)
                     .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.refreshToken)
                     .putBoolean("fromLoginActivity", true)
@@ -107,10 +107,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
+                Log.d("loginActivity", "login failed")
                 startActivity(
                     Intent(this, RegisterActivity::class.java)
                         .putExtra("login", true)
-                        .putExtra("kakaoToken", token)
                 )
                 finish()
             }

@@ -13,13 +13,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
-        val viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
-
-
         if(intent.getBooleanExtra("login", false)){
             setFragment(REGISTER_AUTH)
-            Log.d("kakaoRegister", "${intent.getStringExtra("kakaoToken")}")
-            viewModel.socialToken.value = intent.getStringExtra("kakaoToken")
         }
         else {
             setFragment(REGISTER_INTRO)
