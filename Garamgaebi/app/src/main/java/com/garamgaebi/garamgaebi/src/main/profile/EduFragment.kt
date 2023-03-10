@@ -12,6 +12,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
@@ -213,6 +214,21 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
             hideKeyboard()
             false
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    if(viewModel.institutionFocusing.value == true) {
+                        smoothScrollTo(0, binding.fragmentEducationEtInstitutionDesc.bottom)
+                    }else if(viewModel.majorFocusing.value == true){
+                        smoothScrollTo(0, binding.fragmentEducationEtMajorDesc.bottom)
+                    }
+                }
+              //  binding.fragmentEducationSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+              //  binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
     private fun hideKeyboard() {

@@ -29,7 +29,6 @@ class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
     ConfirmDialogInterface {
     var containerActivity: ContainerActivity? = null
-    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

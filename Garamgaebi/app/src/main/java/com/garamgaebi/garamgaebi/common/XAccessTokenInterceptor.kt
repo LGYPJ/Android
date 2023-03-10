@@ -18,28 +18,42 @@ class XAccessTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         val jwtToken: String? = "Bearer " + sSharedPreferences.getString(X_ACCESS_TOKEN, null)
-        Log.d("interceptor_aT", "${sSharedPreferences.getString(X_ACCESS_TOKEN, null)}")
-        Log.d("interceptor_rT", "${sSharedPreferences.getString(X_REFRESH_TOKEN, null)}")
+        val request = chain.request()
 
-        //val jwtToken: String? = "Bearer " + "        eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNjc2MDQ3MjkwIiwiYXV0aCI6IlJPTEVfVVNFUiIsIm1lbWJlcklkeCI6MywiZXhwIjoxNjc4MDQyNDg2fQ.BbSdEk752Rnch5Q5RiGwBHfcjyt51phqf4np06k7CkA"
         if (jwtToken != null) {
             builder.addHeader("Authorization", jwtToken)
         }
-        val response = chain.proceed(builder.build())
+
+        var response = chain.proceed(builder.build())
+
         // access token이 만료된 경우
         if (response.code == 401) {
-            val newJwtToken =  refreshToken()
+            Log.d("refresh_request","code"+chain.request().toString())
+            val newJwtToken = refreshToken()
             if (newJwtToken != null) {
                 // 갱신된 access token으로 다시 요청을 보냄
                 val newBuilder = chain.request().newBuilder()
                     .removeHeader("Authorization")
                     .addHeader("Authorization", newJwtToken)
-                return chain.proceed(newBuilder.build())
+                Log.d("fff","res")
+                response.close()
+                return chain.proceed(newRequestWithAccessToken(newJwtToken, request))
             }
+        } else {
+            Log.d("ffff","code"+response.code.toString())
+            // 401 이외의 상태코드의 경우 바로 반환
         }
         return response
     }
 
+    private fun newRequestWithAccessToken(accessToken: String?, request: Request): Request =
+        request.newBuilder()
+            .header("Authorization", "Bearer $accessToken")
+            .build()
+
+    private fun plz(token:String){
+
+    }
     private fun refreshToken(): String? {
         val autoLoginRequest = AutoLoginRequest(sSharedPreferences.getString(X_REFRESH_TOKEN, "")!!)
 
@@ -66,6 +80,7 @@ class XAccessTokenInterceptor : Interceptor {
                 // 추출된 access token이 null이 아니면 반환
                 if (!newAccessToken.isNullOrEmpty()) {
                     Log.d("refresh3",newAccessToken)
+
 
                     return "Bearer $newAccessToken"
                 }
