@@ -25,7 +25,6 @@ import java.util.regex.Pattern
 
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
-     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -205,10 +204,15 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-            })
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentSnsSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
 
