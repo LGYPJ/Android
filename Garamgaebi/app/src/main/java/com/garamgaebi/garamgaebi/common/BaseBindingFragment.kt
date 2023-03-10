@@ -16,7 +16,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     protected lateinit var binding: T
     private lateinit var callback: OnBackPressedCallback
     var disposables = CompositeDisposable()
-   // lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
+    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +48,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     }
 
     override fun onDestroy() {
-        //keyboardVisibilityUtils.detachKeyboardListeners()
+        keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
     }
 }

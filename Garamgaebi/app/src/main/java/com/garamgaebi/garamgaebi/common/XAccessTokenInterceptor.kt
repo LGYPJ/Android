@@ -18,6 +18,7 @@ class XAccessTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         val jwtToken: String? = "Bearer " + sSharedPreferences.getString(X_ACCESS_TOKEN, null)
+        val request = chain.request()
 
         if (jwtToken != null) {
             builder.addHeader("Authorization", jwtToken)
@@ -35,16 +36,24 @@ class XAccessTokenInterceptor : Interceptor {
                     .removeHeader("Authorization")
                     .addHeader("Authorization", newJwtToken)
                 Log.d("fff","res")
-                return chain.proceed(newBuilder.build())
+                response.close()
+                return chain.proceed(newRequestWithAccessToken(newJwtToken, request))
             }
         } else {
             Log.d("ffff","code"+response.code.toString())
             // 401 이외의 상태코드의 경우 바로 반환
-            return response
         }
         return response
     }
 
+    private fun newRequestWithAccessToken(accessToken: String?, request: Request): Request =
+        request.newBuilder()
+            .header("Authorization", "Bearer $accessToken")
+            .build()
+
+    private fun plz(token:String){
+
+    }
     private fun refreshToken(): String? {
         val autoLoginRequest = AutoLoginRequest(sSharedPreferences.getString(X_REFRESH_TOKEN, "")!!)
 

@@ -318,17 +318,20 @@ class ProfileEditFragment :
             Log.d("image_source",binding.fragmentEditProfileIvProfile.resources.toString())
             false
         })
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            })
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.activityEducationSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.activityEducationSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
     fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()
         Log.d("orientation 4",orientation.toString())

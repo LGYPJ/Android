@@ -287,12 +287,18 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             hideKeyboard()
             false
         }
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            })
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentCareerSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
