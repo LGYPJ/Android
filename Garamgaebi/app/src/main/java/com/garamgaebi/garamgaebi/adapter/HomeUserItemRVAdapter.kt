@@ -36,6 +36,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                     Glide.with(itemView)
                         .load(data.profileUrl)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache()
                         .centerCrop()
                         .into(itemHomeUserIvProfile)
 
