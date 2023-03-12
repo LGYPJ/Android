@@ -94,16 +94,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
             )
         )
+        Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
             if (it.isSuccess) {
                 GaramgaebiApplication.sSharedPreferences.edit()
                     .putString("kakaoToken", token)
-                    .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.accessToken)
-                    .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.refreshToken)
+                    .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.tokenInfo.accessToken)
+                    .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.tokenInfo.refreshToken)
                     .putBoolean("fromLoginActivity", true)
-                    .putInt("memberIdx", it.result.memberIdx)
+                    .putInt("memberIdx", it.result.tokenInfo.memberIdx)
                     .apply()
-                GaramgaebiApplication.myMemberIdx = it.result.memberIdx
+                GaramgaebiApplication.myMemberIdx = it.result.tokenInfo.memberIdx
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {

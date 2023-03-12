@@ -8,6 +8,12 @@ data class LoginResponse(
 
 
 data class LoginResult(
+    val tokenInfo : TokenInfoResult,
+    val uniEmail : String,
+    val nickname : String
+)
+
+data class TokenInfoResult(
     val accessToken: String,
     val grantType: String,
     val memberIdx: Int,
