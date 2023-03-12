@@ -69,12 +69,12 @@ class XAccessTokenInterceptor : Interceptor {
                 val loginResponse = response.body()
                 Log.d("refresh","$loginResponse")
                 // 새로운 access token 추출
-                val newAccessToken = loginResponse?.result!!.accessToken
+                val newAccessToken = loginResponse?.result!!.tokenInfo.accessToken
                 Log.d("refresh2",newAccessToken)
 
                 sSharedPreferences.edit()
-                    .putString(X_ACCESS_TOKEN, loginResponse?.result!!.accessToken)
-                    .putString(X_REFRESH_TOKEN, loginResponse?.result!!.refreshToken)
+                    .putString(X_ACCESS_TOKEN, loginResponse.result.tokenInfo.accessToken)
+                    .putString(X_REFRESH_TOKEN, loginResponse.result.tokenInfo.refreshToken)
                     .apply()
 
                 // 추출된 access token이 null이 아니면 반환

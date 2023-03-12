@@ -126,7 +126,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
 
                 //네트워킹 상세정보
                 getNetworkingInfo()
-                binding.activityNetworkApplyBtn.visibility = GONE
+
                 networkingInfo.observe(viewLifecycleOwner, Observer {
                     // 시작 date변환 -> 저장
                     val item = it.result

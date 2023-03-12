@@ -138,9 +138,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             launch {
                 viewModel.sendMessage()
             }
-            /*launch {
+            launch {
                 viewModel.getGameMember()
-            }*/
+            }
         }
         viewModel.getImage()
 
@@ -162,7 +162,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             Log.d("currentIndex", currentIndex.toString())
 
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                // index 찾기 성공,,,,,,,,
+                // index 찾기
                 var currentId = data.indexOf(data.find { gameMemberGetResult ->
                     gameMemberGetResult.memberIdx == currentIndex
                 })
@@ -456,7 +456,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     }
 
-    //화면전환 뒤로가기할때 delete & disconnect
+    //화면전환 뒤로가기할때 delete & disconnect 유저퇴장
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)

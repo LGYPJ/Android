@@ -133,8 +133,8 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     fun isNickName(nickname : String): Boolean{
         var returnValue = false
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = "zzangu"
-        val p = regex.matches(nickname.toRegex())
+        val regex = GaramgaebiApplication.sSharedPreferences.getString("myNickName","")
+        val p = regex?.matches(nickname.toRegex())
         if(p == true){
             returnValue = true
         }

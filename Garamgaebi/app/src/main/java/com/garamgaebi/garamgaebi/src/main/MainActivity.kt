@@ -75,11 +75,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             viewModel.autoLogin.observe(this, Observer {
                 if(it.isSuccess) {
                     sSharedPreferences.edit()
-                        .putString(X_ACCESS_TOKEN, it.result.accessToken)
-                        .putString(X_REFRESH_TOKEN, it.result.refreshToken)
-                        .putInt("memberIdx", it.result.memberIdx)
+                        .putString(X_ACCESS_TOKEN, it.result.tokenInfo.accessToken)
+                        .putString(X_REFRESH_TOKEN, it.result.tokenInfo.refreshToken)
+                        .putInt("memberIdx", it.result.tokenInfo.memberIdx)
                         .apply()
-                    myMemberIdx = it.result.memberIdx
+                    myMemberIdx = it.result.tokenInfo.memberIdx
                     setBottomNavi()
                     LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                     initDynamicLink()
@@ -208,8 +208,3 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
     }
 }
-
-
-
-
-

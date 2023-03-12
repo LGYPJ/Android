@@ -138,7 +138,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                     } )
                 })
 
-                binding.activitySeminarFreeApplyBtn.visibility = GONE
+
                 //세미나 상세 정보
                 getSeminarDetail()
                 info.observe(viewLifecycleOwner, Observer {

@@ -71,12 +71,12 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
                                     if(homeIt.isSuccess) {
                                         GaramgaebiApplication.sSharedPreferences.edit()
-                                            .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.accessToken)
-                                            .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.refreshToken)
-                                            .putInt("memberIdx", homeIt.result.memberIdx)
+                                            .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.tokenInfo.accessToken)
+                                            .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.tokenInfo.refreshToken)
+                                            .putInt("memberIdx", homeIt.result.tokenInfo.memberIdx)
                                             .putString("kakaoToken", registerViewModel.socialToken.value)
                                             .apply()
-                                        GaramgaebiApplication.myMemberIdx = homeIt.result.memberIdx
+                                        GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
                                         startActivity(Intent(registerActivity, MainActivity::class.java))
                                         ActivityCompat.finishAffinity(registerActivity)
                                     } else {

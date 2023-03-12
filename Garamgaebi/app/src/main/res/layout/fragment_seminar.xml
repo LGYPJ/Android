@@ -32,16 +32,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/activity_seminar_free_share_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/activity_seminar_share_btn"
-            android:layout_marginStart="6dp"
-            app:layout_constraintStart_toEndOf="@+id/activity_seminar_free_title_tv"
-            app:layout_constraintTop_toTopOf="@+id/activity_seminar_free_title_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_seminar_free_title_tv"/>
-
         <TextView
             android:id="@+id/activity_seminar_free_date_tv"
             android:layout_width="wrap_content"
