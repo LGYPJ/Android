@@ -86,13 +86,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
                     }
 
-                    if (result.result.belong == null) {
+                    if (result.result.belong == null || result.result.belong.trim().equals("")) {
                         fragmentSomeoneProfileTvSchool.visibility = View.GONE
                     }else{
                         fragmentSomeoneProfileTvSchool.visibility = VISIBLE
                     }
 
-                    if (result.result.content == null) {
+                    if (result.result.content == null || result.result.content.trim().equals("")) {
                         fragmentSomeoneProfileTvIntro.visibility = View.GONE
                     }else{
                         fragmentSomeoneProfileTvIntro.visibility = VISIBLE
