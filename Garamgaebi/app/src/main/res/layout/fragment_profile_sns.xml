@@ -155,7 +155,7 @@
             android:id="@+id/fragment_sns_save_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
+            android:layout_marginBottom="48dp"
             android:background="@{(!snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:clickable="@{(!snsViewModel.addressFirst &amp;&amp; snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsTypeIsValid) ? true : false}"
             android:outlineProvider="none"
@@ -164,7 +164,8 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+    />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

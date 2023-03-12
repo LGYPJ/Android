@@ -202,16 +202,22 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             false
         })
 
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            })
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentSnsSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
 
     override fun onDestroy() {
+        keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
     }
     private fun hideKeyboard() {

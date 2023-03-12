@@ -175,6 +175,7 @@ class ServiceCenterFragment :
                     .subscribe({
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
+                        binding.fragmentServicecenterEtContent.clearFocus()
 
                         val orderBottomDialogFragment: OrderBottomDialogFragment =
                             OrderBottomDialogFragment(resources.getStringArray(R.array.question_option)) {
@@ -217,17 +218,17 @@ class ServiceCenterFragment :
             hideKeyboard()
             false
         })
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//                binding.cvBottom.visibility = View.GONE
-//            },
-//                onHideKeyboard = { ->
-//                    binding.cvBottom.visibility = View.VISIBLE
-//                }
-//            )
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.cvBottom.visibility = View.GONE
+            },
+                onHideKeyboard = { ->
+                    binding.cvBottom.visibility = View.VISIBLE
+                }
+            )
 
       }
     private fun hideKeyboard() {

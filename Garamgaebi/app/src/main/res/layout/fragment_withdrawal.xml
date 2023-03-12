@@ -200,7 +200,7 @@
             android:id="@+id/fragment_withdrawal_send_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
+            android:layout_marginBottom="48dp"
 
             app:layout_constraintVertical_chainStyle="spread_inside"
             android:background="@{(!viewModel.categoryFirst &amp;&amp; !viewModel.contentFirst &amp;&amp; viewModel.categoryIsValid  &amp;&amp; viewModel.contentIsValid  &amp;&amp; viewModel.agree) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"

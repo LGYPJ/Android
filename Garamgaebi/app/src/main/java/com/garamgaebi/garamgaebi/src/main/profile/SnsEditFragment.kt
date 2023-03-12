@@ -259,6 +259,18 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             false
         })
 
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentSnsSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
+
     }
          private fun hideKeyboard() {
              if (activity != null && requireActivity().currentFocus != null) {
