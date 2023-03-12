@@ -59,7 +59,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
     private fun autoLogin() {
         // 로그인 테스트용
-        //sSharedPreferences.edit().putString(X_REFRESH_TOKEN, "").apply()
+        /*sSharedPreferences.edit()
+            .putString(X_REFRESH_TOKEN, "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNjY3NjI5OTIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsIm1lbWJlcklkeCI6MiwiZXhwIjoxNjc4NTUwNDQyfQ.Y_trlVjHkq0kP04hwu6rMfUjxkPMilItQao7kzsrnNM")
+            .putString(X_ACCESS_TOKEN, "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZHgiOjIsImV4cCI6MTY4MTE0MDY0Mn0.0HYiClU4TzWoBk8A71qRY4NxHsTeg_rkp_SBunh1rQk")
+            .apply()*/
         //Log.d("login", "${sSharedPreferences.getString(X_REFRESH_TOKEN, "")}")
         // 자동 로그인
         if(sSharedPreferences.getString(X_REFRESH_TOKEN, "") == "") {
