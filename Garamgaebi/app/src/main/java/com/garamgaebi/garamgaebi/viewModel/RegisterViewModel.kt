@@ -73,15 +73,16 @@ class RegisterViewModel : ViewModel(){
         }
     }
     fun postSendEmail(request: RegisterSendEmailRequest) {
+        Log.d("postSendEmail", "postSendEmail")
         viewModelScope.launch {
             val response = registerRepository.postSendEmail(request)
-            //Log.d("sns_add", response.body().toString())
+            Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 _sendEmail.postValue(response.body())
                 Log.d("postSendEmail", "${response.body()}")
             }
             else {
-                //response.body()?.message?.let { Log.d("error", it) }
+                Log.d("error", "${response?.code()}")
             }
         }
     }

@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     val viewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
+        //GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("kakao", "hash $keyHash")
         /*UserApiClient.instance.logout { error ->

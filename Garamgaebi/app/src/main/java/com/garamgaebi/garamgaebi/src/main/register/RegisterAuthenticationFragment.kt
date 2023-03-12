@@ -45,6 +45,7 @@ class RegisterAuthenticationFragment :
             // 이메일 인증번호 보내기
             sendEmail.observe(viewLifecycleOwner, Observer {
                 if(it.isSuccess) {
+                    Log.d("registerAuth", "isSuccess")
                     with(binding) {
                         fragmentAuthenticationEtEmail.clearFocus()
                         fragmentAuthenticationEtNum.clearFocus()
