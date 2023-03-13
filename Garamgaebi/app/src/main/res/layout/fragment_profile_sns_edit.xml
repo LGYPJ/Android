@@ -95,52 +95,70 @@ android:fillViewport="true"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fragment_sns_et_name" />
+            <TextView
+                android:id="@+id/fragment_sns_tv_linkDescBorder"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{(snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
+                android:clickable="false"
+                android:ellipsize="none"
+                android:fitsSystemWindows="true"
+                android:paddingStart="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_tv_linkTitle" />
 
             <EditText
                 android:id="@+id/fragment_sns_et_linkDesc"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:background="@{(snsViewModel.snsAddressFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
+                android:layout_height="0dp"
+                android:background="@drawable/white_radius"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginEnd="1dp"
+                android:ellipsize="none"
+                android:fitsSystemWindows="true"
                 android:gravity="center_vertical"
                 android:hint='@{snsViewModel.addressInputDesc}'
+                android:inputType="text"
                 android:maxLength="140"
                 android:maxLines="1"
-                android:paddingStart="12dp"
+                android:paddingStart="0dp"
                 android:text="@={snsViewModel.snsAddress}"
                 android:textColor="@color/black80"
                 android:textColorHint="@color/grayForBtn"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_sns_tv_linkTitle"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_sns_tv_linkDescBorder"
+                app:layout_constraintStart_toEndOf="@id/insta_char"
+                app:layout_constraintEnd_toEndOf="@id/fragment_sns_tv_linkDescBorder"
+                app:layout_constraintTop_toTopOf="@id/fragment_sns_tv_linkDescBorder"
                 app:onFocusing="@{(check) -> snsViewModel.setBoolean(snsViewModel.snsAddressFocusing,snsViewModel.addressFirst,check)}" />
-
-
 
             <TextView
                 android:id="@+id/insta_char"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/insta_char}"
-                android:visibility="gone"
+                android:layout_marginStart="12dp"
+                android:text=""
                 android:textColor="@color/black80"
                 android:textSize="14sp"
-                android:layout_margin="12dp"
-                app:layout_constraintStart_toStartOf="@id/fragment_sns_et_linkDesc"
-                app:layout_constraintTop_toTopOf="@id/fragment_sns_et_linkDesc"
-                app:layout_constraintBottom_toBottomOf="@id/fragment_sns_et_linkDesc" />
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_sns_tv_linkDescBorder"
+                app:layout_constraintEnd_toStartOf="@id/fragment_sns_et_linkDesc"
+                app:layout_constraintStart_toStartOf="@id/fragment_sns_tv_linkDescBorder"
+                app:layout_constraintTop_toTopOf="@id/fragment_sns_tv_linkDescBorder" />
 
             <TextView
                 android:id="@+id/link_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sns_type_dialog_insta_desc"
-                android:visibility="@{!snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsType.equals(@string/sns_type_dialog_1) &amp;&amp; !snsViewModel.snsAddress.isEmpty() ? View.VISIBLE : View.GONE}"
                 android:textColor="@color/redForText"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/fragment_sns_et_linkDesc"
-                app:layout_constraintTop_toBottomOf="@id/fragment_sns_et_linkDesc"
-                />
+                android:visibility="@{!snsViewModel.snsAddressIsValid &amp;&amp; snsViewModel.snsType.equals(@string/sns_type_dialog_1) &amp;&amp; !snsViewModel.snsAddress.isEmpty() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="@id/fragment_sns_tv_linkDescBorder"
+                app:layout_constraintTop_toBottomOf="@id/fragment_sns_tv_linkDescBorder" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/fragment_sns_remove_btn"

@@ -40,12 +40,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
         binding.snsViewModel = viewModel
 
-        var viewFirst : Boolean = true
-        var insta = binding.instaChar.measuredWidth
-        val px: Float = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 12F, requireContext().resources
-                .displayMetrics
-        )
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
@@ -53,29 +47,28 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
             viewModel.snsAddress.value =""
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-            Log.d("instaChar",binding.instaChar.measuredWidth.toString())
-            viewModel.insta.value = false
 
             when(it){
                 "인스타그램" -> {
                     binding.instaChar.visibility = View.VISIBLE
+                    binding.instaChar.text = "@"
+                    //binding.fragmentSnsEtLinkDesc.setPadding(0,0,0,0)
                     binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                    viewModel.insta.value = true
                 }
                 "블로그" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
                 }
                 "깃허브" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                    //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                 }
                 else -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                    // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)

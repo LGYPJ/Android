@@ -7,8 +7,11 @@ import android.text.InputType
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.View.MeasureSpec
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -18,6 +21,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
@@ -37,29 +41,6 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.typeInputDesc.value = getString(R.string.sns_add_type_desc)
         viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
 
-        var insta = binding.instaChar.measuredWidth
-        val px: Float = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 12F, requireContext().resources
-                .displayMetrics
-        )
-
-        Log.d("instaChar1",insta.toString())
-
-        // 유효성 확인
-        viewModel.insta.observe(viewLifecycleOwner){
-            binding.snsViewModel = viewModel
-            if(it) {
-                binding.fragmentSnsEtLinkDesc.setPadding(
-                    (binding.instaChar.measuredWidth + px).toInt(),
-                    0,
-                    0,
-                    0
-                )
-            }
-            Log.d("instaChar2",binding.instaChar.measuredWidth.toString())
-
-        }
-
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
@@ -67,29 +48,28 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
             viewModel.snsAddress.value =""
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-            Log.d("instaChar",binding.instaChar.measuredWidth.toString())
-            viewModel.insta.value = false
 
             when(it){
                     "인스타그램" -> {
                         binding.instaChar.visibility = View.VISIBLE
-                    binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                        viewModel.insta.value = true
+                        binding.instaChar.text = "@"
+                        //binding.fragmentSnsEtLinkDesc.setPadding(0,0,0,0)
+                        binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                     }
                 "블로그" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
                 }
                 "깃허브" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                  //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                 }
                 else -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+                    binding.instaChar.text = ""
+                   // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)
@@ -113,10 +93,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                         viewModel.snsAddressIsValid.value = false
                 }
             }
-
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
-
-
         })
 
         viewModel._add.observe(viewLifecycleOwner) {
@@ -171,6 +148,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                                 " " + getString(R.string.sns_add_link_desc)
                                             //viewModel.linkState.value =
                                             getString(R.string.sns_type_dialog_insta_state)
+
                                         }
                                         1 -> {
                                             Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
