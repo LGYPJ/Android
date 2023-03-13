@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentUris
@@ -427,7 +428,6 @@ class ProfileEditFragment :
                     ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED
                 )
-                Log.d("orientation 0",IMAGE_ORIENTATION.toString())
             }
             flag = true
         } ?: run {
@@ -442,32 +442,32 @@ class ProfileEditFragment :
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
-        val writePermission = requireActivity().let {
-            ContextCompat.checkSelfPermission(
-                it,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        }
+//        val writePermission = requireActivity().let {
+//            ContextCompat.checkSelfPermission(
+//                it,
+//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            )
+//            Log.d("permission 1","11")
+//
+//        }
         val readPermission = activity?.let {
             ContextCompat.checkSelfPermission(
                 it,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             )
+            Log.d("permission 2", "22")
+
         }
 
-        if (writePermission == PackageManager.PERMISSION_DENIED ||
-            readPermission == PackageManager.PERMISSION_DENIED
-        ) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it,
-                    arrayOf(
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE
-                    ),
-                    REQ_GALLERY
-                )
-            }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("permission 3","33")
+
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
+
+            Log.d("permission 4","44")
+
+
         } else {
 
             val target = Intent(Intent.ACTION_PICK)
@@ -480,6 +480,33 @@ class ProfileEditFragment :
 
 
     }
+    // 권한 요청 결과 처리
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQ_GALLERY -> {
+                // 권한 요청이 거부된 경우
+                if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(requireContext(), "앨범 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 권한이 승인된 경우 앨범에 접근하는 코드를 작성
+                    val target = Intent(Intent.ACTION_PICK)
+                    target.setDataAndType(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        "image/*"
+                    )
+                    imageResult.launch(target)                }
+                return
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용
