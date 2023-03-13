@@ -23,6 +23,8 @@ class SNSViewModel : ViewModel(){
     val snsTypeIsValid = MutableLiveData<Boolean>()
     init { snsTypeIsValid.value = false}
 
+    val insta = MutableLiveData<Boolean>()
+    init { insta.value = false}
 
 
     val snsAddress = MutableLiveData<String>()

@@ -5,12 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -26,7 +24,7 @@ import java.util.regex.Pattern
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +37,29 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.typeInputDesc.value = getString(R.string.sns_add_type_desc)
         viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
 
+        var insta = binding.instaChar.measuredWidth
+        val px: Float = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 12F, requireContext().resources
+                .displayMetrics
+        )
+
+        Log.d("instaChar1",insta.toString())
+
         // 유효성 확인
+        viewModel.insta.observe(viewLifecycleOwner){
+            binding.snsViewModel = viewModel
+            if(it) {
+                binding.fragmentSnsEtLinkDesc.setPadding(
+                    (binding.instaChar.measuredWidth + px).toInt(),
+                    0,
+                    0,
+                    0
+                )
+            }
+            Log.d("instaChar2",binding.instaChar.measuredWidth.toString())
+
+        }
+
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
@@ -47,28 +67,29 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
             viewModel.snsAddress.value =""
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            Log.d("instaChar",binding.instaChar.measuredWidth.toString())
+            viewModel.insta.value = false
 
             when(it){
                     "인스타그램" -> {
-                    binding.instaChar.text = "@"
-                    binding.fragmentSnsEtLinkDesc.setPadding(70,0,0,0)
-                    binding.instaChar.visibility = View.VISIBLE
+                        binding.instaChar.visibility = View.VISIBLE
                     binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                }
+                        viewModel.insta.value = true
+                    }
                 "블로그" -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
                 }
                 "깃허브" -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                 }
                 else -> {
                     binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)
