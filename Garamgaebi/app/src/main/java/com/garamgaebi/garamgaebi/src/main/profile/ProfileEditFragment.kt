@@ -322,12 +322,20 @@ class ProfileEditFragment :
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
                 binding.svRoot.run {
-                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                    if(viewModel.introFocusing.value == true) {
+                        smoothScrollTo(0, binding.fragmentEditProfileEtIntro.bottom + binding.fragmentEditProfileEtIntro.measuredHeight)
+                        Log.d("keyboard1",binding.fragmentEditProfileEtIntro.bottom.toString())
+
+                    }else if(viewModel.oneLineFocusing .value == true){
+                        smoothScrollTo(0, binding.fragmentEditProfileEtTeam.bottom)
+                        Log.d("keyboard2",binding.fragmentEditProfileEtTeam.bottom.toString())
+
+                    }
                 }
-                binding.activityEducationSaveBtn.visibility = View.GONE
+                //  binding.fragmentEducationSaveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-                binding.activityEducationSaveBtn.visibility = View.VISIBLE
+                //  binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
 
@@ -442,32 +450,32 @@ class ProfileEditFragment :
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
-//        val writePermission = requireActivity().let {
-//            ContextCompat.checkSelfPermission(
-//                it,
-//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            )
-//            Log.d("permission 1","11")
-//
-//        }
+        val writePermission = requireActivity().let {
+            ContextCompat.checkSelfPermission(
+                it,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        }
         val readPermission = activity?.let {
             ContextCompat.checkSelfPermission(
                 it,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             )
-            Log.d("permission 2", "22")
-
         }
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-            Log.d("permission 3","33")
-
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
-
-            Log.d("permission 4","44")
-
-
+        if (writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED
+        ) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    REQ_GALLERY
+                )
+            }
         } else {
 
             val target = Intent(Intent.ACTION_PICK)
@@ -477,6 +485,41 @@ class ProfileEditFragment :
             )
             imageResult.launch(target)
         }
+//        val writePermission = requireActivity().let {
+//            ContextCompat.checkSelfPermission(
+//                it,
+//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            )
+//            Log.d("permission 1","11")
+//
+//        }
+//        val readPermission = activity?.let {
+//            ContextCompat.checkSelfPermission(
+//                it,
+//                android.Manifest.permission.READ_EXTERNAL_STORAGE
+//            )
+//            Log.d("permission 2", "22")
+//
+//        }
+//
+//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//
+//            Log.d("permission 3","33")
+//
+//            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
+//
+//            Log.d("permission 4","44")
+//
+//
+//        } else {
+//
+//            val target = Intent(Intent.ACTION_PICK)
+//            target.setDataAndType(
+//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                "image/*"
+//            )
+//            imageResult.launch(target)
+//        }
 
 
     }

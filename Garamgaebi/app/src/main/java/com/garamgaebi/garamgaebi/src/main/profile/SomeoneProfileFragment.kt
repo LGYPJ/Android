@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -51,6 +52,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var memberIdx = -1
         memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)

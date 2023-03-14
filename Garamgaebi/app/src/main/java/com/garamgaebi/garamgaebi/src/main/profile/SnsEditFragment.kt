@@ -45,14 +45,12 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
 
-            viewModel.snsAddress.value =""
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
             when(it){
                 "인스타그램" -> {
                     binding.instaChar.visibility = View.VISIBLE
                     binding.instaChar.text = "@"
-                    //binding.fragmentSnsEtLinkDesc.setPadding(0,0,0,0)
                     binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
                 "블로그" -> {
@@ -85,6 +83,10 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
             if (viewModel.snsType.value == "인스타그램"){
                 viewModel.snsAddressIsValid.value = Pattern.matches("^[0-9a-zA-Z_]([0-9-a-zA-Z._-]){0,46}$", it)
+                if(it.isNotEmpty()){
+                    if(it.toCharArray()[0] == '.' || it.toCharArray()[it.length-1] == '.')
+                        viewModel.snsAddressIsValid.value = false
+                }
             }
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
@@ -113,8 +115,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 if (originAddress != null) {
                     originAddress = originAddress.substring(1)
                     binding.instaChar.text = "@"
-                    binding.fragmentSnsEtLinkDesc.setPadding(65, 0, 0, 0)
-                    binding.instaChar.visibility = View.VISIBLE
                     viewModel.addressInputDesc.value =
                         " " + getString(R.string.sns_add_link_desc)
                 }

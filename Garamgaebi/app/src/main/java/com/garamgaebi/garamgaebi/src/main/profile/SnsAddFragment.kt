@@ -53,7 +53,6 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     "인스타그램" -> {
                         binding.instaChar.visibility = View.VISIBLE
                         binding.instaChar.text = "@"
-                        //binding.fragmentSnsEtLinkDesc.setPadding(0,0,0,0)
                         binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                     }
                 "블로그" -> {
