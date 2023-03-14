@@ -169,7 +169,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 Log.d("currentId", currentId.toString())
                 // 방에 들어갔을때 파란색 테두리 없이 나타나는 프로필 리사이클러뷰,,
                 val networkingGameProfile2 =
-                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, currentId)
+                    NetworkingGameProfileAdapter(data as ArrayList<GameMemberGetResult>, -1)
                 binding.activityGameProfileRv.apply {
                     adapter = networkingGameProfile2
                     layoutManager =
@@ -253,14 +253,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                             CoroutineScope(Dispatchers.Main).launch{
                                 launch {
+                                    viewModel.sendCurrentIdxMessage(nextId)
+                                    Log.d("indexwhy1", "indexwhy1")
+                                }
+                                launch {
                                     // PATCH(NEXT때 보냈던 memberIdx를 보냄)
                                     roomId?.let { it1 ->
                                         GameCurrentIdxRequest(
                                             it1, nextId)
                                     }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                                }
-                                launch {
-                                    viewModel.sendCurrentIdxMessage(nextId)
+                                    Log.d("indexwhy1-1", "indexwhy1-1")
                                 }
                             }
                         }
@@ -281,14 +283,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                             CoroutineScope(Dispatchers.Main).launch{
                                 launch {
+                                    viewModel.sendCurrentIdxMessage(nextId)
+                                    Log.d("indexwhy2", "indexwhy2")
+                                }
+                                launch {
                                     // PATCH(NEXT때 보냈던 memberIdx를 보냄)
                                     roomId?.let { it1 ->
                                         GameCurrentIdxRequest(
                                             it1, nextId)
                                     }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                                }
-                                launch {
-                                    viewModel.sendCurrentIdxMessage(nextId)
+                                    Log.d("indexwhy2-1", "indexwhy2-1")
                                 }
                             }
 
@@ -303,79 +307,82 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         //
 
                     }
-                    viewModel.patchMessage.observe(viewLifecycleOwner, Observer {
-                        Log.d("index", index.toString())
-                        //뷰페이저 하나만 넘어가는 거 해결
-                        /*index++
-                        var tab =  binding.activityGameCardBackVp.currentItem
-                        tab++
-                        Log.d("tab", tab.toString())
-                        binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                        networkingGameCardVPAdapter.notifyDataSetChanged()*/
+                    //
+                    viewModel.patchMessage.observe(viewLifecycleOwner, Observer { it ->
 
-                        val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
-                            gameMemberGetResult.memberIdx.toString() == it.message
-                        })
-                        Log.d("currentId2", currentId2.toString())
-                        //val currentId3 = currentId2 + 1
-                        //Log.d("currentId3", currentId3.toString())
-                        Log.d("message", it.message)
+                            Log.d("index", index.toString())
+                            //뷰페이저 하나만 넘어가는 거 해결
+                            /*index++
+                            var tab =  binding.activityGameCardBackVp.currentItem
+                            tab++
+                            Log.d("tab", tab.toString())
+                            binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                            networkingGameCardVPAdapter.notifyDataSetChanged()*/
+
+                            val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
+                                gameMemberGetResult.memberIdx.toString() == it.message
+                            })
+                            Log.d("currentId2", currentId2.toString())
+                            //val currentId3 = currentId2 + 1
+                            //Log.d("currentId3", currentId3.toString())
+                            Log.d("message", it.message)
 
 
-                        index++
-                        val networkingGameCardVPAdapter2 = NetworkingGameCardVPAdapter(img, index)
-                        binding.activityGameCardBackVp.adapter =
-                            NetworkingGameCardVPAdapter(img, index)
-                        binding.activityGameCardBackVp.orientation =
-                            ViewPager2.ORIENTATION_HORIZONTAL
-                        var tab =  binding.activityGameCardBackVp.currentItem
-                        tab++
-                        Log.d("tab", tab.toString())
-                        binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                        networkingGameCardVPAdapter.notifyDataSetChanged()
-                        //Log.d("memberIdx3", data[currentId3].memberIdx.toString())
-                        /*if(currentId2 != -1){
-                            if(memberIdx != data[currentId2].memberIdx){
-                                index++
-                                var tab =  binding.activityGameCardBackVp.currentItem
-                                tab++
-                                Log.d("tab", tab.toString())
-                                binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                                networkingGameCardVPAdapter.notifyDataSetChanged()
-                            }
-                            else{
-                                index++
-                                var tab =  binding.activityGameCardBackVp.currentItem
-                                tab++
-                                Log.d("tab", tab.toString())
-                                binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                                networkingGameCardVPAdapter.notifyDataSetChanged()
-                            }
-                        }*/
+                            index++
+                            val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(img, index)
+                            binding.activityGameCardBackVp.adapter =
+                                NetworkingGameCardVPAdapter(img, index)
+                            binding.activityGameCardBackVp.orientation =
+                                ViewPager2.ORIENTATION_HORIZONTAL
+                            var tab =  binding.activityGameCardBackVp.currentItem
+                            tab++
+                            Log.d("tab", tab.toString())
+                            binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                            networkingGameCardVPAdapter.notifyDataSetChanged()
+                            //Log.d("memberIdx3", data[currentId3].memberIdx.toString())
+                            /*if(currentId2 != -1){
+                                if(memberIdx != data[currentId2].memberIdx){
+                                    index++
+                                    var tab =  binding.activityGameCardBackVp.currentItem
+                                    tab++
+                                    Log.d("tab", tab.toString())
+                                    binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                                    networkingGameCardVPAdapter.notifyDataSetChanged()
+                                }
+                                else{
+                                    index++
+                                    var tab =  binding.activityGameCardBackVp.currentItem
+                                    tab++
+                                    Log.d("tab", tab.toString())
+                                    binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                                    networkingGameCardVPAdapter.notifyDataSetChanged()
+                                }
+                            }*/
 
-                        // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
-                        /*if(currentId2 != -1){
-                            if(memberIdx == data[currentId2 + 1].memberIdx){
-                                binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
+                            // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
+                            /*if(currentId2 != -1){
+                                if(memberIdx == data[currentId2 + 1].memberIdx){
+                                    binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
+                                }
+                                else{
+                                    binding.activityGamePlaceCardNextBtn.visibility = GONE
+                                }
+                            }*/
+                            //Log.d("member", data[currentId2 + 1].memberIdx.toString())
+                            //Log.d("currentId2", currentId2.toString())
+                            val networkingGameProfile =
+                                NetworkingGameProfileAdapter(
+                                    data as ArrayList<GameMemberGetResult>,
+                                    currentId2
+                                )
+                            binding.activityGameProfileRv.apply {
+                                adapter = networkingGameProfile
+                                layoutManager =
+                                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                                (layoutManager as LinearLayoutManager).scrollToPosition(currentId2)
+                                networkingGameProfile.notifyDataSetChanged()
                             }
-                            else{
-                                binding.activityGamePlaceCardNextBtn.visibility = GONE
-                            }
-                        }*/
-                        //Log.d("member", data[currentId2 + 1].memberIdx.toString())
-                        //Log.d("currentId2", currentId2.toString())
-                        val networkingGameProfile =
-                            NetworkingGameProfileAdapter(
-                                data as ArrayList<GameMemberGetResult>,
-                                currentId2
-                            )
-                        binding.activityGameProfileRv.apply {
-                            adapter = networkingGameProfile
-                            layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            (layoutManager as LinearLayoutManager).scrollToPosition(currentId2)
-                            networkingGameProfile.notifyDataSetChanged()
-                        }
+
                     })
 
                 })
