@@ -247,7 +247,7 @@
             android:id="@+id/fragment_education_save_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
+            android:layout_marginBottom="48dp"
             android:background="@{(!viewModel.institutionFirst &amp;&amp; !viewModel.majorFirst &amp;&amp; !viewModel.startFirst &amp;&amp; !viewModel.endFirst &amp;&amp; viewModel.institutionIsValid &amp;&amp; viewModel.majorIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/save"
             android:textColor="@color/white"

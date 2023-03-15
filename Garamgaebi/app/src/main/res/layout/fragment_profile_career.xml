@@ -237,7 +237,7 @@
             android:id="@+id/fragment_career_save_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
+            android:layout_marginBottom="48dp"
             android:background="@{(viewModel.companyIsValid &amp;&amp; viewModel.positionIsValid  &amp;&amp; viewModel.startDateIsValid  &amp;&amp; viewModel.endDateIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:text="@string/save"
             android:textColor="@color/white"

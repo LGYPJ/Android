@@ -4,10 +4,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +17,7 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
@@ -86,6 +89,36 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
             false
         })
 
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+                binding.activitySeminarChargedApplyBtn.visibility = View.GONE
+                binding.activitySeminarChargedApplyBtn.visibility = View.GONE
+
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.activitySeminarChargedApplyBtn.postDelayed({
+                        binding.activitySeminarChargedApplyBtn.visibility = View.VISIBLE
+                    },0)
+
+                }
+            }
+        })
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
