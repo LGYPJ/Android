@@ -168,10 +168,9 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                         if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                             //신청완료, 비활성화
                             with(binding){
-                                activitySeminarFreeApplyBtn.text = "마감"
-                                activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                                activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                                binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
+                                activitySeminarFreeApplyBtn.text = "신청완료"
+                                activitySeminarFreeApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
+                                activitySeminarFreeApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                                 activitySeminarFreeApplyBtn.isEnabled = false
                             }
                         }

@@ -100,7 +100,7 @@ class NetworkingGameViewModel: ViewModel() {
     // room 조회
     fun getRoomId(){
         viewModelScope.launch(Dispatchers.Main){
-            val response = gameRepository.getGameRoom(20)
+            val response = gameRepository.getGameRoom(1)
             if(response.isSuccessful){
                 _getRoom.value = response.body()
             }
@@ -238,7 +238,7 @@ class NetworkingGameViewModel: ViewModel() {
                     getGameMember()
                 }
                 if(message.type == "NEXT"){
-                    Log.d("patchMessage", "whywhy")
+                    Log.d("indexpatch", "whywhy")
                     _patchMessage.postValue(message)
                     /*if (patchCurrentReq != null) {
                         patchGameCurrentIdx(patchCurrentReq)
