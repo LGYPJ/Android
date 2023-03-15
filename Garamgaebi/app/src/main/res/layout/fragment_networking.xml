@@ -220,46 +220,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/activity_network_participate_btn"
-        android:layout_width="93dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="43dp"
-        android:layout_marginEnd="16dp"
-        android:paddingStart="9dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:background="@drawable/networking_gray_join_btn_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_network_participant">
-
-        <TextView
-            android:id="@+id/activity_network_participate_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/networking_apply"
-            android:textSize="14sp"
-            android:textColor="@color/networking_join_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/activity_network_participate_img"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/activity_network_participate_btn_gray"
-            app:layout_constraintStart_toEndOf="@+id/activity_network_participate_tv"
-            app:layout_constraintTop_toTopOf="@+id/activity_network_participate_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_network_participate_tv"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/bottom_container"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="43dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="@drawable/basic_gray_btn_layout"
+    android:backgroundTint="#F9F9F9"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="36dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/activity_network_participant"
+    >
     <TextView
         android:id="@+id/activity_network_icebreaking_tv"
         android:layout_width="wrap_content"
@@ -268,9 +245,8 @@
         android:textSize="18sp"
         android:textColor="@color/black80"
         android:textStyle="bold"
-        android:layout_marginTop="43dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/activity_network_participant"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -307,5 +283,45 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_network_icebreaking_content2_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_network_participate_btn"
+        android:layout_width="93dp"
+        android:layout_height="25dp"
+        android:paddingStart="8dp"
+
+        android:background="@drawable/networking_gray_join_btn_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/activity_network_participate_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/networking_apply"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:textColor="@color/networking_join_btn"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_network_participate_img"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_network_participate_img"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/activity_network_participate_btn_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_network_participate_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/activity_network_participate_tv"
+            app:layout_constraintTop_toTopOf="@+id/activity_network_participate_tv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,6 +71,7 @@
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.ContainerActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"

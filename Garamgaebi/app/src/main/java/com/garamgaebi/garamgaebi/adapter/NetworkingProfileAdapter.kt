@@ -27,7 +27,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                     binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
-                        .placeholder(R.drawable.ic_item_fragment_home_user_profile_default)
+                        .placeholder(R.drawable.default_profile)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(binding.itemProfileImg)
@@ -40,7 +40,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
             binding.itemProfileNameTv.text = data.nickname
             Glide.with(binding.itemProfileImg.context)
                 .load(data.profileImg)
-                .placeholder(R.drawable.ic_item_fragment_home_user_profile_default)
+                .placeholder(R.drawable.default_profile)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(binding.itemProfileImg)

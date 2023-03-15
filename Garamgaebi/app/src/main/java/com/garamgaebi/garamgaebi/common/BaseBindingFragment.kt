@@ -18,6 +18,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     var disposables = CompositeDisposable()
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

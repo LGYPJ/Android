@@ -24,7 +24,6 @@ import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.loganVer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
