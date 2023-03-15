@@ -14,6 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.ConfirmDialog
+import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
 import com.garamgaebi.garamgaebi.model.CancelRequest
@@ -22,7 +24,8 @@ import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
 
-class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel) {
+class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel),
+    ConfirmDialogInterface {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
@@ -79,16 +82,22 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         viewModel.cancel.observe(viewLifecycleOwner, Observer {
             Log.d("cancel", it.toString())
             if(it.isSuccess){
-                //showDialog()
-                activity?.let {
-                    CancelCompleteDialog().show(
-                        it.supportFragmentManager, "CancelCompleteDialog"
-                    )
+                val dialog = ConfirmDialog(this, getString(R.string.cancel_complete), -1) {
+                    when (it) {
+                        1 -> {
+                            Log.d("cancel", "close")
+                        }
+                        2 -> {
+                            (activity as ContainerActivity).onBackPressed()
+                        }
+                    }
                 }
-                CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            }
-
+                            // 알림창이 띄워져있는 동안 배경 클릭 막기
+                            dialog.show(
+                                activity?.supportFragmentManager!!,
+                                "com.example.garamgaebi.common.ConfirmDialog"
+                            )
+                        }
         })
 
         disposables
@@ -239,6 +248,10 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
+    }
+
+    override fun onYesButtonClick(id: Int) {
+        TODO("Not yet implemented")
     }
 
 }

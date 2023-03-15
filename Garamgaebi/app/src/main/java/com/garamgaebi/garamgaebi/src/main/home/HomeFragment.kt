@@ -106,6 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onResume() {
         super.onResume()
+        Log.d("ressss","Rrrr")
         updateData()
     }
     private fun setView() {
@@ -226,8 +227,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     val myMeetingRVAdapter: HomeMyMeetingRVAdapter
                     if (result == null) {
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+                        binding.fragmentHomeRvMyMeeting.visibility = View.GONE
+
                     } else if (result.isEmpty()) {
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
+                        binding.fragmentHomeRvMyMeeting.visibility = View.GONE
                     } else {
                         myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
                         binding.fragmentHomeRvMyMeeting.apply {
