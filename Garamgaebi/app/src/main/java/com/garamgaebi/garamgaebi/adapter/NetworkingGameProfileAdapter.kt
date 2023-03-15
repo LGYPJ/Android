@@ -29,9 +29,9 @@ class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGet
         @SuppressLint("SetTextI18n")
         fun bind(data: GameMemberGetResult, position: Int){
             binding.itemProfileNameTv.text = data.nickname
-            Glide.with(binding.itemProfileImg.context)
-                .load(data.profileUrl)
-                .into(binding.itemProfileImg)
+//            Glide.with(binding.itemProfileImg.context)
+//                .load(data.profileUrl)
+//                .into(binding.itemProfileImg)
         }
     }
 

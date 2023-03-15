@@ -25,12 +25,12 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                 @SuppressLint("SetTextI18n")
                 fun bind(data: SeminarResult){
                     binding.itemProfileNameTv.text = data.nickname
-                    Glide.with(binding.itemProfileImg.context)
-                        .load(data.profileImg)
-                        .placeholder(R.drawable.default_profile)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(binding.itemProfileImg)
+//                    Glide.with(binding.itemProfileImg.context)
+//                        .load(data.profileImg)
+//                        .placeholder(R.drawable.default_profile)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .skipMemoryCache(true)
+//                        .into(binding.itemProfileImg)
                 }
             }
 
@@ -38,12 +38,12 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
         @SuppressLint("SetTextI18n")
         fun bind(data: SeminarResult){
             binding.itemProfileNameTv.text = data.nickname
-            Glide.with(binding.itemProfileImg.context)
-                .load(data.profileImg)
-                .placeholder(R.drawable.default_profile)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(binding.itemProfileImg)
+//            Glide.with(binding.itemProfileImg.context)
+//                .load(data.profileImg)
+//                .placeholder(R.drawable.default_profile)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true)
+//                .into(binding.itemProfileImg)
         }
     }
 
