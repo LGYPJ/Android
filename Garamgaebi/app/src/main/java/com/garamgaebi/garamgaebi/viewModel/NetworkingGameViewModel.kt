@@ -100,7 +100,7 @@ class NetworkingGameViewModel: ViewModel() {
     // room 조회
     fun getRoomId(){
         viewModelScope.launch(Dispatchers.Main){
-            val response = gameRepository.getGameRoom(20)
+            val response = gameRepository.getGameRoom(1)
             if(response.isSuccessful){
                 _getRoom.value = response.body()
             }

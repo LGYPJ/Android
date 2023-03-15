@@ -309,7 +309,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }
                     //
                     viewModel.patchMessage.observe(viewLifecycleOwner, Observer { it ->
-
+                        viewModel.patchCurrent.observe(viewLifecycleOwner, Observer { it2 ->
                             Log.d("index", index.toString())
                             //뷰페이저 하나만 넘어가는 거 해결
                             /*index++
@@ -328,7 +328,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             Log.d("message", it.message)
 
 
-                            index++
+                            //index++
                             val networkingGameCardVPAdapter = NetworkingGameCardVPAdapter(img, index)
                             binding.activityGameCardBackVp.adapter =
                                 NetworkingGameCardVPAdapter(img, index)
@@ -382,6 +382,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                 (layoutManager as LinearLayoutManager).scrollToPosition(currentId2)
                                 networkingGameProfile.notifyDataSetChanged()
                             }
+                        })
 
                     })
 
