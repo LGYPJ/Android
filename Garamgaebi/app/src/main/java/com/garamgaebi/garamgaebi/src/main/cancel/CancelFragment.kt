@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.cancel
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -10,13 +11,11 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.ConfirmDialog
-import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
 import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -93,6 +92,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         }
                     }
                 }
+
                             // 알림창이 띄워져있는 동안 배경 클릭 막기
                             dialog.show(
                                 activity?.supportFragmentManager!!,
@@ -201,6 +201,35 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
             })
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+//                binding.svRoot.run {
+//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+//                }
+                binding.activityCancelApplyBtn.visibility = GONE
+                binding.activityCancelApplyBtn.visibility = GONE
+
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.activityCancelApplyBtn.postDelayed({
+                        binding.activityCancelApplyBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
 
     private fun isBank(): Boolean {

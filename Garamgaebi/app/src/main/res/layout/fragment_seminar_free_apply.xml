@@ -283,7 +283,7 @@
 
         <TextView
             android:id="@+id/activity_seminar_free_apply_btn"
-            android:layout_width="360dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
             android:clickable="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid ) ? true : false}"
@@ -292,7 +292,10 @@
             android:textSize="18sp"
             android:textAlignment="center"
             android:paddingVertical="12dp"
-            android:layout_marginBottom="14dp"
+
+            android:layout_marginBottom="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
