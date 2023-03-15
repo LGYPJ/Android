@@ -142,6 +142,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 //binding.activityContainerToolbarTv.text = "회원탈퇴"
+
+
+                Log.d("회원탈퇴",binding.activityContainerToolbarTv.text.toString())
+
             }
 
             //동원 부분
