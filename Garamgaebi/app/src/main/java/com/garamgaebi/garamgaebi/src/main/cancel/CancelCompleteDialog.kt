@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.src.main.cancel
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -45,8 +46,18 @@ class CancelCompleteDialog: DialogFragment() {
             //containerActivity!!.openFragmentOnFrameLayout(0)
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
+            dismiss()
         }
 
+    }
+    override fun onCancel(dialog: DialogInterface) {
+        dismiss()
+
+        super.onCancel(dialog)
+    }
+
+    override fun dismiss() {
+        super.dismiss()
     }
 
     override fun onAttach(context: Context) {
