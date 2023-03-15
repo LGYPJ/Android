@@ -80,6 +80,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         viewModel.cancel.observe(viewLifecycleOwner, Observer {
             Log.d("cancel", it.toString())
+
             if(it.isSuccess){
                 val dialog = ConfirmDialog(this, getString(R.string.cancel_complete), -1) {
                     when (it) {
@@ -98,6 +99,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                                 "com.example.garamgaebi.common.ConfirmDialog"
                             )
                         }
+
         })
 
         disposables
@@ -108,6 +110,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         Log.d("canceldd", it.toString())
+
 
                         //신청 완료 api
                         var idInfo = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)

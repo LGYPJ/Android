@@ -31,7 +31,7 @@ class CancelCompleteDialog: DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogCancelCompleteBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -45,7 +45,6 @@ class CancelCompleteDialog: DialogFragment() {
         binding.dialogCancelCompleteBtn.setOnClickListener {
             //containerActivity!!.openFragmentOnFrameLayout(0)
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("meeting", "meeting")
             startActivity(intent)
             dismiss()
         }
