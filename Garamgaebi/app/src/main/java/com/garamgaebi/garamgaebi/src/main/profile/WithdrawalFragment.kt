@@ -3,10 +3,12 @@ package com.garamgaebi.garamgaebi.src.main.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver
 import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -198,12 +200,31 @@ class WithdrawalFragment :
                 binding.svRoot.run {
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
-              //  binding.fragmentWithdrawalSendBtn.visibility = View.GONE
+//                binding.svRoot.postDelayed({
+//                    binding.svRoot.smoothScrollBy(0,binding.fragmentWithdrawalEtContent.bottom)
+//                },0)
+                binding.fragmentWithdrawalSendBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
               //  binding.fragmentWithdrawalSendBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentWithdrawalSendBtn.postDelayed({
+                        binding.fragmentWithdrawalSendBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

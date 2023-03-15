@@ -94,7 +94,7 @@
     <string name="check">확인</string>
     <string name="dDayBetween">D</string>
     <string name="dDay">D-Day</string>
-
+    <string name="insta_char">@</string>
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>
     <string name="main_btm_nav_my_page_title">마이페이지</string>

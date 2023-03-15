@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BLUE
 import com.garamgaebi.garamgaebi.common.GRAY
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -25,8 +27,10 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                     binding.itemProfileNameTv.text = data.nickname
                     Glide.with(binding.itemProfileImg.context)
                         .load(data.profileImg)
+                        .placeholder(R.drawable.default_profile)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(binding.itemProfileImg)
-
                 }
             }
 
@@ -36,6 +40,9 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
             binding.itemProfileNameTv.text = data.nickname
             Glide.with(binding.itemProfileImg.context)
                 .load(data.profileImg)
+                .placeholder(R.drawable.default_profile)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(binding.itemProfileImg)
 
         }

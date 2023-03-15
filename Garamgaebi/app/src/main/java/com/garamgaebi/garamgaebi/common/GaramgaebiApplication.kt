@@ -3,11 +3,17 @@ package com.garamgaebi.garamgaebi.common
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.garamgaebi.garamgaebi.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,10 +23,8 @@ import java.util.concurrent.TimeUnit
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
     val API_URL = "https://garamgaebi.shop/"
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
 
-
-    // 테스트 서버 주소
-    // val API_URL = "http://dev-api.test.com/"
 
     // 실 서버 주소
     // val API_URL = "https://garamgaebi.shop/"
@@ -40,8 +44,6 @@ class GaramgaebiApplication : Application() {
         lateinit var sRetrofit: Retrofit
 
         var myMemberIdx: Int = 49
-        var loganVer: Boolean = true
-
 
     }
 
@@ -54,6 +56,8 @@ class GaramgaebiApplication : Application() {
         // 레트로핏 인스턴스 생성
         initRetrofitInstance()
         settingScreenPortrait()
+        val dataStore = applicationContext.dataStore
+
     }
     private fun settingScreenPortrait() {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {

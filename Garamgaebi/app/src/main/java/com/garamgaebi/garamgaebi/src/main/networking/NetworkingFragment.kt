@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.networking
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -31,7 +32,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        CoroutineScope(Dispatchers.Main).launch {
+            setDataView()
+        }
 
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
         binding.activityNetworkApplyBtn.setOnClickListener {
@@ -57,8 +60,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        GlobalScope.launch {
-            val x = setDataView()
+        CoroutineScope(Dispatchers.IO).launch {
             val y = updateData()
         }
     }
@@ -93,7 +95,12 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                             NetworkingProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
                                 //상대방 프로필 프래그먼트로
-                                if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                    containerActivity!!.openFragmentOnFrameLayout(13)
+
+                                }else{
+                                    GaramgaebiApplication.sSharedPreferences.edit()
+                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                 }
                                 if(position != 0){

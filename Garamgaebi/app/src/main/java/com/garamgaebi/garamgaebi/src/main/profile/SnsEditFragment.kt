@@ -2,12 +2,15 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import com.garamgaebi.garamgaebi.common.ConfirmDialog
 import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -39,47 +42,40 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
         binding.snsViewModel = viewModel
 
-        var viewFirst : Boolean = true
-
-        // 유효성 확인
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
+
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
-            if(!viewFirst) {
-                viewModel.snsAddress.value = ""
-                when (it) {
-                    "인스타그램" -> {
-                        binding.instaChar.text = "@"
-                        binding.fragmentSnsEtLinkDesc.setPadding(65, 0, 0, 0)
-                        binding.instaChar.visibility = View.VISIBLE
-                    }
-                    "블로그" -> {
-                        binding.instaChar.visibility = View.GONE
-                        binding.fragmentSnsEtLinkDesc.setPadding(30, 0, 0, 0)
-
-                    }
-                    "깃허브" -> {
-                        binding.instaChar.visibility = View.GONE
-                        binding.fragmentSnsEtLinkDesc.setPadding(30, 0, 0, 0)
-
-
-                    }
-                    else -> {
-                        binding.instaChar.visibility = View.GONE
-                        binding.fragmentSnsEtLinkDesc.setPadding(30, 0, 0, 0)
-
-
-                        viewModel.typeState.value = getString(R.string.caution_input_22)
-                        viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
-                        GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
-                    }
+            when(it){
+                "인스타그램" -> {
+                    binding.instaChar.visibility = View.VISIBLE
+                    binding.instaChar.text = "@"
+                    binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                }
+                "블로그" -> {
+                    binding.instaChar.text = ""
+                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
                 }
-            }else{
-                viewFirst = false
+                "깃허브" -> {
+                    binding.instaChar.text = ""
+                    //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+
+
+                }
+                else -> {
+                    binding.instaChar.text = ""
+                    // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
+
+
+                    viewModel.typeState.value = getString(R.string.caution_input_22)
+                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH
+                    GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
+
+                }
             }
             Log.d("sns_type_true",it.isNotEmpty().toString())
         })
@@ -89,6 +85,10 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
             if (viewModel.snsType.value == "인스타그램"){
                 viewModel.snsAddressIsValid.value = Pattern.matches("^[0-9a-zA-Z_]([0-9-a-zA-Z._-]){0,46}$", it)
+                if(it.isNotEmpty()){
+                    if(it.toCharArray()[0] == '.' || it.toCharArray()[it.length-1] == '.')
+                        viewModel.snsAddressIsValid.value = false
+                }
             }
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
 
@@ -117,8 +117,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 if (originAddress != null) {
                     originAddress = originAddress.substring(1)
                     binding.instaChar.text = "@"
-                    binding.fragmentSnsEtLinkDesc.setPadding(65, 0, 0, 0)
-                    binding.instaChar.visibility = View.VISIBLE
                     viewModel.addressInputDesc.value =
                         " " + getString(R.string.sns_add_link_desc)
                 }
@@ -265,12 +263,31 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
                 binding.fragmentSnsSaveBtn.visibility = View.GONE
+                binding.fragmentSnsRemoveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                //binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentSnsSaveBtn.postDelayed({
+                        binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                    },0)
+                    binding.fragmentSnsRemoveBtn.postDelayed({
+                        binding.fragmentSnsRemoveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
          private fun hideKeyboard() {
              if (activity != null && requireActivity().currentFocus != null) {

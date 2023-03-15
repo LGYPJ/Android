@@ -2,14 +2,16 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
+import android.view.View.MeasureSpec
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,13 +22,14 @@ import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 
 class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.fragment_profile_sns) {
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +42,6 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.typeInputDesc.value = getString(R.string.sns_add_type_desc)
         viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
 
-        // 유효성 확인
         viewModel.snsType.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
@@ -50,25 +52,24 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
             when(it){
                     "인스타그램" -> {
-                    binding.instaChar.text = "@"
-                    binding.fragmentSnsEtLinkDesc.setPadding(70,0,0,0)
-                    binding.instaChar.visibility = View.VISIBLE
-                    binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                }
+                        binding.instaChar.visibility = View.VISIBLE
+                        binding.instaChar.text = "@"
+                        binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                    }
                 "블로그" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.instaChar.text = ""
+                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
                 }
                 "깃허브" -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.instaChar.text = ""
+                  //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                 }
                 else -> {
-                    binding.instaChar.visibility = View.GONE
-                    binding.fragmentSnsEtLinkDesc.setPadding(30,0,0,0)
+                    binding.instaChar.text = ""
+                   // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
 
 
                     viewModel.typeState.value = getString(R.string.caution_input_22)
@@ -92,10 +93,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                         viewModel.snsAddressIsValid.value = false
                 }
             }
-
             GaramgaebiFunction().checkFirstChar(viewModel.snsAddressIsValid, it)
-
-
         })
 
         viewModel._add.observe(viewLifecycleOwner) {
@@ -150,6 +148,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                                 " " + getString(R.string.sns_add_link_desc)
                                             //viewModel.linkState.value =
                                             getString(R.string.sns_type_dialog_insta_state)
+
                                         }
                                         1 -> {
                                             Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
@@ -210,10 +209,25 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                 binding.fragmentSnsSaveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+               // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentSnsSaveBtn.postDelayed({
+                        binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

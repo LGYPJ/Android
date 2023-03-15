@@ -3,11 +3,13 @@ package com.garamgaebi.garamgaebi.src.main.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
@@ -224,12 +226,32 @@ class ServiceCenterFragment :
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
                 binding.cvBottom.visibility = View.GONE
+                binding.fragmentServicecenterSendBtn.visibility = View.GONE
+
             },
                 onHideKeyboard = { ->
-                    binding.cvBottom.visibility = View.VISIBLE
+                    //binding.cvBottom.visibility = View.VISIBLE
                 }
             )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.cvBottom.postDelayed({
+                        binding.cvBottom.visibility = View.VISIBLE
+                    },0)
+                    binding.fragmentServicecenterSendBtn.postDelayed({
+                        binding.fragmentServicecenterSendBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
       }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

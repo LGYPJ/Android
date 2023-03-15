@@ -35,6 +35,9 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        CoroutineScope(Dispatchers.Default).launch {
+            setDataView()
+        }
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
             val pay = binding.activitySeminarFreePayDetailTv.text
@@ -56,8 +59,7 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        GlobalScope.launch {
-            val x = setDataView()
+        CoroutineScope(Dispatchers.IO).launch {
             val y = updateData()
         }
     }
@@ -94,9 +96,13 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                         seminarProfile.setOnItemClickListener(object :
                             SeminarProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
-                                //상대방 프로필로 이동
-                                if(position ==0 && it[0].memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
-                                    containerActivity!!.openFragmentOnFrameLayout(12)
+                                if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                    containerActivity!!.openFragmentOnFrameLayout(13)
+
+                                }else{
+                                    GaramgaebiApplication.sSharedPreferences.edit()
+                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
+                                    containerActivity!!.openFragmentOnFrameLayout(13)
                                 }
                                 if(position != 0){
                                     GaramgaebiApplication.sSharedPreferences.edit()
