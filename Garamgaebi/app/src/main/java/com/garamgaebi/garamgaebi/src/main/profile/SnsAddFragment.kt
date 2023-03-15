@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -208,10 +209,25 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                 binding.fragmentSnsSaveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+               // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentSnsSaveBtn.postDelayed({
+                        binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import com.garamgaebi.garamgaebi.common.ConfirmDialog
 import com.garamgaebi.garamgaebi.common.ConfirmDialogInterface
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.text.InputType
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -261,12 +263,31 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
                 binding.fragmentSnsSaveBtn.visibility = View.GONE
+                binding.fragmentSnsRemoveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-                binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                //binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentSnsSaveBtn.postDelayed({
+                        binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+                    },0)
+                    binding.fragmentSnsRemoveBtn.postDelayed({
+                        binding.fragmentSnsRemoveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
          private fun hideKeyboard() {
              if (activity != null && requireActivity().currentFocus != null) {

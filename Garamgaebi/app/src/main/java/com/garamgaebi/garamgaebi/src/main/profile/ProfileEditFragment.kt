@@ -11,6 +11,7 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,7 +19,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -85,6 +88,7 @@ class ProfileEditFragment :
         binding.setVariable(BR.viewModel, viewModel)
         binding.lifecycleOwner = this
 
+        binding.svRoot.isSmoothScrollingEnabled = false
         with(binding) {
             viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
                 "myNickName",
@@ -321,23 +325,34 @@ class ProfileEditFragment :
         })
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
+                lateinit var editText: EditText
                 binding.svRoot.run {
-                    if(viewModel.introFocusing.value == true) {
-                        smoothScrollTo(0, binding.fragmentEditProfileEtIntro.bottom + binding.fragmentEditProfileEtIntro.measuredHeight)
-                        Log.d("keyboard1",binding.fragmentEditProfileEtIntro.bottom.toString())
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
 
-                    }else if(viewModel.oneLineFocusing .value == true){
-                        smoothScrollTo(0, binding.fragmentEditProfileEtTeam.bottom)
-                        Log.d("keyboard2",binding.fragmentEditProfileEtTeam.bottom.toString())
-
-                    }
                 }
-                //  binding.fragmentEducationSaveBtn.visibility = View.GONE
+                  binding.activityEducationSaveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
                 //  binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.activityEducationSaveBtn.postDelayed({
+                        binding.activityEducationSaveBtn.visibility = View.VISIBLE
+                    },0)
+
+                }
+            }
+        })
 
     }
 

@@ -22,17 +22,17 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:background="@color/whiteForBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_withdrawal_info"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_withdrawal_tv_noteTitle" />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:id="@+id/fragment_withdrawal_tv_titleTitle"
             android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_withdrawal_tv_noteDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_withdrawal_info" />
 
         <TextView
             android:id="@+id/fragment_withdrawal_tv_titleDesc"
@@ -132,8 +132,8 @@
             android:id="@+id/fragment_withdrawal_et_content"
             android:layout_width="0dp"
             android:layout_height="152dp"
-            android:layout_marginTop="16dp"
-            android:inputType="text"
+            android:layout_marginTop="12dp"
+            android:inputType="textMultiLine"
             android:maxLength="100"
             android:background="@{(viewModel.contentFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout)}"
             android:gravity="top"
@@ -215,7 +215,6 @@
             >
 
         </androidx.appcompat.widget.AppCompatButton>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

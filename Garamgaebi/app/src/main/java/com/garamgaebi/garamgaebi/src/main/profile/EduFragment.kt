@@ -2,9 +2,11 @@ package com.garamgaebi.garamgaebi.src.main.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -217,19 +219,30 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
                 binding.svRoot.run {
-                    if(viewModel.institutionFocusing.value == true) {
-                        smoothScrollTo(0, binding.fragmentEducationEtInstitutionDesc.bottom)
-                    }else if(viewModel.majorFocusing.value == true){
-                        smoothScrollTo(0, binding.fragmentEducationEtMajorDesc.bottom)
-                    }
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
-              //  binding.fragmentEducationSaveBtn.visibility = View.GONE
+                binding.fragmentEducationSaveBtn.visibility = View.GONE
             },
             onHideKeyboard = { ->
-              //  binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                // binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentEducationSaveBtn.postDelayed({
+                        binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
