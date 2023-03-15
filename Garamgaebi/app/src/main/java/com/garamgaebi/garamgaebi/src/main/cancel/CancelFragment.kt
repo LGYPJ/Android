@@ -78,7 +78,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         viewModel.cancel.observe(viewLifecycleOwner, Observer {
             Log.d("cancel", it.toString())
-            if(it.isSuccess){
                 //showDialog()
                 activity?.let {
                     CancelCompleteDialog().show(
@@ -86,9 +85,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     )
                 }
                 CancelCompleteDialog().dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            }
-
         })
 
         disposables
@@ -100,8 +96,8 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .subscribe({
                         Log.d("canceldd", it.toString())
 
-                        //신청 완료 api
-                        GaramgaebiApplication.sSharedPreferences.getString("bank", null)
+                        //신청취소 완료 api
+                        GaramgaebiApplication.sSharedPreferences.getString("bank", "")
                             ?.let { it1 ->
                                 CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
                                     it1, binding.activityCancelPayEt.toString())
