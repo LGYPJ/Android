@@ -188,7 +188,8 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                             editType = false
                                         }
                                     }
-
+                                    binding.fragmentSnsEtName.clearFocus()
+                                    viewModel.snsTypeFocusing.value = false
                                 }
                             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
                         }else{

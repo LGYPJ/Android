@@ -57,14 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             autoLogin()
         }
-        keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
-            onShowKeyboard = { keyboardHeight ->
 
-            },
-            onHideKeyboard = { ->
-                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
-            }
-        )
     }
     private fun autoLogin() {
         // 로그인 테스트용

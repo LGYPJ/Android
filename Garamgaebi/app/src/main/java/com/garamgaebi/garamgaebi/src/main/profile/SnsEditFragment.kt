@@ -239,7 +239,8 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                                             editType = false
                                         }
                                     }
-
+                                    binding.fragmentSnsEtName.clearFocus()
+                                    viewModel.snsTypeFocusing.value = false
                                 }
                             orderBottomDialogFragment.show(parentFragmentManager, orderBottomDialogFragment.tag)
                         }else{
