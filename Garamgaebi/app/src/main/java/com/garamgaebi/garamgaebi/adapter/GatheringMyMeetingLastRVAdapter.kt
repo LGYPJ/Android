@@ -15,6 +15,7 @@ class GatheringMyMeetingLastRVAdapter(private val dataList: ArrayList<GatheringP
         fun bind(data: GatheringProgramResult){
             binding.itemGatheringMyMeetingLastTvName.text = data.title
             binding.itemGatheringMyMeetingLastTvDate.text = GaramgaebiFunction().getDateMyMeeting(data.date)
+            binding.itemGatheringMyMeetingLastTvTime.text = GaramgaebiFunction().getTimeMyMeeting(data.date)
             binding.itemGatheringMyMeetingLastTvPlace.text = data.location
         }
     }

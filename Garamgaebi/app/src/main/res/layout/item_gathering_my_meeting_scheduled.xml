@@ -6,21 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="80dp">
 
-    <TextView
-        android:id="@+id/item_gathering_my_meeting_scheduled_tv_date"
+    <ImageView
+        android:id="@+id/item_gathering_my_meeting_scheduled_iv_date"
         android:layout_width="80dp"
         android:layout_height="0dp"
         android:background="@drawable/fragment_home_my_meeting_border"
         android:backgroundTint="@color/blue10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/item_gathering_my_meeting_scheduled_tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/black80"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/item_gathering_my_meeting_scheduled_tv_time"
+        app:layout_constraintStart_toStartOf="@id/item_gathering_my_meeting_scheduled_iv_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/item_gathering_my_meeting_scheduled_iv_date"/>
+    <TextView
+        android:id="@+id/item_gathering_my_meeting_scheduled_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/black80"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toStartOf="@id/item_gathering_my_meeting_scheduled_iv_date"
+        app:layout_constraintTop_toBottomOf="@id/item_gathering_my_meeting_scheduled_tv_date"
+        app:layout_constraintEnd_toEndOf="@id/item_gathering_my_meeting_scheduled_iv_date"/>
     <TextView
         android:id="@+id/item_gathering_my_meeting_scheduled_tv_name"
         android:layout_width="wrap_content"
@@ -31,7 +51,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/item_gathering_my_meeting_scheduled_tv_place"
-        app:layout_constraintStart_toEndOf="@id/item_gathering_my_meeting_scheduled_tv_date"
+        app:layout_constraintStart_toEndOf="@id/item_gathering_my_meeting_scheduled_iv_date"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -43,7 +63,7 @@
         android:textColor="@color/black80"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_gathering_my_meeting_scheduled_tv_date"
+        app:layout_constraintStart_toEndOf="@id/item_gathering_my_meeting_scheduled_iv_date"
         app:layout_constraintTop_toBottomOf="@id/item_gathering_my_meeting_scheduled_tv_name" />
 
     <ImageView

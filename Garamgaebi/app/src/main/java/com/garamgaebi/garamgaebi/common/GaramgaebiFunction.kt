@@ -101,9 +101,12 @@ class GaramgaebiFunction {
 
     fun getDateMyMeeting(beforeDate : String) : String {
         val date = LocalDateTime.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-        return date.format(DateTimeFormatter.ofPattern("M월 dd일\n\nh:00", Locale.KOREA))
+        return date.format(DateTimeFormatter.ofPattern("M월 dd일", Locale.KOREA))
     }
-
+    fun getTimeMyMeeting(beforeDate : String) : String {
+        val date = LocalDateTime.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
+        return date.format(DateTimeFormatter.ofPattern("h:mm", Locale.KOREA))
+    }
     fun getDDay(beforeDate : String) : String {
         val date = LocalDate.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
         Log.d("dday", "$date")
