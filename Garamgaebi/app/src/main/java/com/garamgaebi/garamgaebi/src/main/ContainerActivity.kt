@@ -142,8 +142,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 //binding.activityContainerToolbarTv.text = "회원탈퇴"
-
-                Log.d("회워탈퇴",binding.activityContainerToolbarTv.text.toString())
             }
 
             //동원 부분
@@ -203,7 +201,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     "notification" -> fragmentTitle = "알림"
                     "networkingCharged" -> fragmentTitle = "네트워킹"
                 }
-
                 binding.activityContainerToolbarTv.text = fragmentTitle
                 Log.d("title",fragmentTitle)
             }
@@ -356,6 +353,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     fun goWithdrawal(){
         binding.activityContainerToolbarTv.text = "회원 탈퇴"
     }
+    fun goUser(){
+        binding.activityContainerToolbarTv.text = "프로필"
+    }
+
 
     fun isSeminar ():Boolean {
         var returnValue = false

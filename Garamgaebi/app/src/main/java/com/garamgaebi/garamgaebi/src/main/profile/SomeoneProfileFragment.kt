@@ -58,12 +58,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
         Log.d("멤버idx",memberIdx.toString())
         var viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-//        viewModel.getProfileInfo(memberIdx)
-
         with(viewModel) {
             profileInfo.observe(viewLifecycleOwner, Observer {
                 val result = it as ProfileDataResponse
-
 
                 with(binding) {
 

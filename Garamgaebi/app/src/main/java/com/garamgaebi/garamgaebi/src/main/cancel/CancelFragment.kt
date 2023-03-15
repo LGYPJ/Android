@@ -101,11 +101,16 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         Log.d("canceldd", it.toString())
 
                         //신청 완료 api
-                        GaramgaebiApplication.sSharedPreferences.getString("bank", null)
-                            ?.let { it1 ->
-                                CancelRequest(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
-                                    it1, binding.activityCancelPayEt.toString())
-                            }?.let { it2 -> viewModel.postCancel(it2) }
+                        var idInfo = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)
+                        var programInfo = GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0)
+                        var bankInfo = ""
+                        bankInfo = GaramgaebiApplication.sSharedPreferences.getString("bank", "").toString()
+                        var accountInfo = binding.activityCancelPayEt.toString()
+
+                        var canelRequest = CancelRequest(idInfo,programInfo,bankInfo,accountInfo)
+                        viewModel.postCancel(canelRequest)
+                        Log.d("cancel11",canelRequest.toString())
+
 
                     }, { it.printStackTrace() })
             )

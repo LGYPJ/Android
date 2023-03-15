@@ -102,7 +102,8 @@ class ApplyViewModel : ViewModel() {
     }
 
   fun postCancel(cancelRequest: CancelRequest) {
-        viewModelScope.launch {
+      Log.d("canceldd", "ddddd".toString())
+      viewModelScope.launch {
             val response = applyRepository.postCancel(cancelRequest)
             Log.d("cancel", response.body().toString())
             if(response.isSuccessful){

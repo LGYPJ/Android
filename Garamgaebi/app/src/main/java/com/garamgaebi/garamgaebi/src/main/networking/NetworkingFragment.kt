@@ -97,6 +97,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                 //상대방 프로필 프래그먼트로
                                 if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
                                     containerActivity!!.openFragmentOnFrameLayout(13)
+                                    containerActivity!!.goUser()
 
                                 }else{
                                     GaramgaebiApplication.sSharedPreferences.edit()
@@ -107,6 +108,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                     GaramgaebiApplication.sSharedPreferences.edit()
                                         .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
+                                    containerActivity!!.goUser()
                                 }
                             }
                         })

@@ -22,6 +22,18 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
         setContentView(binding.root)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
+            onShowKeyboard = { keyboardHeight ->
+            },
+            onHideKeyboard = { ->
+                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
     }
 
     // 홈 로딩 다이얼로그
