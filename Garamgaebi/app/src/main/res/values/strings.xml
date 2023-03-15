@@ -95,6 +95,7 @@
     <string name="dDayBetween">D</string>
     <string name="dDay">D-Day</string>
     <string name="insta_char">@</string>
+    <string name="cancel_complete">신청이 완료되었습니다</string>
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>
     <string name="main_btm_nav_my_page_title">마이페이지</string>

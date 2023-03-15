@@ -136,6 +136,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
 
+                        viewModel.snsTypeFocusing.value = true
                         if(editType) {
 
                             val orderBottomDialogFragment: OrderBottomDialogFragment =

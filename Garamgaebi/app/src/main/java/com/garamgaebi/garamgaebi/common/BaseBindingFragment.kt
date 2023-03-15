@@ -34,6 +34,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         initViewModel()
         initListener()
         afterViewCreated()
+
     }
 
     protected open fun initView() {}
@@ -46,6 +47,13 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         if (disposables.size() > 0) {
             disposables.clear()
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+            },
+            onHideKeyboard = { ->
+                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
     }
 
     override fun onDestroy() {

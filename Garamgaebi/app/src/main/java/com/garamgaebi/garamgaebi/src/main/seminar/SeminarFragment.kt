@@ -98,16 +98,18 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                             override fun onClick(position: Int) {
                                 if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
                                     containerActivity!!.openFragmentOnFrameLayout(13)
-
+                                    containerActivity!!.goUser()
                                 }else{
                                     GaramgaebiApplication.sSharedPreferences.edit()
                                         .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
+                                    containerActivity!!.goUser()
                                 }
                                 if(position != 0){
                                     GaramgaebiApplication.sSharedPreferences.edit()
                                         .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
+                                    containerActivity!!.goUser()
                                 }
                             }
                         })

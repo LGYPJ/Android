@@ -19,6 +19,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.AutoLoginRequest
@@ -56,6 +57,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             autoLogin()
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
+            onShowKeyboard = { keyboardHeight ->
+
+            },
+            onHideKeyboard = { ->
+                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
     }
     private fun autoLogin() {
         // 로그인 테스트용
@@ -204,7 +213,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+
+        keyboardVisibilityUtils.detachKeyboardListeners()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
+        super.onDestroy()
     }
+
 }
