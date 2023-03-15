@@ -20,6 +20,7 @@ class GatheringMyMeetingScheduledRVAdapter(
         fun bind(data: GatheringProgramResult){
             binding.itemGatheringMyMeetingScheduledTvName.text = data.title
             binding.itemGatheringMyMeetingScheduledTvDate.text = GaramgaebiFunction().getDateMyMeeting(data.date)
+            binding.itemGatheringMyMeetingScheduledTvTime.text = GaramgaebiFunction().getTimeMyMeeting(data.date)
             binding.itemGatheringMyMeetingScheduledTvPlace.text = data.location
         }
     }
