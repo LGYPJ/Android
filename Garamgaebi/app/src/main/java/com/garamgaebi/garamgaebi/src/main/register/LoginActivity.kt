@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     val viewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
+        //GaramgaebiApplication.sSharedPreferences.edit().putString("kakaoToken", "").apply()
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("kakao", "hash $keyHash")
         /*UserApiClient.instance.logout { error ->
@@ -37,13 +37,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "로그아웃 성공")
             }
         }*/
-        UserApiClient.instance.unlink { error ->
+        /*UserApiClient.instance.unlink { error ->
             if (error != null) {
                 Log.d("kakao", "회원 탈퇴 실패 $error")
             } else {
                 Log.d("kakao", "회원 탈퇴 성공")
             }
-        }
+        }*/
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
@@ -97,10 +97,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
         Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
             if (it.isSuccess) {
+                Log.d("loginActivity", "login success")
                 GaramgaebiApplication.sSharedPreferences.edit()
+
                     .putString("kakaoToken", token)
                     .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.tokenInfo.accessToken)
                     .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.tokenInfo.refreshToken)
+
                     .putBoolean("fromLoginActivity", true)
                     .putInt("memberIdx", it.result.tokenInfo.memberIdx)
                     .apply()
@@ -108,10 +111,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
+                Log.d("loginActivity", "login failed")
                 startActivity(
                     Intent(this, RegisterActivity::class.java)
                         .putExtra("login", true)
-                        .putExtra("kakaoToken", token)
                 )
                 finish()
             }

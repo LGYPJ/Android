@@ -9,34 +9,33 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -271,11 +270,16 @@ class ProfileEditFragment :
                                         e.printStackTrace();
                                     }
                                     var bitmap = BitmapFactory.decodeStream(inputStream);
+
+                                    Log.d("orientation77",IMAGE_ORIENTATION.toString())
+                                    var bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
+
+
                                     var byteArrayOutputStream: ByteArrayOutputStream? =
                                         ByteArrayOutputStream()
-                                    bitmap.compress(
+                                    bmRotated?.compress(
                                         Bitmap.CompressFormat.JPEG,
-                                        100,
+                                        20,
                                         byteArrayOutputStream
                                     )
 
@@ -314,16 +318,57 @@ class ProfileEditFragment :
             Log.d("image_source",binding.fragmentEditProfileIvProfile.resources.toString())
             false
         })
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            })
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.activityEducationSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.activityEducationSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
-    override fun onDestroy() {
-        super.onDestroy()
+
+    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+        val matrix = Matrix()
+        Log.d("orientation 4",orientation.toString())
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1F, 1F)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180F)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> {
+                Log.d("orientation 5","hh")
+                matrix.setRotate(90F)
+            }
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90F)
+            else -> return bitmap
+        }
+        Log.d("orientation 3","gg")
+        return try {
+            val bmRotated =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            Log.d("orientation 2","gg")
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -344,10 +389,10 @@ class ProfileEditFragment :
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putBoolean("EditImage", true)
                     .apply()
-
             }
         }
     }
+
 
     /**
      * 갤러리에서 사용자가 선택한 이미지의 절대경로를 얻어오는 함수
@@ -371,6 +416,19 @@ class ProfileEditFragment :
         cursor?.let {
             it.moveToFirst()
             FileUpLoad.setFileToUpLoad(it.getString(it.getColumnIndex("_data")))
+            var exif: ExifInterface? = null
+            try {
+                exif = ExifInterface(it.getString(it.getColumnIndex("_data")))
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            if (exif != null) {
+                IMAGE_ORIENTATION = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED
+                )
+                Log.d("orientation 0",IMAGE_ORIENTATION.toString())
+            }
             flag = true
         } ?: run {
             flag = false

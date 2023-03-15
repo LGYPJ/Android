@@ -23,7 +23,6 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
             with(binding) {
-                Log.d("homeuser", "${data.profileUrl}")
                 if(data.profileUrl == null) {
                     itemHomeUserIvProfileDefault.visibility = View.VISIBLE
                     Glide.with(itemView)

@@ -302,6 +302,17 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             false
         }
 
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentEducationSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+            }
+        )
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
