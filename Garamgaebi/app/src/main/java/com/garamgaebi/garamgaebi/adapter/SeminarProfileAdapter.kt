@@ -1,7 +1,11 @@
 package com.garamgaebi.garamgaebi.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,12 +29,27 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                 @SuppressLint("SetTextI18n")
                 fun bind(data: SeminarResult){
                     binding.itemProfileNameTv.text = data.nickname
-//                    Glide.with(binding.itemProfileImg.context)
-//                        .load(data.profileImg)
-//                        .placeholder(R.drawable.default_profile)
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                        .skipMemoryCache(true)
-//                        .into(binding.itemProfileImg)
+                    if(data.profileImg == null){
+                        Log.d("participantsImg", "why")
+                        binding.activityItemSeminarProfileImg.visibility = VISIBLE
+                        binding.activityItemSeminarProfile.visibility = GONE
+                        Glide.with(binding.activityItemSeminarProfile.context)
+                            .load(R.drawable.ic_transparent)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(binding.activityItemSeminarProfile)
+                    }
+                    else{
+                        binding.activityItemSeminarProfileImg.visibility = GONE
+                        binding.activityItemSeminarProfile.visibility = VISIBLE
+                        Glide.with(binding.activityItemSeminarProfile.context)
+                            .load(data.profileImg)
+                            .placeholder(R.drawable.default_profile)
+                            .error(R.drawable.default_profile)
+                            .fallback(R.drawable.default_profile)
+                            .skipMemoryCache(true)
+                            .into(binding.activityItemSeminarProfile)
+                    }
                 }
             }
 
@@ -38,12 +57,14 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
         @SuppressLint("SetTextI18n")
         fun bind(data: SeminarResult){
             binding.itemProfileNameTv.text = data.nickname
-//            Glide.with(binding.itemProfileImg.context)
-//                .load(data.profileImg)
-//                .placeholder(R.drawable.default_profile)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true)
-//                .into(binding.itemProfileImg)
+            Glide.with(binding.itemNetworkGameProfileFrame.context)
+                .load(data.profileImg)
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .fallback(R.drawable.default_profile)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(binding.itemNetworkGameProfileFrame)
         }
     }
 
