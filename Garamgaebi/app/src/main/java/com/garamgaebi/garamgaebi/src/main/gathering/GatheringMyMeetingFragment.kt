@@ -106,7 +106,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     val result = it.result as ArrayList<GatheringProgramResult>
                     val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
 
-                    if (result.isEmpty() || result == null) {
+                    if (result == null||result.isEmpty()) {
                         binding.fragmentGatheringMyMeetingClScheduledBlank.visibility =
                             View.VISIBLE
                         binding.fragmentGatheringMyMeetingRvScheduled.visibility = View.GONE
