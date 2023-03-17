@@ -20,7 +20,6 @@ abstract class BaseFragment<B : ViewBinding>(
     private var _binding: B? = null
     //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
-    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
@@ -59,17 +58,7 @@ abstract class BaseFragment<B : ViewBinding>(
         if (disposables.size() > 0) {
             disposables.clear()
         }
-        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { keyboardHeight ->
-            },
-            onHideKeyboard = { ->
-                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
-            }
-        )
     }
-    override fun onDestroy() {
-        keyboardVisibilityUtils.detachKeyboardListeners()
-        super.onDestroy()
-    }
+
 
 }
