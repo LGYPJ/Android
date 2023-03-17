@@ -167,12 +167,11 @@ class MyProfileFragment :
                 profileInfo.observe(viewLifecycleOwner) {
                     binding.profileViewModel = viewModel
                     val result = it as ProfileDataResponse
-                    if (result == null) {
+                    if (result == null || result.result == null) {
 
                     } else {
 
                         with(binding) {
-
                             GaramgaebiApplication.sSharedPreferences
                                 .edit().putString("myNickName", result.result.nickName)
                                 .putString("myBelong", result.result.belong)

@@ -91,9 +91,9 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
                 binding.activitySeminarChargedApplyBtn.visibility = View.GONE
                 binding.activitySeminarChargedApplyBtn.visibility = View.GONE
 
