@@ -46,7 +46,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/btn_seminar_present"
-                    android:paddingStart="12dp"
+                    android:padding="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/top_seminar_charged">
@@ -55,7 +55,6 @@
                         android:id="@+id/activity_network_charged_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
                         android:text="@{item.networkingInfo.result.title}"
                         android:textColor="@color/black80"
                         android:textSize="20sp"
@@ -156,6 +155,7 @@
                         android:text="@{item.networkingInfo.result.endDate}"
                         android:textColor="@color/black80"
                         android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/activity_network_charged_deadline_tv"
                         app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
 
