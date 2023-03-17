@@ -297,4 +297,13 @@ interface ApiInterface {
     // game patch current-idx
     @PATCH("/game/current-idx")
     suspend fun patchGameCurrentIdx(@Body gameCurrentIdxRequest: GameCurrentIdxRequest) : Response<GameCurrentIdxResponse>
+
+    // 게임방 상태 진행중 유무 조회
+    @POST("/game/isStarted")
+    suspend fun postGameIsStarted(@Body gameIsStartedRequest: GameIsStartedRequest): Response<GameIsStartedResponse>
+
+    // 게임방 상태 진행중으로 변경
+    @PATCH("/game/startGame")
+    suspend fun patchGameStart(@Body gameStartGameRequest: GameStartGameRequest): Response<GameStartGameResponse>
+
 }

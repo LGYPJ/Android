@@ -78,3 +78,23 @@ data class GameCurrentIdxRequest(
     val roomId: String,
     val nextMemberIdx : Int
 )
+
+
+// /game/isStarted
+data class GameIsStartedResponse(
+    val result: Boolean
+):BaseResponse()
+
+data class GameIsStartedRequest(
+    val roomId: String
+)
+
+
+// /game/startGame
+data class GameStartGameResponse(
+    val result : String
+):BaseResponse()
+
+data class GameStartGameRequest(
+    val roomId: String
+)
