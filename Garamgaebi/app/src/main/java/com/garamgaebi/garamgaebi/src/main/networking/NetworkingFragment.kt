@@ -102,6 +102,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                     GaramgaebiApplication.sSharedPreferences.edit()
                                         .putInt("userMemberIdx", it[position].memberIdx).apply()
                                     containerActivity!!.openFragmentOnFrameLayout(13)
+                                    containerActivity!!.goUser()
                                 }
                                 if(position != 0){
                                     GaramgaebiApplication.sSharedPreferences.edit()
@@ -156,29 +157,29 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                         // 버튼 상태
                         if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                             //신청완료, 비활성화
-                            with(binding) {
-                                activityNetworkApplyBtn.text = "신청완료"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                                activityNetworkApplyBtn.isEnabled = false
+                            with(binding.activityNetworkApplyBtn) {
+                                text = "신청완료"
+                                setTextColor(resources.getColor(R.color.seminar_blue))
+                                setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                                isEnabled = false
                             }
                         }
                         if(it.result.userButtonStatus == "CLOSED"){
                             //마감, 비활성화
-                            with(binding) {
-                                activityNetworkApplyBtn.text = "마감"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                                activityNetworkApplyBtn.isEnabled = false
+                            with(binding.activityNetworkApplyBtn) {
+                                text = "마감"
+                                setTextColor(resources.getColor(R.color.gray8a))
+                                setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                                isEnabled = false
                             }
                         }
                         if(it.result.userButtonStatus == "APPLY"){
                             // 신청하기 활성화
-                            with(binding) {
-                                activityNetworkApplyBtn.text = "신청하기"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                                activityNetworkApplyBtn.isEnabled = true
+                            with(binding.activityNetworkApplyBtn) {
+                                text = "신청하기"
+                                setTextColor(resources.getColor(R.color.white))
+                                setBackgroundResource(R.drawable.btn_seminar_apply)
+                                isEnabled = true
                             }
                         }
                         binding.activityNetworkApplyBtn.visibility = VISIBLE
@@ -188,38 +189,37 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                         // 버튼 상태
                         if(it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM"){
                             //신청확인중, 비활성화
-                            with(binding){
-                                activityNetworkApplyBtn.text = "신청확인중"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                                activityNetworkApplyBtn.isEnabled = false
+                            with(binding.activityNetworkApplyBtn){
+                                text = "신청확인중"
+                                setTextColor(resources.getColor(R.color.seminar_blue))
+                                setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                             }
                         }
                         if(it.result.userButtonStatus == "APPLY_COMPLETE"){
                             //신청완료, 비활성화
-                            with(binding){
-                                activityNetworkApplyBtn.text = "신청완료"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.seminar_blue))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                                activityNetworkApplyBtn.isEnabled = false
+                            with(binding.activityNetworkApplyBtn){
+                                text = "신청완료"
+                                setTextColor(resources.getColor(R.color.seminar_blue))
+                                setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
+                                isEnabled = false
                             }
                         }
                         if(it.result.userButtonStatus == "CLOSED"){
                             //마감, 비활성화
-                            with(binding){
-                                activityNetworkApplyBtn.text = "마감"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.gray8a))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                                activityNetworkApplyBtn.isEnabled = false
+                            with(binding.activityNetworkApplyBtn){
+                                text = "마감"
+                                setTextColor(resources.getColor(R.color.gray8a))
+                                setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
+                                isEnabled = false
                             }
                         }
                         if(it.result.userButtonStatus == "APPLY"){
                             // 신청하기 활성화
-                            with(binding){
-                                activityNetworkApplyBtn.text = "신청하기"
-                                activityNetworkApplyBtn.setTextColor(resources.getColor(R.color.white))
-                                activityNetworkApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
-                                activityNetworkApplyBtn.isEnabled = true
+                            with(binding.activityNetworkApplyBtn){
+                                text = "신청하기"
+                                setTextColor(resources.getColor(R.color.white))
+                                setBackgroundResource(R.drawable.btn_seminar_apply)
+                                isEnabled = true
                             }
                         }
 
