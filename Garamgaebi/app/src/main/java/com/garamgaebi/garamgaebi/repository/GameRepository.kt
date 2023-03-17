@@ -13,4 +13,6 @@ class GameRepository {
     suspend fun getGameImage(programIdx: Int) = gameClient.getGameImage(programIdx)
     suspend fun getGameMember(gameMemberGetRequest: GameMemberGetRequest) = gameClient.getGameMember(gameMemberGetRequest)
     suspend fun patchGameCurrentIdx(gameCurrentIdxRequest: GameCurrentIdxRequest) = gameClient.patchGameCurrentIdx(gameCurrentIdxRequest)
+    suspend fun postGameIsStarted(gameIsStartedRequest: GameIsStartedRequest) = gameClient.postGameIsStarted(gameIsStartedRequest)
+    suspend fun patchGameStart(gameStartGameRequest: GameStartGameRequest) = gameClient.patchGameStart(gameStartGameRequest)
 }

@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.viewModel
 
+import android.service.autofill.LuhnChecksumValidator
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -84,6 +85,14 @@ class NetworkingGameViewModel: ViewModel() {
     val patchCurrent : LiveData<GameCurrentIdxResponse>
         get() = _patchCurrent
 
+    private val _postGameIsStarted = MutableLiveData<GameIsStartedResponse>()
+    val postGameIsStarted : LiveData<GameIsStartedResponse>
+    get() = _postGameIsStarted
+
+    private val _patchGameStart = MutableLiveData<GameStartGameResponse>()
+    val patchGameStart : LiveData<GameStartGameResponse>
+    get() = _patchGameStart
+
     private val patchCurrentReq : GameCurrentIdxRequest ?= null
 
     //index증가
@@ -100,7 +109,7 @@ class NetworkingGameViewModel: ViewModel() {
     // room 조회
     fun getRoomId(){
         viewModelScope.launch(Dispatchers.Main){
-            val response = gameRepository.getGameRoom(1)
+            val response = gameRepository.getGameRoom(40)
             if(response.isSuccessful){
                 _getRoom.value = response.body()
             }
@@ -148,7 +157,7 @@ class NetworkingGameViewModel: ViewModel() {
     //image
     fun getImage(){
         viewModelScope.launch(Dispatchers.Main) {
-            val response = gameRepository.getGameImage(20)
+            val response = gameRepository.getGameImage(40)
             Log.d("img", response.body()?.result.toString())
             if(response.isSuccessful){
                 _getImg.value = response.body()?.result
@@ -192,10 +201,43 @@ class NetworkingGameViewModel: ViewModel() {
         }
     }
 
+    // 게임방 진행중 유무 조회
+    fun postGameIsStarted(){
+        viewModelScope.launch(Dispatchers.Main){
+            val response = roomId?.let { GameIsStartedRequest(it) }
+                ?.let { gameRepository.postGameIsStarted(it) }
+
+            if (response != null) {
+                if(response.isSuccessful){
+                    _postGameIsStarted.value = response.body()
+                } else{
+                    Log.d("error", response.message())
+                }
+            }
+
+        }
+    }
+
+    // 게임방 상태 진행중으로 변경
+    fun patchGameStart(){
+        viewModelScope.launch(Dispatchers.Main){
+            val response = roomId?.let { GameStartGameRequest(it) }
+                ?.let { gameRepository.patchGameStart(it) }
+
+            if(response != null){
+                if(response.isSuccessful){
+                    _patchGameStart.value = response.body()
+                } else{
+                    Log.d("error", response.message())
+                }
+            }
+        }
+    }
+
     //index 증가 함수
     fun indexIncrease(){
         viewModelScope.launch(Dispatchers.Main) {
-            val img = gameRepository.getGameImage(20)
+            val img = gameRepository.getGameImage(40)
 
         }
     }

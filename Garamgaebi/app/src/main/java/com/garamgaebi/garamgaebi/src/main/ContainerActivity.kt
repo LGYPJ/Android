@@ -60,8 +60,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if(isWithdrawal()){
             openFragmentOnFrameLayout(14)
             binding.activityContainerToolbarTv.text = "고객 센터"
-        }else {
-            super.onBackPressed()
+        }
+        //else {
+            //super.onBackPressed()
             //프래그먼트에서 back
             /*val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
@@ -69,7 +70,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 (fragment as onBackPressedListener).onBackPressed()
                 return
             }*/
-        }
+        //}
             if (isProfileEdit()) {
                 GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", false)
                     .apply()
@@ -95,7 +96,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     fun openFragmentOnFrameLayout(int: Int){
         val transaction = supportFragmentManager.beginTransaction()
         when(int){
-            0 -> finish()
+            //0 -> finish()
             1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment(), "seminar")
                 binding.activityContainerToolbarTv.text = "세미나"
             }
@@ -134,7 +135,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
+                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
