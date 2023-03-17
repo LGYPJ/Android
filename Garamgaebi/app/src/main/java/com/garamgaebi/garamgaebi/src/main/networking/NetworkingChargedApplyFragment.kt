@@ -98,9 +98,9 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
                 binding.activityNetworkChargedApplyBtn.visibility = View.GONE
                 binding.activityNetworkChargedApplyBtn.visibility = View.GONE
 

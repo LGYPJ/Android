@@ -203,9 +203,9 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
                 binding.activityCancelApplyBtn.visibility = GONE
                 binding.activityCancelApplyBtn.visibility = GONE
 

@@ -33,13 +33,6 @@ abstract class BaseFragment<B : ViewBinding>(
         //_binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
         return binding.root
-        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { keyboardHeight ->
-            },
-            onHideKeyboard = { ->
-                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
-            }
-        )
     }
 
     override fun onDestroyView() {
@@ -66,6 +59,13 @@ abstract class BaseFragment<B : ViewBinding>(
         if (disposables.size() > 0) {
             disposables.clear()
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+            },
+            onHideKeyboard = { ->
+                // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
+            }
+        )
     }
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()

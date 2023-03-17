@@ -5,7 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/whiteForBackground"
     >
-
+    <ScrollView
+        android:id="@+id/sv_root"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fillViewport="true">
     <TextView
         android:id="@+id/fragment_complete_tv_title"
         android:layout_width="wrap_content"
@@ -84,4 +88,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -125,11 +125,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
 
                 if(it == null || it.size < 1){
-                    binding.fragmentSomeoneProfileClSnsTitle.visibility = GONE
-                    binding.fragmentSomeoneProfileClSnsDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileContainerSns.visibility = GONE
                 }else{
-                    binding.fragmentSomeoneProfileClSnsTitle.visibility = VISIBLE
-                    binding.fragmentSomeoneProfileClSnsDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileContainerSns.visibility = VISIBLE
                 }
 
                 val snsAdapter = activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
@@ -149,11 +147,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
 
                 if(it == null || it.size < 1){
-                    binding.fragmentSomeoneProfileClCareerTitle.visibility = GONE
-                    binding.fragmentSomeoneProfileClCareerDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileContainerCareer.visibility = GONE
                 }else{
-                    binding.fragmentSomeoneProfileClCareerTitle.visibility = VISIBLE
-                    binding.fragmentSomeoneProfileClCareerDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileContainerCareer.visibility = VISIBLE
                 }
 //                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
 //
@@ -186,11 +182,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 //            getEducationInfo(memberIdx)
             educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
                 if(it == null || it.size < 1){
-                    binding.fragmentSomeoneProfileClEduTitle.visibility = GONE
-                    binding.fragmentSomeoneProfileClEduDesc.visibility = GONE
+                    binding.fragmentSomeoneProfileContainerEdu.visibility = GONE
                 }else{
-                    binding.fragmentSomeoneProfileClEduTitle.visibility = VISIBLE
-                    binding.fragmentSomeoneProfileClEduDesc.visibility = VISIBLE
+                    binding.fragmentSomeoneProfileContainerEdu.visibility = VISIBLE
                 }
                 val eduAdapter = activity?.let { it1 -> EduSomeoneRVAdapter(it, it1.applicationContext) }
                 dividerItemDecoration =
