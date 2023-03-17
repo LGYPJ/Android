@@ -46,19 +46,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
 
-        binding.activitySeminarFreeBackBtn.setOnClickListener {
-            //알림
-            if(isNotifi()){
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                Log.d("applyback","????")
-            }
-            else{
-                Log.d("applyback","!!!")
-                onBackPressed()
-            }
-        }
-
     }
 
 
@@ -93,11 +80,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
             binding.activityContainerToolbarTv.text = "세미나"
-        }
-        //알림
-        if(isNotifi()){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
     }
 

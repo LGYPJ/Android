@@ -167,7 +167,7 @@
             android:layout_height="48dp"
             android:hint="@string/origin_name_input"
             android:text="@={item.inputName}"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/black80"
             android:paddingStart="12dp"
             android:textColorHint="@color/seminar_light_gray"
@@ -201,9 +201,9 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_not_correct_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_name_tv"
             app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -247,9 +247,9 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_not_correct_nickname_tv"
+            app:layout_constraintTop_toBottomOf="@+id/activity_seminar_free_apply_nickname_tv"
             app:layout_constraintStart_toStartOf="parent" />
 
 

@@ -213,13 +213,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="@string/origin_apply_nickname"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_not_correct_name_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
 
 
                 <EditText
@@ -259,13 +259,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="@string/origin_apply_phone"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_not_correct_nickname_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
 
 
                 <EditText
