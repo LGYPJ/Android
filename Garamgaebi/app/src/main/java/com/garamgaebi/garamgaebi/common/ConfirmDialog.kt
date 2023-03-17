@@ -51,7 +51,6 @@ class ConfirmDialog(
             binding.close.setOnClickListener {
                 // 삭제 , 삭제 완료 다이얼로그 띄우기
                 itemClick(1)
-                this.confirmDialogInterface?.onYesButtonClick(id!!)
                 dismiss()
             }
 
@@ -71,6 +70,19 @@ class ConfirmDialog(
                 dismiss()
             }
 
+        }else if(id==3){
+            // 예 버튼 클릭 -> 삭제, 다이얼로그 show
+            binding.close.setOnClickListener {
+                // 삭제 , 삭제 완료 다이얼로그 띄우기
+                itemClick(1)
+                dismiss()
+            }
+
+            // 아니요 버튼 클릭 -> dismiss
+            binding.no.setOnClickListener {
+                itemClick(-1)
+                dismiss()
+            }
         }
 
         return view

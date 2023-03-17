@@ -6,6 +6,8 @@
         android:title="홈"
         android:enabled="true"
         android:checkable="true"
+        app:itemHorizontalTranslationEnabled="false"
+
         android:icon="@drawable/ic_activity_main_btm_nav_home"
         app:showAsAction="always"/>
     <item
