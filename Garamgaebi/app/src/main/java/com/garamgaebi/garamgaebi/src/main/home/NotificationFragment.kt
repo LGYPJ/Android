@@ -99,13 +99,13 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
                     .apply()
                 //세미나 메인 프래그먼트로!
                 if (dataList[position].resourceType == "SEMINAR") {
-                    val intent = Intent(context, ContainerActivity::class.java)
+                    val intent = Intent(requireContext(), ContainerActivity::class.java)
                     intent.putExtra("seminar", true)
                     startActivity(intent)
                 }
                 //네트워킹 메인 프래그먼트로
                 if (dataList[position].resourceType == "NETWORKING") {
-                    val intent = Intent(context, ContainerActivity::class.java)
+                    val intent = Intent(requireContext(), ContainerActivity::class.java)
                     intent.putExtra("networking", true)
                     startActivity(intent)
                 }

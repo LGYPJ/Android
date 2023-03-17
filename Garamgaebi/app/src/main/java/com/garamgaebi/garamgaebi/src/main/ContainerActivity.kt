@@ -45,7 +45,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         /*ab.setDisplayHomeAsUpEnabled(false)
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
-
+        binding.activitySeminarFreeBackBtn.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
