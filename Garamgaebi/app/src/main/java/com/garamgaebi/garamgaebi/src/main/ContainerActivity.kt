@@ -135,7 +135,15 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
-                transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                if(isSeminar()){
+                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                }
+                if(isNetworking()){
+                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                }
+                else{
+                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
+                }
             }
             14 -> {
                 transaction.replace(R.id.activity_seminar_frame, ServiceCenterFragment(),"serviceCenter")
@@ -143,8 +151,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             15 -> {
                 transaction.replace(R.id.activity_seminar_frame, WithdrawalFragment(),"withdrawal")
                 //binding.activityContainerToolbarTv.text = "회원탈퇴"
-
-
                 Log.d("회원탈퇴",binding.activityContainerToolbarTv.text.toString())
 
             }

@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
@@ -21,7 +22,7 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import java.util.regex.Pattern
 
-class SeminarFreeApplyFragment: BaseFragment<FragmentSeminarFreeApplyBinding>(FragmentSeminarFreeApplyBinding::bind, R.layout.fragment_seminar_free_apply) {
+class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBinding>(R.layout.fragment_seminar_free_apply) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null

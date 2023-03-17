@@ -32,7 +32,7 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                     if(data.profileImg == null){
                         Log.d("participantsImg", "why")
                         binding.activityItemSeminarProfileImg.visibility = VISIBLE
-                        binding.activityItemSeminarProfile.visibility = GONE
+                       // binding.activityItemSeminarProfile.visibility = GONE
                         Glide.with(binding.activityItemSeminarProfile.context)
                             .load(R.drawable.ic_transparent)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -41,7 +41,7 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                     }
                     else{
                         binding.activityItemSeminarProfileImg.visibility = GONE
-                        binding.activityItemSeminarProfile.visibility = VISIBLE
+                        //binding.activityItemSeminarProfile.visibility = VISIBLE
                         Glide.with(binding.activityItemSeminarProfile.context)
                             .load(data.profileImg)
                             .placeholder(R.drawable.default_profile)
@@ -57,14 +57,25 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
         @SuppressLint("SetTextI18n")
         fun bind(data: SeminarResult){
             binding.itemProfileNameTv.text = data.nickname
-            Glide.with(binding.itemNetworkGameProfileFrame.context)
-                .load(data.profileImg)
-                .placeholder(R.drawable.default_profile)
-                .error(R.drawable.default_profile)
-                .fallback(R.drawable.default_profile)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(binding.itemNetworkGameProfileFrame)
+            if(data.profileImg == null){
+                binding.activityItemSeminarProfileImg.visibility = VISIBLE
+                Glide.with(binding.itemNetworkGameProfileFrame.context)
+                    .load(R.drawable.ic_transparent)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(binding.itemNetworkGameProfileFrame)
+            }
+            else{
+                binding.activityItemSeminarProfileImg.visibility = GONE
+                Glide.with(binding.itemNetworkGameProfileFrame.context)
+                    .load(data.profileImg)
+                    .placeholder(R.drawable.default_profile)
+                    .error(R.drawable.default_profile)
+                    .fallback(R.drawable.default_profile)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(binding.itemNetworkGameProfileFrame)
+            }
         }
     }
 
