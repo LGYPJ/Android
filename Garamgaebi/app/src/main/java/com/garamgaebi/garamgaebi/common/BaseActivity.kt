@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.garamgaebi.garamgaebi.util.LoadingDialog
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 
 // 액티비티의 기본을 작성, 뷰 바인딩 활용
 abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflater) -> B) :
@@ -21,7 +22,6 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
-        setContentView(binding.root)
         keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
             onShowKeyboard = { keyboardHeight ->
             },
@@ -29,7 +29,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
                 // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
-
+        setContentView(binding.root)
     }
 
     override fun onStart() {

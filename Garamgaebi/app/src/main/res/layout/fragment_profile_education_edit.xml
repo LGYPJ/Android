@@ -232,7 +232,7 @@
             android:id="@+id/fragment_education_remove_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="68dp"
+            android:layout_marginBottom="48dp"
             android:background="@drawable/basic_blue_white_btn_layout"
             android:text="@string/remove"
             android:textColor="@color/blueForBtn"

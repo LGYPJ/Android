@@ -30,6 +30,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
 
+    var inNetworking = false
+    var inSeminar = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,18 +51,24 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             if(isNotifi()){
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                Log.d("applyback","????")
             }
             else{
+                Log.d("applyback","!!!")
                 onBackPressed()
             }
         }
 
     }
 
+
     override fun onBackPressed() {
         if(isWithdrawal()){
             openFragmentOnFrameLayout(14)
             binding.activityContainerToolbarTv.text = "고객 센터"
+        }else{
+
+            super.onBackPressed()
         }
         //else {
             //super.onBackPressed()
@@ -99,21 +108,26 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             //0 -> finish()
             1 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFragment(), "seminar")
                 binding.activityContainerToolbarTv.text = "세미나"
+                inSeminar = true
             }
             2 -> {transaction.replace(R.id.activity_seminar_frame, SeminarFreeApplyFragment() ,"seminarFree").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "세미나"
+                inSeminar = true
             }
             3 -> {transaction.replace(R.id.activity_seminar_frame, SeminarChargedApplyFragment(),"seminarCharged").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "세미나"
+                inSeminar = true
             }
 
             4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment(),"cancel")
             }
             5 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFragment(),"networking")
                 binding.activityContainerToolbarTv.text = "네트워킹"
+                inNetworking = true
             }
             6 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFreeApplyFragment(),"networkingFree").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "네트워킹"
+                inNetworking = true
             }
             7 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingGameSelectFragment(),"networkingGameSelect").addToBackStack(null)
                 binding.activityContainerToolbarTv.text = "아이스브레이킹"

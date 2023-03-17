@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
+import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
@@ -22,7 +23,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBinding>(FragmentNetworkingFreeApplyBinding::bind, R.layout.fragment_networking_free_apply) {
+class NetworkingFreeApplyFragment: BaseBindingFragment<FragmentNetworkingFreeApplyBinding>(R.layout.fragment_networking_free_apply) {
 
 
     //화면전환
@@ -173,6 +174,9 @@ class NetworkingFreeApplyFragment: BaseFragment<FragmentNetworkingFreeApplyBindi
         }
         return returnValue
     }
-
+    override fun onDestroy() {
+        keyboardVisibilityUtils.detachKeyboardListeners()
+        super.onDestroy()
+    }
 
 }

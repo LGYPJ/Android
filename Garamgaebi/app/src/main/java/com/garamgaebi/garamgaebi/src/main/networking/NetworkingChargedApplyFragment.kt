@@ -188,5 +188,8 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         //클립보드에 배치
         clipboardManager.setPrimaryClip(clipData)
     }
-
+    override fun onDestroy() {
+        keyboardVisibilityUtils.detachKeyboardListeners()
+        super.onDestroy()
+    }
 }
