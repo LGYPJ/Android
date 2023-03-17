@@ -48,7 +48,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         binding.activitySeminarFreeBackBtn.setOnClickListener {
             onBackPressed()
         }
-
     }
 
 
