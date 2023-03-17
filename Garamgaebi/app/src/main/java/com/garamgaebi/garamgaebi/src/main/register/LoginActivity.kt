@@ -37,13 +37,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "로그아웃 성공")
             }
         }*/
-        /*UserApiClient.instance.unlink { error ->
+        UserApiClient.instance.unlink { error ->
             if (error != null) {
                 Log.d("kakao", "회원 탈퇴 실패 $error")
             } else {
                 Log.d("kakao", "회원 탈퇴 성공")
             }
-        }*/
+        }
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
@@ -115,6 +115,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 startActivity(
                     Intent(this, RegisterActivity::class.java)
                         .putExtra("login", true)
+                        .putExtra("kakaoToken", token)
                 )
                 finish()
             }

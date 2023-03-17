@@ -29,6 +29,9 @@ import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -51,6 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 로그인 액티비티에서 넘어왔는지
         if(sSharedPreferences.getBoolean("fromLoginActivity", false)) {
             setBottomNavi()
+
             LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
             initDynamicLink()
             sSharedPreferences.edit().putBoolean("fromLoginActivity", false).apply()
@@ -100,9 +104,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             })
         }
     }
+
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
     @SuppressLint("ResourceType")
     private fun setBottomNavi() {
+
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
         myProfileFragment = MyProfileFragment()
