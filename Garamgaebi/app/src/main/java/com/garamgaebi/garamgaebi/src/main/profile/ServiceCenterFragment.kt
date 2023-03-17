@@ -12,17 +12,16 @@ import android.view.View.OnTouchListener
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
 import com.jakewharton.rxbinding4.view.clicks
@@ -75,18 +74,25 @@ class ServiceCenterFragment :
             Log.d("qna_agree_true",viewModel.agreeIsValid.value.toString())
         })
 
-//        viewModel._logout.observe(viewLifecycleOwner,Observer{
-//            if(!it.result.memberInfo.equals(myMemberIdx)) {
-//                activity?.startActivity(
-//                    Intent(
-//                        activity,
-//                        LoginActivity::class.java
-//                    )
-//                )
-//            }else{
-//                //error
-//            }
-//        })
+        viewModel._logout.observe(viewLifecycleOwner,Observer{
+                sSharedPreferences.edit()
+                    .putInt("memberIdx", -1)
+                    .putString("kakaoToken", "")
+                    .putString("X_ACCESS_TOKEN","")
+                    .putString("X_REFRESH_TOKEN", "")
+                    .putString("pushToken", "")
+                    .apply()
+                Log.d("logout_button", "sp")
+
+            Log.d("logout_button", "finish")
+
+                activity?.startActivity(Intent(activity, LoginActivity::class.java))
+            val i = (Intent(activity, LoginActivity::class.java))
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(i)
+                Log.d("logout_button", "main")
+
+        })
 
         with(viewModel){
             emailHint.value = getString(R.string.response_email_desc)
@@ -142,22 +148,17 @@ class ServiceCenterFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
 
-                        val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 1) { it ->
+                        val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
                             when (it) {
                                 -1 -> {
                                     Log.d("logout_button", "close")
-                                    (activity as ContainerActivity).onBackPressed()
+                                    //(activity as ContainerActivity).onBackPressed()
                                 }
                                 1 -> {
                                     //로그아웃
                                     viewModel.postLogout()
-                                    activity?.startActivity(Intent(activity, LoginActivity::class.java))
-                                    sSharedPreferences.edit()
-                                        .putInt("memberIdx", -1)
-                                        .putString("kakaoToken", "")
-                                        .putString(GaramgaebiApplication.X_ACCESS_TOKEN,"")
-                                        .putString(GaramgaebiApplication.X_REFRESH_TOKEN, "")
-                                        .apply()
+                                    Log.d("logout_button", "api")
+
                                 }
                             }
                         }

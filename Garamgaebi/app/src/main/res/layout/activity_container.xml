@@ -19,7 +19,9 @@
             android:id="@+id/activity_seminar_free_back_btn"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginStart="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/ic_arrow_back_35dp"
             app:layout_constraintStart_toStartOf="parent" />
 
