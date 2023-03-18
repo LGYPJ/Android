@@ -92,11 +92,7 @@ class ServiceCenterFragment :
                     GaramgaebiApplication().clearDataStore()
                 }
 
-                Log.d("logout_button", "sp")
-
-            Log.d("logout_button", "finish")
-
-                activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
             val i = (Intent(activity, LoginActivity::class.java))
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(i)

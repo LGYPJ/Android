@@ -11,7 +11,6 @@ import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class HomeViewModel : ViewModel(){
     private val homeRepository = HomeRepository()
@@ -51,14 +50,6 @@ class HomeViewModel : ViewModel(){
     private val _autoLogin = MutableLiveData<LoginResponse>()
     val autoLogin : LiveData<LoginResponse>
         get() = _autoLogin
-
-    init{
-        var memberIdx = 0
-        val IdxCheck = runBlocking{ // 비동기 작업 시작
-            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
-        }
-        getNotificationUnread(memberIdx)
-    }
 
     fun getHomeSeminar() {
         viewModelScope.launch(Dispatchers.IO) {
