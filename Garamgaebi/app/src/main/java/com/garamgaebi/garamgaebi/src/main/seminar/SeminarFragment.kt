@@ -104,12 +104,6 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                     containerActivity!!.goUser()
                                 }
-                                if(position != 0){
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
-                                    containerActivity!!.openFragmentOnFrameLayout(13)
-                                    containerActivity!!.goUser()
-                                }
                             }
                         })
                     }
