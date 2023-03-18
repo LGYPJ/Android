@@ -106,7 +106,7 @@
                 android:text="@={viewModel.major}"
                 android:textColor="@color/black80"
                 android:textColorHint="@color/grayForBtn"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:onFocusing="@{(check) -> viewModel.setBoolean(viewModel.majorFocusing,viewModel.majorFirst,check)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
