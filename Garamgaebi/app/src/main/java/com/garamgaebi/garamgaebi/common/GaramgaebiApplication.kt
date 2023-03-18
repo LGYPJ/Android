@@ -7,25 +7,29 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
+import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.core.Serializer
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.garamgaebi.garamgaebi.BuildConfig
+import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
 import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.user.model.User
+import com.garamgaebi.garamgaebi.BuildConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.InputStream
+import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
     val API_URL = "https://garamgaebi.shop/"
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
-
-
     // 실 서버 주소
     // val API_URL = "https://garamgaebi.shop/"
 
@@ -35,7 +39,8 @@ class GaramgaebiApplication : Application() {
         fun getApplication() = appInstance
         // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
         lateinit var sSharedPreferences: SharedPreferences
-
+        lateinit var myDataStore: DataStore<Preferences>
+        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
         // JWT Token Header 키 값
         val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
         val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
@@ -45,6 +50,47 @@ class GaramgaebiApplication : Application() {
 
         var myMemberIdx: Int = 49
 
+    }
+    suspend fun saveStringToDataStore(key: String, value: String) {
+        val stringKey = stringPreferencesKey(key) // String 타입 저장 키값
+        Log.d("dataStoreSaveString", "$key:$value")
+        dataStore.edit { preferences ->
+            preferences[stringKey] = value
+        }
+    }
+    suspend fun saveIntToDataStore(key: String, value: Int) {
+        val intKey = intPreferencesKey(key) // String 타입 저장 키값
+        Log.d("dataStoreSaveInt", "$key:$value")
+        dataStore.edit { preferences ->
+            preferences[intKey] = value
+        }
+    }
+
+    suspend fun saveBooleanToDataStore(key: String, value: Boolean) {
+        val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
+        Log.d("dataStoreSaveBoolean", "$key:$value")
+        dataStore.edit { preferences ->
+            preferences[booleanKey] = value
+        }
+    }
+    suspend fun loadStringData(key: String): String? {
+        val stringKey = stringPreferencesKey(key) // String 타입 저장 키값
+        val preferences = dataStore.data.first()
+        Log.d("dataStoreLoadString", "$key:" + preferences[stringKey])
+        return preferences[stringKey]
+    }
+
+    suspend fun loadIntData(key: String): Int? {
+        val intKey = intPreferencesKey(key) // String 타입 저장 키값
+        val preferences = dataStore.data.first()
+        Log.d("dataStoreLoadInt", "$key:" + preferences[intKey])
+        return preferences[intKey]
+    }
+    suspend fun loadBooleanData(key: String): Boolean? {
+        val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
+        val preferences = dataStore.data.first()
+        Log.d("dataStoreLoadBoolean", "$key:" + preferences[booleanKey])
+        return preferences[booleanKey]
     }
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.
@@ -80,10 +126,10 @@ class GaramgaebiApplication : Application() {
     // 연결 타임아웃시간은 5초로 지정이 되어있고, HttpLoggingInterceptor를 붙여서 어떤 요청이 나가고 들어오는지를 보여줍니다.
     private fun initRetrofitInstance() {
         val client: OkHttpClient = OkHttpClient.Builder()
-            .readTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+            .readTimeout(10000, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000, TimeUnit.MILLISECONDS)
             // 로그캣에 okhttp.OkHttpClient로 검색하면 http 통신 내용을 보여줍니다.
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            //.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
             .build()
 

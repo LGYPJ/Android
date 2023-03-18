@@ -21,6 +21,10 @@ import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
@@ -56,7 +60,13 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                             if(registerIt.isSuccess) {
                                 GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
                                 // 교육 or 경력
-                                if(GaramgaebiApplication.sSharedPreferences.getBoolean("isCareer", false)){
+                                var isCareer = false
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    isCareer = async(Dispatchers.IO) { // 비동기 작업 시작
+                                        GaramgaebiApplication().loadBooleanData("isCareer")
+                                    }.await() == true// 결과 대기
+                                }
+                                if(isCareer){
                                     val viewModel by activityViewModels<CareerViewModel>()
                                     viewModel.postCareerInfo()
                                 } else {
@@ -65,17 +75,30 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 }
                                 // 로그인
                                 Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
-                                homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
-                                    GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!))
+                                    var token = ""
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        token = async(Dispatchers.IO) { // 비동기 작업 시작
+                                            GaramgaebiApplication().loadStringData("pushToken")
+                                        }.await() .toString()// 결과 대기
+                                    }
+                                    homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
+                                    token))
 
                                 homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
                                     if(homeIt.isSuccess) {
-                                        GaramgaebiApplication.sSharedPreferences.edit()
-                                            .putString(GaramgaebiApplication.X_ACCESS_TOKEN, homeIt.result.tokenInfo.accessToken)
-                                            .putString(GaramgaebiApplication.X_REFRESH_TOKEN, homeIt.result.tokenInfo.refreshToken)
-                                            .putInt("memberIdx", homeIt.result.tokenInfo.memberIdx)
-                                            .putString("kakaoToken", registerViewModel.socialToken.value)
-                                            .apply()
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            val saveToken = async(Dispatchers.IO) { // 비동기 작업 시작
+                                                GaramgaebiApplication().saveStringToDataStore("kakaoToken",
+                                                    registerViewModel.socialToken.value!!
+                                                )
+                                                GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.accessToken)
+                                                GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.refreshToken)
+                                                GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
+                                                GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
+
+                                            }.await() // 결과 대기
+                                        }
+
                                         GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
                                         startActivity(Intent(registerActivity, MainActivity::class.java))
                                         ActivityCompat.finishAffinity(registerActivity)

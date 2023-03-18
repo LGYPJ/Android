@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
@@ -16,16 +17,20 @@ import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding>(R.layout.fragment_profile_education_edit),ConfirmDialogInterface {
-    private var educationIdx: Int by Delegates.notNull()
-    private lateinit var originInstitution : String
-    private lateinit var originMajor : String
-    private lateinit var originNow : String
-    private lateinit var originStart : String
-    private lateinit var originEnd : String
+    var educationIdx: Int = -1
+    var originInstitution : String = ""
+    var originMajor : String = ""
+    var originNow : String = ""
+    var originStart : String = ""
+    var originEnd : String = ""
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,17 +41,46 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         binding.lifecycleOwner = this
 
         //원본 데이터
-        setOriginData()
+        CoroutineScope(Dispatchers.Main).launch {
+            originInstitution = GaramgaebiApplication().loadStringData(
+                "EduInstitutionForEdit"
+            ).toString()
+            originMajor = GaramgaebiApplication().loadStringData(
+                "EduMajorForEdit"
+            ).toString()
+            originNow = GaramgaebiApplication().loadStringData(
+                "EduIsLearningForEdit"
+            ).toString()
+            originStart = GaramgaebiApplication().loadStringData(
+                "EduStartDateForEdit"
+            ).toString()
+            originEnd = GaramgaebiApplication().loadStringData(
+                "EduEndDateForEdit"
+            ).toString()
+            educationIdx = GaramgaebiApplication().loadIntData(
+                "EduIdxForEdit"
+            )!!
+            with(binding) {
+                fragmentEducationCheckbox.isChecked = originNow == "TRUE"
+                viewModel!!.checkBox.value = originNow == "TRUE"
+                fragmentEducationEtEndPeriod.setText(originEnd)
+                if (originNow == "TRUE") {
+                    fragmentEducationEtEndPeriod.setText("현재")
+                }
+            }
+            with(viewModel) {
+                institution.value = originInstitution
+                major.value = originMajor
+                isLearning.value = originNow
+                startDate.value = originStart
+                endDate.value = originEnd
+            }
+        }
 
            Log.d("go_edit_edu",educationIdx.toString() + originInstitution + originMajor + originNow + originStart + originEnd)
 
         viewModel.educationIdx = educationIdx
         with(viewModel) {
-            institution.value = originInstitution
-            major.value = originMajor
-            isLearning.value = originNow
-            startDate.value = originStart
-            endDate.value = originEnd
 
             institutionHint.value = getString(R.string.register_input_institution_desc)
             majorHint.value = getString(R.string.register_input_major)
@@ -345,26 +379,6 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 requireActivity().currentFocus!!.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
-        }
-    }
-    private fun setOriginData(){
-        educationIdx = GaramgaebiApplication.sSharedPreferences.getInt("EduIdxForEdit",-1)
-        originInstitution =
-            GaramgaebiApplication.sSharedPreferences.getString("EduInstitutionForEdit","Error").toString()
-        originMajor = GaramgaebiApplication.sSharedPreferences.getString("EduMajorForEdit","Error").toString()
-        originNow =
-            GaramgaebiApplication.sSharedPreferences.getString("EduIsLearningForEdit","Error").toString()
-        originStart =
-            GaramgaebiApplication.sSharedPreferences.getString("EduStartDateForEdit","Error").toString()
-        originEnd = GaramgaebiApplication.sSharedPreferences.getString("EduEndDateForEdit","Error").toString()
-
-        with(binding) {
-            fragmentEducationCheckbox.isChecked = originNow == "TRUE"
-            viewModel!!.checkBox.value = originNow == "TRUE"
-            fragmentEducationEtEndPeriod.setText(originEnd)
-            if (originNow == "TRUE") {
-                fragmentEducationEtEndPeriod.setText("현재")
-            }
         }
     }
     override fun onYesButtonClick(id: Int) = Unit

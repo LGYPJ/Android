@@ -16,6 +16,7 @@ import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.runBlocking
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     /** 푸시 알림으로 보낼 수 있는 메세지는 2가지
@@ -28,8 +29,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(FIREBASE_TAG, "new Token: $token")
 
         // 토큰 값을 따로 저장
-        val editor = GaramgaebiApplication.sSharedPreferences.edit()
-        editor.putString("pushToken", token).apply()
+        val saveToken = runBlocking {
+            GaramgaebiApplication().saveStringToDataStore("pushToken",token)
+        }
+
         Log.i(FIREBASE_TAG, "성공적으로 토큰을 저장함")
     }
 
@@ -130,8 +133,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //비동기 방식
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             Log.d(FIREBASE_TAG, "token=${it}")
-            GaramgaebiApplication.sSharedPreferences.edit()
-                .putString("pushToken", it).apply()
+            val saveToken = runBlocking {
+                GaramgaebiApplication().saveStringToDataStore("pushToken",it)
+            }
         }
 
 

@@ -19,6 +19,7 @@ import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBinding
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileBlueBinding
 import com.garamgaebi.garamgaebi.databinding.ItemSeminarProfileGrayBinding
 import com.garamgaebi.garamgaebi.model.SeminarResult
+import kotlinx.coroutines.runBlocking
 
 
 class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -133,9 +134,13 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
     }
 
     override fun getItemViewType(position: Int): Int {
-        //return dataList[position].type
+        val id = runBlocking { // 코루틴의 결과를 대기하고 반환
+            GaramgaebiApplication().loadIntData("memberIdx") ?: 0
+        }
+        Log.d("why_you",dataList[position].memberIdx.toString() + id.toString())
+
         return when(dataList[position].memberIdx){
-            GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0) -> BLUE
+            id.toInt() -> BLUE
             -1 -> GRAY
             else -> ORIGIN
         }

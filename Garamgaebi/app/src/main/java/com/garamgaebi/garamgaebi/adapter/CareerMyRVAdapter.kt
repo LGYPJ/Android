@@ -8,9 +8,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.dataStore
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileCareerBinding
 import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext : Context): RecyclerView.Adapter<CareerMyRVAdapter.ViewHolder>(){
 
@@ -36,25 +40,37 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                     editCareerEndDate = "현재"
                 }
 
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putString("CareerCompanyForEdit", editCareerCompany)
-                    .putString("CareerPositionForEdit", editCareerPosition)
-                    .putString("CareerIsWorkingForEdit", editCareerIsWorking)
-                    .putString("CareerStartDateForEdit", editCareerStartDate)
-                    .putString("CareerEndDateForEdit", editCareerEndDate)
-                    .putInt("CareerIdxForEdit", careerIdx)
-                    .apply()
-                suspend fun saveToDataStore(value: String) {
-//                    context.dataStore.edit { preferences ->
-//                        preferences[MY_KEY] = value
-//                    }
+                CoroutineScope(Dispatchers.Main).launch {
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "CareerCompanyForEdit",
+                        editCareerCompany
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "CareerPositionForEdit",
+                        editCareerPosition
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "CareerIsWorkingForEdit",
+                        editCareerIsWorking
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "CareerStartDateForEdit",
+                        editCareerStartDate
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "CareerEndDateForEdit",
+                        editCareerEndDate
+                    )
+                    GaramgaebiApplication().saveIntToDataStore(
+                        "CareerIdxForEdit",
+                        careerIdx
+                    )
+                    //경력 편집 프래그먼트로!
+                    val target = Intent(it.context, ContainerActivity::class.java)
+                    target.putExtra("careerEdit", true)
+                    target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(target)
                 }
-
-                //경력 편집 프래그먼트로!
-                val intent = Intent(it.context, ContainerActivity::class.java)
-                intent.putExtra("careerEdit", true)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent)
             }
         }
     }

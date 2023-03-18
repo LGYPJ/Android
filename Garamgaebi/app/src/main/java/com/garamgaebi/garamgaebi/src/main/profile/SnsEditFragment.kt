@@ -24,6 +24,10 @@ import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
@@ -57,20 +61,12 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 }
                 "블로그" -> {
                     binding.instaChar.text = ""
-                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
                 }
                 "깃허브" -> {
                     binding.instaChar.text = ""
-                    //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
-
                 }
                 else -> {
                     binding.instaChar.text = ""
-                    // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
-
                     viewModel.typeState.value = getString(R.string.caution_input_22)
                     viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH
                     GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
@@ -105,10 +101,23 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
         }
 
+        var snsIdx = -1
+        var originAddress = ""
+        var originType = ""
+
         //내 sns 정보 view에 설정
-        val snsIdx = GaramgaebiApplication.sSharedPreferences.getInt("SNSIdxForEdit",-1)
-        var originAddress = GaramgaebiApplication.sSharedPreferences.getString("SNSAddressForEdit","Error")
-        val originType = GaramgaebiApplication.sSharedPreferences.getString("SNSTypeForEdit","Error")
+        val putdata = runBlocking {
+            snsIdx = GaramgaebiApplication().loadIntData(
+                "SNSIdxForEdit"
+            )!!
+            originAddress = GaramgaebiApplication().loadStringData(
+                "SNSAddressForEdit"
+            ).toString()
+            originType = GaramgaebiApplication().loadStringData(
+                "SNSTypeForEdit"
+            ).toString()
+        }
+
         Log.d("go_edit_sns",snsIdx.toString()+ originAddress + originType)
 
 

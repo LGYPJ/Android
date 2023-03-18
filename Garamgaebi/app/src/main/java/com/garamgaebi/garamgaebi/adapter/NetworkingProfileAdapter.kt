@@ -1,6 +1,7 @@
 package com.garamgaebi.garamgaebi.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -17,6 +18,11 @@ import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileGrayBinding
 import com.garamgaebi.garamgaebi.model.NetworkingResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.internal.wait
 
 class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -131,14 +137,18 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when(dataList[position].memberIdx){
-            GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0) -> BLUE
-            -1 -> GRAY
-            else -> ORIGIN
-        }
+override fun getItemViewType(position: Int): Int {
+    val id = runBlocking { // 코루틴의 결과를 대기하고 반환
+        GaramgaebiApplication().loadIntData("memberIdx") ?: 0
     }
+    Log.d("why_you",dataList[position].memberIdx.toString() + id.toString())
 
+    return when(dataList[position].memberIdx){
+        id.toInt() -> BLUE
+        -1 -> GRAY
+        else -> ORIGIN
+    }
+}
     interface OnItemClickListener {
         fun onClick(position: Int)
     }

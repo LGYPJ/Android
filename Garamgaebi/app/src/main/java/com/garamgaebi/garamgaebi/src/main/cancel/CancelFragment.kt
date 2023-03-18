@@ -21,6 +21,10 @@ import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel),
@@ -60,9 +64,12 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.setOnClickListener {
             val orderBottomDialogFragment: CancelBankBottomDialogFragment = CancelBankBottomDialogFragment {
                 binding.activityCancelBankTv.text = it
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putString("bank", it)
-                    .apply()
+                CoroutineScope(Dispatchers.Main).launch {
+                    val saveBank = async(Dispatchers.Default) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveStringToDataStore("bank", it)
+
+                    }.await() // 결과 대기
+                }
 
                 binding.activityCancelBankTv.setTextColor(resources.getColor(R.color.black))
                 binding.activityCancelBankTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)

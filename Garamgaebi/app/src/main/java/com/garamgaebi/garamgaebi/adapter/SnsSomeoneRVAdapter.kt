@@ -18,7 +18,7 @@ class SnsSomeoneRVAdapter(private val dataList: ArrayList<SNSData>, val mContext
 
     inner class ViewHolder(private val binding: ItemSomeoneprofileSnsBinding):
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(data: SNSData) {
             binding.item = data
             binding.activitySomeoneprofileSnsListItemIvCopy.setOnClickListener {

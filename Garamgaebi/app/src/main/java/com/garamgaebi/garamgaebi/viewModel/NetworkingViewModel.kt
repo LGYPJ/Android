@@ -40,6 +40,7 @@ class NetworkingViewModel : ViewModel(){
                 /*_networkingParticipants.postValue(response.body()?.result?.participantList)
                 _networkingActive.postValue(response.body()?.result)*/
                 viewModelScope.launch(Dispatchers.Main){
+                    Log.d("대참사", response.toString())
                     _networkingParticipants.value = response.body()?.result?.participantList
                     _networkingActive.value = response.body()?.result
                 }
