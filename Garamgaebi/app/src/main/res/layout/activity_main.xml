@@ -27,6 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/activity_main_btm_nav"
         app:labelVisibilityMode="labeled"
+        style="@style/Widget.BottomNavigationView"
         app:itemIconTint="@drawable/selector_btm_nav_color"
         app:itemTextColor="@drawable/selector_btm_nav_color" />
 
