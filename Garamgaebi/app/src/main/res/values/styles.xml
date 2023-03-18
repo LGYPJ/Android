@@ -36,6 +36,7 @@
         <item name="duration">2000</item>
     </style>
 
+
     <!--<style name="dialog_fullscreen" parent="Theme.AppCompat.Dialog">
         <item name="android:backgroundDimAmount">0.0</item>
     </style>-->
