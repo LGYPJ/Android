@@ -42,7 +42,6 @@ class ServiceCenterFragment :
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-
         viewModel.email.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
 

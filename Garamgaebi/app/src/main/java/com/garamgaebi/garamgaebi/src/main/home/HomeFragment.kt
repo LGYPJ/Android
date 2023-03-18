@@ -110,7 +110,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         updateData()
     }
     private fun setView() {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.Main) {
                 // 세미나
                 viewModel.seminar.observe(viewLifecycleOwner, Observer {
@@ -146,14 +146,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //                                    GaramgaebiApplication.sSharedPreferences
 //                                        .edit().putInt("programIdx", it.result[position].programIdx)
 //                                        .apply()
-                                    val putData = runBlocking {
-                                        GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
+                                    CoroutineScope(Dispatchers.Default).launch {
+                                        GaramgaebiApplication().saveIntToDataStore(
+                                            "programIdx",
+                                            it.result[position].programIdx
+                                        )
+                                        //세미나 메인 프래그먼트로!
+                                        startActivity(
+                                            Intent(requireContext(), ContainerActivity::class.java)
+                                                .putExtra("seminar", true)
+                                        )
                                     }
-                                    //세미나 메인 프래그먼트로!
-                                    startActivity(
-                                        Intent(requireContext(), ContainerActivity::class.java)
-                                            .putExtra("seminar", true)
-                                    )
                                 }
                             }
                         })
@@ -182,14 +185,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //                                GaramgaebiApplication.sSharedPreferences
 //                                    .edit().putInt("programIdx", program)
 //                                    .apply()
-                                val putData = runBlocking {
-                                    GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
+                                CoroutineScope(Dispatchers.Default).launch {
+                                    GaramgaebiApplication().saveIntToDataStore(
+                                        "programIdx",
+                                        it.result[position].programIdx
+                                    )
+                                    //네트워킹 메인 프래그먼트로!
+                                    startActivity(
+                                        Intent(context, ContainerActivity::class.java)
+                                            .putExtra("networking", true)
+                                    )
                                 }
-                                //네트워킹 메인 프래그먼트로!
-                                startActivity(
-                                    Intent(context, ContainerActivity::class.java)
-                                        .putExtra("networking", true)
-                                )
                             }
                         })
                         Log.d("homeComplete", "homeNetworkingComplete")
@@ -218,16 +224,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             HomeUserItemRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
 
-                                val putData = runBlocking {
-                                    GaramgaebiApplication().saveIntToDataStore("userMemberIdx",result[position].memberIdx)
-                                }
+                                CoroutineScope(Dispatchers.Default).launch {
+                                    GaramgaebiApplication().saveIntToDataStore(
+                                        "userMemberIdx",
+                                        result[position].memberIdx
+                                    )
+
 //
 //                                GaramgaebiApplication.sSharedPreferences.edit()
 //                                    .putInt("userMemberIdx", result[position].memberIdx).apply()
 
-                                val intent = Intent(context, ContainerActivity::class.java)
-                                intent.putExtra("someoneProfile", true)
-                                startActivity(intent)
+                                    val target = Intent(context, ContainerActivity::class.java)
+                                    target.putExtra("someoneProfile", true)
+                                    startActivity(target)
+                                }
                             }
                         })
                         Log.d("homeComplete", "homeUserComplete")
@@ -257,23 +267,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             HomeMyMeetingRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
                                 val program = it.result[position].programIdx
-                                val putData = runBlocking {
-                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
-                                }
+//                                val putData = runBlocking {
+//                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+//                                }
+                                CoroutineScope(Dispatchers.Default).launch {
+                                    GaramgaebiApplication().saveIntToDataStore(
+                                        "programIdx",
+                                        program
+                                    )
+
+
 //                                GaramgaebiApplication.sSharedPreferences
 //                                    .edit().putInt("programIdx", program)
 //                                    .apply()
-                                //세미나 메인 프래그먼트로!
-                                if (it.result[position].type == "SEMINAR") {
-                                    val intent = Intent(context, ContainerActivity::class.java)
-                                    intent.putExtra("seminar", true)
-                                    startActivity(intent)
-                                }
-                                //네트워킹 메인 프래그먼트로
-                                if (it.result[position].type == "NETWORKING") {
-                                    val intent = Intent(context, ContainerActivity::class.java)
-                                    intent.putExtra("networking", true)
-                                    startActivity(intent)
+                                    //세미나 메인 프래그먼트로!
+                                    if (it.result[position].type == "SEMINAR") {
+                                        val intent = Intent(context, ContainerActivity::class.java)
+                                        intent.putExtra("seminar", true)
+                                        startActivity(intent)
+                                    }
+                                    //네트워킹 메인 프래그먼트로
+                                    if (it.result[position].type == "NETWORKING") {
+                                        val intent = Intent(context, ContainerActivity::class.java)
+                                        intent.putExtra("networking", true)
+                                        startActivity(intent)
+                                    }
                                 }
                             }
                         })

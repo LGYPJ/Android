@@ -96,13 +96,18 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
                         seminarProfile.setOnItemClickListener(object :
                             SeminarProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
-                                if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                var memberIdxCheck = 0
+                                val putData = runBlocking {
+                                    memberIdxCheck = GaramgaebiApplication().loadIntData("memberIdx")!!
+                                }
+                                if(position ==0 && it[0].memberIdx == memberIdxCheck){
                                     //이동 x
                                 }else{
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
-                                    containerActivity!!.openFragmentOnFrameLayout(13)
-                                    containerActivity!!.goUser()
+                                    val putData = runBlocking {
+                                        GaramgaebiApplication().saveIntToDataStore("userMemberIdx",it[position].memberIdx)!!
+                                        containerActivity!!.openFragmentOnFrameLayout(13)
+                                        containerActivity!!.goUser()
+                                    }
                                 }
                             }
                         })

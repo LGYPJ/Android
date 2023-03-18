@@ -22,23 +22,23 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: HomeUserResult){
             with(binding) {
-                if(data.profileUrl == null) {
-                    itemHomeUserIvProfileDefault.visibility = View.VISIBLE
-                    Glide.with(itemView)
-                        .load(R.drawable.ic_transparent)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(itemHomeUserIvProfile)
-                }
-                else {
-                    itemHomeUserIvProfileDefault.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (data.profileUrl == null) {
+                        itemHomeUserIvProfileDefault.visibility = View.VISIBLE
+                        Glide.with(itemView)
+                            .load(R.drawable.ic_transparent)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(itemHomeUserIvProfile)
+                    } else {
+                        itemHomeUserIvProfileDefault.visibility = View.GONE
 
-                    Glide.with(itemView)
-                        .load(data.profileUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .centerCrop()
-                        .into(itemHomeUserIvProfile)
+                        Glide.with(itemView)
+                            .load(data.profileUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .centerCrop()
+                            .into(itemHomeUserIvProfile)
 
 //                    CoroutineScope(Dispatchers.Main).launch {
 //                        val bitmap = withContext(Dispatchers.IO) {
@@ -46,6 +46,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
 //                        }
 //                        binding.itemHomeUserIvProfile.setImageBitmap(bitmap)
 //                    }
+                    }
                 }
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName
