@@ -6,14 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.model.PresentationResult
 import com.garamgaebi.garamgaebi.model.SeminarDetailInfoResponse
 import com.garamgaebi.garamgaebi.model.SeminarPresentResponse
 import com.garamgaebi.garamgaebi.model.SeminarResult
 import com.garamgaebi.garamgaebi.repository.SeminarRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SeminarViewModel : ViewModel(){
     private val seminarRepository = SeminarRepository()
@@ -34,7 +36,14 @@ class SeminarViewModel : ViewModel(){
     //val pay : MutableLiveData<String> = MutableLiveData("무료")
     fun getSeminarsInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("programIdx", 0))
+            //var response = seminarRepository.getSeminarsInfo(sSharedPreferences.getInt("programIdx", 0))
+            var programIdx = 0
+            val IdxCheck = runBlocking{ // 비동기 작업 시작
+                programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+
+            }
+            var response = seminarRepository.getSeminarsInfo(programIdx)
+
             Log.d("seminarPresent", response.body().toString())
             if (response.isSuccessful) {
                 viewModelScope.launch(Dispatchers.Main){
@@ -49,8 +58,14 @@ class SeminarViewModel : ViewModel(){
         }
     }
     fun getSeminarParticipants() {
+        var programIdx = 0
+        var memberIdx = 0
+        val IdxCheck = runBlocking{ // 비동기 작업 시작
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+        }
         viewModelScope.launch (Dispatchers.IO){
-            val response = seminarRepository.getSeminarParticipants(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
+            val response = seminarRepository.getSeminarParticipants(programIdx,memberIdx)
             Log.d("seminarParticipants", response.body().toString())
             if (response.isSuccessful) {
                 viewModelScope.launch(Dispatchers.Main){
@@ -65,8 +80,14 @@ class SeminarViewModel : ViewModel(){
     }
 
     fun getSeminarDetail() {
+        var programIdx = 0
+        var memberIdx = 0
+        val IdxCheck = runBlocking{ // 비동기 작업 시작
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+        }
         viewModelScope.launch (Dispatchers.IO){
-            val response = seminarRepository.getSeminarDetail(sSharedPreferences.getInt("programIdx", 0), sSharedPreferences.getInt("memberIdx", 0))
+            val response = seminarRepository.getSeminarDetail(programIdx,memberIdx)
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
                 viewModelScope.launch(Dispatchers.Main){

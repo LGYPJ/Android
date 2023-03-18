@@ -16,6 +16,7 @@ import com.garamgaebi.garamgaebi.src.main.profile.DatePickerDialogFragment
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
+import kotlinx.coroutines.runBlocking
 
 class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding>(R.layout.fragment_register_career) {
     lateinit var registerActivity:RegisterActivity
@@ -167,9 +168,12 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
         }
 
         binding.fragmentCareerSaveBtn.setOnClickListener {
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putBoolean("isCareer", true)
-                .apply()
+//            GaramgaebiApplication.sSharedPreferences
+//                .edit().putBoolean("isCareer", true)
+//                .apply()
+            val careerCheck = runBlocking{ // 비동기 작업 시작
+                GaramgaebiApplication().saveBooleanToDataStore("isCareer",true)
+            }
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
         binding.fragmentRegisterCareerTvGoEdu.setOnClickListener {

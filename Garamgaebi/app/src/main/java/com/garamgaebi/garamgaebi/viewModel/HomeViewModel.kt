@@ -51,10 +51,6 @@ class HomeViewModel : ViewModel(){
     val autoLogin : LiveData<LoginResponse>
         get() = _autoLogin
 
-    init{
-        getNotificationUnread(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
-    }
-
     fun getHomeSeminar() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = homeRepository.getHomeSeminar()

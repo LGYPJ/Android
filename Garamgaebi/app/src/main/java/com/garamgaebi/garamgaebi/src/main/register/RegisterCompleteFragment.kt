@@ -74,7 +74,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                     viewModel.postEducationInfo()
                                 }
                                 // 로그인
-                                Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
+                              //  Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
                                     var token = ""
                                     CoroutineScope(Dispatchers.Main).launch {
                                         token = async(Dispatchers.IO) { // 비동기 작업 시작
@@ -95,6 +95,8 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                                 GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.refreshToken)
                                                 GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
                                                 GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
+                                                GaramgaebiApplication().saveStringToDataStore("uniEmail",homeIt.result.uniEmail)
+
 
                                             }.await() // 결과 대기
                                         }

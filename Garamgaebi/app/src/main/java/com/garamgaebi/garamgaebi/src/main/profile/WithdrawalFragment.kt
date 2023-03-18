@@ -26,6 +26,7 @@ import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
 import androidx.core.view.WindowInsetsControllerCompat
+import kotlinx.coroutines.runBlocking
 
 class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
@@ -37,8 +38,10 @@ class WithdrawalFragment :
         super.onViewCreated(view, savedInstanceState)
 
 
-        var myEmail = GaramgaebiApplication.sSharedPreferences.getString("mySchoolEmail","not@gachon.ac.kr")
-
+        var myEmail = "not@gachon.ac.kr"
+        val getdataEmail = runBlocking {
+            myEmail = GaramgaebiApplication().loadStringData("uniEmail").toString()
+        }
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
         binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
@@ -158,12 +161,20 @@ class WithdrawalFragment :
                                         Intent(activity,
                                             LoginActivity::class.java)
                                     )
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("memberIdx", -1)
-                                        .putString("kakaoToken", "")
-                                        .putString(GaramgaebiApplication.X_ACCESS_TOKEN,"")
-                                        .putString(GaramgaebiApplication.X_REFRESH_TOKEN, "")
-                                        .apply()
+//                                    GaramgaebiApplication.sSharedPreferences.edit()
+//                                        .putInt("memberIdx", -1)
+//                                        .putString("kakaoToken", "")
+//                                        .putString(GaramgaebiApplication.X_ACCESS_TOKEN,"")
+//                                        .putString(GaramgaebiApplication.X_REFRESH_TOKEN, "")
+//                                        .apply()
+                                    val saveToken = runBlocking{ // 비동기 작업 시작
+                                        GaramgaebiApplication().saveStringToDataStore("kakaoToken","")
+                                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
+                                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
+                                        GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
+                                        GaramgaebiApplication().clearDataStore()
+
+                                    }
                                     GaramgaebiApplication.myMemberIdx = -1
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
                                         when(it2){

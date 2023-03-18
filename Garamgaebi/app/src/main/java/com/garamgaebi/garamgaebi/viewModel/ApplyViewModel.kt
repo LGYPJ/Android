@@ -15,6 +15,7 @@ import com.garamgaebi.garamgaebi.repository.SeminarRepository
 import com.garamgaebi.garamgaebi.model.SeminarDetailInfoResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class ApplyViewModel : ViewModel() {
     private val applyRepository = ApplyRepository()
@@ -117,13 +118,17 @@ class ApplyViewModel : ViewModel() {
 
     fun postEnroll(){
         viewModelScope.launch {
+            var memberIdx = 0
+            var programIdx = 0
+
+            val IdxCheck = runBlocking{ // 비동기 작업 시작
+                memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+                programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            }
             val response = applyRepository.postEnroll(
                 EnrollRequest(
-                    GaramgaebiApplication.sSharedPreferences.getInt(
-                        "memberIdx",
-                        0
-                    ),
-                    GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                    memberIdx,
+                    programIdx,
                     inputName.value.toString(),
                     inputNickName.value.toString(),
                     inputPhone.value.toString()
@@ -132,24 +137,18 @@ class ApplyViewModel : ViewModel() {
             if(response.isSuccessful) {
                 _enroll.postValue(response.body())
                 _enrollReq.value = EnrollRequest(
-                    GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),
-                    GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
+                    memberIdx,
+                    programIdx,
                     inputName.value.toString(),
                     inputNickName.value.toString(),
                     inputPhone.value.toString()
                 )
-
-                with(GaramgaebiApplication.sSharedPreferences.edit()) {
-                    putInt(
-                        "enrollIdx",
-                        GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0)
-                    )
-                    putString("inputName", inputName.value.toString())
-                    putString("inputNickName", inputNickName.value.toString())
-                    putString("inputPhone", inputPhone.value.toString())
-                    apply()
-                }
-
+                    val putData = runBlocking{ // 비동기 작업 시작
+                        GaramgaebiApplication().saveStringToDataStore("inputName",inputName.value.toString())
+                        GaramgaebiApplication().saveStringToDataStore("inputNickName",inputNickName.value.toString())
+                        GaramgaebiApplication().saveStringToDataStore("inputPhone",inputPhone.value.toString())
+                        GaramgaebiApplication().saveIntToDataStore ("enrollIdx",programIdx)
+                    }
             }
             else{
                 Log.d("error", response.message())
@@ -159,8 +158,20 @@ class ApplyViewModel : ViewModel() {
     }
 
     fun getSeminar(){
+        var memberIdx = 0
+        var programIdx = 0
+
+        val IdxCheck = runBlocking{ // 비동기 작업 시작
+            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            val response = seminarRepository.getSeminarDetail(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            var programIdx = 0
+
+            val IdxCheck = runBlocking{ // 비동기 작업 시작
+                programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            }
+            val response = seminarRepository.getSeminarDetail(programIdx, memberIdx)
             Log.d("seminarDetail", response.body().toString())
             if(response.isSuccessful) {
                 //날짜 데이터 변환
@@ -178,8 +189,15 @@ class ApplyViewModel : ViewModel() {
     }
 
     fun getNetworking(){
+        var memberIdx = 0
+        var programIdx = 0
+
+        val IdxCheck = runBlocking{ // 비동기 작업 시작
+            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            val response = networkingRepository.getNetworkingInfo(programIdx,memberIdx)
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 //날짜 데이터 변환
@@ -198,8 +216,15 @@ class ApplyViewModel : ViewModel() {
 
     //신청정보조회
     fun getCancel(){
+        var memberIdx = 0
+        var programIdx = 0
+
+        val IdxCheck = runBlocking{ // 비동기 작업 시작
+            memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            val response = applyRepository.getCancel(GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0),GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0))
+            val response = applyRepository.getCancel(memberIdx,programIdx)
             if(response.isSuccessful){
                 _cancelInfo.postValue(response.body())
             }

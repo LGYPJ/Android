@@ -30,12 +30,14 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
         viewModel.getNotification(myMemberIdx)
         var notificationRVAdapter = NotificationItemRVAdapter(arrayListOf())
         //hasNext 저장 용도
-        val editor = GaramgaebiApplication.sSharedPreferences.edit()
 
         // 최초 리사이클러뷰
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             val result = it.result.result as ArrayList<NotificationList>
-            editor.putBoolean("hasNext", it.result.hasNext).apply()
+            val putData = runBlocking {
+                GaramgaebiApplication().saveBooleanToDataStore("hasNext",it.result.hasNext)
+            }
+
             notificationRVAdapter.setList(result)
             binding.activityNotificationRv.apply {
                 adapter = notificationRVAdapter
@@ -54,11 +56,15 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
             RecyclerView.OnScrollListener() {
             override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(rv, dx, dy)
-                Log.d(
-                    "scrollHasNext",
-                    "${GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false)}"
-                )
-                if (GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false)) {
+//                Log.d(
+//                    "scrollHasNext",
+//                    "${GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false)}"
+//                )
+                var hasNext = false
+                val putData = runBlocking {
+                    hasNext = GaramgaebiApplication().loadBooleanData("hasNext") == true
+                }
+                if (hasNext) {
                     val rvPosition =
                         (rv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                     val totalCount = rv.adapter?.itemCount?.minus(1)
@@ -75,7 +81,9 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
         })
         // 다음 알림 조회 API
         viewModel.notificationScroll.observe(viewLifecycleOwner, Observer {
-            editor.putBoolean("hasNext", it.result.hasNext).apply()
+            val putData = runBlocking {
+                GaramgaebiApplication().saveBooleanToDataStore("hasNext",it.result.hasNext)
+            }
             notificationRVAdapter.apply {
                 setList(it.result.result as ArrayList<NotificationList>)
                 Log.d(
@@ -94,9 +102,12 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
             override fun onClick(dataList: ArrayList<NotificationList>, position: Int) {
                 dataList[position].isRead = true
                 val program = dataList[position].programIdx
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("programIdx", program)
-                    .apply()
+//                GaramgaebiApplication.sSharedPreferences
+//                    .edit().putInt("programIdx", program)
+//                    .apply()
+                val putData = runBlocking {
+                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+                }
                 //세미나 메인 프래그먼트로!
                 if (dataList[position].resourceType == "SEMINAR") {
                     (requireActivity() as ContainerActivity).openFragmentOnFrameLayout(1)

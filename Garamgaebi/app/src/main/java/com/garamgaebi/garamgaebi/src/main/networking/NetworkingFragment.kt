@@ -94,13 +94,18 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                         networkingProfile.setOnItemClickListener(object :
                             NetworkingProfileAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
+                                var memberIdxCheck = 0
+                                val putData = runBlocking {
+                                    memberIdxCheck = GaramgaebiApplication().loadIntData("memberIdx")!!
+                                }
                                 //상대방 프로필 프래그먼트로
-                                if(position ==0 && it[0].memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)){
+                                if(position ==0 && it[0].memberIdx == memberIdxCheck){
                                     //이동 x
 
                                 }else{
-                                    GaramgaebiApplication.sSharedPreferences.edit()
-                                        .putInt("userMemberIdx", it[position].memberIdx).apply()
+                                    val putData = runBlocking {
+                                        GaramgaebiApplication().saveIntToDataStore("userMemberIdx",it[position].memberIdx)!!
+                                    }
                                     containerActivity!!.openFragmentOnFrameLayout(13)
                                     containerActivity!!.goUser()
                                 }
@@ -110,7 +115,10 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 })
 
                 networkingActive.observe(viewLifecycleOwner, Observer{
-                    val startDate = GaramgaebiApplication.sSharedPreferences.getString("startDate", null)
+                    var startDate = ""
+                    val putData = runBlocking {
+                        startDate = GaramgaebiApplication().loadStringData("startDate").toString()
+                    }
                     //현재 시간과 stratDate 비교 --> 같다면 true로 반환
                     if(it.isApply && startDate?.let { it1 -> GaramgaebiFunction().checkIceBreaking(it1) } == true){
                         //버튼 활성화 & 멘트 바꾸기

@@ -18,13 +18,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 
@@ -75,18 +75,24 @@ class ServiceCenterFragment :
         })
 
         viewModel._logout.observe(viewLifecycleOwner,Observer{
-                sSharedPreferences.edit()
-                    .putInt("memberIdx", -1)
-                    .putString("kakaoToken", "")
-                    .putString("X_ACCESS_TOKEN","")
-                    .putString("X_REFRESH_TOKEN", "")
-                    .putString("pushToken", "")
-                    .apply()
-                Log.d("logout_button", "sp")
+//                sSharedPreferences.edit()
+//                    .putInt("memberIdx", -1)
+//                    .putString("kakaoToken", "")
+//                    .putString("X_ACCESS_TOKEN","")
+//                    .putString("X_REFRESH_TOKEN", "")
+//                    .putString("pushToken", "")
+//                    .apply()
 
-            Log.d("logout_button", "finish")
+                val saveToken = runBlocking{ // 비동기 작업 시작
+                    GaramgaebiApplication().saveStringToDataStore("kakaoToken","")
+                    GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
+                    GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
+                    GaramgaebiApplication().saveStringToDataStore("pushToken","")
+                    GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
+                    GaramgaebiApplication().clearDataStore()
+                }
 
-                activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
             val i = (Intent(activity, LoginActivity::class.java))
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(i)

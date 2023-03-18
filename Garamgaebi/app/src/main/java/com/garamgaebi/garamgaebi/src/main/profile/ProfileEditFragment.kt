@@ -60,18 +60,42 @@ class ProfileEditFragment :
     private val TAG = "TAG-EDIT-CP"
 
     override fun onPause() {
-        GaramgaebiApplication.sSharedPreferences
-            .edit().putString("myNickName", viewModel.nickName.value)
-            .putString("myBelong", viewModel.belong.value)
-            .putString("myEmail", viewModel.email.value)
-            .putString("myIntro", viewModel.intro.value)
-            .apply()
+//        GaramgaebiApplication.sSharedPreferences
+//            .edit().putString("myNickName", viewModel.nickName.value)
+//            .putString("myBelong", viewModel.belong.value)
+//            .putString("myEmail", viewModel.email.value)
+//            .putString("myIntro", viewModel.intro.value)
+//            .apply()
+        val putData = runBlocking {
+            with(viewModel){
+                nickName.value?.let {
+                    GaramgaebiApplication().saveStringToDataStore("myNickName",
+                        it
+                    )
+                }
+                belong.value?.let { GaramgaebiApplication().saveStringToDataStore("myBelong", it) }
+                email.value?.let { GaramgaebiApplication().saveStringToDataStore("myEmail", it) }
+                intro.value?.let {
+                    GaramgaebiApplication().saveStringToDataStore("profileEmail",
+                        it
+                    )
+                }
+            }
+        }
 
         //사진 편집 후 중단된 경우
-        if(!GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage",false)){
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putString("myImage", viewModel.image.value)
-                .apply()
+        var EditImageCheck = false
+        val putEdit = runBlocking {
+            EditImageCheck = GaramgaebiApplication().loadBooleanData("EditImage") == true
+            }
+        if(!EditImageCheck){
+            val putEdit = runBlocking {
+                viewModel.image.value?.let {
+                    GaramgaebiApplication().saveStringToDataStore("myImage",
+                        it
+                    )
+                }
+            }
         }
         Log.e(TAG, "onpause")
 
@@ -90,55 +114,56 @@ class ProfileEditFragment :
 
         binding.svRoot.isSmoothScrollingEnabled = false
         with(binding) {
-            viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
-                "myNickName",
-                "Error"
-            )
-            viewModel!!.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
-                "myBelong",
-                ""
-            )
-            viewModel!!.email.value = GaramgaebiApplication.sSharedPreferences.getString(
-                "myEmail",
-                "Error"
-            )
-            viewModel!!.intro.value = GaramgaebiApplication.sSharedPreferences.getString(
-                "myIntro",
-                ""
-            )
-            viewModel!!.image.value = GaramgaebiApplication.sSharedPreferences.getString(
-                "myImage",
-                "Error"
-            )
+            val getdata = runBlocking {
+                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myNickName").toString()
+                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myBelong").toString()
+                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myEmail").toString()
+                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myIntro").toString()
+                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myImage").toString()
+
+            }
+//            viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
+//                "myNickName",
+//                "Error"
+//            )
+//            viewModel!!.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
+//                "myBelong",
+//                ""
+//            )
+//            viewModel!!.email.value = GaramgaebiApplication.sSharedPreferences.getString(
+//                "myEmail",
+//                "Error"
+//            )
+//            viewModel!!.intro.value = GaramgaebiApplication.sSharedPreferences.getString(
+//                "myIntro",
+//                ""
+//            )
+//            viewModel!!.image.value = GaramgaebiApplication.sSharedPreferences.getString(
+//                "myImage",
+//                "Error"
+//            )
             Log.d("image_viewModel",viewModel!!.image.value.toString())
 
             fragmentEditProfileEtNick.setText(
-                GaramgaebiApplication.sSharedPreferences.getString(
-                    "myNickName",
-                    "Error"
-                )
+                viewModel!!.nickName.value
             )
             fragmentEditProfileEtTeam.setText(
-                GaramgaebiApplication.sSharedPreferences.getString(
-                    "myBelong",
-                    ""
-                )
+                viewModel!!.belong.value
             )
             fragmentEditProfileEtEmail.setText(
-                GaramgaebiApplication.sSharedPreferences.getString(
-                    "myEmail",
-                    "Error"
-                )
+                viewModel!!.email.value
             )
             fragmentEditProfileEtIntro.setText(
-                GaramgaebiApplication.sSharedPreferences.getString(
-                    "myIntro",
-                    ""
-                )
+                viewModel!!.myContent.value
             )
-            var myProfileImage = GaramgaebiApplication.sSharedPreferences.getString("myImage", "error")
-            var editImage = GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage", false)
 
+            var myProfileImage = ""
+            var editImage = false
+
+            val getdataImage = runBlocking {
+                myProfileImage = GaramgaebiApplication().loadIntData("myImage").toString()
+                editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
+            }
             if (myProfileImage !="error" && myProfileImage != null && !editImage) {
                     CoroutineScope(Dispatchers.Main).launch {
                         val bitmap = withContext(Dispatchers.IO) {
@@ -244,8 +269,11 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        var editImage = GaramgaebiApplication.sSharedPreferences.getBoolean("EditImage", false)
+                        var editImage = false
 
+                        val getdataImage = runBlocking {
+                            editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
+                        }
                         CoroutineScope(Dispatchers.Main).launch {
                             val job1 = async(Dispatchers.IO) {
 
@@ -410,9 +438,13 @@ class ProfileEditFragment :
                 /**
                  * 사용자가 갤러리에서 이미지를 선택했다면
                  */
-                GaramgaebiApplication.sSharedPreferences
-                    .edit().putBoolean("EditImage", true)
-                    .apply()
+//                GaramgaebiApplication.sSharedPreferences
+//                    .edit().putBoolean("EditImage", true)
+//                    .apply()
+
+                val getdataImage = runBlocking {
+                     GaramgaebiApplication().saveBooleanToDataStore("EditImage",true)
+                }
             }
         }
     }

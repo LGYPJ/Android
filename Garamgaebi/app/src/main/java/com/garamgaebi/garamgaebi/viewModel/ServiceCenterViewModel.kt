@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.repository.ProfileRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class ServiceCenterViewModel : ViewModel(){
     private val profileRepository = ProfileRepository()
@@ -100,9 +102,19 @@ class ServiceCenterViewModel : ViewModel(){
     //QnA 문의
     fun postLogout() {
         viewModelScope.launch(Dispatchers.IO) {
-            //fcm 토큰 보내기
 
-            val response = profileRepository.getCheckLogout(LogoutToken(X_ACCESS_TOKEN, X_REFRESH_TOKEN))
+            //fcm 토큰 보내기
+            var accessToken = ""
+            var refreshToken = ""
+            var fcmToken = ""
+
+            val saveToken = runBlocking { // 비동기 작업 시작
+                accessToken = GaramgaebiApplication().loadStringData(X_ACCESS_TOKEN).toString()
+                refreshToken = GaramgaebiApplication().loadStringData(X_ACCESS_TOKEN).toString()
+                fcmToken = GaramgaebiApplication().loadStringData("pushToken").toString()
+            }
+
+            val response = profileRepository.getCheckLogout(LogoutToken(accessToken, refreshToken,fcmToken))
             //Log.d("sns_add", response.body().toString())
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
