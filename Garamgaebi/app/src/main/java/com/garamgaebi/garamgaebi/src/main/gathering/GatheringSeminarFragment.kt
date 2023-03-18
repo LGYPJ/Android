@@ -15,10 +15,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * 세미나 모아보기 프래그먼트
@@ -68,9 +65,12 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                     }
                     binding.fragmentGatheringSeminarClThisMonth.setOnClickListener {
                         //세미나 메인 화면으로
-                        GaramgaebiApplication.sSharedPreferences
-                            .edit().putInt("programIdx", program)
-                            .apply()
+//                        GaramgaebiApplication.sSharedPreferences
+//                            .edit().putInt("programIdx", program)
+//                            .apply()
+                        val putData = runBlocking {
+                            GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+                        }
                         //세미나 메인 프래그먼트로!
                         startActivity(Intent(context, ContainerActivity::class.java)
                             .putExtra("seminar", true)
@@ -116,9 +116,12 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                     seminarDeadlineAdapter.setOnItemClickListener(object :
                         GatheringSeminarDeadlineRVAdapter.OnItemClickListener{
                         override fun onClick(position: Int) {
-                            GaramgaebiApplication.sSharedPreferences
-                                .edit().putInt("programIdx", it.result[position].programIdx)
-                                .apply()
+//                            GaramgaebiApplication.sSharedPreferences
+//                                .edit().putInt("programIdx", it.result[position].programIdx)
+//                                .apply()
+                            val putData = runBlocking {
+                                GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
+                            }
                             //세미나 메인 프래그먼트로!
                             startActivity(Intent(context, ContainerActivity::class.java)
                                 .putExtra("seminar", true)

@@ -29,14 +29,10 @@ class XAccessTokenInterceptor : Interceptor {
 //            Log.d("참사1",jwtToken.toString())
 //
 //        }
-        Log.d("짱구",jwtToken.toString())
-        Log.d("짱구구ㅜ2",jwtToken.toString())
-
         val request = chain.request()
 
         if (jwtToken != "Bearer ") {
             builder.addHeader("Authorization", jwtToken)
-            Log.d("짱구","Authorization")
         }
 
         var response = chain.proceed(builder.build())

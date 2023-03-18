@@ -172,13 +172,23 @@ class MyProfileFragment :
                     } else {
 
                         with(binding) {
-                            GaramgaebiApplication.sSharedPreferences
-                                .edit().putString("myNickName", result.result.nickName)
-                                .putString("myBelong", result.result.belong)
-                                .putString("myEmail", result.result.profileEmail)
-                                .putString("myIntro", result.result.content)
-                                .putString("myImage", result.result.profileUrl)
-                                .apply()
+//                            GaramgaebiApplication.sSharedPreferences
+//                                .edit().putString("myNickName", result.result.nickName)
+//                                .putString("myBelong", result.result.belong)
+//                                .putString("myEmail", result.result.profileEmail)
+//                                .putString("myIntro", result.result.content)
+//                                .putString("myImage", result.result.profileUrl)
+//                                .apply()
+//
+                            val putData = runBlocking {
+                                with(result.result){
+                                    GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
+                                    GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
+                                    GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
+                                    GaramgaebiApplication().saveStringToDataStore("profileEmail",content)
+                                    GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
+                                }
+                            }
 
                             fragmentMyProfileTvUsername.text = result.result.nickName
                             fragmentMyProfileTvEmail.text = result.result.profileEmail

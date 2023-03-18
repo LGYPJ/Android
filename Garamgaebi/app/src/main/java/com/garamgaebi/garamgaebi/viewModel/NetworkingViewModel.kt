@@ -13,6 +13,7 @@ import com.garamgaebi.garamgaebi.model.NetworkingResult
 import com.garamgaebi.garamgaebi.repository.NetworkingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class NetworkingViewModel : ViewModel(){
     private val networkingRepository = NetworkingRepository()
@@ -33,8 +34,15 @@ class NetworkingViewModel : ViewModel(){
 
     fun getNetworkingParticipants() {
         viewModelScope.launch(Dispatchers.IO){
-            val response = networkingRepository.getNetworkingParticipants(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0),
-                GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            var memberIdx = 0
+            var programIdx = 0
+
+            val IdxCheck = runBlocking{ // 비동기 작업 시작
+                memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+                programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            }
+            val response = networkingRepository.getNetworkingParticipants(programIdx,
+                memberIdx)
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){
                 /*_networkingParticipants.postValue(response.body()?.result?.participantList)
@@ -59,12 +67,27 @@ class NetworkingViewModel : ViewModel(){
 
     fun getNetworkingInfo() {
         viewModelScope.launch(Dispatchers.Main) {
-            val response = networkingRepository.getNetworkingInfo(GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0), GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0))
+            var memberIdx = 0
+            var programIdx = 0
 
-            GaramgaebiApplication.sSharedPreferences
-                .edit().putString("startDate",
-                    response.body()?.result?.let { GaramgaebiFunction().getDateYMD(it.date) })
-                .apply()
+            val IdxCheck = runBlocking{ // 비동기 작업 시작
+                memberIdx  = GaramgaebiApplication().loadIntData("memberIdx")!!
+                programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
+            }
+
+            val response = networkingRepository.getNetworkingInfo(programIdx, memberIdx)
+
+//            GaramgaebiApplication.sSharedPreferences
+//                .edit().putString("startDate",
+//                    response.body()?.result?.let { GaramgaebiFunction().getDateYMD(it.date) })
+//                .apply()
+
+            val dateCheck = runBlocking{ // 비동기 작업 시작
+                response.body()?.result?.let {
+                    GaramgaebiFunction().getDateYMD(
+                        it.date)
+                }?.let { GaramgaebiApplication().saveStringToDataStore("startDate", it) }!!
+            }
 
             Log.d("networking", response.body().toString())
             if(response.isSuccessful){

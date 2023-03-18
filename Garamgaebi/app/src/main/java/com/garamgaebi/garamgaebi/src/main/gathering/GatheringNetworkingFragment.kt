@@ -15,10 +15,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.garamgaebi.garamgaebi.model.GatheringNetworkingClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBinding>(FragmentGatheringNetworkingBinding::bind, R.layout.fragment_gathering_networking){
     val viewModel by viewModels<GatheringViewModel>()
@@ -60,9 +57,13 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                     }
                     val program = it.result.programIdx
                     binding.fragmentGatheringNetworkingClThisMonth.setOnClickListener {
-                        GaramgaebiApplication.sSharedPreferences
-                            .edit().putInt("programIdx", program)
-                            .apply()
+                        val putData = runBlocking {
+                            GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+
+                        }
+//                        GaramgaebiApplication.sSharedPreferences
+//                            .edit().putInt("programIdx", program)
+//                            .apply()
                         //네트워킹 메인 프래그먼트로!
                         startActivity(Intent(context, ContainerActivity::class.java)
                             .putExtra("networking", true)
@@ -107,9 +108,12 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                             GatheringNetworkingDeadlineRVAdapter.OnItemClickListener{
                             override fun onClick(position: Int) {
                                 val program = it.result[position].programIdx
-                                GaramgaebiApplication.sSharedPreferences
-                                    .edit().putInt("programIdx", program)
-                                    .apply()
+//                                GaramgaebiApplication.sSharedPreferences
+//                                    .edit().putInt("programIdx", program)
+//                                    .apply()
+                                val putData = runBlocking {
+                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+                                }
                                 //네트워킹 메인 프래그먼트로!
                                 startActivity(Intent(context, ContainerActivity::class.java)
                                     .putExtra("networking", true)

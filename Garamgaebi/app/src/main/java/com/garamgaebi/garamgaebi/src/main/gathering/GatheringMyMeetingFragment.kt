@@ -21,6 +21,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
+import com.kakao.sdk.common.KakaoSdk.type
 import kotlinx.coroutines.*
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(
@@ -67,7 +68,13 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         when (item?.itemId) {
             R.id.details -> {
                 //세미나로
-                if (GaramgaebiApplication.sSharedPreferences.getString("type", null) == "SEMINAR") {
+                var type: String = ""
+                val getType = runBlocking {
+                    type = GaramgaebiApplication().loadStringData("type"
+                    ).toString()
+                }
+
+                if (type == "SEMINAR") {
                     startActivity(
                         Intent(context, ContainerActivity::class.java)
                             .putExtra("seminar", true)
@@ -75,10 +82,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                     )
                 }
                 //네트워킹으로
-                if (GaramgaebiApplication.sSharedPreferences.getString(
-                        "type",
-                        null
-                    ) == "NETWORKING"
+                if (type == "NETWORKING"
                 ) {
                     startActivity(
                         Intent(context, ContainerActivity::class.java)
@@ -131,10 +135,15 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                             override fun onMoreClick(position: Int, v: View) {
                                 val program = it.result[position].programIdx
                                 val type = it.result[position].type
-                                GaramgaebiApplication.sSharedPreferences.edit()
-                                    .putInt("programIdx", program)
-                                    .putString("type", type)
-                                    .apply()
+                                val putType = runBlocking {
+                                    GaramgaebiApplication().saveStringToDataStore("type",type)
+                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+
+                                }
+//                                GaramgaebiApplication.sSharedPreferences.edit()
+//                                    .putInt("programIdx", program)
+//                                    .putString("type", type)
+//                                    .apply()
                                 showPopupScheduled(v)
                             }
                         })
@@ -167,10 +176,15 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                             override fun onMoreClick(position: Int, v: View) {
                                 val program = it.result[position].programIdx
                                 val type = it.result[position].type
-                                GaramgaebiApplication.sSharedPreferences.edit()
-                                    .putInt("programIdx", program)
-                                    .putString("type", type)
-                                    .apply()
+                                val putType = runBlocking {
+                                    GaramgaebiApplication().saveStringToDataStore("type",type)
+                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+
+                                }
+//                                GaramgaebiApplication.sSharedPreferences.edit()
+//                                    .putInt("programIdx", program)
+//                                    .putString("type", type)
+//                                    .apply()
                                 showPopupLast(v)
                             }
                         })

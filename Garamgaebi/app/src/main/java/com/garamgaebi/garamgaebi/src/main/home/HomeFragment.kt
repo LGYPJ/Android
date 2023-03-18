@@ -143,9 +143,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             HomeSeminarRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
                                 if (it.result[position].isOpen == "OPEN") {
-                                    GaramgaebiApplication.sSharedPreferences
-                                        .edit().putInt("programIdx", it.result[position].programIdx)
-                                        .apply()
+//                                    GaramgaebiApplication.sSharedPreferences
+//                                        .edit().putInt("programIdx", it.result[position].programIdx)
+//                                        .apply()
+                                    val putData = runBlocking {
+                                        GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
+                                    }
                                     //세미나 메인 프래그먼트로!
                                     startActivity(
                                         Intent(requireContext(), ContainerActivity::class.java)
@@ -176,9 +179,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             HomeNetworkingRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
                                 val program = it.result[position].programIdx
-                                GaramgaebiApplication.sSharedPreferences
-                                    .edit().putInt("programIdx", program)
-                                    .apply()
+//                                GaramgaebiApplication.sSharedPreferences
+//                                    .edit().putInt("programIdx", program)
+//                                    .apply()
+                                val putData = runBlocking {
+                                    GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
+                                }
                                 //네트워킹 메인 프래그먼트로!
                                 startActivity(
                                     Intent(context, ContainerActivity::class.java)
@@ -211,8 +217,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         userRVAdapter.setOnItemClickListener(object :
                             HomeUserItemRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
-                                GaramgaebiApplication.sSharedPreferences.edit()
-                                    .putInt("userMemberIdx", result[position].memberIdx).apply()
+
+                                val putData = runBlocking {
+                                    GaramgaebiApplication().saveIntToDataStore("userMemberIdx",result[position].memberIdx)
+                                }
+//
+//                                GaramgaebiApplication.sSharedPreferences.edit()
+//                                    .putInt("userMemberIdx", result[position].memberIdx).apply()
+
                                 val intent = Intent(context, ContainerActivity::class.java)
                                 intent.putExtra("someoneProfile", true)
                                 startActivity(intent)
@@ -245,9 +257,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             HomeMyMeetingRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
                                 val program = it.result[position].programIdx
-                                GaramgaebiApplication.sSharedPreferences
-                                    .edit().putInt("programIdx", program)
-                                    .apply()
+                                val putData = runBlocking {
+                                    GaramgaebiApplication().saveIntToDataStore("programIdx",program)
+                                }
+//                                GaramgaebiApplication.sSharedPreferences
+//                                    .edit().putInt("programIdx", program)
+//                                    .apply()
                                 //세미나 메인 프래그먼트로!
                                 if (it.result[position].type == "SEMINAR") {
                                     val intent = Intent(context, ContainerActivity::class.java)

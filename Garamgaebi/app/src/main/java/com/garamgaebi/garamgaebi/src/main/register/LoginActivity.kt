@@ -104,7 +104,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 pushToken
             )
         )
-        Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
+        //Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
             Log.d("loginActivity", "login observe")
             if (it.isSuccess) {

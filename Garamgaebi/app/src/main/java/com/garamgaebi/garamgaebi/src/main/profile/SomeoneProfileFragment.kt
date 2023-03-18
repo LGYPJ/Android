@@ -32,10 +32,7 @@ import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.google.android.datatransport.runtime.dagger.multibindings.StringKey
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 
@@ -55,7 +52,10 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var memberIdx = -1
-        memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
+        val putData = runBlocking {
+            memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
+        }
+       // memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
         Log.d("멤버idx",memberIdx.toString())
         var viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         with(viewModel) {

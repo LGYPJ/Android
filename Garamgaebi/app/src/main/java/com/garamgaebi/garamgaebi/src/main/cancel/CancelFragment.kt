@@ -21,10 +21,7 @@ import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import com.jakewharton.rxbinding4.view.clicks
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel),
@@ -120,10 +117,15 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
 
                         //신청 완료 api
-                        var idInfo = GaramgaebiApplication.sSharedPreferences.getInt("memberIdx", 0)
-                        var programInfo = GaramgaebiApplication.sSharedPreferences.getInt("programIdx", 0)
+                        var idInfo = -1
+                        var programInfo = -1
                         var bankInfo = ""
-                        bankInfo = GaramgaebiApplication.sSharedPreferences.getString("bank", "").toString()
+                        val getToken = runBlocking {
+                            idInfo = GaramgaebiApplication().loadIntData("memberIdx")!!
+                            programInfo = GaramgaebiApplication().loadIntData("programIdx")!!
+                            bankInfo = GaramgaebiApplication().loadStringData("bank").toString()
+                        }
+
                         var accountInfo = binding.activityCancelPayEt.toString()
 
                         var canelRequest = CancelRequest(idInfo,programInfo,bankInfo,accountInfo)
@@ -136,7 +138,11 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
         //type에 따라 상세보기 뷰모델 달라짐!
         //세미나 상세보기 뷰모델로
-        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="SEMINAR"){
+        var seminar = ""
+        val getSeminar = runBlocking {
+            seminar = GaramgaebiApplication().loadStringData("type")!!
+        }
+        if(seminar=="SEMINAR"){
             viewModel.getSeminar()
             viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
                 val data = it.result
@@ -173,7 +179,11 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             })
         }
         //네트워킹 상세보기 뷰모델로
-        if(GaramgaebiApplication.sSharedPreferences.getString("type", null)=="NETWORKING"){
+        var networking = ""
+        val getNetworking = runBlocking {
+            seminar = GaramgaebiApplication().loadStringData("type")!!
+        }
+        if(networking=="NETWORKING"){
             viewModel.getNetworking()
             viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
                 val data = it.result
