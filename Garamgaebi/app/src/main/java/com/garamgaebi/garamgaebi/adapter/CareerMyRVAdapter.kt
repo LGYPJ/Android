@@ -44,6 +44,11 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                     .putString("CareerEndDateForEdit", editCareerEndDate)
                     .putInt("CareerIdxForEdit", careerIdx)
                     .apply()
+                suspend fun saveToDataStore(value: String) {
+//                    context.dataStore.edit { preferences ->
+//                        preferences[MY_KEY] = value
+//                    }
+                }
 
                 //경력 편집 프래그먼트로!
                 val intent = Intent(it.context, ContainerActivity::class.java)
