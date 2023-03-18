@@ -52,7 +52,8 @@ data class LogOutResponse(
 
 data class LogoutToken(
     val accessToken : String,
-    val refreshToken : String
+    val refreshToken : String,
+    val fcmToken : String
 )
 data class memberInfo(
     val memberInfo:String

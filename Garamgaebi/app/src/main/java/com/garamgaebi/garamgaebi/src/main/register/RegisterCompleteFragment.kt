@@ -95,6 +95,8 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                                 GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.refreshToken)
                                                 GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
                                                 GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
+                                                GaramgaebiApplication().saveStringToDataStore("uniEmail",homeIt.result.uniEmail)
+
 
                                             }.await() // 결과 대기
                                         }

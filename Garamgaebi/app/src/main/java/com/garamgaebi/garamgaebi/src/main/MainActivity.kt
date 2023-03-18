@@ -108,6 +108,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                                     "memberIdx",
                                     it.result.tokenInfo.memberIdx
                                 )
+                                GaramgaebiApplication().saveStringToDataStore("uniEmail",it.result.uniEmail)
+
                             } // 결과 대기
                             myMemberIdx = it.result.tokenInfo.memberIdx
                             setBottomNavi()

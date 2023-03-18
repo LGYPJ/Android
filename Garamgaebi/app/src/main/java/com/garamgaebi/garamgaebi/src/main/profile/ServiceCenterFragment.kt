@@ -89,6 +89,7 @@ class ServiceCenterFragment :
                     GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
                     GaramgaebiApplication().saveStringToDataStore("pushToken","")
                     GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
+                    GaramgaebiApplication().clearDataStore()
                 }
 
                 Log.d("logout_button", "sp")

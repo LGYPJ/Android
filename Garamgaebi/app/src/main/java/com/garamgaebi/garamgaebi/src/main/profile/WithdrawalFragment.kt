@@ -40,7 +40,7 @@ class WithdrawalFragment :
 
         var myEmail = "not@gachon.ac.kr"
         val getdataEmail = runBlocking {
-            myEmail = GaramgaebiApplication().loadStringData("mySchoolEmail")!!
+            myEmail = GaramgaebiApplication().loadStringData("uniEmail").toString()
         }
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
         binding.setVariable(BR.viewModel,viewModel)
@@ -172,6 +172,8 @@ class WithdrawalFragment :
                                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
                                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
                                         GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
+                                        GaramgaebiApplication().clearDataStore()
+
                                     }
                                     GaramgaebiApplication.myMemberIdx = -1
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->

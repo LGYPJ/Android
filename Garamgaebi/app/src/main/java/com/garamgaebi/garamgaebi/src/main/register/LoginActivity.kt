@@ -116,7 +116,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,it.result.tokenInfo.refreshToken)
                         GaramgaebiApplication().saveIntToDataStore("memberIdx",it.result.tokenInfo.memberIdx)
                         GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
-
+                        GaramgaebiApplication().saveStringToDataStore("uniEmail",it.result.uniEmail)
                     }.await() // 결과 대기
                 }
                 GaramgaebiApplication.myMemberIdx = it.result.tokenInfo.memberIdx
