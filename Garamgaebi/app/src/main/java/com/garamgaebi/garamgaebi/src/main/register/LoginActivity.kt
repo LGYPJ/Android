@@ -18,6 +18,10 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
@@ -37,13 +41,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("kakao", "로그아웃 성공")
             }
         }*/
-        UserApiClient.instance.unlink { error ->
-            if (error != null) {
-                Log.d("kakao", "회원 탈퇴 실패 $error")
-            } else {
-                Log.d("kakao", "회원 탈퇴 성공")
-            }
-        }
+//        UserApiClient.instance.unlink { error ->
+//            if (error != null) {
+//                Log.d("kakao", "회원 탈퇴 실패 $error")
+//            } else {
+//                Log.d("kakao", "회원 탈퇴 성공")
+//            }
+//        }
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
@@ -88,25 +92,33 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
     }
 
     private fun postLogin(token : String) {
+        var pushToken = ""
+        CoroutineScope(Dispatchers.Main).launch {
+            pushToken = async(Dispatchers.IO) { // 비동기 작업 시작
+                GaramgaebiApplication().loadStringData("pushToken")
+            }.await().toString() // 결과 대기
+        }
         viewModel.postLogin(
             LoginRequest(
                 token,
-                GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!
+                pushToken
             )
         )
         Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
+            Log.d("loginActivity", "login observe")
             if (it.isSuccess) {
                 Log.d("loginActivity", "login success")
-                GaramgaebiApplication.sSharedPreferences.edit()
+                CoroutineScope(Dispatchers.Main).launch {
+                    val saveToken = async(Dispatchers.Default) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveStringToDataStore("kakaoToken",token)
+                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,it.result.tokenInfo.accessToken)
+                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,it.result.tokenInfo.refreshToken)
+                        GaramgaebiApplication().saveIntToDataStore("memberIdx",it.result.tokenInfo.memberIdx)
+                        GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
 
-                    .putString("kakaoToken", token)
-                    .putString(GaramgaebiApplication.X_ACCESS_TOKEN, it.result.tokenInfo.accessToken)
-                    .putString(GaramgaebiApplication.X_REFRESH_TOKEN, it.result.tokenInfo.refreshToken)
-
-                    .putBoolean("fromLoginActivity", true)
-                    .putInt("memberIdx", it.result.tokenInfo.memberIdx)
-                    .apply()
+                    }.await() // 결과 대기
+                }
                 GaramgaebiApplication.myMemberIdx = it.result.tokenInfo.memberIdx
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()

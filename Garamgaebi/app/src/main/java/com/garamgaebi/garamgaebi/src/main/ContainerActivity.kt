@@ -25,6 +25,10 @@ import com.garamgaebi.garamgaebi.src.main.profile.*
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
@@ -71,8 +75,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }*/
         //}
             if (isProfileEdit()) {
-                GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", false)
-                    .apply()
+                CoroutineScope(Dispatchers.Main).launch {
+                    var edit = async(Dispatchers.IO) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveBooleanToDataStore("EditImage",false)
+                    }.await() // 결과 대기
+                }
             }
 
         if(isIceBreaking()){

@@ -15,10 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.sSharedPreferences
 import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.AutoLoginRequest
@@ -28,9 +28,7 @@ import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.*
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -50,17 +48,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
         getFcmToken()
         showLoadingDialog(this)
+        //  Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
+
+
         // 로그인 액티비티에서 넘어왔는지
-        if(sSharedPreferences.getBoolean("fromLoginActivity", false)) {
-            setBottomNavi()
+        var fromLogin = false
+        CoroutineScope(Dispatchers.Main).launch {
+            fromLogin = withContext(Dispatchers.IO) { // 비동기 작업 시작
+                GaramgaebiApplication().loadBooleanData("fromLoginActivity")
+            } == true // 결과 대기
+            if(fromLogin) {
+                setBottomNavi()
 
-            LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
-            initDynamicLink()
-            sSharedPreferences.edit().putBoolean("fromLoginActivity", false).apply()
-        } else {
-            autoLogin()
+                LocalBroadcastManager.getInstance(this@MainActivity).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
+                initDynamicLink()
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(Dispatchers.IO) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity", false)
+                    } // 결과 대기
+                }
+            } else {
+                autoLogin()
+            }
         }
-
     }
     private fun autoLogin() {
         // 로그인 테스트용
@@ -70,38 +80,65 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .apply()*/
         //Log.d("login", "${sSharedPreferences.getString(X_REFRESH_TOKEN, "")}")
         // 자동 로그인
-        if(sSharedPreferences.getString(X_REFRESH_TOKEN, "") == "") {
-            dismissLoadingDialog()
-            startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
-        } else {
-            Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
-            viewModel.postAutoLogin(AutoLoginRequest(sSharedPreferences.getString(X_REFRESH_TOKEN, "")!!))
-            viewModel.autoLogin.observe(this, Observer {
-                if(it.isSuccess) {
-                    sSharedPreferences.edit()
-                        .putString(X_ACCESS_TOKEN, it.result.tokenInfo.accessToken)
-                        .putString(X_REFRESH_TOKEN, it.result.tokenInfo.refreshToken)
-                        .putInt("memberIdx", it.result.tokenInfo.memberIdx)
-                        .apply()
-                    myMemberIdx = it.result.tokenInfo.memberIdx
-                    setBottomNavi()
-                    LocalBroadcastManager.getInstance(this).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
-                    initDynamicLink()
-                } else {
-                    Log.d("login", "login fail ${it.errorMessage}")
-                    dismissLoadingDialog()
-                    sSharedPreferences.edit()
-                        .putString(X_ACCESS_TOKEN, "")
-                        .putString(X_REFRESH_TOKEN, "")
-                        .putInt("memberIdx", -1)
-                        .apply()
-                    myMemberIdx = -1
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-                }
-            })
+        var refreshToken = ""
+        CoroutineScope(Dispatchers.Main).launch {
+            refreshToken = withContext(Dispatchers.IO) { // 비동기 작업 시작
+                GaramgaebiApplication().loadStringData(X_REFRESH_TOKEN)
+            }.toString() // 결과 대기
+            Log.d("대참사,",refreshToken)
+            if(refreshToken == "") {
+                dismissLoadingDialog()
+                startActivity(Intent(this@MainActivity, RegisterActivity::class.java))
+                finish()
+            } else {
+                viewModel.postAutoLogin(AutoLoginRequest(refreshToken))
+                viewModel.autoLogin.observe(this@MainActivity, Observer {
+                    if(it.isSuccess) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            withContext(Dispatchers.IO) { // 비동기 작업 시작
+                                GaramgaebiApplication().saveStringToDataStore(
+                                    X_ACCESS_TOKEN,
+                                    it.result.tokenInfo.accessToken
+                                )
+                                GaramgaebiApplication().saveStringToDataStore(
+                                    X_REFRESH_TOKEN,
+                                    it.result.tokenInfo.refreshToken
+                                )
+                                GaramgaebiApplication().saveIntToDataStore(
+                                    "memberIdx",
+                                    it.result.tokenInfo.memberIdx
+                                )
+                            } // 결과 대기
+                            myMemberIdx = it.result.tokenInfo.memberIdx
+                            setBottomNavi()
+                            LocalBroadcastManager.getInstance(this@MainActivity).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
+                            initDynamicLink()
+                        }
+
+                    } else {
+                        Log.d("login", "login fail ${it.errorMessage}")
+                        dismissLoadingDialog()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            withContext(Dispatchers.IO) { // 비동기 작업 시작
+                                GaramgaebiApplication().saveStringToDataStore(
+                                    X_ACCESS_TOKEN,
+                                    ""
+                                )
+                                GaramgaebiApplication().saveStringToDataStore(
+                                    X_REFRESH_TOKEN,
+                                    ""
+                                )
+                                GaramgaebiApplication().saveIntToDataStore("memberIdx", -1)
+                            } // 결과 대기
+                            myMemberIdx = -1
+                            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                            finish()
+                        }
+                    }
+                })
+            }
         }
+
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
@@ -194,17 +231,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Log.d("firebaseService", dataStr)
             // notificationType을 받아서 세미나/네트워킹으로 이동
             if(dynamicLinkData.getString("programType", "") == getString(R.string.seminarUpCase)) {
-                sSharedPreferences
-                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
-                    .apply()
-                startActivity(Intent(this, ContainerActivity::class.java)
-                    .putExtra("seminar", true))
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(Dispatchers.IO) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveIntToDataStore(
+                            "programIdx",
+                            dynamicLinkData.getString("programIdx")!!.toInt()
+                        )
+                    } // 결과 대기
+                    startActivity(Intent(this@MainActivity, ContainerActivity::class.java)
+                        .putExtra("seminar", true))
+                }
             } else {
-                sSharedPreferences
-                    .edit().putInt("programIdx", dynamicLinkData.getString("programIdx")!!.toInt())
-                    .apply()
-                startActivity(Intent(this, ContainerActivity::class.java)
-                    .putExtra("networking", true))
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(Dispatchers.IO) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveIntToDataStore(
+                            "programIdx",
+                            dynamicLinkData.getString("programIdx")!!.toInt()
+                        )
+                    } // 결과 대기
+                    startActivity(Intent(this@MainActivity, ContainerActivity::class.java)
+                        .putExtra("networking", true))
+                }
             }
         }
 

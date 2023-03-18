@@ -176,6 +176,7 @@ class HomeViewModel : ViewModel(){
 
     fun postLogin(loginRequest: LoginRequest) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("postLoginrr", "${loginRequest.toString()}")
             val response = homeRepository.postLogin(loginRequest)
             Log.d("postLogin", "$response\n${response.code()}")
             if (response.isSuccessful) {

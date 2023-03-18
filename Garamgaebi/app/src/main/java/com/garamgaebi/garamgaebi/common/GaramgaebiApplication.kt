@@ -11,10 +11,7 @@ import android.util.Log
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
 import com.kakao.sdk.common.KakaoSdk
@@ -68,6 +65,14 @@ class GaramgaebiApplication : Application() {
             preferences[intKey] = value
         }
     }
+
+    suspend fun saveBooleanToDataStore(key: String, value: Boolean) {
+        val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
+        Log.d("dataStoreSaveBoolean", "$key:$value")
+        dataStore.edit { preferences ->
+            preferences[booleanKey] = value
+        }
+    }
     suspend fun loadStringData(key: String): String? {
         val stringKey = stringPreferencesKey(key) // String 타입 저장 키값
         val preferences = dataStore.data.first()
@@ -80,6 +85,12 @@ class GaramgaebiApplication : Application() {
         val preferences = dataStore.data.first()
         Log.d("dataStoreLoadInt", "$key:" + preferences[intKey])
         return preferences[intKey]
+    }
+    suspend fun loadBooleanData(key: String): Boolean? {
+        val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
+        val preferences = dataStore.data.first()
+        Log.d("dataStoreLoadBoolean", "$key:" + preferences[booleanKey])
+        return preferences[booleanKey]
     }
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.
@@ -115,10 +126,10 @@ class GaramgaebiApplication : Application() {
     // 연결 타임아웃시간은 5초로 지정이 되어있고, HttpLoggingInterceptor를 붙여서 어떤 요청이 나가고 들어오는지를 보여줍니다.
     private fun initRetrofitInstance() {
         val client: OkHttpClient = OkHttpClient.Builder()
-            .readTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+            .readTimeout(10000, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000, TimeUnit.MILLISECONDS)
             // 로그캣에 okhttp.OkHttpClient로 검색하면 http 통신 내용을 보여줍니다.
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            //.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
             .build()
 
