@@ -11,6 +11,9 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileEduBinding
 import com.garamgaebi.garamgaebi.model.EducationData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext : Context): RecyclerView.Adapter<EduMyRVAdapter.ViewHolder>(){
@@ -25,34 +28,44 @@ class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext
             if(data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")){
                 binding.activityMyprofileEduListItemTvEndPeriod.text = "현재"
             }
-            binding.activityMyprofileEduListItemIvEdit.setOnClickListener{
-                    // 교육 편집
-                    val educationIdx = data.educationIdx
-                    val editEduInstitution = data.institution
-                    val editEduMajor = data.major
-                    val editEduIsLearning = data.isLearning
-                    val editEduStartDate = data.startDate
-                    var editEduEndDate = data.endDate
-                if(data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")){
+            binding.activityMyprofileEduListItemIvEdit.setOnClickListener {
+                // 교육 편집
+                val educationIdx = data.educationIdx
+                val editEduInstitution = data.institution
+                val editEduMajor = data.major
+                val editEduIsLearning = data.isLearning
+                val editEduStartDate = data.startDate
+                var editEduEndDate = data.endDate
+                if (data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")) {
                     editEduEndDate = "현재"
-                    Log.d("datessss",editEduStartDate + "이랑" + editEduEndDate)
+                    Log.d("datessss", editEduStartDate + "이랑" + editEduEndDate)
                 }
-                    GaramgaebiApplication.sSharedPreferences
-                        .edit().putString("EduInstitutionForEdit", editEduInstitution)
-                        .putString("EduMajorForEdit", editEduMajor)
-                        .putString("EduIsLearningForEdit", editEduIsLearning)
-                        .putString("EduStartDateForEdit", editEduStartDate)
-                        .putString("EduEndDateForEdit", editEduEndDate)
-                        .putInt("EduIdxForEdit", educationIdx)
-                        .apply()
-
-                    //교육 편집 프래그먼트로!
-                    val intent = Intent(it.context, ContainerActivity::class.java)
-                    intent.putExtra("eduEdit", true)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent)
+                CoroutineScope(Dispatchers.Main).launch {
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "EduInstitutionForEdit", editEduInstitution
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "EduMajorForEdit", editEduMajor
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "EduIsLearningForEdit", editEduIsLearning
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "EduStartDateForEdit", editEduStartDate
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "EduEndDateForEdit", editEduEndDate
+                    )
+                    GaramgaebiApplication().saveIntToDataStore(
+                        "EduIdxForEdit", educationIdx
+                    )
+                    //경력 편집 프래그먼트로!
+                    val target = Intent(it.context, ContainerActivity::class.java)
+                    target.putExtra("eduEdit", true)
+                    target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(target)
                 }
-
+            }
         }
     }
 

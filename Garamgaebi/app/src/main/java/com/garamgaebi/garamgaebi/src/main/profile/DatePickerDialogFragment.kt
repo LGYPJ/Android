@@ -64,7 +64,6 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
                 arr = formatted.split("/")
                 setYearMonth(arr[0], arr[1])
             }
-            Log.d("date뭐냐",arr.toString())
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +78,6 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
 
         date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
-        Log.d("data_what",date)
 
         super.dismiss()
     }
@@ -90,7 +88,6 @@ class DatePickerDialogFragment (var date:String, val itemClick: (String) -> Unit
 
         date = String.format("%4d/%02d", dateYear, dateMonth)
         itemClick(date)
-        Log.d("data_what",date)
         super.onCancel(dialog)
     }
 

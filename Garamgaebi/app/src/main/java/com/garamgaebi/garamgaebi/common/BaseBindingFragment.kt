@@ -1,6 +1,5 @@
 package com.garamgaebi.garamgaebi.common
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import com.garamgaebi.garamgaebi.common.DataStoreModule
+
 abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment() {
     protected lateinit var binding: T
     private lateinit var callback: OnBackPressedCallback

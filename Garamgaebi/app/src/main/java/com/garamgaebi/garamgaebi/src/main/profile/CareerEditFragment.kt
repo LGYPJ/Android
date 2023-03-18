@@ -16,16 +16,20 @@ import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit),ConfirmDialogInterface{
-    private var careerIdx: Int by Delegates.notNull()
-    private lateinit var originCompany : String
-    private lateinit var originPosition : String
-    private lateinit var originNow : String
-    private lateinit var originStart : String
-    private lateinit var originEnd : String
+    var careerIdx: Int = -1
+    var originCompany : String = ""
+    var originPosition : String = ""
+    var originNow : String = ""
+    var originStart : String = ""
+    var originEnd : String = ""
+
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,23 +39,48 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        //원본 데이터
-        setOriginData()
 
-        Log.d(
-            "go_edit_career",
-            careerIdx.toString() + originCompany + originPosition + originNow + originStart + originEnd
-        )
+            //원본 데이터
+            CoroutineScope(Dispatchers.Main).launch {
+                originCompany = GaramgaebiApplication().loadStringData(
+                    "CareerCompanyForEdit"
+                ).toString()
+                originPosition = GaramgaebiApplication().loadStringData(
+                    "CareerPositionForEdit"
+                ).toString()
+                originNow = GaramgaebiApplication().loadStringData(
+                    "CareerIsWorkingForEdit"
+                ).toString()
+                originStart = GaramgaebiApplication().loadStringData(
+                    "CareerStartDateForEdit"
+                ).toString()
+                originEnd = GaramgaebiApplication().loadStringData(
+                    "CareerEndDateForEdit"
+                ).toString()
+                careerIdx = GaramgaebiApplication().loadIntData(
+                    "CareerIdxForEdit"
+                )!!
+                with(binding){
+                    fragmentCareerCheckbox.isChecked = originNow == "TRUE"
+                    viewModel!!.checkBox.value = originNow == "TRUE"
+                    fragmentCareerEtEndPeriod.setText(originEnd)
+                    if(originNow == "TRUE"){
+                        fragmentCareerEtEndPeriod.setText("현재")
+                    }
+                    Log.d("career_checkbox_true", originNow)
+                }
+                with(viewModel) {
+                    company.value = originCompany
+                    position.value = originPosition
+                    isWorking.value = originNow
+                    startDate.value = originStart
+                    endDate.value = originEnd
+                }
+        }
 
         viewModel.careerIdx = careerIdx
 
         with(viewModel) {
-            company.value = originCompany
-            position.value = originPosition
-            isWorking.value = originNow
-            startDate.value = originStart
-            endDate.value = originEnd
-
             companyHint.value = getString(R.string.register_input_company_desc)
             positionHint.value = getString(R.string.register_input_position_desc)
 
@@ -335,27 +364,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         }
     }
     private fun setOriginData(){
-        careerIdx = GaramgaebiApplication.sSharedPreferences.getInt("CareerIdxForEdit",-1)
-        originCompany =
-            GaramgaebiApplication.sSharedPreferences.getString("CareerCompanyForEdit","Error").toString()
-        originPosition =
-            GaramgaebiApplication.sSharedPreferences.getString("CareerPositionForEdit","Error").toString()
-        originNow =
-            GaramgaebiApplication.sSharedPreferences.getString("CareerIsWorkingForEdit","Error").toString()
-        originStart =
-            GaramgaebiApplication.sSharedPreferences.getString("CareerStartDateForEdit","Error").toString()
-        originEnd =
-            GaramgaebiApplication.sSharedPreferences.getString("CareerEndDateForEdit","Error").toString()
 
-        with(binding){
-            fragmentCareerCheckbox.isChecked = originNow == "TRUE"
-            viewModel!!.checkBox.value = originNow == "TRUE"
-            fragmentCareerEtEndPeriod.setText(originEnd)
-            if(originNow == "TRUE"){
-                fragmentCareerEtEndPeriod.setText("현재")
-            }
-            Log.d("career_checkbox_true", originNow)
-        }
     }
     override fun onYesButtonClick(id: Int) = Unit
 

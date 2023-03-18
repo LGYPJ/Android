@@ -84,7 +84,7 @@ dependencies {
 
     // 카카오 로그인
     implementation "com.kakao.sdk:v2-user:2.13.0"
-    
+
     // https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
@@ -182,6 +182,9 @@ dependencies {
 
     //DataStore
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    //implementation "androidx.datastore:datastore:1.0.0"
+
+    //implementation  "com.google.protobuf:protobuf-javalite:3.10.0"
 
 
 }
