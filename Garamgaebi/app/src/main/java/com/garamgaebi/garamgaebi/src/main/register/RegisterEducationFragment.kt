@@ -201,6 +201,9 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
                 }
                 binding.fragmentEducationSaveBtn.visibility = View.GONE
+                binding.fragmentEducationTv.visibility = View.GONE
+                binding.fragmentEducationTvGoCareer.visibility = View.GONE
+
             },
             onHideKeyboard = { ->
                 //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
@@ -218,6 +221,12 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
                     // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
                     binding.fragmentEducationSaveBtn.postDelayed({
                         binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                    },0)
+                    binding.fragmentEducationTv.postDelayed({
+                        binding.fragmentEducationTv.visibility = View.VISIBLE
+                    },0)
+                    binding.fragmentEducationTvGoCareer.postDelayed({
+                        binding.fragmentEducationTvGoCareer.visibility = View.VISIBLE
                     },0)
                 }
             }
