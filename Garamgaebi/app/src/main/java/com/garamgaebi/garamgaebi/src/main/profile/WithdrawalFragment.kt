@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver
 import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -172,16 +173,16 @@ class WithdrawalFragment :
                                             1 -> {
 
                                                 Log.d("withdrawal_button","close")
-                                                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
                                                 val i = (Intent(activity, LoginActivity::class.java))
                                                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                ActivityCompat.finishAffinity(requireActivity())
                                                 startActivity(i)
                                                 Log.d("logout_button", "main")
                                             }
                                             2->{
-                                                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
                                                 val i = (Intent(activity, LoginActivity::class.java))
                                                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                ActivityCompat.finishAffinity(requireActivity())
                                                 startActivity(i)
                                                 Log.d("logout_button", "main")                                            }
                                         }
