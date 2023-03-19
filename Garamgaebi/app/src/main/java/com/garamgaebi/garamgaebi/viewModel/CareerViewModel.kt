@@ -115,7 +115,7 @@ class CareerViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.patchCareer(CareerData(careerIdx,company.value.toString(), position.value.toString(), isWorking.value.toString(),
                 startDate.value.toString(), endDate.value.toString()))
-            Log.d("career_patch_success", isWorking.value.toString())
+            Log.d("career_patch_success_request", careerIdx.toString())
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _patch.value = response.body()

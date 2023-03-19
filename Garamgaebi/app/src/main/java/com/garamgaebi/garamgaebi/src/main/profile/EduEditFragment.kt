@@ -75,6 +75,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 startDate.value = originStart
                 endDate.value = originEnd
             }
+            viewModel.educationIdx = educationIdx
         }
 
            Log.d("go_edit_edu",educationIdx.toString() + originInstitution + originMajor + originNow + originStart + originEnd)

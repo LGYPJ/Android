@@ -60,6 +60,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 careerIdx = GaramgaebiApplication().loadIntData(
                     "CareerIdxForEdit"
                 )!!
+                Log.d("career_patch_success_request1", careerIdx.toString())
+
                 with(binding){
                     fragmentCareerCheckbox.isChecked = originNow == "TRUE"
                     viewModel!!.checkBox.value = originNow == "TRUE"
@@ -76,9 +78,9 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     startDate.value = originStart
                     endDate.value = originEnd
                 }
-        }
+                viewModel.careerIdx = careerIdx
+            }
 
-        viewModel.careerIdx = careerIdx
 
         with(viewModel) {
             companyHint.value = getString(R.string.register_input_company_desc)
@@ -111,8 +113,11 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
             _patch.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
+                Log.d("career_patch", _patch.value?.result.toString())
 
                 if (_patch.value?.result == true){
+                    Log.d("career_patch", _patch.value?.result.toString())
+
                     (activity as ContainerActivity).onBackPressed()
                 }
 
