@@ -62,32 +62,30 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 // 교육 or 경력
                                 var isCareer = false
                                 CoroutineScope(Dispatchers.Main).launch {
-                                    isCareer = async(Dispatchers.IO) { // 비동기 작업 시작
-                                        GaramgaebiApplication().loadBooleanData("isCareer")
-                                    }.await() == true// 결과 대기
-                                }
-                                if(isCareer){
-                                    val viewModel by activityViewModels<CareerViewModel>()
-                                    viewModel.postCareerInfo()
-                                } else {
-                                    val viewModel by activityViewModels<EducationViewModel>()
-                                    viewModel.postEducationInfo()
+                                    isCareer =
+                                        GaramgaebiApplication().loadBooleanData("isCareer") == true
+
+                                    if (isCareer) {
+                                        val viewModel by activityViewModels<CareerViewModel>()
+                                        viewModel.postCareerInfo()
+                                    } else {
+                                        val viewModel by activityViewModels<EducationViewModel>()
+                                        viewModel.postEducationInfo()
+                                    }
                                 }
                                 // 로그인
                               //  Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
                                     var token = ""
                                     CoroutineScope(Dispatchers.Main).launch {
-                                        token = async(Dispatchers.IO) { // 비동기 작업 시작
-                                            GaramgaebiApplication().loadStringData("pushToken")
-                                        }.await() .toString()// 결과 대기
+                                        token = GaramgaebiApplication().loadStringData("pushToken").toString()
+                                        homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
+                                            token))
                                     }
-                                    homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
-                                    token))
+
 
                                 homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
                                     if(homeIt.isSuccess) {
                                         CoroutineScope(Dispatchers.Main).launch {
-                                            val saveToken = async(Dispatchers.IO) { // 비동기 작업 시작
                                                 GaramgaebiApplication().saveStringToDataStore("kakaoToken",
                                                     registerViewModel.socialToken.value!!
                                                 )
@@ -96,14 +94,10 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                                 GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
                                                 GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
                                                 GaramgaebiApplication().saveStringToDataStore("uniEmail",homeIt.result.uniEmail)
-
-
-                                            }.await() // 결과 대기
+                                            GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
+                                            startActivity(Intent(registerActivity, MainActivity::class.java))
+                                            ActivityCompat.finishAffinity(registerActivity)
                                         }
-
-                                        GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
-                                        startActivity(Intent(registerActivity, MainActivity::class.java))
-                                        ActivityCompat.finishAffinity(registerActivity)
                                     } else {
                                         Log.d("register", "login fail ${homeIt.errorMessage}")
                                     }
