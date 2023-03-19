@@ -185,8 +185,9 @@ class MyProfileFragment :
                                     GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
                                     GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
                                     GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
-                                    GaramgaebiApplication().saveStringToDataStore("profileEmail",content)
+                                    GaramgaebiApplication().saveStringToDataStore("myIntro",content)
                                     GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
+                                    Log.d("profile_info", result.result.toString())
                                 }
                             }
 

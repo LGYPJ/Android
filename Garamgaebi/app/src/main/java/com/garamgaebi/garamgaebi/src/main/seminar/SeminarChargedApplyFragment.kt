@@ -21,6 +21,7 @@ import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
+import kotlinx.coroutines.runBlocking
 import java.util.regex.Pattern
 
 class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApplyBinding>(R.layout.fragment_seminar_charged_apply) {
@@ -159,7 +160,10 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
     fun isNickName(nickname : String): Boolean{
         var returnValue = false
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("myNickName","")
+        var regex = ""
+        val putData = runBlocking {
+            regex = GaramgaebiApplication().loadStringData("myNickName").toString()
+        }
         val p = regex?.matches(nickname.toRegex())
         if(p == true){
             returnValue = true

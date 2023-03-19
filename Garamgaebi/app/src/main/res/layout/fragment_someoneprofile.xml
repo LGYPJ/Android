@@ -71,7 +71,7 @@
                 android:text=""
                 android:textColor="@color/black80"
                 android:textSize="14sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:background="@drawable/basic_gray_border_layout"
                 app:layout_constraintTop_toBottomOf="@id/fragment_someoneProfile_tvEmail"
                 app:layout_constraintStart_toStartOf="parent"

@@ -16,6 +16,9 @@ import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarFreeApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
+import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBinding>(R.layout.fragment_seminar_free_apply) {
@@ -52,20 +55,27 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
             phoneState.value = getString(R.string.apply_not_phone)
         }
 
+        //신청하기 버튼 누르면 버튼 바뀌는 값 전달
+        disposables
+            .add(
+                binding
+                    .activitySeminarFreeApplyBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        //신청 등록 api
+                        viewModel.postEnroll()
+                        viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                            binding.item = viewModel
+                            if(it.isSuccess){
+                                //세미나 메인 화면으로
+                                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                                requireActivity().supportFragmentManager.popBackStack()
 
-        //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
-        binding.activitySeminarFreeApplyBtn.setOnClickListener {
-            viewModel.postEnroll()
-            viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                binding.item = viewModel
-                if(it.isSuccess){
-                    //세미나 메인 화면으로
-                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                    requireActivity().supportFragmentManager.popBackStack()
-
-                }
-            })
-        }
+                            }
+                        })
+                    }, { it.printStackTrace() })
+            )
 
         viewModel.getSeminar()
         viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
@@ -144,8 +154,10 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
     //닉네임 맞나
     fun isNickName(nickname : String): Boolean{
         var returnValue = false
-        //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
-        val regex = GaramgaebiApplication.sSharedPreferences.getString("myNickName","")
+        var regex = ""
+        val putData = runBlocking {
+            regex = GaramgaebiApplication().loadStringData("myNickName").toString()
+        }
         val p = regex?.matches(nickname.toRegex())
         if(p == true){
             returnValue = true

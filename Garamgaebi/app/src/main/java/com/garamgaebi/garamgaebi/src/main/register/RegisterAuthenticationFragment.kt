@@ -1,10 +1,12 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.common.REGISTER_NICKNAME
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
 import com.garamgaebi.garamgaebi.model.RegisterEmailVerifyRequest
@@ -122,6 +125,33 @@ class RegisterAuthenticationFragment :
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false
+        })
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentAuthenticationBtnNext.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentAuthenticationBtnNext.postDelayed({
+                        binding.fragmentAuthenticationBtnNext.visibility = View.VISIBLE
+                    },0)
+                }
+            }
         })
 
     }

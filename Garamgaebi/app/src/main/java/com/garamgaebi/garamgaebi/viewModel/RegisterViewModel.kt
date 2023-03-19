@@ -89,9 +89,11 @@ class RegisterViewModel : ViewModel(){
     fun postRegister(request: RegisterRequest) {
         viewModelScope.launch {
             val response = registerRepository.postRegister(request)
+            Log.d("postRegister_Request", "${request}")
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
                 Log.d("postRegister", "${response.body()}")
+                Log.d("postRegister_Response", "${response}")
                 _register.postValue(response.body())
             }
             else {

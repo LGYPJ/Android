@@ -115,11 +115,11 @@ class ProfileEditFragment :
         binding.svRoot.isSmoothScrollingEnabled = false
         with(binding) {
             val getdata = runBlocking {
-                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myNickName").toString()
-                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myBelong").toString()
-                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myEmail").toString()
-                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myIntro").toString()
-                viewModel!!.nickName.value = GaramgaebiApplication().loadIntData("myImage").toString()
+                viewModel!!.nickName.value = GaramgaebiApplication().loadStringData("myNickName").toString()
+                viewModel!!.belong.value = GaramgaebiApplication().loadStringData("myBelong").toString()
+                viewModel!!.email.value = GaramgaebiApplication().loadStringData("myEmail").toString()
+                viewModel!!.intro.value = GaramgaebiApplication().loadStringData("myIntro").toString()
+                viewModel!!.image.value = GaramgaebiApplication().loadStringData("myImage").toString()
 
             }
 //            viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
@@ -154,14 +154,14 @@ class ProfileEditFragment :
                 viewModel!!.email.value
             )
             fragmentEditProfileEtIntro.setText(
-                viewModel!!.myContent.value
+                viewModel!!.intro.value
             )
 
             var myProfileImage = ""
             var editImage = false
 
             val getdataImage = runBlocking {
-                myProfileImage = GaramgaebiApplication().loadIntData("myImage").toString()
+                myProfileImage = GaramgaebiApplication().loadStringData("myImage").toString()
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
             if (myProfileImage !="error" && myProfileImage != null && !editImage) {
@@ -303,11 +303,7 @@ class ProfileEditFragment :
                                         e.printStackTrace();
                                     }
                                     var bitmap = BitmapFactory.decodeStream(inputStream);
-
-                                    Log.d("orientation77",IMAGE_ORIENTATION.toString())
                                     var bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
-
-
                                     var byteArrayOutputStream: ByteArrayOutputStream? =
                                         ByteArrayOutputStream()
                                     bmRotated?.compress(

@@ -105,9 +105,9 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                 }else{
                                     val putData = runBlocking {
                                         GaramgaebiApplication().saveIntToDataStore("userMemberIdx",it[position].memberIdx)!!
+                                        containerActivity!!.openFragmentOnFrameLayout(13)
+                                        containerActivity!!.goUser()
                                     }
-                                    containerActivity!!.openFragmentOnFrameLayout(13)
-                                    containerActivity!!.goUser()
                                 }
                             }
                         })
