@@ -158,7 +158,7 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
 //                .edit().putBoolean("isCareer", false)
 //                .apply()
             val careerCheck = runBlocking{ // 비동기 작업 시작
-                GaramgaebiApplication().saveBooleanToDataStore("isCareer",true)
+                GaramgaebiApplication().saveBooleanToDataStore("isCareer",false)
             }
             registerActivity.setFragment(REGISTER_COMPLETE)
         }
