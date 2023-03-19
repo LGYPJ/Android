@@ -1,12 +1,14 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.common.REGISTER_EMAIL
 import com.garamgaebi.garamgaebi.common.REGISTER_ORG
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterEmailBinding
@@ -45,6 +48,34 @@ class RegisterEmailFragment : BaseBindingFragment<FragmentRegisterEmailBinding>(
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
             false
+        })
+
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentEmailBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentEmailBtn.postDelayed({
+                        binding.fragmentEmailBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
         })
 
     }

@@ -54,7 +54,9 @@
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.register.RegisterActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name="com.garamgaebi.garamgaebi.src.main.MainActivity"
             android:exported="true"

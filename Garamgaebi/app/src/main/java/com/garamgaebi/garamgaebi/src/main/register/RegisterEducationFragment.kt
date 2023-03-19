@@ -1,9 +1,11 @@
 package com.garamgaebi.garamgaebi.src.main.register
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -193,7 +195,33 @@ class RegisterEducationFragment : BaseBindingFragment<FragmentRegisterEducationB
             hideKeyboard()
             false
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentEducationSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
 
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight < screenHeight * 0.15) {
+                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                    binding.fragmentEducationSaveBtn.postDelayed({
+                        binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                    },0)
+                }
+            }
+        })
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

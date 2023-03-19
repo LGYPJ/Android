@@ -168,9 +168,6 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
         }
 
         binding.fragmentCareerSaveBtn.setOnClickListener {
-//            GaramgaebiApplication.sSharedPreferences
-//                .edit().putBoolean("isCareer", true)
-//                .apply()
             val careerCheck = runBlocking{ // 비동기 작업 시작
                 GaramgaebiApplication().saveBooleanToDataStore("isCareer",true)
             }
@@ -186,6 +183,17 @@ class RegisterCareerFragment : BaseBindingFragment<FragmentRegisterCareerBinding
             hideKeyboard()
             false
         }
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { keyboardHeight ->
+                binding.svRoot.run {
+                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
+                }
+                binding.fragmentCareerSaveBtn.visibility = View.GONE
+            },
+            onHideKeyboard = { ->
+                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+            }
+        )
 
     }
     private fun hideKeyboard() {
