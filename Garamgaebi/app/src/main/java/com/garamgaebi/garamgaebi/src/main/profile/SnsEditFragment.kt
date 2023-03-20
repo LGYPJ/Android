@@ -96,6 +96,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             binding.snsViewModel = viewModel
 
             if (viewModel._patch.value?.result == true){
+                GaramgaebiApplication.getSNS = true
                 (activity as ContainerActivity).onBackPressed()
             }
 
@@ -166,6 +167,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                                 1 -> {
                                     //경력 삭제
                                     viewModel.deleteSNSInfo()
+                                    GaramgaebiApplication.getSNS = true
                                     val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
                                         when(it2){
                                             1 -> {

@@ -114,6 +114,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 binding.viewModel = viewModel
 
                 if (_patch.value?.result == true){
+                    GaramgaebiApplication.getEdu = true
                     (activity as ContainerActivity).onBackPressed()
                 }
 
@@ -311,10 +312,11 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                                 1 -> {
                                     //경력 삭제
                                     viewModel.deleteEducationInfo()
+                                    GaramgaebiApplication.getEdu = true
                                     val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
                                         when(it2){
                                             1 -> {
-                                                Log.d("edu_remove_button","close")
+                                                Log.d("edu_remove_button","closedddd")
                                             }
                                             2->{
                                                 (activity as ContainerActivity).onBackPressed()

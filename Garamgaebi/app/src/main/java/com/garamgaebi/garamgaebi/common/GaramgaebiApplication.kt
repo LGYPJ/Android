@@ -46,6 +46,11 @@ class GaramgaebiApplication : Application() {
         val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
         var myMemberIdx = 0
 
+        var getProfile = true
+        var getSNS = true
+        var getCareer = true
+        var getEdu = true
+
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
     }
