@@ -38,10 +38,10 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         Log.d("registerComplete", "${registerViewModel.nickname.value}")
         if (registerViewModel.nickname.value!!.length > 4) {
             binding.fragmentCompleteTvDesc.text =
-                "${registerViewModel.nickname.value},\n${getString(R.string.register_welcome_user)}"
+                "${registerViewModel.nickname.value}${getString(R.string.register_welcome_user_new_line)}"
         } else {
             binding.fragmentCompleteTvDesc.text =
-                "${registerViewModel.nickname.value}, ${getString(R.string.register_welcome_user)}"
+                "${registerViewModel.nickname.value}${getString(R.string.register_welcome_user)}"
         }
 
         binding.fragmentCompleteCbPersonal.setOnClickListener {
@@ -55,11 +55,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                 binding.fragmentCompleteBtnNext.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        CoroutineScope(Dispatchers.Main).launch {
-                            registerViewModel.socialToken.value =
-                                GaramgaebiApplication().loadStringData("kakaoToken").toString()
                         registerViewModel.postRegister(registerViewModel.getRegisterRequest())
-                        }
                         registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
                             if(registerIt.isSuccess) {
                                 GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
