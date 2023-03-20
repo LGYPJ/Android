@@ -68,6 +68,7 @@ class SNSViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckAddSNS(AddSNSData(myMemberIdx,toAddress,snsType.value.toString()))
             //Log.d("sns_add", response.body().toString())
+            Log.d("sns_add_success1111", response.body().toString())
             if (response.isSuccessful && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _add.value = response.body()
@@ -75,7 +76,7 @@ class SNSViewModel : ViewModel(){
                 Log.d("sns_add_success", response.body().toString())
             }
             else {
-                //response.body()?.message?.let { Log.d("error", it) }
+                Log.d("sns_add_success2222", response.body().toString())
             }
         }
     }

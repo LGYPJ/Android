@@ -12,10 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.INPUT_TEXT_LENGTH
-import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileCareerBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
@@ -58,6 +55,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 binding.viewModel = viewModel
 
                 if (_add.value?.result == true){
+                    GaramgaebiApplication.getCareer = true
                     (activity as ContainerActivity).onBackPressed()
                 }
 

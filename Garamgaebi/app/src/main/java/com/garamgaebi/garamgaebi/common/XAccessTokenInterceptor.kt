@@ -19,16 +19,11 @@ class XAccessTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         var jwtToken: String = ""
+
         val getToken = runBlocking {
             jwtToken = "Bearer " + GaramgaebiApplication().loadStringData(X_ACCESS_TOKEN).toString()
         }
-//        CoroutineScope(Dispatchers.Main).launch {
-//            jwtToken = "Bearer " + async(Dispatchers.IO) { // 비동기 작업 시작
-//                GaramgaebiApplication().loadStringData(X_ACCESS_TOKEN)
-//            }.await().toString() // 결과 대기
-//            Log.d("참사1",jwtToken.toString())
-//
-//        }
+
         val request = chain.request()
 
         if (jwtToken != "Bearer ") {

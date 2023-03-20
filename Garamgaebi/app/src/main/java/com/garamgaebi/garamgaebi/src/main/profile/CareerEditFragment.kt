@@ -114,6 +114,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
                 if (_patch.value?.result == true){
                     Log.d("career_patch", _patch.value?.result.toString())
+                    GaramgaebiApplication.getCareer = true
 
                     (activity as ContainerActivity).onBackPressed()
                 }else{
@@ -287,6 +288,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                 1 -> {
                                     //경력 삭제
                                     viewModel.deleteCareerInfo()
+                                    GaramgaebiApplication.getCareer = true
                                     val dialog = ConfirmDialog(
                                         this,
                                         getString(R.string.delete_done),

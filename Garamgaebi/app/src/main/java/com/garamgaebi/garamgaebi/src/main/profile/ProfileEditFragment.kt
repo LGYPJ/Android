@@ -40,6 +40,7 @@ import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
+import okhttp3.Dispatcher
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -66,7 +67,7 @@ class ProfileEditFragment :
 //            .putString("myEmail", viewModel.email.value)
 //            .putString("myIntro", viewModel.intro.value)
 //            .apply()
-        val putData = runBlocking {
+        CoroutineScope(Dispatchers.Main).launch {
             with(viewModel){
                 nickName.value?.let {
                     GaramgaebiApplication().saveStringToDataStore("myNickName",
@@ -239,11 +240,9 @@ class ProfileEditFragment :
                 binding.viewModel = viewModel
 
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
+                    GaramgaebiApplication.getProfile = true
                     (activity as ContainerActivity).onBackPressed()
-                    Log.d("profile_edit_true", "ㅠㅜ하하")
-
                 }
-
             }
         }
 

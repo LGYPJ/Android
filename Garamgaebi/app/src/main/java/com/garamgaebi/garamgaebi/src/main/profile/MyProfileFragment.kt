@@ -24,6 +24,10 @@ import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getCareer
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getEdu
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfile
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
@@ -303,10 +307,22 @@ class MyProfileFragment :
 
     private fun updateData() {
         with(viewModel) {
-            getProfileInfo(myMemberIdx)
-            getSNSInfo(myMemberIdx)
-            getCareerInfo(myMemberIdx)
-            getEducationInfo(myMemberIdx)
+            if(getProfile) {
+                getProfileInfo(myMemberIdx)
+                getProfile = false
+            }
+            if(getSNS) {
+                getSNSInfo(myMemberIdx)
+                getSNS = false
+            }
+            if(getCareer) {
+                getCareerInfo(myMemberIdx)
+                getCareer = false
+            }
+            if(getEdu) {
+                getEducationInfo(myMemberIdx)
+                getEdu = false
+            }
         }
     }
 }

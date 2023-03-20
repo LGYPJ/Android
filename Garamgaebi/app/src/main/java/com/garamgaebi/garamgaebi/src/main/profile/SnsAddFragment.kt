@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
@@ -46,8 +47,6 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
-
-            viewModel.snsAddress.value =""
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
             when(it){
@@ -58,24 +57,15 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     }
                 "블로그" -> {
                     binding.instaChar.text = ""
-                    //binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
                 }
                 "깃허브" -> {
                     binding.instaChar.text = ""
-                  //  binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
-
                 }
                 else -> {
                     binding.instaChar.text = ""
-                   // binding.fragmentSnsEtLinkDesc.setPadding(px.toInt(),0,0,0)
-
-
                     viewModel.typeState.value = getString(R.string.caution_input_22)
-                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH
+                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                     GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
-
                 }
             }
             Log.d("sns_type_true",it.isNotEmpty().toString())
@@ -83,9 +73,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
         viewModel.snsAddress.observe(viewLifecycleOwner, Observer {
             binding.snsViewModel = viewModel
             //유효성 확인
-
             viewModel.snsAddressIsValid.value = it.length < SNS_ADDRESS && it.isNotEmpty()
-
             if (viewModel.snsType.value == "인스타그램"){
                 viewModel.snsAddressIsValid.value = Pattern.matches("^[0-9a-zA-Z_]([0-9-a-zA-Z._-]){0,46}$", it)
                 if(it.isNotEmpty()){
@@ -100,6 +88,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
             binding.snsViewModel = viewModel
 
             if (viewModel._add.value?.result == true){
+                getSNS = true
                 (activity as ContainerActivity).onBackPressed()
             }
 
@@ -143,6 +132,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                 OrderBottomDialogFragment(resources.getStringArray(R.array.sns_option)) {
                                     when (it) {
                                         0 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "인스타그램"
                                             viewModel.addressInputDesc.value =
@@ -152,6 +142,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
 
                                         }
                                         1 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "블로그"
                                             viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
@@ -161,6 +152,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                             getString(R.string.sns_type_dialog_blog_state)
                                         }
                                         2 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "깃허브"
                                             viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
@@ -177,6 +169,8 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                                                 getString(R.string.sns_type_dialog_etc_desc)
                                             viewModel.addressInputDesc.value =
                                                 getString(R.string.sns_address_dialog_etc_desc)
+                                            viewModel.snsAddress.value =""
+
 
                                             //viewModel.linkState.value =
                                             getString(R.string.sns_type_dialog_etc_state)
