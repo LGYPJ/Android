@@ -77,6 +77,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                             .putExtra("goseminar", "goseminar"))
                     }
                 }
+
             })
 
             // 예정된
