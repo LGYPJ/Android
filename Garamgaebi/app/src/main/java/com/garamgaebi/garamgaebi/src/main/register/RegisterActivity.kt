@@ -3,6 +3,7 @@ package com.garamgaebi.garamgaebi.src.main.register
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
@@ -17,13 +18,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
         super.onCreate(savedInstanceState)
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
         if(intent.getBooleanExtra("login", false)){
-
-            //로건 추가
-            var token = intent.getStringExtra("kakaoToken").toString()
-            CoroutineScope(Dispatchers.Main).launch {
-                GaramgaebiApplication().saveStringToDataStore("kakaoToken", token)
-                setFragment(REGISTER_AUTH)
-            }
+            val viewModel by viewModels<RegisterViewModel>()
+            viewModel.socialToken.value = intent.getStringExtra("kakaoToken")
+            setFragment(REGISTER_AUTH)
         }
         else {
             setFragment(REGISTER_INTRO)
