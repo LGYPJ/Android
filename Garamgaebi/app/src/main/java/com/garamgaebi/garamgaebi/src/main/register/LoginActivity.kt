@@ -112,7 +112,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 Log.d("loginActivity", "login success")
                 CoroutineScope(Dispatchers.Main).launch {
                     val saveToken = async(Dispatchers.Default) { // 비동기 작업 시작
-                        GaramgaebiApplication().saveStringToDataStore("kakaoToken",token)
                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,it.result.tokenInfo.accessToken)
                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,it.result.tokenInfo.refreshToken)
                         GaramgaebiApplication().saveIntToDataStore("memberIdx",it.result.tokenInfo.memberIdx)

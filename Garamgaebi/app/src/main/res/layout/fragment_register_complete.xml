@@ -3,26 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteForBackground"
-    >
-    <ScrollView
-        android:id="@+id/sv_root"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:fillViewport="true">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <TextView
+    android:background="@color/whiteForBackground">
+
+    <TextView
         android:id="@+id/fragment_complete_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_complete"
-        android:textSize="32sp"
-        android:textColor="@color/black80"
-        android:textStyle="bold"
-        android:layout_marginTop="102dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="102dp"
+        android:text="@string/register_complete"
+        android:textColor="@color/black80"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,36 +22,38 @@
         android:id="@+id/fragment_complete_tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_welcome_user"
         android:layout_margin="16dp"
-        android:textSize="25sp"
+        android:text="@string/register_welcome_user"
         android:textColor="@color/black80"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_complete_tv_title" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_complete_cl_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/fragment_complete_btn_next"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="24dp"
-        android:layout_marginStart="16dp">
+        app:layout_constraintBottom_toTopOf="@id/fragment_complete_btn_next"
+        app:layout_constraintStart_toStartOf="parent">
+
         <CheckBox
             android:id="@+id/fragment_complete_cb_personal"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:background="@drawable/ic_checkbox_16dp"
             android:button="@android:color/transparent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/fragment_complete_tv_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_agree_term"
             android:layout_marginStart="8dp"
+            android:text="@string/register_agree_term"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_complete_cb_personal"
             app:layout_constraintStart_toEndOf="@+id/fragment_complete_cb_personal"
             app:layout_constraintTop_toTopOf="@id/fragment_complete_cb_personal" />
@@ -74,11 +68,11 @@
         android:layout_marginBottom="48dp"
 
         android:background="@drawable/register_btn_color"
+        android:enabled="false"
         android:stateListAnimator="@null"
         android:text="@string/start"
-        android:enabled="false"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <WebView
         android:id="@+id/fragment_register_complete_wv_terms"
@@ -91,7 +85,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -161,7 +161,8 @@
 
     <!-- Register_Complete -->
     <string name="register_complete">가입이\n완료되었습니다</string>
-    <string name="register_welcome_user">환영합니다</string>
+    <string name="register_welcome_user">님, 환영합니다</string>
+    <string name="register_welcome_user_new_line">님,\n환영합니다</string>
     <string name="register_agree_all">전체 동의하기</string>
     <string name="register_agree_over_14">(필수) 만 14세 이상이에요</string>
     <string name="register_agree_term">(필수) 이용약관 및 개인정보수집이용 동의</string>
