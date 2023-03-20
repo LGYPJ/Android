@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
     FragmentNotificationBinding::bind,
     R.layout.fragment_notification
 ) {
+    var containerActivity: ContainerActivity? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -110,16 +112,18 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
                 }
                 //세미나 메인 프래그먼트로!
                 if (dataList[position].resourceType == "SEMINAR") {
-                    (requireActivity() as ContainerActivity).openFragmentOnFrameLayout(1)
-                    (requireActivity() as ContainerActivity).isSeminar()
-
+                    containerActivity!!.openFragmentOnFrameLayout(1)
                 }
                 //네트워킹 메인 프래그먼트로
                 if (dataList[position].resourceType == "NETWORKING") {
-                    (requireActivity() as ContainerActivity).openFragmentOnFrameLayout(5)
-                    (requireActivity() as ContainerActivity).isNetworking()
+                    containerActivity!!.openFragmentOnFrameLayout(5)
                 }
             }
         })
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        containerActivity = context as ContainerActivity
     }
 }
