@@ -50,7 +50,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             binding.snsViewModel = viewModel
             viewModel.snsTypeIsValid.value = it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
-
             binding.fragmentSnsEtLinkDesc.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
             when(it){
@@ -68,9 +67,8 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 else -> {
                     binding.instaChar.text = ""
                     viewModel.typeState.value = getString(R.string.caution_input_22)
-                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH
+                    viewModel.snsTypeIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                     GaramgaebiFunction().checkFirstChar(viewModel.snsTypeIsValid, it)
-
                 }
             }
             Log.d("sns_type_true",it.isNotEmpty().toString())
@@ -206,6 +204,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                                 OrderBottomDialogFragment(resources.getStringArray(R.array.sns_option)) {
                                     when (it) {
                                         0 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "인스타그램", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "인스타그램"
                                             viewModel.addressInputDesc.value =
@@ -214,6 +213,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                                             getString(R.string.sns_type_dialog_insta_state)
                                         }
                                         1 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "블로그", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "블로그"
                                             viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
@@ -223,6 +223,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                                             getString(R.string.sns_type_dialog_blog_state)
                                         }
                                         2 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "깃허브", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = "깃허브"
                                             viewModel.addressInputDesc.value = getString(R.string.sns_add_link_desc)
@@ -233,6 +234,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                                         }
                                         3 -> {
+                                            viewModel.snsAddress.value =""
                                             Toast.makeText(activity, "직접 입력", Toast.LENGTH_SHORT).show()
                                             viewModel.snsType.value = ""
                                             viewModel.typeInputDesc.value =
