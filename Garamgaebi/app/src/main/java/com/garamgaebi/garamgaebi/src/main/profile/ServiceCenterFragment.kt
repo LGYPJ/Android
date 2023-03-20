@@ -12,6 +12,7 @@ import android.view.View.OnTouchListener
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -94,6 +95,7 @@ class ServiceCenterFragment :
                 //activity?.startActivity(Intent(activity, LoginActivity::class.java))
             val i = (Intent(activity, LoginActivity::class.java))
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            finishAffinity(requireActivity())
             startActivity(i)
                 Log.d("logout_button", "main")
 

@@ -55,7 +55,11 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                 binding.fragmentCompleteBtnNext.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
+                        CoroutineScope(Dispatchers.Main).launch {
+                            registerViewModel.socialToken.value =
+                                GaramgaebiApplication().loadStringData("kakaoToken").toString()
                         registerViewModel.postRegister(registerViewModel.getRegisterRequest())
+                        }
                         registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
                             if(registerIt.isSuccess) {
                                 GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
@@ -64,7 +68,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                                 CoroutineScope(Dispatchers.Main).launch {
                                     isCareer =
                                         GaramgaebiApplication().loadBooleanData("isCareer") == true
-
+                                    Log.d("뭐묘?",isCareer.toString())
                                     if (isCareer) {
                                         val viewModel by activityViewModels<CareerViewModel>()
                                         viewModel.postCareerInfo()

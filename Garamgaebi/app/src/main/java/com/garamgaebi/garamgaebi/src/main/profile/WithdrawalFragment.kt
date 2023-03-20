@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver
 import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -157,16 +158,7 @@ class WithdrawalFragment :
                                 1 -> {
                                     //탈퇴
                                     viewModel.postWithdrawal()
-                                    activity?.startActivity(
-                                        Intent(activity,
-                                            LoginActivity::class.java)
-                                    )
-//                                    GaramgaebiApplication.sSharedPreferences.edit()
-//                                        .putInt("memberIdx", -1)
-//                                        .putString("kakaoToken", "")
-//                                        .putString(GaramgaebiApplication.X_ACCESS_TOKEN,"")
-//                                        .putString(GaramgaebiApplication.X_REFRESH_TOKEN, "")
-//                                        .apply()
+
                                     val saveToken = runBlocking{ // 비동기 작업 시작
                                         GaramgaebiApplication().saveStringToDataStore("kakaoToken","")
                                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
@@ -181,12 +173,18 @@ class WithdrawalFragment :
                                             1 -> {
 
                                                 Log.d("withdrawal_button","close")
-                                                (activity as ContainerActivity).onBackPressed()
-
+                                                val i = (Intent(activity, LoginActivity::class.java))
+                                                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                ActivityCompat.finishAffinity(requireActivity())
+                                                startActivity(i)
+                                                Log.d("logout_button", "main")
                                             }
                                             2->{
-                                                (activity as ContainerActivity).onBackPressed()
-                                            }
+                                                val i = (Intent(activity, LoginActivity::class.java))
+                                                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                ActivityCompat.finishAffinity(requireActivity())
+                                                startActivity(i)
+                                                Log.d("logout_button", "main")                                            }
                                         }
                                     }
                                     // 알림창이 띄워져있는 동안 배경 클릭 막기

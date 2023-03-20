@@ -8,13 +8,22 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.ActivityRegisterBinding
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
         if(intent.getBooleanExtra("login", false)){
-            setFragment(REGISTER_AUTH)
+
+            //로건 추가
+            var token = intent.getStringExtra("kakaoToken").toString()
+            CoroutineScope(Dispatchers.Main).launch {
+                GaramgaebiApplication().saveStringToDataStore("kakaoToken", token)
+                setFragment(REGISTER_AUTH)
+            }
         }
         else {
             setFragment(REGISTER_INTRO)
