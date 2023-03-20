@@ -167,6 +167,7 @@ class WithdrawalFragment :
                                         GaramgaebiApplication().clearDataStore()
 
                                     }
+
                                     GaramgaebiApplication.myMemberIdx = -1
                                     val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
                                         when(it2){
