@@ -32,8 +32,6 @@ import kotlinx.coroutines.launch
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
 
-
-
     var inNetworking = false
     var inSeminar = false
 
@@ -114,6 +112,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             4 -> {transaction.replace(R.id.activity_seminar_frame, CancelFragment(),"cancel")
             }
             5 -> {transaction.replace(R.id.activity_seminar_frame, NetworkingFragment(),"networking")
+                Log.d("title", "네트워킹5")
                 binding.activityContainerToolbarTv.text = "네트워킹"
                 inNetworking = true
             }
@@ -163,6 +162,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
             //동원 부분
             16 -> {
+                Log.d("title", "openFragmentOnFrameLayout")
                 transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification")
             }
 
@@ -187,9 +187,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         }
         transaction.commit()
-        for(fragment: Fragment in supportFragmentManager.fragments) {
+        /*for(fragment: Fragment in supportFragmentManager.fragments) {
             if (fragment.isVisible) {
                 val tag = fragment.tag
+                Log.d("titleFragmentTag", "${fragment.tag}")
                 lateinit var frag: Fragment
                 var fragmentTitle: String = ""
                 when (tag) {
@@ -221,7 +222,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = fragmentTitle
                 Log.d("title",fragmentTitle)
             }
-        }
+        }*/
     }
 
 
@@ -285,6 +286,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
         if(intent.getBooleanExtra("notification", false)) {
+            Log.d("titleOnStart", "알림")
             openFragmentOnFrameLayout(16)
             binding.activityContainerToolbarTv.text = "알림"
         }
