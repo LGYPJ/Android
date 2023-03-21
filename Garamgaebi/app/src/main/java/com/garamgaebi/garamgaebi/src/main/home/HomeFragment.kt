@@ -225,7 +225,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         binding.fragmentHomeRvUser.apply {
                             adapter = userRVAdapter
                             layoutManager =
-                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false).apply {
+                                    initialPrefetchItemCount = 10
+                                }
                         }
                         binding.fragmentHomeClUserBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너

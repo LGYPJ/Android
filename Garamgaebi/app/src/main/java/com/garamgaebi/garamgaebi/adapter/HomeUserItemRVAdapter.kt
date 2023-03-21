@@ -29,15 +29,13 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>, val
                         itemHomeUserIvProfileDefault.visibility = View.VISIBLE
                         Glide.with(itemView)
                             .load(R.drawable.ic_transparent)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(itemHomeUserIvProfile)
                     } else {
                         itemHomeUserIvProfileDefault.visibility = View.GONE
                         Glide.with(itemView)
                             .load(data.profileUrl)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .centerCrop()
                             .override(dpToPx(120), dpToPx(92))
                             .into(itemHomeUserIvProfile)
