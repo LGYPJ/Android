@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -93,14 +94,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         // 세미나 도움말
         binding.fragmentHomeIvSeminarHelpBtn.setOnClickListener {
-            (activity as MainActivity).getHelpFrame()
-            binding.fragmentHomeTvSeminarHelp.visibility = View.VISIBLE
+            (activity as MainActivity).getSeminarHelpFrame()
+            binding.fragmentHomeIvSeminarHelp.visibility = View.VISIBLE
+            binding.fragmentHomeIvSeminarHelp.startAnimation(
+                AlphaAnimation(0f, 1f).apply {
+                duration = 500 // 애니메이션 지속 시간 (1초)
+            })
         }
 
         // 네트워크 도움말
         binding.fragmentHomeIvNetworkingHelpBtn.setOnClickListener {
-            (activity as MainActivity).getHelpFrame()
-            binding.fragmentHomeTvNetworkingHelp.visibility = View.VISIBLE
+            (activity as MainActivity).getNetworkingHelpFrame()
+            binding.fragmentHomeIvNetworkingHelp.visibility = View.VISIBLE
+            binding.fragmentHomeIvNetworkingHelp.startAnimation(
+                AlphaAnimation(0f, 1f).apply {
+                    duration = 500 // 애니메이션 지속 시간 (1초)
+            })
         }
     }
 
@@ -212,7 +221,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                     } else if (result.isEmpty()) {
                         binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
                     } else {
-                        userRVAdapter = HomeUserItemRVAdapter(result)
+                        userRVAdapter = HomeUserItemRVAdapter(result, requireContext())
                         binding.fragmentHomeRvUser.apply {
                             adapter = userRVAdapter
                             layoutManager =
@@ -355,11 +364,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
     }
 
     fun goneSeminarHelp() {
-        binding.fragmentHomeTvSeminarHelp.visibility = View.GONE
+        binding.fragmentHomeIvSeminarHelp.visibility = View.GONE
+        binding.fragmentHomeIvSeminarHelp.startAnimation(
+            AlphaAnimation(1f, 0f).apply {
+            duration = 500 // 애니메이션 지속 시간 (1초)
+        })
     }
 
     fun goneNetworkingHelp() {
-        binding.fragmentHomeTvNetworkingHelp.visibility = View.GONE
+        binding.fragmentHomeIvNetworkingHelp.visibility = View.GONE
+        binding.fragmentHomeIvNetworkingHelp.startAnimation(
+            AlphaAnimation(1f, 0f).apply {
+                duration = 500 // 애니메이션 지속 시간 (1초)
+            })
     }
 
 }

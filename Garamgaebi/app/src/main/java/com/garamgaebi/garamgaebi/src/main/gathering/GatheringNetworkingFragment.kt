@@ -92,7 +92,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
             viewModel.networkingClosed.observe(viewLifecycleOwner, Observer{
                 val result = it.result as ArrayList<GatheringNetworkingClosedResult>
                 val networkingDeadlineAdapter : GatheringNetworkingDeadlineRVAdapter
-                if (result == null) {
+                if (result == null || result.isEmpty()) {
                     binding.fragmentGatheringNetworkingClosedClBlank.visibility = View.VISIBLE
                     binding.fragmentGatheringNetworkingRvDeadline.visibility = View.GONE
                 }
