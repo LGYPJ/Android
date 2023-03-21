@@ -1,7 +1,9 @@
 package com.garamgaebi.garamgaebi.common
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +55,21 @@ abstract class BaseFragment<B : ViewBinding>(
             mLoadingDialog.dismiss()
         }
     }
+    fun checkNetwork(context: Context) : Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        if (networkInfo == null || !networkInfo.isConnected) {
+            Log.d("network","false")
+            return false
+        }else {
+            Log.d("network","true")
+            return true
+
+        }
+    }
+
+
     override fun onStop() {
         super.onStop()
         if (disposables.size() > 0) {

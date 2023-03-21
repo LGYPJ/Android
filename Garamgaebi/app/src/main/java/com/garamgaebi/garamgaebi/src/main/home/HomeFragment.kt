@@ -15,6 +15,7 @@ import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -311,17 +312,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
 
     private fun updateData() {
-        with(viewModel) {
-            // 세미나
-            getHomeSeminar()
-            // 네트워킹
-            getHomeNetworking()
-            // 내 모임
-            getHomeProgram(myMemberIdx)
-            // 읽지 않은 알림 존재 여부
-            getNotificationUnread(myMemberIdx)
+        if(checkNetwork(requireContext())) {
+            with(viewModel) {
+                // 세미나
+                getHomeSeminar()
+                // 네트워킹
+                getHomeNetworking()
+                // 내 모임
+                getHomeProgram(myMemberIdx)
+                // 읽지 않은 알림 존재 여부
+                getNotificationUnread(myMemberIdx)
 
-            Log.d("home", "updateData")
+                Log.d("home", "updateData")
+            }
+        }else {
+            // 알림창이 띄워져있는 동안 배경 클릭 막기
+            NetworkErrorDialog() { it ->
+                when (it) {
+                    -1 -> {
+                    }
+                    1 -> {
+                        (activity as ContainerActivity).onBackPressed()
+
+                    }
+                }
+            }.show(
+                activity?.supportFragmentManager!!,
+                "com.example.garamgaebi.common.NetworkErrorDialog"
+            )
         }
     }
 

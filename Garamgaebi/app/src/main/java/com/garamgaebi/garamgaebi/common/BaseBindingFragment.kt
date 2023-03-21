@@ -1,11 +1,15 @@
 package com.garamgaebi.garamgaebi.common
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -54,6 +58,21 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
             }
         )
     }
+
+    fun checkNetwork(context: Context) : Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        if (networkInfo == null || !networkInfo.isConnected) {
+            Log.d("network","false")
+            return false
+        }else {
+            Log.d("network","true")
+            return true
+
+        }
+    }
+
 
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
