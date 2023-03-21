@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,23 +15,16 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
-import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
-import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
+import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
-import com.google.android.datatransport.runtime.dagger.multibindings.StringKey
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -244,10 +236,28 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                         Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
                 }
-                getProfileInfo(memberIdx)
-                getEducationInfo(memberIdx)
-                getCareerInfo(memberIdx)
-                getSNSInfo(memberIdx)
+
+                if(checkNetwork(requireContext())) {
+                    getProfileInfo(memberIdx)
+                    getEducationInfo(memberIdx)
+                    getCareerInfo(memberIdx)
+                    getSNSInfo(memberIdx)
+                }else {
+                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                    NetworkErrorDialog() { it ->
+                        when (it) {
+                            -1 -> {
+                            }
+                            1 -> {
+                                (activity as ContainerActivity).onBackPressed()
+
+                            }
+                        }
+                    }.show(
+                        activity?.supportFragmentManager!!,
+                        "com.example.garamgaebi.common.NetworkErrorDialog"
+                    )
+                }
             }
 
 

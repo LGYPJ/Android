@@ -11,6 +11,7 @@ import com.garamgaebi.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -40,9 +41,25 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
         }
     }
     private suspend fun setView() {
-        viewModel.getGatheringSeminarThisMonth()
-        viewModel.getGatheringSeminarNextMonth()
-        viewModel.getGatheringSeminarClosed()
+        if(checkNetwork(requireContext())) {
+            viewModel.getGatheringSeminarThisMonth()
+            viewModel.getGatheringSeminarNextMonth()
+            viewModel.getGatheringSeminarClosed()
+        }else{
+            NetworkErrorDialog() { it ->
+                when (it) {
+                    -1 -> {
+                    }
+                    1 -> {
+                        (activity as ContainerActivity).onBackPressed()
+
+                    }
+                }
+            }.show(
+                activity?.supportFragmentManager!!,
+                "com.example.garamgaebi.common.NetworkErrorDialog"
+            )
+        }
         withContext(Dispatchers.Main) {
             // 이번달
             viewModel.seminarThisMonth.observe(viewLifecycleOwner, Observer {

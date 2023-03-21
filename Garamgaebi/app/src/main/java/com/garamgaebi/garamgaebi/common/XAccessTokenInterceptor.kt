@@ -41,12 +41,12 @@ class XAccessTokenInterceptor : Interceptor {
                 val newBuilder = chain.request().newBuilder()
                     .removeHeader("Authorization")
                     .addHeader("Authorization", newJwtToken)
-                Log.d("fff","res")
+                Log.d("token fired","401")
                 response.close()
                 return chain.proceed(newRequestWithAccessToken(newJwtToken, request))
             }
         } else {
-            Log.d("ffff","code"+response.code.toString())
+            Log.d("token_response","code"+response.code.toString())
             // 401 이외의 상태코드의 경우 바로 반환
         }
         return response

@@ -11,6 +11,7 @@ import com.garamgaebi.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.garamgaebi.garamgaebi.model.GatheringNetworkingClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -35,9 +36,25 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
 
     }
     private suspend fun setView() {
-        viewModel.getGatheringNetworkingThisMonth()
-        viewModel.getGatheringNetworkingNextMonth()
-        viewModel.getGatheringNetworkingClosed()
+        if(checkNetwork(requireContext())) {
+            viewModel.getGatheringNetworkingThisMonth()
+            viewModel.getGatheringNetworkingNextMonth()
+            viewModel.getGatheringNetworkingClosed()
+        }else{
+            NetworkErrorDialog() { it ->
+                when (it) {
+                    -1 -> {
+                    }
+                    1 -> {
+                        (activity as ContainerActivity).onBackPressed()
+
+                    }
+                }
+            }.show(
+                activity?.supportFragmentManager!!,
+                "com.example.garamgaebi.common.NetworkErrorDialog"
+            )
+        }
         withContext(Dispatchers.Main) {
             // 이번 달
             viewModel.networkingThisMonth.observe(viewLifecycleOwner, Observer{

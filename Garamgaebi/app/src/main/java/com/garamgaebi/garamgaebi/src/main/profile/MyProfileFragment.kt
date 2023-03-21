@@ -12,6 +12,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,6 +31,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfi
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
+import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -103,10 +105,10 @@ class MyProfileFragment :
                 Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
             }
 
-            refreshLayout.setOnRefreshListener {
-                    viewModel.getProfileInfo(myMemberIdx)
-                    binding.refreshLayout.isRefreshing = false
-            }
+//            refreshLayout.setOnRefreshListener {
+//                    viewModel.getProfileInfo(myMemberIdx)
+//                    binding.refreshLayout.isRefreshing = false
+//            }
         }
 
 
@@ -306,23 +308,43 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        with(viewModel) {
-            if(getProfile) {
-                getProfileInfo(myMemberIdx)
-                getProfile = false
+        if(checkNetwork(requireContext())) {
+
+            with(viewModel) {
+                if (getProfile) {
+                    getProfileInfo(myMemberIdx)
+                    getProfile = false
+                }
+                if (getSNS) {
+                    getSNSInfo(myMemberIdx)
+                    getSNS = false
+                }
+                if (getCareer) {
+                    getCareerInfo(myMemberIdx)
+                    getCareer = false
+                }
+                if (getEdu) {
+                    getEducationInfo(myMemberIdx)
+                    getEdu = false
+                } else {
+
+                }
+                Log.d("network", "profile")
             }
-            if(getSNS) {
-                getSNSInfo(myMemberIdx)
-                getSNS = false
-            }
-            if(getCareer) {
-                getCareerInfo(myMemberIdx)
-                getCareer = false
-            }
-            if(getEdu) {
-                getEducationInfo(myMemberIdx)
-                getEdu = false
-            }
+        }else{
+            NetworkErrorDialog() { it ->
+                when (it) {
+                    -1 -> {
+                    }
+                    1 -> {
+                        (activity as ContainerActivity).onBackPressed()
+
+                    }
+                }
+            }.show(
+                activity?.supportFragmentManager!!,
+                "com.example.garamgaebi.common.NetworkErrorDialog"
+            )
         }
     }
 }
