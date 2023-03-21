@@ -162,7 +162,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
             //동원 부분
             16 -> {
-                transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification").addToBackStack(null)
+                Log.d("title", "openFragmentOnFrameLayout")
+                transaction.replace(R.id.activity_seminar_frame, NotificationFragment(), "notification")
             }
 
             //승민 추가
@@ -186,10 +187,10 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         }
         transaction.commit()
-        for(fragment: Fragment in supportFragmentManager.fragments) {
+        /*for(fragment: Fragment in supportFragmentManager.fragments) {
             if (fragment.isVisible) {
                 val tag = fragment.tag
-                Log.d("title", "${fragment.tag}")
+                Log.d("titleFragmentTag", "${fragment.tag}")
                 lateinit var frag: Fragment
                 var fragmentTitle: String = ""
                 when (tag) {
@@ -221,7 +222,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = fragmentTitle
                 Log.d("title",fragmentTitle)
             }
-        }
+        }*/
     }
 
 
@@ -285,7 +286,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
         if(intent.getBooleanExtra("notification", false)) {
-            Log.d("title", "알림")
+            Log.d("titleOnStart", "알림")
             openFragmentOnFrameLayout(16)
             binding.activityContainerToolbarTv.text = "알림"
         }
