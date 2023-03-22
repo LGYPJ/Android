@@ -1,6 +1,8 @@
 package com.garamgaebi.garamgaebi.adapter
 
+import android.content.Context
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
+class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>, val context : Context): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
     inner class ViewHolder( val binding: ItemHomeUserBinding):
         RecyclerView.ViewHolder(binding.root) {
@@ -27,17 +29,16 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
                         itemHomeUserIvProfileDefault.visibility = View.VISIBLE
                         Glide.with(itemView)
                             .load(R.drawable.ic_transparent)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(itemHomeUserIvProfile)
                     } else {
                         itemHomeUserIvProfileDefault.visibility = View.GONE
-
                         Glide.with(itemView)
                             .load(data.profileUrl)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .centerCrop()
+                            .override(dpToPx(120), dpToPx(92))
                             .into(itemHomeUserIvProfile)
 
 //                    CoroutineScope(Dispatchers.Main).launch {
@@ -48,6 +49,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
 //                    }
                     }
                 }
+
                 itemHomeUserIvProfile.clipToOutline = true
                 itemHomeUserTvNickname.text = data.nickName
                 itemHomeUserTvBelong.text = data.belong
@@ -76,5 +78,7 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>): Re
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         itemClickListener = onItemClickListener
     }
-
+    private fun dpToPx(dp : Int) : Int{
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
+    }
 }

@@ -206,14 +206,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         gatheringFragment!!.setVPNetworking()
     }
 
-    fun getHelpFrame() {
+    fun getSeminarHelpFrame() {
         Log.d("getHelpFrame", "getHelpFrame")
         binding.activityMainHelpFrm.visibility = View.VISIBLE
         binding.activityMainHelpFrm.setOnClickListener {
             binding.activityMainHelpFrm.visibility = View.GONE
             homeFragment!!.goneSeminarHelp()
+        }
+    }
+    fun getNetworkingHelpFrame() {
+        Log.d("getHelpFrame", "getHelpFrame")
+        binding.activityMainHelpFrm.visibility = View.VISIBLE
+        binding.activityMainHelpFrm.setOnClickListener {
+            binding.activityMainHelpFrm.visibility = View.GONE
             homeFragment!!.goneNetworkingHelp()
-
         }
     }
 
@@ -260,7 +266,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun onDestroy() {
-
         keyboardVisibilityUtils.detachKeyboardListeners()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
         super.onDestroy()
