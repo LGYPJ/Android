@@ -121,6 +121,37 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 }
 
             }
+            //삭제 관측
+            _delete.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+                Log.d("career_delete", _patch.value?.result.toString())
+                if (_delete.value?.result == true){
+                    GaramgaebiApplication.getEdu = true
+                    val dialog = ConfirmDialog(
+                        this@EduEditFragment,
+                        getString(R.string.delete_done),
+                        -1
+                    ) { it2 ->
+                        when (it2) {
+                            1 -> {
+                                Log.d("edu_remove_button", "close")
+                            }
+                            2 -> {
+                                (activity as ContainerActivity).onBackPressed()
+                            }
+                        }
+                    }
+                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                    dialog.show(
+                        activity?.supportFragmentManager!!,
+                        "com.example.garamgaebi.common.ConfirmDialog"
+                    )
+                }else{
+                    networkValid.postValue(false)
+
+                }
+
+            }
 
             startDate.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -257,7 +288,12 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.patchEducationInfo()
+                        if(checkNetwork(requireContext())) {
+                            viewModel.patchEducationInfo()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
@@ -313,22 +349,13 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                                 }
                                 1 -> {
                                     //경력 삭제
-                                    viewModel.deleteEducationInfo()
-                                    GaramgaebiApplication.getEdu = true
-                                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                                        when(it2){
-                                            1 -> {
-                                                Log.d("edu_remove_button","closedddd")
-                                            }
-                                            2->{
-                                                (activity as ContainerActivity).onBackPressed()
-                                            }
-                                        }
+                                    if(checkNetwork(requireContext())) {
+                                        //경력 삭제
+                                        viewModel.deleteEducationInfo()
+                                        networkValid.postValue(true)
+                                    }else {
+                                        networkValid.postValue(false)
                                     }
-                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-
-
                                 }
                             }
                         }

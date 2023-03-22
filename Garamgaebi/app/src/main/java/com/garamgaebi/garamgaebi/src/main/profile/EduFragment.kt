@@ -59,6 +59,8 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                 if (_add.value?.result == true){
                     GaramgaebiApplication.getEdu = true
                     (activity as ContainerActivity).onBackPressed()
+                }else{
+                    networkValid.postValue(false)
                 }
 
             }
@@ -166,7 +168,12 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.postEducationInfo()
+                        if(checkNetwork(requireContext())) {
+                            viewModel.postEducationInfo()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })

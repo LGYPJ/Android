@@ -400,7 +400,6 @@ class ProfileEditFragment :
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         Log.d("짱구", "진짜 result1"+result.resultCode.toString())
-        Log.d("짱구", "진짜 result1"+result.resultCode.toString())
         when (result.resultCode) {
             Activity.RESULT_OK -> {
                 Log.d("짱구", "진짜 result2"+result.resultCode.toString())
@@ -513,7 +512,7 @@ class ProfileEditFragment :
 
             val target = Intent(Intent.ACTION_PICK)
             target.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI,
                 "image/*"
             )
             imageResult.launch(target)

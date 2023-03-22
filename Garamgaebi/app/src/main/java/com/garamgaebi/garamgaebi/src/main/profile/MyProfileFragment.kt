@@ -36,7 +36,9 @@ import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
+import java.util.concurrent.TimeUnit
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -54,65 +56,94 @@ class MyProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.lifecycleOwner = this
-        binding.setVariable(BR.profileViewModel,viewModel)
-        viewModel.getProfileInfo(myMemberIdx)
+        binding.setVariable(BR.profileViewModel, viewModel)
 
 
-        val dividerItemDecoration = DividerItemDecoration(
-            binding.fragmentMyProfileRVSns.context,
-            LinearLayoutManager(requireContext()).orientation
-        )
-        with(binding) {
-            fragmentMyProfileRVSns.addItemDecoration(dividerItemDecoration)
-            fragmentMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
-            fragmentMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
+            val dividerItemDecoration = DividerItemDecoration(
+                binding.fragmentMyProfileRVSns.context,
+                LinearLayoutManager(requireContext()).orientation
+            )
+            with(binding) {
+                fragmentMyProfileRVSns.addItemDecoration(dividerItemDecoration)
+                fragmentMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
+                fragmentMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
+
+                fragmentMyProfileBtnSnsAdd.setOnClickListener {
+                    goAddSNSFragment()
+                }
+
+                fragmentMyProfileBtnCareerAdd.setOnClickListener {
+                    goAddCareerFragment()
+                }
+
+                fragmentMyProfileBtnEduAdd.setOnClickListener {
+                    goAddEduFragment()
+                }
+
+                fragmentMyProfileIvCs.setOnClickListener {
+                    goServiceCenterFragment()
+                }
+
+                fragmentMyProfileBtnEditProfile.setOnClickListener {
+                    goEditFragment()
+                }
+
+                fragmentMyProfileTvEmail.setOnClickListener {
+                    val clipboard =
+                        requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                    // 새로운 ClipData 객체로 데이터 복사하기
+                    val clip: ClipData =
+                        ClipData.newPlainText("email_address", fragmentMyProfileTvEmail.text)
+
+                    // 새로운 클립 객체를 클립보드에 배치합니다.
+                    clipboard.setPrimaryClip(clip)
+
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                        Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
+                }
+
+                disposables
+                    .add(
+                        binding
+                            .networkErrorIv
+                            .clicks()
+                            .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                            .subscribe({
+                                if(checkNetwork(requireContext())) {
+                                    viewModel.getProfileInfo(myMemberIdx)
+
+                                    fragmentMyProfileClContainer.visibility = View.VISIBLE
+                                    networkErrorContainer.visibility = View.GONE
+                                }else {
+                                    fragmentMyProfileClContainer.visibility = View.GONE
+                                    networkErrorContainer.visibility = View.VISIBLE
+                                }
+                                //(activity as ContainerActivity).onBackPressed()
+                            }, { it.printStackTrace() })
+                    )            }
+        //네트워크 부분
+        if(checkNetwork(requireContext())) {
             CoroutineScope(Dispatchers.IO).launch {
                 setDataView()
             }
-            fragmentMyProfileBtnSnsAdd.setOnClickListener {
-                goAddSNSFragment()
+            with(binding){
+                fragmentMyProfileClContainer.visibility = View.VISIBLE
+                networkErrorContainer.visibility = View.GONE
             }
-
-            fragmentMyProfileBtnCareerAdd.setOnClickListener {
-                goAddCareerFragment()
-            }
-
-            fragmentMyProfileBtnEduAdd.setOnClickListener {
-                goAddEduFragment()
-            }
-
-            fragmentMyProfileIvCs.setOnClickListener {
-                goServiceCenterFragment()
-            }
-
-            fragmentMyProfileBtnEditProfile.setOnClickListener {
-                goEditFragment()
-            }
-
-            fragmentMyProfileTvEmail.setOnClickListener {
-                val clipboard = requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-                // 새로운 ClipData 객체로 데이터 복사하기
-                val clip: ClipData =
-                    ClipData.newPlainText("email_address", fragmentMyProfileTvEmail.text)
-
-                // 새로운 클립 객체를 클립보드에 배치합니다.
-                clipboard.setPrimaryClip(clip)
-
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
-                Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
-            }
-
-            refreshLayout.setOnRefreshListener {
-                    viewModel.getProfileInfo(myMemberIdx)
-                    binding.refreshLayout.isRefreshing = false
-            }
+        }else{
+                //네트워크 실패시 실패 레이아웃을 작동
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
         }
 
-
-
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.getProfileInfo(myMemberIdx)
+            binding.refreshLayout.isRefreshing = false
+        }
 
     }
 
@@ -174,12 +205,17 @@ class MyProfileFragment :
                     binding.profileViewModel = viewModel
                     val result = it as ProfileDataResponse
                     if (result == null || result.result == null) {
-
+                        with(binding){
+                            fragmentMyProfileClContainer.visibility = View.GONE
+                            networkErrorContainer.visibility = View.VISIBLE
+                        }
                     } else {
 
                         with(binding) {
                             val putData = runBlocking {
                                 with(result.result){
+                                    fragmentMyProfileClContainer.visibility = View.VISIBLE
+                                    networkErrorContainer.visibility = View.GONE
                                     GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
                                     GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
                                     GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
@@ -215,7 +251,6 @@ class MyProfileFragment :
                                 }
                                 fragmentMyProfileIvProfile.clipToOutline = true
                             }
-
                         }
                     }
                 }
@@ -223,8 +258,11 @@ class MyProfileFragment :
                 //getSNSInfo(myMemberIdx)
                 snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
                     if (it == null) {
-
+                        binding.fragmentMyProfileClContainer.visibility = View.GONE
+                        binding.networkErrorContainer.visibility = View.VISIBLE
                     } else {
+                        binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
+                        binding.networkErrorContainer.visibility = View.GONE
                         val snsAdapter =
                             activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
                         binding.fragmentMyProfileRVSns.apply {
@@ -245,8 +283,11 @@ class MyProfileFragment :
                //getCareerInfo(myMemberIdx)
                 careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
                     if (it == null) {
-
+                        binding.fragmentMyProfileClContainer.visibility = View.GONE
+                        binding.networkErrorContainer.visibility = View.VISIBLE
                     } else {
+                        binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
+                        binding.networkErrorContainer.visibility = View.GONE
                         val careerAdapter = activity?.let { it1 ->
                             CareerMyRVAdapter(
                                 it,
@@ -274,8 +315,11 @@ class MyProfileFragment :
                 //getEducationInfo(myMemberIdx)
                 educationInfoArray.observe(viewLifecycleOwner) {
                     if (it == null) {
-
+                        binding.fragmentMyProfileClContainer.visibility = View.GONE
+                        binding.networkErrorContainer.visibility = View.VISIBLE
                     } else {
+                        binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
+                        binding.networkErrorContainer.visibility = View.GONE
                         val eduAdapter =
                             activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
                         dividerItemDecoration = DividerItemDecoration(
@@ -320,12 +364,14 @@ class MyProfileFragment :
                 } else {
 
                 }
-                networkValid.postValue(true)
+                binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
+                binding.networkErrorContainer.visibility = View.GONE
                 Log.d("network", "profile")
             }
         }else {
             //check
-            networkValid.postValue(false)
+            binding.fragmentMyProfileClContainer.visibility = View.GONE
+            binding.networkErrorContainer.visibility = View.VISIBLE
         }
     }
 }

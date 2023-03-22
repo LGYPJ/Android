@@ -166,7 +166,12 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.postCareerInfo()
+                        if(checkNetwork(requireContext())) {
+                            viewModel.postCareerInfo()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                         Log.d("career_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
