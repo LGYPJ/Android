@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
@@ -96,6 +97,39 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
             if (viewModel._patch.value?.result == true){
                 GaramgaebiApplication.getSNS = true
                 (activity as ContainerActivity).onBackPressed()
+            }else{
+                networkValid.postValue(false)
+            }
+
+        }
+        //삭제 관측
+        viewModel._delete.observe(viewLifecycleOwner) {
+            binding.snsViewModel = viewModel
+            Log.d("career_delete", viewModel._patch.value?.result.toString())
+            if (viewModel._delete.value?.result == true){
+                GaramgaebiApplication.getSNS = true
+                val dialog = ConfirmDialog(
+                    this@SnsEditFragment,
+                    getString(R.string.delete_done),
+                    -1
+                ) { it2 ->
+                    when (it2) {
+                        1 -> {
+                            Log.d("sns_remove_button", "close")
+                        }
+                        2 -> {
+                            (activity as ContainerActivity).onBackPressed()
+                        }
+                    }
+                }
+                // 알림창이 띄워져있는 동안 배경 클릭 막기
+                dialog.show(
+                    activity?.supportFragmentManager!!,
+                    "com.example.garamgaebi.common.ConfirmDialog"
+                )
+            }else{
+                networkValid.postValue(false)
+
             }
 
         }
@@ -142,7 +176,12 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.patchSNSInfo()
+                        if(checkNetwork(requireContext())) {
+                            viewModel.patchSNSInfo()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                         Log.d("sns_add_button","success")
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
@@ -163,23 +202,13 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                                 }
                                 1 -> {
-                                    //경력 삭제
-                                    viewModel.deleteSNSInfo()
-                                    GaramgaebiApplication.getSNS = true
-                                    val dialog = ConfirmDialog(this, getString(R.string.delete_done), -1){it2 ->
-                                        when(it2){
-                                            1 -> {
-
-                                                Log.d("sns_edit_button","close")
-
-                                            }
-                                            2->{
-                                                (activity as ContainerActivity).onBackPressed()
-                                            }
-                                        }
+                                    if(checkNetwork(requireContext())) {
+                                        //경력 삭제
+                                        viewModel.deleteSNSInfo()
+                                        networkValid.postValue(true)
+                                    }else {
+                                        networkValid.postValue(false)
                                     }
-                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                                 }
                             }
                         }

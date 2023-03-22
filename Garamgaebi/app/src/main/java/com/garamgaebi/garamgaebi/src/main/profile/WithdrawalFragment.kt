@@ -79,8 +79,78 @@ class WithdrawalFragment :
             binding.viewModel = viewModel
             viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
         })
+        viewModel.withdrawal.observe(viewLifecycleOwner, Observer {
+            viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
+        })
 
+        viewModel._withdrawal.observe(viewLifecycleOwner) {
 
+            if (viewModel._withdrawal.value?.isSuccess == true){
+                val saveToken = runBlocking { // 비동기 작업 시작
+                    GaramgaebiApplication().saveStringToDataStore(
+                        "kakaoToken",
+                        ""
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        GaramgaebiApplication.X_ACCESS_TOKEN,
+                        ""
+                    )
+                    GaramgaebiApplication().saveStringToDataStore(
+                        GaramgaebiApplication.X_REFRESH_TOKEN,
+                        ""
+                    )
+                    GaramgaebiApplication().saveIntToDataStore(
+                        "memberIdx",
+                        -1
+                    )
+                    GaramgaebiApplication().clearDataStore()
+
+                }
+
+                GaramgaebiApplication.myMemberIdx = -1
+                val dialog =
+                    ConfirmDialog(this, "탈퇴가 완료되었습니다", -1) { it2 ->
+                        when (it2) {
+                            1 -> {
+
+                                Log.d("withdrawal_button", "close")
+                                val i = (Intent(
+                                    activity,
+                                    LoginActivity::class.java
+                                ))
+                                i.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                ActivityCompat.finishAffinity(
+                                    requireActivity()
+                                )
+                                startActivity(i)
+                                Log.d("logout_button", "main")
+                            }
+                            2 -> {
+                                val i = (Intent(
+                                    activity,
+                                    LoginActivity::class.java
+                                ))
+                                i.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                ActivityCompat.finishAffinity(
+                                    requireActivity()
+                                )
+                                startActivity(i)
+                                Log.d("logout_button", "main")
+                            }
+                        }
+                    }
+                // 알림창이 띄워져있는 동안 배경 클릭 막기
+                dialog.show(
+                    activity?.supportFragmentManager!!,
+                    "com.example.garamgaebi.common.ConfirmDialog"
+                )
+            }else{
+                networkValid.postValue(false)
+            }
+
+        }
 
 
 
@@ -148,56 +218,33 @@ class WithdrawalFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        val dialog: DialogFragment? = ConfirmDialog(this,"탈퇴하시겠습니까?", 1) { it ->
-                            when (it) {
-                                -1 -> {
+                        if(checkNetwork(requireContext())) {
+                            networkValid.postValue(true)
 
-                                    Log.d("withdrawal_button","close")
+                            val dialog: DialogFragment? =
+                                ConfirmDialog(this, "탈퇴하시겠습니까?", 1) { it ->
+                                    when (it) {
+                                        -1 -> {
 
-                                }
-                                1 -> {
-                                    //탈퇴
-                                    viewModel.postWithdrawal()
+                                            Log.d("withdrawal_button", "close")
 
-                                    val saveToken = runBlocking{ // 비동기 작업 시작
-                                        GaramgaebiApplication().saveStringToDataStore("kakaoToken","")
-                                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
-                                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
-                                        GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
-                                        GaramgaebiApplication().clearDataStore()
+                                        }
+                                        1 -> {
+                                            //탈퇴
+                                            viewModel.postWithdrawal()
 
-                                    }
-
-                                    GaramgaebiApplication.myMemberIdx = -1
-                                    val dialog = ConfirmDialog(this, "탈퇴가 완료되었습니다", -1){it2 ->
-                                        when(it2){
-                                            1 -> {
-
-                                                Log.d("withdrawal_button","close")
-                                                val i = (Intent(activity, LoginActivity::class.java))
-                                                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                                ActivityCompat.finishAffinity(requireActivity())
-                                                startActivity(i)
-                                                Log.d("logout_button", "main")
-                                            }
-                                            2->{
-                                                val i = (Intent(activity, LoginActivity::class.java))
-                                                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                                ActivityCompat.finishAffinity(requireActivity())
-                                                startActivity(i)
-                                                Log.d("logout_button", "main")                                            }
                                         }
                                     }
-                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                                    dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-
-
                                 }
-                            }
+                            // 알림창이 띄워져있는 동안 배경 클릭 막기
+                            dialog?.show(
+                                activity?.supportFragmentManager!!,
+                                "com.example.garamgaebi.common.ConfirmDialog"
+                            )
+                            Log.d("withdrawal_button", "success")
+                        }else{
+                            networkValid.postValue(false)
                         }
-                        // 알림창이 띄워져있는 동안 배경 클릭 막기
-                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-                        Log.d("career_remove_button","success")
                     }, { it.printStackTrace() })
             )
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->

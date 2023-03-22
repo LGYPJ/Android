@@ -136,7 +136,7 @@ class EducationViewModel : ViewModel(){
         }
     }
 
-    private val _delete = MutableLiveData<BooleanResponse>()
+    val _delete = MutableLiveData<BooleanResponse>()
     val delete : LiveData<BooleanResponse>
         get() = _delete
     //교육 삭제

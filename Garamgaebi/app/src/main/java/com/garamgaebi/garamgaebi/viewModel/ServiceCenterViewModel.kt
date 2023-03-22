@@ -76,7 +76,7 @@ class ServiceCenterViewModel : ViewModel(){
     }
 
 
-    private val _qna = MutableLiveData<QnADataResponse>()
+    val _qna = MutableLiveData<QnADataResponse>()
     val qna : LiveData<QnADataResponse>
         get() = _qna
     //QnA 문의
