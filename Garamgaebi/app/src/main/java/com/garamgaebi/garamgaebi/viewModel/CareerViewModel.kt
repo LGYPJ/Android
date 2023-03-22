@@ -128,7 +128,7 @@ class CareerViewModel : ViewModel(){
         }
     }
 
-    private val _delete = MutableLiveData<BooleanResponse>()
+    val _delete = MutableLiveData<BooleanResponse>()
     val delete : LiveData<BooleanResponse>
         get() = _delete
 

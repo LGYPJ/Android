@@ -61,12 +61,6 @@ class ProfileEditFragment :
     private val TAG = "TAG-EDIT-CP"
 
     override fun onPause() {
-//        GaramgaebiApplication.sSharedPreferences
-//            .edit().putString("myNickName", viewModel.nickName.value)
-//            .putString("myBelong", viewModel.belong.value)
-//            .putString("myEmail", viewModel.email.value)
-//            .putString("myIntro", viewModel.intro.value)
-//            .apply()
         CoroutineScope(Dispatchers.Main).launch {
             with(viewModel){
                 nickName.value?.let {
@@ -92,6 +86,7 @@ class ProfileEditFragment :
         if(!EditImageCheck){
             val putEdit = runBlocking {
                 viewModel.image.value?.let {
+                    Log.d("짱구","사진받")
                     GaramgaebiApplication().saveStringToDataStore("myImage",
                         it
                     )
@@ -123,26 +118,6 @@ class ProfileEditFragment :
                 viewModel!!.image.value = GaramgaebiApplication().loadStringData("myImage").toString()
 
             }
-//            viewModel!!.nickName.value = GaramgaebiApplication.sSharedPreferences.getString(
-//                "myNickName",
-//                "Error"
-//            )
-//            viewModel!!.belong.value = GaramgaebiApplication.sSharedPreferences.getString(
-//                "myBelong",
-//                ""
-//            )
-//            viewModel!!.email.value = GaramgaebiApplication.sSharedPreferences.getString(
-//                "myEmail",
-//                "Error"
-//            )
-//            viewModel!!.intro.value = GaramgaebiApplication.sSharedPreferences.getString(
-//                "myIntro",
-//                ""
-//            )
-//            viewModel!!.image.value = GaramgaebiApplication.sSharedPreferences.getString(
-//                "myImage",
-//                "Error"
-//            )
             Log.d("image_viewModel",viewModel!!.image.value.toString())
 
             fragmentEditProfileEtNick.setText(
@@ -165,7 +140,8 @@ class ProfileEditFragment :
                 myProfileImage = GaramgaebiApplication().loadStringData("myImage").toString()
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
-            if (myProfileImage !="error" && myProfileImage != null && !editImage) {
+            if (myProfileImage !="null" && myProfileImage != null && !editImage) {
+                Log.d("짱구","널아님")
                     CoroutineScope(Dispatchers.Main).launch {
                         val bitmap = withContext(Dispatchers.IO) {
                             GaramgaebiFunction.ImageLoader.loadImage(myProfileImage)
@@ -173,6 +149,7 @@ class ProfileEditFragment :
                         binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
                     }
            }else if(editImage){
+                Log.d("짱구","에딧중")
                 if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {
                     Log.e(TAG, FileUpLoad.getFileToUpLoad())
                     binding.fragmentEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
@@ -255,7 +232,7 @@ class ProfileEditFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         selectGallery()
-                        Log.d("test---","아얏")
+                        Log.d("짱구","편집 버튼 클릭")
                     }, { it.printStackTrace() })
             )
 
@@ -422,24 +399,36 @@ class ProfileEditFragment :
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data ?: return@registerForActivityResult
-            imageUri.scheme?.let {
-                /**
-                 * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
-                 */
-                findImageFileNameFromUri(imageUri)
+        Log.d("짱구", "진짜 result1"+result.resultCode.toString())
+        Log.d("짱구", "진짜 result1"+result.resultCode.toString())
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                Log.d("짱구", "진짜 result2"+result.resultCode.toString())
 
-                /**
-                 * 사용자가 갤러리에서 이미지를 선택했다면
-                 */
-//                GaramgaebiApplication.sSharedPreferences
-//                    .edit().putBoolean("EditImage", true)
-//                    .apply()
+                val imageUri = result.data?.data ?: return@registerForActivityResult
+                Log.d("짱구", "uri"+imageUri.toString())
+                imageUri.scheme?.let {
+                    /**
+                     * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
+                     */
+                    findImageFileNameFromUri(imageUri)
 
-                val getdataImage = runBlocking {
-                     GaramgaebiApplication().saveBooleanToDataStore("EditImage",true)
+                    /**
+                     * 사용자가 갤러리에서 이미지를 선택했다면
+                     */
+                    // GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", true).apply()
+
+                    val getdataImage = runBlocking {
+                        Log.d("짱구","editImage")
+                        GaramgaebiApplication().saveBooleanToDataStore("EditImage",true)
+                    }
                 }
+            }
+            Activity.RESULT_CANCELED -> {
+                Log.d("짱구", "사용자가 이미지 선택을 취소했습니다.")
+            }
+            else -> {
+                Log.d("짱구", "알 수 없는 오류가 발생했습니다.")
             }
         }
     }
@@ -480,6 +469,7 @@ class ProfileEditFragment :
                 )
             }
             flag = true
+            Log.d("짱구","선택했다짜")
         } ?: run {
             flag = false
         }
@@ -492,6 +482,7 @@ class ProfileEditFragment :
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
+        Log.d("짱구","갤러리 선택")
         val writePermission = requireActivity().let {
             ContextCompat.checkSelfPermission(
                 it,
@@ -508,7 +499,7 @@ class ProfileEditFragment :
         if (writePermission == PackageManager.PERMISSION_DENIED ||
             readPermission == PackageManager.PERMISSION_DENIED
         ) {
-            activity?.let {
+            requireActivity().let {
                 ActivityCompat.requestPermissions(
                     it,
                     arrayOf(
@@ -572,13 +563,17 @@ class ProfileEditFragment :
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        Log.d("짱구", "result받기$requestCode")
         when (requestCode) {
+
             REQ_GALLERY -> {
                 // 권한 요청이 거부된 경우
                 if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(requireContext(), "앨범 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     // 권한이 승인된 경우 앨범에 접근하는 코드를 작성
+                    Log.d("짱구", "권한 성공")
+
                     val target = Intent(Intent.ACTION_PICK)
                     target.setDataAndType(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,

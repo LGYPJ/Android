@@ -118,6 +118,35 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
                     (activity as ContainerActivity).onBackPressed()
                 }else{
+                    networkValid.postValue(false)
+                }
+            }
+            _delete.observe(viewLifecycleOwner) {
+                binding.viewModel = viewModel
+                Log.d("career_delete", _patch.value?.result.toString())
+                if (_delete.value?.result == true){
+                    GaramgaebiApplication.getCareer = true
+                    val dialog = ConfirmDialog(
+                        this@CareerEditFragment,
+                        getString(R.string.delete_done),
+                        -1
+                    ) { it2 ->
+                        when (it2) {
+                            1 -> {
+                                Log.d("career_remove_button", "close")
+                            }
+                            2 -> {
+                                (activity as ContainerActivity).onBackPressed()
+                            }
+                        }
+                    }
+                    // 알림창이 띄워져있는 동안 배경 클릭 막기
+                    dialog.show(
+                        activity?.supportFragmentManager!!,
+                        "com.example.garamgaebi.common.ConfirmDialog"
+                    )
+                }else{
+                    networkValid.postValue(false)
 
                 }
 
@@ -228,7 +257,12 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.patchCareerInfo()
+                        if(checkNetwork(requireContext())) {
+                            viewModel.patchCareerInfo()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                         Log.d("career_add_button", "success" + viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
@@ -288,26 +322,6 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                 1 -> {
                                     //경력 삭제
                                     viewModel.deleteCareerInfo()
-                                    GaramgaebiApplication.getCareer = true
-                                    val dialog = ConfirmDialog(
-                                        this,
-                                        getString(R.string.delete_done),
-                                        -1
-                                    ) { it2 ->
-                                        when (it2) {
-                                            1 -> {
-                                                Log.d("career_remove_button", "close")
-                                            }
-                                            2 -> {
-                                                (activity as ContainerActivity).onBackPressed()
-                                            }
-                                        }
-                                    }
-                                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                                    dialog.show(
-                                        activity?.supportFragmentManager!!,
-                                        "com.example.garamgaebi.common.ConfirmDialog"
-                                    )
                                 }
                             }
                         }
