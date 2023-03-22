@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/fragment_home_tv_networking_help"
+        android:id="@+id/fragment_home_iv_networking_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/fragment_home_networking_help"

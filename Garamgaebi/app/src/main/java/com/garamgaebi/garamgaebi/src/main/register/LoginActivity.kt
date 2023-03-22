@@ -107,9 +107,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
 
         //Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
-            Log.d("loginActivity", "login observe")
+            Log.d("loginActivity", "login observe?")
             if (it.isSuccess) {
-                Log.d("loginActivity", "login success")
+                Log.d("loginActivity", "login success?")
                 CoroutineScope(Dispatchers.Main).launch {
                     val saveToken = async(Dispatchers.Default) { // 비동기 작업 시작
                         GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,it.result.tokenInfo.accessToken)
