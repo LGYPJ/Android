@@ -35,7 +35,8 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>, val
                         itemHomeUserIvProfileDefault.visibility = View.GONE
                         Glide.with(itemView)
                             .load(data.profileUrl)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .centerCrop()
                             .override(dpToPx(120), dpToPx(92))
                             .into(itemHomeUserIvProfile)
