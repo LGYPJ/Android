@@ -257,12 +257,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())) {
-                            viewModel.patchCareerInfo()
-                            networkValid.postValue(true)
-                        }else {
-                            networkValid.postValue(false)
-                        }
+                        viewModel.patchCareerInfo()
                         Log.d("career_add_button", "success" + viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })

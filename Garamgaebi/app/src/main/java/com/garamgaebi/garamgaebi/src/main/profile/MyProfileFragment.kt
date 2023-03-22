@@ -300,32 +300,24 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        if(checkNetwork(requireContext())) {
-            with(viewModel) {
-                if (getProfile) {
-                    getProfileInfo(myMemberIdx)
-                    getProfile = false
-                }
-                if (getSNS) {
-                    getSNSInfo(myMemberIdx)
-                    getSNS = false
-                }
-                if (getCareer) {
-                    getCareerInfo(myMemberIdx)
-                    getCareer = false
-                }
-                if (getEdu) {
-                    getEducationInfo(myMemberIdx)
-                    getEdu = false
-                } else {
-
-                }
-                networkValid.postValue(true)
-                Log.d("network", "profile")
+        with(viewModel) {
+            if (getProfile) {
+                getProfileInfo(myMemberIdx)
+                getProfile = false
             }
-        }else {
-            //check
-            networkValid.postValue(false)
+            if (getSNS) {
+                getSNSInfo(myMemberIdx)
+                getSNS = false
+            }
+            if (getCareer) {
+                getCareerInfo(myMemberIdx)
+                getCareer = false
+            }
+            if (getEdu) {
+                getEducationInfo(myMemberIdx)
+                getEdu = false
+            }
+            Log.d("network", "profile")
         }
     }
 }

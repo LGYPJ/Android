@@ -240,17 +240,12 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
                 }
 
-                if(checkNetwork(requireContext())) {
-                    getProfileInfo(memberIdx)
-                    getEducationInfo(memberIdx)
-                    getCareerInfo(memberIdx)
-                    getSNSInfo(memberIdx)
-                    Log.d("network_check","fragment_true")
-                    networkValid.postValue(true)
-                }else {
-                    networkValid.postValue(false)
-                    Log.d("network_check","fragment_false")
-                }
+                getProfileInfo(memberIdx)
+                getEducationInfo(memberIdx)
+                getCareerInfo(memberIdx)
+                getSNSInfo(memberIdx)
+                Log.d("network_check","fragment_true")
+
             }
 
 

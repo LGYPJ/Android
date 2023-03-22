@@ -66,7 +66,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             fragmentHomeRvMyMeeting.addItemDecoration(HomeMyMeetingItemDecoration())
 
         }
-
         setView()
         viewModel.getHomeUser()
 
@@ -116,8 +115,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onResume() {
         super.onResume()
+        networkValid.observe(viewLifecycleOwner, Observer { isConnected ->
+            Log.d("network", "$isConnected")
+            if (isConnected) {
+                Log.d("network", "isConnectedTrue")
+                updateData()
+            } else {
+                // 네트워크 연결이 비활성화되면 수행할 작업
+                // 예: 사용자에게 연결 상태를 알리거나, 오프라인 모드로 전환
+                Log.d("network", "isConnectedFalse")
+            }
+        })
         Log.d("ressss","Rrrr")
-        updateData()
+
     }
     private fun setView() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -323,34 +333,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
 
     private fun updateData() {
-        if(checkNetwork(requireContext())) {
-            with(viewModel) {
-                // 세미나
-                getHomeSeminar()
-                // 네트워킹
-                getHomeNetworking()
-                // 내 모임
-                getHomeProgram(myMemberIdx)
-                // 읽지 않은 알림 존재 여부
-                getNotificationUnread(myMemberIdx)
-
-                Log.d("home", "updateData")
-            }
-        }else {
-            // 알림창이 띄워져있는 동안 배경 클릭 막기
-            NetworkErrorDialog() { it ->
-                when (it) {
-                    -1 -> {
-                    }
-                    1 -> {
-                        (activity as ContainerActivity).onBackPressed()
-
-                    }
-                }
-            }.show(
-                activity?.supportFragmentManager!!,
-                "com.example.garamgaebi.common.NetworkErrorDialog"
-            )
+        Log.d("network", "updateData")
+        with(viewModel) {
+            // 세미나
+            getHomeSeminar()
+            // 네트워킹
+            getHomeNetworking()
+            // 내 모임
+            getHomeProgram(myMemberIdx)
+            // 읽지 않은 알림 존재 여부
+            getNotificationUnread(myMemberIdx)
+            Log.d("home", "updateData")
         }
     }
 
@@ -398,5 +391,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 duration = 500 // 애니메이션 지속 시간 (1초)
             })
     }
-
 }
