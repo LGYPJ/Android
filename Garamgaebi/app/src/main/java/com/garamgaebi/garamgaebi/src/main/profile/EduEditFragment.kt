@@ -116,6 +116,8 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 if (_patch.value?.result == true){
                     GaramgaebiApplication.getEdu = true
                     (activity as ContainerActivity).onBackPressed()
+                }else{
+                    networkValid.postValue(false)
                 }
 
             }

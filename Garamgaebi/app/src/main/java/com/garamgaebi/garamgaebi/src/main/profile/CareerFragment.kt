@@ -53,10 +53,11 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
 
             _add.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-
                 if (_add.value?.result == true){
                     GaramgaebiApplication.getCareer = true
                     (activity as ContainerActivity).onBackPressed()
+                }else{
+                    networkValid.postValue(false)
                 }
 
             }
