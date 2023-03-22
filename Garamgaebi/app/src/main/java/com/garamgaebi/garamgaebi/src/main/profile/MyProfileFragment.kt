@@ -105,10 +105,10 @@ class MyProfileFragment :
                 Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
             }
 
-//            refreshLayout.setOnRefreshListener {
-//                    viewModel.getProfileInfo(myMemberIdx)
-//                    binding.refreshLayout.isRefreshing = false
-//            }
+            refreshLayout.setOnRefreshListener {
+                    viewModel.getProfileInfo(myMemberIdx)
+                    binding.refreshLayout.isRefreshing = false
+            }
         }
 
 
@@ -178,14 +178,6 @@ class MyProfileFragment :
                     } else {
 
                         with(binding) {
-//                            GaramgaebiApplication.sSharedPreferences
-//                                .edit().putString("myNickName", result.result.nickName)
-//                                .putString("myBelong", result.result.belong)
-//                                .putString("myEmail", result.result.profileEmail)
-//                                .putString("myIntro", result.result.content)
-//                                .putString("myImage", result.result.profileUrl)
-//                                .apply()
-//
                             val putData = runBlocking {
                                 with(result.result){
                                     GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
@@ -309,7 +301,6 @@ class MyProfileFragment :
 
     private fun updateData() {
         if(checkNetwork(requireContext())) {
-
             with(viewModel) {
                 if (getProfile) {
                     getProfileInfo(myMemberIdx)
@@ -329,22 +320,12 @@ class MyProfileFragment :
                 } else {
 
                 }
+                networkValid.postValue(true)
                 Log.d("network", "profile")
             }
-        }else{
-            NetworkErrorDialog() { it ->
-                when (it) {
-                    -1 -> {
-                    }
-                    1 -> {
-                        (activity as ContainerActivity).onBackPressed()
-
-                    }
-                }
-            }.show(
-                activity?.supportFragmentManager!!,
-                "com.example.garamgaebi.common.NetworkErrorDialog"
-            )
+        }else {
+            //check
+            networkValid.postValue(false)
         }
     }
 }
