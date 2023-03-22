@@ -13,6 +13,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,12 +49,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             var memberIdx = -1
-            val getIdx = runBlocking {
+
+        val getIdx = runBlocking {
                 memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
                 Log.d("resultssee",memberIdx.toString())
             }
             // memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
             Log.d("멤버idx", memberIdx.toString())
+
             var viewModel =
                 ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
             with(viewModel) {
@@ -242,21 +245,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     getEducationInfo(memberIdx)
                     getCareerInfo(memberIdx)
                     getSNSInfo(memberIdx)
+                    Log.d("network_check","fragment_true")
+                    networkValid.postValue(true)
                 }else {
-                    // 알림창이 띄워져있는 동안 배경 클릭 막기
-                    NetworkErrorDialog() { it ->
-                        when (it) {
-                            -1 -> {
-                            }
-                            1 -> {
-                                (activity as ContainerActivity).onBackPressed()
-
-                            }
-                        }
-                    }.show(
-                        activity?.supportFragmentManager!!,
-                        "com.example.garamgaebi.common.NetworkErrorDialog"
-                    )
+                    networkValid.postValue(false)
+                    Log.d("network_check","fragment_false")
                 }
             }
 

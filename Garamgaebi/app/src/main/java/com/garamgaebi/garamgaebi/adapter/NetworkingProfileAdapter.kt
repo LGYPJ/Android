@@ -50,6 +50,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                             .placeholder(R.drawable.default_profile)
                             .error(R.drawable.default_profile)
                             .fallback(R.drawable.default_profile)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(binding.activityItemSeminarProfile)
                     }

@@ -13,6 +13,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment() {
@@ -20,7 +22,8 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     private lateinit var callback: OnBackPressedCallback
     var disposables = CompositeDisposable()
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
-
+    val networkValid = MutableLiveData<Boolean>()
+    init { networkValid.value = true}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +41,29 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         initListener()
         afterViewCreated()
 
+        observeNetwork()
+
+
+        }
+    fun observeNetwork(){
+        networkValid.observe(viewLifecycleOwner) {
+            Log.d("network_check",it.toString())
+            if(it == false) {
+                NetworkErrorDialog() { it ->
+                    when (it) {
+                        -1 -> {
+                        }
+                        1 -> {
+                            //(activity as ContainerActivity).onBackPressed()
+
+                        }
+                    }
+                }.show(
+                    activity?.supportFragmentManager!!,
+                    "com.example.garamgaebi.common.NetworkErrorDialog"
+                )
+            }
+        }
     }
 
     protected open fun initView() {}
