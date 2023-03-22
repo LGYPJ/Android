@@ -219,6 +219,8 @@ class ProfileEditFragment :
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
                     GaramgaebiApplication.getProfile = true
                     (activity as ContainerActivity).onBackPressed()
+                }else{
+                    networkValid.postValue(false)
                 }
             }
         }
@@ -245,73 +247,81 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        var editImage = false
+                        if(checkNetwork(requireContext())) {
 
-                        val getdataImage = runBlocking {
-                            editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
-                        }
-                        CoroutineScope(Dispatchers.Main).launch {
-                            val job1 = async(Dispatchers.IO) {
+                            var editImage = false
 
-                                if (editImage) {
+                            val getdataImage = runBlocking {
+                                editImage =
+                                    GaramgaebiApplication().loadBooleanData("EditImage") == true
+                            }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val job1 = async(Dispatchers.IO) {
 
-                                    val requestFile = FileUpLoad.getFileToUpLoad()
-                                        .toRequestBody("multipart/form-data".toMediaTypeOrNull())
-                                    val body = MultipartBody.Part.createFormData(
-                                        "image",
-                                        FileUpLoad.getFileToUpLoad() + ".png",
-                                        requestFile
-                                    )
-                                    Log.d("image_edit_ss", body.toString())
+                                    if (editImage) {
+
+                                        val requestFile = FileUpLoad.getFileToUpLoad()
+                                            .toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                                        val body = MultipartBody.Part.createFormData(
+                                            "image",
+                                            FileUpLoad.getFileToUpLoad() + ".png",
+                                            requestFile
+                                        )
+                                        Log.d("image_edit_ss", body.toString())
 
 
-                                    var inputStream: InputStream? = null
-                                    try {
-                                        inputStream =
-                                            context?.contentResolver?.openInputStream(
-                                                Uri.fromFile(
-                                                    File(
-                                                        FileUpLoad.getFileToUpLoad()
+                                        var inputStream: InputStream? = null
+                                        try {
+                                            inputStream =
+                                                context?.contentResolver?.openInputStream(
+                                                    Uri.fromFile(
+                                                        File(
+                                                            FileUpLoad.getFileToUpLoad()
+                                                        )
                                                     )
-                                                )
-                                            )!!
-                                    } catch (e: IOException) {
-                                        e.printStackTrace();
-                                    }
-                                    var bitmap = BitmapFactory.decodeStream(inputStream);
-                                    var bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
-                                    var byteArrayOutputStream: ByteArrayOutputStream? =
-                                        ByteArrayOutputStream()
-                                    bmRotated?.compress(
-                                        Bitmap.CompressFormat.JPEG,
-                                        20,
-                                        byteArrayOutputStream
-                                    )
+                                                )!!
+                                        } catch (e: IOException) {
+                                            e.printStackTrace();
+                                        }
+                                        var bitmap = BitmapFactory.decodeStream(inputStream);
+                                        var bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
+                                        var byteArrayOutputStream: ByteArrayOutputStream? =
+                                            ByteArrayOutputStream()
+                                        bmRotated?.compress(
+                                            Bitmap.CompressFormat.JPEG,
+                                            20,
+                                            byteArrayOutputStream
+                                        )
 
-                                    var requestBody = byteArrayOutputStream?.let {
-                                        RequestBody.create(
-                                            "multipart/form-data".toMediaTypeOrNull(),
-                                            it.toByteArray()
-                                        )
-                                    };
-                                    var uploadFile = requestBody?.let {
-                                        MultipartBody.Part.createFormData(
-                                            "image", FileUpLoad.getFileToUpLoad() + ".jpeg",
-                                            it
-                                        )
-                                    }
+                                        var requestBody = byteArrayOutputStream?.let {
+                                            RequestBody.create(
+                                                "multipart/form-data".toMediaTypeOrNull(),
+                                                it.toByteArray()
+                                            )
+                                        };
+                                        var uploadFile = requestBody?.let {
+                                            MultipartBody.Part.createFormData(
+                                                "image", FileUpLoad.getFileToUpLoad() + ".jpeg",
+                                                it
+                                            )
+                                        }
                                         viewModel.getCheckEditProfileInfo(myMemberIdx, uploadFile)
                                         1
-                                } else {
+                                    } else {
                                         viewModel.getCheckEditProfileInfo(myMemberIdx, null)
                                         1
+                                    }
                                 }
-                            }
 
-                            val result1 = job1.await()
-                            Toast.makeText(binding.root.context, "저장 완료", Toast.LENGTH_SHORT).show()
-                            // (activity as ContainerActivity).onBackPressed()
-                        }
+                                val result1 = job1.await()
+                                Toast.makeText(binding.root.context, "저장 완료", Toast.LENGTH_SHORT)
+                                    .show()
+                                // (activity as ContainerActivity).onBackPressed()
+                            }
+                        networkValid.postValue(true)
+                    }else {
+                        networkValid.postValue(false)
+                    }
 
                     }, { it.printStackTrace() })
             )

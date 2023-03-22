@@ -122,7 +122,8 @@ class MyProfileFragment :
                                 }
                                 //(activity as ContainerActivity).onBackPressed()
                             }, { it.printStackTrace() })
-                    )            }
+                    )
+            }
         //네트워크 부분
         if(checkNetwork(requireContext())) {
             CoroutineScope(Dispatchers.IO).launch {

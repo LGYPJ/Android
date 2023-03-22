@@ -4,6 +4,56 @@
     android:layout_height="match_parent"
     android:background="@color/whiteForBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/network_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/network_error_iv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:clickable="true"
+            app:civ_border_overlay="true"
+            app:civ_border_width="0dp"
+            app:civ_border_color="#000000"
+            android:src="@drawable/ic_network_alert_70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/network_error_title_tv"
+            app:layout_constraintVertical_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/network_error_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/network_error_title"
+            android:layout_marginTop="16dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/network_error_content_tv"
+            app:layout_constraintTop_toBottomOf="@id/network_error_iv"/>
+        <TextView
+            android:id="@+id/network_error_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray8a"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:text="@string/network_error_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/network_error_title_tv"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/fragment_someoneProfile_sv_main"

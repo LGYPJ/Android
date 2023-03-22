@@ -70,7 +70,7 @@ class WithdrawalViewModel : ViewModel(){
     }
 
 
-    private val _withdrawal = MutableLiveData<WithdrawalResponse>()
+    val _withdrawal = MutableLiveData<WithdrawalResponse>()
     val withdrawal : LiveData<WithdrawalResponse>
         get() = _withdrawal
 
