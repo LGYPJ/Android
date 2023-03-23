@@ -27,6 +27,7 @@ import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.src.main.profile.MyProfileFragment
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
+import com.garamgaebi.garamgaebi.util.NetworkDisconnectedFragment
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import kotlinx.coroutines.*
 
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
+    private val networkDisconnectedFragment = NetworkDisconnectedFragment()
     private val myFirebaseMessagingService = MyFirebaseMessagingService()
     val viewModel by viewModels<HomeViewModel>()
     private val mFcmPushBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -46,21 +48,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        Log.d("network", "isConnectedTrue")
         getFcmToken()
         showLoadingDialog(this)
         //  Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
-
-
         // 로그인 액티비티에서 넘어왔는지
         var fromLogin = false
         CoroutineScope(Dispatchers.Main).launch {
             fromLogin = withContext(Dispatchers.IO) { // 비동기 작업 시작
                 GaramgaebiApplication().loadBooleanData("fromLoginActivity")
             } == true // 결과 대기
-            if(fromLogin) {
+            if (fromLogin) {
                 setBottomNavi()
-
-                LocalBroadcastManager.getInstance(this@MainActivity).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
+                LocalBroadcastManager.getInstance(this@MainActivity)
+                    .registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                 initDynamicLink()
                 CoroutineScope(Dispatchers.Main).launch {
                     withContext(Dispatchers.IO) { // 비동기 작업 시작
@@ -71,6 +73,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 autoLogin()
             }
         }
+
+
     }
     private fun autoLogin() {
         // 로그인 테스트용
@@ -157,43 +161,105 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .add(R.id.activity_main_frm, gatheringFragment!!, "gathering").commitAllowingStateLoss()
         supportFragmentManager.beginTransaction()
             .add(R.id.activity_main_frm, myProfileFragment!!, "myProfile").commitAllowingStateLoss()
-
         supportFragmentManager.beginTransaction()
-            .show(homeFragment!!)
-            .hide(gatheringFragment!!)
-            .hide(myProfileFragment!!)
-            .commitAllowingStateLoss()
+            .add(R.id.activity_main_frm, networkDisconnectedFragment, "networkDisconnected").commitAllowingStateLoss()
         binding.activityMainBottomNavi.selectedItemId = R.id.home
 
         binding.activityMainBottomNavi.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.activity_main_btm_nav_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .show(homeFragment!!)
-                        .hide(gatheringFragment!!)
-                        .hide(myProfileFragment!!)
-                        .commitAllowingStateLoss()
+                    if (networkValid.value == true) {
+                        supportFragmentManager.beginTransaction()
+                            .show(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .show(networkDisconnectedFragment)
+                            .hide(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .commitAllowingStateLoss()
+                    }
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_gathering -> {
-                    supportFragmentManager.beginTransaction()
-                        .hide(homeFragment!!)
-                        .show(gatheringFragment!!)
-                        .hide(myProfileFragment!!)
-                        .commitAllowingStateLoss()
+                    if (networkValid.value == true) {
+                        supportFragmentManager.beginTransaction()
+                            .hide(homeFragment!!)
+                            .show(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .show(networkDisconnectedFragment)
+                            .hide(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .commitAllowingStateLoss()
+                    }
                     return@setOnItemSelectedListener true
                 }
                 R.id.activity_main_btm_nav_profile -> {
-                    supportFragmentManager.beginTransaction()
-                        .hide(homeFragment!!)
-                        .hide(gatheringFragment!!)
-                        .show(myProfileFragment!!)
-                        .commitAllowingStateLoss()
+                    if (networkValid.value == true) {
+                        supportFragmentManager.beginTransaction()
+                            .hide(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .show(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .show(networkDisconnectedFragment)
+                            .hide(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .commitAllowingStateLoss()
+                    }
                     return@setOnItemSelectedListener true
                 }
                 else -> false
             }
         }
+
+        networkValid.observe(this, Observer { isConnected ->
+            Log.d("network", "$isConnected")
+            if (isConnected) {
+                // 현재 선택된 아이템에 따라 프래그먼트를 표시하도록 수정합니다.
+                val currentItemId = binding.activityMainBottomNavi.selectedItemId
+                when (currentItemId) {
+                    R.id.activity_main_btm_nav_home -> {
+                        supportFragmentManager.beginTransaction()
+                            .show(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.activity_main_btm_nav_gathering -> {
+                        supportFragmentManager.beginTransaction()
+                            .hide(homeFragment!!)
+                            .show(gatheringFragment!!)
+                            .hide(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.activity_main_btm_nav_profile -> {
+                        supportFragmentManager.beginTransaction()
+                            .hide(homeFragment!!)
+                            .hide(gatheringFragment!!)
+                            .show(myProfileFragment!!)
+                            .hide(networkDisconnectedFragment)
+                            .commitAllowingStateLoss()
+                    }
+                }
+            }
+        })
+
+
     }
 
     fun goGatheringSeminar() {
@@ -264,11 +330,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
 
     }
-
+    fun showNetworkDisconnectedFragment() {
+        supportFragmentManager.beginTransaction()
+            .hide(homeFragment!!)
+            .hide(gatheringFragment!!)
+            .hide(myProfileFragment!!)
+            .show(networkDisconnectedFragment!!)
+            .commitAllowingStateLoss()
+    }
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
         super.onDestroy()
     }
-
 }
