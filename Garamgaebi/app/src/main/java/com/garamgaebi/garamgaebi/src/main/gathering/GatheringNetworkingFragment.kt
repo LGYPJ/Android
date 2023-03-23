@@ -36,25 +36,10 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
 
     }
     private suspend fun setView() {
-        if(checkNetwork(requireContext())) {
-            viewModel.getGatheringNetworkingThisMonth()
-            viewModel.getGatheringNetworkingNextMonth()
-            viewModel.getGatheringNetworkingClosed()
-        }else{
-            NetworkErrorDialog() { it ->
-                when (it) {
-                    -1 -> {
-                    }
-                    1 -> {
-                        (activity as ContainerActivity).onBackPressed()
+        viewModel.getGatheringNetworkingThisMonth()
+        viewModel.getGatheringNetworkingNextMonth()
+        viewModel.getGatheringNetworkingClosed()
 
-                    }
-                }
-            }.show(
-                activity?.supportFragmentManager!!,
-                "com.example.garamgaebi.common.NetworkErrorDialog"
-            )
-        }
         withContext(Dispatchers.Main) {
             // 이번 달
             viewModel.networkingThisMonth.observe(viewLifecycleOwner, Observer{

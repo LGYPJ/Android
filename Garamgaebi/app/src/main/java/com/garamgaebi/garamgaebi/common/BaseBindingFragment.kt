@@ -40,30 +40,6 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         initViewModel()
         initListener()
         afterViewCreated()
-
-        observeNetwork()
-
-
-        }
-    fun observeNetwork(){
-        networkValid.observe(viewLifecycleOwner) {
-            Log.d("network_check",it.toString())
-            if(it == false) {
-                NetworkErrorDialog() { it ->
-                    when (it) {
-                        -1 -> {
-                        }
-                        1 -> {
-                            //(activity as ContainerActivity).onBackPressed()
-
-                        }
-                    }
-                }.show(
-                    activity?.supportFragmentManager!!,
-                    "com.example.garamgaebi.common.NetworkErrorDialog"
-                )
-            }
-        }
     }
 
     protected open fun initView() {}

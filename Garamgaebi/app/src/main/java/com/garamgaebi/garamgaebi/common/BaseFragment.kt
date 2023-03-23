@@ -2,6 +2,9 @@ package com.garamgaebi.garamgaebi.common
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +17,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.util.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -26,12 +30,10 @@ abstract class BaseFragment<B : ViewBinding>(
     private var _binding: B? = null
     //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
-
+    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
+    private val networkCallback = NetworkConnectionCallback()
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
-    val networkValid = MutableLiveData<Boolean>()
-    init { networkValid.value = true}
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,40 +41,16 @@ abstract class BaseFragment<B : ViewBinding>(
     ): View? {
         //_binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
+        registerNetworkCallback(requireContext())
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        observeNetwork()
     }
 
     override fun onDestroyView() {
         _binding = null
+        unregisterNetworkCallback(requireContext())
         super.onDestroyView()
     }
 
-    fun observeNetwork(){
-        networkValid.observe(viewLifecycleOwner) {
-            Log.d("network_check",it.toString())
-            if(it == false) {
-                NetworkErrorDialog() { it ->
-                    when (it) {
-                        -1 -> {
-                        }
-                        1 -> {
-                            //(activity as ContainerActivity).onBackPressed()
-
-                        }
-                    }
-                }.show(
-                    activity?.supportFragmentManager!!,
-                    "com.example.garamgaebi.common.NetworkErrorDialog"
-                )
-            }
-        }
-    }
     fun showCustomToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
@@ -87,20 +65,6 @@ abstract class BaseFragment<B : ViewBinding>(
             mLoadingDialog.dismiss()
         }
     }
-    fun checkNetwork(context: Context) : Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-
-        if (networkInfo == null || !networkInfo.isConnected) {
-            Log.d("network","false")
-            return false
-        }else {
-            Log.d("network","true")
-            return true
-
-        }
-    }
-
 
     override fun onStop() {
         super.onStop()
@@ -108,6 +72,32 @@ abstract class BaseFragment<B : ViewBinding>(
             disposables.clear()
         }
     }
+    inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            Log.d("network", "onAvailable")
+            networkValid.postValue(true)
+        }
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            Log.d("network", "onLost")
+            networkValid.postValue(false)
+        }
+    }
+    fun registerNetworkCallback(context: Context) {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
 
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
 
+    fun unregisterNetworkCallback(context: Context) {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
 }

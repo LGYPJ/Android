@@ -106,23 +106,8 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
         withContext(Dispatchers.Main) {
             with(viewModel) {
                 //예정된 모임
-                if(checkNetwork(requireContext())) {
-                    getGatheringProgramReady(myMemberIdx)
-                }else{
-                    NetworkErrorDialog() { it ->
-                        when (it) {
-                            -1 -> {
-                            }
-                            1 -> {
-                                (activity as ContainerActivity).onBackPressed()
+                getGatheringProgramReady(myMemberIdx)
 
-                            }
-                        }
-                    }.show(
-                        activity?.supportFragmentManager!!,
-                        "com.example.garamgaebi.common.NetworkErrorDialog"
-                    )
-                }
                 programReady.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<GatheringProgramResult>
                     val myMeetingScheduledAdapter: GatheringMyMeetingScheduledRVAdapter
