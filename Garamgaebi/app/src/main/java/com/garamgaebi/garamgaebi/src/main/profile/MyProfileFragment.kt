@@ -142,7 +142,18 @@ class MyProfileFragment :
         }
 
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.getProfileInfo(myMemberIdx)
+            if(checkNetwork(requireContext())) {
+                viewModel.getProfileInfo(myMemberIdx)
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                }
+            }else{
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
             binding.refreshLayout.isRefreshing = false
         }
 
