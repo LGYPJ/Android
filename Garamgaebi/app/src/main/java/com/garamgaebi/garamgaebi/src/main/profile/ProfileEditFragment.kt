@@ -164,6 +164,8 @@ class ProfileEditFragment :
         with(viewModel) {
 
             // 유효성 확인
+
+            //닉네임 유효성확인
             nickName.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
 
@@ -190,12 +192,19 @@ class ProfileEditFragment :
 
                 Log.d("profile_nickName_true", nickNameIsValid.value.toString())
             })
+                //소속 유효성확인
                 belong.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
-                belongIsValid.value = it.length < 19
-                GaramgaebiFunction().checkFirstChar(belongIsValid, it)
+                    if (it != null) {
+                        belongIsValid.value = it.length < 19
+                    }
+                    if (it != null) {
+                        GaramgaebiFunction().checkFirstChar(belongIsValid, it)
+                    }
                 Log.d("profile_belong_true", belongIsValid.value.toString())
             })
+
+            //이메일 유효성확인
             email.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
 
@@ -204,18 +213,22 @@ class ProfileEditFragment :
                 Log.d("profile_email_true", emailIsValid.value.toString())
             })
 
+            //소개 유효성확인
             intro.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
 
-                introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
-                GaramgaebiFunction().checkFirstChar(introIsValid, it)
+                if (it != null) {
+                    introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
+                }
+                if (it != null) {
+                    GaramgaebiFunction().checkFirstChar(introIsValid, it)
+                }
 
                 Log.d("profile_intro_true", introIsValid.value.toString())
             })
 
             profileEdit.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
-
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
                     GaramgaebiApplication.getProfile = true
                     (activity as ContainerActivity).onBackPressed()
@@ -491,7 +504,6 @@ class ProfileEditFragment :
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
-        Log.d("짱구","갤러리 선택")
         val writePermission = requireActivity().let {
             ContextCompat.checkSelfPermission(
                 it,
@@ -518,6 +530,8 @@ class ProfileEditFragment :
                     REQ_GALLERY
                 )
             }
+
+
         } else {
 
             val target = Intent(Intent.ACTION_PICK)
@@ -527,43 +541,6 @@ class ProfileEditFragment :
             )
             imageResult.launch(target)
         }
-//        val writePermission = requireActivity().let {
-//            ContextCompat.checkSelfPermission(
-//                it,
-//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            )
-//            Log.d("permission 1","11")
-//
-//        }
-//        val readPermission = activity?.let {
-//            ContextCompat.checkSelfPermission(
-//                it,
-//                android.Manifest.permission.READ_EXTERNAL_STORAGE
-//            )
-//            Log.d("permission 2", "22")
-//
-//        }
-//
-//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//
-//            Log.d("permission 3","33")
-//
-//            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
-//
-//            Log.d("permission 4","44")
-//
-//
-//        } else {
-//
-//            val target = Intent(Intent.ACTION_PICK)
-//            target.setDataAndType(
-//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                "image/*"
-//            )
-//            imageResult.launch(target)
-//        }
-
-
     }
     // 권한 요청 결과 처리
     @RequiresApi(Build.VERSION_CODES.P)

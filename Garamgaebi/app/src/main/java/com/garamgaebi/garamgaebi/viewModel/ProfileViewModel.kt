@@ -29,7 +29,7 @@ class ProfileViewModel : ViewModel(){
     val nickNameIsValid = MutableLiveData<Boolean>()
     init { nickNameIsValid.value = false}
 
-    val belong = MutableLiveData<String>()
+    val belong = MutableLiveData<String?>()
     init { belong.value = ""}
 
     val belongIsValid = MutableLiveData<Boolean>()
@@ -41,13 +41,13 @@ class ProfileViewModel : ViewModel(){
     val emailIsValid = MutableLiveData<Boolean>()
     init { emailIsValid.value = false}
 
-    val intro = MutableLiveData<String>()
+    val intro = MutableLiveData<String?>()
     init { intro.value = ""}
 
     val introIsValid = MutableLiveData<Boolean>()
     init { introIsValid.value = false}
 
-    val image = MutableLiveData<String>()
+    val image = MutableLiveData<String?>()
     init{image.value = ""}
 
     val imageIsValid = MutableLiveData<Boolean>()
@@ -98,8 +98,20 @@ class ProfileViewModel : ViewModel(){
     var img : MultipartBody.Part? = null
 
     fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
-        val infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value.toString()}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value.toString()}\"}").toString()
+        var belongNull = null
+        var introNull = null
+        var infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
+
+        if(belong.value?.isEmpty() == true){
+            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${belongNull},\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
+
+        }else if(intro.value?.isEmpty() == true){
+            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${belongNull}}").toString()
+        }else{
+
+        }
         val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
+        Log.d("image_success_edit", infoJson.toString())
 
 
         viewModelScope.launch(Dispatchers.IO) {
