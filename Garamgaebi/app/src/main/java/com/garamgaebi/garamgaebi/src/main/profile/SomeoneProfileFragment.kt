@@ -66,7 +66,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
 
         binding.refreshLayout.setOnRefreshListener {
-            if(checkNetwork(requireContext())) {
+            if(networkValid.value == true) {
                 with(viewModel) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
@@ -94,7 +94,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         Log.d("프로필 새로고침","1")
-                        if(checkNetwork(requireContext())) {
+                        if(networkValid.value == true) {
                             with(viewModel){
                                 getProfileInfo(memberIdx)
                                 getEducationInfo(memberIdx)
@@ -303,7 +303,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         networkErrorTitleTv.text = getString(R.string.can_not_find_user)
                         networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
                     }
-                }else if(checkNetwork(requireContext())) {
+                }else if(networkValid.value == true) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
                     getCareerInfo(memberIdx)
