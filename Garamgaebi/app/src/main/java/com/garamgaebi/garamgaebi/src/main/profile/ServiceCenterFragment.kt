@@ -75,35 +75,40 @@ class ServiceCenterFragment :
         })
 
         viewModel._logout.observe(viewLifecycleOwner,Observer{
-//                sSharedPreferences.edit()
-//                    .putInt("memberIdx", -1)
-//                    .putString("kakaoToken", "")
-//                    .putString("X_ACCESS_TOKEN","")
-//                    .putString("X_REFRESH_TOKEN", "")
-//                    .putString("pushToken", "")
-//                    .apply()
+                if(it.isSuccess) {
+                    val saveToken = runBlocking { // 비동기 작업 시작
+                        GaramgaebiApplication().saveStringToDataStore("kakaoToken", "")
+                        GaramgaebiApplication().saveStringToDataStore(
+                            GaramgaebiApplication.X_ACCESS_TOKEN,
+                            ""
+                        )
+                        GaramgaebiApplication().saveStringToDataStore(
+                            GaramgaebiApplication.X_REFRESH_TOKEN,
+                            ""
+                        )
+                        GaramgaebiApplication().saveStringToDataStore("pushToken", "")
+                        GaramgaebiApplication().saveIntToDataStore("memberIdx", -1)
+                        GaramgaebiApplication().clearDataStore()
+                    }
 
-                val saveToken = runBlocking{ // 비동기 작업 시작
-                    GaramgaebiApplication().saveStringToDataStore("kakaoToken","")
-                    GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,"")
-                    GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,"")
-                    GaramgaebiApplication().saveStringToDataStore("pushToken","")
-                    GaramgaebiApplication().saveIntToDataStore("memberIdx",-1)
-                    GaramgaebiApplication().clearDataStore()
+                    //activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                    val i = (Intent(activity, LoginActivity::class.java))
+                    i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    finishAffinity(requireActivity())
+                    startActivity(i)
+                    Log.d("logout_button", "main")
+                }else{
+                    networkValid.postValue(false)
                 }
-
-                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
-            val i = (Intent(activity, LoginActivity::class.java))
-            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            finishAffinity(requireActivity())
-            startActivity(i)
-                Log.d("logout_button", "main")
-
         })
+        viewModel._qna.observe(viewLifecycleOwner) {
+            binding.viewModel = viewModel
 
-        with(viewModel){
-            emailHint.value = getString(R.string.response_email_desc)
-            emailState.value = getString(R.string.email_wrong_state)
+            if (viewModel._qna.value?.result == true){
+                (activity as ContainerActivity).onBackPressed()
+            }else{
+                networkValid.postValue(false)
+            }
 
         }
 
@@ -127,8 +132,12 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        viewModel.postQna()
-                        (activity as ContainerActivity).onBackPressed()
+                        if(checkNetwork(requireContext())){
+                            viewModel.postQna()
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
+                        }
                     }, { it.printStackTrace() })
             )
 
@@ -154,24 +163,28 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
+                        if(checkNetwork(requireContext())){
+                            val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
+                                when (it) {
+                                    -1 -> {
+                                        Log.d("logout_button", "close")
+                                        //(activity as ContainerActivity).onBackPressed()
+                                    }
+                                    1 -> {
+                                        //로그아웃
+                                        viewModel.postLogout()
+                                        Log.d("logout_button", "api")
 
-                        val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
-                            when (it) {
-                                -1 -> {
-                                    Log.d("logout_button", "close")
-                                    //(activity as ContainerActivity).onBackPressed()
-                                }
-                                1 -> {
-                                    //로그아웃
-                                    viewModel.postLogout()
-                                    Log.d("logout_button", "api")
-
+                                    }
                                 }
                             }
+                            // 알림창이 띄워져있는 동안 배경 클릭 막기
+                            dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
+                            Log.d("logout_button","success")
+                            networkValid.postValue(true)
+                        }else {
+                            networkValid.postValue(false)
                         }
-                        // 알림창이 띄워져있는 동안 배경 클릭 막기
-                        dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
-                        Log.d("logout_button","success")
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
             )

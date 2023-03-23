@@ -26,8 +26,10 @@ import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class SomeoneProfileFragment :
@@ -48,6 +50,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+
             var memberIdx = -1
 
         val getIdx = runBlocking {
@@ -59,48 +64,101 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
             var viewModel =
                 ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
+
+        binding.refreshLayout.setOnRefreshListener {
+            if(checkNetwork(requireContext())) {
+                with(viewModel) {
+                    getProfileInfo(memberIdx)
+                    getEducationInfo(memberIdx)
+                    getCareerInfo(memberIdx)
+                    getSNSInfo(memberIdx)
+                }
+                with(binding){
+                    fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                }
+            }else{
+                with(binding){
+                    fragmentSomeoneProfileSvMain.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
+            binding.refreshLayout.isRefreshing = false
+        }
+
+        disposables
+            .add(
+                binding
+                    .networkErrorIv
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        Log.d("프로필 새로고침","1")
+                        if(checkNetwork(requireContext())) {
+                            with(viewModel){
+                                getProfileInfo(memberIdx)
+                                getEducationInfo(memberIdx)
+                                getCareerInfo(memberIdx)
+                                getSNSInfo(memberIdx)
+                            }
+                            Log.d("프로필 새로고침","2")
+
+                            binding.fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                            binding.networkErrorContainer.visibility = View.GONE
+                        }else {
+                            Log.d("프로필 새로고침","3")
+                            binding.fragmentSomeoneProfileSvMain.visibility = View.GONE
+                            binding.networkErrorContainer.visibility = View.VISIBLE
+                        }
+                        //(activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
             with(viewModel) {
                 profileInfo.observe(viewLifecycleOwner, Observer {
                     val result = it as ProfileDataResponse
-                    Log.d("resultss",result.result.toString())
-
-                    with(binding) {
-                        if (result.result.profileUrl != null) {
-//                        CoroutineScope(Dispatchers.Main).launch {
-//                            val bitmap = withContext(Dispatchers.IO){
-//                                GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
-//                            }
-//                            binding.fragmentSomeoneProfileIvProfile.setImageBitmap(bitmap)
-//                        }
-                            //Glide.get()
+                    if(result.isSuccess) {
+                        with(binding) {
+                            fragmentSomeoneProfileClMain.visibility = View.VISIBLE
+                            networkErrorContainer.visibility = View.GONE
+//                            fragmentSomeoneProfileSvMain.visibility = View.GONE
+//                            networkErrorContainer.visibility = View.VISIBLE
+                        }
+                        with(binding) {
+                            if (result.result.profileUrl != null) {
 
                                 Glide.with(requireActivity())
                                     .load(result.result.profileUrl)
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
                                     .into(binding.fragmentSomeoneProfileIvProfile)
-                            Log.d("resultssdd",result.result.toString())
+                                Log.d("resultssdd", result.result.toString())
 
+                            }
+                            fragmentSomeoneProfileTvUsername.text = result.result.nickName
+                            fragmentSomeoneProfileTvEmail.text = result.result.profileEmail
+                            fragmentSomeoneProfileTvSchool.text = result.result.belong
+                            fragmentSomeoneProfileTvIntro.text = result.result.content
+
+                            if (result.result.belong == null || result.result.belong.trim()
+                                    .equals("")
+                            ) {
+                                fragmentSomeoneProfileTvSchool.visibility = View.GONE
+                            } else {
+                                fragmentSomeoneProfileTvSchool.visibility = VISIBLE
+                            }
+
+                            if (result.result.content == null || result.result.content.trim()
+                                    .equals("")
+                            ) {
+                                fragmentSomeoneProfileTvIntro.visibility = View.GONE
+                            } else {
+                                fragmentSomeoneProfileTvIntro.visibility = VISIBLE
+                            }
                         }
-                        fragmentSomeoneProfileTvUsername.text = result.result.nickName
-                        fragmentSomeoneProfileTvEmail.text = result.result.profileEmail
-                        fragmentSomeoneProfileTvSchool.text = result.result.belong
-                        fragmentSomeoneProfileTvIntro.text = result.result.content
-
-                        if (result.result.belong == null || result.result.belong.trim()
-                                .equals("")
-                        ) {
-                            fragmentSomeoneProfileTvSchool.visibility = View.GONE
-                        } else {
-                            fragmentSomeoneProfileTvSchool.visibility = VISIBLE
-                        }
-
-                        if (result.result.content == null || result.result.content.trim()
-                                .equals("")
-                        ) {
-                            fragmentSomeoneProfileTvIntro.visibility = View.GONE
-                        } else {
-                            fragmentSomeoneProfileTvIntro.visibility = VISIBLE
+                    }else{
+                        with(binding){
+                            fragmentSomeoneProfileSvMain.visibility = View.GONE
+                            networkErrorContainer.visibility = View.VISIBLE
                         }
                     }
                 })
@@ -136,26 +194,24 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         binding.fragmentSomeoneProfileContainerSns.visibility = GONE
                     } else {
                         binding.fragmentSomeoneProfileContainerSns.visibility = VISIBLE
-                    }
 
-                    val snsAdapter =
-                        activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
-                    binding.fragmentSomeoneProfileRVSns.apply {
-                        adapter = snsAdapter
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    }
-                    snsAdapter?.setOnItemClickListener(object :
-                        SnsSomeoneRVAdapter.OnItemClickListener {
-                        override fun onClick(position: Int) {
+                        val snsAdapter =
+                            activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
+                        binding.fragmentSomeoneProfileRVSns.apply {
+                            adapter = snsAdapter
+                            layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                         }
-                    })
+                        snsAdapter?.setOnItemClickListener(object :
+                            SnsSomeoneRVAdapter.OnItemClickListener {
+                            override fun onClick(position: Int) {
+                            }
+                        })
+                    }
                 })
                 //경력 정보 어댑터 연결
                 //getCareerInfo(memberIdx)
                 careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
-
-
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerCareer.visibility = GONE
                     } else {
@@ -240,12 +296,30 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
                 }
 
-                getProfileInfo(memberIdx)
-                getEducationInfo(memberIdx)
-                getCareerInfo(memberIdx)
-                getSNSInfo(memberIdx)
-                Log.d("network_check","fragment_true")
-
+                if(memberIdx == -1){
+                    with(binding) {
+                        fragmentSomeoneProfileSvMain.visibility = View.GONE
+                        networkErrorContainer.visibility = View.VISIBLE
+                        networkErrorTitleTv.text = getString(R.string.can_not_find_user)
+                        networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
+                    }
+                }else if(checkNetwork(requireContext())) {
+                    getProfileInfo(memberIdx)
+                    getEducationInfo(memberIdx)
+                    getCareerInfo(memberIdx)
+                    getSNSInfo(memberIdx)
+                    Log.d("network_check","fragment_true")
+                    with(binding){
+                        fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                        networkErrorContainer.visibility = View.GONE
+                    }
+                }else {
+                    with(binding){
+                        fragmentSomeoneProfileSvMain.visibility = View.GONE
+                        networkErrorContainer.visibility = View.VISIBLE
+                    }
+                    Log.d("network_check","fragment_false")
+                }
             }
 
 

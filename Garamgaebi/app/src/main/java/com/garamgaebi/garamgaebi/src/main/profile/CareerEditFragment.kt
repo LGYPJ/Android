@@ -108,6 +108,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
+            //수정 관측
             _patch.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 Log.d("career_patch", _patch.value?.result.toString())
@@ -121,6 +122,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     networkValid.postValue(false)
                 }
             }
+
+            //삭제 관측
             _delete.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 Log.d("career_delete", _patch.value?.result.toString())
@@ -315,8 +318,13 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                     Log.d("career_remove_button", "close")
                                 }
                                 1 -> {
-                                    //경력 삭제
-                                    viewModel.deleteCareerInfo()
+                                    if(checkNetwork(requireContext())) {
+                                        //경력 삭제
+                                        viewModel.deleteCareerInfo()
+                                        networkValid.postValue(true)
+                                    }else {
+                                        networkValid.postValue(false)
+                                    }
                                 }
                             }
                         }

@@ -96,6 +96,13 @@
     <string name="dDay">D-Day</string>
     <string name="insta_char">@</string>
     <string name="cancel_complete">신청이 완료되었습니다</string>
+
+    <!-- Network Error -->
+    <string name="network_error_title"> 페이지를 불러올 수 없습니다 </string>
+    <string name="network_error_content"> 다시 시도해주세요 </string>
+    <string name="can_not_find_user">사용자를 찾을 수 없습니다</string>
+    <string name="can_not_find_user_content">탈퇴하거나 차단된 사용자입니다</string>
+
     <!-- Main -->
     <string name="main_btm_nav_home_title">홈</string>
     <string name="main_btm_nav_my_page_title">마이페이지</string>
