@@ -50,9 +50,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
-
             var memberIdx = -1
 
         val getIdx = runBlocking {

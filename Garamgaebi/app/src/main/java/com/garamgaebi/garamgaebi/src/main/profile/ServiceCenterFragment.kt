@@ -98,7 +98,7 @@ class ServiceCenterFragment :
                     startActivity(i)
                     Log.d("logout_button", "main")
                 }else{
-                    networkValid.postValue(false)
+                    networkAlertDialog()
                 }
         })
         viewModel._qna.observe(viewLifecycleOwner) {
@@ -107,9 +107,8 @@ class ServiceCenterFragment :
             if (viewModel._qna.value?.result == true){
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkValid.postValue(false)
+                networkAlertDialog()
             }
-
         }
 
         //동의 체크박스 클릭 이벤트
@@ -132,11 +131,10 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())){
+                        if(networkValid.value == true){
                             viewModel.postQna()
-                            networkValid.postValue(true)
                         }else {
-                            networkValid.postValue(false)
+                            networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )
@@ -163,7 +161,7 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())){
+                        if(networkValid.value == true){
                             val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
                                 when (it) {
                                     -1 -> {
@@ -181,9 +179,8 @@ class ServiceCenterFragment :
                             // 알림창이 띄워져있는 동안 배경 클릭 막기
                             dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                             Log.d("logout_button","success")
-                            networkValid.postValue(true)
                         }else {
-                            networkValid.postValue(false)
+                            networkAlertDialog()
                         }
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })

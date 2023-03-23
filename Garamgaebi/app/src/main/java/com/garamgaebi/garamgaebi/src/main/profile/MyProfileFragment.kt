@@ -104,6 +104,8 @@ class MyProfileFragment :
                         Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
                 }
 
+
+
                 disposables
                     .add(
                         binding
@@ -111,7 +113,7 @@ class MyProfileFragment :
                             .clicks()
                             .throttleFirst(1000, TimeUnit.MILLISECONDS)
                             .subscribe({
-                                if(checkNetwork(requireContext())) {
+                                if(networkValid.value == true) {
                                     viewModel.getProfileInfo(myMemberIdx)
 
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -125,7 +127,7 @@ class MyProfileFragment :
                     )
             }
         //네트워크 부분
-        if(checkNetwork(requireContext())) {
+        if(networkValid.value == true) {
             CoroutineScope(Dispatchers.IO).launch {
                 setDataView()
             }
@@ -142,7 +144,7 @@ class MyProfileFragment :
         }
 
         binding.refreshLayout.setOnRefreshListener {
-            if(checkNetwork(requireContext())) {
+            if(networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -235,15 +237,12 @@ class MyProfileFragment :
                                     GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
 
                                     if(belong == null){
-                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myBelong","")
                                     }
                                     if(intro == null){
-                                        GaramgaebiApplication().saveBooleanToDataStore("myIntroNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myIntro","")
                                     }
                                     if(img == null){
-                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myImage","")
                                     }
                                     Log.d("profile_info", result.result.toString())
@@ -369,7 +368,7 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        if(checkNetwork(requireContext())) {
+        if(networkValid.value == true) {
             with(viewModel) {
                 if (getProfile) {
                     getProfileInfo(myMemberIdx)

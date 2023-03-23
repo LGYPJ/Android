@@ -147,7 +147,7 @@ class WithdrawalFragment :
                     "com.example.garamgaebi.common.ConfirmDialog"
                 )
             }else{
-                networkValid.postValue(false)
+                networkAlertDialog()
             }
 
         }
@@ -218,7 +218,7 @@ class WithdrawalFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())) {
+                        if(networkValid.value == true) {
                             networkValid.postValue(true)
 
                             val dialog: DialogFragment? =
@@ -243,7 +243,7 @@ class WithdrawalFragment :
                             )
                             Log.d("withdrawal_button", "success")
                         }else{
-                            networkValid.postValue(false)
+                            networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )

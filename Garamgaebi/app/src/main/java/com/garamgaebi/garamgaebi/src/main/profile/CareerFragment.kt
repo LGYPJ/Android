@@ -51,13 +51,14 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
+            //경력 추가 감지
             _add.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (_add.value?.result == true){
                     GaramgaebiApplication.getCareer = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkValid.postValue(false)
+                    networkAlertDialog()
                 }
 
             }
@@ -166,11 +167,11 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())) {
+                        if(networkValid.value == true) {
                             viewModel.postCareerInfo()
-                            networkValid.postValue(true)
+
                         }else {
-                            networkValid.postValue(false)
+                            networkAlertDialog()
                         }
                         Log.d("career_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()
@@ -219,12 +220,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             hideKeyboard()
             false
         }
-//        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-//            onShowKeyboard = { keyboardHeight ->
-//                binding.svRoot.run {
-//                    smoothScrollTo(scrollX, scrollY + keyboardHeight)
-//                }
-//            })
+
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
                 binding.svRoot.run {

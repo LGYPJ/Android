@@ -98,7 +98,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 GaramgaebiApplication.getSNS = true
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkValid.postValue(false)
+                networkAlertDialog()
             }
 
         }
@@ -128,8 +128,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     "com.example.garamgaebi.common.ConfirmDialog"
                 )
             }else{
-                networkValid.postValue(false)
-
+                networkAlertDialog()
             }
 
         }
@@ -176,11 +175,11 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(checkNetwork(requireContext())) {
+                        if(networkValid.value == true) {
                             viewModel.patchSNSInfo()
                             networkValid.postValue(true)
                         }else {
-                            networkValid.postValue(false)
+                            networkAlertDialog()
                         }
                         Log.d("sns_add_button","success")
                         //(activity as ContainerActivity).onBackPressed()
@@ -202,12 +201,11 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                                 }
                                 1 -> {
-                                    if(checkNetwork(requireContext())) {
+                                    if(networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteSNSInfo()
-                                        networkValid.postValue(true)
                                     }else {
-                                        networkValid.postValue(false)
+                                        networkAlertDialog()
                                     }
                                 }
                             }
