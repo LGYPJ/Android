@@ -66,7 +66,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
 
         binding.refreshLayout.setOnRefreshListener {
+            Log.d("network", "SomeoneProfileFragmentRefresh")
             if(networkValid.value == true) {
+                Log.d("network", "SomeoneProfileFragmentRefreshTrue")
                 with(viewModel) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
@@ -78,6 +80,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     networkErrorContainer.visibility = View.GONE
                 }
             }else{
+                Log.d("network", "SomeoneProfileFragmentRefreshFalse")
                 with(binding){
                     fragmentSomeoneProfileSvMain.visibility = View.GONE
                     networkErrorContainer.visibility = View.VISIBLE
@@ -105,7 +108,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
                             binding.fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
                             binding.networkErrorContainer.visibility = View.GONE
-                        }else {
+                        } else {
                             Log.d("프로필 새로고침","3")
                             binding.fragmentSomeoneProfileSvMain.visibility = View.GONE
                             binding.networkErrorContainer.visibility = View.VISIBLE
@@ -156,6 +159,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             }
                         }
                     }else{
+                        Log.d("network", "SomeoneProfileFragmentResultFailed")
                         with(binding){
                             fragmentSomeoneProfileSvMain.visibility = View.GONE
                             networkErrorContainer.visibility = View.VISIBLE
@@ -303,22 +307,26 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         networkErrorTitleTv.text = getString(R.string.can_not_find_user)
                         networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
                     }
-                }else if(networkValid.value == true) {
-                    getProfileInfo(memberIdx)
-                    getEducationInfo(memberIdx)
-                    getCareerInfo(memberIdx)
-                    getSNSInfo(memberIdx)
-                    Log.d("network_check","fragment_true")
-                    with(binding){
-                        fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
-                        networkErrorContainer.visibility = View.GONE
+                } else {
+                    networkValid.observe(viewLifecycleOwner) { isConnected ->
+                        if (isConnected) {
+                            getProfileInfo(memberIdx)
+                            getEducationInfo(memberIdx)
+                            getCareerInfo(memberIdx)
+                            getSNSInfo(memberIdx)
+                            Log.d("network_check", "${networkValid.value}")
+                            with(binding) {
+                                fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                                networkErrorContainer.visibility = View.GONE
+                            }
+                        } else {
+                            with(binding) {
+                                fragmentSomeoneProfileSvMain.visibility = View.GONE
+                                networkErrorContainer.visibility = View.VISIBLE
+                            }
+                            Log.d("network_check", "${networkValid.value}")
+                        }
                     }
-                }else {
-                    with(binding){
-                        fragmentSomeoneProfileSvMain.visibility = View.GONE
-                        networkErrorContainer.visibility = View.VISIBLE
-                    }
-                    Log.d("network_check","fragment_false")
                 }
             }
 

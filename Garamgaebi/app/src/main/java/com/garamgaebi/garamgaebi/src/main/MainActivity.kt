@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
@@ -150,116 +151,64 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
     @SuppressLint("ResourceType")
     private fun setBottomNavi() {
-
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
         myProfileFragment = MyProfileFragment()
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.activity_main_frm, homeFragment!!, "home").commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.activity_main_frm, gatheringFragment!!, "gathering").commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.activity_main_frm, myProfileFragment!!, "myProfile").commitAllowingStateLoss()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.activity_main_frm, networkDisconnectedFragment, "networkDisconnected").commitAllowingStateLoss()
+            .add(R.id.activity_main_frm, homeFragment!!, "home")
+            .add(R.id.activity_main_frm, gatheringFragment!!, "gathering")
+            .add(R.id.activity_main_frm, myProfileFragment!!, "myProfile")
+            .add(R.id.activity_main_frm, networkDisconnectedFragment, "networkDisconnected")
+            .commitAllowingStateLoss()
         binding.activityMainBottomNavi.selectedItemId = R.id.home
 
         binding.activityMainBottomNavi.setOnItemSelectedListener { item ->
+            val isConnected = networkValid.value == true
             when (item.itemId) {
                 R.id.activity_main_btm_nav_home -> {
-                    if (networkValid.value == true) {
-                        supportFragmentManager.beginTransaction()
-                            .show(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .show(networkDisconnectedFragment)
-                            .hide(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .commitAllowingStateLoss()
-                    }
-                    return@setOnItemSelectedListener true
+                    updateFragmentsVisibility(isConnected, homeFragment)
+                    true
                 }
                 R.id.activity_main_btm_nav_gathering -> {
-                    if (networkValid.value == true) {
-                        supportFragmentManager.beginTransaction()
-                            .hide(homeFragment!!)
-                            .show(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .show(networkDisconnectedFragment)
-                            .hide(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .commitAllowingStateLoss()
-                    }
-                    return@setOnItemSelectedListener true
+                    updateFragmentsVisibility(isConnected, gatheringFragment)
+                    true
                 }
                 R.id.activity_main_btm_nav_profile -> {
-                    if (networkValid.value == true) {
-                        supportFragmentManager.beginTransaction()
-                            .hide(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .show(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .show(networkDisconnectedFragment)
-                            .hide(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .commitAllowingStateLoss()
-                    }
-                    return@setOnItemSelectedListener true
+                    updateFragmentsVisibility(isConnected, myProfileFragment)
+                    true
                 }
                 else -> false
             }
         }
 
         networkValid.observe(this, Observer { isConnected ->
-            Log.d("network", "$isConnected")
-            if (isConnected) {
-                // 현재 선택된 아이템에 따라 프래그먼트를 표시하도록 수정합니다.
-                val currentItemId = binding.activityMainBottomNavi.selectedItemId
-                when (currentItemId) {
-                    R.id.activity_main_btm_nav_home -> {
-                        supportFragmentManager.beginTransaction()
-                            .show(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    }
-                    R.id.activity_main_btm_nav_gathering -> {
-                        supportFragmentManager.beginTransaction()
-                            .hide(homeFragment!!)
-                            .show(gatheringFragment!!)
-                            .hide(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    }
-                    R.id.activity_main_btm_nav_profile -> {
-                        supportFragmentManager.beginTransaction()
-                            .hide(homeFragment!!)
-                            .hide(gatheringFragment!!)
-                            .show(myProfileFragment!!)
-                            .hide(networkDisconnectedFragment)
-                            .commitAllowingStateLoss()
-                    }
-                }
+            val currentItemId = binding.activityMainBottomNavi.selectedItemId
+            val selectedFragment = when (currentItemId) {
+                R.id.activity_main_btm_nav_home -> homeFragment
+                R.id.activity_main_btm_nav_gathering -> gatheringFragment
+                R.id.activity_main_btm_nav_profile -> myProfileFragment
+                else -> null
             }
+            updateFragmentsVisibility(isConnected, selectedFragment)
         })
+    }
 
-
+    private fun updateFragmentsVisibility(isConnected: Boolean, targetFragment: Fragment?) {
+        supportFragmentManager.beginTransaction().apply {
+            if (isConnected) {
+                hide(homeFragment!!)
+                hide(gatheringFragment!!)
+                hide(myProfileFragment!!)
+                hide(networkDisconnectedFragment)
+                show(targetFragment!!)
+            } else {
+                hide(homeFragment!!)
+                hide(gatheringFragment!!)
+                hide(myProfileFragment!!)
+                show(networkDisconnectedFragment)
+            }
+        }.commitAllowingStateLoss()
     }
 
     fun goGatheringSeminar() {
