@@ -98,17 +98,13 @@ class ProfileViewModel : ViewModel(){
     var img : MultipartBody.Part? = null
 
     fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
-        var belongNull = null
-        var introNull = null
         var infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
 
         if(belong.value?.isEmpty() == true){
-            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${belongNull},\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
+            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${null},\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
 
         }else if(intro.value?.isEmpty() == true){
-            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${belongNull}}").toString()
-        }else{
-
+            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${null}}").toString()
         }
         val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
         Log.d("image_success_edit", infoJson.toString())

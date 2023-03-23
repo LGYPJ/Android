@@ -229,10 +229,23 @@ class MyProfileFragment :
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                                     networkErrorContainer.visibility = View.GONE
                                     GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
-                                    GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
                                     GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
+                                    GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
                                     GaramgaebiApplication().saveStringToDataStore("myIntro",content)
                                     GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
+
+                                    if(belong == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",true)
+                                        GaramgaebiApplication().saveStringToDataStore("myBelong","")
+                                    }
+                                    if(intro == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myIntroNull",true)
+                                        GaramgaebiApplication().saveStringToDataStore("myIntro","")
+                                    }
+                                    if(img == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",true)
+                                        GaramgaebiApplication().saveStringToDataStore("myImage","")
+                                    }
                                     Log.d("profile_info", result.result.toString())
                                 }
                             }

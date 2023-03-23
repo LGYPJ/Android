@@ -140,7 +140,7 @@ class ProfileEditFragment :
                 myProfileImage = GaramgaebiApplication().loadStringData("myImage").toString()
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
-            if (myProfileImage !="null" && myProfileImage != null && !editImage) {
+            if (myProfileImage != "" && !editImage) {
                 Log.d("짱구","널아님")
                     CoroutineScope(Dispatchers.Main).launch {
                         val bitmap = withContext(Dispatchers.IO) {
