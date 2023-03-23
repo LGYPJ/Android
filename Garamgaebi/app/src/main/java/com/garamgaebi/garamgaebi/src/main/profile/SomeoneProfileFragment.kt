@@ -65,6 +65,27 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             var viewModel =
                 ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
 
+        binding.refreshLayout.setOnRefreshListener {
+            if(checkNetwork(requireContext())) {
+                with(viewModel) {
+                    getProfileInfo(memberIdx)
+                    getEducationInfo(memberIdx)
+                    getCareerInfo(memberIdx)
+                    getSNSInfo(memberIdx)
+                }
+                with(binding){
+                    fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                }
+            }else{
+                with(binding){
+                    fragmentSomeoneProfileSvMain.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
+            binding.refreshLayout.isRefreshing = false
+        }
+
         disposables
             .add(
                 binding
