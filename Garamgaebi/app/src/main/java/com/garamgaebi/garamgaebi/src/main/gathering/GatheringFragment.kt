@@ -29,26 +29,6 @@ class GatheringFragment : BaseFragment<FragmentGatheringBinding>(FragmentGatheri
         TabLayoutMediator(binding.fragmentGatheringTl, binding.fragmentGatheringVp) { tab, position ->
             tab.text = tabArray[position]
         }.attach()
-
-        binding.fragmentGatheringTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (networkValid.value == true) {
-                    binding.fragmentGatheringVp.currentItem = tab.position
-                } else {
-                    Log.d("network", "onTabSelected")
-                    // MainActivity에 있는 networkDisconnectedFragment를 표시하는 코드를 호출
-                    (requireActivity() as MainActivity).showNetworkDisconnectedFragment()
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                // 필요한 경우 여기에 코드를 추가합니다.
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // 필요한 경우 여기에 코드를 추가합니다.
-            }
-        })
     }
     fun setVPSeminar() {
         binding.fragmentGatheringVp.post {
