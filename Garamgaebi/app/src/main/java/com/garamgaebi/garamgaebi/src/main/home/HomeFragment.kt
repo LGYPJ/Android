@@ -115,22 +115,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onResume() {
         super.onResume()
-        networkValid.observe(viewLifecycleOwner, Observer { isConnected ->
-            Log.d("network", "$isConnected")
-            if (isConnected) {
-                Log.d("network", "isConnectedTrue")
+        networkValid.observe(viewLifecycleOwner, Observer {isConnected ->
+            if(isConnected) {
+                Log.d("network","onResumeHomeTrue")
                 updateData()
-            } else {
-                // 네트워크 연결이 비활성화되면 수행할 작업
-                // 예: 사용자에게 연결 상태를 알리거나, 오프라인 모드로 전환
-                Log.d("network", "isConnectedFalse")
             }
         })
-        Log.d("ressss","Rrrr")
+
 
     }
     private fun setView() {
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                 // 세미나
                 viewModel.seminar.observe(viewLifecycleOwner, Observer {

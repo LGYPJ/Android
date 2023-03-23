@@ -30,10 +30,10 @@ abstract class BaseFragment<B : ViewBinding>(
     private var _binding: B? = null
     //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
-
+    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
+    private val networkCallback = NetworkConnectionCallback()
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,7 +72,6 @@ abstract class BaseFragment<B : ViewBinding>(
             disposables.clear()
         }
     }
-
     inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
@@ -92,15 +91,12 @@ abstract class BaseFragment<B : ViewBinding>(
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
 
-        val networkCallback = NetworkConnectionCallback()
-
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
     fun unregisterNetworkCallback(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCallback = NetworkConnectionCallback()
 
         connectivityManager.unregisterNetworkCallback(networkCallback)
     }
