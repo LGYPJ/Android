@@ -41,7 +41,6 @@ import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 
-@Suppress("UNREACHABLE_CODE")
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     var containerActivity: ContainerActivity? = null
@@ -126,22 +125,10 @@ class MyProfileFragment :
                             }, { it.printStackTrace() })
                     )
             }
-        //네트워크 부분
-        if(networkValid.value == true) {
-            CoroutineScope(Dispatchers.IO).launch {
-                setDataView()
-            }
-            with(binding){
-                fragmentMyProfileClContainer.visibility = View.VISIBLE
-                networkErrorContainer.visibility = View.GONE
-            }
-        }else{
-                //네트워크 실패시 실패 레이아웃을 작동
-                with(binding){
-                    fragmentMyProfileClContainer.visibility = View.GONE
-                    networkErrorContainer.visibility = View.VISIBLE
-                }
+        CoroutineScope(Dispatchers.Default).launch {
+            setDataView()
         }
+
 
         binding.refreshLayout.setOnRefreshListener {
             if(networkValid.value == true) {
@@ -200,9 +187,22 @@ class MyProfileFragment :
     override fun onResume() {
         super.onResume()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            updateData()
-
+        CoroutineScope(Dispatchers.Default).launch {
+            //네트워크 부분
+            if(networkValid.value == true) {
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                    updateData()
+                    Log.d("왜 에러?","1")
+                }
+            }else{
+                //네트워크 실패시 실패 레이아웃을 작동
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -217,6 +217,8 @@ class MyProfileFragment :
                 //getProfileInfo(myMemberIdx)
                 profileInfo.observe(viewLifecycleOwner) {
                     binding.profileViewModel = viewModel
+                    Log.d("왜 에러?", "observe")
+
                     val result = it as ProfileDataResponse
                     if (result == null || result.result == null) {
                         with(binding){
@@ -224,56 +226,93 @@ class MyProfileFragment :
                             networkErrorContainer.visibility = View.VISIBLE
                         }
                     } else {
+                        Log.d("왜 에러?", " observe go")
 
                         with(binding) {
-                            val putData = runBlocking {
-                                with(result.result){
+                            CoroutineScope(Dispatchers.Main).launch {
+                                with(result.result) {
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                                     networkErrorContainer.visibility = View.GONE
-                                    GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
-                                    GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
-                                    GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
-                                    GaramgaebiApplication().saveStringToDataStore("myIntro",content)
-                                    GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
+                                    GaramgaebiApplication().saveBooleanToDataStore(
+                                        "EditImage",
+                                        false
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myNickName",
+                                        nickName
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myEmail",
+                                        profileEmail
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myBelong",
+                                        belong
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myIntro",
+                                        content
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myImage",
+                                        profileUrl
+                                    ).toString()
+                                    Log.d("왜 에러> 사진 널값", result.result.toString())
+
+                                    fragmentMyProfileTvUsername.text = result.result.nickName
+                                    fragmentMyProfileTvEmail.text = result.result.profileEmail
 
                                     if(belong == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myBelong","")
+                                    }else{
+                                        fragmentMyProfileTvSchool.text = result.result.belong
+                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",false)
                                     }
-                                    if(intro == null){
+                                    if(content == null) {
                                         GaramgaebiApplication().saveStringToDataStore("myIntro","")
+                                        GaramgaebiApplication().saveBooleanToDataStore(
+                                            "myIntroNull",
+                                            true
+                                        )
+                                        Log.d("profile_response_content","true")
+                                    }else{
+                                        GaramgaebiApplication().saveBooleanToDataStore("myIntroNull",false)
                                     }
-                                    if(img == null){
+
+                                    if(profileUrl == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myImage","")
+                                    }else{
+                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",false)
+                                        fragmentMyProfileTvIntro.text = result.result.content
                                     }
                                     Log.d("profile_info", result.result.toString())
                                 }
-                            }
 
-                            fragmentMyProfileTvUsername.text = result.result.nickName
-                            fragmentMyProfileTvEmail.text = result.result.profileEmail
-                            fragmentMyProfileTvSchool.text = result.result.belong
-                            fragmentMyProfileTvIntro.text = result.result.content
-
-                            if (result.result.content == "" || result.result.content == null) {
-                                fragmentMyProfileTvIntro.visibility = View.GONE
-                            } else {
-                                fragmentMyProfileTvIntro.visibility = View.VISIBLE
-                            }
-                            if (result.result.belong == "" || result.result.belong == null) {
-                                fragmentMyProfileTvSchool.visibility = View.GONE
-                            } else {
-                                fragmentMyProfileTvSchool.visibility = View.VISIBLE
-                            }
-
-                            if (result.result.profileUrl != null) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    val bitmap = withContext(Dispatchers.IO) {
-                                        GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
-                                    }
-                                    binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
-                                    Log.d("image_url", result.result.profileUrl)
+                                if (result.result.content == "" || result.result.content == null) {
+                                    fragmentMyProfileTvIntro.visibility = View.GONE
+                                    Log.d("왜 에러 자기소개", "널")
+                                } else {
+                                    fragmentMyProfileTvIntro.visibility = View.VISIBLE
                                 }
-                                fragmentMyProfileIvProfile.clipToOutline = true
+                                if (result.result.belong == "" || result.result.belong == null) {
+                                    Log.d("왜 에러 소속", "널")
+                                    fragmentMyProfileTvSchool.visibility = View.GONE
+                                } else {
+                                    fragmentMyProfileTvSchool.visibility = View.VISIBLE
+                                }
+
+                                if (result.result.profileUrl != null) {
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        val bitmap = withContext(Dispatchers.IO) {
+                                            GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+                                        }
+                                        binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
+                                        Log.d("image_url", result.result.profileUrl)
+                                    }
+                                    fragmentMyProfileIvProfile.clipToOutline = true
+                                }
                             }
                         }
                     }
@@ -369,28 +408,32 @@ class MyProfileFragment :
 
     private fun updateData() {
         if(networkValid.value == true) {
+            Log.d("왜 에러?","2")
             with(viewModel) {
+                Log.d("왜 에러? 프로필확인 전", getProfile.toString() + getSNS.toString() + getCareer.toString() + getEdu.toString())
                 if (getProfile) {
+                    Log.d("왜 에러?","프로필")
                     getProfileInfo(myMemberIdx)
                     getProfile = false
                 }
                 if (getSNS) {
+                    Log.d("왜 에러?","sns")
                     getSNSInfo(myMemberIdx)
                     getSNS = false
                 }
                 if (getCareer) {
+                    Log.d("왜 에러?","경력")
                     getCareerInfo(myMemberIdx)
                     getCareer = false
                 }
                 if (getEdu) {
+                    Log.d("왜 에러?","교육")
                     getEducationInfo(myMemberIdx)
                     getEdu = false
-                } else {
-
                 }
                 binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
                 binding.networkErrorContainer.visibility = View.GONE
-                Log.d("network", "profile")
+                Log.d("왜 에러? 프로필확인 후", getProfile.toString() + getSNS.toString() + getCareer.toString() + getEdu.toString())
             }
         }else {
             //check

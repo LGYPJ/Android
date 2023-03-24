@@ -112,12 +112,26 @@ class ProfileEditFragment :
         with(binding) {
             val getdata = runBlocking {
                 viewModel!!.nickName.value = GaramgaebiApplication().loadStringData("myNickName").toString()
-                viewModel!!.belong.value = GaramgaebiApplication().loadStringData("myBelong").toString()
                 viewModel!!.email.value = GaramgaebiApplication().loadStringData("myEmail").toString()
-                viewModel!!.intro.value = GaramgaebiApplication().loadStringData("myIntro").toString()
                 viewModel!!.image.value = GaramgaebiApplication().loadStringData("myImage").toString()
+                Log.d("사진 널값", GaramgaebiApplication().loadStringData("myImage").toString())
 
+                //viewModel!!.intro.value?.let { Log.e(TAG, it) }
+                if (GaramgaebiApplication().loadBooleanData("myIntroNull") == true) {
+                    viewModel?.intro?.value = ""
+                }else{
+                    viewModel!!.intro.value = GaramgaebiApplication().loadStringData("myIntro")
+
+                }
+                if (GaramgaebiApplication().loadBooleanData("myBelongNull") == true) {
+                    viewModel?.belong?.value = ""
+                }else{
+                    viewModel!!.belong.value = GaramgaebiApplication().loadStringData("myBelong")
+                }
             }
+
+
+
             Log.d("image_viewModel",viewModel!!.image.value.toString())
 
             fragmentEditProfileEtNick.setText(
@@ -133,18 +147,20 @@ class ProfileEditFragment :
                 viewModel!!.intro.value
             )
 
-            var myProfileImage = ""
+            var myProfileImage : String? = ""
             var editImage = false
 
             val getdataImage = runBlocking {
-                myProfileImage = GaramgaebiApplication().loadStringData("myImage").toString()
+                myProfileImage = GaramgaebiApplication().loadStringData("myImage")
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
-            if (myProfileImage != "" && !editImage) {
+            Log.d("짱구",myProfileImage.toString() + editImage.toString())
+
+            if (myProfileImage != null && !editImage) {
                 Log.d("짱구","널아님")
                     CoroutineScope(Dispatchers.Main).launch {
                         val bitmap = withContext(Dispatchers.IO) {
-                            GaramgaebiFunction.ImageLoader.loadImage(myProfileImage)
+                            myProfileImage?.let { GaramgaebiFunction.ImageLoader.loadImage(it) }
                         }
                         binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
                     }
@@ -195,10 +211,13 @@ class ProfileEditFragment :
                 //소속 유효성확인
                 belong.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
+
                     if (it != null) {
                         belongIsValid.value = it.length < 19
                         GaramgaebiFunction().checkFirstChar(belongIsValid, it)
                         Log.d("profile_belong_true", "not null")
+                    }else{
+                        belongIsValid.value = true
                     }
                 Log.d("profile_belong_true", belongIsValid.value.toString())
             })
@@ -215,16 +234,18 @@ class ProfileEditFragment :
             //소개 유효성확인
             intro.observe(viewLifecycleOwner, Observer {
                 binding.viewModel = viewModel
-
                 if (it != null) {
                     introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
                     GaramgaebiFunction().checkFirstChar(introIsValid, it)
                     Log.d("profile_intro_true", "not null")
+                }else{
+                    introIsValid.value = true
                 }
 
                 Log.d("profile_intro_true", introIsValid.value.toString())
             })
 
+            //편집버튼 클릭
             profileEdit.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
