@@ -37,6 +37,20 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }
+    fun networkAlertDialog(){
+        NetworkErrorDialog() { it ->
+            when (it) {
+                -1 -> {
+                }
+                1 -> {
+                    //(activity as ContainerActivity).onBackPressed()
+                }
+            }
+        }.show(
+            activity?.supportFragmentManager!!,
+            "com.example.garamgaebi.common.NetworkErrorDialog"
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,20 +78,6 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
                 // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
-    }
-
-    fun checkNetwork(context: Context) : Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-
-        if (networkInfo == null || !networkInfo.isConnected) {
-            Log.d("network","false")
-            return false
-        }else {
-            Log.d("network","true")
-            return true
-
-        }
     }
 
     inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {

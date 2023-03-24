@@ -46,6 +46,10 @@ abstract class BaseFragment<B : ViewBinding>(
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        registerNetworkCallback(requireContext())
+        super.onViewCreated(view, savedInstanceState)
+    }
     override fun onDestroyView() {
         _binding = null
         unregisterNetworkCallback(requireContext())

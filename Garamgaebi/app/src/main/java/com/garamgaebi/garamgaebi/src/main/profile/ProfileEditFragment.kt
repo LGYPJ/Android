@@ -197,9 +197,8 @@ class ProfileEditFragment :
                 binding.viewModel = viewModel
                     if (it != null) {
                         belongIsValid.value = it.length < 19
-                    }
-                    if (it != null) {
                         GaramgaebiFunction().checkFirstChar(belongIsValid, it)
+                        Log.d("profile_belong_true", "not null")
                     }
                 Log.d("profile_belong_true", belongIsValid.value.toString())
             })
@@ -219,9 +218,8 @@ class ProfileEditFragment :
 
                 if (it != null) {
                     introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
-                }
-                if (it != null) {
                     GaramgaebiFunction().checkFirstChar(introIsValid, it)
+                    Log.d("profile_intro_true", "not null")
                 }
 
                 Log.d("profile_intro_true", introIsValid.value.toString())
@@ -233,7 +231,7 @@ class ProfileEditFragment :
                     GaramgaebiApplication.getProfile = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkValid.postValue(false)
+                    networkAlertDialog()
                 }
             }
         }
@@ -260,8 +258,7 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        if(checkNetwork(requireContext())) {
-
+                        if(networkValid.value == true) {
                             var editImage = false
 
                             val getdataImage = runBlocking {
@@ -331,9 +328,8 @@ class ProfileEditFragment :
                                     .show()
                                 // (activity as ContainerActivity).onBackPressed()
                             }
-                        networkValid.postValue(true)
                     }else {
-                        networkValid.postValue(false)
+                        networkAlertDialog()
                     }
 
                     }, { it.printStackTrace() })
