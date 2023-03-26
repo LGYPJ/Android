@@ -13,10 +13,6 @@ abstract class BaseDialog<VB: ViewDataBinding>(@LayoutRes private val layoutId: 
 
    protected lateinit var  binding : VB
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,11 +22,6 @@ abstract class BaseDialog<VB: ViewDataBinding>(@LayoutRes private val layoutId: 
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
 

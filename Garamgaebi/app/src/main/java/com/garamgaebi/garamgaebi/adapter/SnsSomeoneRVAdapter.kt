@@ -22,7 +22,7 @@ class SnsSomeoneRVAdapter(private val dataList: ArrayList<SNSData>, val mContext
         fun bind(data: SNSData) {
             binding.item = data
             binding.activitySomeoneprofileSnsListItemIvCopy.setOnClickListener {
-                val clipboard = mContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
                 // 새로운 ClipData 객체로 데이터 복사하기
                 val clip: ClipData =

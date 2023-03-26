@@ -4,21 +4,19 @@ import android.util.Log
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.model.AutoLoginRequest
-import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.repository.HomeRepository
 import kotlinx.coroutines.*
 import okhttp3.*
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Response
-import java.io.IOException
 import retrofit2.*
+import java.io.IOException
 
 class XAccessTokenInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        var jwtToken: String = ""
+        var jwtToken = ""
 
         val getToken = runBlocking {
             jwtToken = "Bearer " + GaramgaebiApplication().loadStringData(X_ACCESS_TOKEN).toString()
@@ -30,7 +28,7 @@ class XAccessTokenInterceptor : Interceptor {
             builder.addHeader("Authorization", jwtToken)
         }
 
-        var response = chain.proceed(builder.build())
+        val response = chain.proceed(builder.build())
 
         // access token이 만료된 경우
         if (response.code == 401) {
@@ -38,7 +36,7 @@ class XAccessTokenInterceptor : Interceptor {
             val newJwtToken = refreshToken()
             if (newJwtToken != null) {
                 // 갱신된 access token으로 다시 요청을 보냄
-                val newBuilder = chain.request().newBuilder()
+                chain.request().newBuilder()
                     .removeHeader("Authorization")
                     .addHeader("Authorization", newJwtToken)
                 Log.d("token fired","401")
@@ -57,12 +55,10 @@ class XAccessTokenInterceptor : Interceptor {
             .header("Authorization", "Bearer $accessToken")
             .build()
 
-    private fun plz(token:String){
 
-    }
     private fun refreshToken(): String? {
         var refreshToken = ""
-        val saveToken = runBlocking {
+        runBlocking {
             refreshToken = GaramgaebiApplication().loadStringData(X_REFRESH_TOKEN).toString()
         }
         val autoLoginRequest = AutoLoginRequest(refreshToken)
@@ -86,10 +82,16 @@ class XAccessTokenInterceptor : Interceptor {
 
                 if (loginResponse != null) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val saveToken = async(Dispatchers.IO) { // 비동기 작업 시작
-                            GaramgaebiApplication().saveStringToDataStore(X_ACCESS_TOKEN,loginResponse.result.tokenInfo.accessToken)
-                            GaramgaebiApplication().saveStringToDataStore(X_REFRESH_TOKEN,loginResponse.result.tokenInfo.refreshToken)
-                        }.await() // 결과 대기
+                        withContext(Dispatchers.IO) { // 비동기 작업 시작
+                            GaramgaebiApplication().saveStringToDataStore(
+                                X_ACCESS_TOKEN,
+                                loginResponse.result.tokenInfo.accessToken
+                            )
+                            GaramgaebiApplication().saveStringToDataStore(
+                                X_REFRESH_TOKEN,
+                                loginResponse.result.tokenInfo.refreshToken
+                            )
+                        } // 결과 대기
                     }
                 }
 

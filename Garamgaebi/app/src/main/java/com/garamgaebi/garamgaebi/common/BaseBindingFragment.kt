@@ -12,12 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment() {
@@ -38,7 +36,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         return binding.root
     }
     fun networkAlertDialog(){
-        NetworkErrorDialog() { it ->
+        NetworkErrorDialog() {
             when (it) {
                 -1 -> {
                 }
@@ -72,9 +70,9 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
             disposables.clear()
         }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { keyboardHeight ->
+            onShowKeyboard = {
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
                 // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
@@ -92,7 +90,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
             networkValid.postValue(false)
         }
     }
-    fun registerNetworkCallback(context: Context) {
+    private fun registerNetworkCallback(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()
@@ -102,7 +100,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
-    fun unregisterNetworkCallback(context: Context) {
+    private fun unregisterNetworkCallback(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

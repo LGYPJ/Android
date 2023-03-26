@@ -10,12 +10,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.garamgaebi.garamgaebi.databinding.ActivityContainerBinding.bind
 import com.garamgaebi.garamgaebi.util.LoadingDialog
 
 abstract class BaseDialogFragment<B : ViewBinding>(
@@ -23,7 +19,6 @@ abstract class BaseDialogFragment<B : ViewBinding>(
     @LayoutRes val layoutResId: Int
 ) : DialogFragment(layoutResId) {
     private var _binding: B? = null
-    //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
 
     protected val binding get() = _binding!!

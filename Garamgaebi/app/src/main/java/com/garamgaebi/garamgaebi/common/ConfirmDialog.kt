@@ -45,43 +45,47 @@ class ConfirmDialog(
         //삭제 물음 / 삭제 완료
         binding.deleteDone.text = text
 
-        if(id == 1) {
+        when (id) {
+            1 -> {
 
-            // 예 버튼 클릭 -> 삭제, 다이얼로그 show
-            binding.close.setOnClickListener {
-                // 삭제 , 삭제 완료 다이얼로그 띄우기
-                itemClick(1)
-                dismiss()
+                // 예 버튼 클릭 -> 삭제, 다이얼로그 show
+                binding.close.setOnClickListener {
+                    // 삭제 , 삭제 완료 다이얼로그 띄우기
+                    itemClick(1)
+                    dismiss()
+                }
+
+                // 아니요 버튼 클릭 -> dismiss
+                binding.no.setOnClickListener {
+                    itemClick(-1)
+                    dismiss()
+                }
             }
+            -1 -> {
+                binding.no.visibility = View.GONE
+                binding.close.text = getString(R.string.close)
 
-            // 아니요 버튼 클릭 -> dismiss
-            binding.no.setOnClickListener {
-                itemClick(-1)
-                dismiss()
+                // 확인 버튼 클릭
+                binding.close.setOnClickListener {
+                    //this.confirmDialogInterface?.onYesButtonClick(id!!)
+                    itemClick(2)
+                    dismiss()
+                }
+
             }
-        }else if(id == -1){
-            binding.no.visibility = View.GONE
-            binding.close.text = getString(R.string.close)
+            3 -> {
+                // 예 버튼 클릭 -> 삭제, 다이얼로그 show
+                binding.close.setOnClickListener {
+                    // 삭제 , 삭제 완료 다이얼로그 띄우기
+                    itemClick(1)
+                    dismiss()
+                }
 
-            // 확인 버튼 클릭
-            binding.close.setOnClickListener {
-                //this.confirmDialogInterface?.onYesButtonClick(id!!)
-                itemClick(2)
-                dismiss()
-            }
-
-        }else if(id==3){
-            // 예 버튼 클릭 -> 삭제, 다이얼로그 show
-            binding.close.setOnClickListener {
-                // 삭제 , 삭제 완료 다이얼로그 띄우기
-                itemClick(1)
-                dismiss()
-            }
-
-            // 아니요 버튼 클릭 -> dismiss
-            binding.no.setOnClickListener {
-                itemClick(-1)
-                dismiss()
+                // 아니요 버튼 클릭 -> dismiss
+                binding.no.setOnClickListener {
+                    itemClick(-1)
+                    dismiss()
+                }
             }
         }
 

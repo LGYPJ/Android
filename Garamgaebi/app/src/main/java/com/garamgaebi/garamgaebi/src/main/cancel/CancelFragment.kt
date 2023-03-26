@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -129,7 +128,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         if(networkValid.value == true) {
                             //신청 완료 api
                             var idInfo = -1
-                            var programInfo = -1
+                            var programInfo: Int
                             var bankInfo = ""
                             val getToken = runBlocking {
                                 idInfo = GaramgaebiApplication().loadIntData("memberIdx")!!
@@ -208,8 +207,8 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                 viewModel.getNetworking()
             }else{
             }
-            viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
-                if(it.isSuccess) {
+            viewModel.networkingInfo.observe(viewLifecycleOwner) {
+                if (it.isSuccess) {
                     val data = it.result
                     with(binding) {
                         activityCancelTitleTv.text = data.title
@@ -239,10 +238,10 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         //유료 버튼활성화
                         isCharged()
                     }
-                }else{
+                } else {
                 }
 
-            })
+            }
         }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
@@ -294,7 +293,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         if(isBank()&&isPay()){
             returnValue = true;
         }
-        return returnValue;
+        return returnValue
 
     }
 

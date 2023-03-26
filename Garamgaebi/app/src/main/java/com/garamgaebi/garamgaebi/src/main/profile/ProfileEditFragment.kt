@@ -18,12 +18,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModelProvider
@@ -114,7 +112,7 @@ class ProfileEditFragment :
 
         binding.svRoot.isSmoothScrollingEnabled = false
         with(binding) {
-            val getdata = runBlocking {
+            runBlocking {
                 viewModel!!.nickName.value = GaramgaebiApplication().loadStringData("myNickName").toString()
                 viewModel!!.email.value = GaramgaebiApplication().loadStringData("myEmail").toString()
                 viewModel!!.image.value = GaramgaebiApplication().loadStringData("myImage").toString()
@@ -316,10 +314,10 @@ class ProfileEditFragment :
                                                     )
                                                 )!!
                                         } catch (e: IOException) {
-                                            e.printStackTrace();
+                                            e.printStackTrace()
                                         }
-                                        val bitmap = BitmapFactory.decodeStream(inputStream);
-                                        val bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
+                                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                                        val bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION)
                                         val byteArrayOutputStream =
                                             ByteArrayOutputStream()
                                         bmRotated?.compress(
@@ -362,11 +360,11 @@ class ProfileEditFragment :
 
 
 
-        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+        binding.containerLayout.setOnTouchListener { _, _ ->
             hideKeyboard()
-            Log.d("image_source",binding.fragmentEditProfileIvProfile.resources.toString())
+            Log.d("image_source", binding.fragmentEditProfileIvProfile.resources.toString())
             false
-        })
+        }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
                 binding.svRoot.run {
@@ -446,7 +444,6 @@ class ProfileEditFragment :
                 Log.d("짱구", "진짜 result2"+result.resultCode.toString())
 
                 val imageUri = result.data?.data ?: return@registerForActivityResult
-                Log.d("짱구", "uri"+imageUri.toString())
                 imageUri.scheme?.let {
                     /**
                      * imageUri 가 content:// 스킴으로 로 시작하는 경우(대부분 삼성폰, 경우에 따라서는 "file://" 넘어오는 단말기들이 존재
@@ -514,11 +511,6 @@ class ProfileEditFragment :
         }
         return flag
     }
-
-    companion object {
-        const val REQ_GALLERY = 1
-    }
-
 
     // 권한 요청 결과 처리
     @RequiresApi(Build.VERSION_CODES.P)

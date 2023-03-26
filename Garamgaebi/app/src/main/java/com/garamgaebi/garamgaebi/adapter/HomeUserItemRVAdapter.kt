@@ -1,7 +1,6 @@
 package com.garamgaebi.garamgaebi.adapter
 
 import android.content.Context
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.ItemHomeUserBinding
 import com.garamgaebi.garamgaebi.model.HomeUserResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>, val context : Context): RecyclerView.Adapter<HomeUserItemRVAdapter.ViewHolder>() {
     private lateinit var itemClickListener: OnItemClickListener
