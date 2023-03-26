@@ -3,11 +3,9 @@ package com.garamgaebi.garamgaebi.src.main.networking
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -39,22 +37,22 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         binding.item = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.inputName.observe(viewLifecycleOwner, Observer{
+        viewModel.inputName.observe(viewLifecycleOwner, Observer {
             binding.item = viewModel
             viewModel.nameIsValid.value = it.isNotEmpty() && isName(it)
         })
 
-        viewModel.inputNickName.observe(viewLifecycleOwner, Observer{
+        viewModel.inputNickName.observe(viewLifecycleOwner, Observer {
             binding.item = viewModel
             viewModel.nicknameIsValid.value = it.isNotEmpty() && isNickName(it)
         })
 
-        viewModel.inputPhone.observe(viewLifecycleOwner, Observer{
+        viewModel.inputPhone.observe(viewLifecycleOwner, Observer {
             binding.item = viewModel
             viewModel.phoneIsValid.value = it.isNotEmpty() && isPhoneNumberCheck(it)
         })
 
-        with(viewModel){
+        with(viewModel) {
             nameState.value = getString(R.string.apply_not_name)
             nicknameState.value = getString(R.string.apply_not_nickname)
             phoneState.value = getString(R.string.apply_not_phone)
@@ -75,7 +73,7 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
 
-                        if(networkValid.value == true) {
+                        if (networkValid.value == true) {
                             //신청 등록 api
                             viewModel.postEnroll()
                             viewModel.enroll.observe(viewLifecycleOwner, Observer {
@@ -87,25 +85,23 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                                     requireActivity().supportFragmentManager.popBackStack()
                                 }
                             })
-                        }else{
+                        } else {
                             networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )
 
-        if(networkValid.value == true) {
-            networkValidScreen(true)
+        if (networkValid.value == true) {
             viewModel.getNetworking()
-        }else{
-            networkValidScreen(false)
+        } else {
+           // startActivity(Intent(requireActivity(), ErrorActivity::class.java))
         }
 
-        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
-            if(it.isSuccess) {
-                networkValidScreen(true)
+        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer {
+            if (it.isSuccess) {
+                //startActivity(Intent(requireActivity(), ErrorActivity::class.java))
                 binding.item = viewModel
-            }else{
-                networkValidScreen(false)
+            } else {
             }
         })
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -126,7 +122,8 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                 //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 val rect = Rect()
                 view.getWindowVisibleDisplayFrame(rect)
@@ -138,12 +135,13 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                     // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
                     binding.activityNetworkChargedApplyBtn.postDelayed({
                         binding.activityNetworkChargedApplyBtn.visibility = View.VISIBLE
-                    },0)
+                    }, 0)
 
                 }
             }
         })
     }
+
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용
@@ -157,7 +155,7 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     }
 
     // 이름 형식 맞나
-    fun isName(name : String) : Boolean {
+    fun isName(name: String): Boolean {
         var returnValue = false
         val regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]{1,20}$"
         val p = Pattern.compile(regex)
@@ -169,7 +167,7 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     }
 
     //전화번호 형식 맞나
-    fun isPhoneNumberCheck( phone : String) : Boolean {
+    fun isPhoneNumberCheck(phone: String): Boolean {
         var returnValue = false
         val regex = "^[0-9]{11}$"
         val p = Pattern.compile(regex)
@@ -179,17 +177,18 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         }
         return returnValue
     }
+
     //닉네임 맞나
-    fun isNickName(nickname : String): Boolean{
+    fun isNickName(nickname: String): Boolean {
         var returnValue = false
         //나중에 회원가입할 때 닉네임 로컬에 저장해서 regax에 선언하기
         var regex = ""
         val putData = runBlocking {
             regex = GaramgaebiApplication().loadStringData("myNickName").toString()
         }
-       // val regex = GaramgaebiApplication.sSharedPreferences.getString("myNickName","")
+        // val regex = GaramgaebiApplication.sSharedPreferences.getString("myNickName","")
         val p = regex?.matches(nickname.toRegex())
-        if(p == true){
+        if (p == true) {
             returnValue = true
         }
         return returnValue
@@ -202,29 +201,16 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
     }
 
     // 계좌 복사
-    private fun createClipData(copy : String){
+    private fun createClipData(copy: String) {
         val clipboardManager: ClipboardManager =
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData: ClipData = ClipData.newPlainText("copy", copy)
         //클립보드에 배치
         clipboardManager.setPrimaryClip(clipData)
     }
+
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
     }
-    fun networkValidScreen(visible:Boolean){
-        with(binding) {
-            when (visible) {
-                true -> {
-                    containerLayout.visibility = View.VISIBLE
-                    networkErrorContainer.visibility = View.GONE
-                }
-                false -> {
-                    containerLayout.visibility = View.GONE
-                    networkErrorContainer.visibility = View.VISIBLE
-                }
-            }
-        }
-
-    }}
+}

@@ -102,7 +102,8 @@ class ProfileViewModel : ViewModel(){
         var introValue : String? = "\""+intro.value + "\""
         if(belong.value?.isEmpty() == true){
             belongValue = null
-        }else if(intro.value?.isEmpty() == true){
+        }
+        if(intro.value?.isEmpty() == true){
             introValue = null
         }
         var infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${belongValue},\"profileEmail\":\"${email.value.toString()}\",\"content\":${introValue}}").toString()

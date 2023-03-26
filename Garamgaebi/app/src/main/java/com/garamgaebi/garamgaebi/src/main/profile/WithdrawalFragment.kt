@@ -8,14 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
-import android.view.ViewTreeObserver
-import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.app.ActivityCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
@@ -26,9 +22,12 @@ import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
-import androidx.core.view.WindowInsetsControllerCompat
 import kotlinx.coroutines.runBlocking
+/*
+탈퇴 Fragment - ContainerActivity
 
+탈퇴 조회
+ */
 class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
     ConfirmDialogInterface {
@@ -40,7 +39,7 @@ class WithdrawalFragment :
 
 
         var myEmail = "not@gachon.ac.kr"
-        val getdataEmail = runBlocking {
+        runBlocking {
             myEmail = GaramgaebiApplication().loadStringData("uniEmail").toString()
         }
         val viewModel = ViewModelProvider(this)[WithdrawalViewModel::class.java]
@@ -53,40 +52,37 @@ class WithdrawalFragment :
             viewModel.email.value = myEmail
         }
 
-        viewModel.category.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
-            if(it.isNotEmpty() && (it.toCharArray()[0] != ' '))
+        viewModel.category.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty() && (it.toCharArray()[0] != ' '))
                 viewModel.categoryIsValid.value = true
 
-            if(it.equals("ETC")){
+            if (it.equals("ETC")) {
                 binding.activityContentEtNameLength.visibility = View.VISIBLE
-                viewModel.content.value=""
-            }else{
+                viewModel.content.value = ""
+            } else {
                 binding.activityContentEtNameLength.visibility = View.GONE
-                viewModel.contentIsValid.value=true
-                viewModel.contentFirst.value=false
+                viewModel.contentIsValid.value = true
+                viewModel.contentFirst.value = false
 
             }
-        })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
+        }
+        viewModel.content.observe(viewLifecycleOwner) {
 
-            Log.d("content","되냐")
+            Log.d("content", "되냐")
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
-        })
-        viewModel.agree.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
+        }
+        viewModel.agree.observe(viewLifecycleOwner) {
             viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
-        })
-        viewModel.withdrawal.observe(viewLifecycleOwner, Observer {
+        }
+        viewModel.withdrawal.observe(viewLifecycleOwner) {
             viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
-        })
+        }
 
         viewModel._withdrawal.observe(viewLifecycleOwner) {
 
             if (viewModel._withdrawal.value?.isSuccess == true){
-                val saveToken = runBlocking { // 비동기 작업 시작
+                runBlocking { // 비동기 작업 시작
                     GaramgaebiApplication().saveStringToDataStore(
                         "kakaoToken",
                         ""
@@ -162,7 +158,7 @@ class WithdrawalFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        var preCheck = binding.fragmentWithdrawalCheckbox.isChecked
+                        val preCheck = binding.fragmentWithdrawalCheckbox.isChecked
                         viewModel.agree.value = !preCheck
                     }, { it.printStackTrace() })
             )
@@ -176,31 +172,31 @@ class WithdrawalFragment :
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
 
-                        val orderBottomDialogFragment: OrderBottomDialogFragment =
+                        val orderBottomDialogFragment =
                             OrderBottomDialogFragment(resources.getStringArray(R.array.withdrawal_option)) {
                             when (it) {
                                 0 -> {
                                     Toast.makeText(activity, "이용이 불편해서", Toast.LENGTH_SHORT).show()
-                                    binding.fragmentWithdrawalEtOption.setText("이용이 불편해서")
+                                    binding.fragmentWithdrawalEtOption.text = "이용이 불편해서"
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "UNCOMFORTABLE"
                                 }
                                 1 -> {
                                     Toast.makeText(activity, "사용 빈도가 낮아서", Toast.LENGTH_SHORT).show()
-                                    binding.fragmentWithdrawalEtOption.setText("사용 빈도가 낮아서")
+                                    binding.fragmentWithdrawalEtOption.text = "사용 빈도가 낮아서"
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "UNUSED"
                                 }
                                 2 -> {
                                     Toast.makeText(activity, "콘텐츠 내용이 부족해서", Toast.LENGTH_SHORT).show()
-                                    binding.fragmentWithdrawalEtOption.setText("콘텐츠 내용이 부족해서")
+                                    binding.fragmentWithdrawalEtOption.text = "콘텐츠 내용이 부족해서"
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "CONTENT_LACK"
 
                                 }
                                 3 -> {
                                     Toast.makeText(activity, "기타", Toast.LENGTH_SHORT).show()
-                                    binding.fragmentWithdrawalEtOption.setText("기타")
+                                    binding.fragmentWithdrawalEtOption.text = "기타"
                                     viewModel.categoryFocusing.value = false
                                     viewModel.category.value = "ETC"
 
@@ -221,8 +217,8 @@ class WithdrawalFragment :
                         if(networkValid.value == true) {
                             networkValid.postValue(true)
 
-                            val dialog: DialogFragment? =
-                                ConfirmDialog(this, "탈퇴하시겠습니까?", 1) { it ->
+                            val dialog: DialogFragment =
+                                ConfirmDialog(this, "탈퇴하시겠습니까?", 1) {
                                     when (it) {
                                         -1 -> {
 
@@ -237,7 +233,7 @@ class WithdrawalFragment :
                                     }
                                 }
                             // 알림창이 띄워져있는 동안 배경 클릭 막기
-                            dialog?.show(
+                            dialog.show(
                                 activity?.supportFragmentManager!!,
                                 "com.example.garamgaebi.common.ConfirmDialog"
                             )
@@ -247,10 +243,10 @@ class WithdrawalFragment :
                         }
                     }, { it.printStackTrace() })
             )
-        binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
+        binding.containerLayout.setOnTouchListener { _, _ ->
             hideKeyboard()
             false
-        })
+        }
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
@@ -262,26 +258,24 @@ class WithdrawalFragment :
 //                },0)
                 binding.fragmentWithdrawalSendBtn.visibility = View.GONE
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
               //  binding.fragmentWithdrawalSendBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.fragmentWithdrawalSendBtn.postDelayed({
-                        binding.fragmentWithdrawalSendBtn.visibility = View.VISIBLE
-                    },0)
-                }
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.fragmentWithdrawalSendBtn.postDelayed({
+                    binding.fragmentWithdrawalSendBtn.visibility = VISIBLE
+                }, 0)
             }
-        })
+        }
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

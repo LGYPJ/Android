@@ -1,6 +1,5 @@
 package com.garamgaebi.garamgaebi.src.main.profile
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentUris
@@ -21,14 +20,12 @@ import android.util.Patterns
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
@@ -40,7 +37,6 @@ import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
-import okhttp3.Dispatcher
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -50,7 +46,13 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
+/*
+프로필 편집 Fragment - ContainerActivity
 
+프로필 편집
+사진 편집
+
+ */
 class ProfileEditFragment :
     BaseBindingFragment<FragmentProfileEditBinding>(R.layout.fragment_profile_edit) {
 
@@ -79,12 +81,12 @@ class ProfileEditFragment :
         }
 
         //사진 편집 후 중단된 경우
-        var EditImageCheck = false
-        val putEdit = runBlocking {
-            EditImageCheck = GaramgaebiApplication().loadBooleanData("EditImage") == true
+        var editImageCheck = false
+        runBlocking {
+            editImageCheck = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
-        if(!EditImageCheck){
-            val putEdit = runBlocking {
+        if(!editImageCheck){
+            runBlocking {
                 viewModel.image.value?.let {
                     Log.d("짱구","사진받")
                     GaramgaebiApplication().saveStringToDataStore("myImage",
@@ -147,17 +149,15 @@ class ProfileEditFragment :
                 viewModel!!.intro.value
             )
 
-            var myProfileImage : String? = ""
-            var editImage = false
+            var myProfileImage: String?
+            var editImage: Boolean
 
-            val getdataImage = runBlocking {
+            runBlocking {
                 myProfileImage = GaramgaebiApplication().loadStringData("myImage")
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
-            Log.d("짱구",myProfileImage.toString() + editImage.toString())
 
             if (myProfileImage != null && !editImage) {
-                Log.d("짱구","널아님")
                     CoroutineScope(Dispatchers.Main).launch {
                         val bitmap = withContext(Dispatchers.IO) {
                             myProfileImage?.let { GaramgaebiFunction.ImageLoader.loadImage(it) }
@@ -165,14 +165,13 @@ class ProfileEditFragment :
                         binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
                     }
            }else if(editImage){
-                Log.d("짱구","에딧중")
                 if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {
                     Log.e(TAG, FileUpLoad.getFileToUpLoad())
                     binding.fragmentEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
                 } else {
                     Log.e(TAG, "image Empty")
                 }
-            } else {
+            }else{
 
             }
         }
@@ -182,18 +181,17 @@ class ProfileEditFragment :
             // 유효성 확인
 
             //닉네임 유효성확인
-            nickName.observe(viewLifecycleOwner, Observer {
-                binding.viewModel = viewModel
+            nickName.observe(viewLifecycleOwner) {
 
                 if (it.length > 8) {
                     nameState.value = getString(R.string.edit_profile_hint)
                     nickNameIsValid.value = false
                 } else if (it.isNotEmpty()) {
                     if (it != null && it.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*".toRegex())) {
-                        System.out.println("특수문자가 없습니다.");
+                        println("특수문자가 없습니다.");
                         nickNameIsValid.value = true
                     } else {
-                        System.out.println("특수문자가 있습니다.");
+                        println("특수문자가 있습니다.");
                         nameState.value = getString(R.string.wrong_nick_name)
                         nickNameIsValid.value = false
                     }
@@ -207,43 +205,42 @@ class ProfileEditFragment :
                 }
 
                 Log.d("profile_nickName_true", nickNameIsValid.value.toString())
-            })
-                //소속 유효성확인
-                belong.observe(viewLifecycleOwner, Observer {
-                binding.viewModel = viewModel
+            }
+            //소속 유효성확인
+                belong.observe(viewLifecycleOwner) {
 
                     if (it != null) {
                         belongIsValid.value = it.length < 19
                         GaramgaebiFunction().checkFirstChar(belongIsValid, it)
                         Log.d("profile_belong_true", "not null")
-                    }else{
+                    } else {
                         belongIsValid.value = true
                     }
-                Log.d("profile_belong_true", belongIsValid.value.toString())
-            })
+                    Log.d("profile_belong_true", belongIsValid.value.toString())
+                }
 
             //이메일 유효성확인
-            email.observe(viewLifecycleOwner, Observer {
+            email.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
 
                 //email 유효성 검사 부분
                 viewModel.emailIsValid.value = Patterns.EMAIL_ADDRESS.matcher(it).matches()
                 Log.d("profile_email_true", emailIsValid.value.toString())
-            })
+            }
 
             //소개 유효성확인
-            intro.observe(viewLifecycleOwner, Observer {
+            intro.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (it != null) {
                     introIsValid.value = (it.length < INPUT_TEXT_LENGTH_100)
                     GaramgaebiFunction().checkFirstChar(introIsValid, it)
                     Log.d("profile_intro_true", "not null")
-                }else{
+                } else {
                     introIsValid.value = true
                 }
 
                 Log.d("profile_intro_true", introIsValid.value.toString())
-            })
+            }
 
             //편집버튼 클릭
             profileEdit.observe(viewLifecycleOwner) {
@@ -280,9 +277,9 @@ class ProfileEditFragment :
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
                         if(networkValid.value == true) {
-                            var editImage = false
+                            var editImage: Boolean
 
-                            val getdataImage = runBlocking {
+                            runBlocking {
                                 editImage =
                                     GaramgaebiApplication().loadBooleanData("EditImage") == true
                             }
@@ -314,9 +311,9 @@ class ProfileEditFragment :
                                         } catch (e: IOException) {
                                             e.printStackTrace();
                                         }
-                                        var bitmap = BitmapFactory.decodeStream(inputStream);
-                                        var bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
-                                        var byteArrayOutputStream: ByteArrayOutputStream? =
+                                        val bitmap = BitmapFactory.decodeStream(inputStream);
+                                        val bmRotated = rotateBitmap(bitmap, IMAGE_ORIENTATION);
+                                        val byteArrayOutputStream =
                                             ByteArrayOutputStream()
                                         bmRotated?.compress(
                                             Bitmap.CompressFormat.JPEG,
@@ -324,13 +321,13 @@ class ProfileEditFragment :
                                             byteArrayOutputStream
                                         )
 
-                                        var requestBody = byteArrayOutputStream?.let {
+                                        val requestBody = byteArrayOutputStream.let {
                                             RequestBody.create(
                                                 "multipart/form-data".toMediaTypeOrNull(),
                                                 it.toByteArray()
                                             )
                                         };
-                                        var uploadFile = requestBody?.let {
+                                        val uploadFile = requestBody.let {
                                             MultipartBody.Part.createFormData(
                                                 "image", FileUpLoad.getFileToUpLoad() + ".jpeg",
                                                 it
@@ -365,38 +362,35 @@ class ProfileEditFragment :
         })
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
-                lateinit var editText: EditText
                 binding.svRoot.run {
                     smoothScrollTo(scrollX, scrollY + keyboardHeight)
 
                 }
                   binding.activityEducationSaveBtn.visibility = View.GONE
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
                 //  binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.activityEducationSaveBtn.postDelayed({
-                        binding.activityEducationSaveBtn.visibility = View.VISIBLE
-                    },0)
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.activityEducationSaveBtn.postDelayed({
+                    binding.activityEducationSaveBtn.visibility = View.VISIBLE
+                }, 0)
 
-                }
             }
-        })
+        }
 
     }
 
-    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+    private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()
         Log.d("orientation 4",orientation.toString())
         when (orientation) {
@@ -456,8 +450,7 @@ class ProfileEditFragment :
                      * 사용자가 갤러리에서 이미지를 선택했다면
                      */
                     // GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", true).apply()
-
-                    val getdataImage = runBlocking {
+                    runBlocking {
                         Log.d("짱구","editImage")
                         GaramgaebiApplication().saveBooleanToDataStore("EditImage",true)
                     }
@@ -519,6 +512,43 @@ class ProfileEditFragment :
         const val REQ_GALLERY = 1
     }
 
+
+    // 권한 요청 결과 처리
+    @RequiresApi(Build.VERSION_CODES.P)
+    private  val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()) {
+        val writePermission = requireActivity().let {
+            ContextCompat.checkSelfPermission(
+                it,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        }
+        val readPermission = activity?.let {
+            ContextCompat.checkSelfPermission(
+                it,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+
+        if (writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED
+        ) {
+
+            Toast.makeText(
+                context,
+                "권한이 거부되었습니다",
+                Toast.LENGTH_SHORT
+            ).show()
+        }else{
+            val target = Intent(Intent.ACTION_PICK)
+            target.setDataAndType(
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI,
+                "image/*"
+            )
+            imageResult.launch(target)
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
         val writePermission = requireActivity().let {
@@ -537,17 +567,10 @@ class ProfileEditFragment :
         if (writePermission == PackageManager.PERMISSION_DENIED ||
             readPermission == PackageManager.PERMISSION_DENIED
         ) {
-            requireActivity().let {
-                ActivityCompat.requestPermissions(
-                    it,
-                    arrayOf(
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE
-                    ),
-                    REQ_GALLERY
-                )
-            }
-
+            requestPermission.launch(arrayOf
+                (
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE))
 
         } else {
 
@@ -559,36 +582,6 @@ class ProfileEditFragment :
             imageResult.launch(target)
         }
     }
-    // 권한 요청 결과 처리
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        Log.d("짱구", "result받기$requestCode")
-        when (requestCode) {
-
-            REQ_GALLERY -> {
-                // 권한 요청이 거부된 경우
-                if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(requireContext(), "앨범 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
-                } else {
-                    // 권한이 승인된 경우 앨범에 접근하는 코드를 작성
-                    Log.d("짱구", "권한 성공")
-
-                    val target = Intent(Intent.ACTION_PICK)
-                    target.setDataAndType(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        "image/*"
-                    )
-                    imageResult.launch(target)                }
-                return
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
 
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

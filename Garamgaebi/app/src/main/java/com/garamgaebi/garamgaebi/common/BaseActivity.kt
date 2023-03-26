@@ -23,6 +23,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     lateinit var mLoadingDialog: LoadingDialog
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
     val networkValid : MutableLiveData<Boolean> = MutableLiveData()
+
     private val networkCallback = NetworkConnectionCallback()
     // 뷰 바인딩 객체를 받아서 inflate해서 화면을 만들어줌.
     // 즉 매번 onCreate에서 setContentView를 하지 않아도 됨.

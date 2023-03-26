@@ -36,17 +36,16 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         //binding.activityCancelApplyBtn.isEnabled = false
 
         binding.activityCancelBankTv.text = "은행"
+        ContainerActivity().errorActivityValid.value = true
 
         //신청정보조회
         if(networkValid.value == true) {
-            networkValidScreen(true)
             viewModel.getCancel()
         }else{
-            networkValidScreen(false)
+
         }
         viewModel.cancelInfo.observe(viewLifecycleOwner, Observer{
             if(it.isSuccess) {
-                networkValidScreen(true)
                 val data = it.result
                 with(binding) {
                     activityCancelNameTv.text = data.name
@@ -54,7 +53,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     activityCancelPhoneTv.text = data.phone
                 }
             }else{
-                networkValidScreen(false)
             }
         })
 
@@ -160,14 +158,11 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         }
         if(seminar=="SEMINAR"){
             if(networkValid.value == true) {
-                networkValidScreen(true)
                 viewModel.getSeminar()
             }else{
-                networkValidScreen(false)
             }
             viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
                 if(it.isSuccess) {
-                    networkValidScreen(true)
                     val data = it.result
                     with(binding) {
                         activityCancelTitleTv.text = data.title
@@ -199,7 +194,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         isCharged()
                     }
                 }else{
-                    networkValidScreen(false)
                 }
 
             })
@@ -211,14 +205,11 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         }
         if(networking=="NETWORKING"){
             if(networkValid.value == true) {
-                networkValidScreen(true)
                 viewModel.getNetworking()
             }else{
-                networkValidScreen(false)
             }
             viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
                 if(it.isSuccess) {
-                    networkValidScreen(true)
                     val data = it.result
                     with(binding) {
                         activityCancelTitleTv.text = data.title
@@ -249,7 +240,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                         isCharged()
                     }
                 }else{
-                    networkValidScreen(false)
                 }
 
             })
@@ -337,22 +327,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
 
     override fun onYesButtonClick(id: Int) {
         TODO("Not yet implemented")
-    }
-
-    fun networkValidScreen(visible:Boolean){
-        with(binding) {
-            when (visible) {
-                true -> {
-                    mainClContainer.visibility = View.VISIBLE
-                    networkErrorContainer.visibility = View.GONE
-                }
-                false -> {
-                    mainClContainer.visibility = View.GONE
-                    networkErrorContainer.visibility = View.VISIBLE
-                }
-            }
-        }
-
     }
 
 }

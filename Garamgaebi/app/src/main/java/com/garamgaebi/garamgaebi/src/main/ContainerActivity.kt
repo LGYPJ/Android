@@ -1,15 +1,11 @@
 package com.garamgaebi.garamgaebi.src.main
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.WindowManager
-import androidx.activity.OnBackPressedCallback
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -34,6 +30,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     var inNetworking = false
     var inSeminar = false
+    val errorActivityValid : MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +45,22 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            onBackPressed()
+        onBackPressed()
         }
+
+
+//        networkValid.observe(this, Observer{isConnected->
+//            Log.d("뭐묘?","잉")
+//            if(isConnected && errorActivityValid.value == true) {
+//
+//                var target = Intent(this,ErrorActivity::class.java)
+//                target.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//                startActivity(target)
+//                Log.d("뭐묘?","잉키")
+//            }else{
+//            }
+//        })
+
     }
 
 
@@ -132,22 +143,22 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 transaction.replace(R.id.activity_seminar_frame, SnsAddFragment(),"sns")
             }
             10 -> {
-                transaction.replace(R.id.activity_seminar_frame, CareerFragment(),"career")
+                transaction.replace(R.id.activity_seminar_frame, CareerAddFragment(),"career")
             }
             11 -> {
-                transaction.replace(R.id.activity_seminar_frame, EduFragment(),"edu")
+                transaction.replace(R.id.activity_seminar_frame, EduAddFragment(),"edu")
             }
             12 -> transaction.replace(R.id.activity_seminar_frame, ProfileEditFragment(),"profileEdit")
 
             13 -> {
                 if(isSeminar()){
-                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                    transaction.replace(R.id.activity_seminar_frame, UserProfileFragment(),"someoneProfile").addToBackStack(null)
                 }
                 if(isNetworking()){
-                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile").addToBackStack(null)
+                    transaction.replace(R.id.activity_seminar_frame, UserProfileFragment(),"someoneProfile").addToBackStack(null)
                 }
                 else{
-                    transaction.replace(R.id.activity_seminar_frame, SomeoneProfileFragment(),"someoneProfile")
+                    transaction.replace(R.id.activity_seminar_frame, UserProfileFragment(),"someoneProfile")
                 }
             }
             14 -> {

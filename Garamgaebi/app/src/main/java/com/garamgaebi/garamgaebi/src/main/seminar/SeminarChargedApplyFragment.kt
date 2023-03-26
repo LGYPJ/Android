@@ -21,7 +21,9 @@ import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarChargedApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApplyBinding>(R.layout.fragment_seminar_charged_apply) {
@@ -66,18 +68,41 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
         }
 
         //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
-        binding.activitySeminarChargedApplyBtn.setOnClickListener {
-            //신청 등록 api
-            viewModel.postEnroll()
-            viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                binding.item = viewModel
-                if(it.isSuccess){
-                    //세미나 메인 화면으로
-                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
-            })
-        }
+//        binding.activitySeminarChargedApplyBtn.setOnClickListener {
+//            //신청 등록 api
+//            viewModel.postEnroll()
+//            viewModel.enroll.observe(viewLifecycleOwner, Observer {
+//                binding.item = viewModel
+//                if(it.isSuccess){
+//                    //세미나 메인 화면으로
+//                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+//                    requireActivity().supportFragmentManager.popBackStack()
+//                }
+//            })
+//        }
+        disposables
+            .add(
+                binding
+                    .activitySeminarChargedApplyBtn
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        if(networkValid.value == true) {
+                            //신청 등록 api
+                            viewModel.postEnroll()
+                            viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                                binding.item = viewModel
+                                if(it.isSuccess){
+                                    //세미나 메인 화면으로
+                                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                                    requireActivity().supportFragmentManager.popBackStack()
+                                }
+                            })
+                        }else{
+                            networkAlertDialog()
+                        }
+                    }, { it.printStackTrace() })
+            )
 
         viewModel.getSeminar()
         viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{

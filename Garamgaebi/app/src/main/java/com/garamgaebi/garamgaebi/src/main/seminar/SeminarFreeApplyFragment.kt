@@ -63,6 +63,7 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
+                        if(networkValid.value == true){
                         //신청 등록 api
                         viewModel.postEnroll()
                         viewModel.enroll.observe(viewLifecycleOwner, Observer {
@@ -73,7 +74,9 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
                                 requireActivity().supportFragmentManager.popBackStack()
 
                             }
-                        })
+                        })}else{
+                            networkAlertDialog()
+                        }
                     }, { it.printStackTrace() })
             )
 

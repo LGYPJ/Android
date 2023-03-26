@@ -22,6 +22,12 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
+/*
+경력 편집 Fragment - ContainerActivity
+
+경력 삭제, 편집
+
+ */
 class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding>(R.layout.fragment_profile_career_edit),ConfirmDialogInterface{
     var careerIdx: Int = -1
     var originCompany : String = ""
@@ -40,7 +46,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
         binding.lifecycleOwner = this
 
 
-            //원본 데이터
+            //원본 데이터 dataStore에서 받아오기
             CoroutineScope(Dispatchers.Main).launch {
                 originCompany = GaramgaebiApplication().loadStringData(
                     "CareerCompanyForEdit"
@@ -60,9 +66,10 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 careerIdx = GaramgaebiApplication().loadIntData(
                     "CareerIdxForEdit"
                 )!!
+
                 with(binding){
                     fragmentCareerCheckbox.isChecked = originNow == "TRUE"
-                    viewModel!!.checkBox.value = originNow == "TRUE"
+                    viewModel.checkBox.value = originNow == "TRUE"
                     fragmentCareerEtEndPeriod.setText(originEnd)
                     if(originNow == "TRUE"){
                         fragmentCareerEtEndPeriod.setText("현재")
@@ -74,8 +81,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     isWorking.value = originNow
                     startDate.value = originStart
                     endDate.value = originEnd
+                    viewModel.careerIdx = careerIdx
                 }
-                viewModel.careerIdx = careerIdx
             }
 
 
@@ -95,7 +102,6 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 binding.viewModel = viewModel
                 companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 GaramgaebiFunction().checkFirstChar(companyIsValid, it)
-
                 Log.d("career_company_true", companyIsValid.value.toString())
             }
 
@@ -104,7 +110,6 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                 binding.viewModel = viewModel
                 positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 GaramgaebiFunction().checkFirstChar(positionIsValid, it)
-
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
 
@@ -268,7 +273,6 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                         }else{
                             networkAlertDialog()
                         }
-                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
         //체크박스, 문구 클릭
@@ -356,28 +360,25 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
             },
             onHideKeyboard = { ->
-                //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.fragmentCareerSaveBtn.postDelayed({
-                        binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
-                    },0)
-                    binding.fragmentCareerRemoveBtn.postDelayed({
-                        binding.fragmentCareerRemoveBtn.visibility = View.VISIBLE
-                    },0)
-                }
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.fragmentCareerSaveBtn.postDelayed({
+                    binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
+                }, 0)
+                binding.fragmentCareerRemoveBtn.postDelayed({
+                    binding.fragmentCareerRemoveBtn.visibility = View.VISIBLE
+                }, 0)
             }
-        })
+        }
 
     }
     private fun hideKeyboard() {
@@ -391,9 +392,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
             )
         }
     }
-    private fun setOriginData(){
 
-    }
     override fun onYesButtonClick(id: Int) = Unit
 
 }

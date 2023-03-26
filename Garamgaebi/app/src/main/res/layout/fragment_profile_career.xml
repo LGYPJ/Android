@@ -7,7 +7,7 @@
             type="com.garamgaebi.garamgaebi.viewModel.CareerViewModel" />
         <variable
             name="fragment"
-            type="com.garamgaebi.garamgaebi.src.main.profile.CareerFragment" />
+            type="com.garamgaebi.garamgaebi.src.main.profile.CareerAddFragment" />
     </data>
     <ScrollView
         android:id="@+id/sv_root"
