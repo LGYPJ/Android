@@ -199,7 +199,7 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getEducationInfo(memberIdx)
             Log.d("api_edu", response.body().toString())
 
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 //_networking.postValue(response.body())
                 viewModelScope.launch(Dispatchers.Main) {
                     _educationInfoArray.value = response.body()?.result as ArrayList<EducationData>
@@ -228,7 +228,7 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getCareerInfo(memberIdx)
             Log.d("api_career", response.body().toString())
 
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _careerInfoArray.value = (response.body()?.result as ArrayList<CareerData>)
                 }
