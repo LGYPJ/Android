@@ -119,7 +119,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
 
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
             }
 
@@ -149,7 +149,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                         "com.example.garamgaebi.common.ConfirmDialog"
                     )
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
 
             }
@@ -259,14 +259,14 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.patchCareerInfo()
                             Log.d(
                                 "career_add_button",
                                 "success" + viewModel.endDate.value.toString()
                             )
                         }else{
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
@@ -324,11 +324,11 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                     Log.d("career_remove_button", "close")
                                 }
                                 1 -> {
-                                    if(networkValid.value == true) {
+                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteCareerInfo()
                                     }else {
-                                        networkAlertDialog()
+                                        (requireActivity() as ContainerActivity).networkAlertDialog()
                                     }
                                 }
                             }

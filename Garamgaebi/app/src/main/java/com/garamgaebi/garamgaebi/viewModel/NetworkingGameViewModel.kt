@@ -121,6 +121,7 @@ class NetworkingGameViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.Main) {
             val response = gameRepository.getGameRoom(2)
             if (response.isSuccessful) {
+
                 _getRoom.value = response.body()
             } else {
                 Log.d("error", response.message())

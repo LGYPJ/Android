@@ -91,7 +91,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                 getSNS = true
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
 
         }
@@ -103,10 +103,10 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.postSNSInfo()
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("sns_add_button","success")
                         //(activity as ContainerActivity).onBackPressed()

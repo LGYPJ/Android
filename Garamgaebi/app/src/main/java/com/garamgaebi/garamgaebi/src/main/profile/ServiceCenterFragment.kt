@@ -98,7 +98,7 @@ class ServiceCenterFragment :
                     startActivity(i)
                     Log.d("logout_button", "main")
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
         })
         viewModel._qna.observe(viewLifecycleOwner) {
@@ -107,7 +107,7 @@ class ServiceCenterFragment :
             if (viewModel._qna.value?.result == true){
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
         }
 
@@ -131,10 +131,10 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true){
+                        if((requireActivity() as ContainerActivity).networkValid.value == true){
                             viewModel.postQna()
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )
@@ -161,7 +161,7 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true){
+                        if((requireActivity() as ContainerActivity).networkValid.value == true){
                             val dialog: DialogFragment? = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
                                 when (it) {
                                     -1 -> {
@@ -180,7 +180,7 @@ class ServiceCenterFragment :
                             dialog?.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                             Log.d("logout_button","success")
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })

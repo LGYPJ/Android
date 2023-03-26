@@ -58,7 +58,7 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                     GaramgaebiApplication.getCareer = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
 
             }
@@ -167,11 +167,11 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.postCareerInfo()
 
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("career_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()

@@ -28,12 +28,13 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
     //화면전환
     var containerActivity: ContainerActivity? = null
     private val viewModel by viewModels<NetworkingViewModel>()
-    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CoroutineScope(Dispatchers.Main).launch {
-            setDataView()
+            if(containerActivity!!.networkValid.value == true) {
+                setDataView()
+            }
         }
 
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
@@ -51,17 +52,18 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         binding.activityNetworkParticipateBtn.setOnClickListener {
             //viewModel.selectItem("아이스브레이킹")
             containerActivity!!.openFragmentOnFrameLayout(7)
-            val temp = "아이스브레이킹"
-            containerActivity!!.iceBreaking(temp)
         }
 
     }
-
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
-            val y = updateData()
+            if (containerActivity!!.networkValid.value == true)
+                updateData()
+            else {
+                containerActivity!!.networkValid.postValue(false)
+            }
         }
     }
 

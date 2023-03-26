@@ -22,13 +22,13 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         private set
     lateinit var mLoadingDialog: LoadingDialog
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
+    val networkValid : MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private val networkCallback = NetworkConnectionCallback()
     // 뷰 바인딩 객체를 받아서 inflate해서 화면을 만들어줌.
     // 즉 매번 onCreate에서 setContentView를 하지 않아도 됨.
     override fun onCreate(savedInstanceState: Bundle?) {
-        registerNetworkCallback(this)
         super.onCreate(savedInstanceState)
+        registerNetworkCallback(this)
         binding = inflate(layoutInflater)
         keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
             onShowKeyboard = { keyboardHeight ->
@@ -44,6 +44,20 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     override fun onStart() {
         super.onStart()
 
+    }
+    fun networkAlertDialog(){
+        NetworkErrorDialog() { it ->
+            when (it) {
+                -1 -> {
+                }
+                1 -> {
+                    //(activity as ContainerActivity).onBackPressed()
+                }
+            }
+        }.show(
+            supportFragmentManager!!,
+            "com.example.garamgaebi.common.NetworkErrorDialog"
+        )
     }
 
     // 홈 로딩 다이얼로그

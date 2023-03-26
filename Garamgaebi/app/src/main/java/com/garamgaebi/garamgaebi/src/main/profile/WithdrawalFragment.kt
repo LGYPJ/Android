@@ -147,7 +147,7 @@ class WithdrawalFragment :
                     "com.example.garamgaebi.common.ConfirmDialog"
                 )
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
 
         }
@@ -218,8 +218,8 @@ class WithdrawalFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
-                            networkValid.postValue(true)
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                            (requireActivity() as ContainerActivity).networkValid.postValue(true)
 
                             val dialog: DialogFragment? =
                                 ConfirmDialog(this, "탈퇴하시겠습니까?", 1) { it ->
@@ -243,7 +243,7 @@ class WithdrawalFragment :
                             )
                             Log.d("withdrawal_button", "success")
                         }else{
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )
