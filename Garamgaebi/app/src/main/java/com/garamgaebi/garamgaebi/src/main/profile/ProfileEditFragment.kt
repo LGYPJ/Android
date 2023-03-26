@@ -34,6 +34,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMember
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
+import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
@@ -61,6 +62,7 @@ class ProfileEditFragment :
     }
 
     private val TAG = "TAG-EDIT-CP"
+    lateinit var mLoadingDialog: LoadingDialog
 
     override fun onPause() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -247,6 +249,9 @@ class ProfileEditFragment :
                 binding.viewModel = viewModel
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
                     GaramgaebiApplication.getProfile = true
+                    if (mLoadingDialog.isShowing) {
+                        mLoadingDialog.dismiss()
+                    }
                     (activity as ContainerActivity).onBackPressed()
                 }else{
                     networkAlertDialog()
@@ -284,6 +289,8 @@ class ProfileEditFragment :
                                     GaramgaebiApplication().loadBooleanData("EditImage") == true
                             }
                             CoroutineScope(Dispatchers.Main).launch {
+                                mLoadingDialog = LoadingDialog(requireActivity())
+                                mLoadingDialog.show()
                                 val job1 = async(Dispatchers.IO) {
 
                                     if (editImage) {
@@ -341,7 +348,7 @@ class ProfileEditFragment :
                                     }
                                 }
 
-                                val result1 = job1.await()
+                                job1.await()
                                 Toast.makeText(binding.root.context, "저장 완료", Toast.LENGTH_SHORT)
                                     .show()
                                 // (activity as ContainerActivity).onBackPressed()

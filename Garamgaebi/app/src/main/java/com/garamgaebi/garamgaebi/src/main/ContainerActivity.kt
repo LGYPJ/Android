@@ -47,20 +47,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         binding.activitySeminarFreeBackBtn.setOnClickListener {
         onBackPressed()
         }
-
-
-//        networkValid.observe(this, Observer{isConnected->
-//            Log.d("뭐묘?","잉")
-//            if(isConnected && errorActivityValid.value == true) {
-//
-//                var target = Intent(this,ErrorActivity::class.java)
-//                target.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION)
-//                startActivity(target)
-//                Log.d("뭐묘?","잉키")
-//            }else{
-//            }
-//        })
-
     }
 
 

@@ -42,11 +42,6 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         setContentView(binding.root)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
     // 홈 로딩 다이얼로그
     // 네트워크가 시작될 때 사용자가 무작정 기다리게 하지 않기 위해 작성.
     fun showLoadingDialog(context: Context) {
