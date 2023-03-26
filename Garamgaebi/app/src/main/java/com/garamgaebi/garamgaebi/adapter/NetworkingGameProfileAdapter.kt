@@ -9,6 +9,7 @@ import com.garamgaebi.garamgaebi.common.BLUE
 import com.garamgaebi.garamgaebi.common.ORIGIN
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkGamePlaceProfileBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
+import com.garamgaebi.garamgaebi.databinding.ItemNetworkingGameProfileBlueBinding
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 
 class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGetResult>, private val number : Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,7 +26,7 @@ class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGet
                 }
     }
 
-    inner class BlueViewHolder(private val binding: ItemNetworkProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class BlueViewHolder(private val binding: ItemNetworkingGameProfileBlueBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(data: GameMemberGetResult, position: Int){
             binding.itemProfileNameTv.text = data.nickname
@@ -38,7 +39,7 @@ class NetworkingGameProfileAdapter(private val dataList: ArrayList<GameMemberGet
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
             BLUE -> {
-                val binding = ItemNetworkProfileBlueBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = ItemNetworkingGameProfileBlueBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 BlueViewHolder(binding)
             }
             ORIGIN -> {
