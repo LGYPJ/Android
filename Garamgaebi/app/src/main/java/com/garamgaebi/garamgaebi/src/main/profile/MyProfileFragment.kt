@@ -410,30 +410,24 @@ class MyProfileFragment :
         if(networkValid.value == true) {
             Log.d("왜 에러?","2")
             with(viewModel) {
-                Log.d("왜 에러? 프로필확인 전", getProfile.toString() + getSNS.toString() + getCareer.toString() + getEdu.toString())
                 if (getProfile) {
-                    Log.d("왜 에러?","프로필")
                     getProfileInfo(myMemberIdx)
                     getProfile = false
                 }
                 if (getSNS) {
-                    Log.d("왜 에러?","sns")
                     getSNSInfo(myMemberIdx)
                     getSNS = false
                 }
                 if (getCareer) {
-                    Log.d("왜 에러?","경력")
                     getCareerInfo(myMemberIdx)
                     getCareer = false
                 }
                 if (getEdu) {
-                    Log.d("왜 에러?","교육")
                     getEducationInfo(myMemberIdx)
                     getEdu = false
                 }
                 binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
                 binding.networkErrorContainer.visibility = View.GONE
-                Log.d("왜 에러? 프로필확인 후", getProfile.toString() + getSNS.toString() + getCareer.toString() + getEdu.toString())
             }
         }else {
             //check
