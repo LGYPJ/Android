@@ -98,7 +98,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                 GaramgaebiApplication.getSNS = true
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
 
         }
@@ -128,7 +128,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     "com.example.garamgaebi.common.ConfirmDialog"
                 )
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
 
         }
@@ -175,11 +175,11 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.patchSNSInfo()
-                            networkValid.postValue(true)
+                            (requireActivity() as ContainerActivity).networkValid.postValue(true)
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("sns_add_button","success")
                         //(activity as ContainerActivity).onBackPressed()
@@ -201,11 +201,11 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                                 }
                                 1 -> {
-                                    if(networkValid.value == true) {
+                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteSNSInfo()
                                     }else {
-                                        networkAlertDialog()
+                                        (requireActivity() as ContainerActivity).networkAlertDialog()
                                     }
                                 }
                             }

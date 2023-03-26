@@ -31,8 +31,6 @@ abstract class BaseFragment<B : ViewBinding>(
     private var _binding: B? = null
     //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
-    private val networkCallback = NetworkConnectionCallback()
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
     override fun onCreateView(
@@ -42,33 +40,14 @@ abstract class BaseFragment<B : ViewBinding>(
     ): View? {
         //_binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
-        registerNetworkCallback(requireContext())
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        registerNetworkCallback(requireContext())
-        super.onViewCreated(view, savedInstanceState)
-    }
     override fun onDestroyView() {
         _binding = null
-        unregisterNetworkCallback(requireContext())
         super.onDestroyView()
     }
-    fun networkAlertDialog(){
-        NetworkErrorDialog() { it ->
-            when (it) {
-                -1 -> {
-                }
-                1 -> {
-                    //(activity as ContainerActivity).onBackPressed()
-                }
-            }
-        }.show(
-            activity?.supportFragmentManager!!,
-            "com.example.garamgaebi.common.NetworkErrorDialog"
-        )
-    }
+
     fun showCustomToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
@@ -89,34 +68,5 @@ abstract class BaseFragment<B : ViewBinding>(
         if (disposables.size() > 0) {
             disposables.clear()
         }
-    }
-
-    inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            Log.d("network", "onAvailable")
-            networkValid.postValue(true)
-        }
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            Log.d("network", "onLost")
-            networkValid.postValue(false)
-        }
-    }
-    fun registerNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
-    fun unregisterNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }

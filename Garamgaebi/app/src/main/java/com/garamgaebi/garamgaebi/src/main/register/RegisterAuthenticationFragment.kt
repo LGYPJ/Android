@@ -19,6 +19,7 @@ import com.garamgaebi.garamgaebi.common.REGISTER_NICKNAME
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
 import com.garamgaebi.garamgaebi.model.RegisterEmailVerifyRequest
 import com.garamgaebi.garamgaebi.model.RegisterSendEmailRequest
+import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.viewModel.RegisterViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -32,7 +33,7 @@ class RegisterAuthenticationFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
-        networkValid.observe(viewLifecycleOwner){}
+        (requireActivity() as RegisterActivity).networkValid.observe(viewLifecycleOwner){}
         // 이메일 editText
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
@@ -98,7 +99,7 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnEmail.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as RegisterActivity).networkValid.value == true) {
                             binding.viewModel = viewModel
                             with(viewModel) {
                                 emailSent.value = viewModel.getEmail(registerActivity)
@@ -106,7 +107,7 @@ class RegisterAuthenticationFragment :
                                 postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
                             }
                         } else {
-                            networkAlertDialog()
+                            (requireActivity() as RegisterActivity).networkAlertDialog()
                         }
 
                     }, { it.printStackTrace() })
@@ -116,7 +117,7 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnNum.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as RegisterActivity).networkValid.value == true) {
                             binding.viewModel = viewModel
                             with(viewModel) {
                                 Log.d("이메일 인증버튼", "이메일 인증버튼")
@@ -125,7 +126,7 @@ class RegisterAuthenticationFragment :
                                 postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
                             }
                         } else {
-                            networkAlertDialog()
+                            (requireActivity() as RegisterActivity).networkAlertDialog()
                         }
 
                     }, { it.printStackTrace() })

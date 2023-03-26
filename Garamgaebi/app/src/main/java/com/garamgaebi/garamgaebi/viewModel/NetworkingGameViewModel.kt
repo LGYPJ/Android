@@ -109,7 +109,7 @@ class NetworkingGameViewModel: ViewModel() {
     // room 조회
     fun getRoomId(){
         viewModelScope.launch(Dispatchers.Main){
-            val response = gameRepository.getGameRoom(40)
+            val response = gameRepository.getGameRoom(5)
             if(response.isSuccessful){
                 _getRoom.value = response.body()
             }
@@ -157,7 +157,7 @@ class NetworkingGameViewModel: ViewModel() {
     //image
     fun getImage(){
         viewModelScope.launch(Dispatchers.Main) {
-            val response = gameRepository.getGameImage(40)
+            val response = gameRepository.getGameImage(5)
             Log.d("img", response.body()?.result.toString())
             if(response.isSuccessful){
                 _getImg.value = response.body()?.result

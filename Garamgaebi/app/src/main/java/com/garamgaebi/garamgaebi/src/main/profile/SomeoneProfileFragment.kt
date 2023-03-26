@@ -34,20 +34,6 @@ import java.util.concurrent.TimeUnit
 
 class SomeoneProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-
-    }
-    override fun onStart() {
-        super.onStart()
-    }
-
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             var memberIdx = -1
@@ -64,7 +50,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
         binding.refreshLayout.setOnRefreshListener {
             Log.d("network", "SomeoneProfileFragmentRefresh")
-            if(networkValid.value == true) {
+            if((requireActivity() as ContainerActivity).networkValid.value == true) {
                 Log.d("network", "SomeoneProfileFragmentRefreshTrue")
                 with(viewModel) {
                     getProfileInfo(memberIdx)
@@ -94,7 +80,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         Log.d("프로필 새로고침","1")
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             with(viewModel){
                                 getProfileInfo(memberIdx)
                                 getEducationInfo(memberIdx)
@@ -305,13 +291,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
                     }
                 } else {
-                    networkValid.observe(viewLifecycleOwner) { isConnected ->
+                    (requireActivity() as ContainerActivity).networkValid.observe(viewLifecycleOwner) { isConnected ->
                         if (isConnected) {
                             getProfileInfo(memberIdx)
                             getEducationInfo(memberIdx)
                             getCareerInfo(memberIdx)
                             getSNSInfo(memberIdx)
-                            Log.d("network_check", "${networkValid.value}")
+                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                             with(binding) {
                                 fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
                                 networkErrorContainer.visibility = View.GONE
@@ -321,16 +307,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                 fragmentSomeoneProfileSvMain.visibility = View.GONE
                                 networkErrorContainer.visibility = View.VISIBLE
                             }
-                            Log.d("network_check", "${networkValid.value}")
+                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                         }
                     }
                 }
             }
 
-
-
         super.onViewCreated(view, savedInstanceState)
-
     }
 
 }

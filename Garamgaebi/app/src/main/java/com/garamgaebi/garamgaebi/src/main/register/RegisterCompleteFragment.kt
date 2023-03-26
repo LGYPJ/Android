@@ -34,7 +34,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         super.onViewCreated(view, savedInstanceState)
         val registerViewModel by activityViewModels<RegisterViewModel>()
         val homeViewModel by activityViewModels<HomeViewModel>()
-        networkValid.observe(viewLifecycleOwner){}
+        (requireActivity() as RegisterActivity).networkValid.observe(viewLifecycleOwner){}
 
         Log.d("registerComplete", "${registerViewModel.nickname.value}")
         if (registerViewModel.nickname.value!!.length > 4) {
@@ -105,8 +105,8 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
                 binding.fragmentCompleteBtnNext.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == false) {
-                            networkAlertDialog()
+                        if((requireActivity() as RegisterActivity).networkValid.value == false) {
+                            (requireActivity() as RegisterActivity).networkAlertDialog()
                         } else {
                             registerViewModel.postRegister(registerViewModel.getRegisterRequest())
                         }

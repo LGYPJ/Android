@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -30,7 +31,6 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
     //화면전환
     var containerActivity: ContainerActivity? = null
     private val viewModel by viewModels<SeminarViewModel>()
-    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,11 +56,14 @@ class SeminarFragment: BaseFragment<FragmentSeminarBinding>(FragmentSeminarBindi
         containerActivity = context as ContainerActivity
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
-            val y = updateData()
+            if (containerActivity!!.networkValid.value == true) {
+                updateData()
+            } else {
+                containerActivity!!.networkValid.postValue(false)
+            }
         }
     }
 

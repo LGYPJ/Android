@@ -35,6 +35,7 @@ import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
@@ -113,7 +114,7 @@ class MyProfileFragment :
                             .clicks()
                             .throttleFirst(1000, TimeUnit.MILLISECONDS)
                             .subscribe({
-                                if(networkValid.value == true) {
+                                if((requireActivity() as MainActivity).networkValid.value == true) {
                                     viewModel.getProfileInfo(myMemberIdx)
 
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -127,7 +128,7 @@ class MyProfileFragment :
                     )
             }
         //네트워크 부분
-        if(networkValid.value == true) {
+        if((requireActivity() as MainActivity).networkValid.value == true) {
             CoroutineScope(Dispatchers.IO).launch {
                 setDataView()
             }
@@ -144,7 +145,7 @@ class MyProfileFragment :
         }
 
         binding.refreshLayout.setOnRefreshListener {
-            if(networkValid.value == true) {
+            if((requireActivity() as MainActivity).networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -368,7 +369,7 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        if(networkValid.value == true) {
+        if((requireActivity() as MainActivity).networkValid.value == true) {
             with(viewModel) {
                 if (getProfile) {
                     getProfileInfo(myMemberIdx)

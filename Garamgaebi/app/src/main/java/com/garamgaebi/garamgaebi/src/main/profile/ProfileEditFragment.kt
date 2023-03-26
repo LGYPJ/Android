@@ -231,7 +231,7 @@ class ProfileEditFragment :
                     GaramgaebiApplication.getProfile = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
             }
         }
@@ -258,7 +258,7 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             var editImage = false
 
                             val getdataImage = runBlocking {
@@ -329,7 +329,7 @@ class ProfileEditFragment :
                                 // (activity as ContainerActivity).onBackPressed()
                             }
                     }else {
-                        networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                     }
 
                     }, { it.printStackTrace() })
