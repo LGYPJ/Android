@@ -74,23 +74,39 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        //신청 등록 api
-                        viewModel.postEnroll()
-                        viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                            binding.item = viewModel
-                            if(it.isSuccess){
-                                //네트워킹 메인 화면으로
-                                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                                requireActivity().supportFragmentManager.popBackStack()
-                            }
-                        })
+
+                        if(networkValid.value == true) {
+                            //신청 등록 api
+                            viewModel.postEnroll()
+                            viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                                binding.item = viewModel
+                                if (it.isSuccess) {
+                                    //네트워킹 메인 화면으로
+                                    requireActivity().supportFragmentManager.beginTransaction()
+                                        .remove(this).commit()
+                                    requireActivity().supportFragmentManager.popBackStack()
+                                }
+                            })
+                        }else{
+                            networkAlertDialog()
+                        }
                     }, { it.printStackTrace() })
             )
 
-        viewModel.getNetworking()
-        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
-            binding.item = viewModel
+        if(networkValid.value == true) {
+            networkValidScreen(true)
+            viewModel.getNetworking()
+        }else{
+            networkValidScreen(false)
+        }
 
+        viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
+            if(it.isSuccess) {
+                networkValidScreen(true)
+                binding.item = viewModel
+            }else{
+                networkValidScreen(false)
+            }
         })
         binding.containerLayout.setOnTouchListener(View.OnTouchListener { v, event ->
             hideKeyboard()
@@ -197,4 +213,18 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
         keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
     }
-}
+    fun networkValidScreen(visible:Boolean){
+        with(binding) {
+            when (visible) {
+                true -> {
+                    containerLayout.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                }
+                false -> {
+                    containerLayout.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
+        }
+
+    }}
