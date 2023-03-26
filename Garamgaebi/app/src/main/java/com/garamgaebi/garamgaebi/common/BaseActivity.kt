@@ -45,6 +45,20 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         super.onStart()
 
     }
+    fun networkAlertDialog(){
+        NetworkErrorDialog() { it ->
+            when (it) {
+                -1 -> {
+                }
+                1 -> {
+                    //(activity as ContainerActivity).onBackPressed()
+                }
+            }
+        }.show(
+            supportFragmentManager!!,
+            "com.example.garamgaebi.common.NetworkErrorDialog"
+        )
+    }
 
     // 홈 로딩 다이얼로그
     // 네트워크가 시작될 때 사용자가 무작정 기다리게 하지 않기 위해 작성.

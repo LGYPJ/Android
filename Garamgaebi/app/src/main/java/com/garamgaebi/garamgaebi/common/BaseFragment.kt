@@ -55,7 +55,20 @@ abstract class BaseFragment<B : ViewBinding>(
         unregisterNetworkCallback(requireContext())
         super.onDestroyView()
     }
-
+    fun networkAlertDialog(){
+        NetworkErrorDialog() { it ->
+            when (it) {
+                -1 -> {
+                }
+                1 -> {
+                    //(activity as ContainerActivity).onBackPressed()
+                }
+            }
+        }.show(
+            activity?.supportFragmentManager!!,
+            "com.example.garamgaebi.common.NetworkErrorDialog"
+        )
+    }
     fun showCustomToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }

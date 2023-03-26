@@ -32,7 +32,7 @@ class RegisterAuthenticationFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
-
+        networkValid.observe(viewLifecycleOwner){}
         // 이메일 editText
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
@@ -98,12 +98,17 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnEmail.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        binding.viewModel = viewModel
-                        with(viewModel) {
-                            emailSent.value = viewModel.getEmail(registerActivity)
-                            Log.d("registerEmail", emailSent.value!!)
-                            postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                        if(networkValid.value == true) {
+                            binding.viewModel = viewModel
+                            with(viewModel) {
+                                emailSent.value = viewModel.getEmail(registerActivity)
+                                Log.d("registerEmail", emailSent.value!!)
+                                postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                            }
+                        } else {
+                            networkAlertDialog()
                         }
+
                     }, { it.printStackTrace() })
             )
             // 인증번호 검사 api call
@@ -111,13 +116,18 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnNum.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        binding.viewModel = viewModel
-                        with(viewModel) {
-                            Log.d("이메일 인증버튼", "이메일 인증버튼")
-                            authNumSent.value = authNum.value
-                            Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
-                            postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
+                        if(networkValid.value == true) {
+                            binding.viewModel = viewModel
+                            with(viewModel) {
+                                Log.d("이메일 인증버튼", "이메일 인증버튼")
+                                authNumSent.value = authNum.value
+                                Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
+                                postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
+                            }
+                        } else {
+                            networkAlertDialog()
                         }
+
                     }, { it.printStackTrace() })
             )
         }
