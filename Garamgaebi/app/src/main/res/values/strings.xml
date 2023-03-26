@@ -331,6 +331,10 @@
     <!--networking game-->
     <string name="game_name">신디</string>
     <string name="game_place">가천관</string>
+    <string name="game_dialog1">이미 진행중인 게임입니다.</string>
+    <string name="game_dialog2">참여하시겠습니까?</string>
+    <string name="game_dialog_cancel">취소</string>
+    <string name="game_dialog_participants">참가</string>
 
     <!-- gathering -->
     <string name="scheduled_meeting">예정된 모임</string>
