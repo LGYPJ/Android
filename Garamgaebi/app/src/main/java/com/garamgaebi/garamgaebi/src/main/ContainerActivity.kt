@@ -58,16 +58,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }else{
             super.onBackPressed()
         }
-        //else {
-            //super.onBackPressed()
-            //프래그먼트에서 back
-            /*val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is onBackPressedListener) {
-                (fragment as onBackPressedListener).onBackPressed()
-                return
-            }*/
-        //}
         if (isProfileEdit()) {
             CoroutineScope(Dispatchers.Main).launch {
                 async(Dispatchers.IO) { // 비동기 작업 시작
@@ -81,6 +71,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(isSeminar()){
             binding.activityContainerToolbarTv.text = "세미나"
+        }
+        if(isInGame()){
+            binding.activityContainerToolbarTv.text = "아이스브레이킹"
         }
     }
 
@@ -334,6 +327,17 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
     fun goUser(){
         binding.activityContainerToolbarTv.text = "프로필"
+    }
+
+    fun isInGame ():Boolean {
+        var returnValue = false
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if(fragment is NetworkingGamePlaceFragment){
+                returnValue = true
+            }
+        }
+        return returnValue
     }
 
 

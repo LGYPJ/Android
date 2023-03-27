@@ -40,9 +40,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-
-    //private lateinit var callback: OnBackPressedCallback
-
     private val memberIdx = GaramgaebiApplication.myMemberIdx
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
 
