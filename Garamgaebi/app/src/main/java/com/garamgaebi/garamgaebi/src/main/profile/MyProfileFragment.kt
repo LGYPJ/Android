@@ -222,6 +222,7 @@ class MyProfileFragment :
                     networkErrorContainer.visibility = View.VISIBLE
                 }
             }
+
         }
     }
 

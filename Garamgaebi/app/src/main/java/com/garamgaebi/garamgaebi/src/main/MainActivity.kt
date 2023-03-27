@@ -92,6 +92,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 val networkObserver = object : Observer<Boolean> {
                     override fun onChanged(isConnected: Boolean) {
                         if (isConnected) {
+                            networkValid.removeObserver(this)
                             viewModel.postAutoLogin(AutoLoginRequest(refreshToken))
                             viewModel.autoLogin.observe(this@MainActivity, Observer {
                                 if(it.isSuccess) {
@@ -112,6 +113,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                                             GaramgaebiApplication().saveStringToDataStore("uniEmail",it.result.uniEmail)
                                         } // 결과 대기
                                         myMemberIdx = it.result.tokenInfo.memberIdx
+                                        Log.d("memberIdx", "$myMemberIdx")
                                         setBottomNav()
                                         LocalBroadcastManager.getInstance(this@MainActivity).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                                         initDynamicLink()
@@ -137,7 +139,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                                     }
                                 }
                             })
-                            networkValid.removeObserver(this)
                         }
                     }
                 }
@@ -162,6 +163,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .commitAllowingStateLoss()
         binding.activityMainBottomNavi.selectedItemId = R.id.home
 
+        networkValid.observe(this, Observer { isConnected ->
+            val selectedFragment = when (binding.activityMainBottomNavi.selectedItemId) {
+                R.id.activity_main_btm_nav_home -> homeFragment
+                R.id.activity_main_btm_nav_gathering -> gatheringFragment
+                R.id.activity_main_btm_nav_profile -> myProfileFragment
+                else -> null
+            }
+            updateFragmentsVisibility(isConnected, selectedFragment)
+        })
+
         binding.activityMainBottomNavi.setOnItemSelectedListener { item ->
             val isConnected = networkValid.value == true
             when (item.itemId) {
@@ -181,25 +192,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
 
-        networkValid.observe(this, Observer { isConnected ->
-            val currentItemId = binding.activityMainBottomNavi.selectedItemId
-            val selectedFragment = when (currentItemId) {
-                R.id.activity_main_btm_nav_home -> homeFragment
-                R.id.activity_main_btm_nav_gathering -> gatheringFragment
-                R.id.activity_main_btm_nav_profile -> myProfileFragment
-                else -> null
-            }
-            updateFragmentsVisibility(isConnected, selectedFragment)
-        })
+
     }
 
     private fun updateFragmentsVisibility(isConnected: Boolean, targetFragment: Fragment?) {
         supportFragmentManager.beginTransaction().apply {
             if (isConnected) {
+                hide(networkDisconnectedFragment)
                 hide(homeFragment!!)
                 hide(gatheringFragment!!)
                 hide(myProfileFragment!!)
-                hide(networkDisconnectedFragment)
                 show(targetFragment!!)
             } else {
                 hide(homeFragment!!)
