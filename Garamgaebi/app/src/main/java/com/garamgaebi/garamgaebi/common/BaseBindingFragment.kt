@@ -55,7 +55,6 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         initView()
         initViewModel()
         initListener()
-        registerNetworkCallback(requireContext())
         afterViewCreated()
     }
 

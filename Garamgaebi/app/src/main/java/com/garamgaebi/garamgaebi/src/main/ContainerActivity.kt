@@ -47,6 +47,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         binding.activitySeminarFreeBackBtn.setOnClickListener {
         onBackPressed()
         }
+        GaramgaebiApplication.gameOut.observe(this, Observer { it ->
+            Log.d("gameOut",it.toString())
+            if(it){
+                super.onBackPressed()
+                GaramgaebiApplication.gameOut.value = false
+            }
+        })
     }
 
 

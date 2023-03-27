@@ -14,6 +14,7 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
+import androidx.lifecycle.MutableLiveData
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.user.model.User
 import com.garamgaebi.garamgaebi.BuildConfig
@@ -41,6 +42,7 @@ class GaramgaebiApplication : Application() {
         lateinit var sSharedPreferences: SharedPreferences
         lateinit var myDataStore: DataStore<Preferences>
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
+        val gameOut : MutableLiveData<Boolean> = MutableLiveData(false)
 
         // JWT Token Header 키 값
         const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"

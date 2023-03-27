@@ -15,3 +15,12 @@ data class Message(
     val message : String,
     val profileUrl : String
 )
+
+data class Message2(
+    val type : String,
+    val roomId : String,
+    val sender : String,
+    val message : String,
+    val profileUrl : String
+)
+
