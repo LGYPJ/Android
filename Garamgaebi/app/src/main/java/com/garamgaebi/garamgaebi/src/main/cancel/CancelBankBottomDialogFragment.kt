@@ -54,7 +54,7 @@ class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomShe
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCancelBankBottomDialogBinding.inflate(inflater, container, false)
         return binding.root
     }

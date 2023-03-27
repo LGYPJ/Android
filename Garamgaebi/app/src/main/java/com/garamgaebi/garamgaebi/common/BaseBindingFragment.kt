@@ -12,12 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val layoutId: Int): Fragment() {
@@ -34,6 +32,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -53,9 +52,9 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
             disposables.clear()
         }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { keyboardHeight ->
+            onShowKeyboard = {
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
                 // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
@@ -71,6 +70,7 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
             Log.d("network", "onLost")
         }
     }
+
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()

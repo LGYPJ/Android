@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.databinding.DeleteDialogBinding
 import com.garamgaebi.garamgaebi.databinding.NetworkErrorDialogBinding
 
 class NetworkErrorDialog(val itemClick: (Int) -> Unit)
@@ -63,7 +61,4 @@ class NetworkErrorDialog(val itemClick: (Int) -> Unit)
         super.onCancel(dialog)
     }
 
-    override fun dismiss() {
-        super.dismiss()
-    }
 }

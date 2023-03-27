@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.cancel
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -10,7 +11,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -38,13 +38,20 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.text = "은행"
 
         //신청정보조회
-        viewModel.getCancel()
+        if(ContainerActivity().networkValid.value == true) {
+            viewModel.getCancel()
+        }else{
+
+        }
         viewModel.cancelInfo.observe(viewLifecycleOwner, Observer{
-            val data = it.result
-            with(binding){
-                activityCancelNameTv.text = data.name
-                activityCancelNicknameTv.text = data.nickname
-                activityCancelPhoneTv.text = data.phone
+            if(it.isSuccess) {
+                val data = it.result
+                with(binding) {
+                    activityCancelNameTv.text = data.name
+                    activityCancelNicknameTv.text = data.nickname
+                    activityCancelPhoneTv.text = data.phone
+                }
+            }else{
             }
         })
 
@@ -102,7 +109,10 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                                 activity?.supportFragmentManager!!,
                                 "com.example.garamgaebi.common.ConfirmDialog"
                             )
-                        }
+                        }else{
+                (requireActivity() as ContainerActivity).networkAlertDialog()
+
+            }
 
         })
 
@@ -115,23 +125,26 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .subscribe({
                         Log.d("canceldd", it.toString())
 
+                        if(ContainerActivity().networkValid.value == true) {
+                            //신청 완료 api
+                            var idInfo = -1
+                            var programInfo: Int
+                            var bankInfo = ""
+                            val getToken = runBlocking {
+                                idInfo = GaramgaebiApplication().loadIntData("memberIdx")!!
+                                programInfo = GaramgaebiApplication().loadIntData("programIdx")!!
+                                bankInfo = GaramgaebiApplication().loadStringData("bank").toString()
+                            }
 
-                        //신청 완료 api
-                        var idInfo = -1
-                        var programInfo = -1
-                        var bankInfo = ""
-                        val getToken = runBlocking {
-                            idInfo = GaramgaebiApplication().loadIntData("memberIdx")!!
-                            programInfo = GaramgaebiApplication().loadIntData("programIdx")!!
-                            bankInfo = GaramgaebiApplication().loadStringData("bank").toString()
+                            var accountInfo = binding.activityCancelPayEt.toString()
+
+                            var canelRequest =
+                                CancelRequest(idInfo, programInfo, bankInfo, accountInfo)
+                            viewModel.postCancel(canelRequest)
+                            Log.d("cancel11", canelRequest.toString())
+                        }else{
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
-
-                        var accountInfo = binding.activityCancelPayEt.toString()
-
-                        var canelRequest = CancelRequest(idInfo,programInfo,bankInfo,accountInfo)
-                        viewModel.postCancel(canelRequest)
-                        Log.d("cancel11",canelRequest.toString())
-
 
                     }, { it.printStackTrace() })
             )
@@ -143,37 +156,43 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             seminar = GaramgaebiApplication().loadStringData("type")!!
         }
         if(seminar=="SEMINAR"){
-            viewModel.getSeminar()
+            if(ContainerActivity().networkValid.value == true) {
+                viewModel.getSeminar()
+            }else{
+            }
             viewModel.seminarInfo.observe(viewLifecycleOwner, Observer{
-                val data = it.result
-                with(binding){
-                    activityCancelTitleTv.text = data.title
-                    activityCancelDateDetailTv.text = data.date
-                    activityCancelPlaceDetailTv.text = data.location
-                }
-                if(data.fee.toString() == "0"){
-                    binding.activityCancelPayDetailTv.text = "무료"
-                }
-                else{
-                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
-                }
-                binding.activityCancelDeadlineDetailTv.text = data.endDate
-
-                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
-                if(data.fee.toString() == "0"){
-                    with(binding){
-                        activityCancelBankTv.visibility = GONE
-                        activityCancelBankDownBtn.visibility = GONE
-                        activityCancelPayEt.visibility = GONE
-
-                        //무료 버튼 활성화
-                        activityCancelApplyBtn.isEnabled = true
-                        activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                if(it.isSuccess) {
+                    val data = it.result
+                    with(binding) {
+                        activityCancelTitleTv.text = data.title
+                        activityCancelDateDetailTv.text = data.date
+                        activityCancelPlaceDetailTv.text = data.location
                     }
+                    if (data.fee.toString() == "0") {
+                        binding.activityCancelPayDetailTv.text = "무료"
+                    } else {
+                        binding.activityCancelPayDetailTv.text =
+                            getString(R.string.main_fee, data.fee.toString())
+                    }
+                    binding.activityCancelDeadlineDetailTv.text = data.endDate
 
-                }else {
-                    //유료 버튼활성화
-                    isCharged()
+                    //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                    if (data.fee.toString() == "0") {
+                        with(binding) {
+                            activityCancelBankTv.visibility = GONE
+                            activityCancelBankDownBtn.visibility = GONE
+                            activityCancelPayEt.visibility = GONE
+
+                            //무료 버튼 활성화
+                            activityCancelApplyBtn.isEnabled = true
+                            activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                        }
+
+                    } else {
+                        //유료 버튼활성화
+                        isCharged()
+                    }
+                }else{
                 }
 
             })
@@ -181,42 +200,48 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         //네트워킹 상세보기 뷰모델로
         var networking = ""
         val getNetworking = runBlocking {
-            seminar = GaramgaebiApplication().loadStringData("type")!!
+            networking = GaramgaebiApplication().loadStringData("type")!!
         }
         if(networking=="NETWORKING"){
-            viewModel.getNetworking()
-            viewModel.networkingInfo.observe(viewLifecycleOwner, Observer{
-                val data = it.result
-                with(binding){
-                    activityCancelTitleTv.text = data.title
-                    activityCancelDateDetailTv.text = data.date
-                    activityCancelPlaceDetailTv.text = data.location
-                }
-                if(data.fee.toString() == "0"){
-                    binding.activityCancelPayDetailTv.text = "무료"
-                }
-                else{
-                    binding.activityCancelPayDetailTv.text = getString(R.string.main_fee, data.fee.toString())
-                }
-                binding.activityCancelDeadlineDetailTv.text = data.endDate
-
-                //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
-                if(data.fee == 0){
-                    with(binding){
-                        activityCancelBankTv.visibility = GONE
-                        activityCancelBankDownBtn.visibility = GONE
-                        activityCancelPayEt.visibility = GONE
-
-                        //무료 버튼 활성화
-                        activityCancelApplyBtn.isEnabled = true
-                        activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+            if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                viewModel.getNetworking()
+            }else{
+            }
+            viewModel.networkingInfo.observe(viewLifecycleOwner) {
+                if (it.isSuccess) {
+                    val data = it.result
+                    with(binding) {
+                        activityCancelTitleTv.text = data.title
+                        activityCancelDateDetailTv.text = data.date
+                        activityCancelPlaceDetailTv.text = data.location
                     }
-                }else {
-                    //유료 버튼활성화
-                    isCharged()
+                    if (data.fee.toString() == "0") {
+                        binding.activityCancelPayDetailTv.text = "무료"
+                    } else {
+                        binding.activityCancelPayDetailTv.text =
+                            getString(R.string.main_fee, data.fee.toString())
+                    }
+                    binding.activityCancelDeadlineDetailTv.text = data.endDate
+
+                    //무료 프로그램일때 계좌랑 은행 선택하는 거 안보이게
+                    if (data.fee == 0) {
+                        with(binding) {
+                            activityCancelBankTv.visibility = GONE
+                            activityCancelBankDownBtn.visibility = GONE
+                            activityCancelPayEt.visibility = GONE
+
+                            //무료 버튼 활성화
+                            activityCancelApplyBtn.isEnabled = true
+                            activityCancelApplyBtn.setBackgroundResource(R.drawable.btn_seminar_apply)
+                        }
+                    } else {
+                        //유료 버튼활성화
+                        isCharged()
+                    }
+                } else {
                 }
 
-            })
+            }
         }
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = { keyboardHeight ->
@@ -268,7 +293,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         if(isBank()&&isPay()){
             returnValue = true;
         }
-        return returnValue;
+        return returnValue
 
     }
 

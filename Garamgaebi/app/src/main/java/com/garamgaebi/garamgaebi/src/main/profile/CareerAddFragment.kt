@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -19,7 +18,13 @@ import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
 
-class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
+/*
+경력 추가 Fragment - ContainerActivity
+
+경력 추가
+
+ */
+class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layout.fragment_profile_career) {
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +39,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             companyHint.value = getString(R.string.register_input_company_desc)
             positionHint.value = getString(R.string.register_input_position_desc)
 
-
             //회사 입력 감지
             company.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -42,7 +46,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 GaramgaebiFunction().checkFirstChar(companyIsValid, it)
                 Log.d("career_company_true", companyIsValid.value.toString())
             }
-
             //직함 입력 감지
             position.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -50,7 +53,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                 GaramgaebiFunction().checkFirstChar(positionIsValid, it)
                 Log.d("career_position_true", positionIsValid.value.toString())
             }
-
             //경력 추가 감지
             _add.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
@@ -174,7 +176,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
                             (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("career_add_button","success"+viewModel.endDate.value.toString())
-                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
         disposables
@@ -231,7 +232,6 @@ class CareerFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.layo
             onHideKeyboard = { ->
             }
         )
-        var keyboardVisible = false
 
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {

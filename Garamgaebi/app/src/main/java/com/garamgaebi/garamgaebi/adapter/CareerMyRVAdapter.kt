@@ -3,12 +3,10 @@ package com.garamgaebi.garamgaebi.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.dataStore
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileCareerBinding
 import com.garamgaebi.garamgaebi.model.CareerData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -25,7 +23,7 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
         @SuppressLint("SetTextI18n")
         fun bind(data: CareerData) {
             binding.item = data
-            if(data.endDate.isNullOrBlank() || data.isWorking.equals("TRUE")){
+            if(data.endDate.isNullOrBlank() || data.isWorking == "TRUE"){
                 binding.activityMyprofileCareerListItemTvEndPeriod.text = "현재"
             }
             binding.activityMyprofileCareerListItemIvEdit.setOnClickListener {
@@ -36,7 +34,7 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                 val editCareerIsWorking = data.isWorking
                 val editCareerStartDate = data.startDate
                 var editCareerEndDate = data.endDate
-                if(data.endDate.isNullOrBlank() || data.isWorking.equals("TRUE")){
+                if(data.endDate.isNullOrBlank() || data.isWorking == "TRUE"){
                     editCareerEndDate = "현재"
                 }
 
@@ -80,11 +78,9 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
         return ViewHolder(binding)
     }
 
-
     interface OnItemClickListener {
         fun onClick(position: Int)
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
 
@@ -92,12 +88,9 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
             itemClickListener.onClick(position)
         }
     }
-
     override fun getItemCount(): Int {
         return dataList.size
     }
-
-
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
         itemClickListener = onItemClickListener
     }

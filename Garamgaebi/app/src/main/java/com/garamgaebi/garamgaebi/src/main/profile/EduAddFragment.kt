@@ -6,7 +6,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
@@ -17,8 +16,13 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import java.util.concurrent.TimeUnit
+/*
+교육 추가 Fragment - ContainerActivity
 
-class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layout.fragment_profile_education) {
+교육 추가
+
+ */
+class EduAddFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layout.fragment_profile_education) {
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -227,26 +231,24 @@ class EduFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.layo
                 }
                 binding.fragmentEducationSaveBtn.visibility = View.GONE
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
                 // binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.fragmentEducationSaveBtn.postDelayed({
-                        binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
-                    },0)
-                }
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.fragmentEducationSaveBtn.postDelayed({
+                    binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                }, 0)
             }
-        })
+        }
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

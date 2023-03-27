@@ -1,8 +1,11 @@
 package com.garamgaebi.garamgaebi.src.main
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -42,7 +45,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-            onBackPressed()
+        onBackPressed()
         }
 
     }
@@ -120,22 +123,22 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     transaction.replace(R.id.activity_container_frame, SnsAddFragment())
                 }
                 10 -> {
-                    transaction.replace(R.id.activity_container_frame, CareerFragment())
+                    transaction.replace(R.id.activity_container_frame, CareerAddFragment())
                 }
                 11 -> {
-                    transaction.replace(R.id.activity_container_frame, EduFragment())
+                    transaction.replace(R.id.activity_container_frame, EduAddFragment())
                 }
                 12 -> transaction.replace(R.id.activity_container_frame, ProfileEditFragment())
 
                 13 -> {
                     if(isSeminar()){
-                        transaction.replace(R.id.activity_container_frame, SomeoneProfileFragment()).addToBackStack(null)
+                        transaction.replace(R.id.activity_container_frame, UserProfileFragment()).addToBackStack(null)
                     }
                     if(isNetworking()){
-                        transaction.replace(R.id.activity_container_frame, SomeoneProfileFragment()).addToBackStack(null)
+                        transaction.replace(R.id.activity_container_frame, UserProfileFragment()).addToBackStack(null)
                     }
                     else{
-                        transaction.replace(R.id.activity_container_frame, SomeoneProfileFragment())
+                        transaction.replace(R.id.activity_container_frame, UserProfileFragment())
                     }
                 }
                 14 -> {

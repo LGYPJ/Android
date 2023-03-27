@@ -6,9 +6,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
@@ -20,10 +18,14 @@ import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates
 
+/*
+교육 편집 Fragment - ContainerActivity
+
+교육 삭제, 편집
+
+ */
 class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding>(R.layout.fragment_profile_education_edit),ConfirmDialogInterface {
     var educationIdx: Int = -1
     var originInstitution : String = ""
@@ -40,7 +42,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        //원본 데이터
+        //원본 데이터 불러오기
         CoroutineScope(Dispatchers.Main).launch {
             originInstitution = GaramgaebiApplication().loadStringData(
                 "EduInstitutionForEdit"
@@ -62,7 +64,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             )!!
             with(binding) {
                 fragmentEducationCheckbox.isChecked = originNow == "TRUE"
-                viewModel!!.checkBox.value = originNow == "TRUE"
+                viewModel.checkBox.value = originNow == "TRUE"
                 fragmentEducationEtEndPeriod.setText(originEnd)
                 if (originNow == "TRUE") {
                     fragmentEducationEtEndPeriod.setText("현재")
@@ -122,7 +124,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 }
 
             }
-            //삭제 관측
+            //삭제 감지
             _delete.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 Log.d("career_delete", _patch.value?.result.toString())
@@ -282,6 +284,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
             //유효성 끝
         }
 
+        //교육 수정
         disposables
             .add(
                 binding
@@ -295,9 +298,10 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                             (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
-                        //(activity as ContainerActivity).onBackPressed()
                     }, { it.printStackTrace() })
             )
+
+
         disposables
             .add(
                 binding
@@ -334,7 +338,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                         }
                     }, { it.printStackTrace() })
             )
-
+        //삭제
         disposables
             .add(
                 binding
@@ -377,29 +381,27 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                 binding.fragmentEducationSaveBtn.visibility = View.GONE
                 binding.fragmentEducationRemoveBtn.visibility = View.GONE
             },
-            onHideKeyboard = { ->
-               // binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+            onHideKeyboard = {
+                // binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.fragmentEducationSaveBtn.postDelayed({
-                        binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
-                    },0)
-                    binding.fragmentEducationRemoveBtn.postDelayed({
-                        binding.fragmentEducationRemoveBtn.visibility = View.VISIBLE
-                    },0)
-                }
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.fragmentEducationSaveBtn.postDelayed({
+                    binding.fragmentEducationSaveBtn.visibility = View.VISIBLE
+                }, 0)
+                binding.fragmentEducationRemoveBtn.postDelayed({
+                    binding.fragmentEducationRemoveBtn.visibility = View.VISIBLE
+                }, 0)
             }
-        })
+        }
     }
     private fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {

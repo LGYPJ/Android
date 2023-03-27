@@ -9,15 +9,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
@@ -31,7 +26,6 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfi
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -41,8 +35,16 @@ import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
+/*
+내 프로필 Fragment - MainActivity
+프로필 정보 화면 출력
 
-@Suppress("UNREACHABLE_CODE")
+프로필 편집
+SNS 추가, 편집
+경력 추가, 편집
+교육 축, 편집
+고객센터(로그아웃, 탈퇴)
+ */
 class MyProfileFragment :
     BaseBindingFragment<FragmentMyprofileBinding>(R.layout.fragment_myprofile) {
     var containerActivity: ContainerActivity? = null
@@ -51,62 +53,59 @@ class MyProfileFragment :
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
 
-
-
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //뷰모델 연결
         binding.lifecycleOwner = this
         binding.setVariable(BR.profileViewModel, viewModel)
 
-
+        //RecyclerView 간격 조절 (중복방지위한 최초실행)
             val dividerItemDecoration = DividerItemDecoration(
                 binding.fragmentMyProfileRVSns.context,
                 LinearLayoutManager(requireContext()).orientation
             )
+
             with(binding) {
                 fragmentMyProfileRVSns.addItemDecoration(dividerItemDecoration)
                 fragmentMyProfileRVCareer.addItemDecoration(dividerItemDecoration)
                 fragmentMyProfileRVEdu.addItemDecoration(dividerItemDecoration)
 
+                //SNS 추가 fragment 이동
                 fragmentMyProfileBtnSnsAdd.setOnClickListener {
                     goAddSNSFragment()
                 }
-
+                //경력 추가 fragment 이동
                 fragmentMyProfileBtnCareerAdd.setOnClickListener {
                     goAddCareerFragment()
                 }
-
+                //교육 추가 fragment 이동
                 fragmentMyProfileBtnEduAdd.setOnClickListener {
                     goAddEduFragment()
                 }
-
+                //고객센터 fragment 이동
                 fragmentMyProfileIvCs.setOnClickListener {
                     goServiceCenterFragment()
                 }
-
+                //프로필 편집 이동
                 fragmentMyProfileBtnEditProfile.setOnClickListener {
                     goEditFragment()
                 }
-
+                //email 주소 복사
                 fragmentMyProfileTvEmail.setOnClickListener {
                     val clipboard =
-                        requireActivity()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
+                        requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     // 새로운 ClipData 객체로 데이터 복사하기
                     val clip: ClipData =
                         ClipData.newPlainText("email_address", fragmentMyProfileTvEmail.text)
-
                     // 새로운 클립 객체를 클립보드에 배치합니다.
                     clipboard.setPrimaryClip(clip)
-
                     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                         Toast.makeText(binding.root.context, "복사 완료", Toast.LENGTH_SHORT).show()
                 }
 
-
-
+                //네트워크 대응 예시
                 disposables
                     .add(
                         binding
@@ -123,7 +122,6 @@ class MyProfileFragment :
                                     fragmentMyProfileClContainer.visibility = View.GONE
                                     networkErrorContainer.visibility = View.VISIBLE
                                 }
-                                //(activity as ContainerActivity).onBackPressed()
                             }, { it.printStackTrace() })
                     )
             }
@@ -144,9 +142,14 @@ class MyProfileFragment :
                 }
         }
 
+        //새로고침
         binding.refreshLayout.setOnRefreshListener {
             if((requireActivity() as MainActivity).networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
+                viewModel.getSNSInfo(myMemberIdx)
+                viewModel.getCareerInfo(myMemberIdx)
+                viewModel.getEducationInfo(myMemberIdx)
+
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                     networkErrorContainer.visibility = View.GONE
@@ -197,25 +200,39 @@ class MyProfileFragment :
         startActivity(intent)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        CoroutineScope(Dispatchers.IO).launch {
-            updateData()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            //네트워크 부분
+            if((requireActivity() as MainActivity).networkValid.value == true) {
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.VISIBLE
+                    networkErrorContainer.visibility = View.GONE
+                    getProfile = true
+                    getEdu = true
+                    getSNS = true
+                    getCareer = true
+                    updateData()
+                }
+            }else{
+                //네트워크 실패시 실패 레이아웃을 작동
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
+            }
+
         }
     }
 
+    //data UI 할당
     private suspend fun setDataView() {
         withContext(Dispatchers.Main) {
             with(viewModel) {
-                var dividerItemDecoration = DividerItemDecoration(
-                    binding.fragmentMyProfileRVSns.context,
-                    LinearLayoutManager(requireContext()).orientation
-                )
-
-                //getProfileInfo(myMemberIdx)
                 profileInfo.observe(viewLifecycleOwner) {
                     binding.profileViewModel = viewModel
+
                     val result = it as ProfileDataResponse
                     if (result == null || result.result == null) {
                         with(binding){
@@ -223,74 +240,93 @@ class MyProfileFragment :
                             networkErrorContainer.visibility = View.VISIBLE
                         }
                     } else {
-
                         with(binding) {
-                            val putData = runBlocking {
-                                with(result.result){
+                            CoroutineScope(Dispatchers.Main).launch {
+                                with(result.result) {
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                                     networkErrorContainer.visibility = View.GONE
-                                    GaramgaebiApplication().saveStringToDataStore("myNickName",nickName)
-                                    GaramgaebiApplication().saveStringToDataStore("myEmail",profileEmail)
-                                    GaramgaebiApplication().saveStringToDataStore("myBelong",belong)
-                                    GaramgaebiApplication().saveStringToDataStore("myIntro",content)
-                                    GaramgaebiApplication().saveStringToDataStore("myImage",profileUrl)
+                                    GaramgaebiApplication().saveBooleanToDataStore(
+                                        "EditImage",
+                                        false
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myNickName",
+                                        nickName
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myEmail",
+                                        profileEmail
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myBelong",
+                                        belong
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myIntro",
+                                        content
+                                    )
+                                    GaramgaebiApplication().saveStringToDataStore(
+                                        "myImage",
+                                        profileUrl
+                                    ).toString()
 
-                                    if(belong == null){
+                                    fragmentMyProfileTvUsername.text = result.result.nickName
+                                    fragmentMyProfileTvEmail.text = result.result.profileEmail
+
+                                    //null 값일 때
+                                    if(belong == null || belong == ""){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myBelong","")
+                                        fragmentMyProfileTvSchool.visibility = View.GONE
+                                    }else{
+                                        fragmentMyProfileTvSchool.visibility = View.VISIBLE
+                                        fragmentMyProfileTvSchool.text = result.result.belong
+                                        GaramgaebiApplication().saveBooleanToDataStore("myBelongNull",false)
                                     }
-                                    if(intro == null){
+                                    if(content == null ||content == "") {
                                         GaramgaebiApplication().saveStringToDataStore("myIntro","")
+                                        GaramgaebiApplication().saveBooleanToDataStore("myIntroNull", true)
+                                        fragmentMyProfileTvIntro.visibility = View.GONE
+
+                                        Log.d("profile_response_content","true")
+                                    }else{
+                                        fragmentMyProfileTvIntro.visibility = View.VISIBLE
+                                        fragmentMyProfileTvIntro.text = result.result.content
+                                        GaramgaebiApplication().saveBooleanToDataStore("myIntroNull",false)
                                     }
-                                    if(img == null){
+                                    if(profileUrl == null){
+                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",true)
                                         GaramgaebiApplication().saveStringToDataStore("myImage","")
-                                    }
+                                    }else{
+                                        GaramgaebiApplication().saveBooleanToDataStore("myImageNull",false)
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            val bitmap = withContext(Dispatchers.IO) {
+                                                GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
+                                            }
+                                            binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
+                                            Log.d("image_url", result.result.profileUrl)
+                                        }
+                                        fragmentMyProfileIvProfile.clipToOutline = true                                    }
                                     Log.d("profile_info", result.result.toString())
                                 }
-                            }
-
-                            fragmentMyProfileTvUsername.text = result.result.nickName
-                            fragmentMyProfileTvEmail.text = result.result.profileEmail
-                            fragmentMyProfileTvSchool.text = result.result.belong
-                            fragmentMyProfileTvIntro.text = result.result.content
-
-                            if (result.result.content == "" || result.result.content == null) {
-                                fragmentMyProfileTvIntro.visibility = View.GONE
-                            } else {
-                                fragmentMyProfileTvIntro.visibility = View.VISIBLE
-                            }
-                            if (result.result.belong == "" || result.result.belong == null) {
-                                fragmentMyProfileTvSchool.visibility = View.GONE
-                            } else {
-                                fragmentMyProfileTvSchool.visibility = View.VISIBLE
-                            }
-
-                            if (result.result.profileUrl != null) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    val bitmap = withContext(Dispatchers.IO) {
-                                        GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
-                                    }
-                                    binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
-                                    Log.d("image_url", result.result.profileUrl)
-                                }
-                                fragmentMyProfileIvProfile.clipToOutline = true
                             }
                         }
                     }
                 }
+
                 //SNS 정보 어댑터 연결
-                //getSNSInfo(myMemberIdx)
-                snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                snsInfoArray.observe(viewLifecycleOwner) {
                     if (it == null) {
                         binding.fragmentMyProfileClContainer.visibility = View.GONE
                         binding.networkErrorContainer.visibility = View.VISIBLE
                     } else {
                         binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
                         binding.networkErrorContainer.visibility = View.GONE
+
                         val snsAdapter =
                             activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
                         binding.fragmentMyProfileRVSns.apply {
                             adapter = snsAdapter
-
                             layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                         }
@@ -300,11 +336,10 @@ class MyProfileFragment :
                             }
                         })
                     }
-                })
+                }
 
                 //경력 정보 어댑터 연결
-               //getCareerInfo(myMemberIdx)
-                careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                careerInfoArray.observe(viewLifecycleOwner) {
                     if (it == null) {
                         binding.fragmentMyProfileClContainer.visibility = View.GONE
                         binding.networkErrorContainer.visibility = View.VISIBLE
@@ -317,10 +352,6 @@ class MyProfileFragment :
                                 it1.applicationContext
                             )
                         }
-                        dividerItemDecoration = DividerItemDecoration(
-                            binding.fragmentMyProfileRVCareer.context,
-                            LinearLayoutManager(requireContext()).orientation
-                        )
                         binding.fragmentMyProfileRVCareer.apply {
                             adapter = careerAdapter
                             Log.d("career_adapter_list_size", it.size.toString())
@@ -333,9 +364,8 @@ class MyProfileFragment :
                             }
                         })
                     }
-                })
+                }
                 //교육 정보 어댑터 연결
-                //getEducationInfo(myMemberIdx)
                 educationInfoArray.observe(viewLifecycleOwner) {
                     if (it == null) {
                         binding.fragmentMyProfileClContainer.visibility = View.GONE
@@ -345,10 +375,6 @@ class MyProfileFragment :
                         binding.networkErrorContainer.visibility = View.GONE
                         val eduAdapter =
                             activity?.let { it1 -> EduMyRVAdapter(it, it1.applicationContext) }
-                        dividerItemDecoration = DividerItemDecoration(
-                            binding.fragmentMyProfileRVEdu.context,
-                            LinearLayoutManager(requireContext()).orientation
-                        )
                         binding.fragmentMyProfileRVEdu.apply {
                             adapter = eduAdapter
                             layoutManager =
@@ -369,27 +395,32 @@ class MyProfileFragment :
     private fun updateData() {
         if((requireActivity() as MainActivity).networkValid.value == true) {
             with(viewModel) {
+                Log.d("update data","0")
                 if (getProfile) {
                     getProfileInfo(myMemberIdx)
+                    Log.d("update data","1")
                     getProfile = false
                 }
                 if (getSNS) {
                     getSNSInfo(myMemberIdx)
+                    Log.d("update data","2")
+
                     getSNS = false
                 }
                 if (getCareer) {
                     getCareerInfo(myMemberIdx)
+                    Log.d("update data","3")
+
                     getCareer = false
                 }
                 if (getEdu) {
                     getEducationInfo(myMemberIdx)
-                    getEdu = false
-                } else {
+                    Log.d("update data","4")
 
+                    getEdu = false
                 }
                 binding.fragmentMyProfileClContainer.visibility = View.VISIBLE
                 binding.networkErrorContainer.visibility = View.GONE
-                Log.d("network", "profile")
             }
         }else {
             //check

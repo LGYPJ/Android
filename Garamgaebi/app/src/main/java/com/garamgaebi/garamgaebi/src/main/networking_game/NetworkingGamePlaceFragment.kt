@@ -41,7 +41,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     //화면전환
     var containerActivity: ContainerActivity? = null
 
-    private lateinit var callback: OnBackPressedCallback
+    //private lateinit var callback: OnBackPressedCallback
 
     private val memberIdx = GaramgaebiApplication.myMemberIdx
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
@@ -588,100 +588,127 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         //})
 
     }
+    private var callback: OnBackPressedCallback? = null
 
     //화면전환 뒤로가기할때 delete & disconnect 유저퇴장
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                //뒤로갔을때 방 리스트 보여주는 화면으로
-                (activity as ContainerActivity).openFragmentOnFrameLayout(7)
-                CoroutineScope(Dispatchers.Main).launch {
-                    launch {
-                        // 퇴장유저가 자신 차례가 아닌경우(self.memberID != currentUserID)
-                        Log.d("deletememberIdx", memberIdx.toString())
-                        Log.d("deleteCurrentUserId", GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0).toString())
-                        if(memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)){
-                            Log.d("deletewhy1", "deletewhy1")
-                            roomId?.let { GameMemberDeleteRequest(it, -1) }
-                                ?.let { viewModel.postDeleteMember(it) }
-                        }
-                        // 퇴장유저가 자신 차례인 경우(self.memberID == currentUserID)
-                        val memberList = getPref("data")
-
-                        // nextMemberIdx에 userList에서 자신의 memberId를 찾고 그 다음 사람을 보냄
-                        if(memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)){
-                            Log.d("deletewhy2", "deletewhy2")
-                            //혼자 참여라면 -1주고 퇴장
-                            if(memberList.size == 1){
-                                Log.d("deletewhy3", "deletewhy3")
+        if (callback == null) {
+            callback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Log.d("delete_welcome", "wow")
+                    //뒤로갔을때 방 리스트 보여주는 화면으로
+                    // (activity as ContainerActivity).openFragmentOnFrameLayout(7)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        launch {
+                            // 퇴장유저가 자신 차례가 아닌경우(self.memberID != currentUserID)
+                            Log.d("deletememberIdx", memberIdx.toString())
+                            Log.d(
+                                "deleteCurrentUserId",
+                                GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)
+                                    .toString()
+                            )
+                            if (memberIdx != GaramgaebiApplication.sSharedPreferences.getInt(
+                                    "currentUserId",
+                                    0
+                                )
+                            ) {
+                                Log.d("deletewhy1", "deletewhy1")
                                 roomId?.let { GameMemberDeleteRequest(it, -1) }
                                     ?.let { viewModel.postDeleteMember(it) }
-
                             }
+                            // 퇴장유저가 자신 차례인 경우(self.memberID == currentUserID)
+                            val memberList = getPref("data")
 
-                            var currentId = memberList.indexOf(memberList.find { gameMemberGetResult ->
-                                gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)
-                            })
-                            Log.d("deleteCurrentId", currentId.toString())
-                            val lastIndex = memberList.lastIndex
-                            Log.d("deleteLastIndex", lastIndex.toString())
-                            if(memberList[currentId].memberIdx == memberList[lastIndex].memberIdx){
-                                Log.d("deletewhy4", "deletewhy4")
-                                currentId = 0
-                                val nextId = memberList[currentId].memberIdx
-                                Log.d("deletenextId", nextId.toString())
-                                GaramgaebiApplication.sSharedPreferences
-                                    .edit().putInt("deleteNext", currentId)
-                                    .apply()
+                            // nextMemberIdx에 userList에서 자신의 memberId를 찾고 그 다음 사람을 보냄
+                            if (memberIdx == GaramgaebiApplication.sSharedPreferences.getInt(
+                                    "currentUserId",
+                                    0
+                                )
+                            ) {
+                                Log.d("deletewhy2", "deletewhy2")
+                                //혼자 참여라면 -1주고 퇴장
+                                if (memberList.size == 1) {
+                                    Log.d("deletewhy3", "deletewhy3")
+                                    roomId?.let { GameMemberDeleteRequest(it, -1) }
+                                        ?.let { viewModel.postDeleteMember(it) }
 
-                                roomId?.let {
-                                    GameMemberDeleteRequest(
-                                        it, nextId)
-                                }?.let { viewModel.postDeleteMember(it) }
-                            }
-                            else{
-                                Log.d("deletewhy5", "deletewhy5")
-                                val nextId = memberList[currentId + 1].memberIdx
-                                Log.d("deletenextId", nextId.toString())
-                                GaramgaebiApplication.sSharedPreferences
-                                    .edit().putInt("deleteNext", currentId + 1)
-                                    .apply()
+                                }
 
-                                roomId?.let {
+                                var currentId =
+                                    memberList.indexOf(memberList.find { gameMemberGetResult ->
+                                        gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt(
+                                            "currentUserId",
+                                            0
+                                        )
+                                    })
+                                Log.d("deleteCurrentId", currentId.toString())
+                                val lastIndex = memberList.lastIndex
+                                Log.d("deleteLastIndex", lastIndex.toString())
+                                if (memberList[currentId].memberIdx == memberList[lastIndex].memberIdx) {
+                                    Log.d("deletewhy4", "deletewhy4")
+                                    currentId = 0
+                                    val nextId = memberList[currentId].memberIdx
+                                    Log.d("deletenextId", nextId.toString())
+                                    GaramgaebiApplication.sSharedPreferences
+                                        .edit().putInt("deleteNext", currentId)
+                                        .apply()
+
+                                    roomId?.let {
                                         GameMemberDeleteRequest(
-                                        it, nextId)
-                                }?.let { viewModel.postDeleteMember(it) }
+                                            it, nextId
+                                        )
+                                    }?.let { viewModel.postDeleteMember(it) }
+                                } else {
+                                    Log.d("deletewhy5", "deletewhy5")
+                                    val nextId = memberList[currentId + 1].memberIdx
+                                    Log.d("deletenextId", nextId.toString())
+                                    GaramgaebiApplication.sSharedPreferences
+                                        .edit().putInt("deleteNext", currentId + 1)
+                                        .apply()
+
+                                    roomId?.let {
+                                        GameMemberDeleteRequest(
+                                            it, nextId
+                                        )
+                                    }?.let { viewModel.postDeleteMember(it) }
+                                }
                             }
                         }
+                        launch {
+                            Log.d("deletesend", "deletesend")
+                            viewModel.sendDeleteMessage()
+                        }
+                        launch {
+                            Log.d("deleteget", "deleteget")
+                            viewModel.getGameMember()
+                        }
+                        launch {
+                            Log.d("deletedisconnect", "deletedisconnect")
+                            viewModel.disconnectStomp()
+                            requireActivity().supportFragmentManager.popBackStack()
+
+                        }
+
+//                    viewModel._getOut.observe({
+//
+//                    })
+                       // requireActivity().onBackPressed()
                     }
-                    launch {
-                        Log.d("deletesend", "deletesend")
-                        viewModel.sendDeleteMessage()
-                    }
-                    launch {
-                        Log.d("deleteget", "deleteget")
-                        viewModel.getGameMember()
-                    }
-                    launch {
-                        Log.d("deletedisconnect", "deletedisconnect")
-                        viewModel.disconnectStomp()
-                    }
+                    //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
                 }
-                (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback!!)
 
     }
 
-
     override fun onDetach() {
         super.onDetach()
-        callback.handleOnBackPressed()
-        callback.remove()
+        //callback?.handleOnBackPressed()
+       callback?.remove()
 
     }
 

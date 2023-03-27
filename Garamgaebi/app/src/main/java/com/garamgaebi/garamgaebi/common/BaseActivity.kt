@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
 import com.garamgaebi.garamgaebi.util.LoadingDialog
-import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 
 // 액티비티의 기본을 작성, 뷰 바인딩 활용
 abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflater) -> B) :
@@ -33,7 +32,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
             onShowKeyboard = { keyboardHeight ->
             },
-            onHideKeyboard = { ->
+            onHideKeyboard = {
                 // binding.fragmentSnsSaveBtn.visibility = View.VISIBLE
             }
         )
@@ -59,7 +58,6 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
             "com.example.garamgaebi.common.NetworkErrorDialog"
         )
     }
-
     // 홈 로딩 다이얼로그
     // 네트워크가 시작될 때 사용자가 무작정 기다리게 하지 않기 위해 작성.
     fun showLoadingDialog(context: Context) {
@@ -96,7 +94,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
             networkValid.postValue(false)
         }
     }
-    fun registerNetworkCallback(context: Context) {
+    private fun registerNetworkCallback(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()
@@ -106,7 +104,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
-    fun unregisterNetworkCallback(context: Context) {
+    private fun unregisterNetworkCallback(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

@@ -74,8 +74,14 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                 binding.activityNetworkProfileRv.apply {
                     addItemDecoration(NetworkingHorizontalItemDecoration())
                 }
-                getNetworkingParticipants()
+
+                if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                    getNetworkingParticipants()
+                }else {
+                }
+
                 networkingParticipants.observe(viewLifecycleOwner, Observer {
+
                     val networkingProfile = NetworkingProfileAdapter(it as ArrayList<NetworkingResult>)
                     //참석자가 없을 경우 다른 뷰 노출
                     if(it.isEmpty()){
@@ -257,6 +263,20 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
-
+//    fun networkValidScreen(visible:Boolean){
+//        with(binding) {
+//            when (visible) {
+//                true -> {
+//                    mainClContainer.visibility = View.VISIBLE
+//                    networkErrorContainer.visibility = View.GONE
+//                }
+//                false -> {
+//                    mainClContainer.visibility = View.GONE
+//                    networkErrorContainer.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+//
+//    }
 
 }

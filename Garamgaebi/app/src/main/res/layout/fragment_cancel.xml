@@ -16,9 +16,9 @@
         android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_cl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_cancel_apply_info"
             android:layout_width="0dp"

@@ -18,11 +18,7 @@ import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileBlueBinding
 import com.garamgaebi.garamgaebi.databinding.ItemNetworkProfileGrayBinding
 import com.garamgaebi.garamgaebi.model.NetworkingResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 
 class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -35,7 +31,6 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                     binding.itemProfileNameTv.text = data.nickname
                     if(data.profileImg == null){
                         binding.activityItemSeminarProfileImg.visibility = VISIBLE
-                        //binding.activityItemSeminarProfile.visibility = GONE
                         Glide.with(binding.activityItemSeminarProfile.context)
                             .load(R.drawable.ic_transparent)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -44,7 +39,6 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
                     }
                     else{
                         binding.activityItemSeminarProfileImg.visibility = GONE
-                        //binding.activityItemSeminarProfile.visibility = VISIBLE
                         Glide.with(binding.activityItemSeminarProfile.context)
                             .load(data.profileImg)
                             .placeholder(R.drawable.default_profile)
@@ -86,7 +80,7 @@ class NetworkingProfileAdapter(private val dataList: ArrayList<NetworkingResult>
         }
     }
 
-    inner class GrayViewHolder(private val binding: ItemNetworkProfileGrayBinding): RecyclerView.ViewHolder(binding.root){
+    inner class GrayViewHolder(binding: ItemNetworkProfileGrayBinding): RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
         fun bind(){
 
@@ -145,7 +139,7 @@ override fun getItemViewType(position: Int): Int {
     Log.d("why_you",dataList[position].memberIdx.toString() + id.toString())
 
     return when(dataList[position].memberIdx){
-        id.toInt() -> BLUE
+        id -> BLUE
         -1 -> GRAY
         else -> ORIGIN
     }

@@ -10,16 +10,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.garamgaebi.garamgaebi.common.BLUE
-import com.garamgaebi.garamgaebi.common.GRAY
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.ORIGIN
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Context): RecyclerView.Adapter<SnsMyRVAdapter.ViewHolder>(){
@@ -28,12 +22,12 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Con
 
     inner class ViewHolder(private val binding: ItemMyprofileSnsBinding):
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(data: SNSData) {
             binding.item = data
 
             binding.activityMyprofileSnsListItemTvLink.setOnClickListener {
-                val clipboard = mContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
                 // 새로운 ClipData 객체로 데이터 복사하기
                 val clip: ClipData =
@@ -53,7 +47,7 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Con
                 val editSNSType = data.type
                 val editSNSIdx = data.snsIdx
 
-                val putdata = runBlocking {
+                runBlocking {
                     GaramgaebiApplication().saveStringToDataStore("SNSAddressForEdit",editSNSAddress)
                     GaramgaebiApplication().saveStringToDataStore("SNSTypeForEdit",editSNSType)
                     GaramgaebiApplication().saveIntToDataStore("SNSIdxForEdit",editSNSIdx)
@@ -62,7 +56,7 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Con
                 //SNS 편집 프래그먼트로!
                 val intent = Intent(it.context, ContainerActivity::class.java)
                 intent.putExtra("snsEdit", true)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 mContext.startActivity(intent)
             }
         }

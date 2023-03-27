@@ -70,16 +70,21 @@ class NetworkingFreeApplyFragment: BaseBindingFragment<FragmentNetworkingFreeApp
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        //신청 등록 api
-                        viewModel.postEnroll()
-                        viewModel.enroll.observe(viewLifecycleOwner, Observer {
-                            binding.item = viewModel
-                            if(it.isSuccess){
-                                //네트워킹 메인 화면으로
-                                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                                requireActivity().supportFragmentManager.popBackStack()
-                            }
-                        })
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                            //신청 등록 api
+                            viewModel.postEnroll()
+                            viewModel.enroll.observe(viewLifecycleOwner, Observer {
+                                binding.item = viewModel
+                                if (it.isSuccess) {
+                                    //네트워킹 메인 화면으로
+                                    requireActivity().supportFragmentManager.beginTransaction()
+                                        .remove(this).commit()
+                                    requireActivity().supportFragmentManager.popBackStack()
+                                }
+                            })
+                        }else{
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
+                        }
                     }, { it.printStackTrace() })
             )
 

@@ -13,12 +13,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import com.garamgaebi.garamgaebi.src.main.ContainerActivity
-import com.garamgaebi.garamgaebi.src.main.home.HomeFragment
 import com.garamgaebi.garamgaebi.util.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -29,7 +25,6 @@ abstract class BaseFragment<B : ViewBinding>(
     @LayoutRes val layoutResId: Int
 ) : Fragment(layoutResId) {
     private var _binding: B? = null
-    //abstract val layoutResId: Int
     lateinit var mLoadingDialog: LoadingDialog
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
@@ -38,7 +33,6 @@ abstract class BaseFragment<B : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //_binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
         return binding.root
     }

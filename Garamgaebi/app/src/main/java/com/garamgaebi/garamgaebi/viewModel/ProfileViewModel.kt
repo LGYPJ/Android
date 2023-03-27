@@ -98,14 +98,16 @@ class ProfileViewModel : ViewModel(){
     var img : MultipartBody.Part? = null
 
     fun getCheckEditProfileInfo(memberIdx : Int, img: MultipartBody.Part?) {
-        var infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
-
+        var belongValue : String? = "\""+belong.value + "\""
+        var introValue : String? = "\""+intro.value + "\""
         if(belong.value?.isEmpty() == true){
-            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${null},\"profileEmail\":\"${email.value.toString()}\",\"content\":\"${intro.value}\"}").toString()
-
-        }else if(intro.value?.isEmpty() == true){
-            infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":\"${belong.value}\",\"profileEmail\":\"${email.value.toString()}\",\"content\":${null}}").toString()
+            belongValue = null
         }
+        if(intro.value?.isEmpty() == true){
+            introValue = null
+        }
+        var infoJson= JSONObject("{\"memberIdx\":\"${myMemberIdx}\",\"nickname\":\"${nickName.value.toString()}\",\"belong\":${belongValue},\"profileEmail\":\"${email.value.toString()}\",\"content\":${introValue}}").toString()
+
         val info = infoJson.toRequestBody("application/json".toMediaTypeOrNull())
         Log.d("image_success_edit", infoJson.toString())
 
@@ -115,12 +117,12 @@ class ProfileViewModel : ViewModel(){
                 info,img)
             if (response.isSuccessful || response.body()?.result ?: null != null) {
                 viewModelScope.launch(Dispatchers.Main) {
-                    Log.d("image_success_edit", response.body().toString())
+                    Log.d("profile_response", response.body().toString())
                     _profileEdit.value = (response.body())
                 }
             }
             else {
-                Log.d("image_error_edit", response.message())
+                Log.d("profile_response", response.message())
             }
         }
     }
@@ -137,7 +139,7 @@ class ProfileViewModel : ViewModel(){
     fun getProfileInfo(memberIdx : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getProfileInfo(memberIdx)
-            Log.d("present0", response.body().toString())
+            Log.d("profile_response", response.body().toString())
             Log.d("image_get", response.body().toString())
 
             if (response.isSuccessful || response.body()?.result ?: null != null) {
@@ -145,8 +147,11 @@ class ProfileViewModel : ViewModel(){
                     Log.d("success", response.message())
                     _profileInfo.value = (response.body())
                 }
+                Log.d("왜 에러 ?", "프로필 성공")
             }
             else {
+                Log.d("왜 에러 ?", "프로필 실패")
+
                 Log.d("error", response.message())
             }
         }
@@ -170,8 +175,12 @@ class ProfileViewModel : ViewModel(){
                 viewModelScope.launch(Dispatchers.Main) {
                     _snsInfoArray.value = (response.body()?.result as ArrayList<SNSData>?)
                 }
+                Log.d("왜 에러 ?", "sns 성공")
+
             }
             else {
+                Log.d("왜 에러 ?", "sns 실패")
+
                 Log.d("error", response.message())
             }
         }
@@ -191,13 +200,16 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getEducationInfo(memberIdx)
             Log.d("api_edu", response.body().toString())
 
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 //_networking.postValue(response.body())
                 viewModelScope.launch(Dispatchers.Main) {
                     _educationInfoArray.value = response.body()?.result as ArrayList<EducationData>
                 }
+                Log.d("왜 에러 ?", "교육 성공")
             }
             else {
+                Log.d("왜 에러 ?", "교육 실패")
+
                 Log.d("error", response.message())
             }
         }
@@ -217,12 +229,15 @@ class ProfileViewModel : ViewModel(){
             val response = profileRepository.getCareerInfo(memberIdx)
             Log.d("api_career", response.body().toString())
 
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful && response.body()?.result != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _careerInfoArray.value = (response.body()?.result as ArrayList<CareerData>)
                 }
+                Log.d("왜 에러 ?", "경력 성공")
+
             }
             else {
+                Log.d("왜 에러 ?", "경력 실전")
                 Log.d("error", response.message())
             }
         }

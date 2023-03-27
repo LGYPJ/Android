@@ -14,6 +14,7 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
+import androidx.lifecycle.MutableLiveData
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.user.model.User
 import com.garamgaebi.garamgaebi.BuildConfig
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
-    val API_URL = "https://garamgaebi.shop/"
+    val API_URL = "https://dev.garamgaebi.shop/"
     // 실 서버 주소
     // val API_URL = "https://garamgaebi.shop/"
 
@@ -41,9 +42,11 @@ class GaramgaebiApplication : Application() {
         lateinit var sSharedPreferences: SharedPreferences
         lateinit var myDataStore: DataStore<Preferences>
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
+        val gameOut : MutableLiveData<Boolean> = MutableLiveData(false)
+
         // JWT Token Header 키 값
-        val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
-        val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
+        const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
+        const val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
         var myMemberIdx = 0
 
         var getProfile = true

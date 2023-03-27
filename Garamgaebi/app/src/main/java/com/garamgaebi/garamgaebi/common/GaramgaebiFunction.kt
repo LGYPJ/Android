@@ -1,13 +1,11 @@
 package com.garamgaebi.garamgaebi.common
 
-import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -53,7 +51,9 @@ class GaramgaebiFunction {
             val bmp: Bitmap? = null
             try {
                 val url = URL(imageUrl)
-                val stream = url.openStream()
+                val stream = withContext(Dispatchers.IO) {
+                    url.openStream()
+                }
 
                 return BitmapFactory.decodeStream(stream)
             } catch (e: MalformedURLException) {
@@ -76,9 +76,6 @@ class GaramgaebiFunction {
 
     interface OnFocusingListener {
         fun onFocusing(boolean: Boolean)
-    }
-    fun logTest(view:EditText, check : Boolean,isValid : Boolean){
-        Log.d("focus_check_log",view.toString() + check.toString() + isValid.toString())
     }
     companion object {
         @JvmStatic
@@ -121,7 +118,7 @@ class GaramgaebiFunction {
     fun checkNow(inputDate :String) : Boolean {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM")
-        var formatted = current.format(formatter)
+        val formatted = current.format(formatter)
         return inputDate >= formatted
     }
 
@@ -129,7 +126,7 @@ class GaramgaebiFunction {
     fun checkIceBreaking(startDate : String):Boolean {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        var formatted = current.format(formatter)
+        val formatted = current.format(formatter)
         return formatted == startDate
     }
 

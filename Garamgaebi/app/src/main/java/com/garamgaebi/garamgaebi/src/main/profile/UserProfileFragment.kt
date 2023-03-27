@@ -6,14 +6,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.*
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,24 +28,28 @@ import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+/*
+유저 프로필 Fragment - ContainerActivity
 
-class SomeoneProfileFragment :
+유저 프로필 조회
+ */
+class UserProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
+
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            var memberIdx = -1
+        var memberIdx: Int
+        val viewModel =
+            ViewModelProvider(this@UserProfileFragment)[ProfileViewModel::class.java]
 
-        val getIdx = runBlocking {
+        runBlocking {
                 memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
-                Log.d("resultssee",memberIdx.toString())
             }
-            // memberIdx = GaramgaebiApplication.sSharedPreferences.getInt("userMemberIdx",-1)
-            Log.d("멤버idx", memberIdx.toString())
 
-            var viewModel =
-                ViewModelProvider(this@SomeoneProfileFragment)[ProfileViewModel::class.java]
+
 
         binding.refreshLayout.setOnRefreshListener {
+
             Log.d("network", "SomeoneProfileFragmentRefresh")
             if((requireActivity() as ContainerActivity).networkValid.value == true) {
                 Log.d("network", "SomeoneProfileFragmentRefreshTrue")
@@ -58,19 +59,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     getCareerInfo(memberIdx)
                     getSNSInfo(memberIdx)
                 }
-                with(binding){
-                    fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
-                    networkErrorContainer.visibility = View.GONE
-                }
+
             }else{
-                Log.d("network", "SomeoneProfileFragmentRefreshFalse")
-                with(binding){
-                    fragmentSomeoneProfileSvMain.visibility = View.GONE
-                    networkErrorContainer.visibility = View.VISIBLE
-                }
+
             }
             binding.refreshLayout.isRefreshing = false
         }
+
 
         disposables
             .add(
@@ -100,15 +95,10 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }, { it.printStackTrace() })
             )
             with(viewModel) {
-                profileInfo.observe(viewLifecycleOwner, Observer {
+                profileInfo.observe(viewLifecycleOwner) {
                     val result = it as ProfileDataResponse
-                    if(result.isSuccess) {
-                        with(binding) {
-                            fragmentSomeoneProfileClMain.visibility = View.VISIBLE
-                            networkErrorContainer.visibility = View.GONE
-//                            fragmentSomeoneProfileSvMain.visibility = View.GONE
-//                            networkErrorContainer.visibility = View.VISIBLE
-                        }
+                    if (result.isSuccess) {
+
                         with(binding) {
                             if (result.result.profileUrl != null) {
 
@@ -125,30 +115,28 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             fragmentSomeoneProfileTvSchool.text = result.result.belong
                             fragmentSomeoneProfileTvIntro.text = result.result.content
 
-                            if (result.result.belong == null || result.result.belong.trim()
-                                    .equals("")
+                            if (result.result.belong == null || result.result.belong.trim() == ""
                             ) {
-                                fragmentSomeoneProfileTvSchool.visibility = View.GONE
+                                fragmentSomeoneProfileTvSchool.visibility = GONE
                             } else {
                                 fragmentSomeoneProfileTvSchool.visibility = VISIBLE
                             }
 
-                            if (result.result.content == null || result.result.content.trim()
-                                    .equals("")
+                            if (result.result.content == null || result.result.content.trim() == ""
                             ) {
-                                fragmentSomeoneProfileTvIntro.visibility = View.GONE
+                                fragmentSomeoneProfileTvIntro.visibility = GONE
                             } else {
                                 fragmentSomeoneProfileTvIntro.visibility = VISIBLE
                             }
                         }
-                    }else{
+                    } else {
                         Log.d("network", "SomeoneProfileFragmentResultFailed")
-                        with(binding){
-                            fragmentSomeoneProfileSvMain.visibility = View.GONE
-                            networkErrorContainer.visibility = View.VISIBLE
-                        }
+//                        with(binding) {
+//                            fragmentSomeoneProfileSvMain.visibility = View.GONE
+//                            networkErrorContainer.visibility = View.VISIBLE
+//                        }
                     }
-                })
+                }
 
 
                 binding.fragmentSomeoneProfileTvEmail.setOnClickListener {
@@ -166,7 +154,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 }
 
                 var dividerItemDecoration =
-                    context?.let {
+                    context?.let { it ->
                         ContextCompat.getDrawable(it, R.drawable.divider)
                             ?.let { DividerItemDecoratorForLastItem(it) }
                     };
@@ -174,8 +162,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     binding.fragmentSomeoneProfileRVSns.addItemDecoration(dividerItemDecoration)
                 }
                 //SNS 정보 어댑터 연결
-                //getSNSInfo(memberIdx)
-                snsInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                snsInfoArray.observe(viewLifecycleOwner) { it ->
 
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerSns.visibility = GONE
@@ -195,18 +182,14 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             }
                         })
                     }
-                })
+                }
                 //경력 정보 어댑터 연결
-                //getCareerInfo(memberIdx)
-                careerInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                careerInfoArray.observe(viewLifecycleOwner) { it ->
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerCareer.visibility = GONE
                     } else {
                         binding.fragmentSomeoneProfileContainerCareer.visibility = VISIBLE
                     }
-//                var byEndDate = Comparator.comparing { obj: CareerData -> obj.endDate}
-//
-//                it.sortWith(byEndDate)
 
                     val careerAdapter = activity?.let { it1 ->
                         CareerSomeoneRVAdapter(
@@ -235,7 +218,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         override fun onClick(position: Int) {
                         }
                     })
-                })
+                }
                 //교육 정보 어댑터 연결
 //            getEducationInfo(memberIdx)
                 educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
@@ -250,7 +233,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         context?.let { it ->
                             ContextCompat.getDrawable(it, R.drawable.divider)
                                 ?.let { DividerItemDecoratorForLastItem(it) }
-                        };
+                        }
                     if (dividerItemDecoration != null) {
                         binding.fragmentSomeoneProfileRVEdu.addItemDecoration(dividerItemDecoration!!)
                     }
@@ -299,13 +282,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             getSNSInfo(memberIdx)
                             Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                             with(binding) {
-                                fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
-                                networkErrorContainer.visibility = View.GONE
+                                fragmentSomeoneProfileSvMain.visibility = VISIBLE
+                                networkErrorContainer.visibility = GONE
                             }
                         } else {
                             with(binding) {
-                                fragmentSomeoneProfileSvMain.visibility = View.GONE
-                                networkErrorContainer.visibility = View.VISIBLE
+                                fragmentSomeoneProfileSvMain.visibility = GONE
+                                networkErrorContainer.visibility = VISIBLE
                             }
                             Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                         }

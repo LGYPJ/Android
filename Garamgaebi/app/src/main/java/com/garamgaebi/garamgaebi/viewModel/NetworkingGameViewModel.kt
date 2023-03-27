@@ -102,6 +102,8 @@ class NetworkingGameViewModel: ViewModel() {
     val patchGameStart: LiveData<GameStartGameResponse>
         get() = _patchGameStart
 
+
+
     private val patchCurrentReq: GameCurrentIdxRequest? = null
 
 
@@ -117,11 +119,11 @@ class NetworkingGameViewModel: ViewModel() {
 
 
     // room 조회
+
     fun getRoomId() {
         viewModelScope.launch(Dispatchers.Main) {
             val response = gameRepository.getGameRoom(2)
             if (response.isSuccessful) {
-
                 _getRoom.value = response.body()
             } else {
                 Log.d("error", response.message())
@@ -164,7 +166,8 @@ class NetworkingGameViewModel: ViewModel() {
     //image
     fun getImage() {
         viewModelScope.launch(Dispatchers.Main) {
-            val response = gameRepository.getGameImage(2)
+            val response = gameRepository.getGameImage(5)
+
             Log.d("img", response.body()?.result.toString())
             if (response.isSuccessful) {
                 _getImg.value = response.body()?.result
@@ -200,6 +203,7 @@ class NetworkingGameViewModel: ViewModel() {
                     Log.d("gameMember", response.body()?.result.toString())
                     //_profile.postValue(false)
                     //number.value = number.value?.plus(1)
+
                 } else {
                     Log.d("error", response.message())
                 }
@@ -368,7 +372,6 @@ class NetworkingGameViewModel: ViewModel() {
         val messageJson: String = gson.toJson(message2)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
-
     }
 
     fun sendCurrentIdxMessage(next: Int) {

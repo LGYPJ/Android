@@ -80,7 +80,7 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
         }
     }
 
-    inner class GrayViewHolder(private val binding : ItemSeminarProfileGrayBinding): RecyclerView.ViewHolder(binding.root){
+    inner class GrayViewHolder(binding : ItemSeminarProfileGrayBinding): RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
         fun bind(){
 
@@ -140,7 +140,7 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
         Log.d("why_you",dataList[position].memberIdx.toString() + id.toString())
 
         return when(dataList[position].memberIdx){
-            id.toInt() -> BLUE
+            id -> BLUE
             -1 -> GRAY
             else -> ORIGIN
         }
