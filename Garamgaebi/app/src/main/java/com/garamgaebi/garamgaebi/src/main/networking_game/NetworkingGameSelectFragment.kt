@@ -24,7 +24,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
     //뷰모델
     private val viewModel by viewModels<NetworkingGameViewModel>()
 
-    private lateinit var callback: OnBackPressedCallback
+    //private lateinit var callback: OnBackPressedCallback
 
     private var networkGameSelectList: ArrayList<NetworkingGameSelect> = arrayListOf(
         NetworkingGameSelect("이길여 총장님"),
@@ -78,19 +78,19 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                (activity as ContainerActivity).openFragmentOnFrameLayout(5)
-                (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGameSelectFragment()).commit()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
+//        callback = object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                (activity as ContainerActivity).openFragmentOnFrameLayout(5)
+//                (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGameSelectFragment()).commit()
+//            }
+//        }
+//        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
     }
 
     override fun onDetach() {
         super.onDetach()
-        callback.handleOnBackPressed()
-        callback.remove()
+//        callback.handleOnBackPressed()
+//        callback.remove()
     }
 
 }
