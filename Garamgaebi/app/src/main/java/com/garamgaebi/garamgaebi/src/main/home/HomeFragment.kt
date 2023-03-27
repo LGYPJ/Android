@@ -115,12 +115,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onResume() {
         super.onResume()
-        (requireActivity() as MainActivity).networkValid.observe(viewLifecycleOwner, Observer {isConnected ->
-            if(isConnected) {
-                Log.d("network","onResumeHomeTrue")
-                updateData()
-            }
-        })
+        if((requireActivity() as MainActivity).networkValid.value == true) {
+            Log.d("network","onResumeHomeTrue")
+            updateData()
+        }
 
 
     }

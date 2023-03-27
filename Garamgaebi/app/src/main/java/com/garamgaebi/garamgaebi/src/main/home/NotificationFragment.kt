@@ -104,6 +104,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
             override fun onClick(dataList: ArrayList<NotificationList>, position: Int) {
                 dataList[position].isRead = true
                 val program = dataList[position].programIdx
+                Log.d("notification", "onClick $program")
 //                GaramgaebiApplication.sSharedPreferences
 //                    .edit().putInt("programIdx", program)
 //                    .apply()

@@ -200,10 +200,8 @@ class MyProfileFragment :
     @OptIn(DelicateCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-
         CoroutineScope(Dispatchers.IO).launch {
             updateData()
-
         }
     }
 
