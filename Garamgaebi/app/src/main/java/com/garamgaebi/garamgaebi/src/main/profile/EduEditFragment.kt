@@ -120,7 +120,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     GaramgaebiApplication.getEdu = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
 
             }
@@ -150,7 +150,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                         "com.example.garamgaebi.common.ConfirmDialog"
                     )
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
 
                 }
 
@@ -292,10 +292,10 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.patchEducationInfo()
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
                     }, { it.printStackTrace() })
@@ -353,11 +353,11 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                                 }
                                 1 -> {
                                     //경력 삭제
-                                    if(networkValid.value == true) {
+                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteEducationInfo()
                                     }else {
-                                        networkAlertDialog()
+                                        (requireActivity() as ContainerActivity).networkAlertDialog()
                                     }
                                 }
                             }

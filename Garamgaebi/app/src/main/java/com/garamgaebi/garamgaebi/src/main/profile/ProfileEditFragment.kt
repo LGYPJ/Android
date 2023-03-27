@@ -252,7 +252,7 @@ class ProfileEditFragment :
                     }
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
             }
         }
@@ -279,8 +279,9 @@ class ProfileEditFragment :
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
-                        if(networkValid.value == true) {
-                            var editImage: Boolean
+
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                            var editImage = false
 
                             runBlocking {
                                 editImage =
@@ -352,7 +353,7 @@ class ProfileEditFragment :
                                 // (activity as ContainerActivity).onBackPressed()
                             }
                     }else {
-                        networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                     }
 
                     }, { it.printStackTrace() })

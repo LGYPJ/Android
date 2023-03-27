@@ -29,6 +29,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
@@ -112,7 +113,7 @@ class MyProfileFragment :
                             .clicks()
                             .throttleFirst(1000, TimeUnit.MILLISECONDS)
                             .subscribe({
-                                if(networkValid.value == true) {
+                                if((requireActivity() as MainActivity).networkValid.value == true) {
                                     viewModel.getProfileInfo(myMemberIdx)
 
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -124,15 +125,26 @@ class MyProfileFragment :
                             }, { it.printStackTrace() })
                     )
             }
-
-        //data UI할당
-        CoroutineScope(Dispatchers.Default).launch {
-            setDataView()
+        //네트워크 부분
+        if((requireActivity() as MainActivity).networkValid.value == true) {
+            CoroutineScope(Dispatchers.IO).launch {
+                setDataView()
+            }
+            with(binding){
+                fragmentMyProfileClContainer.visibility = View.VISIBLE
+                networkErrorContainer.visibility = View.GONE
+            }
+        }else{
+                //네트워크 실패시 실패 레이아웃을 작동
+                with(binding){
+                    fragmentMyProfileClContainer.visibility = View.GONE
+                    networkErrorContainer.visibility = View.VISIBLE
+                }
         }
 
         //새로고침
         binding.refreshLayout.setOnRefreshListener {
-            if(networkValid.value == true) {
+            if((requireActivity() as MainActivity).networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -187,9 +199,10 @@ class MyProfileFragment :
     override fun onResume() {
         super.onResume()
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             //네트워크 부분
-            if(networkValid.value == true) {
+            Log.d("update data",ContainerActivity().networkValid.value.toString())
+            if(ContainerActivity().networkValid.value == true) {
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                     networkErrorContainer.visibility = View.GONE
@@ -198,7 +211,6 @@ class MyProfileFragment :
                     getSNS = true
                     getCareer = true
                     updateData()
-                    Log.d("왜 에러?","1")
                 }
             }else{
                 //네트워크 실패시 실패 레이아웃을 작동
@@ -377,23 +389,30 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        if(networkValid.value == true) {
-            Log.d("왜 에러?","2")
+        if((requireActivity() as MainActivity).networkValid.value == true) {
             with(viewModel) {
+                Log.d("update data","0")
                 if (getProfile) {
                     getProfileInfo(myMemberIdx)
+                    Log.d("update data","1")
                     getProfile = false
                 }
                 if (getSNS) {
                     getSNSInfo(myMemberIdx)
+                    Log.d("update data","2")
+
                     getSNS = false
                 }
                 if (getCareer) {
                     getCareerInfo(myMemberIdx)
+                    Log.d("update data","3")
+
                     getCareer = false
                 }
                 if (getEdu) {
                     getEducationInfo(myMemberIdx)
+                    Log.d("update data","4")
+
                     getEdu = false
                 }
                 binding.fragmentMyProfileClContainer.visibility = View.VISIBLE

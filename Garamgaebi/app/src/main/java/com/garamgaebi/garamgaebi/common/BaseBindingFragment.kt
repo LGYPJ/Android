@@ -23,9 +23,6 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     private lateinit var callback: OnBackPressedCallback
     var disposables = CompositeDisposable()
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
-    private val networkCallback = NetworkConnectionCallback()
-    init { networkValid.value = true}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,20 +31,6 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
-    }
-    fun networkAlertDialog(){
-        NetworkErrorDialog() {
-            when (it) {
-                -1 -> {
-                }
-                1 -> {
-                    //(activity as ContainerActivity).onBackPressed()
-                }
-            }
-        }.show(
-            activity?.supportFragmentManager!!,
-            "com.example.garamgaebi.common.NetworkErrorDialog"
-        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,33 +64,15 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
             Log.d("network", "onAvailable")
-            networkValid.postValue(true)
         }
         override fun onLost(network: Network) {
             super.onLost(network)
             Log.d("network", "onLost")
-            networkValid.postValue(false)
         }
     }
-    private fun registerNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
 
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
-    private fun unregisterNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        connectivityManager.unregisterNetworkCallback(networkCallback)
-    }
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
-        unregisterNetworkCallback(requireContext())
         super.onDestroy()
     }
 }

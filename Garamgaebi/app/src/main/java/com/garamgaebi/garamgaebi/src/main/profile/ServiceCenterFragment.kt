@@ -20,6 +20,7 @@ import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.ServiceCenterViewModel
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
@@ -75,7 +76,7 @@ class ServiceCenterFragment :
 
         viewModel._logout.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
-                runBlocking { // 비동기 작업 시작
+                val saveToken = runBlocking { // 비동기 작업 시작
                     GaramgaebiApplication().saveStringToDataStore("kakaoToken", "")
                     GaramgaebiApplication().saveStringToDataStore(
                         GaramgaebiApplication.X_ACCESS_TOKEN,
@@ -90,21 +91,24 @@ class ServiceCenterFragment :
                     GaramgaebiApplication().clearDataStore()
                 }
 
+                //activity?.startActivity(Intent(activity, LoginActivity::class.java))
                 val target = (Intent(activity, LoginActivity::class.java))
                 target.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 finishAffinity(requireActivity())
                 startActivity(target)
+                Log.d("logout_button", "main")
             } else {
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
         }
+
         viewModel._qna.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
 
             if (viewModel._qna.value?.result == true){
                 (activity as ContainerActivity).onBackPressed()
             }else{
-                networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
             }
         }
 
@@ -128,10 +132,10 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true){
+                        if((requireActivity() as ContainerActivity).networkValid.value == true){
                             viewModel.postQna()
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )
@@ -158,8 +162,8 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true){
-                            val dialog: DialogFragment = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true){
+                            val dialog: DialogFragment = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
                                 when (it) {
                                     -1 -> {
                                         Log.d("logout_button", "close")
@@ -177,7 +181,7 @@ class ServiceCenterFragment :
                             dialog.show(activity?.supportFragmentManager!!, "com.example.garamgaebi.common.ConfirmDialog")
                             Log.d("logout_button","success")
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         //로그아웃으로 이동
                     }, { it.printStackTrace() })
@@ -266,7 +270,7 @@ class ServiceCenterFragment :
             }
         }
     }
-    private fun hideKeyboard() {
+    fun hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             // 프래그먼트기 때문에 getActivity() 사용
             binding.cvBottom.visibility = View.VISIBLE
@@ -288,4 +292,5 @@ class ServiceCenterFragment :
         TODO("Not yet implemented")
     }
 }
+
 

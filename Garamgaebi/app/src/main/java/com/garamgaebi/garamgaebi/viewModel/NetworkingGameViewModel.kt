@@ -119,11 +119,11 @@ class NetworkingGameViewModel: ViewModel() {
 
 
     // room 조회
-    fun getRoomId(){
-        viewModelScope.launch(Dispatchers.Main){
-            val response = gameRepository.getGameRoom(5)
-            if(response.isSuccessful){
 
+    fun getRoomId() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val response = gameRepository.getGameRoom(2)
+            if (response.isSuccessful) {
                 _getRoom.value = response.body()
             } else {
                 Log.d("error", response.message())

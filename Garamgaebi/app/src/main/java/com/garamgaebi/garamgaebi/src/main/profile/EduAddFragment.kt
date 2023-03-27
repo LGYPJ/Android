@@ -64,7 +64,7 @@ class EduAddFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.l
                     GaramgaebiApplication.getEdu = true
                     (activity as ContainerActivity).onBackPressed()
                 }else{
-                    networkAlertDialog()
+                    (requireActivity() as ContainerActivity).networkAlertDialog()
                 }
 
             }
@@ -172,10 +172,10 @@ class EduAddFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.l
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.postEducationInfo()
                         }else {
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                         Log.d("edu_add_button","success"+viewModel.endDate.value.toString())
                         //(activity as ContainerActivity).onBackPressed()

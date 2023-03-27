@@ -34,6 +34,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         super.onViewCreated(view, savedInstanceState)
         val registerViewModel by activityViewModels<RegisterViewModel>()
         val homeViewModel by activityViewModels<HomeViewModel>()
+        (requireActivity() as RegisterActivity).networkValid.observe(viewLifecycleOwner){}
 
         Log.d("registerComplete", "${registerViewModel.nickname.value}")
         if (registerViewModel.nickname.value!!.length > 4) {
@@ -50,61 +51,65 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         binding.fragmentCompleteTvPersonal.setOnClickListener {
             checkTvAgree()
         }
+        registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
+            if(registerIt.isSuccess) {
+                GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
+                // 교육 or 경력
+                var isCareer = false
+                CoroutineScope(Dispatchers.Main).launch {
+                    isCareer =
+                        GaramgaebiApplication().loadBooleanData("isCareer") == true
+                    Log.d("뭐묘?",isCareer.toString())
+                    if (isCareer) {
+                        val viewModel by activityViewModels<CareerViewModel>()
+                        viewModel.postCareerInfo()
+                    } else {
+                        val viewModel by activityViewModels<EducationViewModel>()
+                        viewModel.postEducationInfo()
+                    }
+                }
+                // 로그인
+                //  Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
+                var token = ""
+                CoroutineScope(Dispatchers.Main).launch {
+                    token = GaramgaebiApplication().loadStringData("pushToken").toString()
+                    homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
+                        token))
+                }
+
+
+                homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
+                    if(homeIt.isSuccess) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            GaramgaebiApplication().saveStringToDataStore("kakaoToken",
+                                registerViewModel.socialToken.value!!
+                            )
+                            GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.accessToken)
+                            GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.refreshToken)
+                            GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
+                            GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
+                            GaramgaebiApplication().saveStringToDataStore("uniEmail",homeIt.result.uniEmail)
+                            GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
+                            startActivity(Intent(registerActivity, MainActivity::class.java))
+                            ActivityCompat.finishAffinity(registerActivity)
+                        }
+                    } else {
+                        Log.d("register", "login fail ${homeIt.errorMessage}")
+                    }
+                })
+
+            }
+        })
         CompositeDisposable()
             .add(
                 binding.fragmentCompleteBtnNext.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        registerViewModel.postRegister(registerViewModel.getRegisterRequest())
-                        registerViewModel.register.observe(viewLifecycleOwner, Observer { registerIt ->
-                            if(registerIt.isSuccess) {
-                                GaramgaebiApplication.myMemberIdx = registerIt.result.memberIdx
-                                // 교육 or 경력
-                                var isCareer = false
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    isCareer =
-                                        GaramgaebiApplication().loadBooleanData("isCareer") == true
-                                    Log.d("뭐묘?",isCareer.toString())
-                                    if (isCareer) {
-                                        val viewModel by activityViewModels<CareerViewModel>()
-                                        viewModel.postCareerInfo()
-                                    } else {
-                                        val viewModel by activityViewModels<EducationViewModel>()
-                                        viewModel.postEducationInfo()
-                                    }
-                                }
-                                // 로그인
-                              //  Log.d("firebaseTokenInRegister", "${GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!}")
-                                    var token = ""
-                                    CoroutineScope(Dispatchers.Main).launch {
-                                        token = GaramgaebiApplication().loadStringData("pushToken").toString()
-                                        homeViewModel.postLogin(LoginRequest(registerViewModel.socialToken.value!!,
-                                            token))
-                                    }
-
-
-                                homeViewModel.login.observe(viewLifecycleOwner, Observer { homeIt ->
-                                    if(homeIt.isSuccess) {
-                                        CoroutineScope(Dispatchers.Main).launch {
-                                                GaramgaebiApplication().saveStringToDataStore("kakaoToken",
-                                                    registerViewModel.socialToken.value!!
-                                                )
-                                                GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.accessToken)
-                                                GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,homeIt.result.tokenInfo.refreshToken)
-                                                GaramgaebiApplication().saveIntToDataStore("memberIdx", homeIt.result.tokenInfo.memberIdx)
-                                                GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
-                                                GaramgaebiApplication().saveStringToDataStore("uniEmail",homeIt.result.uniEmail)
-                                            GaramgaebiApplication.myMemberIdx = homeIt.result.tokenInfo.memberIdx
-                                            startActivity(Intent(registerActivity, MainActivity::class.java))
-                                            ActivityCompat.finishAffinity(registerActivity)
-                                        }
-                                    } else {
-                                        Log.d("register", "login fail ${homeIt.errorMessage}")
-                                    }
-                                })
-
-                            }
-                        })
+                        if((requireActivity() as RegisterActivity).networkValid.value == false) {
+                            (requireActivity() as RegisterActivity).networkAlertDialog()
+                        } else {
+                            registerViewModel.postRegister(registerViewModel.getRegisterRequest())
+                        }
                     }, { it.printStackTrace() })
             )
     }

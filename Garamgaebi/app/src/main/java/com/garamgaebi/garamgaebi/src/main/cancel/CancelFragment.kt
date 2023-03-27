@@ -1,5 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main.cancel
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -35,10 +36,9 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         //binding.activityCancelApplyBtn.isEnabled = false
 
         binding.activityCancelBankTv.text = "은행"
-        ContainerActivity().errorActivityValid.value = true
 
         //신청정보조회
-        if(networkValid.value == true) {
+        if(ContainerActivity().networkValid.value == true) {
             viewModel.getCancel()
         }else{
 
@@ -110,7 +110,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                                 "com.example.garamgaebi.common.ConfirmDialog"
                             )
                         }else{
-                            networkAlertDialog()
+                (requireActivity() as ContainerActivity).networkAlertDialog()
 
             }
 
@@ -125,7 +125,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .subscribe({
                         Log.d("canceldd", it.toString())
 
-                        if(networkValid.value == true) {
+                        if(ContainerActivity().networkValid.value == true) {
                             //신청 완료 api
                             var idInfo = -1
                             var programInfo: Int
@@ -143,7 +143,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                             viewModel.postCancel(canelRequest)
                             Log.d("cancel11", canelRequest.toString())
                         }else{
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
 
                     }, { it.printStackTrace() })
@@ -156,7 +156,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             seminar = GaramgaebiApplication().loadStringData("type")!!
         }
         if(seminar=="SEMINAR"){
-            if(networkValid.value == true) {
+            if(ContainerActivity().networkValid.value == true) {
                 viewModel.getSeminar()
             }else{
             }
@@ -203,7 +203,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             networking = GaramgaebiApplication().loadStringData("type")!!
         }
         if(networking=="NETWORKING"){
-            if(networkValid.value == true) {
+            if(ContainerActivity().networkValid.value == true) {
                 viewModel.getNetworking()
             }else{
             }

@@ -48,12 +48,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
 //                Log.d("kakao", "회원 탈퇴 성공")
 //            }
 //        }
+        networkValid.observe(this) {}
         CompositeDisposable()
             .add(
                 binding.fragmentLoginKakao.clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        kakaoLogin()
+                        if(networkValid.value == true) {
+                            kakaoLogin()
+                        } else {
+                            networkAlertDialog()
+                        }
                     }, { it.printStackTrace() })
             )
     }

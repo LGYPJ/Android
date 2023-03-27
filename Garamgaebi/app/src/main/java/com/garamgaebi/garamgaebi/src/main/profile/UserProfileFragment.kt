@@ -21,9 +21,12 @@ import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
+import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /*
 유저 프로필 Fragment - ContainerActivity
@@ -32,7 +35,6 @@ import java.util.*
  */
 class UserProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
-
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +49,10 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
 
         binding.refreshLayout.setOnRefreshListener {
-            if(networkValid.value == true) {
+
+            Log.d("network", "SomeoneProfileFragmentRefresh")
+            if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                Log.d("network", "SomeoneProfileFragmentRefreshTrue")
                 with(viewModel) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
@@ -61,6 +66,34 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             binding.refreshLayout.isRefreshing = false
         }
 
+
+        disposables
+            .add(
+                binding
+                    .networkErrorIv
+                    .clicks()
+                    .throttleFirst(300, TimeUnit.MILLISECONDS)
+                    .subscribe({
+                        Log.d("프로필 새로고침","1")
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                            with(viewModel){
+                                getProfileInfo(memberIdx)
+                                getEducationInfo(memberIdx)
+                                getCareerInfo(memberIdx)
+                                getSNSInfo(memberIdx)
+                            }
+                            Log.d("프로필 새로고침","2")
+
+                            binding.fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
+                            binding.networkErrorContainer.visibility = View.GONE
+                        } else {
+                            Log.d("프로필 새로고침","3")
+                            binding.fragmentSomeoneProfileSvMain.visibility = View.GONE
+                            binding.networkErrorContainer.visibility = View.VISIBLE
+                        }
+                        //(activity as ContainerActivity).onBackPressed()
+                    }, { it.printStackTrace() })
+            )
             with(viewModel) {
                 profileInfo.observe(viewLifecycleOwner) {
                     val result = it as ProfileDataResponse
@@ -241,13 +274,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
                     }
                 } else {
-                    networkValid.observe(viewLifecycleOwner) { isConnected ->
+                    (requireActivity() as ContainerActivity).networkValid.observe(viewLifecycleOwner) { isConnected ->
                         if (isConnected) {
                             getProfileInfo(memberIdx)
                             getEducationInfo(memberIdx)
                             getCareerInfo(memberIdx)
                             getSNSInfo(memberIdx)
-                            Log.d("network_check", "${networkValid.value}")
+                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                             with(binding) {
                                 fragmentSomeoneProfileSvMain.visibility = VISIBLE
                                 networkErrorContainer.visibility = GONE
@@ -257,16 +290,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                 fragmentSomeoneProfileSvMain.visibility = GONE
                                 networkErrorContainer.visibility = VISIBLE
                             }
-                            Log.d("network_check", "${networkValid.value}")
+                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                         }
                     }
                 }
             }
 
-
-
         super.onViewCreated(view, savedInstanceState)
-
     }
 
 }

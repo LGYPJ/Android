@@ -26,8 +26,6 @@ abstract class BaseFragment<B : ViewBinding>(
 ) : Fragment(layoutResId) {
     private var _binding: B? = null
     lateinit var mLoadingDialog: LoadingDialog
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData()
-    private val networkCallback = NetworkConnectionCallback()
     protected val binding get() = _binding!!
     var disposables = CompositeDisposable()
     override fun onCreateView(
@@ -36,17 +34,11 @@ abstract class BaseFragment<B : ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
-        registerNetworkCallback(requireContext())
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        registerNetworkCallback(requireContext())
-        super.onViewCreated(view, savedInstanceState)
-    }
     override fun onDestroyView() {
         _binding = null
-        unregisterNetworkCallback(requireContext())
         super.onDestroyView()
     }
 
@@ -70,34 +62,5 @@ abstract class BaseFragment<B : ViewBinding>(
         if (disposables.size() > 0) {
             disposables.clear()
         }
-    }
-
-    inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            Log.d("network", "onAvailable")
-            networkValid.postValue(true)
-        }
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            Log.d("network", "onLost")
-            networkValid.postValue(false)
-        }
-    }
-    private fun registerNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
-    private fun unregisterNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }

@@ -87,7 +87,7 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(networkValid.value == true) {
+                        if(ContainerActivity().networkValid.value == true) {
                             //신청 등록 api
                             viewModel.postEnroll()
                             viewModel.enroll.observe(viewLifecycleOwner, Observer {
@@ -99,7 +99,7 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
                                 }
                             })
                         }else{
-                            networkAlertDialog()
+                            (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
                     }, { it.printStackTrace() })
             )

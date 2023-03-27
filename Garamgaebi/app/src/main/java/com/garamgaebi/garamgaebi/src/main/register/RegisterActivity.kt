@@ -32,7 +32,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             //setFragment(REGISTER_COMPLETE)
         }
         Log.d("register","onCreate")
-
+        networkValid.observe(this){}
     }
     fun setFragment(int : Int) {
         val trans = supportFragmentManager.beginTransaction()
