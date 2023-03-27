@@ -203,7 +203,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             networking = GaramgaebiApplication().loadStringData("type")!!
         }
         if(networking=="NETWORKING"){
-            if(ContainerActivity().networkValid.value == true) {
+            if((requireActivity() as ContainerActivity).networkValid.value == true) {
                 viewModel.getNetworking()
             }else{
             }

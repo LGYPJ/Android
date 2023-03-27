@@ -27,6 +27,7 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
     var containerActivity: ContainerActivity? = null
     private val viewModel by viewModels<ApplyViewModel>()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //데이터바인딩
@@ -63,7 +64,7 @@ class SeminarFreeApplyFragment: BaseBindingFragment<FragmentSeminarFreeApplyBind
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(ContainerActivity().networkValid.value == true){
+                        if((requireActivity() as ContainerActivity).networkValid.value == true){
                         //신청 등록 api
                         viewModel.postEnroll()
                         viewModel.enroll.observe(viewLifecycleOwner, Observer {

@@ -75,7 +75,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     addItemDecoration(NetworkingHorizontalItemDecoration())
                 }
 
-                if(ContainerActivity().networkValid.value == true) {
+                if((requireActivity() as ContainerActivity).networkValid.value == true) {
                     getNetworkingParticipants()
                 }else {
                 }

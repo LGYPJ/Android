@@ -146,6 +146,10 @@ class MyProfileFragment :
         binding.refreshLayout.setOnRefreshListener {
             if((requireActivity() as MainActivity).networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
+                viewModel.getSNSInfo(myMemberIdx)
+                viewModel.getCareerInfo(myMemberIdx)
+                viewModel.getEducationInfo(myMemberIdx)
+
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                     networkErrorContainer.visibility = View.GONE
@@ -201,8 +205,7 @@ class MyProfileFragment :
 
         CoroutineScope(Dispatchers.Main).launch {
             //네트워크 부분
-            Log.d("update data",ContainerActivity().networkValid.value.toString())
-            if(ContainerActivity().networkValid.value == true) {
+            if((requireActivity() as MainActivity).networkValid.value == true) {
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                     networkErrorContainer.visibility = View.GONE

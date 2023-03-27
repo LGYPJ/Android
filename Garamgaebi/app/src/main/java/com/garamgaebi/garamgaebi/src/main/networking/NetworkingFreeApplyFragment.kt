@@ -70,7 +70,7 @@ class NetworkingFreeApplyFragment: BaseBindingFragment<FragmentNetworkingFreeApp
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if(ContainerActivity().networkValid.value == true) {
+                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             //신청 등록 api
                             viewModel.postEnroll()
                             viewModel.enroll.observe(viewLifecycleOwner, Observer {
