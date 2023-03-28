@@ -24,6 +24,7 @@ import com.garamgaebi.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.model.GameCurrentIdxRequest
 import com.garamgaebi.garamgaebi.model.GameMemberDeleteRequest
@@ -40,7 +41,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    private val memberIdx = GaramgaebiApplication.myMemberIdx
+    private val memberIdx = myMemberIdx
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
 
     lateinit var front_anim: AnimatorSet
@@ -57,7 +58,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
-
         //뷰페이저 가운데 카드 그림자 애니메이션
         shadow_fade_in =
             AnimationUtils.loadAnimation(context, R.anim.activity_game_card_shadow_fade_in)
@@ -161,7 +161,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     .toString()
             )
 
-
             //currentIndex를 최초 입장시 서버에서 memberIdx로 변환해줄 예정 -> data에서 자신의 currentMemberIdx로 자신의 index(currentIndex)를 받음
             Log.d("postMember", it.result.toString())
             Log.d("indeximg", index.toString())
@@ -184,7 +183,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
         var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
-
         viewModel.message.observe(viewLifecycleOwner, Observer { enter ->
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
                 Log.d("currentId", currentId.toString())
@@ -205,6 +203,19 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
                     networkingGameProfile2.notifyDataSetChanged()
                 }
+            })
+
+            // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
+            viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+                //val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
+                setImg("img", img)
+                val networkingGameCardVPAdapter =
+                    NetworkingGameCardVPAdapter(img, index)
+                binding.activityGameCardBackVp.adapter =
+                    NetworkingGameCardVPAdapter(img, index)
+                binding.activityGameCardBackVp.orientation =
+                    ViewPager2.ORIENTATION_HORIZONTAL
+
             })
         })
 
@@ -237,7 +248,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             binding.activityGameCardBackImg.visibility = View.VISIBLE
 
             // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
-            viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+            /*viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+                val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
                 setImg("img", img)
                 val networkingGameCardVPAdapter =
                     NetworkingGameCardVPAdapter(img, index)
@@ -246,7 +258,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 binding.activityGameCardBackVp.orientation =
                     ViewPager2.ORIENTATION_HORIZONTAL
 
-            })
+            })*/
 
             // 프로필
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
@@ -426,6 +438,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
         }
         //
+
         viewModel.patchMessage.observe(viewLifecycleOwner, Observer { it ->
             if (it.type != "EXIT") {
                 val data = getPref("data")
@@ -511,9 +524,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
         //퇴장
-        //viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
             viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
-                val data = getPref("data")
+                val memberList = getPref("data")
+                viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                //val data = getPref("data")
                 Log.d("deleteconnect", "deleteconnect")
                 //viewModel.deleteMember.observe(viewLifecycleOwner, Observer {game->
                 // viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
@@ -521,7 +535,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 // 퇴장멤버ID == currentID -> 스크롤
                 val deleteCurrent = it.message
                 Log.d("deleteDeleteCurrent", deleteCurrent)
-                val memberList = getPref("data")
+
                 Log.d("deletememberList", memberList.toString())
                 Log.d(
                     "deletecurrentId5",
@@ -536,16 +550,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 ) {
                     //
                     var currentId4 =
-                        data.indexOf(memberList.find { gameMemberGetResult ->
-                            gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt(
-                                "deleteNext",
-                                0
-                            )
+                        memberList.indexOf(memberList.find { gameMemberGetResult ->
+                            gameMemberGetResult.memberIdx == deleteCurrent.toInt()
                         })
                     Log.d("deletecurrentId4", currentId4.toString())
-                    val lastIndex = data.size - 1
+                    val lastIndex = memberList.lastIndex
                     Log.d("deleteLastIndex", lastIndex.toString())
-                    if (data[currentId4].memberIdx == data[lastIndex].memberIdx) {
+                    if (memberList[currentId4].memberIdx == memberList[lastIndex].memberIdx) {
                         Log.d("delete1", "delete1")
                         currentId4 = 0
                         Log.d("delete1currentId", currentId4.toString())
@@ -582,7 +593,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         val networkingGameProfile =
                             NetworkingGameProfileAdapter(
                                 data as ArrayList<GameMemberGetResult>,
-                                currentId4 + 1
+                                currentId4
                             )
                         binding.activityGameProfileRv.apply {
                             adapter = networkingGameProfile
@@ -593,7 +604,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     false
                                 )
                             (layoutManager as LinearLayoutManager).scrollToPosition(
-                                currentId4 + 1
+                                currentId4
                             )
                             networkingGameProfile.notifyDataSetChanged()
                         }
@@ -637,7 +648,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }
                 }
             })
-        //})
+        })
         //퇴장 마지막
 
         //카드 뷰페이저 양 옆 overlap
@@ -721,21 +732,29 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 override fun handleOnBackPressed() {
                     //(activity as ContainerActivity).openFragmentOnFrameLayout(7)
                     CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            deleteMember()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                deleteMember()
+                            }
                         }
-                        withContext(Dispatchers.IO) {
-                            Log.d("deletesend", "deletesend")
-                            viewModel.sendDeleteMessage()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deletesend", "deletesend")
+                                viewModel.sendDeleteMessage()
+                            }
                         }
-                        withContext(Dispatchers.IO){
-                            Log.d("deleteget", "deleteget")
-                            viewModel.getGameMember()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deleteget", "deleteget")
+                                viewModel.getGameMember()
+                            }
                         }
-                        withContext(Dispatchers.IO) {
-                            Log.d("deletedisconnect", "deletedisconnect")
-                            viewModel.disconnectStomp()
-                            requireActivity().supportFragmentManager.popBackStack()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deletedisconnect", "deletedisconnect")
+                                viewModel.disconnectStomp()
+                                requireActivity().supportFragmentManager.popBackStack()
+                            }
                         }
 
                     }
