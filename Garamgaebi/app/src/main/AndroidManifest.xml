@@ -74,7 +74,6 @@
         <activity
             android:name=".src.main.ContainerActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
@@ -88,12 +87,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <activity
-            android:name=".src.main.ErrorActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
 
     </application>
 
