@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -31,6 +32,7 @@ class NetworkingGameViewModel: ViewModel() {
     private val memberIdx = GaramgaebiApplication.myMemberIdx
     //currentIdx
     //private val currentIdx = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
+    //programIdx
 
     private val gameRepository = GameRepository()
 
@@ -41,13 +43,17 @@ class NetworkingGameViewModel: ViewModel() {
     val message: LiveData<MessageV0>
         get() = _message
 
-    private val _patchMessage = MutableLiveData<Message>()
-    val patchMessage: LiveData<Message>
+    private val _patchMessage = MutableLiveData<MessageV0>()
+    val patchMessage: LiveData<MessageV0>
         get() = _patchMessage
 
-    private val _deleteMessage = MutableLiveData<Message2>()
-    val deleteMessage : LiveData<Message2>
+    private val _deleteMessage = MutableLiveData<MessageV0>()
+    val deleteMessage : LiveData<MessageV0>
         get() = _deleteMessage
+
+    private val _startMessage = MutableLiveData<MessageV0>()
+    val startMessage : LiveData<MessageV0>
+        get() = _startMessage
 
     private val _postMember = MutableLiveData<GameMemberPostResponse>()
     val postMember: LiveData<GameMemberPostResponse>
@@ -102,8 +108,6 @@ class NetworkingGameViewModel: ViewModel() {
     val patchGameStart: LiveData<GameStartGameResponse>
         get() = _patchGameStart
 
-
-
     private val patchCurrentReq: GameCurrentIdxRequest? = null
 
 
@@ -119,10 +123,12 @@ class NetworkingGameViewModel: ViewModel() {
 
 
     // room 조회
-
     fun getRoomId() {
         viewModelScope.launch(Dispatchers.Main) {
-            val response = gameRepository.getGameRoom(5)
+            /*var programIdx = 0
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!*/
+
+            val response = gameRepository.getGameRoom(2)
             if (response.isSuccessful) {
                 _getRoom.value = response.body()
             } else {
@@ -153,11 +159,13 @@ class NetworkingGameViewModel: ViewModel() {
     fun postDeleteMember(gameMemberDeleteRequest: GameMemberDeleteRequest) {
         viewModelScope.launch(Dispatchers.Main) {
             val response = gameRepository.deleteGameMember(gameMemberDeleteRequest)
+            Log.d("deletepostMember", response.body().toString())
             if (response != null) {
                 if (response.isSuccessful) {
+                    Log.d("deletepostMemberwhy", "why")
                     _deleteMember.value = response.body()
                 } else {
-                    Log.d("error", response.message())
+                    Log.d("deleteerror", response.message())
                 }
             }
         }
@@ -166,8 +174,10 @@ class NetworkingGameViewModel: ViewModel() {
     //image
     fun getImage() {
         viewModelScope.launch(Dispatchers.Main) {
-            val response = gameRepository.getGameImage(5)
+            /*var programIdx = 0
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!*/
 
+            val response = gameRepository.getGameImage(2)
             Log.d("img", response.body()?.result.toString())
             if (response.isSuccessful) {
                 _getImg.value = response.body()?.result
@@ -203,7 +213,6 @@ class NetworkingGameViewModel: ViewModel() {
                     Log.d("gameMember", response.body()?.result.toString())
                     //_profile.postValue(false)
                     //number.value = number.value?.plus(1)
-
                 } else {
                     Log.d("error", response.message())
                 }
@@ -302,20 +311,26 @@ class NetworkingGameViewModel: ViewModel() {
             .subscribe { stompMessage ->
                 Log.d("whywhywhy", "whywhywhy")
                 val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                val message = gson.fromJson(stompMessage.payload, Message::class.java)
-                val message2 = gson.fromJson(stompMessage.payload, Message2::class.java)
+                Log.d("messagesend", messageV0.type)
                 if(messageV0.type == "ENTER"){
                     _message.postValue(messageV0)
                     getGameMember()
                 }
                 if(messageV0.type == "EXIT"){
-                    Log.d("deletemessage", "deletemessage")
-                    _deleteMessage.postValue(message2)
+                    Log.d("deletemessageEXIT", "deletemessageEXIT")
+                    _deleteMessage.postValue(messageV0)
+                    getGameMember()
                 }
-                if(message.type == "NEXT"){
+                if(messageV0.type == "NEXT"){
+                    Log.d("deletemessageNext", "deletemessageNext")
                     Log.d("indexpatch", "why")
-                    _patchMessage.postValue(message)
+                    _patchMessage.postValue(messageV0)
 
+                }
+                if(messageV0.type == "START"){
+                    Log.d("deletemessageSTART", "deletemessageSTART")
+                    _startMessage.postValue(messageV0)
+                    getGameMember()
                 }
 
             }
@@ -367,16 +382,25 @@ class NetworkingGameViewModel: ViewModel() {
 
     }
 
+    fun sendStartMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
+        val message3 = roomId?.let { MessageV0("START", it, "zzangu", "", "") }
+        val messageJson: String = gson.toJson(message3)
+        val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
+        Log.i("send", "send messageData : $messageJson")
+
+    }
+
     fun sendDeleteMessage() {
-        val message2 = roomId?.let { Message2("EXIT", it, "zzangu", memberIdx.toString(), "") }
+        val message2 = roomId?.let { MessageV0("EXIT", it, "zzangu", memberIdx.toString(), "") }
         val messageJson: String = gson.toJson(message2)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
+
     }
 
     fun sendCurrentIdxMessage(next: Int) {
         // userList에서 자신의 memberIdx를 찾고 그 다음 사람을 message에..!
-        val message = roomId?.let { Message("NEXT", it, "zzangu", next.toString(), "") }
+        val message = roomId?.let { MessageV0("NEXT", it, "zzangu", next.toString(), "") }
         val messageJson: String = gson.toJson(message)
         val stompSend: Disposable = mStompClient.send("/app/game/message", messageJson).subscribe()
         Log.i("send", "send messageData : $messageJson")
