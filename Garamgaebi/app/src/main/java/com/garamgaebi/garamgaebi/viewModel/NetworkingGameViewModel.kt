@@ -125,10 +125,10 @@ class NetworkingGameViewModel: ViewModel() {
     // room 조회
     fun getRoomId() {
         viewModelScope.launch(Dispatchers.Main) {
-            /*var programIdx = 0
-            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!*/
+            var programIdx = 0
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
 
-            val response = gameRepository.getGameRoom(2)
+            val response = gameRepository.getGameRoom(programIdx)
             if (response.isSuccessful) {
                 _getRoom.value = response.body()
             } else {
@@ -174,10 +174,10 @@ class NetworkingGameViewModel: ViewModel() {
     //image
     fun getImage() {
         viewModelScope.launch(Dispatchers.Main) {
-            /*var programIdx = 0
-            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!*/
+            var programIdx = 0
+            programIdx  = GaramgaebiApplication().loadIntData("programIdx")!!
 
-            val response = gameRepository.getGameImage(2)
+            val response = gameRepository.getGameImage(programIdx)
             Log.d("img", response.body()?.result.toString())
             if (response.isSuccessful) {
                 _getImg.value = response.body()?.result
