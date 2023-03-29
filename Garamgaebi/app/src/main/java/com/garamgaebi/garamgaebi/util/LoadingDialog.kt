@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.animation.AnimationUtils
 import com.garamgaebi.garamgaebi.R
@@ -22,6 +23,7 @@ class LoadingDialog(context: Context) : Dialog(context) {
         window!!.setDimAmount(0.2f)
         binding.progressBar.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_loading_rotate))
 
+        Log.d("로딩",context.toString())
     }
 
     override fun show() {

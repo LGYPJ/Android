@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
 class GaramgaebiApplication : Application() {
     //val API_URL = "https://dev.garamgaebi.shop/"
     // 실 서버 주소
-     val API_URL = "https://garamgaebi.shop/"
+    val API_URL = "https://garamgaebi.shop/"
 
     // 코틀린의 전역변수 문법
     companion object {
@@ -82,20 +82,17 @@ class GaramgaebiApplication : Application() {
     suspend fun loadStringData(key: String): String? {
         val stringKey = stringPreferencesKey(key) // String 타입 저장 키값
         val preferences = dataStore.data.first()
-        Log.d("dataStoreLoadString", "$key:" + preferences[stringKey])
         return preferences[stringKey]
     }
 
     suspend fun loadIntData(key: String): Int? {
         val intKey = intPreferencesKey(key) // String 타입 저장 키값
         val preferences = dataStore.data.first()
-        Log.d("dataStoreLoadInt", "$key:" + preferences[intKey])
         return preferences[intKey]
     }
     suspend fun loadBooleanData(key: String): Boolean? {
         val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
         val preferences = dataStore.data.first()
-        Log.d("dataStoreLoadBoolean", "$key:" + preferences[booleanKey])
         return preferences[booleanKey]
     }
 

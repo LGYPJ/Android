@@ -24,6 +24,7 @@ import com.garamgaebi.garamgaebi.adapter.NetworkingGameCardVPAdapter
 import com.garamgaebi.garamgaebi.adapter.NetworkingGameProfileAdapter
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.model.GameCurrentIdxRequest
 import com.garamgaebi.garamgaebi.model.GameMemberDeleteRequest
@@ -40,7 +41,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    private val memberIdx = GaramgaebiApplication.myMemberIdx
+    private val memberIdx = myMemberIdx
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
 
     lateinit var front_anim: AnimatorSet
@@ -57,7 +58,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activityGamePlaceCardNextBtn.visibility = VISIBLE
-
         //뷰페이저 가운데 카드 그림자 애니메이션
         shadow_fade_in =
             AnimationUtils.loadAnimation(context, R.anim.activity_game_card_shadow_fade_in)
@@ -161,7 +161,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     .toString()
             )
 
-
             //currentIndex를 최초 입장시 서버에서 memberIdx로 변환해줄 예정 -> data에서 자신의 currentMemberIdx로 자신의 index(currentIndex)를 받음
             Log.d("postMember", it.result.toString())
             Log.d("indeximg", index.toString())
@@ -184,7 +183,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
         var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
-
         viewModel.message.observe(viewLifecycleOwner, Observer { enter ->
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
                 Log.d("currentId", currentId.toString())
@@ -205,6 +203,19 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     (layoutManager as LinearLayoutManager).scrollToPosition(currentId)
                     networkingGameProfile2.notifyDataSetChanged()
                 }
+            })
+
+            // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
+            viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+                //val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
+                setImg("img", img)
+                val networkingGameCardVPAdapter =
+                    NetworkingGameCardVPAdapter(img, index)
+                binding.activityGameCardBackVp.adapter =
+                    NetworkingGameCardVPAdapter(img, index)
+                binding.activityGameCardBackVp.orientation =
+                    ViewPager2.ORIENTATION_HORIZONTAL
+
             })
         })
 
@@ -237,7 +248,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             binding.activityGameCardBackImg.visibility = View.VISIBLE
 
             // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
-            viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+            /*viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+                val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
                 setImg("img", img)
                 val networkingGameCardVPAdapter =
                     NetworkingGameCardVPAdapter(img, index)
@@ -246,7 +258,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 binding.activityGameCardBackVp.orientation =
                     ViewPager2.ORIENTATION_HORIZONTAL
 
-            })
+            })*/
 
             // 프로필
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
@@ -426,6 +438,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
         }
         //
+
         viewModel.patchMessage.observe(viewLifecycleOwner, Observer { it ->
             if (it.type != "EXIT") {
                 val data = getPref("data")
@@ -510,10 +523,11 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
 
-//퇴장
-        viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
-            val memberList = getPref("data")
-            viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+
+        //퇴장
+            viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
+                val memberList = getPref("data")
+                viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
                 //val data = getPref("data")
                 Log.d("deleteconnect", "deleteconnect")
                 //viewModel.deleteMember.observe(viewLifecycleOwner, Observer {game->
@@ -718,21 +732,29 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             callback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            deleteMember()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                deleteMember()
+                            }
                         }
-                        withContext(Dispatchers.IO) {
-                            Log.d("deletesend", "deletesend")
-                            viewModel.sendDeleteMessage()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deletesend", "deletesend")
+                                viewModel.sendDeleteMessage()
+                            }
                         }
-                        withContext(Dispatchers.IO){
-                            Log.d("deleteget", "deleteget")
-                            viewModel.getGameMember()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deleteget", "deleteget")
+                                viewModel.getGameMember()
+                            }
                         }
-                        withContext(Dispatchers.IO) {
-                            Log.d("deletedisconnect", "deletedisconnect")
-                            viewModel.disconnectStomp()
-                            requireActivity().supportFragmentManager.popBackStack()
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                Log.d("deletedisconnect", "deletedisconnect")
+                                viewModel.disconnectStomp()
+                                requireActivity().supportFragmentManager.popBackStack()
+                            }
                         }
 
                     }

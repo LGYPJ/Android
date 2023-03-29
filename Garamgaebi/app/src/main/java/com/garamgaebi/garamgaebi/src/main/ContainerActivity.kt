@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.MutableLiveData
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
@@ -23,16 +24,15 @@ import com.garamgaebi.garamgaebi.src.main.seminar.SeminarChargedApplyFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFragment
 import com.garamgaebi.garamgaebi.src.main.seminar.SeminarFreeApplyFragment
 import com.garamgaebi.garamgaebi.util.NetworkDisconnectedFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContainerBinding::inflate) {
     var fragmentTag: Int = -1
     private var currentFragment: Fragment? = null
     var game =""
+    val start : MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = true }
+
     override fun onResume() {
         super.onResume()
         currentFragment()
@@ -60,11 +60,18 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 //            supportFragmentManager.beginTransaction()
 //                .add(R.id.container, fragment)
 //                .commit()
+            Log.d("태그","ㅎㅇ 액")
+
         }
-        networkValid.observe(this) {
-            Log.d("network", "containerActivity networkObserver it : $it, isConnected : ${networkValid.value}")
-            openFragmentOnFrameLayout(fragmentTag)
+        start.observe(this) {
+            if(!it) {
+                networkValid.observe(this) {
+                    Log.d("network", "containerActivity networkObserver it : $it, isConnected : ${networkValid.value}")
+                        openFragmentOnFrameLayout(fragmentTag)
+                }
+            }
         }
+
         //툴바
         val toolbar = binding.activityContainerToolbar
         setSupportActionBar(toolbar)
@@ -80,7 +87,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     }
     fun currentFragment(){
-        Log.d("currentFragment","시작")
+        Log.d("currentFragment","시작태그")
         if(supportFragmentManager.backStackEntryCount > 0) {
             Log.d("currentFragment", "0이상 $fragmentTag")
             var index = supportFragmentManager.backStackEntryCount - 1
@@ -91,21 +98,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 supportFragmentManager.findFragmentById(R.id.activity_container_frame)
             //backStack 맨 위의 값과 현재 프래그먼트의 값이 같아야함
             when (fragmentTag) {
-                6 -> { //게임선택 전 아이스브레이킹
-                    if (tag != "아이스브레이킹") {
-                        //openFragmentOnFrameLayout(fragmentTag)
-                        Log.d("currentFragment", "아이스브레이킹이 아니었음")
-                    }
-                    if (currentFragmentCheck is NetworkingGameSelectFragment) {
-
-                    } else {
-                        supportFragmentManager.popBackStack()
-                        Log.d("currentFragment", "아이스브레이킹이 아니었음")
-                        openFragmentOnFrameLayout(fragmentTag)
-                        binding.activityContainerToolbarTv.text = "아이스브레이킹"
-                    }
-                }
-
                 5 -> { //인게임 전 선택창
                     if (tag == "게임") {
                         supportFragmentManager.popBackStack()
@@ -219,12 +211,14 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
     fun openFragmentOnFrameLayout(tag: Int){
+        Log.d("태그", "너 뭐냐$tag")
         val transaction = supportFragmentManager.beginTransaction()
         Log.d("network", "containerActivity openFragmentOnFrameLayout backStack : ${supportFragmentManager.backStackEntryCount}")
         fragmentTag = tag
         if(networkValid.value == false && tag in listOf(1, 5, 7, 16, 20)) {
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         } else {
+            Log.d("태그", "너 뭐냐고$tag")
             when(tag){
                 1 -> {
                     transaction.replace(R.id.activity_container_frame, SeminarFragment())
@@ -331,6 +325,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             binding.activityContainerToolbarTv.text = "세미나"
             fragmentTag = 1
             openFragmentOnFrameLayout(fragmentTag)
+
         }
         if(intent.getBooleanExtra("cancel", false)){
             fragmentTag = 4
@@ -345,7 +340,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
         if(intent.getBooleanExtra("sns", false)){
             fragmentTag = 9
-            openFragmentOnFrameLayout(fragmentTag)
             binding.activityContainerToolbarTv.text = "SNS 추가하기"
         }
         if(intent.getBooleanExtra("career", false)){
@@ -365,6 +359,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         if(intent.getBooleanExtra("someoneProfile", false)){
             fragmentTag = 13
+            Log.d("태그","왜너")
             openFragmentOnFrameLayout(fragmentTag)
             binding.activityContainerToolbarTv.text = "프로필"
         }
@@ -403,8 +398,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
 
 
-
-
         /*val fragmentList = supportFragmentManager.fragments
         for (fragment in fragmentList) {
             if(fragment is SeminarFragment){
@@ -420,9 +413,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                 binding.activityContainerToolbarTv.text = "신청 취소"
             }
         }*/
-
     }
-    //안드로이드 뒤로가기 버튼 눌렀을때
+    fun tagWhy(){
+        Log.d("태그","메소드")
+    }
+   //안드로이드 뒤로가기 버튼 눌렀을때
     fun isProfileEdit ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -515,20 +510,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             }
         }
         return returnValue
-    }
-    override fun onSaveInstanceState(outState: Bundle) {
-        Log.d("currentFragment1",outState.toString())
-        super.onSaveInstanceState(outState)
-        // 이전에 사용 중이던 프래그먼트의 상태 정보를 저장합니다.
-        currentFragment?.let { supportFragmentManager.putFragment(outState, "currentFragment", it) }
-
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        Log.d("currentFragment2",savedInstanceState.toString())
-        super.onRestoreInstanceState(savedInstanceState)
-        // 저장된 상태 정보에서 이전에 사용 중이던 프래그먼트를 가져옵니다.
-        currentFragment = supportFragmentManager.getFragment(savedInstanceState, "currentFragment")
     }
 
 
