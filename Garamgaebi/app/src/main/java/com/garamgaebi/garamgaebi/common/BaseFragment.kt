@@ -34,11 +34,13 @@ abstract class BaseFragment<B : ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
+        Log.d("태그 ","onCreateView")
         return binding.root
     }
 
     override fun onDestroyView() {
         _binding = null
+        Log.d("태그 ","onDestroyView")
         super.onDestroyView()
     }
 
@@ -53,7 +55,8 @@ abstract class BaseFragment<B : ViewBinding>(
     }
 
     fun dismissLoadingDialog() {
-        if (mLoadingDialog.isShowing) {
+        Log.d("태그 로당","디스미스")
+       if (mLoadingDialog.isShowing) {
             mLoadingDialog.dismiss()
         }
     }
