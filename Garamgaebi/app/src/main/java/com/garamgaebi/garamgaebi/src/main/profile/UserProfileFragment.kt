@@ -280,7 +280,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             getEducationInfo(memberIdx)
                             getCareerInfo(memberIdx)
                             getSNSInfo(memberIdx)
-                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                             with(binding) {
                                 fragmentSomeoneProfileSvMain.visibility = VISIBLE
                                 networkErrorContainer.visibility = GONE
@@ -290,7 +289,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                 fragmentSomeoneProfileSvMain.visibility = GONE
                                 networkErrorContainer.visibility = VISIBLE
                             }
-                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                         }
                     }
                 }

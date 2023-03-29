@@ -34,11 +34,11 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                         Log.d("participantsImg", "why")
                         binding.activityItemSeminarProfileImg.visibility = VISIBLE
                        // binding.activityItemSeminarProfile.visibility = GONE
-                        Glide.with(binding.activityItemSeminarProfile.context)
-                            .load(R.drawable.ic_transparent)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .into(binding.activityItemSeminarProfile)
+//                        Glide.with(binding.activityItemSeminarProfile.context)
+//                            .load(R.drawable.ic_transparent)
+//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                            .skipMemoryCache(true)
+//                            .into(binding.activityItemSeminarProfile)
                     }
                     else{
                         binding.activityItemSeminarProfileImg.visibility = GONE
@@ -60,11 +60,11 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
             binding.itemProfileNameTv.text = data.nickname
             if(data.profileImg == null){
                 binding.activityItemSeminarProfileImg.visibility = VISIBLE
-                Glide.with(binding.itemNetworkGameProfileFrame.context)
-                    .load(R.drawable.ic_transparent)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.itemNetworkGameProfileFrame)
+//                Glide.with(binding.itemNetworkGameProfileFrame.context)
+//                    .load(R.drawable.ic_transparent)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true)
+//                    .into(binding.itemNetworkGameProfileFrame)
             }
             else{
                 binding.activityItemSeminarProfileImg.visibility = GONE

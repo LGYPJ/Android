@@ -510,10 +510,11 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
 
-        //퇴장
-        //viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-            viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
-                val data = getPref("data")
+//퇴장
+        viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
+            val memberList = getPref("data")
+            viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                //val data = getPref("data")
                 Log.d("deleteconnect", "deleteconnect")
                 //viewModel.deleteMember.observe(viewLifecycleOwner, Observer {game->
                 // viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
@@ -521,7 +522,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 // 퇴장멤버ID == currentID -> 스크롤
                 val deleteCurrent = it.message
                 Log.d("deleteDeleteCurrent", deleteCurrent)
-                val memberList = getPref("data")
+
                 Log.d("deletememberList", memberList.toString())
                 Log.d(
                     "deletecurrentId5",
@@ -536,16 +537,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 ) {
                     //
                     var currentId4 =
-                        data.indexOf(memberList.find { gameMemberGetResult ->
-                            gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt(
-                                "deleteNext",
-                                0
-                            )
+                        memberList.indexOf(memberList.find { gameMemberGetResult ->
+                            gameMemberGetResult.memberIdx == deleteCurrent.toInt()
                         })
                     Log.d("deletecurrentId4", currentId4.toString())
-                    val lastIndex = data.size - 1
+                    val lastIndex = memberList.lastIndex
                     Log.d("deleteLastIndex", lastIndex.toString())
-                    if (data[currentId4].memberIdx == data[lastIndex].memberIdx) {
+                    if (memberList[currentId4].memberIdx == memberList[lastIndex].memberIdx) {
                         Log.d("delete1", "delete1")
                         currentId4 = 0
                         Log.d("delete1currentId", currentId4.toString())
@@ -582,7 +580,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         val networkingGameProfile =
                             NetworkingGameProfileAdapter(
                                 data as ArrayList<GameMemberGetResult>,
-                                currentId4 + 1
+                                currentId4
                             )
                         binding.activityGameProfileRv.apply {
                             adapter = networkingGameProfile
@@ -593,7 +591,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     false
                                 )
                             (layoutManager as LinearLayoutManager).scrollToPosition(
-                                currentId4 + 1
+                                currentId4
                             )
                             networkingGameProfile.notifyDataSetChanged()
                         }
@@ -637,7 +635,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }
                 }
             })
-        //})
+        })
         //퇴장 마지막
 
         //카드 뷰페이저 양 옆 overlap
@@ -719,7 +717,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         if (callback == null) {
             callback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    //(activity as ContainerActivity).openFragmentOnFrameLayout(7)
                     CoroutineScope(Dispatchers.Main).launch {
                         withContext(Dispatchers.IO) {
                             deleteMember()
