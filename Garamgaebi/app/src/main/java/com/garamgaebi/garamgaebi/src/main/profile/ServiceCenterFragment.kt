@@ -148,8 +148,8 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        containerActivity!!.openFragmentOnFrameLayout(15)
-                        containerActivity!!.goWithdrawal()
+                        (requireActivity() as ContainerActivity).openFragmentOnFrameLayout(15)
+                        (requireActivity() as ContainerActivity).goWithdrawal()
                     }, { it.printStackTrace() })
             )
 

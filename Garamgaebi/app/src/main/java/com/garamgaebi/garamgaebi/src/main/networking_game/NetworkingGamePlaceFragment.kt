@@ -523,6 +523,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
 
 
+
         //퇴장
             viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
                 val memberList = getPref("data")
@@ -730,7 +731,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         if (callback == null) {
             callback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    //(activity as ContainerActivity).openFragmentOnFrameLayout(7)
                     CoroutineScope(Dispatchers.Main).launch {
                         runBlocking {
                             withContext(Dispatchers.IO) {

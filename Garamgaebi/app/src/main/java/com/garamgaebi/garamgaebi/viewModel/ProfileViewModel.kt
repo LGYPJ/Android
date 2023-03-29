@@ -136,6 +136,9 @@ class ProfileViewModel : ViewModel(){
     val myContent : LiveData<String>
         get() = _myContent
 
+    val loadingSuccess = MutableLiveData<Int>()
+    init { loadingSuccess.value = 0}
+
     fun getProfileInfo(memberIdx : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getProfileInfo(memberIdx)
@@ -146,11 +149,10 @@ class ProfileViewModel : ViewModel(){
                 viewModelScope.launch(Dispatchers.Main) {
                     Log.d("success", response.message())
                     _profileInfo.value = (response.body())
+                    loadingSuccess.value = loadingSuccess.value?.plus(1)
                 }
-                Log.d("왜 에러 ?", "프로필 성공")
             }
             else {
-                Log.d("왜 에러 ?", "프로필 실패")
 
                 Log.d("error", response.message())
             }
@@ -175,11 +177,8 @@ class ProfileViewModel : ViewModel(){
                 viewModelScope.launch(Dispatchers.Main) {
                     _snsInfoArray.value = (response.body()?.result as ArrayList<SNSData>?)
                 }
-                Log.d("왜 에러 ?", "sns 성공")
-
             }
             else {
-                Log.d("왜 에러 ?", "sns 실패")
 
                 Log.d("error", response.message())
             }
@@ -205,11 +204,8 @@ class ProfileViewModel : ViewModel(){
                 viewModelScope.launch(Dispatchers.Main) {
                     _educationInfoArray.value = response.body()?.result as ArrayList<EducationData>
                 }
-                Log.d("왜 에러 ?", "교육 성공")
             }
             else {
-                Log.d("왜 에러 ?", "교육 실패")
-
                 Log.d("error", response.message())
             }
         }
@@ -232,12 +228,11 @@ class ProfileViewModel : ViewModel(){
             if (response.isSuccessful && response.body()?.result != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _careerInfoArray.value = (response.body()?.result as ArrayList<CareerData>)
+
                 }
-                Log.d("왜 에러 ?", "경력 성공")
 
             }
             else {
-                Log.d("왜 에러 ?", "경력 실전")
                 Log.d("error", response.message())
             }
         }

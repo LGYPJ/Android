@@ -238,7 +238,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                         userRVAdapter.setOnItemClickListener(object :
                             HomeUserItemRVAdapter.OnItemClickListener {
                             override fun onClick(position: Int) {
-
                                 CoroutineScope(Dispatchers.Default).launch {
                                     GaramgaebiApplication().saveIntToDataStore(
                                         "userMemberIdx",

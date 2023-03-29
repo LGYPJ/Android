@@ -22,6 +22,7 @@ import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
+import com.garamgaebi.garamgaebi.util.LoadingDialog
 import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeUnit
 class UserProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
 
+    private lateinit var LoadingDialog: LoadingDialog
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var memberIdx: Int
@@ -45,7 +47,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         runBlocking {
                 memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
             }
-
+        Log.d("로딩","??")
 
 
         binding.refreshLayout.setOnRefreshListener {
@@ -95,6 +97,13 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }, { it.printStackTrace() })
             )
             with(viewModel) {
+                loadingSuccess.observe(viewLifecycleOwner){
+                    if(it == 4){
+                        Log.d(" 새로고침","4")
+                        dismissLoadingDialog()
+                    }
+                }
+
                 profileInfo.observe(viewLifecycleOwner) {
                     val result = it as ProfileDataResponse
                     if (result.isSuccess) {
@@ -163,7 +172,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 }
                 //SNS 정보 어댑터 연결
                 snsInfoArray.observe(viewLifecycleOwner) { it ->
-
+                    loadingSuccess.value = loadingSuccess.value?.plus(1)
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerSns.visibility = GONE
                     } else {
@@ -185,6 +194,8 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 }
                 //경력 정보 어댑터 연결
                 careerInfoArray.observe(viewLifecycleOwner) { it ->
+                    loadingSuccess.value = loadingSuccess.value?.plus(1)
+
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerCareer.visibility = GONE
                     } else {
@@ -222,6 +233,8 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                 //교육 정보 어댑터 연결
 //            getEducationInfo(memberIdx)
                 educationInfoArray.observe(viewLifecycleOwner, Observer { it ->
+                    loadingSuccess.value = loadingSuccess.value?.plus(1)
+
                     if (it == null || it.size < 1) {
                         binding.fragmentSomeoneProfileContainerEdu.visibility = GONE
                     } else {
@@ -275,12 +288,19 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }
                 } else {
                     (requireActivity() as ContainerActivity).networkValid.observe(viewLifecycleOwner) { isConnected ->
+                        Log.d("로딩","뭐고")
+
                         if (isConnected) {
-                            getProfileInfo(memberIdx)
-                            getEducationInfo(memberIdx)
-                            getCareerInfo(memberIdx)
-                            getSNSInfo(memberIdx)
-                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
+                            runBlocking {
+                                showLoadingDialog(requireContext())
+
+                            }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                getProfileInfo(memberIdx)
+                                getEducationInfo(memberIdx)
+                                getCareerInfo(memberIdx)
+                                getSNSInfo(memberIdx)
+                            }
                             with(binding) {
                                 fragmentSomeoneProfileSvMain.visibility = VISIBLE
                                 networkErrorContainer.visibility = GONE
@@ -290,7 +310,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                 fragmentSomeoneProfileSvMain.visibility = GONE
                                 networkErrorContainer.visibility = VISIBLE
                             }
-                            Log.d("network_check", "${(requireActivity() as ContainerActivity).networkValid.value}")
                         }
                     }
                 }

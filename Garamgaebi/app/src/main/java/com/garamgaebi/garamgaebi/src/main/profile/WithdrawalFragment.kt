@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +22,9 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.runBlocking
+
 /*
 탈퇴 Fragment - ContainerActivity
 
@@ -32,6 +34,7 @@ class WithdrawalFragment :
     BaseBindingFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal),
     ConfirmDialogInterface {
     var containerActivity: ContainerActivity? = null
+    private var callback: OnBackPressedCallback? = null
 
     @SuppressLint("SuspiciousIndentation", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -297,6 +300,41 @@ class WithdrawalFragment :
     }
     override fun onYesButtonClick(id: Int) {
         TODO("Not yet implemented")
+    }
+    @SuppressLint("NotifyDataSetChanged", "ResourceType")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("뭐냐고","ㅜㅜ")
+        val fragmentManager = requireActivity().supportFragmentManager
+        val backStackEntryCount = fragmentManager.backStackEntryCount
+        Log.d("뭐냐고",backStackEntryCount.toString())
+        containerActivity = context as ContainerActivity
+        if (callback == null) {
+            Log.d("뭐냐고","1")
+
+            callback = object : OnBackPressedCallback(true) {
+
+                override fun handleOnBackPressed() {
+                    Log.d("뭐냐고","1")
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Log.d("뭐냐고","3")
+                        withContext(Dispatchers.IO) {
+                            Log.d("뭐냐고","4")
+                            requireActivity().supportFragmentManager.popBackStack()
+                        }
+                    }
+                    //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback!!)
+
+    }
+    override fun onDetach() {
+        super.onDetach()
+        //callback?.handleOnBackPressed()
+        callback?.remove()
+
     }
 }
 
