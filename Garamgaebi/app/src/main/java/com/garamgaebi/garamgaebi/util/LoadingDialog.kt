@@ -23,7 +23,7 @@ class LoadingDialog(context: Context) : Dialog(context) {
         window!!.setDimAmount(0.2f)
         binding.progressBar.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_loading_rotate))
 
-        Log.d("로딩",context.toString())
+        Log.d("태그 로당",context.toString())
     }
 
     override fun show() {

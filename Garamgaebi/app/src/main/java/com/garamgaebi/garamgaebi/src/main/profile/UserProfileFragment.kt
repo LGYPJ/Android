@@ -36,8 +36,12 @@ import java.util.concurrent.TimeUnit
  */
 class UserProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
+    override fun onResume() {
+        Log.d("태그 로딩","onResume??----------------------")
 
-    private lateinit var LoadingDialog: LoadingDialog
+        super.onResume()
+    }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var memberIdx: Int
@@ -47,7 +51,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         runBlocking {
                 memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
             }
-        Log.d("로딩","??")
+        Log.d("태그 로딩","onViewCreated??----------------------")
 
 
         binding.refreshLayout.setOnRefreshListener {
@@ -98,9 +102,9 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             )
             with(viewModel) {
                 loadingSuccess.observe(viewLifecycleOwner){
+                    Log.d("태그 로당", it.toString())
                     if(it == 4){
-                        Log.d(" 새로고침","4")
-                        dismissLoadingDialog()
+                        (requireActivity() as ContainerActivity).dismissLoadingDialog()
                     }
                 }
 
@@ -287,32 +291,24 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         networkErrorContentTv.text = getString(R.string.can_not_find_user_content)
                     }
                 } else {
-                    (requireActivity() as ContainerActivity).networkValid.observe(viewLifecycleOwner) { isConnected ->
-                        Log.d("로딩","뭐고")
+                    runBlocking {
+                        if (loadingSuccess.value == 0) {
 
-                        if (isConnected) {
-                            runBlocking {
-                                showLoadingDialog(requireContext())
-
-                            }
-                            CoroutineScope(Dispatchers.Main).launch {
-                                getProfileInfo(memberIdx)
-                                getEducationInfo(memberIdx)
-                                getCareerInfo(memberIdx)
-                                getSNSInfo(memberIdx)
-                            }
-                            with(binding) {
-                                fragmentSomeoneProfileSvMain.visibility = VISIBLE
-                                networkErrorContainer.visibility = GONE
-                            }
-                        } else {
-                            with(binding) {
-                                fragmentSomeoneProfileSvMain.visibility = GONE
-                                networkErrorContainer.visibility = VISIBLE
-                            }
+                            (requireActivity() as ContainerActivity).showLoadingDialog(
+                                requireContext()
+                            )
                         }
                     }
-                }
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        getProfileInfo(memberIdx)
+                        getEducationInfo(memberIdx)
+                        getCareerInfo(memberIdx)
+                        getSNSInfo(memberIdx)
+                    }
+
+                    }
+
             }
 
         super.onViewCreated(view, savedInstanceState)
