@@ -38,7 +38,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onResume() {
         super.onResume()
         currentFragment()
-        Log.d("fragment 돼라","ㅇㅇ")
     }
 
     override fun onPause() {
@@ -70,9 +69,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     }
     fun currentFragment(){
-        Log.d("currentFragment","개수개수"+supportFragmentManager.backStackEntryCount)
         if(supportFragmentManager.backStackEntryCount > 0) {
-            Log.d("currentFragment", "0이상 $fragmentTag")
             var index = supportFragmentManager.backStackEntryCount - 1
             var backEntry = supportFragmentManager.getBackStackEntryAt(index)
             var tag = backEntry.name
@@ -120,8 +117,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             supportFragmentManager.findFragmentById(R.id.activity_container_frame)
 
         binding.activityContainerToolbarTv.text = fragmentHashMap[currentFragmentCheck?.tag?.toInt()]
-        Log.d("fragment 가자","?"+fragmentHashMap[currentFragmentCheck?.tag?.toInt()] + currentFragmentCheck?.tag.toString() + currentFragmentCheck)
-        Log.d("fragment 가자","개수개수"+supportFragmentManager.backStackEntryCount)
     }
 
 
@@ -226,7 +221,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     binding.activityContainerToolbarTv.text = "네트워킹"
                 }
             }
-            Log.d("currentFragment", "태그 end open $fragmentTag")
         }
         transaction.commit()
         Log.d("container", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")

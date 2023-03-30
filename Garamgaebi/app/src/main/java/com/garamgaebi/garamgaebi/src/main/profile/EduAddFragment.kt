@@ -122,9 +122,7 @@ class EduAddFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.l
                     )
                     showStart.value = false
                 } else {
-                    Log.d("career_showStart_true", "no")
                 }
-                Log.d("career_showStart_true", "히히")
             }
 
             //종료년월 갈력 show 감지
@@ -158,9 +156,7 @@ class EduAddFragment  : BaseBindingFragment<FragmentProfileEducationBinding>(R.l
                     )
                     showEnd.value = false
                 } else {
-                    Log.d("career_showEnd_true", "하하")
                 }
-                Log.d("career_showEnd_true", "히히")
             }
         }
         //유효성 끝

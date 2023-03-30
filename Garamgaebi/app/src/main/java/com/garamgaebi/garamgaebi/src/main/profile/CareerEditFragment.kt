@@ -81,8 +81,9 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     isWorking.value = originNow
                     startDate.value = originStart
                     endDate.value = originEnd
-                    viewModel.careerIdx = careerIdx
                 }
+                viewModel.careerIdx = careerIdx
+
             }
 
 
@@ -264,6 +265,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
+                        Log.d("networkValid",(requireActivity() as ContainerActivity).networkValid.value.toString())
                         if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.patchCareerInfo()
                             Log.d(

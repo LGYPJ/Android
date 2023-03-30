@@ -105,7 +105,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
         //삭제 관측
         viewModel._delete.observe(viewLifecycleOwner) {
             binding.snsViewModel = viewModel
-            Log.d("career_delete", viewModel._patch.value?.result.toString())
+            Log.d("sns_delete", viewModel._patch.value?.result.toString())
             if (viewModel._delete.value?.result == true){
                 GaramgaebiApplication.getSNS = true
                 val dialog = ConfirmDialog(
@@ -177,7 +177,6 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .subscribe({
                         if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             viewModel.patchSNSInfo()
-                            (requireActivity() as ContainerActivity).networkValid.postValue(true)
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()
                         }

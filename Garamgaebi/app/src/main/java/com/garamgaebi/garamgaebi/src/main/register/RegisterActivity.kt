@@ -17,7 +17,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         networkValid.observe(this){}
-        Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
+      //  Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
         if(intent.getBooleanExtra("login", false)){
             val viewModel by viewModels<RegisterViewModel>()
             viewModel.socialToken.value = intent.getStringExtra("kakaoToken")

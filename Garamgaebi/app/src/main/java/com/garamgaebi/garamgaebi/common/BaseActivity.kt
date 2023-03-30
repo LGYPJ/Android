@@ -85,12 +85,10 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            Log.d("network", "onAvailable")
             networkValid.postValue(true)
         }
         override fun onLost(network: Network) {
             super.onLost(network)
-            Log.d("network", "onLost")
             networkValid.postValue(false)
         }
     }

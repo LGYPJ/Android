@@ -141,7 +141,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                             var canelRequest =
                                 CancelRequest(idInfo, programInfo, bankInfo, accountInfo)
                             viewModel.postCancel(canelRequest)
-                            Log.d("cancel11", canelRequest.toString())
                         }else{
                             (requireActivity() as ContainerActivity).networkAlertDialog()
                         }

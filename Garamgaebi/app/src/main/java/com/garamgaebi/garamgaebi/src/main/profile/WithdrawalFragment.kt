@@ -73,7 +73,6 @@ class WithdrawalFragment :
         }
         viewModel.content.observe(viewLifecycleOwner) {
 
-            Log.d("content", "되냐")
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
         }
@@ -83,7 +82,6 @@ class WithdrawalFragment :
 
         viewModel._withdrawal.observe(viewLifecycleOwner) {
 
-            Log.d("withdrawal","입장")
             if (viewModel._withdrawal.value?.isSuccess == true || viewModel._withdrawal.value?.errorCode ==200){
                 runBlocking { // 비동기 작업 시작
                     GaramgaebiApplication().saveStringToDataStore(

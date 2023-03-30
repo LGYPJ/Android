@@ -44,14 +44,12 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                 binding.viewModel = viewModel
                 companyIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 GaramgaebiFunction().checkFirstChar(companyIsValid, it)
-                Log.d("career_company_true", companyIsValid.value.toString())
             }
             //직함 입력 감지
             position.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 positionIsValid.value = it.length < INPUT_TEXT_LENGTH && it.isNotEmpty()
                 GaramgaebiFunction().checkFirstChar(positionIsValid, it)
-                Log.d("career_position_true", positionIsValid.value.toString())
             }
             //경력 추가 감지
             _add.observe(viewLifecycleOwner) {
@@ -78,7 +76,6 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                         endDateIsValid.value = false
                     }
                 }
-                Log.d("career_startDate_true", startDateIsValid.value.toString())
             }
 
             //종료년월 입력감지
@@ -94,7 +91,6 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                         startDateIsValid.value = false
                     }
                 }
-                Log.d("career_endDate_true", endDateIsValid.value.toString())
             }
 
             //시작년월 달력 show 여부 감지
@@ -118,9 +114,7 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                     )
                     showStart.value = false
                 } else {
-                    Log.d("career_showStart_true", "no")
                 }
-                Log.d("career_showStart_true", "히히")
             }
 
             //종료년월 갈력 show 감지
@@ -154,9 +148,7 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                     )
                     viewModel.showEnd.value = false
                 } else {
-                    Log.d("career_showEnd_true", "하하")
                 }
-                Log.d("career_showEnd_true", "히히")
             }
         }
 
@@ -175,7 +167,6 @@ class CareerAddFragment  : BaseBindingFragment<FragmentProfileCareerBinding>(R.l
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()
                         }
-                        Log.d("career_add_button","success"+viewModel.endDate.value.toString())
                     }, { it.printStackTrace() })
             )
         disposables

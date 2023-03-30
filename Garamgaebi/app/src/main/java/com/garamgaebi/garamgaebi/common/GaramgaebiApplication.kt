@@ -31,15 +31,14 @@ import java.util.concurrent.TimeUnit
 
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
-    val API_URL = "https://dev.garamgaebi.shop/"
-    // 실 서버 주소
+    val API_URL = "https://garamgaebi.shop/"
+    // 서버 주소
     //val API_URL = "https://garamgaebi.shop/"
 
-    // 코틀린의 전역변수 문법
     companion object {
         private lateinit var appInstance: GaramgaebiApplication
         fun getApplication() = appInstance
-        // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
+
         lateinit var sSharedPreferences: SharedPreferences
         lateinit var myDataStore: DataStore<Preferences>
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")

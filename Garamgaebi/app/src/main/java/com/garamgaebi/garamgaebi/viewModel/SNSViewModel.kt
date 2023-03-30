@@ -51,8 +51,6 @@ class SNSViewModel : ViewModel(){
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false
-        Log.d("링크 focusing입니다",snsAddressFocusing.value.toString())
-        Log.d("링크 유효성입니다",snsAddressIsValid.value.toString())
     }
 
 

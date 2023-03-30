@@ -136,7 +136,6 @@ override fun getItemViewType(position: Int): Int {
     val id = runBlocking { // 코루틴의 결과를 대기하고 반환
         GaramgaebiApplication().loadIntData("memberIdx") ?: 0
     }
-    Log.d("why_you",dataList[position].memberIdx.toString() + id.toString())
 
     return when(dataList[position].memberIdx){
         id -> BLUE
