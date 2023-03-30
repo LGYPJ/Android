@@ -70,7 +70,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
                     val rvPosition =
                         (rv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                     val totalCount = rv.adapter?.itemCount?.minus(1)
-                    Log.d("scrollEndTotalCount", "${rv.adapter?.itemCount?.minus(1)}")
+                    //Log.d("scrollEndTotalCount", "${rv.adapter?.itemCount?.minus(1)}")
                     if (rvPosition == totalCount) {
                         viewModel.getNotificationScroll(
                             myMemberIdx,

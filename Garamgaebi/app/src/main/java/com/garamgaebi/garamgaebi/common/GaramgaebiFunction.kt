@@ -106,10 +106,7 @@ class GaramgaebiFunction {
     }
     fun getDDay(beforeDate : String) : String {
         val date = LocalDate.parse(beforeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-        Log.d("dday", "$date")
         val now = LocalDate.now()
-        Log.d("dday", "$now")
-        Log.d("dday", "${ChronoUnit.DAYS.between(date, now)}")
         return if(ChronoUnit.DAYS.between(date, now) == 0L) "D-Day"
         else "D${ChronoUnit.DAYS.between(date, now)}"
     }

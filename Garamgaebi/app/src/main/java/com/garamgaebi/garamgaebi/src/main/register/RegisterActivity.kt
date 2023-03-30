@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
+        networkValid.observe(this){}
+      //  Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
         if(intent.getBooleanExtra("login", false)){
             val viewModel by viewModels<RegisterViewModel>()
             viewModel.socialToken.value = intent.getStringExtra("kakaoToken")
@@ -32,7 +33,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             //setFragment(REGISTER_COMPLETE)
         }
         Log.d("register","onCreate")
-        networkValid.observe(this){}
+
     }
     fun setFragment(int : Int) {
         val trans = supportFragmentManager.beginTransaction()

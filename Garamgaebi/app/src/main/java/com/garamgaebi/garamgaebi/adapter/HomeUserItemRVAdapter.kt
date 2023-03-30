@@ -24,10 +24,10 @@ class HomeUserItemRVAdapter(private val dataList: ArrayList<HomeUserResult>, val
                 CoroutineScope(Dispatchers.Main).launch {
                     if (data.profileUrl == null) {
                         itemHomeUserIvProfileDefault.visibility = View.VISIBLE
-//                        Glide.with(itemView)
-//                            .load(R.drawable.ic_transparent)
-//                            .skipMemoryCache(true)
-//                            .into(itemHomeUserIvProfile)
+                        Glide.with(itemView)
+                            .load(R.drawable.ic_transparent)
+                            .skipMemoryCache(true)
+                            .into(itemHomeUserIvProfile)
                     } else {
                         itemHomeUserIvProfileDefault.visibility = View.GONE
                         Glide.with(itemView)

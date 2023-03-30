@@ -63,11 +63,9 @@ abstract class BaseBindingFragment<T: ViewDataBinding>(@LayoutRes private val la
     inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            Log.d("network", "onAvailable")
         }
         override fun onLost(network: Network) {
             super.onLost(network)
-            Log.d("network", "onLost")
         }
     }
 

@@ -26,7 +26,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val FIREBASE_TAG = "FirebaseService"
     /** Token 생성 메서드(FirebaseInstanceIdService 사라짐) */
     override fun onNewToken(token: String) {
-        Log.d(FIREBASE_TAG, "new Token: $token")
+       // Log.d(FIREBASE_TAG, "new Token: $token")
 
         // 토큰 값을 따로 저장
         val saveToken = runBlocking {
@@ -44,16 +44,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
 
         //받은 remoteMessage의 값 출력해보기. 데이터메세지 / 알림메세지
-        Log.d(FIREBASE_TAG, "Message data : ${remoteMessage.data}")
+        //Log.d(FIREBASE_TAG, "Message data : ${remoteMessage.data}")
         //Log.d(TAG, "Message noti : ${remoteMessage.notification}")
 
         if(remoteMessage.data.isNotEmpty()){
             //알림생성
             sendNotification(remoteMessage)
             LocalBroadcastManager.getInstance(this).sendBroadcast(Intent("fcmPushListener"))
-            Log.d(FIREBASE_TAG, remoteMessage.from!!)
+           // Log.d(FIREBASE_TAG, remoteMessage.from!!)
         } else {
-            Log.e(FIREBASE_TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
+           // Log.e(FIREBASE_TAG, "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
     }
 
@@ -70,7 +70,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         for(key in remoteMessage.data.keys){
             target.putExtra(key, remoteMessage.data.getValue(key))
         }
-        Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
+       // Log.d("fireBaseGetProgram", "${remoteMessage.data["programIdx"]} ${remoteMessage.data["programType"]}")
         target.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         // 일회용 PendingIntent : Intent 의 실행 권한을 외부의 어플리케이션에게 위임
@@ -132,7 +132,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     fun getFirebaseToken() {
         //비동기 방식
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            Log.d(FIREBASE_TAG, "token=${it}")
+            //Log.d(FIREBASE_TAG, "token=${it}")
             val saveToken = runBlocking {
                 GaramgaebiApplication().saveStringToDataStore("pushToken",it)
             }

@@ -45,6 +45,7 @@ class ServiceCenterFragment :
         binding.setVariable(BR.viewModel,viewModel)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        viewModel.emailHint.value = getString(R.string.response_email_desc)
 
         viewModel.email.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
@@ -106,7 +107,8 @@ class ServiceCenterFragment :
             binding.viewModel = viewModel
 
             if (viewModel._qna.value?.result == true){
-                (activity as ContainerActivity).onBackPressed()
+                Toast.makeText(activity, "전송 완료", Toast.LENGTH_SHORT).show()
+//                (activity as ContainerActivity).onBackPressed()
             }else{
                 (requireActivity() as ContainerActivity).networkAlertDialog()
             }
@@ -197,6 +199,7 @@ class ServiceCenterFragment :
                         viewModel.categoryFocusing.value = true
                         viewModel.categoryFirst.value = false
                         binding.fragmentServicecenterEtContent.clearFocus()
+                        binding.activitySevicecenterTvEmail.clearFocus()
 
                         val orderBottomDialogFragment =
                             OrderBottomDialogFragment(resources.getStringArray(R.array.question_option)) {

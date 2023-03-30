@@ -18,6 +18,8 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
+import com.garamgaebi.garamgaebi.model.InactiveSuccess
+import com.garamgaebi.garamgaebi.model.WithdrawalResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
@@ -71,20 +73,16 @@ class WithdrawalFragment :
         }
         viewModel.content.observe(viewLifecycleOwner) {
 
-            Log.d("content", "되냐")
             viewModel.contentIsValid.value = it.length < INPUT_TEXT_LENGTH_100 && it.isNotEmpty()
             GaramgaebiFunction().checkFirstChar(viewModel.contentIsValid, it)
         }
         viewModel.agree.observe(viewLifecycleOwner) {
             viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
         }
-        viewModel.withdrawal.observe(viewLifecycleOwner) {
-            viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
-        }
 
         viewModel._withdrawal.observe(viewLifecycleOwner) {
 
-            if (viewModel._withdrawal.value?.isSuccess == true){
+            if (viewModel._withdrawal.value?.isSuccess == true || viewModel._withdrawal.value?.errorCode ==200){
                 runBlocking { // 비동기 작업 시작
                     GaramgaebiApplication().saveStringToDataStore(
                         "kakaoToken",
@@ -103,6 +101,7 @@ class WithdrawalFragment :
                         -1
                     )
                     GaramgaebiApplication().clearDataStore()
+                    Log.d("withdrawal","block")
 
                 }
 
@@ -218,8 +217,6 @@ class WithdrawalFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         if((requireActivity() as ContainerActivity).networkValid.value == true) {
-                            (requireActivity() as ContainerActivity).networkValid.postValue(true)
-
                             val dialog: DialogFragment =
                                 ConfirmDialog(this, "탈퇴하시겠습니까?", 1) {
                                     when (it) {
@@ -304,23 +301,16 @@ class WithdrawalFragment :
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("뭐냐고","ㅜㅜ")
         val fragmentManager = requireActivity().supportFragmentManager
         val backStackEntryCount = fragmentManager.backStackEntryCount
-        Log.d("뭐냐고",backStackEntryCount.toString())
         containerActivity = context as ContainerActivity
         if (callback == null) {
-            Log.d("뭐냐고","1")
-
             callback = object : OnBackPressedCallback(true) {
-
                 override fun handleOnBackPressed() {
-                    Log.d("뭐냐고","1")
                     CoroutineScope(Dispatchers.Main).launch {
-                        Log.d("뭐냐고","3")
                         withContext(Dispatchers.IO) {
-                            Log.d("뭐냐고","4")
                             requireActivity().supportFragmentManager.popBackStack()
+                            (requireActivity() as ContainerActivity).backServiceCenter()
                         }
                     }
                     //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()

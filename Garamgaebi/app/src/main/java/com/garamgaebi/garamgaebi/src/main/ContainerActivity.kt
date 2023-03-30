@@ -38,9 +38,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onResume() {
         super.onResume()
         currentFragment()
-        Log.d("돼라","ㅇㅇ")
     }
 
+    override fun onPause() {
+        ignoreFirst.value = 0
+        super.onPause()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         networkValid.observe(this) {
@@ -61,14 +64,12 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-        onBackPressed()
+            onBackPressed()
         }
 
     }
     fun currentFragment(){
-        Log.d("currentFragment","개수개수"+supportFragmentManager.backStackEntryCount)
         if(supportFragmentManager.backStackEntryCount > 0) {
-            Log.d("currentFragment", "0이상 $fragmentTag")
             var index = supportFragmentManager.backStackEntryCount - 1
             var backEntry = supportFragmentManager.getBackStackEntryAt(index)
             var tag = backEntry.name
@@ -116,8 +117,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             supportFragmentManager.findFragmentById(R.id.activity_container_frame)
 
         binding.activityContainerToolbarTv.text = fragmentHashMap[currentFragmentCheck?.tag?.toInt()]
-        Log.d("fragment 가자","?"+fragmentHashMap[currentFragmentCheck?.tag?.toInt()] + currentFragmentCheck?.tag.toString() + currentFragmentCheck)
-        Log.d("fragment 가자","개수개수"+supportFragmentManager.backStackEntryCount)
     }
 
 
@@ -222,7 +221,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     binding.activityContainerToolbarTv.text = "네트워킹"
                 }
             }
-            Log.d("currentFragment", "태그 end open $fragmentTag")
         }
         transaction.commit()
         Log.d("container", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")
@@ -257,7 +255,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         }
     }
-   //안드로이드 뒤로가기 버튼 눌렀을때
+    //안드로이드 뒤로가기 버튼 눌렀을때
     fun isProfileEdit ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -308,6 +306,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
     fun backIceBreaking(){
         binding.activityContainerToolbarTv.text = "아이스브레이킹"
+    }
+    fun backServiceCenter(){
+        binding.activityContainerToolbarTv.text = "고객 센터"
     }
 
     fun isInGame ():Boolean {

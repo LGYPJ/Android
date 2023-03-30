@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit
 class UserProfileFragment :
 BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind, R.layout.fragment_someoneprofile) {
     override fun onResume() {
-        Log.d("태그 로딩","onResume??----------------------")
 
         super.onResume()
     }
@@ -51,14 +50,11 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
         runBlocking {
                 memberIdx = GaramgaebiApplication().loadIntData("userMemberIdx")!!
             }
-        Log.d("태그 로딩","onViewCreated??----------------------")
 
 
         binding.refreshLayout.setOnRefreshListener {
 
-            Log.d("network", "SomeoneProfileFragmentRefresh")
             if((requireActivity() as ContainerActivity).networkValid.value == true) {
-                Log.d("network", "SomeoneProfileFragmentRefreshTrue")
                 with(viewModel) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
@@ -80,7 +76,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        Log.d("프로필 새로고침","1")
                         if((requireActivity() as ContainerActivity).networkValid.value == true) {
                             with(viewModel){
                                 getProfileInfo(memberIdx)
@@ -88,12 +83,10 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                 getCareerInfo(memberIdx)
                                 getSNSInfo(memberIdx)
                             }
-                            Log.d("프로필 새로고침","2")
 
                             binding.fragmentSomeoneProfileSvMain.visibility = View.VISIBLE
                             binding.networkErrorContainer.visibility = View.GONE
                         } else {
-                            Log.d("프로필 새로고침","3")
                             binding.fragmentSomeoneProfileSvMain.visibility = View.GONE
                             binding.networkErrorContainer.visibility = View.VISIBLE
                         }
@@ -102,7 +95,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
             )
             with(viewModel) {
                 loadingSuccess.observe(viewLifecycleOwner){
-                    Log.d("태그 로당", it.toString())
                     if(it == 4){
                         (requireActivity() as ContainerActivity).dismissLoadingDialog()
                     }
@@ -120,7 +112,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
                                     .into(binding.fragmentSomeoneProfileIvProfile)
-                                Log.d("resultssdd", result.result.toString())
 
                             }
                             fragmentSomeoneProfileTvUsername.text = result.result.nickName
@@ -143,7 +134,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                             }
                         }
                     } else {
-                        Log.d("network", "SomeoneProfileFragmentResultFailed")
 //                        with(binding) {
 //                            fragmentSomeoneProfileSvMain.visibility = View.GONE
 //                            networkErrorContainer.visibility = View.VISIBLE
@@ -224,7 +214,6 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     }
                     binding.fragmentSomeoneProfileRVCareer.apply {
                         adapter = careerAdapter
-                        Log.d("career_adapter_list_size", it.size.toString())
                         layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     }

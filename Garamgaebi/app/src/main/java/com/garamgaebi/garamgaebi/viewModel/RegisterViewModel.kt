@@ -89,11 +89,11 @@ class RegisterViewModel : ViewModel(){
     fun postRegister(request: RegisterRequest) {
         viewModelScope.launch {
             val response = registerRepository.postRegister(request)
-            Log.d("postRegister_Request", "${request}")
+            //Log.d("postRegister_Request", "${request}")
             //Log.d("sns_add", response.body().toString())
             if(response.isSuccessful){
-                Log.d("postRegister", "${response.body()}")
-                Log.d("postRegister_Response", "${response}")
+              //  Log.d("postRegister", "${response.body()}")
+                //Log.d("postRegister_Response", "${response}")
                 _register.postValue(response.body())
             }
             else {
@@ -142,7 +142,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     fun getRegisterRequest() : RegisterRequest {
-        Log.d("register", "${nickname.value}, ${profileEmail.value}, ${socialToken.value}, ${emailSent.value}, ACTIVE")
+        //Log.d("register", "${nickname.value}, ${profileEmail.value}, ${socialToken.value}, ${emailSent.value}, ACTIVE")
         return RegisterRequest(nickname.value!!, profileEmail.value!!, socialToken.value!!, emailSent.value!!, "ACTIVE")
     }
 }

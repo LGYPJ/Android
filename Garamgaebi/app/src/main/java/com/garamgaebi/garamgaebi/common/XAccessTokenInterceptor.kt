@@ -32,19 +32,16 @@ class XAccessTokenInterceptor : Interceptor {
 
         // access token이 만료된 경우
         if (response.code == 401) {
-            Log.d("refresh_request","code"+chain.request().toString())
             val newJwtToken = refreshToken()
             if (newJwtToken != null) {
                 // 갱신된 access token으로 다시 요청을 보냄
                 chain.request().newBuilder()
                     .removeHeader("Authorization")
                     .addHeader("Authorization", newJwtToken)
-                Log.d("token fired","401")
                 response.close()
                 return chain.proceed(newRequestWithAccessToken(newJwtToken, request))
             }
         } else {
-            Log.d("token_response","code"+response.code.toString())
             // 401 이외의 상태코드의 경우 바로 반환
         }
         return response
@@ -65,20 +62,16 @@ class XAccessTokenInterceptor : Interceptor {
 
         // refresh token이 없는 경우 갱신 실패로 처리
         val call = HomeRepository().postLoginForRefresh(autoLoginRequest)
-        Log.d("refresh0","????")
 
         try {
             val response = call.execute()
-            Log.d("refresh1",response.toString())
 
             if (response.isSuccessful) {
                 val loginResponse = response.body()
-                Log.d("refresh","$loginResponse")
                 // 새로운 access token 추출
                 var newAccessToken = ""
                 newAccessToken = loginResponse?.result?.tokenInfo?.accessToken ?: ""
 
-                Log.d("refresh2",newAccessToken)
 
                 if (loginResponse != null) {
                     CoroutineScope(Dispatchers.Main).launch {
@@ -97,18 +90,17 @@ class XAccessTokenInterceptor : Interceptor {
 
                 // 추출된 access token이 null이 아니면 반환
                 if (!newAccessToken.isNullOrEmpty()) {
-                    Log.d("refresh3",newAccessToken)
 
 
                     return "Bearer $newAccessToken"
                 }
             } else {
                 // API 호출이 실패한 경우 로그를 출력
-                Log.e("XAccessTokenInterceptor11", "Failed to refresh access token. Response code: ${response.code()}")
+               // Log.e("XAccessTokenInterceptor11", "Failed to refresh access token. Response code: ${response.code()}")
             }
         } catch (e: IOException) {
             // IOException이 발생한 경우 로그를 출력
-            Log.e("XAccessTokenInterceptor1122", "Failed to refresh access token", e)
+            //Log.e("XAccessTokenInterceptor1122", "Failed to refresh access token", e)
         }
 
         return null

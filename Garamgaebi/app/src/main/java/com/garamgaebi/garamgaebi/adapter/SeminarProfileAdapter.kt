@@ -33,12 +33,12 @@ class SeminarProfileAdapter(private val dataList: ArrayList<SeminarResult>): Rec
                     if(data.profileImg == null){
                         Log.d("participantsImg", "why")
                         binding.activityItemSeminarProfileImg.visibility = VISIBLE
-                       // binding.activityItemSeminarProfile.visibility = GONE
-//                        Glide.with(binding.activityItemSeminarProfile.context)
-//                            .load(R.drawable.ic_transparent)
-//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                            .skipMemoryCache(true)
-//                            .into(binding.activityItemSeminarProfile)
+                        binding.activityItemSeminarProfile.visibility = GONE
+                        Glide.with(binding.activityItemSeminarProfile.context)
+                            .load(R.drawable.ic_transparent)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(binding.activityItemSeminarProfile)
                     }
                     else{
                         binding.activityItemSeminarProfileImg.visibility = GONE

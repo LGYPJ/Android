@@ -87,8 +87,6 @@ class ProfileViewModel : ViewModel(){
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false
-        Log.d("링크 focusing입니다",data.value.toString())
-        Log.d("링크 첫입력입니다",first.value.toString())
     }
 
     //프로필 정보 편집

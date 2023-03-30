@@ -39,7 +39,6 @@ class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext
                 var editEduEndDate = data.endDate
                 if (data.endDate.isNullOrBlank() || data.isLearning.equals("TRUE")) {
                     editEduEndDate = "현재"
-                    Log.d("datessss", editEduStartDate + "이랑" + editEduEndDate)
                 }
                 CoroutineScope(Dispatchers.Main).launch {
                     GaramgaebiApplication().saveStringToDataStore(

@@ -71,8 +71,6 @@ class ServiceCenterViewModel : ViewModel(){
     fun setBoolean(data:MutableLiveData<Boolean>,first:MutableLiveData<Boolean>,check : Boolean){
         data.value = check
         first.value = false
-        Log.d("링크 focusing입니다",data.value.toString())
-        Log.d("링크 첫입력입니다",first.value.toString())
     }
 
 
@@ -120,10 +118,10 @@ class ServiceCenterViewModel : ViewModel(){
                 viewModelScope.launch(Dispatchers.Main) {
                     _logout.value = response.body()
                 }
-                Log.d("Logout_success", response.toString())
+               // Log.d("Logout_success", response.toString())
             }
             else {
-                Log.d("Logout_succesdddddds", response.toString())
+               // Log.d("Logout_succesdddddds", response.toString())
             }
         }
     }

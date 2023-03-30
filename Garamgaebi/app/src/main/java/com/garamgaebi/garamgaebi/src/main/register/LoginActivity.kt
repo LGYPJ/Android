@@ -72,7 +72,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                 //postLogin 강제 접속
                 postLogin("xxZmTH2WUJNqoSvCywHYMmYciCZK_iQ3hqa0AWT7Cj1zmwAAAYcO4VYA")
             } else if (token != null) {
-                Log.d("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
+                //Log.d("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
                 //postLogin("xxZmTH2WUJNqoSvCywHYMmYciCZK_iQ3hqa0AWT7Cj1zmwAAAYcO4VYA")
 
                 postLogin(token.accessToken)
@@ -91,7 +91,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
-                    Log.d("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                    //Log.d("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
                     //postLogin("xxZmTH2WUJNqoSvCywHYMmYciCZK_iQ3hqa0AWT7Cj1zmwAAAYcO4VYA")
 
                     postLogin(token.accessToken)
