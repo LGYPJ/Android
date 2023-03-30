@@ -34,9 +34,9 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
         //hasNext 저장 용도
 
         // 최초 리사이클러뷰
-        viewModel.notification.observe(viewLifecycleOwner, Observer {
+        viewModel.notification.observe(viewLifecycleOwner) {
             val result = it.result.result as ArrayList<NotificationList>
-            val putData = runBlocking {
+            runBlocking {
                 GaramgaebiApplication().saveBooleanToDataStore("hasNext",it.result.hasNext)
             }
 
@@ -45,7 +45,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
                 adapter = notificationRVAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
-        })
+        }
         with(binding.swipeRefreshLayout) {
             setOnRefreshListener {
                 notificationRVAdapter.refresh()
@@ -63,7 +63,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
 //                    "${GaramgaebiApplication.sSharedPreferences.getBoolean("hasNext", false)}"
 //                )
                 var hasNext = false
-                val putData = runBlocking {
+                runBlocking {
                     hasNext = GaramgaebiApplication().loadBooleanData("hasNext") == true
                 }
                 if (hasNext) {
@@ -82,8 +82,8 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
             }
         })
         // 다음 알림 조회 API
-        viewModel.notificationScroll.observe(viewLifecycleOwner, Observer {
-            val putData = runBlocking {
+        viewModel.notificationScroll.observe(viewLifecycleOwner) {
+            runBlocking {
                 GaramgaebiApplication().saveBooleanToDataStore("hasNext",it.result.hasNext)
             }
             notificationRVAdapter.apply {
@@ -97,7 +97,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
                     it.result.result.size
                 )
             }
-        })
+        }
 
         notificationRVAdapter.setOnItemClickListener(object :
             NotificationItemRVAdapter.OnItemClickListener {
@@ -108,7 +108,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
 //                GaramgaebiApplication.sSharedPreferences
 //                    .edit().putInt("programIdx", program)
 //                    .apply()
-                val putData = runBlocking {
+                runBlocking {
                     GaramgaebiApplication().saveIntToDataStore("programIdx",program)
                 }
                 //세미나 메인 프래그먼트로!
