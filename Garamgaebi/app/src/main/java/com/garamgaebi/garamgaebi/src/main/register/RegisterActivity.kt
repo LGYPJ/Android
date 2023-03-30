@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkValid.observe(this){}
         Log.d("kakao", "${intent.getBooleanExtra("login", false)}")
         if(intent.getBooleanExtra("login", false)){
             val viewModel by viewModels<RegisterViewModel>()
@@ -32,7 +33,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             //setFragment(REGISTER_COMPLETE)
         }
         Log.d("register","onCreate")
-        networkValid.observe(this){}
+
     }
     fun setFragment(int : Int) {
         val trans = supportFragmentManager.beginTransaction()

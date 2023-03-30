@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.testEmail
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.testPW
 import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.common.REGISTER_NICKNAME
 import com.garamgaebi.garamgaebi.databinding.FragmentRegisterAuthenticationBinding
@@ -99,17 +101,30 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnEmail.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as RegisterActivity).networkValid.value == true) {
-                            binding.viewModel = viewModel
-                            with(viewModel) {
-                                emailSent.value = viewModel.getEmail(registerActivity)
-                                Log.d("registerEmail", emailSent.value!!)
-                                postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                        // 런칭 심사 테스트용
+                        if(viewModel.uniEmail.value == testEmail){
+                            viewModel.emailSent.value = viewModel.getEmail(registerActivity)
+                            Log.d("registerAuth", "isSuccess")
+                            with(binding) {
+                                fragmentAuthenticationEtEmail.clearFocus()
+                                fragmentAuthenticationEtNum.clearFocus()
+                                fragmentAuthenticationEtNum.visibility = VISIBLE
+                                fragmentAuthenticationBtnNum.visibility = VISIBLE
+                                viewModel!!.isEmailDuplicated.value = false
+                                viewModel!!.timerStart()
                             }
-                        } else {
-                            (requireActivity() as RegisterActivity).networkAlertDialog()
+                        } else { // 테스트 아닌 코드
+                            if((requireActivity() as RegisterActivity).networkValid.value == true) {
+                                binding.viewModel = viewModel
+                                with(viewModel) {
+                                    emailSent.value = viewModel.getEmail(registerActivity)
+                                    Log.d("registerEmail", emailSent.value!!)
+                                    postSendEmail(RegisterSendEmailRequest(emailSent.value!!))
+                                }
+                            } else {
+                                (requireActivity() as RegisterActivity).networkAlertDialog()
+                            }
                         }
-
                     }, { it.printStackTrace() })
             )
             // 인증번호 검사 api call
@@ -117,17 +132,40 @@ class RegisterAuthenticationFragment :
                 binding.fragmentAuthenticationBtnNum.clicks()
                     .throttleFirst(2000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as RegisterActivity).networkValid.value == true) {
-                            binding.viewModel = viewModel
-                            with(viewModel) {
-                                Log.d("이메일 인증버튼", "이메일 인증버튼")
-                                authNumSent.value = authNum.value
-                                Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
-                                postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
+                        // 런칭 심사 테스트용
+                        if(viewModel.emailSent.value == "$testEmail@gachon.ac.kr") {
+                            Log.d("emailTest", testEmail)
+                            if(viewModel.authNum.value == testPW) {
+                                Log.d("emailTest", testPW)
+                                viewModel.authNumSent.value = testPW
+                                Log.d("이메일 인증버튼", "이메일 인증버튼 완")
+                                viewModel.isCompleteAuth.value = true
+                                viewModel.isAuthWrong.value = false
+                                viewModel.timer.cancel()
+                                viewModel.isTimerRunning.value = false
+                                binding.fragmentAuthenticationEtEmail.clearFocus()
+                                binding.fragmentAuthenticationEtNum.clearFocus()
+                                with(binding) {
+                                    fragmentAuthenticationEtEmail.isEnabled = false
+                                    fragmentAuthenticationEtNum.isEnabled = false
+                                    fragmentAuthenticationBtnEmail.isEnabled = false
+                                    fragmentAuthenticationBtnNum.isEnabled = false
+                                }
                             }
-                        } else {
-                            (requireActivity() as RegisterActivity).networkAlertDialog()
+                        } else { // 테스트 아닌 코드
+                            if((requireActivity() as RegisterActivity).networkValid.value == true) {
+                                binding.viewModel = viewModel
+                                with(viewModel) {
+                                    Log.d("이메일 인증버튼", "이메일 인증버튼")
+                                    authNumSent.value = authNum.value
+                                    Log.d("registerEmailAuthBtn", "${emailSent.value!!} ${authNumSent.value!!}")
+                                    postEmailVerify(RegisterEmailVerifyRequest(emailSent.value!!, authNumSent.value!!))
+                                }
+                            } else {
+                                (requireActivity() as RegisterActivity).networkAlertDialog()
+                            }
                         }
+
 
                     }, { it.printStackTrace() })
             )

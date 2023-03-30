@@ -44,6 +44,8 @@ class GaramgaebiApplication : Application() {
         lateinit var myDataStore: DataStore<Preferences>
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "my_data_store")
         val gameOut : MutableLiveData<Boolean> = MutableLiveData(false)
+        const val testEmail = "garamgaebiMaster2"
+        const val testPW = "000000"
 
         // JWT Token Header 키 값
         const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
