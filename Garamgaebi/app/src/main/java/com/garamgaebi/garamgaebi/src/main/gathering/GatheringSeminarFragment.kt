@@ -67,7 +67,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 //                        GaramgaebiApplication.sSharedPreferences
 //                            .edit().putInt("programIdx", program)
 //                            .apply()
-                        val putData = runBlocking {
+                        runBlocking {
                             GaramgaebiApplication().saveIntToDataStore("programIdx",program)
                         }
                         //세미나 메인 프래그먼트로!
@@ -119,7 +119,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
 //                            GaramgaebiApplication.sSharedPreferences
 //                                .edit().putInt("programIdx", it.result[position].programIdx)
 //                                .apply()
-                            val putData = runBlocking {
+                            runBlocking {
                                 GaramgaebiApplication().saveIntToDataStore("programIdx",it.result[position].programIdx)
                             }
                             //세미나 메인 프래그먼트로!
