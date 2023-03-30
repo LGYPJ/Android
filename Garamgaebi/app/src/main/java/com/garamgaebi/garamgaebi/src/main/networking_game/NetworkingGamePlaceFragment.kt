@@ -816,6 +816,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                 Log.d("deletedisconnect", "deletedisconnect")
                                 viewModel.disconnectStomp()
                                 requireActivity().supportFragmentManager.popBackStack()
+                                (requireActivity() as ContainerActivity).backIceBreaking()
+
                             }
                         }
 
