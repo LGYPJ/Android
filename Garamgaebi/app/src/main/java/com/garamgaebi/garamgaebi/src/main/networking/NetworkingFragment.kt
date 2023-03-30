@@ -146,7 +146,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                             activityNetworkParticipateBtn.setBackgroundResource(R.drawable.networking_blue_join_btn_background)
                         }
                     } else {
-                        binding.activityNetworkParticipateBtn.isEnabled = true
+                        binding.activityNetworkParticipateBtn.isEnabled = false
                     }
                 })
 
