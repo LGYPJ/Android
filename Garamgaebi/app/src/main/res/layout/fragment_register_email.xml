@@ -94,6 +94,7 @@
             android:layout_marginBottom="48dp"
             android:background="@{viewModel.isProfileEmailValid() ? @drawable/register_btn_color_enable : @drawable/register_btn_color}"
             android:text="@string/next"
+            android:textSize="16sp"
             android:elevation="0dp"
             android:textColor="@color/white"
             android:enabled="@{viewModel.isProfileEmailValid() ? true : false}"
