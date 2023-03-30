@@ -18,14 +18,12 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
-import com.garamgaebi.garamgaebi.common.BaseBindingFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getCareer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getEdu
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfile
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -168,35 +166,35 @@ class MyProfileFragment :
     //내 프로필 편집 화면으로 이동
     private fun goEditFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
-        intent.putExtra("edit", true) //데이터 넣기
+        intent.putExtra("openFragment", PROFILE_EDIT) //데이터 넣기
         startActivity(intent)
     }
 
     //고객센터 화면으로 이동
     private fun goServiceCenterFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
-        intent.putExtra("servicecenter", true) //데이터 넣기
+        intent.putExtra("openFragment", SERVICE_CENTER) //데이터 넣기
         startActivity(intent)
     }
 
     //sns 추가 버튼
     private fun goAddSNSFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
-        intent.putExtra("sns", true) //데이터 넣기
+        intent.putExtra("openFragment", SNS_ADD) //데이터 넣기
         startActivity(intent)
     }
 
     //career 추가 버튼
     private fun goAddCareerFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
-        intent.putExtra("career", true) //데이터 넣기
+        intent.putExtra("openFragment", CAREER_ADD) //데이터 넣기
         startActivity(intent)
     }
 
     //edu 추가 버튼
     private fun goAddEduFragment() {
         val intent = Intent(activity, ContainerActivity::class.java)
-        intent.putExtra("edu", true) //데이터 넣기
+        intent.putExtra("openFragment", EDU_ADD) //데이터 넣기
         startActivity(intent)
     }
 

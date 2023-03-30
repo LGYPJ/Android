@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
-import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -73,8 +71,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.fragmentHomeIvNotification.setOnClickListener {
             startActivity(
                 Intent(context, ContainerActivity::class.java).putExtra(
-                    "notification",
-                    true
+                    "openFragment",
+                    NOTIFICATION
                 )
             )
         }
@@ -167,7 +165,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                         //세미나 메인 프래그먼트로!
                                         startActivity(
                                             Intent(requireContext(), ContainerActivity::class.java)
-                                                .putExtra("seminar", true)
+                                                .putExtra("openFragment", SEMINAR)
                                         )
                                     }
                                 }
@@ -206,7 +204,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                     //네트워킹 메인 프래그먼트로!
                                     startActivity(
                                         Intent(context, ContainerActivity::class.java)
-                                            .putExtra("networking", true)
+                                            .putExtra("openFragment", NETWORKING)
                                     )
                                 }
                             }
@@ -249,7 +247,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //                                    .putInt("userMemberIdx", result[position].memberIdx).apply()
 
                                     val target = Intent(context, ContainerActivity::class.java)
-                                    target.putExtra("someoneProfile", true)
+                                    target.putExtra("openFragment", USER_PROFILE)
                                     startActivity(target)
                                 }
                             }
@@ -297,13 +295,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                     //세미나 메인 프래그먼트로!
                                     if (it.result[position].type == "SEMINAR") {
                                         val intent = Intent(context, ContainerActivity::class.java)
-                                        intent.putExtra("seminar", true)
+                                        intent.putExtra("openFragment", SEMINAR)
                                         startActivity(intent)
                                     }
                                     //네트워킹 메인 프래그먼트로
                                     if (it.result[position].type == "NETWORKING") {
                                         val intent = Intent(context, ContainerActivity::class.java)
-                                        intent.putExtra("networking", true)
+                                        intent.putExtra("openFragment", NETWORKING)
                                         startActivity(intent)
                                     }
                                 }

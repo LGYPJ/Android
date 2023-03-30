@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.GatheringSeminarDeadlineRVAdapter
-import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringSeminarBinding
 import com.garamgaebi.garamgaebi.model.GatheringSeminarClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -75,7 +72,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                         }
                         //세미나 메인 프래그먼트로!
                         startActivity(Intent(context, ContainerActivity::class.java)
-                            .putExtra("seminar", true)
+                            .putExtra("openFragment", SEMINAR)
                             .putExtra("goseminar", "goseminar"))
                     }
                 }
@@ -127,7 +124,7 @@ class GatheringSeminarFragment : BaseFragment<FragmentGatheringSeminarBinding>(F
                             }
                             //세미나 메인 프래그먼트로!
                             startActivity(Intent(context, ContainerActivity::class.java)
-                                .putExtra("seminar", true)
+                                .putExtra("openFragment", SEMINAR)
                                 .putExtra("goseminar", "goseminar"))
                         }
                     })

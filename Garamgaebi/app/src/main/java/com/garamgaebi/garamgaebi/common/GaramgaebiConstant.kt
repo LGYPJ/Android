@@ -49,34 +49,38 @@ const val MINIMUM_YEAR = 1950
 
 //ContainerActivity Fragment
 
-//Profile
-const val PROFILE_EDIT = 0
-const val SNS_ADD= 0
-const val SNS_EDIT = 0
-const val CAREER_ADD = 0
-const val CAREER_EDIT = 0
-const val EDU_ADD = 0
-const val EDU_EDIT = 0
-const val SERVICE_CENTER = 0
-const val WITHDRAWAL = 0
-const val USER_PROFILE = 0
-
 //SEMINAR
-const val SEMINAR = 0
-const val SEMINAR_APPLY_FREE = 0
-const val SEMINAR_APPLY_CHARGED = 0
+const val SEMINAR = 1
+const val SEMINAR_APPLY_FREE = 2
+const val SEMINAR_APPLY_CHARGED = 3
 
 //NETWORKING
-const val NETWORKING = 0
-const val NETWORKING_APPLY_FREE = 0
-const val NETWORKING_APPLY_CHARGED = 0
+const val NETWORKING = 5
+const val NETWORKING_APPLY_FREE = 6
+const val NETWORKING_APPLY_CHARGED = 20
 
 //CANCEL
-const val CANCEL = 0
+const val CANCEL = 4
 
 //ICEBREKING
-const val ICEBREAKING = 0
+const val ICEBREAKING = 7
 
+const val GAME = 8
+
+//Profile
+const val PROFILE_EDIT = 12
+const val SNS_ADD= 9
+const val SNS_EDIT = 17
+const val CAREER_ADD = 10
+const val CAREER_EDIT = 18
+const val EDU_ADD = 11
+const val EDU_EDIT = 19
+const val SERVICE_CENTER = 14
+const val WITHDRAWAL = 15
+const val USER_PROFILE = 13
+
+//Notification
+const val NOTIFICATION = 16
 
 
 

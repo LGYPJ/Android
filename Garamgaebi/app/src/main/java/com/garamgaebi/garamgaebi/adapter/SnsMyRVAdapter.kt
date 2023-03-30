@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.SNS_EDIT
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileSnsBinding
 import com.garamgaebi.garamgaebi.model.SNSData
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -55,7 +56,7 @@ class SnsMyRVAdapter(private val dataList: ArrayList<SNSData>, val mContext: Con
 
                 //SNS 편집 프래그먼트로!
                 val intent = Intent(it.context, ContainerActivity::class.java)
-                intent.putExtra("snsEdit", true)
+                intent.putExtra("openFragment", SNS_EDIT)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 mContext.startActivity(intent)
             }

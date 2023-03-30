@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.garamgaebi.garamgaebi.common.CAREER_EDIT
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileCareerBinding
 import com.garamgaebi.garamgaebi.model.CareerData
@@ -65,7 +66,7 @@ class CareerMyRVAdapter(private val dataList: ArrayList<CareerData>,val mContext
                     )
                     //경력 편집 프래그먼트로!
                     val target = Intent(it.context, ContainerActivity::class.java)
-                    target.putExtra("careerEdit", true)
+                    target.putExtra("openFragment", CAREER_EDIT)
                     target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(target)
                 }
