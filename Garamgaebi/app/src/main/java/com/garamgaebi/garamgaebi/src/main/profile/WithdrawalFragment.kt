@@ -18,6 +18,8 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
+import com.garamgaebi.garamgaebi.model.InactiveSuccess
+import com.garamgaebi.garamgaebi.model.WithdrawalResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.viewModel.WithdrawalViewModel
@@ -78,13 +80,11 @@ class WithdrawalFragment :
         viewModel.agree.observe(viewLifecycleOwner) {
             viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
         }
-        viewModel.withdrawal.observe(viewLifecycleOwner) {
-            viewModel.agreeIsValid.value = binding.fragmentWithdrawalCheckbox.isChecked
-        }
 
         viewModel._withdrawal.observe(viewLifecycleOwner) {
 
-            if (viewModel._withdrawal.value?.isSuccess == true){
+            Log.d("withdrawal","입장")
+            if (viewModel._withdrawal.value?.isSuccess == true || viewModel._withdrawal.value?.errorCode ==200){
                 runBlocking { // 비동기 작업 시작
                     GaramgaebiApplication().saveStringToDataStore(
                         "kakaoToken",
@@ -103,6 +103,7 @@ class WithdrawalFragment :
                         -1
                     )
                     GaramgaebiApplication().clearDataStore()
+                    Log.d("withdrawal","block")
 
                 }
 
@@ -218,8 +219,6 @@ class WithdrawalFragment :
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
                         if((requireActivity() as ContainerActivity).networkValid.value == true) {
-                            (requireActivity() as ContainerActivity).networkValid.postValue(true)
-
                             val dialog: DialogFragment =
                                 ConfirmDialog(this, "탈퇴하시겠습니까?", 1) {
                                     when (it) {

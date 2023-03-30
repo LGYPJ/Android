@@ -79,11 +79,10 @@ class WithdrawalViewModel : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = profileRepository.getCheckWithdrawal(InactiveMember(myMemberIdx,  content.value.toString(),category.value.toString()))
             //Log.d("sns_add", response.body().toString())
-            if (response.isSuccessful && response.body() != null) {
+            if ((response.isSuccessful || response.code() == 200) && response.body() != null) {
                 viewModelScope.launch(Dispatchers.Main) {
                     _withdrawal.value = response.body()
                 }
-                Log.d("QnA_success", response.toString())
             }
             else {
                 //response.body()?.message?.let { Log.d("error", it) }

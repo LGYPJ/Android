@@ -38,9 +38,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onResume() {
         super.onResume()
         currentFragment()
-        Log.d("돼라","ㅇㅇ")
+        Log.d("fragment 돼라","ㅇㅇ")
     }
 
+    override fun onPause() {
+        ignoreFirst.value = 0
+        super.onPause()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         networkValid.observe(this) {
@@ -61,7 +65,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         ab.setDisplayShowCustomEnabled(true)
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_back_35dp)*/
         binding.activitySeminarFreeBackBtn.setOnClickListener {
-        onBackPressed()
+            onBackPressed()
         }
 
     }
@@ -87,9 +91,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         Log.d("network", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")
         if(isWithdrawal()){
             binding.activityContainerToolbarTv.text = "고객 센터"
+            super.onBackPressed()
 
+        }else{
+            super.onBackPressed()
         }
-        super.onBackPressed()
         if (isProfileEdit()) {
             CoroutineScope(Dispatchers.Main).launch {
                 async(Dispatchers.IO) { // 비동기 작업 시작
@@ -114,7 +120,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             supportFragmentManager.findFragmentById(R.id.activity_container_frame)
 
         binding.activityContainerToolbarTv.text = fragmentHashMap[currentFragmentCheck?.tag?.toInt()]
-
+        Log.d("fragment 가자","?"+fragmentHashMap[currentFragmentCheck?.tag?.toInt()] + currentFragmentCheck?.tag.toString() + currentFragmentCheck)
+        Log.d("fragment 가자","개수개수"+supportFragmentManager.backStackEntryCount)
     }
 
 
@@ -254,7 +261,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         }
     }
-   //안드로이드 뒤로가기 버튼 눌렀을때
+    //안드로이드 뒤로가기 버튼 눌렀을때
     fun isProfileEdit ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -320,6 +327,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+
     fun isSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -330,6 +339,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
     fun isSeminarCharged ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -340,6 +350,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
     fun isNotifi ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -350,4 +361,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
+
+
 }
