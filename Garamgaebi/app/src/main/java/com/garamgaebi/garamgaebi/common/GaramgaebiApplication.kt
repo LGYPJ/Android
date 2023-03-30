@@ -128,16 +128,16 @@ class GaramgaebiApplication : Application() {
         fragmentHashMap[CANCEL] = "신청 취소"
         fragmentHashMap[ICEBREAKING] = "아이스브레이킹"
         fragmentHashMap[PROFILE_EDIT] = "프로필 편집"
-        fragmentHashMap[SNS_ADD] = "SNS 추가"
+        fragmentHashMap[SNS_ADD] = "SNS 추가하기"
 
-        fragmentHashMap[SNS_EDIT] = "SNS 편집"
-        fragmentHashMap[CAREER_ADD] = "경력 추가"
-        fragmentHashMap[CAREER_EDIT] = "경력 편집"
-        fragmentHashMap[EDU_ADD] = "교육 추가"
-        fragmentHashMap[EDU_EDIT] = "교육 편집"
+        fragmentHashMap[SNS_EDIT] = "SNS 편집하기"
+        fragmentHashMap[CAREER_ADD] = "경력 추가하기"
+        fragmentHashMap[CAREER_EDIT] = "경력 편집하기"
+        fragmentHashMap[EDU_ADD] = "교육 추가하기"
+        fragmentHashMap[EDU_EDIT] = "교육 편집하기"
 
         fragmentHashMap[SERVICE_CENTER] = "고객 센터"
-        fragmentHashMap[WITHDRAWAL] = "탈퇴"
+        fragmentHashMap[WITHDRAWAL] = "회원 탈퇴"
         fragmentHashMap[USER_PROFILE] = "프로필"
         fragmentHashMap[NOTIFICATION] = "알림"
 

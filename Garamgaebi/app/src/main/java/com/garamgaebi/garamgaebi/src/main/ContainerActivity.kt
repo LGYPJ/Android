@@ -38,43 +38,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     override fun onResume() {
         super.onResume()
         currentFragment()
-//        val fragmentManager: FragmentManager = supportFragmentManager
-//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//        val myFragment = currentFragment
-//        if (myFragment != null) {
-//            // 프래그먼트 매니저를 사용하여 백스택에서 최상위 프래그먼트 인스턴스를 가져옴
-//            val fragmentManager = supportFragmentManager
-//            val currentFragment = fragmentManager.findFragmentById(R.id.activity_container_frame)
-//            // 백스택에서 최상위 프래그먼트 제거
-//            fragmentManager.popBackStack()
-//            fragmentTransaction.replace(R.id.activity_container_frame, myFragment)
-//
-//        }
-//        fragmentTransaction.commit()
         Log.d("돼라","ㅇㅇ")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-//            val fragment = SomeFragment()
-//            currentFragment = fragment
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.container, fragment)
-//                .commit()
-            Log.d("태그","ㅎㅇ 액")
-
-        }
-//        start.observe(this) {
-//            if(!it) {
-//                networkValid.observe(this) {
-//                    Log.d("network", "containerActivity networkObserver it : $it, isConnected : ${networkValid.value}")
-//                    openFragmentOnFrameLayout(fragmentTag)
-//                    Log.d("태그",it.toString())
-//                }
-//            }
-//        }
-
         networkValid.observe(this) {
             ignoreFirst.value = ignoreFirst.value!! + 1
             Log.d("network", "containerActivity networkObserver it : $it, isConnected : ${networkValid.value}")
@@ -104,107 +72,11 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             var index = supportFragmentManager.backStackEntryCount - 1
             var backEntry = supportFragmentManager.getBackStackEntryAt(index)
             var tag = backEntry.name
-
-            var currentFragmentCheck =
-                supportFragmentManager.findFragmentById(R.id.activity_container_frame)
             //backStack 맨 위의 값과 현재 프래그먼트의 값이 같아야함
             if(fragmentTag != tag?.toInt() && tag?.toInt() != GAME) {
                 supportFragmentManager.popBackStack()
                 tag?.toInt()?.let { openFragmentOnFrameLayout(it) }
-
             }
-
-//                5 -> { //인게임 전 선택창
-//                    if (tag == "게임") {
-////                        supportFragmentManager.popBackStack()
-////                        Log.d("currentFragment", "게임이 아니었음")
-////                        openFragmentOnFrameLayout(8)
-////                        binding.activityContainerToolbarTv.text = game
-//                    }else if(tag =="아이스브레이킹"){
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "아이스브레이킹이 아니었음")
-//                        openFragmentOnFrameLayout(7)
-//                        binding.activityContainerToolbarTv.text = "아이스브레이킹"
-//                    }else if(tag =="유저프로필"){
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "프로필이 아니었음")
-//                        openFragmentOnFrameLayout(13)
-//                        binding.activityContainerToolbarTv.text = "프로필"
-//                    }
-////                    }
-////                    if (currentFragmentCheck is NetworkingGamePlaceFragment) {
-////
-////                    } else {
-////                        supportFragmentManager.popBackStack()
-////                        Log.d("currentFragment", "게임이 아니었음")
-////                        openFragmentOnFrameLayout(fragmentTag)
-////                        binding.activityContainerToolbarTv.text = "아이스브레ㅇ"
-////                    }
-//                }
-//
-//                1 -> { //user profile 전의 코드
-//                    if (tag != "유저프로필") {
-//                        //openFragmentOnFrameLayout(fragmentTag)
-//                        Log.d("currentFragment", "프로필이 아니었음")
-//                    }
-//                    if (currentFragmentCheck is UserProfileFragment) {
-//
-//                    } else {
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "프로필이 아니었음")
-//                        openFragmentOnFrameLayout(13)
-//                        binding.activityContainerToolbarTv.text = "프로필"
-//                    }
-//                }
-////                    5 -> { //user profile 전의 코드
-////                        if (tag != "유저프로필") {
-////                            //openFragmentOnFrameLayout(fragmentTag)
-////                            Log.d("currentFragment", "프로필이 아니었음")
-////                        }
-////                        if (currentFragmentCheck is UserProfileFragment) {
-////
-////                        } else {
-////                            supportFragmentManager.popBackStack()
-////                            Log.d("currentFragment", "프로필이 아니었음")
-////                            openFragmentOnFrameLayout(13)
-////                            binding.activityContainerToolbarTv.text = "프로필"
-////                        }
-////                }
-//                14 -> { //withdrawal 전의 serviceFragment
-//                    if (tag != "탈퇴") {
-//                        // openFragmentOnFrameLayout(fragmentTag)
-//                        Log.d("currentFragment", "탈퇴가 아니었음")
-//                    }
-//                    if (currentFragmentCheck is WithdrawalFragment) {
-//
-//                    } else {
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "탈퇴가 아니었음")
-//                        openFragmentOnFrameLayout(15)
-//                        binding.activityContainerToolbarTv.text = "회원 탈퇴"
-//                    }
-//                }
-//                16 -> {
-//                    if (tag == "게임") {
-////                        supportFragmentManager.popBackStack()
-////                        Log.d("currentFragment", "게임이 아니었음")
-////                        openFragmentOnFrameLayout(8)
-////                        binding.activityContainerToolbarTv.text = game
-//                    }else if(tag =="아이스브레이킹"){
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "아이스브레이킹이 아니었음")
-//                        openFragmentOnFrameLayout(7)
-//                        binding.activityContainerToolbarTv.text = "아이스브레이킹"
-//                    }else if(tag =="유저프로필"){
-//                        supportFragmentManager.popBackStack()
-//                        Log.d("currentFragment", "프로필이 아니었음")
-//                        openFragmentOnFrameLayout(13)
-//                        binding.activityContainerToolbarTv.text = "프로필"
-//                    }
-//                }
-//
-//                else -> {}
-//            }
         }
     }
 
@@ -212,12 +84,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val fragmentManager = supportFragmentManager
         val backStackEntryCount = fragmentManager.backStackEntryCount
 
-//        if(backStackEntryCount < 2){
-//            supportFragmentManager.popBackStack()
-//            //finish()
-//        }
-
-        Log.d("안녕",backStackEntryCount.toString())
         Log.d("network", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")
         if(isWithdrawal()){
             binding.activityContainerToolbarTv.text = "고객 센터"
@@ -250,22 +116,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             supportFragmentManager.findFragmentById(R.id.activity_container_frame)
 
         binding.activityContainerToolbarTv.text = fragmentHashMap[currentFragmentCheck?.tag?.toInt()]
-
-//        if(supportFragmentManager.backStackEntryCount > 0) {
-//            Log.d("currentFragment", "0이상 $fragmentTag")
-//            var index = supportFragmentManager.backStackEntryCount - 1
-//            var backEntry = supportFragmentManager.getBackStackEntryAt(index)
-//            var tag = backEntry.name
-//            binding.activityContainerToolbarTv.text = fragmentHashMap[tag?.toInt()]
-//
-//
-//            Log.d("currentFragment", "태그검색 $currentFragmentCheck")
-//
-////            if(supportFragmentManager.backStackEntryCount == 1) {
-////                supportFragmentManager.popBackStack()
-////                openFragmentOnFrameLayout(it)
-////            }
-//        }
+        Log.d("fragment 가자","?"+fragmentHashMap[currentFragmentCheck?.tag?.toInt()] + currentFragmentCheck?.tag.toString() + currentFragmentCheck)
+        Log.d("fragment 가자","개수개수"+supportFragmentManager.backStackEntryCount)
     }
 
 
@@ -276,6 +128,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         if((networkValid.value == false) && tag in listOf(1, 5, 7, 16, 20)) {
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         } else {
+            binding.activityContainerToolbarTv.text = fragmentHashMap[tag]
             when(tag){
                 SEMINAR -> {
                     transaction.replace(R.id.activity_container_frame, SeminarFragment(),SEMINAR.toString()).apply {
@@ -283,16 +136,13 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                             addToBackStack(SEMINAR.toString())
                         }
                     }
-                    binding.activityContainerToolbarTv.text = "세미나"
                 }
                 SEMINAR_APPLY_FREE -> {transaction.replace(R.id.activity_container_frame, SeminarFreeApplyFragment(),
                     SEMINAR_APPLY_FREE.toString()).addToBackStack(
                     SEMINAR_APPLY_FREE.toString())
-                    binding.activityContainerToolbarTv.text = "세미나"
                 }
                 SEMINAR_APPLY_CHARGED -> {transaction.replace(R.id.activity_container_frame, SeminarChargedApplyFragment(),
                     SEMINAR_APPLY_CHARGED.toString()).addToBackStack(SEMINAR_APPLY_CHARGED.toString())
-                    binding.activityContainerToolbarTv.text = "세미나"
                 }
 
                 CANCEL -> {transaction.replace(R.id.activity_container_frame, CancelFragment(),
@@ -304,20 +154,16 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                         addToBackStack(NETWORKING.toString())
                     }
                 }
-                    binding.activityContainerToolbarTv.text = "네트워킹"
                 }
                 NETWORKING_APPLY_FREE -> {transaction.replace(R.id.activity_container_frame, NetworkingFreeApplyFragment(),
-                    NETWORKING_APPLY_FREE.toString()).addToBackStack("네트워킹 무료 신청")
-                    binding.activityContainerToolbarTv.text = "네트워킹"
+                    NETWORKING_APPLY_FREE.toString()).addToBackStack(NETWORKING_APPLY_FREE.toString())
                 }
                 ICEBREAKING -> {transaction.replace(R.id.activity_container_frame, NetworkingGameSelectFragment(),
                     ICEBREAKING.toString()).addToBackStack(ICEBREAKING.toString())
-                    binding.activityContainerToolbarTv.text = "아이스브레이킹"
                 }
                 GAME -> {transaction.replace(R.id.activity_container_frame, NetworkingGamePlaceFragment(),GAME.toString()).addToBackStack("게임")
                     binding.activityContainerToolbarTv.text = game
                 }
-
                 //승민 부분
                 SNS_ADD -> {
                     transaction.replace(R.id.activity_container_frame, SnsAddFragment(), SNS_ADD.toString())
@@ -375,11 +221,8 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
                     transaction.replace(R.id.activity_container_frame, NetworkingChargedApplyFragment(),NETWORKING_APPLY_CHARGED.toString()).addToBackStack(NETWORKING_APPLY_CHARGED.toString())
                     binding.activityContainerToolbarTv.text = "네트워킹"
                 }
-
-
             }
             Log.d("currentFragment", "태그 end open $fragmentTag")
-
         }
         transaction.commit()
         Log.d("container", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")
@@ -400,121 +243,19 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
 
     override fun onStart() {
         super.onStart()
-//        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        Log.d("title_onstart","됨")
-
         networkValid.value = checkNetwork()
-
         if(checkNetwork()) {
-
             if (isSeminarCharged()) {
                 binding.activityContainerToolbarTv.text = "세미나"
             }
             var tag = intent.getIntExtra("openFragment", 0)
-
             openFragmentOnFrameLayout(tag)
             fragmentTag = tag
             binding.activityContainerToolbarTv.text = fragmentHashMap[tag]
-
-//            if (intent.getBooleanExtra("seminar", false)) {
-//                binding.activityContainerToolbarTv.text = "세미나"
-//                fragmentTag = 1
-//                openFragmentOnFrameLayout(fragmentTag)
-//
-//            }
-//            if (intent.getBooleanExtra("cancel", false)) {
-//                fragmentTag = 4
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "신청 취소"
-//            }
-//            if (intent.getBooleanExtra("networking", false)) {
-//                fragmentTag = 5
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "네트워킹"
-//            }
-//
-//            if (intent.getBooleanExtra("sns", false)) {
-//                fragmentTag = 9
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "SNS 추가하기"
-//            }
-//            if (intent.getBooleanExtra("career", false)) {
-//                fragmentTag = 10
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "경력 추가하기"
-//            }
-//            if (intent.getBooleanExtra("edu", false)) {
-//                fragmentTag = 11
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "교육 추가하기"
-//            }
-//            if (intent.getBooleanExtra("edit", false)) {
-//                fragmentTag = 12
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "프로필 편집"
-//            }
-//            if (intent.getBooleanExtra("someoneProfile", false)) {
-//                fragmentTag = 13
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "프로필"
-//            }
-//            if (intent.getBooleanExtra("servicecenter", false)) {
-//                fragmentTag = 14
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "고객 센터"
-//            }
-//            if (intent.getBooleanExtra("withdrawal", false)) {
-//                fragmentTag = 15
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "회원 탈퇴"
-//                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-//            }
-//            if (intent.getBooleanExtra("notification", false)) {
-//                Log.d("titleOnStart", "알림")
-//                fragmentTag = 16
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "알림"
-//            }
-//            //승민 추가
-//            if (intent.getBooleanExtra("snsEdit", false)) {
-//                fragmentTag = 17
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "SNS 편집하기"
-//            }
-//            if (intent.getBooleanExtra("careerEdit", false)) {
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "경력 편집하기"
-//            }
-//            if (intent.getBooleanExtra("eduEdit", false)) {
-//                fragmentTag = 19
-//                openFragmentOnFrameLayout(fragmentTag)
-//                binding.activityContainerToolbarTv.text = "교육 편집하기"
-//            }
         }else{
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         }
-
-
-
-        /*val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if(fragment is SeminarFragment){
-                binding.activityContainerToolbarTv.text = "세미나"
-            }
-            if(fragment is SeminarFreeApplyFragment){
-                binding.activityContainerToolbarTv.text = "세미나"
-            }
-            if(fragment is SeminarChargedApplyFragment){
-                binding.activityContainerToolbarTv.text = "세미나"
-            }
-            if(fragment is CancelFragment){
-                binding.activityContainerToolbarTv.text = "신청 취소"
-            }
-        }*/
-    }
-    fun tagWhy(){
-        Log.d("태그","메소드")
     }
    //안드로이드 뒤로가기 버튼 눌렀을때
     fun isProfileEdit ():Boolean {
@@ -564,6 +305,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     }
     fun goUser(){
         binding.activityContainerToolbarTv.text = "프로필"
+    }
+    fun backIceBreaking(){
+        binding.activityContainerToolbarTv.text = "아이스브레이킹"
     }
 
     fun isInGame ():Boolean {
