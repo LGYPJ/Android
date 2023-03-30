@@ -46,7 +46,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         networkValid.observe(this) {
             ignoreFirst.value = ignoreFirst.value!! + 1
             Log.d("network", "containerActivity networkObserver it : $it, isConnected : ${networkValid.value}")
-            if(ignoreFirst.value!! > 3) {
+            if(ignoreFirst.value!! > 2) {
                 openFragmentOnFrameLayout(fragmentTag)
             }
         }
@@ -125,7 +125,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         val transaction = supportFragmentManager.beginTransaction()
         Log.d("network", "containerActivity openFragmentOnFrameLayout backStack : ${supportFragmentManager.backStackEntryCount}")
         fragmentTag = tag
-        if((networkValid.value == false) && tag in listOf(1, 5, 7, 16, 20)) {
+        if((networkValid.value == false) && tag in listOf(1, 5, 7, 13, 16, 20)) {
             transaction.replace(R.id.activity_container_frame, NetworkDisconnectedFragment())
         } else {
             binding.activityContainerToolbarTv.text = fragmentHashMap[tag]

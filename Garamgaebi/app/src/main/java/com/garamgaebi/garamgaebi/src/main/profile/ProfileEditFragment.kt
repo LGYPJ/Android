@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.bitmap
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -159,10 +160,14 @@ class ProfileEditFragment :
 
             if (myProfileImage != null && !editImage) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val bitmap = withContext(Dispatchers.IO) {
-                            myProfileImage?.let { GaramgaebiFunction.ImageLoader.loadImage(it) }
+
+                        if(bitmap!=null){
+                            binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
+                        }else {
+                            bitmap = withContext(Dispatchers.IO) {
+                                myProfileImage?.let { GaramgaebiFunction.ImageLoader.loadImage(it) }
+                            }
                         }
-                        binding.fragmentEditProfileIvProfile.setImageBitmap(bitmap)
                     }
            }else if(editImage){
                 if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {

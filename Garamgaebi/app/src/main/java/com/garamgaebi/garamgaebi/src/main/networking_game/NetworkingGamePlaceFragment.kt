@@ -824,8 +824,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }
                     //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
                 }
-
-
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback!!)

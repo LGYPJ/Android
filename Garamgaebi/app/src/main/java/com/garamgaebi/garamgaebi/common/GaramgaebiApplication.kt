@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.datastore.core.CorruptionException
@@ -53,6 +54,8 @@ class GaramgaebiApplication : Application() {
         var getSNS = true
         var getCareer = true
         var getEdu = true
+
+        var bitmap: Bitmap? = null
 
         //초기 해쉬맵 객체 선언
         var fragmentHashMap = HashMap<Int, String>()
