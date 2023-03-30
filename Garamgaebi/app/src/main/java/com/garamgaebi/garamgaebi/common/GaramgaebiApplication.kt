@@ -67,14 +67,12 @@ class GaramgaebiApplication : Application() {
     }
     suspend fun saveStringToDataStore(key: String, value: String) {
         val stringKey = stringPreferencesKey(key) // String 타입 저장 키값
-        Log.d("dataStoreSaveString", "$key:$value")
         dataStore.edit { preferences ->
             preferences[stringKey] = value
         }
     }
     suspend fun saveIntToDataStore(key: String, value: Int) {
         val intKey = intPreferencesKey(key) // String 타입 저장 키값
-        Log.d("dataStoreSaveInt", "$key:$value")
         dataStore.edit { preferences ->
             preferences[intKey] = value
         }
@@ -82,7 +80,6 @@ class GaramgaebiApplication : Application() {
 
     suspend fun saveBooleanToDataStore(key: String, value: Boolean) {
         val booleanKey = booleanPreferencesKey(key) // String 타입 저장 키값
-        Log.d("dataStoreSaveBoolean", "$key:$value")
         dataStore.edit { preferences ->
             preferences[booleanKey] = value
         }
