@@ -169,26 +169,29 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
             // index 찾기
             val currentId = data.indexOf(data.find { gameMemberGetResult ->
-                gameMemberGetResult.memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("FirstCurrentUserId",0)
+                gameMemberGetResult.memberIdx == data[0].currentMemberIdx
             })
             GaramgaebiApplication.sSharedPreferences
                 .edit().putInt("currentId", currentId)
                 .apply()
-
             //memberList data 저장
             setPref("data", data)
-            Log.d("data", data.toString())
+            Log.d("indexdata", data.toString())
+            Log.d("indexcurrentId1", currentId.toString())
         })
 
         //var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
         viewModel.message.observe(viewLifecycleOwner, Observer { enter ->
-            viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                val currentIdIndex= data[0].currentMemberIdx
-                val currentId = data.indexOf(data.find { gameMemberGetResult ->
+            viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
+
+                val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
+                //val currentIdIndex = data[0].currentMemberIdx
+                Log.d("indexwhywhy", data.toString())
+                /*val currentId = data.indexOf(data.find { gameMemberGetResult ->
                     gameMemberGetResult.memberIdx.toString() == currentIdIndex.toString()
-                })
+                })*/
                 //val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
-                Log.d("currentId", currentId.toString())
+                Log.d("indexcurrentId2", currentId.toString())
                 // 방에 들어갔을때 파란색 테두리 없이 나타나는 프로필 리사이클러뷰,,
                 val networkingGameProfile2 =
                     NetworkingGameProfileAdapter(
@@ -222,13 +225,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
         viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
-            viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
-                index = it.result.currentImgIdx
+            //viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
+                index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
                 Log.d("indexfirst", index.toString())
 
-                GaramgaebiApplication.sSharedPreferences
+                /*GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("index", index)
-                    .apply()
+                    .apply()*/
 
                 val networkingGameCardVPAdapter =
                     NetworkingGameCardVPAdapter(img, index)
@@ -237,7 +240,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 binding.activityGameCardBackVp.orientation =
                     ViewPager2.ORIENTATION_HORIZONTAL
                 networkingGameCardVPAdapter.notifyDataSetChanged()
-            })
+           // })
             setImg("img", img)
 
 
@@ -286,8 +289,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }*/
                 })
 
-                binding.activityGameCardBackVp.offscreenPageLimit = 2
-
+                binding.activityGameCardBackVp.offscreenPageLimit = 1
             }
             else {
                 binding.activityGameCardStartBtn.isEnabled = true
