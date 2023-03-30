@@ -87,11 +87,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         Log.d("network", "onBackPressed backStackCount : ${supportFragmentManager.backStackEntryCount}")
         if(isWithdrawal()){
             binding.activityContainerToolbarTv.text = "고객 센터"
-            super.onBackPressed()
 
-        }else{
-            super.onBackPressed()
         }
+        super.onBackPressed()
         if (isProfileEdit()) {
             CoroutineScope(Dispatchers.Main).launch {
                 async(Dispatchers.IO) { // 비동기 작업 시작
@@ -116,8 +114,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
             supportFragmentManager.findFragmentById(R.id.activity_container_frame)
 
         binding.activityContainerToolbarTv.text = fragmentHashMap[currentFragmentCheck?.tag?.toInt()]
-        Log.d("fragment 가자","?"+fragmentHashMap[currentFragmentCheck?.tag?.toInt()] + currentFragmentCheck?.tag.toString() + currentFragmentCheck)
-        Log.d("fragment 가자","개수개수"+supportFragmentManager.backStackEntryCount)
+
     }
 
 
@@ -309,6 +306,9 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
     fun backIceBreaking(){
         binding.activityContainerToolbarTv.text = "아이스브레이킹"
     }
+    fun backServiceCenter(){
+        binding.activityContainerToolbarTv.text = "고객 센터"
+    }
 
     fun isInGame ():Boolean {
         var returnValue = false
@@ -320,8 +320,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
-
     fun isSeminar ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -332,7 +330,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
     fun isSeminarCharged ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -343,7 +340,6 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
     fun isNotifi ():Boolean {
         var returnValue = false
         val fragmentList = supportFragmentManager.fragments
@@ -354,6 +350,4 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>(ActivityContain
         }
         return returnValue
     }
-
-
 }

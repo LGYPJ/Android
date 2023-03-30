@@ -304,23 +304,16 @@ class WithdrawalFragment :
     @SuppressLint("NotifyDataSetChanged", "ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("뭐냐고","ㅜㅜ")
         val fragmentManager = requireActivity().supportFragmentManager
         val backStackEntryCount = fragmentManager.backStackEntryCount
-        Log.d("뭐냐고",backStackEntryCount.toString())
         containerActivity = context as ContainerActivity
         if (callback == null) {
-            Log.d("뭐냐고","1")
-
             callback = object : OnBackPressedCallback(true) {
-
                 override fun handleOnBackPressed() {
-                    Log.d("뭐냐고","1")
                     CoroutineScope(Dispatchers.Main).launch {
-                        Log.d("뭐냐고","3")
                         withContext(Dispatchers.IO) {
-                            Log.d("뭐냐고","4")
                             requireActivity().supportFragmentManager.popBackStack()
+                            (requireActivity() as ContainerActivity).backServiceCenter()
                         }
                     }
                     //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
