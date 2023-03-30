@@ -239,10 +239,9 @@ class NetworkingGameViewModel: ViewModel() {
     }
 
     // 게임방 진행중 유무 조회
-    fun postGameIsStarted() {
+    fun postGameIsStarted(postGameIsStartedRequest: GameIsStartedRequest) {
         viewModelScope.launch(Dispatchers.Main) {
-            val response = roomId?.let { GameIsStartedRequest(it) }
-                ?.let { gameRepository.postGameIsStarted(it) }
+           val response = gameRepository.postGameIsStarted(postGameIsStartedRequest)
 
             if (response != null) {
                 if (response.isSuccessful) {
