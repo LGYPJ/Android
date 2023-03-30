@@ -60,7 +60,8 @@ data class GameMemberGetResponse(
 data class GameMemberGetResult(
     val memberIdx: Int,
     val nickname : String,
-    val profileUrl : String
+    val profileUrl : String,
+    val currentMemberIdx : Int
 )
 
 /*data class GameMemberGetResultRe(
