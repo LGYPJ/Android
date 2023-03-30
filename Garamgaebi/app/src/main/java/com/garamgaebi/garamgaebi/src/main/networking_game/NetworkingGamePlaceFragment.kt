@@ -7,8 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -27,6 +26,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingGamePlaceBinding
 import com.garamgaebi.garamgaebi.model.GameCurrentIdxRequest
+import com.garamgaebi.garamgaebi.model.GameIsStartedRequest
 import com.garamgaebi.garamgaebi.model.GameMemberDeleteRequest
 import com.garamgaebi.garamgaebi.model.GameMemberGetResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -137,13 +137,12 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
         }
 
+        var index : Int = 0
+
         viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
             //입장하면 currentMemberIdx받기
-            val index: Int = if (it.result.currentImgIdx == 30) {
-                0
-            } else {
-                it.result.currentImgIdx
-            }
+            index = it.result.currentImgIdx
+
             GaramgaebiApplication.sSharedPreferences
                 .edit().putInt("index", index)
                 .apply()
@@ -181,10 +180,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             Log.d("data", data.toString())
         })
 
-        var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
-        var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
+        //var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
         viewModel.message.observe(viewLifecycleOwner, Observer { enter ->
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
+                var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
                 Log.d("currentId", currentId.toString())
                 // 방에 들어갔을때 파란색 테두리 없이 나타나는 프로필 리사이클러뷰,,
                 val networkingGameProfile2 =
@@ -207,18 +206,79 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
             // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
             viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
-                //val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
+                viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
+                    index = it.result.currentImgIdx
+                    Log.d("indexfirst", index.toString())
+
+                    GaramgaebiApplication.sSharedPreferences
+                        .edit().putInt("index", index)
+                        .apply()
+
+                    val networkingGameCardVPAdapter =
+                        NetworkingGameCardVPAdapter(img, index)
+                    binding.activityGameCardBackVp.adapter =
+                        NetworkingGameCardVPAdapter(img, index)
+                    binding.activityGameCardBackVp.orientation =
+                        ViewPager2.ORIENTATION_HORIZONTAL
+                    networkingGameCardVPAdapter.notifyDataSetChanged()
+                })
                 setImg("img", img)
-                val networkingGameCardVPAdapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.adapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.orientation =
-                    ViewPager2.ORIENTATION_HORIZONTAL
 
             })
         })
 
+        //시작 한 게임인지 아닌지
+        roomId?.let { GameIsStartedRequest(it) }?.let { viewModel.postGameIsStarted(it) }
+        viewModel.postGameIsStarted.observe(viewLifecycleOwner, Observer { start ->
+            val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
+            if(start.result){
+                binding.activityGameCardStartBtn.isEnabled = false
+                binding.activityGameCardFrontImg.visibility = INVISIBLE
+                binding.activityGameCardBackImg.visibility = VISIBLE
+
+                // 프로필
+                viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
+
+                    val networkingGameProfile2 =
+                        NetworkingGameProfileAdapter(
+                            data as ArrayList<GameMemberGetResult>,
+                            currentId
+                        )
+                    binding.activityGameProfileRv.apply {
+                        adapter = networkingGameProfile2
+                        layoutManager =
+                            LinearLayoutManager(
+                                context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        // currentMemberIdx로 스크롤
+                        (layoutManager as LinearLayoutManager).scrollToPosition(
+                            currentId
+                        )
+                        networkingGameProfile2.notifyDataSetChanged()
+                    }
+
+                    // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
+                    if (currentId != -1) {
+                        if (memberIdx == data[currentId].memberIdx) {
+                            binding.activityGamePlaceCardNextBtn.visibility =
+                                VISIBLE
+                        } else {
+                            binding.activityGamePlaceCardNextBtn.visibility = GONE
+                        }
+                    }
+                })
+
+                binding.activityGameCardBackVp.offscreenPageLimit = 2
+
+            }
+            else {
+                binding.activityGameCardStartBtn.isEnabled = true
+            }
+
+        })
+        //var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
 
         //시작하기 버튼
         binding.activityGameCardStartBtn.setOnClickListener {
@@ -237,6 +297,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         //시작하기 눌렀을때 동시에 넘어가기
         viewModel.startMessage.observe(viewLifecycleOwner, Observer {
             Log.d("deletestart", "deletestart")
+            val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
             Log.d("startcurrentId", currentId.toString())
             front_anim.setTarget(front)
             back_anim.setTarget(back)
@@ -317,8 +378,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             val data = getPref("data")
             val last = data.lastIndex
             Log.d("nextlast", last.toString())
-            currentId =
-                GaramgaebiApplication.sSharedPreferences.getInt("currentId2", 0)
+            var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId2", 0)
+            //currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
 
             Log.d("nextcurrentId", currentId.toString())
             // 마지막 index의 memberIdx가 현재 index의 memberIdx와 같을때 현재 index를 0으로 이동 시킴
@@ -435,15 +496,36 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     }
 
                 }
-            }
+           }
         }
         //
 
         viewModel.patchMessage.observe(viewLifecycleOwner, Observer { it ->
-            if (it.type != "EXIT") {
+
+                   //var index1 = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
+                    if (index == 29) {
+                        index = 0
+                    } else {
+                        index++
+                    }
+
+            Log.d("index", index.toString())
+                    viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
+                        val networkingGameCardVPAdapter =
+                            NetworkingGameCardVPAdapter(img, index)
+                        binding.activityGameCardBackVp.adapter =
+                            NetworkingGameCardVPAdapter(img, index)
+                        binding.activityGameCardBackVp.orientation =
+                            ViewPager2.ORIENTATION_HORIZONTAL
+                        var tab = binding.activityGameCardBackVp.currentItem
+                        tab++
+                        Log.d("tab", tab.toString())
+                        binding.activityGameCardBackVp.setCurrentItem(tab, true)
+                        //binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+                        networkingGameCardVPAdapter.notifyDataSetChanged()
+                    })
                 val data = getPref("data")
                 Log.d("deletenext", "deletenext")
-                Log.d("index", index.toString())
                 //뷰페이저 하나만 넘어가는 거 해결
 
                 val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
@@ -460,26 +542,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                 //index++
                 //val index1 = index++
-                if (index == 30) {
-                    index = 0
-                    index++
-                } else {
-                    index++
-                }
-                val img = getImg("img")
-                val networkingGameCardVPAdapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.adapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.orientation =
-                    ViewPager2.ORIENTATION_HORIZONTAL
-                var tab = binding.activityGameCardBackVp.currentItem
-                tab++
-                Log.d("tab", tab.toString())
-                binding.activityGameCardBackVp.setCurrentItem(tab, true)
-                //binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
-                networkingGameCardVPAdapter.notifyDataSetChanged()
-                //Log.d("memberIdx3", data[currentId3].memberIdx.toString())
 
                 // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
                 if (currentId2 != -1) {
@@ -518,7 +580,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     )
                     networkingGameProfile.notifyDataSetChanged()
                 }
-            }
+
         })
 
 

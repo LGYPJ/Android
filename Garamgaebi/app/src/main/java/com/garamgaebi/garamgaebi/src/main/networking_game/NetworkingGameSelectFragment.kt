@@ -15,6 +15,7 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.NetworkingGameViewModel
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.model.GameIsStartedRequest
 
 class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBinding>(FragmentNetworkingGameSelectBinding::bind, R.layout.fragment_networking_game_select) {
 
@@ -43,7 +44,7 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
 
         viewModel.getRoomId()
-        viewModel.getRoom.observe(viewLifecycleOwner, Observer{
+        viewModel.getRoom.observe(viewLifecycleOwner, Observer{ it ->
             val networkingGameSelectAdapter = NetworkingGameSelectAdapter(networkGameSelectList)
             binding.activityNetworkGameRv.apply {
                 adapter = networkingGameSelectAdapter
@@ -52,23 +53,50 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
             }
             networkingGameSelectAdapter.setOnItemClickListener(object : NetworkingGameSelectAdapter.OnItemClickListener {
                 override fun onClick(position: Int) {
-                    containerActivity!!.openFragmentOnFrameLayout(8)
-                    val temp = networkGameSelectList[position].place
-                    //roomId 부여
                     val why = it.result[position].roomId
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putString("roomId", why)
                         .apply()
-                    Log.d("roomId", why)
-                    //val temp = networkGameSelectList[position]
-                    Log.d("placeName", temp)
-                    containerActivity!!.networkingPlace(temp)
+
+                    val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
+                    roomId?.let { it1 -> GameIsStartedRequest(it1) }
+                        ?.let { it2 -> viewModel.postGameIsStarted(it2) }
+
+                    viewModel.postGameIsStarted.observe(viewLifecycleOwner, Observer {game ->
+                        if(game.result){
+                            NetworkingGameDialog().show(requireActivity().supportFragmentManager, "icebreaking")
+                            val why = it.result[position].roomId
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putString("roomId", why)
+                                .apply()
+                            val temp = networkGameSelectList[position].place
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putString("placeName", temp)
+                                .apply()
+
+                        }
+                        else{
+                            containerActivity!!.openFragmentOnFrameLayout(8)
+                            val temp = networkGameSelectList[position].place
+                            //roomId 부여
+                            val why = it.result[position].roomId
+                            GaramgaebiApplication.sSharedPreferences
+                                .edit().putString("roomId", why)
+                                .apply()
+                            Log.d("roomId", why)
+                            //val temp = networkGameSelectList[position]
+                            Log.d("placeName", temp)
+                            containerActivity!!.networkingPlace(temp)
+                        }
+                    })
+
 
                 }
 
             })
 
         })
+
 
 
 
