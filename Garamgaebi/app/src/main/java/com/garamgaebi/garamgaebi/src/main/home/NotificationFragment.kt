@@ -39,7 +39,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
             runBlocking {
                 GaramgaebiApplication().saveBooleanToDataStore("hasNext",it.result.hasNext)
             }
-
+            notificationRVAdapter.refresh()
             notificationRVAdapter.setList(result)
             binding.activityNotificationRv.apply {
                 adapter = notificationRVAdapter
