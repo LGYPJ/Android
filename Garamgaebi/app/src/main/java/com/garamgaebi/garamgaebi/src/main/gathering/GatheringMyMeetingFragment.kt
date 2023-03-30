@@ -2,27 +2,21 @@ package com.garamgaebi.garamgaebi.src.main.gathering
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
-import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
-import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringMyMeetingBinding
 import com.garamgaebi.garamgaebi.model.GatheringProgramResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.GatheringViewModel
-import com.kakao.sdk.common.KakaoSdk.type
 import kotlinx.coroutines.*
 
 class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBinding>(
@@ -78,7 +72,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 if (type == "SEMINAR") {
                     startActivity(
                         Intent(context, ContainerActivity::class.java)
-                            .putExtra("seminar", true)
+                            .putExtra("openFragment", SEMINAR)
                             .putExtra("gathering-seminar", "gathering-seminar")
                     )
                 }
@@ -87,7 +81,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 ) {
                     startActivity(
                         Intent(context, ContainerActivity::class.java)
-                            .putExtra("networking", true)
+                            .putExtra("openFragment", NETWORKING)
                             .putExtra("gathering-networking", "gathering-networking")
                     )
                 }
@@ -96,7 +90,7 @@ class GatheringMyMeetingFragment : BaseFragment<FragmentGatheringMyMeetingBindin
                 //신청 취소 프래그먼트로!
                 startActivity(
                     Intent(context, ContainerActivity::class.java)
-                        .putExtra("cancel", true)
+                        .putExtra("openFragment", CANCEL)
                 )
             }
         }

@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.GatheringNetworkingDeadlineRVAdapter
-import com.garamgaebi.garamgaebi.common.BaseFragment
-import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
-import com.garamgaebi.garamgaebi.common.NetworkErrorDialog
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.databinding.FragmentGatheringNetworkingBinding
 import com.garamgaebi.garamgaebi.model.GatheringNetworkingClosedResult
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -68,7 +65,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
 //                            .apply()
                         //네트워킹 메인 프래그먼트로!
                         startActivity(Intent(context, ContainerActivity::class.java)
-                            .putExtra("networking", true)
+                            .putExtra("openFragment", NETWORKING)
                             .putExtra("gonetworking", "gonetworking"))
                     }
                 }
@@ -118,7 +115,7 @@ class GatheringNetworkingFragment : BaseFragment<FragmentGatheringNetworkingBind
                                 }
                                 //네트워킹 메인 프래그먼트로!
                                 startActivity(Intent(context, ContainerActivity::class.java)
-                                    .putExtra("networking", true)
+                                    .putExtra("openFragment", NETWORKING)
                                     .putExtra("gonetworking", "gonetworking"))
                             }
                         })

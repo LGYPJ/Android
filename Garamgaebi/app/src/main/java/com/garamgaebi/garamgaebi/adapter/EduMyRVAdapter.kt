@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.garamgaebi.garamgaebi.common.EDU_EDIT
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.databinding.ItemMyprofileEduBinding
 import com.garamgaebi.garamgaebi.model.EducationData
@@ -61,7 +62,7 @@ class EduMyRVAdapter(private val dataList: ArrayList<EducationData>,val mContext
                     )
                     //경력 편집 프래그먼트로!
                     val target = Intent(it.context, ContainerActivity::class.java)
-                    target.putExtra("eduEdit", true)
+                    target.putExtra("openFragment", EDU_EDIT)
                     target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(target)
                 }

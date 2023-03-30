@@ -54,6 +54,9 @@ class GaramgaebiApplication : Application() {
         var getCareer = true
         var getEdu = true
 
+        //초기 해쉬맵 객체 선언
+        var fragmentHashMap = HashMap<Int, String>()
+
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
     }
@@ -111,6 +114,33 @@ class GaramgaebiApplication : Application() {
         initRetrofitInstance()
         settingScreenPortrait()
         val dataStore = applicationContext.dataStore
+        setHashMap()
+    }
+    fun setHashMap(){
+        //put 데이터 추가 실시
+        fragmentHashMap[SEMINAR] = "세미나"
+        fragmentHashMap[SEMINAR_APPLY_FREE] = "세미나"
+        fragmentHashMap[SEMINAR_APPLY_CHARGED] = "세미나"
+        fragmentHashMap[NETWORKING] = "네트워킹"
+        fragmentHashMap[NETWORKING_APPLY_FREE] = "네트워킹"
+
+        fragmentHashMap[NETWORKING_APPLY_CHARGED] = "네트워킹"
+        fragmentHashMap[CANCEL] = "신청 취소"
+        fragmentHashMap[ICEBREAKING] = "아이스브레이킹"
+        fragmentHashMap[PROFILE_EDIT] = "프로필 편집"
+        fragmentHashMap[SNS_ADD] = "SNS 추가"
+
+        fragmentHashMap[SNS_EDIT] = "SNS 편집"
+        fragmentHashMap[CAREER_ADD] = "경력 추가"
+        fragmentHashMap[CAREER_EDIT] = "경력 편집"
+        fragmentHashMap[EDU_ADD] = "교육 추가"
+        fragmentHashMap[EDU_EDIT] = "교육 편집"
+
+        fragmentHashMap[SERVICE_CENTER] = "고객 센터"
+        fragmentHashMap[WITHDRAWAL] = "탈퇴"
+        fragmentHashMap[USER_PROFILE] = "프로필"
+        fragmentHashMap[NOTIFICATION] = "알림"
+
 
     }
     private fun settingScreenPortrait() {
