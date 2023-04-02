@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
@@ -175,7 +176,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             viewModel.patchSNSInfo()
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()
@@ -200,7 +201,7 @@ class SnsEditFragment  : BaseBindingFragment<FragmentProfileSnsEditBinding>(R.la
 
                                 }
                                 1 -> {
-                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                                    if(networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteSNSInfo()
                                     }else {

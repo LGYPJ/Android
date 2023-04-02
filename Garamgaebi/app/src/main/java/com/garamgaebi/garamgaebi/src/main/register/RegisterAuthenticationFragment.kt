@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.testEmail
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.testPW
 import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
@@ -35,7 +36,6 @@ class RegisterAuthenticationFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.setVariable(BR.viewModel, viewModel)
-        (requireActivity() as RegisterActivity).networkValid.observe(viewLifecycleOwner){}
         // 이메일 editText
         viewModel.uniEmail.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
@@ -114,7 +114,7 @@ class RegisterAuthenticationFragment :
                                 viewModel!!.timerStart()
                             }
                         } else { // 테스트 아닌 코드
-                            if((requireActivity() as RegisterActivity).networkValid.value == true) {
+                            if(networkValid.value == true) {
                                 binding.viewModel = viewModel
                                 with(viewModel) {
                                     emailSent.value = viewModel.getEmail(registerActivity)
@@ -153,7 +153,7 @@ class RegisterAuthenticationFragment :
                                 }
                             }
                         } else { // 테스트 아닌 코드
-                            if((requireActivity() as RegisterActivity).networkValid.value == true) {
+                            if(networkValid.value == true) {
                                 binding.viewModel = viewModel
                                 with(viewModel) {
                                     Log.d("이메일 인증버튼", "이메일 인증버튼")

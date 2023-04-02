@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentWithdrawalBinding
 import com.garamgaebi.garamgaebi.model.InactiveSuccess
 import com.garamgaebi.garamgaebi.model.WithdrawalResponse
@@ -216,7 +217,7 @@ class WithdrawalFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             val dialog: DialogFragment =
                                 ConfirmDialog(this, "탈퇴하시겠습니까?", 1) {
                                     when (it) {

@@ -21,13 +21,12 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         private set
     lateinit var mLoadingDialog: LoadingDialog
     lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
-    val networkValid : MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    private val networkCallback = NetworkConnectionCallback()
+
     // 뷰 바인딩 객체를 받아서 inflate해서 화면을 만들어줌.
     // 즉 매번 onCreate에서 setContentView를 하지 않아도 됨.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerNetworkCallback(this)
+
         binding = inflate(layoutInflater)
         keyboardVisibilityUtils = KeyboardVisibilityUtils(this.window,
             onShowKeyboard = { keyboardHeight ->
@@ -38,11 +37,6 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         )
 
         setContentView(binding.root)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
     }
     fun networkAlertDialog(){
         NetworkErrorDialog() { it ->
@@ -73,39 +67,11 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
 
     override fun onDestroy() {
         keyboardVisibilityUtils.detachKeyboardListeners()
-        unregisterNetworkCallback(this)
         super.onDestroy()
     }
 
     // 토스트를 쉽게 띄울 수 있게 해줌.
     fun showCustomToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    inner class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            networkValid.postValue(true)
-        }
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            networkValid.postValue(false)
-        }
-    }
-    private fun registerNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
-    private fun unregisterNetworkCallback(context: Context) {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }

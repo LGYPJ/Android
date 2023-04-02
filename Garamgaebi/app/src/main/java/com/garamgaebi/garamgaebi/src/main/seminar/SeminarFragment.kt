@@ -19,6 +19,7 @@ import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 
 import com.garamgaebi.garamgaebi.databinding.FragmentSeminarBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -69,10 +70,10 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
-            if (containerActivity!!.networkValid.value == true) {
+            if (networkValid.value == true) {
                 updateData()
             } else {
-                containerActivity!!.networkValid.postValue(false)
+                networkValid.postValue(false)
             }
         }
     }

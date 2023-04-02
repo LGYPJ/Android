@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEducationEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.EducationViewModel
@@ -292,7 +293,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             viewModel.patchEducationInfo()
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()
@@ -353,7 +354,7 @@ class EduEditFragment  : BaseBindingFragment<FragmentProfileEducationEditBinding
                                 }
                                 1 -> {
                                     //경력 삭제
-                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                                    if(networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteEducationInfo()
                                     }else {

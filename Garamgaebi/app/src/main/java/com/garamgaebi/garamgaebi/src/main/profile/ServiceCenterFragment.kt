@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentServicecenterBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
@@ -134,7 +135,7 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true){
+                        if(networkValid.value == true){
                             viewModel.postQna()
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()
@@ -164,7 +165,7 @@ class ServiceCenterFragment :
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true){
+                        if(networkValid.value == true){
                             val dialog: DialogFragment = ConfirmDialog(this,"로그아웃하시겠습니까?", 3) { it ->
                                 when (it) {
                                     -1 -> {

@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentSomeoneprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -54,7 +55,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
 
         binding.refreshLayout.setOnRefreshListener {
 
-            if((requireActivity() as ContainerActivity).networkValid.value == true) {
+            if(networkValid.value == true) {
                 with(viewModel) {
                     getProfileInfo(memberIdx)
                     getEducationInfo(memberIdx)
@@ -76,7 +77,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             with(viewModel){
                                 getProfileInfo(memberIdx)
                                 getEducationInfo(memberIdx)

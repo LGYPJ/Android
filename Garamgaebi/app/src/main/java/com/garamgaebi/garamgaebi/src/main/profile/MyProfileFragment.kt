@@ -24,6 +24,7 @@ import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getEdu
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfile
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentMyprofileBinding
 import com.garamgaebi.garamgaebi.model.ProfileDataResponse
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -111,7 +112,7 @@ class MyProfileFragment :
                             .clicks()
                             .throttleFirst(1000, TimeUnit.MILLISECONDS)
                             .subscribe({
-                                if((requireActivity() as MainActivity).networkValid.value == true) {
+                                if(networkValid.value == true) {
                                     viewModel.getProfileInfo(myMemberIdx)
 
                                     fragmentMyProfileClContainer.visibility = View.VISIBLE
@@ -124,7 +125,7 @@ class MyProfileFragment :
                     )
             }
         //네트워크 부분
-        if((requireActivity() as MainActivity).networkValid.value == true) {
+        if(networkValid.value == true) {
             CoroutineScope(Dispatchers.IO).launch {
                 setDataView()
             }
@@ -142,7 +143,7 @@ class MyProfileFragment :
 
         //새로고침
         binding.refreshLayout.setOnRefreshListener {
-            if((requireActivity() as MainActivity).networkValid.value == true) {
+            if(networkValid.value == true) {
                 viewModel.getProfileInfo(myMemberIdx)
                 viewModel.getSNSInfo(myMemberIdx)
                 viewModel.getCareerInfo(myMemberIdx)
@@ -203,7 +204,7 @@ class MyProfileFragment :
 
         CoroutineScope(Dispatchers.Main).launch {
             //네트워크 부분
-            if((requireActivity() as MainActivity).networkValid.value == true) {
+            if(networkValid.value == true) {
                 with(binding){
                     fragmentMyProfileClContainer.visibility = View.VISIBLE
                     networkErrorContainer.visibility = View.GONE
@@ -391,7 +392,7 @@ class MyProfileFragment :
 
 
     private fun updateData() {
-        if((requireActivity() as MainActivity).networkValid.value == true) {
+        if(networkValid.value == true) {
             with(viewModel) {
                 Log.d("update data","0")
                 if (getProfile) {
