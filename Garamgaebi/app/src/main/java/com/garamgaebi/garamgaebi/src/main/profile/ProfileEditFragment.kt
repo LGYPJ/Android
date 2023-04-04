@@ -30,6 +30,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.bitmap
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileEditBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.src.main.home.FileUpLoad
@@ -285,7 +286,7 @@ class ProfileEditFragment :
                     .subscribe({
                         //회원정보 편집 저장 기능 추가
 
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             var editImage = false
 
                             runBlocking {

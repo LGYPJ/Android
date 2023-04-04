@@ -14,6 +14,7 @@ import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getSNS
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileSnsBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.SNSViewModel
@@ -104,7 +105,7 @@ class SnsAddFragment  : BaseBindingFragment<FragmentProfileSnsBinding>(R.layout.
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             viewModel.postSNSInfo()
                         }else {
                             (requireActivity() as ContainerActivity).networkAlertDialog()

@@ -13,6 +13,7 @@ import com.garamgaebi.garamgaebi.adapter.NetworkingProfileAdapter
 
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.common.GaramgaebiFunction
 
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingBinding
@@ -29,7 +30,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            if(containerActivity!!.networkValid.value == true) {
+            if(networkValid.value == true) {
                 setDataView()
             }
 
@@ -58,17 +59,17 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
     override fun onResume() {
         super.onResume()
         CoroutineScope(Dispatchers.IO).launch {
-            if (containerActivity!!.networkValid.value == true)
+            if (networkValid.value == true)
                 updateData()
             else {
-                containerActivity!!.networkValid.postValue(false)
+                networkValid.postValue(false)
             }
         }
     }
 
     private fun setDataView() {
             with(viewModel) {
-                if ((requireActivity() as ContainerActivity).networkValid.value == true) {
+                if (networkValid.value == true) {
                     getNetworkingParticipants()
                 } else {
                 }

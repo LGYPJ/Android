@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.ActivityLoginBinding
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.MainActivity

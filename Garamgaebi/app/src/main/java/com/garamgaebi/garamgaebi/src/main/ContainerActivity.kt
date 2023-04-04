@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.fragmentHashMap
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.ActivityContainerBinding
 import com.garamgaebi.garamgaebi.src.main.cancel.CancelFragment
 import com.garamgaebi.garamgaebi.src.main.home.NotificationFragment

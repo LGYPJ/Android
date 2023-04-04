@@ -15,6 +15,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.adapter.*
 import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentHomeBinding
 import com.garamgaebi.garamgaebi.model.*
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -113,7 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     override fun onResume() {
         super.onResume()
-        if((requireActivity() as MainActivity).networkValid.value == true) {
+        if(networkValid.value == true) {
             Log.d("network","onResumeHomeTrue")
             updateData()
         }

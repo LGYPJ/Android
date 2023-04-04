@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.databinding.FragmentCancelBinding
 import com.garamgaebi.garamgaebi.model.CancelRequest
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -38,7 +39,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         binding.activityCancelBankTv.text = "은행"
 
         //신청정보조회
-        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+        if(networkValid.value == true) {
             viewModel.getCancel()
         }else{
 
@@ -125,7 +126,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     .subscribe({
                         Log.d("canceldd", it.toString())
 
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             //신청 완료 api
                             var idInfo = -1
                             var programInfo: Int
@@ -155,7 +156,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             seminar = GaramgaebiApplication().loadStringData("type")!!
         }
         if(seminar=="SEMINAR"){
-            if((requireActivity() as ContainerActivity).networkValid.value == true) {
+            if(networkValid.value == true) {
                 viewModel.getSeminar()
             }else{
             }
@@ -202,7 +203,7 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
             networking = GaramgaebiApplication().loadStringData("type")!!
         }
         if(networking=="NETWORKING"){
-            if((requireActivity() as ContainerActivity).networkValid.value == true) {
+            if(networkValid.value == true) {
                 viewModel.getNetworking()
             }else{
             }

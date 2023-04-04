@@ -7,6 +7,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import androidx.datastore.core.CorruptionException
@@ -45,6 +49,10 @@ class GaramgaebiApplication : Application() {
         val gameOut : MutableLiveData<Boolean> = MutableLiveData(false)
         const val testEmail = "garamgaebiMaster2"
         const val testPW = "000000"
+
+        // 네트워크 감지
+        val networkValid : MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+        private val networkCallback = NetworkConnectionCallback()
 
         // JWT Token Header 키 값
         const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
@@ -108,6 +116,7 @@ class GaramgaebiApplication : Application() {
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.
     override fun onCreate() {
         super.onCreate()
+        registerNetworkCallback(this)
         sSharedPreferences =
             applicationContext.getSharedPreferences("GARAMGAEBI_APP", MODE_PRIVATE)
         KakaoSdk.init(this, "${BuildConfig.KAKAO_API_KEY}")
@@ -116,6 +125,10 @@ class GaramgaebiApplication : Application() {
         settingScreenPortrait()
         val dataStore = applicationContext.dataStore
         setHashMap()
+    }
+    override fun onTerminate() {
+        unregisterNetworkCallback(applicationContext)
+        super.onTerminate()
     }
     fun setHashMap(){
         //put 데이터 추가 실시
@@ -179,5 +192,32 @@ class GaramgaebiApplication : Application() {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    class NetworkConnectionCallback : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            networkValid.postValue(true)
+        }
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            networkValid.postValue(false)
+        }
+    }
+    private fun registerNetworkCallback(context: Context) {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback as ConnectivityManager.NetworkCallback)
+    }
+
+    private fun unregisterNetworkCallback(context: Context) {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        connectivityManager.unregisterNetworkCallback(networkCallback as ConnectivityManager.NetworkCallback)
     }
 }

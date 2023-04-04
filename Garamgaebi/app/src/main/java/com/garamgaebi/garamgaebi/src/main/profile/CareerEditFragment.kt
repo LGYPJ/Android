@@ -13,6 +13,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.databinding.FragmentProfileCareerEditBinding
 import com.garamgaebi.garamgaebi.BR
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.CareerViewModel
 import com.jakewharton.rxbinding4.view.clicks
@@ -265,8 +266,8 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     .clicks()
                     .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        Log.d("networkValid",(requireActivity() as ContainerActivity).networkValid.value.toString())
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        Log.d("networkValid",networkValid.value.toString())
+                        if(networkValid.value == true) {
                             viewModel.patchCareerInfo()
                             Log.d(
                                 "career_add_button",
@@ -330,7 +331,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                                     Log.d("career_remove_button", "close")
                                 }
                                 1 -> {
-                                    if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                                    if(networkValid.value == true) {
                                         //경력 삭제
                                         viewModel.deleteCareerInfo()
                                     }else {

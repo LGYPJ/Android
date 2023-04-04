@@ -15,6 +15,7 @@ import com.garamgaebi.garamgaebi.R
 import com.garamgaebi.garamgaebi.common.BaseBindingFragment
 import com.garamgaebi.garamgaebi.common.BaseFragment
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
 import com.garamgaebi.garamgaebi.common.KeyboardVisibilityUtils
 import com.garamgaebi.garamgaebi.databinding.FragmentNetworkingFreeApplyBinding
 import com.garamgaebi.garamgaebi.src.main.ContainerActivity
@@ -70,7 +71,7 @@ class NetworkingFreeApplyFragment: BaseBindingFragment<FragmentNetworkingFreeApp
                     .clicks()
                     .throttleFirst(300, TimeUnit.MILLISECONDS)
                     .subscribe({
-                        if((requireActivity() as ContainerActivity).networkValid.value == true) {
+                        if(networkValid.value == true) {
                             //신청 등록 api
                             viewModel.postEnroll()
                             viewModel.enroll.observe(viewLifecycleOwner, Observer {
