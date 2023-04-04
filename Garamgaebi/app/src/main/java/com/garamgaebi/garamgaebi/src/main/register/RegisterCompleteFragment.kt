@@ -24,7 +24,6 @@ import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -123,14 +122,14 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
             binding.fragmentCompleteBtnNext.isEnabled = true
             binding.fragmentCompleteCbPersonal.isChecked = true
             binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
-            showWebViewDialog()
+            showTermDialog()
         }
     }
     private fun checkAgree() {
         if(binding.fragmentCompleteCbPersonal.isChecked){
             binding.fragmentCompleteBtnNext.isEnabled = true
             binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color_enable)
-            showWebViewDialog()
+            showTermDialog()
         } else {
             binding.fragmentCompleteBtnNext.isEnabled = false
             binding.fragmentCompleteBtnNext.setBackgroundResource(R.drawable.register_btn_color)
@@ -140,7 +139,7 @@ class RegisterCompleteFragment : BaseFragment<FragmentRegisterCompleteBinding>
         super.onAttach(context)
         registerActivity = context as RegisterActivity
     }
-    private fun showWebViewDialog() {
+    private fun showTermDialog() {
         RegisterTermDialog().show(parentFragmentManager, "RegisterTermDialog")
         /*val webView = WebView(requireContext()).apply {
             loadUrl("file:///android_asset/terms.html")
