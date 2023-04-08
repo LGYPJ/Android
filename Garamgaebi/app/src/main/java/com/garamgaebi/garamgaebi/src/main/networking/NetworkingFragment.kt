@@ -2,6 +2,7 @@ package com.garamgaebi.garamgaebi.src.main.networking
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -38,6 +39,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             activityNetworkProfileRv.addItemDecoration(NetworkingHorizontalItemDecoration())
         }
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
+        //binding.activityNetworkApplyBtn.visibility = VISIBLE
         binding.activityNetworkApplyBtn.setOnClickListener {
             val pay = binding.activityNetworkPayDetailTv.text
             if(pay == "무료") {
@@ -130,11 +132,11 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                         startDate = GaramgaebiApplication().loadStringData("startDate").toString()
                     }
                     //현재 시간과 stratDate 비교 --> 같다면 true로 반환
-                    if (it.isApply && startDate?.let { it1 ->
+                    if (it.isApply && startDate.let { it1 ->
                             GaramgaebiFunction().checkIceBreaking(
                                 it1
                             )
-                        } == true) {
+                        }) {
                         //버튼 활성화 & 멘트 바꾸기
                         with(binding) {
                             activityNetworkIcebreakingContent1Tv.text =
@@ -172,6 +174,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     //무료
                     if (it.result.fee == 0) {
                         // 버튼 상태
+                        Log.d("applybtn1", it.result.fee.toString())
                         if (it.result.userButtonStatus == "APPLY_COMPLETE") {
                             //신청완료, 비활성화
                             with(binding.activityNetworkApplyBtn) {
@@ -204,6 +207,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                     //유료
                     else {
                         // 버튼 상태
+                        Log.d("applybtn2", it.result.fee.toString())
                         if (it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM") {
                             //신청확인중, 비활성화
                             with(binding.activityNetworkApplyBtn) {
@@ -239,7 +243,7 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
                                 isEnabled = true
                             }
                         }
-
+                        binding.activityNetworkApplyBtn.visibility = VISIBLE
                     }
                 })
             }

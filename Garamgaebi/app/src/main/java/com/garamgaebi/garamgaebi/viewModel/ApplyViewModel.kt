@@ -54,6 +54,7 @@ class ApplyViewModel : ViewModel() {
 
 
     private val pay : MutableLiveData<String> = MutableLiveData("무료")
+    private var free : String = "무료"
 
 
     //신청하기 request
@@ -240,10 +241,12 @@ class ApplyViewModel : ViewModel() {
     fun getAccountText() : MutableLiveData<String> = inputAccount
 
     fun convertFee(money : String):String{
+        Log.d("applyfree", money)
         return "${money}원"
     }
 
     fun feeFree(money : String): String {
+        Log.d("applyfree1", money)
         return pay.value.toString()
     }
 

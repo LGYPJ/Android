@@ -50,6 +50,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
             activitySeminarFreePresentRv.addItemDecoration(SeminarVerticalItemDecoration())
         }
         //무료이면 무료신청 페이지로 유료이면 유료 신청 페이지로 ==> 프래그먼트 전환으로 바꾸기
+        //binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
             val pay = binding.activitySeminarFreePayDetailTv.text
             if(pay == "무료") {
@@ -184,7 +185,6 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                             text = "신청완료"
                             setTextColor(resources.getColor(R.color.seminar_blue))
                             setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
-                            visibility = VISIBLE
                             isEnabled = false
                         }
                     }
@@ -194,7 +194,6 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                             text = "마감"
                             setTextColor(resources.getColor(R.color.gray8a))
                             setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
-                            visibility = VISIBLE
                             isEnabled = false
                         }
                     }
@@ -204,10 +203,10 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                             text = "신청하기"
                             setTextColor(resources.getColor(R.color.white))
                             setBackgroundResource(R.drawable.btn_seminar_apply)
-                            visibility = VISIBLE
                             isEnabled = true
                         }
                     }
+                    binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
                 }
                 //유료
                 else {
@@ -247,7 +246,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                             isEnabled = true
                         }
                     }
-
+                    binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
                 }
 
             })
