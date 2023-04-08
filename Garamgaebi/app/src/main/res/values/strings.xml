@@ -95,7 +95,7 @@
     <string name="dDayBetween">D</string>
     <string name="dDay">D-Day</string>
     <string name="insta_char">@</string>
-    <string name="cancel_complete">신청이 완료되었습니다</string>
+    <string name="cancel_complete">신청 취소가 완료되었습니다.</string>
 
     <!-- Network Error -->
     <string name="network_error_title"> 페이지를 불러올 수 없습니다 </string>
