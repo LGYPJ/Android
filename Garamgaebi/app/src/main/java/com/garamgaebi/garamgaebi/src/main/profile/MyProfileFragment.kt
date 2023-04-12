@@ -324,7 +324,7 @@ class MyProfileFragment :
                         binding.networkErrorContainer.visibility = View.GONE
 
                         val snsAdapter =
-                            activity?.let { it1 -> SnsMyRVAdapter(it, it1.applicationContext) }
+                            activity?.let { it1 -> SnsMyRVAdapter(it, it1) }
                         binding.fragmentMyProfileRVSns.apply {
                             adapter = snsAdapter
                             layoutManager =
