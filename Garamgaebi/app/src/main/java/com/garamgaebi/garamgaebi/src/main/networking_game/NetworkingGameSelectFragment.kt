@@ -28,14 +28,14 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
     //private lateinit var callback: OnBackPressedCallback
 
     private var networkGameSelectList: ArrayList<NetworkingGameSelect> = arrayListOf(
-        NetworkingGameSelect("이길여 총장님"),
-        NetworkingGameSelect("AI 공학관"),
-        NetworkingGameSelect("비전타워"),
-        NetworkingGameSelect("스타덤 광장"),
-        NetworkingGameSelect("바람개비 동산"),
-        NetworkingGameSelect("무당이"),
-        NetworkingGameSelect("가천관"),
-        NetworkingGameSelect("무한대 동상")
+        NetworkingGameSelect(getString(R.string.game_place1)),
+        NetworkingGameSelect(getString(R.string.game_place2)),
+        NetworkingGameSelect(getString(R.string.game_place3)),
+        NetworkingGameSelect(getString(R.string.game_place4)),
+        NetworkingGameSelect(getString(R.string.game_place5)),
+        NetworkingGameSelect(getString(R.string.game_place6)),
+        NetworkingGameSelect(getString(R.string.game_place7)),
+        NetworkingGameSelect(getString(R.string.game_place8))
 
     )
 
