@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,13 +17,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.garamgaebi.garamgaebi.R
-import com.garamgaebi.garamgaebi.common.BaseActivity
-import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
+import com.garamgaebi.garamgaebi.common.*
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_ACCESS_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.X_REFRESH_TOKEN
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.myMemberIdx
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
-import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityMainBinding
 import com.garamgaebi.garamgaebi.model.AutoLoginRequest
 import com.garamgaebi.garamgaebi.src.main.gathering.GatheringFragment
@@ -34,7 +34,8 @@ import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
 import kotlinx.coroutines.*
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
+    ConfirmDialogInterface {
     private var homeFragment: HomeFragment? = null
     private var gatheringFragment: GatheringFragment? = null
     private var myProfileFragment: MyProfileFragment? = null
@@ -57,22 +58,74 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             showLoadingDialog(this@MainActivity)
             //  Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             // 로그인 액티비티에서 넘어왔는지
+            var needUpdate = false
+
+            runBlocking {
+                val store_version: String?
+                runBlocking {
+                    val packageManager = packageManager
+                    val packageName = packageName
+                    val packageInfo = packageManager.getPackageInfo(packageName, 0)
+                    val appVersion = packageInfo.versionName
+                     store_version = appVersion
+                }
+                try {
+                    val device_version = packageManager.getPackageInfo(packageName, 0).versionName
+                    if (store_version != null) {
+                        needUpdate = store_version.compareTo(device_version) > 0
+                    }
+                } catch (e: PackageManager.NameNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+
             var fromLogin = false
             fromLogin = withContext(Dispatchers.IO) { // 비동기 작업 시작
                 GaramgaebiApplication().loadBooleanData("fromLoginActivity")
             } == true // 결과 대기
-            if (fromLogin) {
-                setBottomNav()
-                LocalBroadcastManager.getInstance(this@MainActivity)
-                    .registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
-                initDynamicLink()
-                CoroutineScope(Dispatchers.Main).launch {
-                    withContext(Dispatchers.IO) { // 비동기 작업 시작
-                        GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity", false)
-                    } // 결과 대기
+
+            if(!needUpdate){
+                val dialog = ConfirmDialog(
+                    this@MainActivity,
+                    getString(R.string.update),
+                    4
+                ) { it2 ->
+                    when (it2) {
+                        -1 -> {
+                            finish()
+                        }
+                        1 -> {
+                            val intent = Intent(Intent.ACTION_VIEW)
+                            intent.data = Uri.parse("market://details?id=$packageName")
+                            startActivity(intent)
+                        }
+                    }
                 }
-            } else {
-                autoLogin()
+                dialog.show(
+                    this@MainActivity.supportFragmentManager!!,
+                    "com.example.garamgaebi.common.ConfirmDialog"
+                )
+
+            }else {
+                if (fromLogin) {
+                    setBottomNav()
+                    LocalBroadcastManager.getInstance(this@MainActivity)
+                        .registerReceiver(
+                            mFcmPushBroadcastReceiver,
+                            IntentFilter("fcmPushListener")
+                        )
+                    initDynamicLink()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        withContext(Dispatchers.IO) { // 비동기 작업 시작
+                            GaramgaebiApplication().saveBooleanToDataStore(
+                                "fromLoginActivity",
+                                false
+                            )
+                        } // 결과 대기
+                    }
+                } else {
+                    autoLogin()
+                }
             }
         }
 
@@ -285,5 +338,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         keyboardVisibilityUtils.detachKeyboardListeners()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mFcmPushBroadcastReceiver)
         super.onDestroy()
+    }
+
+    override fun onYesButtonClick(id: Int) {
+        TODO("Not yet implemented")
     }
 }

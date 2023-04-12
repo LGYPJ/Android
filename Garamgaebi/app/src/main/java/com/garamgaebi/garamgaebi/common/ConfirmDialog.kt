@@ -87,6 +87,23 @@ class ConfirmDialog(
                     dismiss()
                 }
             }
+            4 -> {
+                binding.deleteDone.textSize = 16F
+                // 예 버튼 클릭 -> 마켓 이동
+                binding.close.text = getString(R.string.check)
+                binding.close.setOnClickListener {
+                    // 삭제 , 삭제 완료 다이얼로그 띄우기
+                    itemClick(1)
+                    dismiss()
+                }
+
+                // 아니요 버튼 클릭 -> dismiss
+                binding.no.text = getString(R.string.close)
+                binding.no.setOnClickListener {
+                    itemClick(-1)
+                    dismiss()
+                }
+            }
         }
 
         return view
