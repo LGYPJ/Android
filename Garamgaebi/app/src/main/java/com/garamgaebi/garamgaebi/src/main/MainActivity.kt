@@ -84,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 GaramgaebiApplication().loadBooleanData("fromLoginActivity")
             } == true // 결과 대기
 
-            if(!needUpdate){
+            if(needUpdate){
                 val dialog = ConfirmDialog(
                     this@MainActivity,
                     getString(R.string.update),

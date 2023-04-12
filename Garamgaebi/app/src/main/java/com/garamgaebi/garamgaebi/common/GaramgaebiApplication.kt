@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit
 
 // 앱이 실행될때 1번만 실행이 됩니다.
 class GaramgaebiApplication : Application() {
-    val API_URL = "https://dev.garamgaebi.shop/"
+    //val API_URL = "https://dev.garamgaebi.shop/"
     // 서버 주소
-    //val API_URL = "https://garamgaebi.shop/"
+    val API_URL = "https://garamgaebi.shop/"
 
     companion object {
         private lateinit var appInstance: GaramgaebiApplication
