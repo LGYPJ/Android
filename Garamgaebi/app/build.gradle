@@ -21,8 +21,8 @@ android {
         applicationId "com.garamgaebi.garamgaebi"
         minSdkVersion 27
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.0.6"
         buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
         // mainfest에서 쓸 수 있도록 지정
         manifestPlaceholders = [KAKAO_API_KEY : kakaoApiKey]

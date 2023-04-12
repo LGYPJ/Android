@@ -13,6 +13,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
@@ -125,6 +126,8 @@ class GaramgaebiApplication : Application() {
         settingScreenPortrait()
         val dataStore = applicationContext.dataStore
         setHashMap()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
     }
     override fun onTerminate() {
         unregisterNetworkCallback(applicationContext)
