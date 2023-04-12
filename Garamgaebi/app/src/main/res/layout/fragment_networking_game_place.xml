@@ -82,7 +82,7 @@
             android:id="@+id/activity_game_card_start_btn"
             android:layout_width="190dp"
             android:layout_height="430dp"
-            android:text="시작하기"
+            android:text="@string/game_start"
             android:elevation="10dp"
             android:textColor="@color/game_blue"
             android:textSize="24sp"

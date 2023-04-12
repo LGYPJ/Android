@@ -15,434 +15,434 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:fillViewport="true">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/container_layout"
-        android:background="@color/whiteForBackground"
-        android:clickable="true"
-        android:focusableInTouchMode="true">
-        <ScrollView
-            android:id="@+id/activity_network_charged_scroll"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/activity_network_charged_apply_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:id="@+id/container_layout"
+            android:background="@color/whiteForBackground"
+            android:clickable="true"
+            android:focusableInTouchMode="true">
+            <ScrollView
+                android:id="@+id/activity_network_charged_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/activity_network_charged_apply_cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/activity_network_charged_apply_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="141dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/btn_seminar_present"
+                        android:padding="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/top_seminar_charged">
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{item.networkingInfo.result.title}"
+                            android:textColor="@color/black80"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_date_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/when"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_date_detail_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@{item.networkingInfo.result.date}"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_date_tv"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_place_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/where"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_place_detail_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@{item.networkingInfo.result.location}"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_place_tv"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_pay_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/cost"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_pay_detail_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@{Integer.toString(item.networkingInfo.result.fee).equals(0) ? item.feeFree(Integer.toString(item.networkingInfo.result.fee)) : item.convertFee(Integer.toString(item.networkingInfo.result.fee))}"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_pay_tv"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_deadline_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/deadline"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_deadline_detail_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@{item.networkingInfo.result.endDate}"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_deadline_tv"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/origin_apply_name"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_info" />
+
+                    <EditText
+                        android:id="@+id/activity_network_charged_apply_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:inputType="text"
+                        android:background="@{item.inputName.length() == 0 || item.nameIsValid ? (item.nameFocusing ?@drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                        android:hint="@string/origin_name_input"
+                        android:paddingStart="12dp"
+                        android:text="@={item.inputName}"
+                        android:textColor="@color/black80"
+                        android:textColorHint="@color/seminar_light_gray"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name"
+                        app:onFocusing="@{(check) -> item.setBoolean(item.nameFocusing , item.nameFirst, check)}" />
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_not_correct_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{item.nameState}"
+                        android:textColor="@color/seminar_red"
+                        android:textSize="10sp"
+                        android:visibility="@{item.inputName.length() == 0 || item.nameIsValid? View.INVISIBLE : View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/origin_apply_nickname"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
+
+
+                    <EditText
+                        android:id="@+id/activity_network_charged_apply_nickname_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:inputType="text"
+                        android:background="@{item.inputNickName.length() == 0 || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                        android:hint="@string/origin_nickname_input"
+                        android:paddingStart="12dp"
+                        android:text="@={item.inputNickName}"
+                        android:textColor="@color/black80"
+                        android:textColorHint="@color/seminar_light_gray"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname"
+                        app:onFocusing="@{(check) -> item.setBoolean(item.nicknameFocusing , item.nicknameFirst, check)}" />
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_not_correct_nickname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{item.nicknameState}"
+                        android:textColor="@color/seminar_red"
+                        android:textSize="10sp"
+                        android:visibility="@{item.inputNickName.length() == 0 || item.nicknameIsValid? View.INVISIBLE : View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/origin_apply_phone"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
+
+
+                    <EditText
+                        android:id="@+id/activity_network_charged_apply_phone_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:inputType="number"
+                        android:background="@{item.inputPhone.length() == 0 || item.phoneIsValid ? (item.phoneFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
+                        android:hint="@string/origin_phone_input"
+                        android:paddingStart="12dp"
+                        android:text="@={item.inputPhone}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/seminar_light_gray"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone"
+                        app:onFocusing="@{(check) -> item.setBoolean(item.phoneFocusing , item.phoneFirst, check)}" />
+
+                    <TextView
+                        android:id="@+id/activity_network_charged_apply_not_correct_phone_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{item.phoneState}"
+                        android:textColor="@color/seminar_red"
+                        android:textSize="10sp"
+                        android:visibility="@{item.inputPhone.length() == 0 || item.phoneIsValid ? View.INVISIBLE : View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/activity_network_charged_apply_content_box"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/activity_seminar_charged_info_background"
+                        android:paddingStart="12dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv">
+
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seminar_bank"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_account"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:text="@string/seminar_bank_account"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_tv1"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/activity_network_charged_copy_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:src="@drawable/activity_seminar_charged_copy"
+                            app:layout_constraintBottom_toBottomOf="@+id/activity_network_charged_info_tv1"
+                            app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_account"
+                            app:layout_constraintTop_toTopOf="@+id/activity_network_charged_info_tv1" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="@string/seminar_charged_info1"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv1" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="@string/seminar_charged_info2"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv2" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seminar_charged_info3"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv3" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seminar_charged_info4"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv4" />
+
+                        <TextView
+                            android:id="@+id/activity_network_charged_info_tv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="@string/seminar_charged_info5"
+                            android:textColor="@color/black80"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv5" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/activity_network_charged_apply_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/activity_network_charged_apply_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="141dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/btn_seminar_present"
-                    android:padding="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/top_seminar_charged">
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_title_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{item.networkingInfo.result.title}"
-                        android:textColor="@color/black80"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_date_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="일시"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_date_detail_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:text="@{item.networkingInfo.result.date}"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_date_tv"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_title_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_place_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="장소"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_place_detail_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:text="@{item.networkingInfo.result.location}"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_place_tv"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_date_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_pay_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="참가비"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_pay_detail_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:text="@{Integer.toString(item.networkingInfo.result.fee).equals(0) ? item.feeFree(Integer.toString(item.networkingInfo.result.fee)) : item.convertFee(Integer.toString(item.networkingInfo.result.fee))}"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_pay_tv"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_place_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_deadline_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="신청 마감"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_deadline_detail_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:text="@{item.networkingInfo.result.endDate}"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_deadline_tv"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_pay_tv" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/origin_apply_name"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_info" />
-
-                <EditText
-                    android:id="@+id/activity_network_charged_apply_name_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:inputType="text"
-                    android:background="@{item.inputName.length() == 0 || item.nameIsValid ? (item.nameFocusing ?@drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
-                    android:hint="@string/origin_name_input"
-                    android:paddingStart="12dp"
-                    android:text="@={item.inputName}"
-                    android:textColor="@color/black80"
-                    android:textColorHint="@color/seminar_light_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name"
-                    app:onFocusing="@{(check) -> item.setBoolean(item.nameFocusing , item.nameFirst, check)}" />
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_not_correct_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@{item.nameState}"
-                    android:textColor="@color/seminar_red"
-                    android:textSize="10sp"
-                    android:visibility="@{item.inputName.length() == 0 || item.nameIsValid? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/origin_apply_nickname"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_name_tv" />
-
-
-                <EditText
-                    android:id="@+id/activity_network_charged_apply_nickname_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:inputType="text"
-                    android:background="@{item.inputNickName.length() == 0 || item.nicknameIsValid ? (item.nicknameFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
-                    android:hint="@string/origin_nickname_input"
-                    android:paddingStart="12dp"
-                    android:text="@={item.inputNickName}"
-                    android:textColor="@color/black80"
-                    android:textColorHint="@color/seminar_light_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname"
-                    app:onFocusing="@{(check) -> item.setBoolean(item.nicknameFocusing , item.nicknameFirst, check)}" />
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_not_correct_nickname_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@{item.nicknameState}"
-                    android:textColor="@color/seminar_red"
-                    android:textSize="10sp"
-                    android:visibility="@{item.inputNickName.length() == 0 || item.nicknameIsValid? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/origin_apply_phone"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_nickname_tv" />
-
-
-                <EditText
-                    android:id="@+id/activity_network_charged_apply_phone_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:inputType="number"
-                    android:background="@{item.inputPhone.length() == 0 || item.phoneIsValid ? (item.phoneFocusing ? @drawable/basic_black_border_layout : @drawable/basic_gray_border_layout) : @drawable/basic_red_border_layout}"
-                    android:hint="@string/origin_phone_input"
-                    android:paddingStart="12dp"
-                    android:text="@={item.inputPhone}"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/seminar_light_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone"
-                    app:onFocusing="@{(check) -> item.setBoolean(item.phoneFocusing , item.phoneFirst, check)}" />
-
-                <TextView
-                    android:id="@+id/activity_network_charged_apply_not_correct_phone_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@{item.phoneState}"
-                    android:textColor="@color/seminar_red"
-                    android:textSize="10sp"
-                    android:visibility="@{item.inputPhone.length() == 0 || item.phoneIsValid ? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/activity_network_charged_apply_content_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/activity_seminar_charged_info_background"
-                    android:paddingStart="12dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_apply_phone_tv">
-
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/seminar_bank"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_account"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/seminar_bank_account"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_tv1"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/activity_network_charged_copy_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:src="@drawable/activity_seminar_charged_copy"
-                        app:layout_constraintBottom_toBottomOf="@+id/activity_network_charged_info_tv1"
-                        app:layout_constraintStart_toEndOf="@+id/activity_network_charged_info_account"
-                        app:layout_constraintTop_toTopOf="@+id/activity_network_charged_info_tv1" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/seminar_charged_info1"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv1" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/seminar_charged_info2"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv2" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/seminar_charged_info3"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv3" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/seminar_charged_info4"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv4" />
-
-                    <TextView
-                        android:id="@+id/activity_network_charged_info_tv6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/seminar_charged_info5"
-                        android:textColor="@color/black80"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_info_tv5" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/activity_network_charged_apply_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_scroll">
-
-            <TextView
-                android:id="@+id/activity_network_charged_apply_btn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="48dp"
-                android:background="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
-                android:clickable="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid ) ? true : false}"
-                android:paddingVertical="12dp"
-                android:text="@string/origin_apply"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp"
+                android:background="@color/white"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_network_charged_scroll">
 
+                <TextView
+                    android:id="@+id/activity_network_charged_apply_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="48dp"
+                    android:background="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid) ? @drawable/basic_blue_btn_layout : @drawable/basic_gray_btn_layout}"
+                    android:clickable="@{(!item.nameFirst &amp;&amp; !item.nicknameFirst &amp;&amp; !item.phoneFirst &amp;&amp; item.nameIsValid &amp;&amp; item.nicknameIsValid &amp;&amp; item.phoneIsValid ) ? true : false}"
+                    android:paddingVertical="12dp"
+                    android:text="@string/origin_apply"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

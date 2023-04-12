@@ -280,6 +280,7 @@
     <string name="seminar_charged_info3">신청 취소는 일주일 전까지 가능합니다.(이후로는 취소 불가)</string>
     <string name="seminar_charged_info4">환불은 모임 당일부터 7일 이내에 순차적으로 진행됩니다.</string>
     <string name="seminar_charged_info5">입금이 완료되지 않으면 신청이 자동적으로 취소됩니다.</string>
+    <string name="seminar_preview_data">발표자료</string>
 
     <!--seminar network apply 공통 string -->
     <string name="when">날짜</string>
@@ -311,6 +312,50 @@
     <string name="apply_not_name">이름 형식이 올바르지 않습니다</string>
     <string name="apply_not_nickname">닉네임이 일치하지 않습니다</string>
     <string name="apply_not_phone">번호 형식이 올바르지 않습니다</string>
+    <string name="apply_account">계좌번호를 입력해주세요</string>
+    <string name="origin_profile_no">알수없음</string>
+    <string name="cancel_bank">은행</string>
+    <string name="apply_complete_btn">신청완료</string>
+    <string name="apply_end_btn">마감</string>
+    <string name="apply_check_btn">신청확인중</string>
+    <string name="origin_apply_complete">APPLY_COMPLETE</string>
+    <string name="origin_apply_closed">CLOSED</string>
+    <string name="origin_apply_apply">APPLY</string>
+    <string name="origin_before_apply_confirm">BEFORE_APPLY_CONFIRM</string>
+    <string name="apply_bank_name">NH농협</string>
+    <string name="apply_bank_name1">KB국민</string>
+    <string name="apply_bank_name2">카카오뱅크</string>
+    <string name="apply_bank_name3">신한</string>
+    <string name="apply_bank_name4">우리</string>
+    <string name="apply_bank_name5">IBK 기업</string>
+    <string name="apply_bank_name6">하나</string>
+    <string name="apply_bank_name7">토스뱅크</string>
+    <string name="apply_bank_name8">새마을</string>
+    <string name="apply_bank_name9">부산</string>
+    <string name="apply_bank_name10">대구</string>
+    <string name="apply_bank_name11">케이뱅크</string>
+    <string name="apply_bank_name12">신협</string>
+    <string name="apply_bank_name13">우체국</string>
+    <string name="apply_bank_name14">SC제일</string>
+    <string name="apply_bank_name15">경남</string>
+    <string name="apply_bank_name16">수협</string>
+    <string name="apply_bank_name17">광주</string>
+    <string name="apply_bank_name18">전북</string>
+    <string name="apply_bank_name19">저축은행</string>
+    <string name="apply_bank_name20">시티</string>
+    <string name="apply_bank_name21">제주</string>
+    <string name="apply_bank_name22">KDB산업</string>
+    <string name="apply_bank_name23">SBI저축은행</string>
+    <string name="apply_bank_name24">산림조합</string>
+    <string name="apply_bank_name25">BOA</string>
+    <string name="apply_bank_name26">HSBC</string>
+    <string name="apply_bank_name27">중국</string>
+    <string name="apply_bank_name28">도이치</string>
+    <string name="apply_bank_name29">중국공상</string>
+    <string name="apply_bank_name30">JP모건</string>
+    <string name="apply_bank_name31">BNP파리바</string>
+    <string name="apply_bank_name32">중국건설</string>
+
 
     <!--networking-->
     <string name="networking_icebreaking">아이스 브레이킹</string>
@@ -333,6 +378,15 @@
     <string name="game_dialog2">참여하시겠습니까?</string>
     <string name="game_dialog_cancel">취소</string>
     <string name="game_dialog_participants">참가</string>
+    <string name="game_start">시작하기</string>
+    <string name="game_place1">이길여 총장님</string>
+    <string name="game_place2">AI 공학관</string>
+    <string name="game_place3">비전타워</string>
+    <string name="game_place4">스타덤 광장</string>
+    <string name="game_place5">바람개비 동산</string>
+    <string name="game_place6">무당이</string>
+    <string name="game_place7">가천관</string>
+    <string name="game_place8">무한대 동상</string>
 
     <!-- gathering -->
     <string name="scheduled_meeting">예정된 모임</string>

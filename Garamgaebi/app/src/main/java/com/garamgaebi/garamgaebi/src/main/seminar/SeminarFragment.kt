@@ -53,7 +53,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
         //binding.activitySeminarFreeApplyBtn.visibility = VISIBLE
         binding.activitySeminarFreeApplyBtn.setOnClickListener {
             val pay = binding.activitySeminarFreePayDetailTv.text
-            if(pay == "무료") {
+            if(pay == getString(R.string.origin_pay)) {
                 containerActivity!!.openFragmentOnFrameLayout(2)
             }
             else {
@@ -169,7 +169,7 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                     activitySeminarFreePlaceDetailTv.text = item.location
                 }
                 if (item.fee.toString() == "0") {
-                    binding.activitySeminarFreePayDetailTv.text = "무료"
+                    binding.activitySeminarFreePayDetailTv.text = getString(R.string.origin_pay)
                 } else {
                     binding.activitySeminarFreePayDetailTv.text =
                         getString(R.string.main_fee, item.fee.toString())
@@ -179,28 +179,28 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                 //무료
                 if (it.result.fee == 0) {
                     // 버튼 상태
-                    if (it.result.userButtonStatus == "APPLY_COMPLETE") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_complete)) {
                         //신청완료, 비활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "신청완료"
+                            text = getString(R.string.apply_complete_btn)
                             setTextColor(resources.getColor(R.color.seminar_blue))
                             setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                             isEnabled = false
                         }
                     }
-                    if (it.result.userButtonStatus == "CLOSED") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_closed)) {
                         //마감, 비활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "마감"
+                            text = getString(R.string.apply_end_btn)
                             setTextColor(resources.getColor(R.color.gray8a))
                             setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
                             isEnabled = false
                         }
                     }
-                    if (it.result.userButtonStatus == "APPLY") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_apply)) {
                         // 신청하기 활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "신청하기"
+                            text = getString(R.string.origin_apply)
                             setTextColor(resources.getColor(R.color.white))
                             setBackgroundResource(R.drawable.btn_seminar_apply)
                             isEnabled = true
@@ -211,36 +211,36 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                 //유료
                 else {
                     // 버튼 상태
-                    if (it.result.userButtonStatus == "BEFORE_APPLY_CONFIRM") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_before_apply_confirm)) {
                         //신청확인중, 비활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "신청확인중"
+                            text = getString(R.string.apply_check_btn)
                             setTextColor(resources.getColor(R.color.seminar_blue))
                             setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                         }
                     }
-                    if (it.result.userButtonStatus == "APPLY_COMPLETE") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_complete)) {
                         //신청완료, 비활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "신청완료"
+                            text = getString(R.string.apply_complete_btn)
                             setTextColor(resources.getColor(R.color.seminar_blue))
                             setBackgroundResource(R.drawable.activity_seminar_apply_done_btn_border)
                             isEnabled = false
                         }
                     }
-                    if (it.result.userButtonStatus == "CLOSED") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_closed)) {
                         //마감, 비활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "마감"
+                            text = getString(R.string.apply_end_btn)
                             setTextColor(resources.getColor(R.color.gray8a))
                             setBackgroundResource(R.drawable.activity_userbutton_closed_gray)
                             isEnabled = false
                         }
                     }
-                    if (it.result.userButtonStatus == "APPLY") {
+                    if (it.result.userButtonStatus == getString(R.string.origin_apply_apply)) {
                         // 신청하기 활성화
                         with(binding.activitySeminarFreeApplyBtn) {
-                            text = "신청하기"
+                            text = getString(R.string.origin_apply)
                             setTextColor(resources.getColor(R.color.white))
                             setBackgroundResource(R.drawable.btn_seminar_apply)
                             isEnabled = true

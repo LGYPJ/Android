@@ -18,7 +18,7 @@
             android:id="@+id/item_profile_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="알수없음"
+            android:text="@string/origin_profile_no"
             android:textSize="12sp"
             android:textColor="@color/seminar_light_gray"
             android:textAlignment="center"
