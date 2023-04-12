@@ -186,6 +186,10 @@ dependencies {
 
     //implementation  "com.google.protobuf:protobuf-javalite:3.10.0"
 
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.14.3'
+
+
 
 }
 tasks.register("prepareKotlinBuildScriptModel"){}

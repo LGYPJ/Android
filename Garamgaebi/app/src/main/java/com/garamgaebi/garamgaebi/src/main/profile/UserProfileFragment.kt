@@ -174,7 +174,7 @@ BaseFragment<FragmentSomeoneprofileBinding>(FragmentSomeoneprofileBinding::bind,
                         binding.fragmentSomeoneProfileContainerSns.visibility = VISIBLE
 
                         val snsAdapter =
-                            activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1.applicationContext) }
+                            activity?.let { it1 -> SnsSomeoneRVAdapter(it, it1) }
                         binding.fragmentSomeoneProfileRVSns.apply {
                             adapter = snsAdapter
                             layoutManager =
