@@ -19,6 +19,7 @@ import com.garamgaebi.garamgaebi.adapter.CareerMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.EduMyRVAdapter
 import com.garamgaebi.garamgaebi.adapter.SnsMyRVAdapter
 import com.garamgaebi.garamgaebi.common.*
+import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.bitmap
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getCareer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getEdu
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.getProfile
@@ -299,7 +300,7 @@ class MyProfileFragment :
                                     }else{
                                         GaramgaebiApplication().saveBooleanToDataStore("myImageNull",false)
                                         CoroutineScope(Dispatchers.Main).launch {
-                                            val bitmap = withContext(Dispatchers.IO) {
+                                            bitmap = withContext(Dispatchers.IO) {
                                                 GaramgaebiFunction.ImageLoader.loadImage(result.result.profileUrl)
                                             }
                                             binding.fragmentMyProfileIvProfile.setImageBitmap(bitmap)
