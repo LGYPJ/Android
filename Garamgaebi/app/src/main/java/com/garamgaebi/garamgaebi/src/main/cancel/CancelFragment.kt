@@ -36,8 +36,6 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
         //binding.activityCancelApplyBtn.isEnabled = false
 
-        binding.activityCancelBankTv.text = "은행"
-
         //신청정보조회
         if(networkValid.value == true) {
             viewModel.getCancel()
@@ -80,12 +78,12 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                 binding.activityCancelBankTv.setBackgroundResource(R.drawable.activity_seminar_et_border_gray)
                 isBank()
             }
-                    activity?.let {
-                        orderBottomDialogFragment.show(
-                            it.supportFragmentManager, "orderBottomDialogFragment"
-                        )
-                    }
-                    orderBottomDialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            activity?.let {
+                orderBottomDialogFragment.show(
+                    it.supportFragmentManager, "orderBottomDialogFragment"
+                )
+            }
+            orderBottomDialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
         }
@@ -105,12 +103,12 @@ class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragme
                     }
                 }
 
-                            // 알림창이 띄워져있는 동안 배경 클릭 막기
-                            dialog.show(
-                                activity?.supportFragmentManager!!,
-                                "com.example.garamgaebi.common.ConfirmDialog"
-                            )
-                        }else{
+                // 알림창이 띄워져있는 동안 배경 클릭 막기
+                dialog.show(
+                    activity?.supportFragmentManager!!,
+                    "com.example.garamgaebi.common.ConfirmDialog"
+                )
+            }else{
                 (requireActivity() as ContainerActivity).networkAlertDialog()
 
             }

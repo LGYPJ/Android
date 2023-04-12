@@ -128,13 +128,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 viewModel.seminar.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeSeminarResult>
                     val seminarRVAdapter: HomeSeminarRVAdapter
-                    if (result == null) {
-                        binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
-                        constraintsConnect(
-                            binding.fragmentHomeTvNetworking,
-                            binding.fragmentHomeClSeminarBlank
-                        )
-                    } else if (result.isEmpty()) {
+                    if (result == null || result.isEmpty()) {
+                        binding.fragmentHomeVpSeminar.visibility = View.GONE
                         binding.fragmentHomeClSeminarBlank.visibility = View.VISIBLE
                         constraintsConnect(
                             binding.fragmentHomeTvNetworking,
@@ -149,6 +144,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             binding.fragmentHomeTvNetworking,
                             binding.fragmentHomeVpSeminar
                         )
+                        binding.fragmentHomeVpSeminar.visibility = View.VISIBLE
                         binding.fragmentHomeClSeminarBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
                         seminarRVAdapter.setOnItemClickListener(object :
@@ -179,15 +175,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 viewModel.networking.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeNetworkingResult>
                     val networkingRVAdapter: HomeNetworkingRVAdapter
-                    if (result == null) {
-                        binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
-                    } else if (result.isEmpty()) {
+                    if (result == null || result.isEmpty()) {
+                        binding.fragmentHomeVpNetworking.visibility = View.GONE
                         binding.fragmentHomeClNetworkingBlank.visibility = View.VISIBLE
                     } else {
                         networkingRVAdapter = HomeNetworkingRVAdapter(result)
                         binding.fragmentHomeVpNetworking.apply {
                             adapter = networkingRVAdapter
                         }
+                        binding.fragmentHomeVpNetworking.visibility = View.VISIBLE
                         binding.fragmentHomeClNetworkingBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
                         networkingRVAdapter.setOnItemClickListener(object :
@@ -219,9 +215,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 viewModel.user.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeUserResult>
                     val userRVAdapter: HomeUserItemRVAdapter
-                    if (result == null) {
-                        binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
-                    } else if (result.isEmpty()) {
+                    if (result == null || result.isEmpty()) {
+                        binding.fragmentHomeRvUser.visibility = View.GONE
                         binding.fragmentHomeClUserBlank.visibility = View.VISIBLE
                     } else {
                         userRVAdapter = HomeUserItemRVAdapter(result, requireContext())
@@ -232,6 +227,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                                     initialPrefetchItemCount = 10
                                 }
                         }
+                        binding.fragmentHomeRvUser.visibility = View.VISIBLE
                         binding.fragmentHomeClUserBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
                         userRVAdapter.setOnItemClickListener(object :
@@ -260,13 +256,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 viewModel.program.observe(viewLifecycleOwner, Observer {
                     val result = it.result as ArrayList<HomeProgramResult>
                     val myMeetingRVAdapter: HomeMyMeetingRVAdapter
-                    if (result == null) {
+                    if (result == null || result.isEmpty()) {
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
                         binding.fragmentHomeRvMyMeeting.visibility = View.GONE
 
-                    } else if (result.isEmpty()) {
-                        binding.fragmentHomeClMyMeetingsBlank.visibility = View.VISIBLE
-                        binding.fragmentHomeRvMyMeeting.visibility = View.GONE
                     } else {
                         myMeetingRVAdapter = HomeMyMeetingRVAdapter(result)
                         binding.fragmentHomeRvMyMeeting.apply {
@@ -274,6 +267,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                             layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                         }
+                        binding.fragmentHomeRvMyMeeting.visibility = View.VISIBLE
                         binding.fragmentHomeClMyMeetingsBlank.visibility = View.GONE
                         // 리사이클러뷰 클릭 리스너
                         myMeetingRVAdapter.setOnItemClickListener(object :

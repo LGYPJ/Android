@@ -68,7 +68,7 @@
         android:layout_marginTop="1dp"
         android:ellipsize="end"
         android:maxLength="4"
-        android:text="cindy"
+        android:text="@string/origin_profile_name"
         android:textAlignment="center"
         android:textColor="@color/seminar_blue"
         android:textSize="12sp"
