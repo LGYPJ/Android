@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 네트워크 상태 접근 권한 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 갤러리 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        android:minSdkVersion="33"/> <!--푸시알림 권한-->
 
     <application
         android:name="com.garamgaebi.garamgaebi.common.GaramgaebiApplication"

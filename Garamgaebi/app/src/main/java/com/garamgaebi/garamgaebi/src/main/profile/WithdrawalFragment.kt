@@ -103,7 +103,6 @@ class WithdrawalFragment :
                     )
                     GaramgaebiApplication().clearDataStore()
                     Log.d("withdrawal","block")
-
                 }
 
                 GaramgaebiApplication.myMemberIdx = -1

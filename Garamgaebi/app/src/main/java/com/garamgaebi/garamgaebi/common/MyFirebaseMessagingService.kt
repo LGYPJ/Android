@@ -16,7 +16,13 @@ import com.garamgaebi.garamgaebi.src.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     /** 푸시 알림으로 보낼 수 있는 메세지는 2가지
@@ -29,7 +35,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
        // Log.d(FIREBASE_TAG, "new Token: $token")
 
         // 토큰 값을 따로 저장
-        val saveToken = runBlocking {
+        runBlocking {
             GaramgaebiApplication().saveStringToDataStore("pushToken",token)
         }
 
@@ -129,15 +135,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     /** Token 가져오기 */
-    fun getFirebaseToken() {
-        //비동기 방식
-        FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            //Log.d(FIREBASE_TAG, "token=${it}")
-            val saveToken = runBlocking {
-                GaramgaebiApplication().saveStringToDataStore("pushToken",it)
+    suspend fun getFirebaseToken(): String = suspendCoroutine { continuation ->
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            runBlocking {
+                GaramgaebiApplication().saveStringToDataStore("pushToken", token)
+                continuation.resume(token)
             }
+        }.addOnFailureListener { e ->
+            continuation.resumeWithException(e)
         }
-
 
 //		  //동기방식
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
