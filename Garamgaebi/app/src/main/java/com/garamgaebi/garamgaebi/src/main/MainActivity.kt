@@ -1,7 +1,6 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -15,8 +14,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -60,13 +57,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         installSplashScreen()
         super.onCreate(savedInstanceState)
         Log.d("network", "isConnectedTrue")
-        getFcmToken()
 
         CoroutineScope(Dispatchers.Main).launch {
             showLoadingDialog(this@MainActivity)
-            runBlocking {
-                Log.d("pushToken", "${GaramgaebiApplication().loadStringData("pushToken")}")
-            }
             //  Log.d("fireBaseTokenInLogin", sSharedPreferences.getString("pushToken", "")!!)
             // 로그인 액티비티에서 넘어왔는지
             var needUpdate = false
@@ -90,8 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
 
-            var fromLogin = false
-            fromLogin = withContext(Dispatchers.IO) { // 비동기 작업 시작
+            var fromLogin: Boolean = withContext(Dispatchers.IO) { // 비동기 작업 시작
                 GaramgaebiApplication().loadBooleanData("fromLoginActivity")
             } == true // 결과 대기
 
@@ -216,7 +208,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
-    @SuppressLint("ResourceType")
     private fun setBottomNav() {
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
@@ -336,12 +327,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             homeFragment!!.goneNetworkingHelp()
         }
     }
-
-    private fun getFcmToken(){
-        /** FCM설정, Token값 가져오기 */
-        myFirebaseMessagingService.getFirebaseToken()
-    }
-
     /** DynamicLink */
     fun initDynamicLink() {
         val dynamicLinkData = intent.extras
