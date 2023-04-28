@@ -121,7 +121,7 @@ class RegisterViewModel : ViewModel(){
     }
 
     fun checkEmail(): Boolean {
-        val validation = "^[a-zA-Z0-9]{5,20}$"
+        val validation = "^[a-zA-Z0-9]{1,20}$"
         return Pattern.matches(validation, uniEmail.value)
     }
     fun checkAuthNum() : Boolean {
