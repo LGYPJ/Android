@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.common.BaseActivity
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication.Companion.networkValid
+import com.garamgaebi.garamgaebi.common.MyFirebaseMessagingService
 import com.garamgaebi.garamgaebi.databinding.ActivityLoginBinding
 import com.garamgaebi.garamgaebi.model.LoginRequest
 import com.garamgaebi.garamgaebi.src.main.MainActivity
@@ -16,13 +17,9 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 
@@ -71,9 +68,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
             if (error != null) {
                 Log.d("kakao", "카카오계정으로 로그인 실패 ${error}")
             } else if (token != null) {
-                //Log.d("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                //postLogin("xxZmTH2WUJNqoSvCywHYMmYciCZK_iQ3hqa0AWT7Cj1zmwAAAYcO4VYA")
-
                 postLogin(token.accessToken)
             }
         }
@@ -90,9 +84,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
-                    //Log.d("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    //postLogin("xxZmTH2WUJNqoSvCywHYMmYciCZK_iQ3hqa0AWT7Cj1zmwAAAYcO4VYA")
-
                     postLogin(token.accessToken)
                 }
             }
@@ -103,32 +94,46 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(
 
     private fun postLogin(token : String) {
         var pushToken = ""
-        CoroutineScope(Dispatchers.Main).launch {
-            pushToken = async(Dispatchers.IO) { // 비동기 작업 시작
-                GaramgaebiApplication().loadStringData("pushToken")
-            }.await().toString() // 결과 대기
-        }
-        viewModel.postLogin(
-            LoginRequest(
-                token,
-                pushToken
+        CoroutineScope(Dispatchers.IO).launch {
+            // 비동기 작업 시작
+            pushToken = MyFirebaseMessagingService().getFirebaseToken()
+            // 결과 대기
+            //Log.d("pushTokenInLogin", pushToken)
+            viewModel.postLogin(
+                LoginRequest(
+                    token,
+                    pushToken
+                )
             )
-        )
-
-
+        }
         //Log.d("pushToken", GaramgaebiApplication.sSharedPreferences.getString("pushToken", "")!!)
         viewModel.login.observe(this, Observer {
             Log.d("loginActivity", "login observe?")
             if (it.isSuccess) {
                 Log.d("loginActivity", "login success?")
                 CoroutineScope(Dispatchers.Main).launch {
-                    val saveToken = async(Dispatchers.Default) { // 비동기 작업 시작
-                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_ACCESS_TOKEN,it.result.tokenInfo.accessToken)
-                        GaramgaebiApplication().saveStringToDataStore(GaramgaebiApplication.X_REFRESH_TOKEN,it.result.tokenInfo.refreshToken)
-                        GaramgaebiApplication().saveIntToDataStore("memberIdx",it.result.tokenInfo.memberIdx)
-                        GaramgaebiApplication().saveBooleanToDataStore("fromLoginActivity",false)
-                        GaramgaebiApplication().saveStringToDataStore("uniEmail",it.result.uniEmail)
-                    }.await() // 결과 대기
+                    withContext(Dispatchers.Default) { // 비동기 작업 시작
+                        GaramgaebiApplication().saveStringToDataStore(
+                            GaramgaebiApplication.X_ACCESS_TOKEN,
+                            it.result.tokenInfo.accessToken
+                        )
+                        GaramgaebiApplication().saveStringToDataStore(
+                            GaramgaebiApplication.X_REFRESH_TOKEN,
+                            it.result.tokenInfo.refreshToken
+                        )
+                        GaramgaebiApplication().saveIntToDataStore(
+                            "memberIdx",
+                            it.result.tokenInfo.memberIdx
+                        )
+                        GaramgaebiApplication().saveBooleanToDataStore(
+                            "fromLoginActivity",
+                            false
+                        )
+                        GaramgaebiApplication().saveStringToDataStore(
+                            "uniEmail",
+                            it.result.uniEmail
+                        )
+                    } // 결과 대기
                 }
                 GaramgaebiApplication.myMemberIdx = it.result.tokenInfo.memberIdx
                 startActivity(Intent(this, MainActivity::class.java))

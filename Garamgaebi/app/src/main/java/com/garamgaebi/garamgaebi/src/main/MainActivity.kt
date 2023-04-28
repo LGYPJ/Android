@@ -1,17 +1,20 @@
 package com.garamgaebi.garamgaebi.src.main
 
 
-import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,6 +34,8 @@ import com.garamgaebi.garamgaebi.src.main.register.LoginActivity
 import com.garamgaebi.garamgaebi.src.main.register.RegisterActivity
 import com.garamgaebi.garamgaebi.util.NetworkDisconnectedFragment
 import com.garamgaebi.garamgaebi.viewModel.HomeViewModel
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import kotlinx.coroutines.*
 
 
@@ -52,7 +57,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         installSplashScreen()
         super.onCreate(savedInstanceState)
         Log.d("network", "isConnectedTrue")
-        getFcmToken()
 
         CoroutineScope(Dispatchers.Main).launch {
             showLoadingDialog(this@MainActivity)
@@ -79,8 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
 
-            var fromLogin = false
-            fromLogin = withContext(Dispatchers.IO) { // 비동기 작업 시작
+            var fromLogin: Boolean = withContext(Dispatchers.IO) { // 비동기 작업 시작
                 GaramgaebiApplication().loadBooleanData("fromLoginActivity")
             } == true // 결과 대기
 
@@ -171,6 +174,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                                         setBottomNav()
                                         LocalBroadcastManager.getInstance(this@MainActivity).registerReceiver(mFcmPushBroadcastReceiver, IntentFilter("fcmPushListener"))
                                         initDynamicLink()
+                                        createNotificationChannel()
+                                        checkPermission()
                                     }
                                 } else {
                                     Log.d("login", "login fail ${it.errorMessage}")
@@ -203,7 +208,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     //이벤트 리스너 역할. 하단 네비게이션 이벤트에 따라 화면을 리턴한다.
-    @SuppressLint("ResourceType")
     private fun setBottomNav() {
         homeFragment = HomeFragment()
         gatheringFragment = GatheringFragment()
@@ -215,7 +219,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .add(R.id.activity_main_frm, myProfileFragment!!, "myProfile")
             .add(R.id.activity_main_frm, networkDisconnectedFragment, "networkDisconnected")
             .commitAllowingStateLoss()
-        binding.activityMainBottomNavi.selectedItemId = R.id.home
+        binding.activityMainBottomNavi.selectedItemId = R.id.activity_main_btm_nav_home
 
         networkValid.observe(this, Observer { isConnected ->
             val selectedFragment = when (binding.activityMainBottomNavi.selectedItemId) {
@@ -248,7 +252,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
 
     }
+    private fun checkPermission() {
+        // OS13 이상에서는 권한 상태 체크해줌
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
+            TedPermission.create()
+                .setPermissions("android.permission.POST_NOTIFICATIONS")
+                .setPermissionListener(object : PermissionListener {
+                    override fun onPermissionGranted() {
+                        Log.i("AlertPermission", "permission granted")
+//                    showCustomToast("Permission Granted")
+                    }
+                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                        Log.i("AlertPermission", "permission denied ..")
+//                    showCustomToast("Permission Denied")
+                    }
 
+                })
+                .check()
+        } else { // 12 이하에서는 노출 안 되게
+        }
+    }
+    // 알림 채널 생성
+    fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                getString(R.string.default_notification_channel_id),
+                getString(R.string.default_notification_channel_name),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val manager = ContextCompat.getSystemService(this, NotificationManager::class.java)
+            manager?.createNotificationChannel(channel)
+        }
+    }
     private fun updateFragmentsVisibility(isConnected: Boolean, targetFragment: Fragment?) {
         supportFragmentManager.beginTransaction().apply {
             if (isConnected) {
@@ -292,12 +327,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             homeFragment!!.goneNetworkingHelp()
         }
     }
-
-    private fun getFcmToken(){
-        /** FCM설정, Token값 가져오기 */
-        myFirebaseMessagingService.getFirebaseToken()
-    }
-
     /** DynamicLink */
     fun initDynamicLink() {
         val dynamicLinkData = intent.extras
