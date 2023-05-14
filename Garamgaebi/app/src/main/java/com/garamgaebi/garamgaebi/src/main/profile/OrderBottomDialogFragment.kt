@@ -50,12 +50,10 @@ class OrderBottomDialogFragment (val array : Array<String>, val itemClick: (Int)
         }
     }
     override fun dismiss() {
-        itemClick(0)
         super.dismiss()
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        itemClick(0)
         super.onCancel(dialog)
     }
 }
