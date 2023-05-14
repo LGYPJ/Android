@@ -169,9 +169,7 @@
                         android:text=""
                         android:textColor="@color/blueForBtn"
                         android:textSize="16sp"
-
                         app:layout_constraintStart_toStartOf="parent"
-
                         app:layout_constraintTop_toBottomOf="@+id/fragment_myProfile_tvSchool" />
                     <TextView
                         android:id="@+id/fragment_myProfile_tv_intro"
@@ -189,6 +187,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/fragment_myProfile_btnEditProfile"
                         />
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/fragment_myProfile_btnEditProfile"
                         android:layout_width="0dp"
@@ -272,7 +271,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/fragment_myProfile_tv_snsDesc"
                             app:layout_constraintBottom_toTopOf="@id/fragment_myProfile_btn_snsAdd">
-
                         </androidx.recyclerview.widget.RecyclerView>
 
                         <androidx.appcompat.widget.AppCompatButton
