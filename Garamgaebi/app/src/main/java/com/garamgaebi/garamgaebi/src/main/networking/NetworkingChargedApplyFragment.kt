@@ -123,24 +123,21 @@ class NetworkingChargedApplyFragment: BaseBindingFragment<FragmentNetworkingChar
                 //binding.fragmentCareerSaveBtn.visibility = View.VISIBLE
             }
         )
-        view.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                view.getWindowVisibleDisplayFrame(rect)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
 
-                val screenHeight = view.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight < screenHeight * 0.15) {
-                    // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
-                    binding.activityNetworkChargedApplyBtn.postDelayed({
-                        binding.activityNetworkChargedApplyBtn.visibility = View.VISIBLE
-                    }, 0)
+            if (keypadHeight < screenHeight * 0.15) {
+                // 키보드가 완전히 내려갔음을 나타내는 동작을 구현합니다.
+                binding.activityNetworkChargedApplyBtn.postDelayed({
+                    binding.activityNetworkChargedApplyBtn.visibility = View.VISIBLE
+                }, 0)
 
-                }
             }
-        })
+        }
     }
 
     private fun hideKeyboard() {

@@ -67,7 +67,7 @@ const val ICEBREAKING = 7
 
 const val GAME = 8
 
-//Profile
+//PROFILE
 const val PROFILE_EDIT = 12
 const val SNS_ADD= 9
 const val SNS_EDIT = 17
@@ -79,7 +79,7 @@ const val SERVICE_CENTER = 14
 const val WITHDRAWAL = 15
 const val USER_PROFILE = 13
 
-//Notification
+//NOTIFICATION
 const val NOTIFICATION = 16
 
 

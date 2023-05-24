@@ -143,7 +143,7 @@ class CareerEditFragment  : BaseBindingFragment<FragmentProfileCareerEditBinding
                     ) { it2 ->
                         when (it2) {
                             1 -> {
-                                Log.d("career_remove_button", "close")
+                                Log.d("career_delete_button", "close")
                             }
                             2 -> {
                                 (activity as ContainerActivity).onBackPressed()

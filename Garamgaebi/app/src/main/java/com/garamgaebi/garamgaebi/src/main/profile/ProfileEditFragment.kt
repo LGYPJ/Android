@@ -47,10 +47,10 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
-/*
+/**
 프로필 편집 Fragment - ContainerActivity
 
-프로필 편집
+프로필 내용 및 사진 편집
 사진 편집
 
  */
@@ -64,7 +64,14 @@ class ProfileEditFragment :
     private val TAG = "TAG-EDIT-CP"
     lateinit var mLoadingDialog: LoadingDialog
 
+    /**
+     * 앨범이나 파일디렉토리에서 사진을 선택했을 때, 그 과정에서 pause가 일어난다.
+     * pause가 사진 편집 버튼을 눌러서 생긴 것인지 판별한다.
+     * 사진 편집을 위해 일어난 것이라면, 현재 편집 중이던 내용이 따로 저장되어 있어야 onResume에서 받아올 수 있다.
+     */
     override fun onPause() {
+
+        // 현재 편집 창 내 정보들을 dataStore에 저장
         CoroutineScope(Dispatchers.Main).launch {
             with(viewModel){
                 nickName.value?.let {
@@ -82,15 +89,18 @@ class ProfileEditFragment :
             }
         }
 
-        //사진 편집 후 중단된 경우
+
+        // 사진 편집 후 중단된 경우
+        // 사진 편집 버튼을 누르면 EditImage: true 로 저장됨
         var editImageCheck = false
         runBlocking {
             editImageCheck = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
+
+        // 사진 편집 중이 아니라 다른 이유로 pause였던 경우, 편집창에 있던 이미지를 불러옴 (편집버튼 클릭 후 저장 클릭 전에 pause된 경우, 선택한 img는 device에 저장되지 않았기 때문)
         if(!editImageCheck){
             runBlocking {
                 viewModel.image.value?.let {
-                    Log.d("짱구","사진받")
                     GaramgaebiApplication().saveStringToDataStore("myImage",
                         it
                     )
@@ -159,6 +169,7 @@ class ProfileEditFragment :
                 editImage = GaramgaebiApplication().loadBooleanData("EditImage") == true
             }
 
+            // 현재 내 프로필 이미지와 편집 중인 이미지가 아니었을 경우 img 업로드
             if (myProfileImage != null && !editImage) {
                     CoroutineScope(Dispatchers.Main).launch {
 
@@ -170,7 +181,7 @@ class ProfileEditFragment :
                             }
                         }
                     }
-           }else if(editImage){
+           }else if(editImage){ // 편집 중이었을 경우 따로 file에 저장된 이미지를 불러옴
                 if (FileUpLoad.getFileToUpLoad().isNotEmpty()) {
                     Log.e(TAG, FileUpLoad.getFileToUpLoad())
                     binding.fragmentEditProfileIvProfile.setImageURI(Uri.fromFile(File(FileUpLoad.getFileToUpLoad())))
@@ -248,7 +259,7 @@ class ProfileEditFragment :
                 Log.d("profile_intro_true", introIsValid.value.toString())
             }
 
-            //편집버튼 클릭
+            // 편집 버튼 클릭 후 감시
             profileEdit.observe(viewLifecycleOwner) {
                 binding.viewModel = viewModel
                 if (profileEdit.value?.result?.memberIdx == myMemberIdx){
@@ -402,9 +413,13 @@ class ProfileEditFragment :
 
     }
 
+    /**
+     * 갤러리에서 선택된 이미지가 회전되어 나오는 현상을 방지하기 위한 메소드
+     */
     private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()
-        Log.d("orientation 4",orientation.toString())
+
+        // 회전되어 나오는 현상을 방지하기 위한 코드
         when (orientation) {
             ExifInterface.ORIENTATION_NORMAL -> return bitmap
             ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1F, 1F)
@@ -418,7 +433,6 @@ class ProfileEditFragment :
                 matrix.postScale(-1F, 1F)
             }
             ExifInterface.ORIENTATION_ROTATE_90 -> {
-                Log.d("orientation 5","hh")
                 matrix.setRotate(90F)
             }
             ExifInterface.ORIENTATION_TRANSVERSE -> {
@@ -428,12 +442,11 @@ class ProfileEditFragment :
             ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90F)
             else -> return bitmap
         }
-        Log.d("orientation 3","gg")
         return try {
+            // 회전된 이미지를 반환
             val bmRotated =
                 Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
             bitmap.recycle()
-            Log.d("orientation 2","gg")
             bmRotated
         } catch (e: OutOfMemoryError) {
             e.printStackTrace()
@@ -441,14 +454,13 @@ class ProfileEditFragment :
         }
     }
 
+    // 갤러리에서 선택된 이미지의 파일명을 가져오는 메소드
     @RequiresApi(Build.VERSION_CODES.P)
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        Log.d("짱구", "진짜 result1"+result.resultCode.toString())
         when (result.resultCode) {
             Activity.RESULT_OK -> {
-                Log.d("짱구", "진짜 result2"+result.resultCode.toString())
 
                 val imageUri = result.data?.data ?: return@registerForActivityResult
                 imageUri.scheme?.let {
@@ -462,16 +474,15 @@ class ProfileEditFragment :
                      */
                     // GaramgaebiApplication.sSharedPreferences.edit().putBoolean("EditImage", true).apply()
                     runBlocking {
-                        Log.d("짱구","editImage")
                         GaramgaebiApplication().saveBooleanToDataStore("EditImage",true)
                     }
                 }
             }
             Activity.RESULT_CANCELED -> {
-                Log.d("짱구", "사용자가 이미지 선택을 취소했습니다.")
+                Log.d("Image Choice", "사용자가 이미지 선택을 취소했습니다.")
             }
             else -> {
-                Log.d("짱구", "알 수 없는 오류가 발생했습니다.")
+                Log.d("Image Choice", "알 수 없는 오류가 발생했습니다.")
             }
         }
     }
@@ -512,7 +523,6 @@ class ProfileEditFragment :
                 )
             }
             flag = true
-            Log.d("짱구","선택했다짜")
         } ?: run {
             flag = false
         }
@@ -555,6 +565,7 @@ class ProfileEditFragment :
         }
     }
 
+    // 갤러리에서 이미지 선택
     @RequiresApi(Build.VERSION_CODES.P)
     private fun selectGallery() {
         val writePermission = requireActivity().let {

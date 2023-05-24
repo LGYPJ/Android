@@ -35,7 +35,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-/*
+/**
 내 프로필 Fragment - MainActivity
 프로필 정보 화면 출력
 
@@ -429,5 +429,6 @@ class MyProfileFragment :
         }
     }
 }
+
 
 

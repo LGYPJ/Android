@@ -82,7 +82,9 @@ class CareerViewModel : ViewModel(){
         data.value = check
         first.value = false
         show.value = true
+
     }
+
 
     //유효성 끝
 
