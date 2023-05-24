@@ -29,6 +29,29 @@ import com.garamgaebi.garamgaebi.viewModel.ProfileViewModel
 import com.garamgaebi.garamgaebi.viewModel.SeminarViewModel
 import kotlinx.coroutines.*
 
+/**
+< SeminarFragment >
+화면 기능 : 세미나 일시, 장소, 참가비, 신청마감 , 세미나 발표미리 보기, 참석자 상세 정보 보여줌
+
+신청하기 버튼 클릭 -> 세미나 신청 무료 or 유료 화면으로 이동 ( SeminarChargedApplyFragment or SeminarFreeApplyFragment)
+참석자 프로필 사진 클릭 -> 다른 사람 프로필 상세보기 화면으로 이동 ( UserProfileFragment )
+자신 프로필 사진 클릭 -> 다른 화면으로 이동 X (참석자 리스트 index 0의 memberIdx와 dataStore 저장 되어 있는 memberIdx 가 같을때)
+
+
+세미나 발표 미리보기 -> 리사이클러뷰 클릭 하면 발표 상세보기 다이얼로그 (SeminarPreviewDialog) 나타남
+                     SeminarViewModel getSeminarDetail() presentation 연결 후 사용
+                     리사이클러뷰 클릭 position을 bundle로 SeminarPreviewDialog에 전달 ( bundle.putInt("presentationDialog", position) )
+                     SeminarPreviewDialog의 데이터를 전달받은 position을 발표 리스트의 index로 사용하여 띄움
+
+
+신청 & 마감 여부에 따른 신청하기 버튼 & 참석자 뷰
+-> SeminarViewModel getSeminarParticipants() seminarParticipants의 List<SeminarResult>가 비었을때 (it.isEmpty) 참석자 뷰 다르게
+-> SeminarViewModel getSeminarInfo() info의 userButtonStatus에 따라 신청하기 버튼 뷰 다르게
+   무료 -> 신청완료(APPLY_COMPLETE), 비활성화 / 마감(CLOSED), 비활성화 / 신청하기(APPLY) 활성화
+   유료 -> 신청확인중(BEFORE_APPLY_CONFIRM), 비활성화 / 신청완료(APPLY_COMPLETE), 비활성화 / 마감(CLOSED), 비활성화 / 신청하기(APPLY), 활성화
+
+ */
+
 class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.fragment_seminar) {
 
     //화면전환
@@ -146,11 +169,6 @@ class SeminarFragment: BaseBindingFragment<FragmentSeminarBinding>(R.layout.frag
                         bundle.putInt("presentationDialog", position)
                         val seminarPreviewDialog = SeminarPreviewDialog(it.result)
                         seminarPreviewDialog.arguments = bundle
-                        /*activity?.let {
-                                seminarPreviewDialog.show(
-                                    it.supportFragmentManager, "SeminarPreviewDialog"
-                                )
-                            }*/
                         seminarPreviewDialog.show(parentFragmentManager, "SeminarPreviewDialog")
                         SeminarPreviewDialog(it.result).dialog?.window?.setBackgroundDrawable(
                             ColorDrawable(Color.TRANSPARENT)

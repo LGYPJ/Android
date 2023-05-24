@@ -1,6 +1,5 @@
 package com.garamgaebi.garamgaebi.src.main.cancel
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -24,6 +23,34 @@ import com.garamgaebi.garamgaebi.viewModel.ApplyViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
+
+/**
+ <CancelFragment>
+
+ 상세보기
+ type에 따라 상세보기 데이터 연결 뷰모델 달라짐 ( SEMINAR or NETWORKING )
+ NETWORKING -> ApplyViewModel getNetworking() networkingInfo
+ SEMINAR -> ApplyViewModel getSeminar() seminarInfo
+
+
+ 은행 버튼 클릭 -> CancelBankBottomDialog 나타남
+              -> CancelBankBottomDialog 에서 선택한 은행 아이템 정보 CancelFragment에 보낸 후 화면에 반영
+
+ 신청취소 버튼 활성화
+ 무료 -> 은행, 걔회번호 뷰가 나타나지 않음
+        CancelFragment에 들어가면 바로 활성화 됨
+
+ 유료 -> 은행, 계좌번호 뷰 나타남
+        isBank() -> 클릭하여 리사이클러뷰 아이템 클릭하면 true
+        isPay() -> 10자 이상이면 true
+        isButton() -> isBank()와 isPay() 둘 다 true이면 true
+                   -> true 값 반환할때 신청하기 버튼 활성화
+
+ 신청완료 다이얼로그 -> ConfirmDialog 사용
+                    신청하기 버튼 클릭 한 뒤 해당 다이얼로그 띄움
+                    닫기 버튼 클릭 -> GatheringNetworkingFragment로 가짐
+
+ */
 
 class CancelFragment: BaseBindingFragment<FragmentCancelBinding>(R.layout.fragment_cancel),
     ConfirmDialogInterface {

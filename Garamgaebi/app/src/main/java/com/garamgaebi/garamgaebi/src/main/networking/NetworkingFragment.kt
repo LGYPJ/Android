@@ -23,6 +23,26 @@ import com.garamgaebi.garamgaebi.src.main.ContainerActivity
 import com.garamgaebi.garamgaebi.viewModel.NetworkingViewModel
 import kotlinx.coroutines.*
 
+/**
+ < NetworkingFragment >
+  화면 기능 : 네트웨킹 일시, 장소, 참가비, 신청마감 , 참석자 상세 정보 보여줌
+
+  신청하기 버튼 클릭 -> 네트워킹 신청 무료 or 유료 화면으로 이동 ( NetworkingChargedApplyFragment or NetworkingFreeApplyFragment)
+  참가하기 버튼 클릭 -> 아이스브레이킹 장소 선택 화면으로 이동 (NetworkingGameSelectFragment)
+                  -> NetworkingViewModel getNetworkingParticipants()의 networkingActive에서 아이스브레이킹 시작 시간을 가져와
+                     현재 시간 startDate와 비교하여 두 값이 같아질때 참가하기 버튼 활성화 & 아이스브레이킹 뷰 달라지게
+
+
+  참석자 프로틸 사진 클릭 -> 다른 사람 프로필 상세보기 화면으로 이동 ( UserProfileFragment )
+  자신 프로필 사진 클릭 -> 다른 화면으로 이동 X (참석자 리스트 index 0의 memberIdx와 dataStore 저장 되어 있는 memberIdx 가 같을때)
+
+
+   신청 & 마감 여부에 따른 신청하기 버튼 & 참석자 뷰
+   -> NetworkingViewModel getNetworkingParticipants() networkingParticipants의 List<NetworkingParticipantsResult>가 비었을때 (it.isEmpty) 참석자 뷰 다르게
+   -> NetworkingViewModel getNetworkingInfo() networkingInfo의 userButtonStatus에 따라 신청하기 버튼 뷰 다르게
+      무료 -> 신청완료(APPLY_COMPLETE), 비활성화 / 마감(CLOSED), 비활성화 / 신청하기(APPLY) 활성화
+      유료 -> 신청확인중(BEFORE_APPLY_CONFIRM), 비활성화 / 신청완료(APPLY_COMPLETE), 비활성화 / 마감(CLOSED), 비활성화 / 신청하기(APPLY), 활성화
+ */
 class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetworkingBinding::bind ,R.layout.fragment_networking) {
 
     //화면전환
@@ -39,7 +59,6 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
             activityNetworkProfileRv.addItemDecoration(NetworkingHorizontalItemDecoration())
         }
         //신청하기 버튼 누르면 네트워킹 신청 화면으로
-        //binding.activityNetworkApplyBtn.visibility = VISIBLE
         binding.activityNetworkApplyBtn.setOnClickListener {
             val pay = binding.activityNetworkPayDetailTv.text
             val free = getString(R.string.origin_pay)
@@ -268,20 +287,5 @@ class NetworkingFragment: BaseFragment<FragmentNetworkingBinding>(FragmentNetwor
         super.onAttach(context)
         containerActivity = context as ContainerActivity
     }
-//    fun networkValidScreen(visible:Boolean){
-//        with(binding) {
-//            when (visible) {
-//                true -> {
-//                    mainClContainer.visibility = View.VISIBLE
-//                    networkErrorContainer.visibility = View.GONE
-//                }
-//                false -> {
-//                    mainClContainer.visibility = View.GONE
-//                    networkErrorContainer.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-//
-//    }
 
 }

@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit
 class GaramgaebiApplication : Application() {
     //val API_URL = "https://dev.garamgaebi.shop/"
     // 서버 주소
-    val API_URL = "https://garamgaebi.shop/"
+    val API_URL = "https://dev.garamgaebi.shop/"
 
     companion object {
         private lateinit var appInstance: GaramgaebiApplication

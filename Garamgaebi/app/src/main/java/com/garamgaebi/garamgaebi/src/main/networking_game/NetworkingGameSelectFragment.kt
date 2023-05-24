@@ -17,15 +17,24 @@ import androidx.lifecycle.Observer
 import com.garamgaebi.garamgaebi.common.GaramgaebiApplication
 import com.garamgaebi.garamgaebi.model.GameIsStartedRequest
 
+/**
+ <NetworkingGameSelectFragment>
+ 화면기능 : 아이스브레이킹 방 리스트 보여주는 공간
+
+ 클릭한 방의 게임이 이미 진행 O -> 이미 게임 시작한 방이라는 다이얼로그 띄움
+                              참가하기 버튼 누르면 방에 들어가짐 -> 방 안의 카드는 시작하기가 나오지 않고 현재 차례인 카드가 나옴
+
+ 클릭한 방의 게임이 진행 X (처음 시작) -> 다이얼로그 없음
+                                    방 안의 카드는 시작하기가 나옴
+
+ */
 class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBinding>(FragmentNetworkingGameSelectBinding::bind, R.layout.fragment_networking_game_select) {
 
     //화면전환
     var containerActivity: ContainerActivity? = null
-    //private lateinit var viewModel: ItemViewModel
+
     //뷰모델
     private val viewModel by viewModels<NetworkingGameViewModel>()
-
-    //private lateinit var callback: OnBackPressedCallback
 
     private var networkGameSelectList: ArrayList<NetworkingGameSelect> = arrayListOf(
         NetworkingGameSelect(getString(R.string.game_place1)),
@@ -97,22 +106,12 @@ class NetworkingGameSelectFragment: BaseFragment<FragmentNetworkingGameSelectBin
 
         })
 
-
-
-
     }
 
     //화면전환
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-//        callback = object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                (activity as ContainerActivity).openFragmentOnFrameLayout(5)
-//                (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGameSelectFragment()).commit()
-//            }
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
     }
 
     override fun onDetach() {

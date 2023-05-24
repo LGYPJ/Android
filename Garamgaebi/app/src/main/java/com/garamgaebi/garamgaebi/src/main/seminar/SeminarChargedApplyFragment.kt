@@ -27,6 +27,27 @@ import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
+/**
+<SeminarChargedApplyFragment>
+화면 기능 : 세미나 일시, 장소, 참가비, 신청마감 상세정보 보여줌 & 이름, 닉네임, 전화번호 기입하여 세미나 신청하는 기능
+
+세미나 상세 정보 -> 데이터바인딩 이용
+
+이름, 닉네임, 전화번호 유효성 검사
+viewModel.nameIsValid.value -> isNotEmpty 이름란이 비어 있지 않을때  && isName() 한글,영문 가능, 특수문자 불가능 , 1-20자  --> true (그 외 false)
+viewModel.nicknameIsValid.value -> isNotEmpty 닉네임란이 비어 있지 않을때 && isNickName() 가입시 닉네임(datastore의 myNickName)과 입력 닉네임이 같을때 --> true (그 외 false)
+viewModel.phoneIsValid.value -> isNotEmpty 전화번호란이 비어 있지 않을때 && isPhoneNumberCheck() 숫자만 입력 11자 --> true (그 외 false)
+
+유효성 false -> 유효성 문구 나타나게 & EditText 테두리 빨간색으로 ( layout 파일에있음)
+유효성 모두 true -> 신청하기 버튼 활성화
+
+신청하기 버튼 클릭 -> SeminarFragment 화면으로
+
+계좌 복사
+함수 -> createClipData()
+
+ */
+
 class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApplyBinding>(R.layout.fragment_seminar_charged_apply) {
 
     //화면전환
@@ -68,19 +89,6 @@ class SeminarChargedApplyFragment: BaseBindingFragment<FragmentSeminarChargedApp
             createClipData(copy as String)
         }
 
-        //신청하기 버튼 누르면 버튼 바뀌는 값 전달 bundle로 전달
-//        binding.activitySeminarChargedApplyBtn.setOnClickListener {
-//            //신청 등록 api
-//            viewModel.postEnroll()
-//            viewModel.enroll.observe(viewLifecycleOwner, Observer {
-//                binding.item = viewModel
-//                if(it.isSuccess){
-//                    //세미나 메인 화면으로
-//                    requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-//                    requireActivity().supportFragmentManager.popBackStack()
-//                }
-//            })
-//        }
         disposables
             .add(
                 binding

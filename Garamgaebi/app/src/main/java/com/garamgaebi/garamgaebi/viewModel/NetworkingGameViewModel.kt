@@ -23,16 +23,12 @@ class NetworkingGameViewModel: ViewModel() {
 
 
     private val SOCKET_URL = "ws://garamgaebi.shop:8080/ws/game/websocket"
-    //private val MSSAGE_DESTINATION = "/topic/game/room" // 소켓
 
     // roomId
     private val roomId = GaramgaebiApplication.sSharedPreferences.getString("roomId", null)
 
     //memberIdx
     private val memberIdx = GaramgaebiApplication.myMemberIdx
-    //currentIdx
-    //private val currentIdx = GaramgaebiApplication.sSharedPreferences.getInt("currentIdx", 0)
-    //programIdx
 
     private val gameRepository = GameRepository()
 
@@ -220,24 +216,6 @@ class NetworkingGameViewModel: ViewModel() {
         }
     }
 
-    fun getDeleteGameMember() {
-        viewModelScope.launch(Dispatchers.Main) {
-            val response = roomId?.let { GameMemberGetRequest(it) }
-                ?.let { gameRepository.getGameMember(it) }
-
-            if (response != null) {
-                if (response.isSuccessful) {
-                    _getDeleteMember.value = response.body()?.result
-                    Log.d("gameDeleteMember", response.body()?.result.toString())
-                    //_profile.postValue(false)
-                    //number.value = number.value?.plus(1)
-                } else {
-                    Log.d("error", response.message())
-                }
-            }
-        }
-    }
-
     // 게임방 진행중 유무 조회
     fun postGameIsStarted(postGameIsStartedRequest: GameIsStartedRequest) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -269,15 +247,6 @@ class NetworkingGameViewModel: ViewModel() {
             }
         }
     }
-
-    //index 증가 함수
-    fun indexIncrease() {
-        viewModelScope.launch(Dispatchers.Main) {
-            _index.postValue(indexIncrease)
-
-        }
-    }
-
 
     fun connectStomp() {
         mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
@@ -335,43 +304,6 @@ class NetworkingGameViewModel: ViewModel() {
             }
 
     }
-
-
-    /*fun connectStomp1(){
-        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, SOCKET_URL)
-        val stompConnection: Disposable = mStompClient.lifecycle().subscribe { lifecycleEvent: LifecycleEvent ->
-            when (lifecycleEvent.type) {
-                LifecycleEvent.Type.OPENED -> Log.i(
-                    "socket",
-                    "Stomp connection opened"
-                )
-                LifecycleEvent.Type.ERROR -> { Log.i(
-                    "socket", "Error",
-                    lifecycleEvent.exception
-                )
-                }
-                LifecycleEvent.Type.CLOSED -> Log.i(
-                    "socket",
-                    "Stomp connection closed"
-                )
-                LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.i(
-                    "socket",
-                    "FAILED_SERVER_HEARTBEAT"
-                )
-            }
-        }
-        // 구독
-        val stompSubscribe: Disposable = mStompClient.topic("/topic/game/room" + "/" + GaramgaebiApplication.sSharedPreferences.getString("roomId", null))
-            .subscribe {stompMessage ->
-                //val messageV0 = gson.fromJson(stompMessage.payload, MessageV0::class.java)
-                val message = gson.fromJson(stompMessage.payload, Message::class.java)
-                _patchMessage.postValue(message)
-                if (patchCurrentReq != null) {
-                    patchGameCurrentIdx(patchCurrentReq)
-                }
-            }
-    }*/
-
 
     fun sendMessage() {   // 구독 하는 방과 같은 주소로 메세지 전송
         val messageVO = roomId?.let { MessageV0("ENTER", it, "zzangu", "", "") }

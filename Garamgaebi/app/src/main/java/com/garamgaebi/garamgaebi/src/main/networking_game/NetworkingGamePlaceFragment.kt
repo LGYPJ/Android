@@ -37,6 +37,54 @@ import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
+/**
+ <NetworkingGamePlaceFragment>
+ 화면기능 : 1. 유저 입장
+          2. 현재 차례인 유저 파란색 테두리로 프로필 강조
+          3. 시작하기 누르면 방에 들어온 참가자들의 카드가 동시에 뒤집어짐
+          4. 현재 차례인 유저가 카드 다음버튼 누르면 모든 참여자의 카드가 다음카드로 넘어가짐
+          5. 헤더의 뒤로가기 버튼 누르면 퇴장.
+          6. 방에 입장한 후 모든 기능들은 실시간 양방향 소통으로 이루어짐 ( Stomp 사용 NetworkingGameViewModel에 코드 있음)
+
+
+NEXT 버튼 누르면
+-> 누른 사람: NEXT(message: userList에서 자신의 memberId를 찾고 그 다음 사람)
+-> PATCH(NEXT때 보냈던 memberIdx를 보냄)
+-> 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
+
+퇴장 하면
+-> 퇴장유저가 자신 차례가 아닌경우(self.memberID != currentUserID)
+-> nextMemberIdx에 -1, delete
+-> 퇴장유저가 자신 차례인 경우(self.memberID == currentUserID)
+-> nextMemberIdx에 userList에서 자신의 memberId를 찾고 그 다음 사람을 보냄
+
+입장 하면
+-> 서버에서 현재 memberId를 받고, userList에서 그 위치로 스크롤
+
+
+- 유저 입장
+-> connect, subscribe
+-> 게임 방 유저 등록 POST (game/member)
+-> 현재 유저 조회 POST (game/members)
+-> ENTER() (websocket)
+-> 기존 유저 ENTER 수신 (websocket)
+-> 기존 유저: 현재 유저 조회 POST (game/members)
+
+- 다음 이미지 버튼을 누를 때 websocket에 send(type: NEXT)를 보내고 난 후,
+현재 게임방 이미지 인덱스 증가 API를 호출
+-> patch
+-> send
+
+- 유저 퇴장
+-> 게임 방 유저 제거 DELETE (game/member)
+-> EXIT(sender: 닉네임)
+-> 기존 유저 EXIT 수신
+-> 기존 유저: 현재 유저 조회 POST (game/members)
+-> disconnect
+
+
+ */
+
 class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBinding>(FragmentNetworkingGamePlaceBinding::bind, R.layout.fragment_networking_game_place) {
 
     //화면전환
@@ -115,7 +163,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             R.anim.activity_game_back_animator
         ) as AnimatorSet
 
-        Log.d("why1", "why1")
 
         // 유저 입장
         viewModel.getImage()
@@ -147,23 +194,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 .edit().putInt("index", index)
                 .apply()
 
-            Log.d("exitindex", index.toString())
             val currentIndex = it.result.currentMemberIdx
 
             GaramgaebiApplication.sSharedPreferences
                 .edit().putInt("FirstCurrentUserId", currentIndex)
                 .apply()
 
-            Log.d(
-                "first",
-                GaramgaebiApplication.sSharedPreferences.getInt("FirstCurrentUserId", 0)
-                    .toString()
-            )
-
             //currentIndex를 최초 입장시 서버에서 memberIdx로 변환해줄 예정 -> data에서 자신의 currentMemberIdx로 자신의 index(currentIndex)를 받음
-            Log.d("postMember", it.result.toString())
-            Log.d("indeximg", index.toString())
-            Log.d("currentIndex", currentIndex.toString())
         })
 
         viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
@@ -176,8 +213,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 .apply()
             //memberList data 저장
             setPref("data", data)
-            Log.d("indexdata", data.toString())
-            Log.d("indexcurrentId1", currentId.toString())
+
         })
 
         //var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
@@ -185,13 +221,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
 
                 val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
-                //val currentIdIndex = data[0].currentMemberIdx
-                Log.d("indexwhywhy", data.toString())
-                /*val currentId = data.indexOf(data.find { gameMemberGetResult ->
-                    gameMemberGetResult.memberIdx.toString() == currentIdIndex.toString()
-                })*/
-                //val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
-                Log.d("indexcurrentId2", currentId.toString())
+
                 // 방에 들어갔을때 파란색 테두리 없이 나타나는 프로필 리사이클러뷰,,
                 val networkingGameProfile2 =
                     NetworkingGameProfileAdapter(
@@ -225,13 +255,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
         viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
-            //viewModel.postMember.observe(viewLifecycleOwner, Observer { it ->
-                index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
-                Log.d("indexfirst", index.toString())
 
-                /*GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("index", index)
-                    .apply()*/
+                index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
 
                 val networkingGameCardVPAdapter =
                     NetworkingGameCardVPAdapter(img, index)
@@ -240,7 +265,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 binding.activityGameCardBackVp.orientation =
                     ViewPager2.ORIENTATION_HORIZONTAL
                 networkingGameCardVPAdapter.notifyDataSetChanged()
-           // })
+
             setImg("img", img)
 
 
@@ -278,15 +303,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         networkingGameProfile2.notifyDataSetChanged()
                     }
 
-                    // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
-                    /*if (currentId != -1) {
-                        if (memberIdx == data[currentId].memberIdx) {
-                            binding.activityGamePlaceCardNextBtn.visibility =
-                                VISIBLE
-                        } else {
-                            binding.activityGamePlaceCardNextBtn.visibility = GONE
-                        }
-                    }*/
                 })
 
                 binding.activityGameCardBackVp.offscreenPageLimit = 1
@@ -296,7 +312,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             }
 
         })
-        //var index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
 
         //시작하기 버튼
         binding.activityGameCardStartBtn.setOnClickListener {
@@ -314,9 +329,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         //시작하기 눌렀을때 동시에 넘어가기
         viewModel.startMessage.observe(viewLifecycleOwner, Observer {
-            Log.d("deletestart", "deletestart")
+
             val currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
-            Log.d("startcurrentId", currentId.toString())
+
             front_anim.setTarget(front)
             back_anim.setTarget(back)
             front_anim.start()
@@ -325,19 +340,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
             //시작하기 버튼 누르면 뷰페이저 보이게
             binding.activityGameCardBackImg.visibility = View.VISIBLE
-
-            // 룸에 들어갔을때 프로필, 뷰페이저2 보이는 부분
-            /*viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
-                val index = GaramgaebiApplication.sSharedPreferences.getInt("index", 0)
-                setImg("img", img)
-                val networkingGameCardVPAdapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.adapter =
-                    NetworkingGameCardVPAdapter(img, index)
-                binding.activityGameCardBackVp.orientation =
-                    ViewPager2.ORIENTATION_HORIZONTAL
-
-            })*/
 
             // 프로필
             viewModel.getMember.observe(viewLifecycleOwner, Observer { data->
@@ -395,12 +397,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
         binding.activityGamePlaceCardNextBtn.setOnClickListener {
             val data = getPref("data")
             val last = data.lastIndex
-            Log.d("nextlast", last.toString())
-            var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId2", 0)
-            //var currentId = GaramgaebiApplication.sSharedPreferences.getInt("next1currentIndex", 0)
-            //currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId", 0)
 
-            Log.d("nextcurrentId", currentId.toString())
+            var currentId = GaramgaebiApplication.sSharedPreferences.getInt("currentId2", 0)
+
             // 마지막 index의 memberIdx가 현재 index의 memberIdx와 같을때 현재 index를 0으로 이동 시킴
             if (currentId == -1) {
                 currentId = 0
@@ -408,9 +407,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     currentId = 0
                     val nextId = data[currentId].memberIdx
                     val nextId4 = data[last].memberIdx
-                    Log.d("nextId", nextId.toString())
-                    Log.d("nextcurrentId1", currentId.toString())
-                    Log.d("nextId4", nextId4.toString())
+
                     // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putInt("currentUserId", nextId)
@@ -419,7 +416,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     CoroutineScope(Dispatchers.Main).launch {
                         withContext(Dispatchers.IO) {
                             viewModel.sendCurrentIdxMessage(nextId)
-                            Log.d("indexwhy1", "indexwhy1")
                         }
                         withContext(Dispatchers.IO) {
                             // PATCH(NEXT때 보냈던 memberIdx를 보냄)
@@ -428,15 +424,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     it1, nextId
                                 )
                             }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                            Log.d("indexwhy1-1", "indexwhy1-1")
+
                         }
                     }
                 } else {
                     val nextId = data[currentId + 1].memberIdx
                     val nextId3 = data[currentId].memberIdx
-                    Log.d("nextId2", nextId.toString())
-                    Log.d("nextcurrentIdelse", currentId.toString())
-                    Log.d("nextId3", nextId3.toString())
+
                     // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putInt("currentUserId", nextId)
@@ -445,7 +439,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     CoroutineScope(Dispatchers.Main).launch {
                         withContext(Dispatchers.IO) {
                             viewModel.sendCurrentIdxMessage(nextId)
-                            Log.d("indexwhy2", "indexwhy2")
                         }
                         withContext(Dispatchers.IO) {
                             // PATCH(NEXT때 보냈던 memberIdx를 보냄)
@@ -454,7 +447,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     it1, nextId
                                 )
                             }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                            Log.d("indexwhy2-1", "indexwhy2-1")
                         }
                     }
 
@@ -464,9 +456,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     currentId = 0
                     val nextId = data[currentId].memberIdx
                     val nextId4 = data[last].memberIdx
-                    Log.d("nextId", nextId.toString())
-                    Log.d("nextcurrentId2", currentId.toString())
-                    Log.d("nextId4", nextId4.toString())
+
                     // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putInt("currentUserId", nextId)
@@ -475,7 +465,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     CoroutineScope(Dispatchers.Main).launch {
                         withContext(Dispatchers.IO) {
                             viewModel.sendCurrentIdxMessage(nextId)
-                            Log.d("indexwhy1", "indexwhy1")
                         }
                         withContext(Dispatchers.IO) {
                             // PATCH(NEXT때 보냈던 memberIdx를 보냄)
@@ -484,15 +473,12 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     it1, nextId
                                 )
                             }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                            Log.d("indexwhy1-1", "indexwhy1-1")
                         }
                     }
                 } else {
                     val nextId = data[currentId + 1].memberIdx
                     val nextId3 = data[currentId].memberIdx
-                    Log.d("nextId2", nextId.toString())
-                    Log.d("nextcurrentIdelse", currentId.toString())
-                    Log.d("nextId3", nextId3.toString())
+
                     // 전체: 해당 memberId를 userList에서 찾고 그 위치로 스크롤, currentUserId에 저장
                     GaramgaebiApplication.sSharedPreferences
                         .edit().putInt("currentUserId", nextId)
@@ -501,7 +487,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                     CoroutineScope(Dispatchers.Main).launch {
                         withContext(Dispatchers.IO) {
                             viewModel.sendCurrentIdxMessage(nextId)
-                            Log.d("indexwhy2", "indexwhy2")
                         }
                         withContext(Dispatchers.IO) {
                             // PATCH(NEXT때 보냈던 memberIdx를 보냄)
@@ -510,7 +495,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                     it1, nextId
                                 )
                             }?.let { it2 -> viewModel.patchGameCurrentIdx(it2) }
-                            Log.d("indexwhy2-1", "indexwhy2-1")
                         }
                     }
 
@@ -528,7 +512,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         index++
                     }
 
-            Log.d("index", index.toString())
                     viewModel.getImg.observe(viewLifecycleOwner, Observer { img ->
                         val networkingGameCardVPAdapter =
                             NetworkingGameCardVPAdapter(img, index)
@@ -538,19 +521,17 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                             ViewPager2.ORIENTATION_HORIZONTAL
                         var tab = binding.activityGameCardBackVp.currentItem
                         tab++
-                        Log.d("tab", tab.toString())
+
                         binding.activityGameCardBackVp.setCurrentItem(tab, true)
-                        //binding.activityGameCardBackVp.setCurrentItemWithDuration(tab, 400)
+
                         networkingGameCardVPAdapter.notifyDataSetChanged()
                     })
                 val data = getPref("data")
-                Log.d("deletenext", "deletenext")
-                //뷰페이저 하나만 넘어가는 거 해결
 
                 val currentId2 = data.indexOf(data.find { gameMemberGetResult ->
                     gameMemberGetResult.memberIdx.toString() == it.message
                 })
-                Log.d("currentId2", currentId2.toString())
+
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("currentId2", currentId2)
                     .apply()
@@ -559,24 +540,9 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 .edit().putInt("currentId2memberIdx", it.message.toInt())
                 .apply()
 
-
-                //val currentId3 = currentId2 + 1
-                //Log.d("currentId3", currentId3.toString())
-                Log.d("message", it.message)
-                Log.d("whtwht", "tt")
-
-                //index++
-                //val index1 = index++
-
                 // 다음 버튼 순서인 사람 뷰에서만 보이게 처리
                 if (currentId2 != -1) {
-                    Log.d("currentrealmemberId", memberIdx.toString())
-                    Log.d(
-                        "currentId2memberId",
-                        data[currentId2].memberIdx.toString()
-                    )
                     if (memberIdx == data[currentId2].memberIdx) {
-                        Log.d("currentIdwhy", "why")
                         binding.activityGamePlaceCardNextBtn.visibility =
                             VISIBLE
                     } else {
@@ -585,8 +551,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
                 }
 
-                // Log.d("member", data[currentId2 + 1].memberIdx.toString())
-                Log.d("currentId2-1", currentId2.toString())
                 val networkingGameProfile =
                     NetworkingGameProfileAdapter(
                         data as ArrayList<GameMemberGetResult>,
@@ -608,35 +572,13 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         })
 
-
-        viewModel.deleteMember.observe(viewLifecycleOwner, Observer {
-            Log.d("deletehahaha", it.result)
-        })
-
-
         //퇴장
             viewModel.deleteMessage.observe(viewLifecycleOwner, Observer {
                 val memberList = getPref("data")
                 viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                //val data = getPref("data")
-                Log.d("deleteconnect", "deleteconnect")
-                //viewModel.deleteMember.observe(viewLifecycleOwner, Observer {game->
-                // viewModel.getMember.observe(viewLifecycleOwner, Observer { data ->
-                Log.d("deletedata", data.toString())
                 // 퇴장멤버ID == currentID -> 스크롤
                 val deleteCurrent = it.message
-                Log.d("deleteDeleteCurrent", deleteCurrent)
 
-                Log.d("deletememberList", memberList.toString())
-                Log.d(
-                    "deletecurrentId5",
-                    GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0)
-                        .toString()
-                )
-
-                //val deleteCurrentId = GaramgaebiApplication.sSharedPreferences.getInt("deleteNext", 0)
-                //Log.d("deleteDeleteCurrent2", GaramgaebiApplication.sSharedPreferences.getInt("deleteNext", 0).toString())
-                //Log.d("deleteDeleteCurrent3", memberList[deleteCurrentId].memberIdx.toString())
                 if (deleteCurrent == GaramgaebiApplication.sSharedPreferences.getInt("currentUserId", 0).toString()
                 ) {
                     //
@@ -644,13 +586,10 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         memberList.indexOf(memberList.find { gameMemberGetResult ->
                             gameMemberGetResult.memberIdx == deleteCurrent.toInt()
                         })
-                    Log.d("deletecurrentId4", currentId4.toString())
                     val lastIndex = memberList.lastIndex
-                    Log.d("deleteLastIndex", lastIndex.toString())
+
                     if (memberList[currentId4].memberIdx == memberList[lastIndex].memberIdx) {
-                        Log.d("delete1", "delete1")
                         currentId4 = 0
-                        Log.d("delete1currentId", currentId4.toString())
                         val networkingGameProfile =
                             NetworkingGameProfileAdapter(
                                 data as ArrayList<GameMemberGetResult>,
@@ -671,7 +610,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         }
 
                         if (memberIdx == data[currentId4].memberIdx) {
-                            Log.d("currentIdwhy", "why")
                             binding.activityGamePlaceCardNextBtn.visibility =
                                 VISIBLE
                         } else {
@@ -679,8 +617,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         }
 
                     } else {
-                        Log.d("delete1currentId", currentId4.toString())
-                        Log.d("delete2", "delete2")
                         val networkingGameProfile =
                             NetworkingGameProfileAdapter(
                                 data as ArrayList<GameMemberGetResult>,
@@ -701,7 +637,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         }
 
                         if (memberIdx == data[currentId4].memberIdx) {
-                            Log.d("currentIdwhy", "why")
                             binding.activityGamePlaceCardNextBtn.visibility =
                                 VISIBLE
                         } else {
@@ -717,8 +652,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                                 0
                             )
                         })
-                    Log.d("deletecurrentId5", currentId5.toString())
-                    Log.d("delete3", "delete3")
                     val networkingGameProfile =
                         NetworkingGameProfileAdapter(
                             data as ArrayList<GameMemberGetResult>,
@@ -741,7 +674,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             })
         })
         //퇴장 마지막
-
 
         //카드 뷰페이저 양 옆 overlap
         val MIN_SCALE = 0.9f
@@ -830,19 +762,16 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         }
                         runBlocking {
                             withContext(Dispatchers.IO) {
-                                Log.d("deletesend", "deletesend")
                                 viewModel.sendDeleteMessage()
                             }
                         }
                         runBlocking {
                             withContext(Dispatchers.IO) {
-                                Log.d("deleteget", "deleteget")
                                 viewModel.getGameMember()
                             }
                         }
                         runBlocking {
                             withContext(Dispatchers.IO) {
-                                Log.d("deletedisconnect", "deletedisconnect")
                                 viewModel.disconnectStomp()
                                 requireActivity().supportFragmentManager.popBackStack()
                                 (requireActivity() as ContainerActivity).backIceBreaking()
@@ -851,7 +780,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                         }
 
                     }
-                    //(activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGamePlaceFragment()).commit()
                 }
             }
         }
@@ -861,7 +789,6 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
     override fun onDetach() {
         super.onDetach()
-        //callback?.handleOnBackPressed()
         callback?.remove()
 
     }
@@ -916,41 +843,27 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
     fun deleteMember(){
         // 퇴장유저가 자신 차례가 아닌경우(self.memberID != currentUserID)
         val memberList = getPref("data")
-        Log.d("deletememberlist", memberList.toString())
-        Log.d("deletememberIdx", memberIdx.toString())
-        Log.d("deleteCurrentUserId", GaramgaebiApplication.sSharedPreferences.getInt("currentId2memberIdx", 0).toString())
         if(memberIdx != GaramgaebiApplication.sSharedPreferences.getInt("currentId2memberIdx", 0)){
-            Log.d("deletewhy1", "deletewhy1")
 
             var currentId = memberList.indexOf(memberList.find { gameMemberGetResult ->
                 gameMemberGetResult.memberIdx == memberIdx
             })
-            Log.d("deletewhy1CurrentId", currentId.toString())
+
             val lastIndex = memberList.lastIndex
-            Log.d("deleteLastIndex", lastIndex.toString())
+
             if(memberList[currentId].memberIdx == memberList[lastIndex].memberIdx){
-                Log.d("deletewhy4", "deletewhy4")
                 roomId?.let { GameMemberDeleteRequest(it, -1) }
                     ?.let { viewModel.postDeleteMember(it) }
                 currentId = 0
                 val nextId = memberList[currentId].memberIdx
-                Log.d("deletenextId1", nextId.toString())
-                /*GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("deleteNext", nextId)
-                    .apply()*/
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("currentId2", currentId)
                     .apply()
             }
             else{
-                Log.d("deletewhy5", "deletewhy5")
                 roomId?.let { GameMemberDeleteRequest(it, -1) }
                     ?.let { viewModel.postDeleteMember(it) }
                 val nextId = memberList[currentId + 1].memberIdx
-                Log.d("deletenextId2", nextId.toString())
-                /*GaramgaebiApplication.sSharedPreferences
-                    .edit().putInt("deleteNext", nextId)
-                    .apply()*/
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("currentId2", currentId)
                     .apply()
@@ -960,10 +873,8 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
 
         // nextMemberIdx에 userList에서 자신의 memberId를 찾고 그 다음 사람을 보냄
         if(memberIdx == GaramgaebiApplication.sSharedPreferences.getInt("currentId2memberIdx", 0)){
-            Log.d("deletewhy2", "deletewhy2")
             //혼자 참여라면 -1주고 퇴장
             if(memberList.size == 1){
-                Log.d("deletewhy3", "deletewhy3")
                 roomId?.let { GameMemberDeleteRequest(it, -1) }
                     ?.let { viewModel.postDeleteMember(it) }
 
@@ -971,14 +882,12 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
             var currentId = memberList.indexOf(memberList.find { gameMemberGetResult ->
                 gameMemberGetResult.memberIdx == memberIdx
             })
-            Log.d("deleteCurrentId", currentId.toString())
+
             val lastIndex = memberList.lastIndex
-            Log.d("deleteLastIndex", lastIndex.toString())
+
             if(memberList[currentId].memberIdx == memberList[lastIndex].memberIdx){
-                Log.d("deletewhy4", "deletewhy4")
                 currentId = 0
                 val nextId = memberList[currentId].memberIdx
-                Log.d("deletenextId3", nextId.toString())
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("deleteNext", nextId)
                     .apply()
@@ -996,9 +905,7 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("currentId2", currentId)
                     .apply()
-                Log.d("deletewhy5", "deletewhy5")
                 val nextId = memberList[currentId + 1].memberIdx
-                Log.d("deletenextId4", nextId.toString())
                 GaramgaebiApplication.sSharedPreferences
                     .edit().putInt("deleteNext", nextId)
                     .apply()
@@ -1009,7 +916,5 @@ class NetworkingGamePlaceFragment: BaseFragment<FragmentNetworkingGamePlaceBindi
                 }?.let { viewModel.postDeleteMember(it) }
             }
         }
-
     }
-
 }

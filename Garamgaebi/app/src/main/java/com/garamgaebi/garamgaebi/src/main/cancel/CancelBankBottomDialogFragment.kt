@@ -76,10 +76,6 @@ class CancelBankBottomDialogFragment(val itemClick: (String) -> Unit): BottomShe
                 // 클릭하면 캔슬액티비티에 은행 글자 데이터 보내는
 
                 val temp = cancelList[position].bank
-                //intent.putExtra("bank", temp)
-                //intent.putExtra("bank", true)
-
-
 
                 itemClick(temp)
                 dialog?.dismiss()

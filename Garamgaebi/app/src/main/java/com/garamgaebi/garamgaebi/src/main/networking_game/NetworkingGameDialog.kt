@@ -77,13 +77,7 @@ class NetworkingGameDialog :DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         containerActivity = context as ContainerActivity
-//        callback = object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                (activity as ContainerActivity).openFragmentOnFrameLayout(5)
-//                (activity as ContainerActivity).supportFragmentManager.beginTransaction().remove(NetworkingGameSelectFragment()).commit()
-//            }
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
+
     }
 
 }
